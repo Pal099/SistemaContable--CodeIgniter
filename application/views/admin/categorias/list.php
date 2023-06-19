@@ -18,8 +18,6 @@
           <div class="col-md-12">
             <a href="<?php echo base_url(); ?>mantenimiento/categorias/add" class="btn btn-primary btn-flat"><span
                 class="fa fa-plus"></span> Agregar Categoria</a>
-
-
           </div>
         </div>
         <hr>

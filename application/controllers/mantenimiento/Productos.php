@@ -73,7 +73,7 @@ class Productos extends CI_Controller {
 
 	public function edit($id){
 		$data  = array(
-			'pducto' => $this->Productos_model->getProducto($id), 
+			'producto' => $this->Productos_model->getProducto($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -82,7 +82,8 @@ class Productos extends CI_Controller {
 	}
 
 	public function update(){
-				$codigo = $this->input->post("codigo");
+		$idProducto = $this->input->post("idProducto");
+		$codigo = $this->input->post("codigo");
 		$nombre = $this->input->post("nombre");
 		$precio_venta = $this->input->post("precio_venta");
 		$precio_compra= $this->input->post("precio_compra");
@@ -92,23 +93,23 @@ class Productos extends CI_Controller {
 		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[productos.codigo]");
 		$this->form_validation->set_rules("nombre","Nombre","required|is_unique[productos.nombre]");
 
-		$pductoactual = $this->Productos_model->getProducto($idProductos);
+		$productoactual = $this->Productos_model->getProducto($idProducto);
 
-		if ($codigo == $pductoactual->codigo) {
+		if ($codigo == $productoactual->codigo) {
 			$is_unique = "";
 		}else{
 			$is_unique = "|is_unique[productos.codigo]";
 
 		}
 
-		if ($nombre == $pductoactual->nombre) {
+		if ($nombre == $productoactual->nombre) {
 			$is_unique = "";
 		}else{
 			$is_unique = "|is_unique[productos.nombre]";
 
 		}
 		
-		$this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
+		$this->form_validation->set_rules("codigo","Codigo","required".$is_unique);
 		if ($this->form_validation->run()==TRUE) {
 			$data = array(
 				'codigo' => $codigo, 
@@ -119,13 +120,12 @@ class Productos extends CI_Controller {
 				'existencia' => $existencia,
 				'stock_minimo' => $stock_minimo,
 			);
-
-			if ($this->Productos_model->update($idProductos,$data)) {
+			if ($this->Productos_model->update($idProducto,$data)) {
 				redirect(base_url()."mantenimiento/productos");
 			}
 			else{
 				$this->session->set_flashdata("error","No se pudo actualizar la informacion");
-				redirect(base_url()."mantenimiento/productos/edit/".$idProductos);
+				redirect(base_url()."mantenimiento/productos/edit/".$idProducto);
 			}
 		}else{
 			$this->edit($idProductos);
@@ -136,7 +136,7 @@ class Productos extends CI_Controller {
 
 	public function view($id){
 		$data  = array(
-			'pducto' => $this->Productos_model->getProducto($id), 
+			'producto' => $this->Productos_model->getProducto($id), 
 		);
 		$this->load->view("admin/productos/view",$data);
 	}
