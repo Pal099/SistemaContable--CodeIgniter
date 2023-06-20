@@ -87,6 +87,7 @@ class Proveedores extends CI_Controller {
 		$telefono = $this->input->post("telefono");
 		$propietario = $this->input->post("propietario");
 		$telefono = $this->input->post("telefono");
+		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
 		$email= $this->input->post("email");
 		$observacion= $this->input->post("observacion");
 
