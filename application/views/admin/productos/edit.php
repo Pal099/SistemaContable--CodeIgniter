@@ -4,7 +4,7 @@
   <div class="pagetitle">
       <h1>
         Productos
-        <small>Editar AAAAAAAAA A EDITAR KPPPP</small>
+        <small>Editar</small>
         </h1>
     <nav>
       <ol class="breadcrumb">
