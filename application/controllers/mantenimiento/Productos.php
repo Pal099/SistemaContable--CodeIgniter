@@ -128,7 +128,7 @@ class Productos extends CI_Controller {
 				redirect(base_url()."mantenimiento/productos/edit/".$idProducto);
 			}
 		}else{
-			$this->edit($idProductos);
+			$this->edit($idProducto);
 		}
 
 		
