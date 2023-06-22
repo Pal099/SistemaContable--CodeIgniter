@@ -101,13 +101,6 @@ class Productos extends CI_Controller {
 			$is_unique = "|is_unique[productos.codigo]";
 
 		}
-
-		if ($nombre == $productoactual->nombre) {
-			$is_unique = "";
-		}else{
-			$is_unique = "|is_unique[productos.nombre]";
-
-		}
 		
 		$this->form_validation->set_rules("codigo","Codigo","required".$is_unique);
 		if ($this->form_validation->run()==TRUE) {
