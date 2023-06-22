@@ -14,8 +14,8 @@ class Productos extends CI_Controller {
 	public function index()
 	{
 		$this->db->select('proveedor.nombre');
-		$this->db->from('proveedor');
-		$this->db->join('productos', 'proveedor.id = productos.id_proveedor');
+		$this->db->from('proveedores');
+		$this->db->join('productos', 'proveedores.id = productos.id_proveedor');
 		$query = $this->db->get();
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
