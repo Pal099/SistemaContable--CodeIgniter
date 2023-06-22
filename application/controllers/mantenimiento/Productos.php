@@ -8,7 +8,6 @@ class Productos extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Productos_model");
-		$this->load->model("Categorias_model");
 	}
 
 	
@@ -21,10 +20,6 @@ class Productos extends CI_Controller {
 		$dato['query'] = $query;
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
-		);
-		$dato = array(
-
-			'categorias'=>$this->Categorias_model-getCategoria($ruc),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
