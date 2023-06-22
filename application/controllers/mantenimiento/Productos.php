@@ -13,14 +13,19 @@ class Productos extends CI_Controller {
 	
 	public function index()
 	{
+		$this->db->select('categorias.nombre');
+		$this->db->from('categorias');
+		$this->db->join('productos', 'categorias.id = .categorias_id');
+		$query = $this->db->get();
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
 		);
+		$datos['query'] = $query;
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
-
+		$this->load->view('admin/productos/list', $data);
 	}
 
 	public function add(){
