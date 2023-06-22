@@ -91,21 +91,12 @@ class Productos extends CI_Controller {
 		$existencia= $this->input->post("existencia");
 		$stock_minimo = $this->input->post("stock_minimo");
 		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[productos.codigo]");
-		$this->form_validation->set_rules("nombre","Nombre","required|is_unique[productos.nombre]");
-
 		$productoactual = $this->Productos_model->getProducto($idProducto);
 
 		if ($codigo == $productoactual->codigo) {
 			$is_unique = "";
 		}else{
 			$is_unique = "|is_unique[productos.codigo]";
-
-		}
-
-		if ($nombre == $productoactual->nombre) {
-			$is_unique = "";
-		}else{
-			$is_unique = "|is_unique[productos.nombre]";
 
 		}
 		
