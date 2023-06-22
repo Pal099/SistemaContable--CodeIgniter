@@ -21,6 +21,9 @@ class Productos extends CI_Controller {
 		$dato['query'] = $query;
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
+		);
+		$dato = array(
+
 			'categorias'=>$this->Categorias_model-getCategoria($ruc),
 		);
 		$this->load->view("layouts/header");
