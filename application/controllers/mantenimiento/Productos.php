@@ -13,7 +13,7 @@ class Productos extends CI_Controller {
 	
 	public function index()
 	{
-		$this->db->select('proveedor.nombre');
+		$this->db->select('proveedores.nombre');
 		$this->db->from('proveedores');
 		$this->db->join('productos', 'proveedores.id = productos.id_proveedor');
 		$query = $this->db->get();
