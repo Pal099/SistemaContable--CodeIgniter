@@ -30,7 +30,7 @@
                              </div>
                         <?php endif;?>
                         <form action="<?php echo base_url();?>mantenimiento/productos/update" method="POST">
-                            <input type="hidden" value="<?php echo $producto->id;?>" name="idProductos">
+                            <input type="hidden" value="<?php echo $producto->id;?>" name="idProducto">
                             <div class="form-group <?php echo form_error('nombre') == true ? 'has-error': '';?>">
                                 <label for="nombre">Nombre:</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $producto->nombre?>">
