@@ -38,15 +38,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $productos->codigo?>">
+                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $producto->codigo?>">
                             </div>
                             <div class="form-group">
                                 <label for="precio_venta">precio venta:</label>
-                                <input type="text" class="form-control" id="precio_venta" name="precio venta" value="<?php echo $producto->precio_venta?>">
+                                <input type="text" class="form-control" id="precio_venta" name="precio_venta" value="<?php echo $producto->precio_venta?>">
                             </div>
                             <div class="form-group">
                                 <label for="precio_compra">precio compra:</label>
-                                <input type="text" class="form-control" id="precio_compra" name="precio compra" value="<?php echo $producto->precio_compra?>">
+                                <input type="text" class="form-control" id="precio_compra" name="precio_compra" value="<?php echo $producto->precio_compra?>">
                             </div>
 
                             <div class="form-group">
@@ -65,7 +65,7 @@
                             </div>
                             <div class="form-group">
                                  <div class="col-md-6">
-                                    <button type="submit" class="btn btn    -success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                    <button type="submit" class="btn btn -success btn-flat"><span class="fa fa-save"></span>Guardar</button>
                                 </div> 
                                 <div class="col-md-6">
                                     <a href="<?php echo base_url(); ?>mantenimiento/productos" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
