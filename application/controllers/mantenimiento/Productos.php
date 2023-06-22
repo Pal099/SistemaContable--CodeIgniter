@@ -16,7 +16,6 @@ class Productos extends CI_Controller {
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
 		);
-		$datos['query'] = $query;
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
