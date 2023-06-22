@@ -13,6 +13,11 @@ class Productos extends CI_Controller {
 	
 	public function index()
 	{
+		$this->db->select('productos.nombre, proveedores.ruc');
+        $this->db->from('productos');
+        $this->db->join('proveedores', 'productos.id = proveedores.proveedores_id');
+        $query = $this->db->get();
+		$dato['query'] = $query;
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
 		);
@@ -20,6 +25,7 @@ class Productos extends CI_Controller {
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
+		$this->load->view("admin/productos/list",$dato);
 	}
 
 	public function add(){
