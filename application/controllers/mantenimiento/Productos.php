@@ -25,7 +25,7 @@ class Productos extends CI_Controller {
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
-		$this->load->view('admin/productos/list', $data);
+		$this->load->view('admin/productos/list', $datos);
 	}
 
 	public function add(){
