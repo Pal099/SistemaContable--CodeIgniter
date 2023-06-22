@@ -7,7 +7,7 @@ class Productos extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
-		$this->load->model("Productos_model","Categorias_model");
+		$this->load->model("Productos_model");
 	}
 
 	
