@@ -38,7 +38,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $producto->codigo?>">
+                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $producto->codigo?>"only read>
                             </div>
                             <div class="form-group">
                                 <label for="precio_venta">precio venta:</label>
