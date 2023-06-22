@@ -15,11 +15,8 @@ class Productos extends CI_Controller {
 	{
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
-			'productos'=>$this->db->select('proveedores.propietario'),
-			'productos'=>$this->db->from('proveedores'),
-			'productos'=>$this->db->join('productos', 'proveedores.id = productos.id_proveedor'),
-			'productos'=>$this->db->get(),
 		);
+		$datos['query'] = $query;
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
