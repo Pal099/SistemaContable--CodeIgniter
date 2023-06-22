@@ -34,7 +34,7 @@
 
                             <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                 <label for="ruc">Ruc:</label>
-                                <input type="text" class="form-control" id="ruc" name="ruc" value="<?php echo $proveedor->ruc?>" readonly>
+                                <input type="text" class="form-control" id="ruc" name="ruc" value="<?php echo $proveedor->ruc?>" disabled readonly>
                                 <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                             </div>
 
