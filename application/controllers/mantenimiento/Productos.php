@@ -15,7 +15,7 @@ class Productos extends CI_Controller {
 	{
 		$this->db->select('categorias.nombre');
 		$this->db->from('categorias');
-		$this->db->join('productos', 'categorias.id = productos.categorias_id');
+		$this->db->join('productos', 'categorias.id = productos.id_categoria');
 		$query = $this->db->get();
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
