@@ -7,8 +7,8 @@
         </h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url();?>mantenimiento/productos">Productos</a>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>mantenimiento/productos">Productos</a>
                 </li>
                 <li class="breadcrumb-item active">Editar</li>
             </ol>
@@ -22,56 +22,70 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <?php if($this->session->flashdata("error")):?>
-                            <div class="alert alert-danger alert-dismissible">
-                                <button type="button" class="close" data-dismiss="alert"
-                                    aria-hidden="true">&times;</button>
-                                <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
+                            <?php if ($this->session->flashdata("error")): ?>
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert"
+                                        aria-hidden="true">&times;</button>
+                                    <p><i class="icon fa fa-ban"></i>
+                                        <?php echo $this->session->flashdata("error"); ?>
+                                    </p>
 
-                            </div>
-                            <?php endif;?>
-                            <form action="<?php echo base_url();?>mantenimiento/productos/update" method="POST">
-                                <input type="hidden" value="<?php echo $producto->id;?>" name="idProducto">
-                                <div class="form-group <?php echo form_error('nombre') == true ? 'has-error': '';?>">
+                                </div>
+                            <?php endif; ?>
+                            <form action="<?php echo base_url(); ?>mantenimiento/productos/update" method="POST">
+                                <input type="hidden" value="<?php echo $producto->id; ?>" name="idProducto">
+                                <div class="form-group <?php echo form_error('nombre') == true ? 'has-error' : ''; ?>">
                                     <label for="nombre">Nombre:</label>
                                     <input type="text" class="form-control" id="nombre" name="nombre"
-                                        value="<?php echo $producto->nombre?>">
-                                    <?php echo form_error("nombre","<span class='help-block'>","</span>");?>
+                                        value="<?php echo $producto->nombre ?>">
+                                    <?php echo form_error("nombre", "<span class='help-block'>", "</span>"); ?>
                                 </div>
                                 <div class="form-group">
                                     <label for="codigo">Codigo:</label>
                                     <input type="text" class="form-control" id="codigo" name="codigo"
-                                        value="<?php echo $producto->codigo?>">
+                                        value="<?php echo $producto->codigo ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="precio_venta">Precio de venta:</label>
                                     <input type="text" class="form-control" id="precio_venta" name="precio_venta"
-                                        value="<?php echo $producto->precio_venta?>">
+                                        value="<?php echo $producto->precio_venta ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="precio_compra">Precio de compra:</label>
                                     <input type="text" class="form-control" id="precio_compra" name="precio_compra"
-                                        value="<?php echo $producto->precio_compra?>">
+                                        value="<?php echo $producto->precio_compra ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="iva">Iva:</label>
                                     <select id="iva_select" class="form-select form-select-lg mb-3" name="iva">
+                                        <!-- A partir de acá se hace la validación de las opciones del iva para que no se vuelvan a repertir -->
                                         <option selected disabled>
-                                            <?php echo $producto->iva?></option>
-                                        <option value="5">5</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
+                                            <?php echo $producto->iva ?>
+                                        </option>
+                                        <?php
+                                        $opciones = array(
+                                            '5',
+                                            '10',
+                                            '15',
+                                        );
+                                        $valorSeleccionado = $producto->iva;
+                                        foreach ($opciones as $opcion) {
+                                            if ($opcion != $valorSeleccionado) { // Excluir el valor seleccionado
+                                                echo "<option value=\"$opcion\">$opcion</option>";
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="existencia">Existencia:</label>
                                     <input type="text" class="form-control" id="existencia" name="existencia"
-                                        value="<?php echo $producto->existencia?>">
+                                        value="<?php echo $producto->existencia ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="stock_minimo">Stock minimo:</label>
                                     <input type="text" class="form-control" id="stock_minimo" name="stock_minimo"
-                                        value="<?php echo $producto->stock_minimo?>">
+                                        value="<?php echo $producto->stock_minimo ?>">
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-6">
