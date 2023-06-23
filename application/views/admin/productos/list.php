@@ -53,7 +53,7 @@
                                             <td><?php echo $Producto->id_categoria;?></td>
                                             <td><?php echo $Producto->id_proveedor;?></td>
                                             <td>
-                                                <div class="btn-group">
+                                             <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-view-productos" data-toggle="modal" data-target="#modal-default" value="<?php echo $Producto->id;?>">
                                                         <span class="fa fa-search"></span>
                                                     </button>

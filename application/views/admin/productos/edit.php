@@ -48,13 +48,33 @@
                                 <label for="precio_compra">precio compra:</label>
                                 <input type="text" class="form-control" id="precio_compra" name="precio_compra" value="<?php echo $producto->precio_compra?>">
                             </div>
-
-                            <div class="form-group">
-
-                                <label for="iva">iva:</label>
-                                <input type="text" class="form-control" id="iva" name="iva" value="<?php echo $producto->iva?>">
                             </div>
-
+                                <div class="form-group">
+                                    <label for="iva">Iva:</label>
+                                    <select id="iva_select" class="form-select form-select-lg mb-3" name="iva">
+                                        <!-- A partir de acá se hace la validación de las opciones del iva para que no se vuelvan a repertir -->
+                                        <option selected disabled>
+                                            <?php echo $producto->iva?></option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                            <?php echo $producto->iva ?>
+                                        </option>
+                                        <?php
+                                        $opciones = array(
+                                            '5',
+                                            '10',
+                                            '15',
+                                        );
+                                        $valorSeleccionado = $producto->iva;
+                                        foreach ($opciones as $opcion) {
+                                            if ($opcion != $valorSeleccionado) { // Excluir el valor seleccionado
+                                                echo "<option value=\"$opcion\">$opcion</option>";
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                             <div class="form-group">
                                 <label for="existencia">existencia:</label>
                                 <input type="text" class="form-control" id="existencia" name="existencia" value="<?php echo $producto->existencia?>">

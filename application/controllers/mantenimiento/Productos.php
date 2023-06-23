@@ -9,15 +9,8 @@ class Productos extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Productos_model");
 	}
-
-	
 	public function index()
 	{
-		$this->db->select('productos.nombre, proveedores.ruc');
-        $this->db->from('productos');
-        $this->db->join('proveedores', 'productos.id = proveedores.id');
-        $query = $this->db->get();
-		$dato['query'] = $query;
 		$data  = array(
 			'productos' => $this->Productos_model->getProductos(), 
 		);
@@ -25,7 +18,7 @@ class Productos extends CI_Controller {
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
-		$this->load->view("admin/productos/list",$dato);
+
 	}
 
 	public function add(){
@@ -96,7 +89,8 @@ class Productos extends CI_Controller {
 		$existencia= $this->input->post("existencia");
 		$stock_minimo = $this->input->post("stock_minimo");
 		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[productos.codigo]");
-		$productoactual = $this->Productos_model->getProducto($idProducto);
+
+		$productoactual = $this->Productos_model->getProducto($idProducto); 
 
 		if ($codigo == $productoactual->codigo) {
 			$is_unique = "";
@@ -116,6 +110,7 @@ class Productos extends CI_Controller {
 				'existencia' => $existencia,
 				'stock_minimo' => $stock_minimo,
 			);
+
 			if ($this->Productos_model->update($idProducto,$data)) {
 				redirect(base_url()."mantenimiento/productos");
 			}

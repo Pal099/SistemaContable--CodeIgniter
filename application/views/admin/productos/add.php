@@ -42,18 +42,17 @@
 
                             <div class="form-group">
                                 <label for="precio_compra">Precio de Compra:</label>
-                                <input type="text" class="form-control" id="precio_compra" name="prc_compra">
+                                <input type="text" class="form-control" id="precio_compra" name="precio_compra">
                             </div>
 
                             <div class="form-group">
                                 <label for="precio_venta">Precio de venta:</label>
                                 <input type="text" class="form-control" id="precio_venta" name="precio_venta">
                             </div>
-                              <div class="form-group">
-                                <label for="iva">iva:</label>
+                            <div class="form-group">
+                                <label for="iva">Iva:</label>
                                 <input type="text" class="form-control" id="iva" name="iva">
                             </div>
-
                             <div class="form-group">
                                 <label for="existencia">Existencia:</label>
                                 <input type="text" class="form-control" id="existencia" name="existencia">
