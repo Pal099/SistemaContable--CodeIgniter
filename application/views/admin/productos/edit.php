@@ -50,29 +50,16 @@
                             </div>
                             </div>
                                 <div class="form-group">
-                                    <label for="iva">Iva:</label>
-                                    <select id="iva_select" class="form-select form-select-lg mb-3" name="iva">
+                                    <label for="iva">iva:</label>
+                                    <select id="iva" class="form-select form-select-lg mb-3" name="iva">
                                         <!-- A partir de acá se hace la validación de las opciones del iva para que no se vuelvan a repertir -->
                                         <option selected disabled>
                                             <?php echo $producto->iva?></option>
+                                        <option value="0">0</option>
                                         <option value="5">5</option>
                                         <option value="10">10</option>
-                                        <option value="15">15</option>
                                             <?php echo $producto->iva ?>
                                         </option>
-                                        <?php
-                                        $opciones = array(
-                                            '5',
-                                            '10',
-                                            '15',
-                                        );
-                                        $valorSeleccionado = $producto->iva;
-                                        foreach ($opciones as $opcion) {
-                                            if ($opcion != $valorSeleccionado) { // Excluir el valor seleccionado
-                                                echo "<option value=\"$opcion\">$opcion</option>";
-                                            }
-                                        }
-                                        ?>
                                     </select>
                                 </div>
                             <div class="form-group">
@@ -83,6 +70,56 @@
                                 <label for="stock_minimo">stock_minimo:</label>
                                 <input type="text" class="form-control" id="stock_minimo" name="stock_minimo" value="<?php echo $producto->stock_minimo?>">
                             </div>
+                            
+                            <div class="form-group">
+
+                                    <label for="categorias">Categoria: </label>
+
+                                    <select name="id_categoria" id="id_categoria" class="form-control">
+
+                                        <?php foreach ($categorias as $categoria): ?>
+
+                                            <?php if ($categoria->id == $producto->id_categoria): ?>
+                                                <option value="<?php echo $categoria->id ?>" selected><?php echo $categoria->nombre; ?></option>
+
+                                            <?php else: ?>
+
+                                                <option value="<?php echo $categoria->id ?>"><?php echo $categoria->nombre; ?>
+                                                </option>
+
+                                            <?php endif; ?>
+
+                                        <?php endforeach; ?>
+
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+
+                            <label for="proveedores">Proveedor: </label>
+
+                            <select name="id_proveedor" id="id_proveedor" class="form-control">
+
+                             <?php foreach ($proveedores as $Proveedor): ?>
+
+                                 <?php if ($Proveedor->id == $producto->id_proveedor): ?>
+                                     <option value="<?php echo $Proveedor->id ?>" selected><?php echo $Proveedor->propietario; ?></option>
+
+                                 <?php else: ?>
+
+                                     <option value="<?php echo $Proveedor->id ?>"><?php echo $Proveedor->propietario; ?>
+                                     </option>
+
+                                 <?php endif; ?>
+
+                        <?php endforeach; ?>
+
+                            </select>
+
+                            </div>
+
+
                             <div class="form-group">
                                  <div class="col-md-6">
                                     <button type="submit" class="btn btn -success btn-flat"><span class="fa fa-save"></span>Guardar</button>

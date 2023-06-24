@@ -27,6 +27,7 @@
                                 
                              </div>
                         <?php endif;?>
+                        
                         <form action="<?php echo base_url();?>mantenimiento/productos/store" method="POST">
                             <div class="form-group <?php echo form_error('codigo') == true ? 'has-error':''?>">
                                 <label for="codigo">Codigo:</label>
@@ -49,10 +50,47 @@
                                 <label for="precio_venta">Precio de venta:</label>
                                 <input type="text" class="form-control" id="precio_venta" name="precio_venta">
                             </div>
+                            
                             <div class="form-group">
-                                <label for="iva">Iva:</label>
-                                <input type="text" class="form-control" id="iva" name="iva">
-                            </div>
+                                    <label for="iva">iva:</label>
+                                    <select id="iva" class="form-select form-select-lg mb-3" name="iva">
+                                    <option selected disabled>
+                                            <?php echo $producto->iva?></option>
+                                        <option value="0">0</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                            <?php echo $producto->iva ?>
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+
+                                    <label for="id_categoria">Categoria:</label>
+
+                                    <select name="id_categoria" id="id_categoria" class="form-control">
+                                        <?php foreach ($categorias as $Categoria): ?>
+
+                                            <option value="<?php echo $Categoria->id ?>"><?php echo $Categoria->nombre; ?> 
+                                            </option>
+                                        <?php endforeach; ?>
+
+                                    </select>
+                                </div>
+                                <label for="id_proveedores">Proveedor:</label>
+
+                                <select name="id_proveedor" id="id_proveedor" class="form-control">
+                                    <?php foreach ($proveedores as $proveedor): ?>
+
+                                        <option value="<?php echo $proveedor->id ?>"><?php echo $proveedor->propietario; ?>
+                                        </option>
+
+
+                                    <?php endforeach; ?>
+
+                                </select>
+
+                        </div>
+
                             <div class="form-group">
                                 <label for="existencia">Existencia:</label>
                                 <input type="text" class="form-control" id="existencia" name="existencia">
