@@ -9,9 +9,7 @@
                   <a class="nav-link " href="<?php echo base_url();?>">
                             <i class="bi bi-grid"></i> <span>Inicio</span>
                         </a>
-                </li>
-
-                 
+                </li>                 
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#mant-nav" data-bs-toggle="collapse" href="#">
                        <i class="bi bi-menu-button-wide"></i><span>Mantenimiento</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -36,7 +34,24 @@
 
                 </li>
                 
+                 
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#mant-nav" data-bs-toggle="collapse" href="#">
+                       <i class="bi bi-menu-button-wide"></i><span>Filtrar</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="mant-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                            <li><a href="<?php echo base_url(); ?>filtro/seleccion"><i class="bi bi-circle"></i> Filtrar por categorias o proveedores</a></li>                       
+                    </ul>
+
+                </li>
+
+
+                
             </ul>
             
         </aside>
         <!-- =============================================== -->
+
+
+
+      

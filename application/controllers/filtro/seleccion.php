@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proveedores extends CI_Controller {
+class Seleccion extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -12,13 +12,20 @@ class Proveedores extends CI_Controller {
 	public function index()
 	{
 		$data  = array(
-			'proveedores' => $this->Productos_model->getProveedores(), 
+			'producto' => $this->Productos_model->getProductos(), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/proveedores/list",$data);
+		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
 
+	}
+
+	public function view($id){
+		$data  = array(
+			'producto' => $this->Productos_models->getProducto($id), 
+		);
+		$this->load->view("admin/filtrar/view",$data);
 	}
 
 }
