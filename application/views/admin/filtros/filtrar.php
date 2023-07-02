@@ -26,6 +26,21 @@
                             ?>
                             <input type="submit" value="Filtrar">
                         </form>
+
+                        <form action="<?php echo base_url('filtro/seleccion/filtrar'); ?>" method="get">
+                            <label for="proveedor">Filtrar por proveedor:</label>
+                            <?php
+                            $options = array();
+
+                            foreach ($proveedor as $proveedor) { //Aquí llamamos a la variable proveedor.
+                                $options[$proveedor->id] = $proveedor->propietario;
+                            }
+
+                            echo form_dropdown('proveedor', $options, $this->input->get('proveedor'), 'id="proveedor"');
+                            ?>
+                            <input type="submit" value="Filtrar">
+                        </form>
+
                     </div>
                 </div>
                 <hr>
@@ -62,6 +77,27 @@
                                     <?php endforeach;?>
                                 <?php endif;?>
                             </tbody>
+
+                            <tbody>
+                                <?php if(!empty($productoprov)):?> 
+                                    <?php foreach($productoprov as $producto):?>        
+                                        <tr>
+                                            <td><?php echo $producto->id;?></td>
+                                            <td><?php echo $producto->codigo;?></td>
+                                            <td><?php echo $producto->nombre;?></td>
+                                            <td><?php echo $producto->precio_venta;?></td>
+                                            <td><?php echo $producto->precio_compra;?></td>
+                                            <td><?php echo $producto->existencia;?></td>
+                                            <td><?php echo $producto->stock_minimo;?></td>
+                                            <td><?php echo $producto->cate;?></td>
+                                            <td><?php echo $producto->prop;?></td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                <?php endif;?>
+                            </tbody>
+
+
+
                         </table>
                     </div>
                 </div>

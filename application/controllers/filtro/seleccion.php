@@ -12,7 +12,8 @@ class Seleccion extends CI_Controller {
     {
         $data = array(
             'productos' => $this->Productos_model->getProductos(), //Con la variable productos (que se utiliza en la vista view/admin/filtros/filtrar) sirve para mostrar la tabla de productos con sus relaciones.
-            'categorias' => $this->Productos_model->getCategorias()//Con la variable categorias (también en la vista view/admin/filtros/filtrar) traemos en el dropdown (box list) las categorias existentes.
+			'proveedor' => $this->Productos_model->getProveedores(),
+			'categorias' => $this->Productos_model->getCategorias()//Con la variable categorias (también en la vista view/admin/filtros/filtrar) traemos en el dropdown (box list) las categorias existentes.
         );
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
@@ -23,9 +24,12 @@ class Seleccion extends CI_Controller {
     public function filtrar()
     {
         $categoria = $this->input->get('categoria'); //Se almacena lo que se consiguió de la bd en la variable categoria.
-        $data = array(
+		$proveedor = $this->input->get('proveedor');
+		$data = array(
             'productos' => $this->Productos_model->filtrar_productos_por_categoria($categoria), //En la variable productos mostramos los productos de acuerdo a su categoria.
-            'categorias' => $this->Productos_model->getCategorias() //Se utiliza para el filtro correspondiente. 
+            'productoprov' => $this->Productos_model->filtrar_productos_por_proveedor($proveedor),
+			'proveedor' => $this->Productos_model->getProveedores(),
+			'categorias' => $this->Productos_model->getCategorias() //Se utiliza para el filtro correspondiente. 
         );
 
         $this->load->view("layouts/header");
