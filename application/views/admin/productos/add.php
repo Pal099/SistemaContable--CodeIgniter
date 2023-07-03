@@ -25,15 +25,15 @@
                                 <button type="button" class="close" data-dismiss="alert"
                                     aria-hidden="true">&times;</button>
                                 <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
-
+                                
+                             </div>
+                        <?php endif;?>
+                        <form action="<?php echo base_url();?>mantenimiento/productos/store" method="POST">
+                            <div class="form-group <?php echo form_error('codigo') == true ? 'has-error':''?>">
+                                <label for="codigo">Codigo:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo">
+                                <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
                             </div>
-                            <?php endif;?>
-                            <form action="<?php echo base_url();?>mantenimiento/productos/store" method="POST">
-                                <div class="form-group <?php echo form_error('codigo') == true ? 'has-error':''?>">
-                                    <label for="codigo">Codigo:</label>
-                                    <input type="text" class="form-control" id="codigo" name="codigo">
-                                    <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
-                                </div>
 
                                 <div class="form-group <?php echo form_error('nombre') == true ? 'has-error':''?>">
                                     <label for="nombre">Nombre:</label>

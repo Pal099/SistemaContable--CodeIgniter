@@ -8,9 +8,9 @@ class Productos extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Productos_model");
+		$this->load->model("Categorias_model");
+		$this->load->model("Proveedores_model");
 	}
-
-	
 	public function index()
 	{
 		$data  = array(
@@ -25,10 +25,18 @@ class Productos extends CI_Controller {
 
 	public function add(){
 
+		$data  = array(
+			'producto' => $this->Productos_model->getProductos(),
+			'proveedores' => $this->Proveedores_model->getProveedores(),
+			'categorias' => $this->Categorias_model->getCategorias(),
+
+		);
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/productos/add");
+		$this->load->view("admin/productos/add",$data);
 		$this->load->view("layouts/footer");
+
 	}
 
 	public function store(){
@@ -40,9 +48,11 @@ class Productos extends CI_Controller {
 		$iva= $this->input->post("iva");
 		$existencia= $this->input->post("existencia");
 		$stock_minimo = $this->input->post("stock_minimo");
+		$id_proveedor = $this->input->post("id_proveedor");
+		$id_categoria = $this->input->post("id_categoria");
 		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[productos.codigo]");
 		$this->form_validation->set_rules("nombre","Nombre","required|is_unique[productos.nombre]");
-
+		
 		if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
@@ -53,6 +63,8 @@ class Productos extends CI_Controller {
 				'iva' => $iva,
 				'existencia' => $existencia,
 				'stock_minimo' => $stock_minimo,
+				'id_proveedor' => $id_proveedor,
+				'id_categoria'=> $id_categoria,
 				'estado' => "1"
 			);
 
@@ -74,6 +86,9 @@ class Productos extends CI_Controller {
 	public function edit($id){
 		$data  = array(
 			'producto' => $this->Productos_model->getProducto($id), 
+			'proveedor' => $this->Proveedores_model->getProveedores(),
+			'Categoria' => $this->Categorias_model->getCategorias(), 
+
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -90,6 +105,8 @@ class Productos extends CI_Controller {
 		$iva= $this->input->post("iva");
 		$existencia= $this->input->post("existencia");
 		$stock_minimo = $this->input->post("stock_minimo");
+		$id_proveedor = $this->input->post("id_proveedor");
+		$id_categoria = $this->input->post("id_categoria");
 		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[productos.codigo]");
 
 		$productoactual = $this->Productos_model->getProducto($idProducto); 
@@ -111,6 +128,8 @@ class Productos extends CI_Controller {
 				'iva' => $iva,
 				'existencia' => $existencia,
 				'stock_minimo' => $stock_minimo,
+				'id_proveedor' => $id_proveedor,
+				'id_categoria'=> $id_categoria,
 			);
 
 			if ($this->Productos_model->update($idProducto,$data)) {

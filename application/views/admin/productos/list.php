@@ -17,8 +17,6 @@
           <div class="row">
                     <div class="col-md-12">
                             <a href="<?php echo base_url();?>mantenimiento/productos/add" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Agregar Producto</a>
-                      
-
                     </div>
                 </div>
                 <hr>
@@ -50,10 +48,10 @@
                                             <td><?php echo $Producto->precio_compra;?></td>
                                             <td><?php echo $Producto->existencia;?></td>
                                             <td><?php echo $Producto->stock_minimo;?></td>
-                                            <td><?php echo $Producto->id_categoria;?></td>
-                                            <td><?php echo $Producto->id_proveedor;?></td>
+                                            <td><?php echo $Producto->cate;?></td>
+                                            <td><?php echo $Producto->prop;?></td>
                                             <td>
-                                                <div class="btn-group">
+                                             <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-view-productos" data-toggle="modal" data-target="#modal-default" value="<?php echo $Producto->id;?>">
                                                         <span class="fa fa-search"></span>
                                                     </button>
