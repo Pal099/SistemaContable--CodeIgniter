@@ -41,9 +41,10 @@ class Productos_model extends CI_Model {
 	}
 	//función para traer las categorias almacenadas en la base de datos. 
 	public function getCategorias() {
-		$this->db->select('id, nombre');
-		$this->db->from('categorias');
-		return $this->db->get()->result();
+		//Se agrega para la busqueda de categorias unicamente activas
+		$this->db->where("estado","1");
+		$resultados = $this->db->get("categorias");
+		return $resultados->result();
 	}
 
 	//Acá hago los joins correspondientes para traer los productos y proveedores de acuerdo a su categoria.
@@ -59,8 +60,9 @@ class Productos_model extends CI_Model {
 	}
 	//función para traer las categorias almacenadas en la base de datos. 
 	public function getProveedores() {
-		$this->db->select('id, ruc, razon_social, propietario, direccion, telefono, email, observacion');
-		$this->db->from('proveedores');
-		return $this->db->get()->result();
+		//Se agrega para la busqueda de proveedores unicamente activos
+		$this->db->where("estado","1");
+		$resultados = $this->db->get("proveedores");
+		return $resultados->result();
 	}
 }
