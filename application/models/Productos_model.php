@@ -53,6 +53,7 @@ class Productos_model extends CI_Model {
 		$this->db->join('proveedores', 'productos.id_proveedor = proveedores.id', 'inner');
 		$this->db->join('categorias', 'productos.id_categoria = categorias.id');
 		$this->db->where('productos.estado', '1');
+		$this->db->where('proveedores.estado', '1');
 		$this->db->where('proveedores.id', $proveedor);
 		$resultados = $this->db->get();
 		return $resultados->result();
@@ -63,4 +64,16 @@ class Productos_model extends CI_Model {
 		$this->db->from('proveedores');
 		return $this->db->get()->result();
 	}
+
+    public function calcularTotalVentas() {
+		$this->db->select_sum('precio_venta');
+		$query = $this->db->get('productos');
+		$result = $query->row();
+		$totalVentas = $result->precio_venta;
+	
+		return $totalVentas;
+	}
+	
+
+	
 }
