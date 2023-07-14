@@ -32,6 +32,23 @@
                                                 
                     </ul>
 
+
+                    <ul id="mant-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                            <li><a href="<?php echo base_url(); ?>mantenimiento/bancos"><i class="bi bi-circle"></i> Bancos</a></li>
+                           
+                                                
+                    </ul>
+
+                    
+
+                    <ul id="mant-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                            <li><a href="<?php echo base_url(); ?>mantenimiento/cuentas"><i class="bi bi-circle"></i>Cuentas</a></li>
+                           
+                                                
+                    </ul>
+
+
+
                 </li>
                 
                  

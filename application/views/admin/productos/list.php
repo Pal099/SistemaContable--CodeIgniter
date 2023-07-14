@@ -29,6 +29,7 @@
                                     <th>Código</th>
                                     <th>Nombre</th>
                                     <th>Precio Venta</th>
+                                    <th>Registro de Venta</th>
                                     <th>Precio Compra</th>
                                     <th>Existencia</th>
                                     <th>Stock Minimo</th>
@@ -45,6 +46,7 @@
                                             <td><?php echo $Producto->codigo;?></td>
                                             <td><?php echo $Producto->nombre;?></td>
                                             <td><?php echo $Producto->precio_venta;?></td>
+                                            <td><?php echo $Producto->fecha_venta;?></td>
                                             <td><?php echo $Producto->precio_compra;?></td>
                                             <td><?php echo $Producto->existencia;?></td>
                                             <td><?php echo $Producto->stock_minimo;?></td>

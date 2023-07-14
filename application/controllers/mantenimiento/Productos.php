@@ -44,6 +44,7 @@ class Productos extends CI_Controller {
 		$codigo = $this->input->post("codigo");
 		$nombre = $this->input->post("nombre");
 		$precio_venta = $this->input->post("precio_venta");
+		$fecha_venta = $this->input->post("fecha_venta");
 		$precio_compra= $this->input->post("precio_compra");
 		$iva= $this->input->post("iva");
 		$existencia= $this->input->post("existencia");
@@ -59,6 +60,7 @@ class Productos extends CI_Controller {
 				'codigo' => $codigo, 
 				'nombre' => $nombre, 
 				'precio_venta' => $precio_venta,
+				'fecha_venta' => $fecha_venta,
 				'precio_compra' => $precio_compra,
 				'iva' => $iva,
 				'existencia' => $existencia,
@@ -101,6 +103,7 @@ class Productos extends CI_Controller {
 		$codigo = $this->input->post("codigo");
 		$nombre = $this->input->post("nombre");
 		$precio_venta = $this->input->post("precio_venta");
+		$fecha_venta = $this->input->post("fecha_venta");
 		$precio_compra= $this->input->post("precio_compra");
 		$iva= $this->input->post("iva");
 		$existencia= $this->input->post("existencia");
@@ -124,6 +127,7 @@ class Productos extends CI_Controller {
 				'codigo' => $codigo, 
 				'nombre' => $nombre, 
 				'precio_venta' => $precio_venta,
+				'fecha_venta' => $fecha_venta,
 				'precio_compra' => $precio_compra,
 				'iva' => $iva,
 				'existencia' => $existencia,

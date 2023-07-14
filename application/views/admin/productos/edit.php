@@ -45,6 +45,10 @@
                                 <input type="text" class="form-control" id="precio_venta" name="precio_venta" value="<?php echo $producto->precio_venta?>">
                             </div>
                             <div class="form-group">
+                                <label for="fecha_venta">Registro de venta:</label>
+                                <input type="text" class="form-control" id="fecha_venta" name="fecha_venta" value="<?php echo $producto->precio_venta?>">
+                            </div>
+                            <div class="form-group">
                                 <label for="precio_compra">precio compra:</label>
                                 <input type="text" class="form-control" id="precio_compra" name="precio_compra" value="<?php echo $producto->precio_compra?>">
                             </div>

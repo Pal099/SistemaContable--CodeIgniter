@@ -50,7 +50,10 @@
                                 <label for="precio_venta">Precio de venta:</label>
                                 <input type="text" class="form-control" id="precio_venta" name="precio_venta">
                             </div>
-                            
+                            <div class="form-group">
+                                <label for="fecha_venta">Registro de venta:</label>
+                                <input type="text" class="form-control" id="fecha_venta" name="fecha_venta">
+                            </div>
                             <div class="form-group">
                                     <label for="iva">iva:</label>
                                     <select id="iva" class="form-select form-select-lg mb-3" name="iva">

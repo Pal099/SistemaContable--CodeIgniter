@@ -1,20 +1,12 @@
- 
- <footer id="footer" class="footer">
-    <div class="copyright">
-      <strong>Copyright &copy; 2023 - Practica Codeigniter.</strong>
-    </div>
-    <div class="credits">
-      <b>Version</b> 0.1
-    </div>
-
-  </footer><!-- End Footer -->
-</div>
+<head>
+  <!-- ... otros elementos del head ... -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <!-- Vendor JS Files -->
   <script src="<?php echo base_url();?>assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="<?php echo base_url();?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/chart.js/chart.min.js"></script>
   <script src="<?php echo base_url();?>assets/vendor/echarts/echarts.min.js"></script>
   <script src="<?php echo base_url();?>assets/vendor/quill/quill.min.js"></script>
   <script src="<?php echo base_url();?>assets/vendor/simple-datatables/simple-datatables.js"></script>
@@ -132,6 +124,63 @@ $(document).ready(function () {
 	
    	$('.sidebar-menu').tree();
 })
+
+<footer id="footer" class="footer">
+  <canvas id="ventasPorMesChart" width="400" height="200"></canvas>
+  <div class="credits">
+  </div>
+</footer><!-- End Footer -->
+
+<!-- Vendor JS Files -->
+<script src="<?php echo base_url();?>assets/vendor/chart.js/chart.min.js"></script>
+<!-- Template Main JS File -->
+<script src="<?php echo base_url();?>assets/js/main.js"></script>
+
+<footer id="footer" class="footer">
+  <div id="ventasPorMesChart" width="400" height="200"></div>
+  <div class="credits">
+  </div>
+</footer><!-- End Footer -->
+
+<!-- Vendor JS Files -->
+<script src="<?php echo base_url();?>assets/vendor/apexcharts/apexcharts.min.js"></script>
+<!-- Template Main JS File -->
+<script src="<?php echo base_url();?>assets/js/main.js"></script>
+
+<script>
+  $(document).ready(function() {
+    var calcularTotalVentasPorMes = <?php echo json_encode($totalVentaspormes); ?>;
+    var options = {
+      chart: {
+        type: 'bar',
+        height: 350
+      },
+      series: [{
+        name: 'Ventas por Mes',
+        data: Object.values(calcularTotalVentasPorMes)
+      }],
+      xaxis: {
+        categories: Object.keys(calcularTotalVentasPorMes)
+      }
+    };
+    var chart = new ApexCharts(document.querySelector('#ventasPorMesChart'), options);
+    chart.render();
+  });
 </script>
+
+
+
+
 </body>
 </html>
+
+<footer id="footer" class="footer">
+    <div class="copyright">
+      <strong>Copyright &copy; 2023 - Practica Codeigniter.</strong>
+    </div>
+    <div class="credits">
+      <b>Version</b> 0.1
+    </div>
+
+  </footer><!-- End Footer -->
+</div>
