@@ -23,6 +23,7 @@ class Categorias extends CI_Controller {
 
 	}
 
+
 	public function add(){
 
 		$this->load->view("layouts/header");
@@ -45,7 +46,7 @@ class Categorias extends CI_Controller {
 				'descripcion' => $descripcion,
 				'estado' => "1"
 			);
-
+			
 			if ($this->Categorias_model->save($data)) {
 				redirect(base_url()."mantenimiento/categorias");
 			}

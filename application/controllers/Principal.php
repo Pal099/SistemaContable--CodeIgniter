@@ -19,6 +19,7 @@ class Principal extends CI_Controller {
 		$this->load->view("admin/principal", $data);
 		$this->load->view("layouts/footer",$dato);
     }
+    
 
 	public function calcularTotalVentas()
     {
@@ -180,5 +181,7 @@ private function obtenerNombreMes($mesNumero)
 		$this->Categorias_model->update($id,$data);
 		echo "principal";
 	}
+
+    
 
 }
