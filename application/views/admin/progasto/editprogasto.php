@@ -31,19 +31,19 @@
                         <?php endif;?>
 
                         <form action="<?php echo base_url();?>registro/programagasto/update" method="POST">
-                            <input type="hidden" value="<?php echo $gasto->id;?>" name="idProGasto">
+                            <input type="hidden" value="<?php echo $gastos->id;?>" name="idProgramGasto">
 
                             <div class="form-group">
 
                                 <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $gasto->nombre?>">
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $gastos->nombre?>">
                           
                             </div>
 
                             <div class="form-group <?php echo form_error('codigo') == true ? 'has-error': '';?>">
 
                                 <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $gasto->codigo?>">
+                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $gastos->codigo?>">
                                 <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
 
                             </div>

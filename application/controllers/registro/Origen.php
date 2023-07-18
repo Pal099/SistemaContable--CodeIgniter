@@ -8,7 +8,7 @@ class Origen extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
     $this->load->database();
-		$this->load->model("Registros_financieros_model");
+		$this->load->model("Origen_model");
 	}
 
 	//----------------------Index Fuente--------------------------------------------------------
@@ -16,7 +16,7 @@ class Origen extends CI_Controller {
 	public function index()
 	{
 		$data  = array(
-			'origen' => $this->Registros_financieros_model->getOrigenes(), 
+			'origenes' => $this->Origen_model->getOrigenes(), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -48,7 +48,7 @@ class Origen extends CI_Controller {
 
             //----------------------Fuente--------------------------------------------------------
 
-			if ($this->Registros_financieros_model->save($data)) {
+			if ($this->Origen_model->save($data)) {
 				redirect(base_url()."registro/origen");
 			}
 			else{
@@ -62,7 +62,7 @@ class Origen extends CI_Controller {
 	}
 	public function edit($id){
 		$data  = array(
-			'origenes' => $this->Registros_financieros_model->getOrigen($id), 
+			'origenes' => $this->Origen_model->getOrigen($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -74,7 +74,7 @@ class Origen extends CI_Controller {
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 	
-		$Origenactual = $this->Registros_financieros_model->getOrigen($idOrigen);
+		$Origenactual = $this->Origen_model->getOrigen($idOrigen);
 	
 		if ($codigo == $Origenactual->codigo) {
 			$is_unique = "";
@@ -89,7 +89,7 @@ class Origen extends CI_Controller {
 				'codigo' => $codigo,
 			);
 	
-			if ($this->Registros_financieros_model->updateOrigen($idOrigen, $data)) {
+			if ($this->Origen_model->updateOrigen($idOrigen, $data)) {
 				redirect(base_url()."registro/origen");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
@@ -101,7 +101,7 @@ class Origen extends CI_Controller {
 	}
     public function view($id){
 		$data  = array(
-			'origenes' => $this->Registros_financieros_model->getOrigen($id), 
+			'origenes' => $this->Origen_model->getOrigen($id), 
 		);
 		$this->load->view("admin/origen/vieworigen",$data);
 	}
@@ -109,7 +109,7 @@ class Origen extends CI_Controller {
 		$data  = array(
 			'estado' => "0", 
 		);
-		$this->Registros_financieros_model->updateOrigen($id,$data);
+		$this->Origen_model->updateOrigen($id,$data);
 		echo "registro/origen";
 	}
 }

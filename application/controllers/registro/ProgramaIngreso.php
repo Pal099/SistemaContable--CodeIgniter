@@ -8,7 +8,7 @@ class ProgramaIngreso extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
     $this->load->database();
-		$this->load->model("Registros_financieros_model");
+		$this->load->model("ProgramIngreso_model");
 	}
 
 	//----------------------Index Fuente--------------------------------------------------------
@@ -16,7 +16,7 @@ class ProgramaIngreso extends CI_Controller {
 	public function index()
 	{
 		$data  = array(
-			'ingreso' => $this->Registros_financieros_model->getProgramIngresos(), 
+			'ingresos' => $this->ProgramIngreso_model->getProgramIngresos(), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -48,7 +48,7 @@ class ProgramaIngreso extends CI_Controller {
 
             //----------------------Fuente--------------------------------------------------------
 
-			if ($this->Registros_financieros_model->save($data)) {
+			if ($this->ProgramIngreso_model->save($data)) {
 				redirect(base_url()."registro/programaingreso");
 			}
 			else{
@@ -62,7 +62,7 @@ class ProgramaIngreso extends CI_Controller {
 	}
 	public function edit($id){
 		$data  = array(
-			'ingresos' => $this->Registros_financieros_model->getProgramIngreso($id), 
+			'ingresos' => $this->ProgramIngreso_model->getProgramIngreso($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -74,7 +74,7 @@ class ProgramaIngreso extends CI_Controller {
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 	
-		$ProgramIngresoactual = $this->Registros_financieros_model->getProgramIngreso($idProgramIngreso);
+		$ProgramIngresoactual = $this->ProgramIngreso_model->getProgramIngreso($idProgramIngreso);
 	
 		if ($codigo == $ProgramIngresoactual->codigo) {
 			$is_unique = "";
@@ -89,7 +89,7 @@ class ProgramaIngreso extends CI_Controller {
 				'codigo' => $codigo,
 			);
 	
-			if ($this->Registros_financieros_model->updateProgramIngreso($idProgramIngreso, $data)) {
+			if ($this->ProgramIngreso_model->update($idProgramIngreso, $data)) {
 				redirect(base_url()."registro/programaingreso");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
@@ -101,7 +101,7 @@ class ProgramaIngreso extends CI_Controller {
 	}
     public function view($id){
 		$data  = array(
-			'ingresos' => $this->Registros_financieros_model->getProgramIngreso($id), 
+			'ingresos' => $this->ProgramIngreso_model->getProgramIngreso($id), 
 		);
 		$this->load->view("admin/proingreso/viewproingreso",$data);
 	}
@@ -109,7 +109,7 @@ class ProgramaIngreso extends CI_Controller {
 		$data  = array(
 			'estado' => "0", 
 		);
-		$this->Registros_financieros_model->updateProgramIngreso($id,$data);
+		$this->ProgramIngreso_model->update($id,$data);
 		echo "registro/programaingreso";
 	}
 }
