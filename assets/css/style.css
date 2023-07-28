@@ -8,6 +8,7 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
+
 :root {
   scroll-behavior: smooth;
 }
@@ -93,6 +94,7 @@ h1, h2, h3, h4, h5, h6 {
 # Override some default Bootstrap stylings
 --------------------------------------------------------------*/
 /* Dropdown menus */
+
 .dropdown-menu {
   border-radius: 4px;
   padding: 10px 0;
@@ -422,6 +424,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------*/
 .header-nav ul {
   list-style: none;
+  
 }
 .header-nav > ul {
   margin: 0;
@@ -693,7 +696,51 @@ h1, h2, h3, h4, h5, h6 {
 .dashboard .filter .dropdown-item {
   padding: 8px 15px;
 }
+ /* Estilos para el modal */
+ .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
 
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Personaliza el ancho del modal según tus necesidades */
+  border-radius: 10px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos para los botones dentro del modal */
+.modal-buttons {
+  text-align: right;
+}
+
+.modal-buttons button {
+  margin-left: 5px;
+}
 /* Info Cards */
 .dashboard .info-card {
   padding-bottom: 10px;

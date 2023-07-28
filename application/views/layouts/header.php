@@ -5,7 +5,10 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PitStop Informatica</title>
-
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Favicons -->
     <link href="<?php echo base_url();?>assets/img/favicon.png" rel="icon">
     <link href="<?php echo base_url();?>assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -46,6 +49,53 @@
     #mdialTamanio{
       width: 80% !important;
       height: 90% !important;
+    }
+     /* Estilos para el modal */
+     .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .campos-opcionales {
+    display: none;
+  }
+    .modal-content {
+      background-color: #fefefe;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 50%; /* Personaliza el ancho del modal según tus necesidades */
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Estilos para los botones dentro del modal */
+    .modal-buttons {
+      text-align: right;
+    }
+
+    .modal-buttons button {
+      margin-left: 5px;
     }
   </style>
 <body>
