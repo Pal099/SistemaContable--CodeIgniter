@@ -15,22 +15,129 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-md-12">
-            <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add" class="btn btn-primary btn-flat"><span
-                class="fa fa-plus"></span> Agregar obligación</a>
+          <div class="checkbox-container">
+            <label>
+              <input type="checkbox" id="checkboxCamposOpcionales"> Habilitar campos opcionales
+            </label>
           </div>
         </div>
         <hr>
-        <?php
-        // Verificar si los campos opcionales están completos
-        $camposOpcionalesCompletos = true;
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (empty($_POST['tesoreria']) || empty($_POST['pedi_matricula']) || empty($_POST['modalidad']) || empty($_POST['tipo_presupuesto']) || empty($_POST['unidad_respon']) || empty($_POST['proyecto']) || empty($_POST['estado']) || empty($_POST['nro_pac']) || empty($_POST['nro_exp']) || empty($_POST['total']) || empty($_POST['pagado'])) {
-                $camposOpcionalesCompletos = false;
-            }
-        }
-        ?>
 
+        <!-- Formulario para agregar obligaciones -->
+        <div class="row">
+          <!-- Left side columns -->
+          <div class="box box-solid">
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <?php if ($this->session->flashdata("error")): ?>
+                    <div class="alert alert-danger alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                      <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
+                    </div>
+                  <?php endif; ?>
+                  <form id="formPrincipal" action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
+                    <!-- Campos principales -->
+                    <div class="form-group <?php echo form_error('ruc') == true ? 'has-error' : ''; ?>">
+                      <label for="ruc">Ruc:</label>
+                      <input type="text" class="form-control" id="ruc" name="ruc">
+                      <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                    </div>
+                    <div class="form-group">
+                      <label for="numero">Numero:</label>
+                      <input type="text" class="form-control" id="numero" name="numero">
+                    </div>
+                    <div class="form-group">
+                      <label for="contabilidad">Contabilidad:</label>
+                      <input type="text" class="form-control" id="contabilidad" name="contabilidad">
+                    </div>
+                    <div class="form-group">
+                      <label for="direccion">Dirección:</label>
+                      <input type="text" class="form-control" id="direccion" name="direccion">
+                    </div>
+                    <div class="form-group">
+                      <label for="telefono">Teléfono:</label>
+                      <input type="text" class="form-control" id="telefono" name="telefono">
+                    </div>
+                    <div class="form-group">
+                      <label for="observacion">Observación:</label>
+                      <input type="text" class="form-control" id="observacion" name="observacion">
+                    </div>
+                    <div class="form-group">
+                      <label for="fecha">Fecha:</label>
+                      <input type="text" class="form-control" id="fecha" name="fecha">
+                    </div>
+                    <!-- Fin campos principales -->
+
+                   
+
+                    <!-- Campos opcionales -->
+                    <div id="camposOpcionales">
+                      <div class="form-group">
+                        <label for="tesoreria">Tesoreria:</label>
+                        <input type="text" class="form-control" id="tesoreria" name="tesoreria">
+                      </div>
+                      <div class="form-group">
+                        <label for="pedi_matricula">Pedido de matrícula:</label>
+                        <input type="text" class="form-control" id="pedi_matricula" name="pedi_matricula">
+                      </div>
+                      <div class="form-group">
+                        <label for="modalidad">Modalidad:</label>
+                        <input type="text" class="form-control" id="modalidad" name="modalidad">
+                      </div>
+                      <div class="form-group">
+                        <label for="tipo_presupuesto">Tipo de presupuesto:</label>
+                        <input type="text" class="form-control" id="tipo_presupuesto" name="tipo_presupuesto">
+                      </div>
+                      <div class="form-group">
+                        <label for="unidad_respon">Unidad responsable:</label>
+                        <input type="text" class="form-control" id="unidad_respon" name="unidad_respon">
+                      </div>
+                      <div class="form-group">
+                        <label for="proyecto">Proyecto:</label>
+                        <input type="text" class="form-control" id="proyecto" name="proyecto">
+                      </div>
+                      <div class="form-group">
+                        <label for="estado">Estado:</label>
+                        <input type="text" class="form-control" id="estado" name="estado">
+                      </div>
+                      <div class="form-group">
+                        <label for="nro_pac">nro_pac:</label>
+                        <input type="text" class="form-control" id="nro_pac" name="nro_pac">
+                      </div>
+                      <div class="form-group">
+                        <label for="nro_exp">nro_exp:</label>
+                        <input type="text" class="form-control" id="nro_exp" name="nro_exp">
+                      </div>
+                      <div class="form-group">
+                        <label for="total">total:</label>
+                        <input type="text" class="form-control" id="total" name="total">
+                      </div>
+                      <div class="form-group">
+                        <label for="pagado">pagado:</label>
+                        <input type="text" class="form-control" id="pagado" name="pagado">
+                      </div>
+                    </div>
+                    <!-- Fin campos opcionales -->
+
+                    <div class="form-group">
+                      <div class="col-md-6">
+                        <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                      </div>
+                      <div class="col-md-6">
+                        <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+
+        <!-- Tabla de Obligaciones -->
         <div class="row">
           <div class="col-md-12">
             <div class="table-responsive">
@@ -80,63 +187,6 @@
             </div>
           </div>
         </div>
-        <?php if ($camposOpcionalesCompletos): ?>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Tesoreria</th>
-                    <th>Pedido de matricula</th>
-                    <th>Modalidad</th>
-                    <th>Tipo de presupuesto</th>
-                    <th>Unidad responsable</th>
-                    <th>Proyecto</th>
-                    <th>Estado</th>
-                    <th>nro_pac</th>
-                    <th>nro_exp</th>
-                    <th>total</th>
-                    <th>pagado</th>
-                    <th>Opciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($obligaciones as $obligacion): ?>
-                    <tr>
-                      <td><?php echo $obligacion->id; ?></td>
-                      <td><?php echo $obligacion->tesoreria; ?></td>
-                      <td><?php echo $obligacion->pedi_matricula; ?></td>
-                      <td><?php echo $obligacion->modalidad; ?></td>
-                      <td><?php echo $obligacion->tipo_presupuesto; ?></td>
-                      <td><?php echo $obligacion->unidad_respon; ?></td>
-                      <td><?php echo $obligacion->proyecto; ?></td>
-                      <td><?php echo $obligacion->estado; ?></td>
-                      <td><?php echo $obligacion->nro_pac; ?></td>
-                      <td><?php echo $obligacion->nro_exp; ?></td>
-                      <td><?php echo $obligacion->total; ?></td>
-                      <td><?php echo $obligacion->pagado; ?></td>
-                      <td>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-diario_obligaciones" data-toggle="modal"
-                            data-target="#modal-default" value="<?php echo $obligacion->id; ?>">
-                            <span class="fa fa-search"></span>
-                          </button>
-                          <a href="<?php echo base_url() ?>obligaciones/diario_obligaciones/edit/<?php echo $obligacion->id; ?>"
-                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                          <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/delete/<?php echo $obligacion->id; ?>"
-                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                        </div>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-        <?php endif; ?>
 
       </div>
       <!-- /.box-body -->
@@ -148,35 +198,36 @@
 <!-- /.content-wrapper -->
 </main>
 
-<main id="main" class="main">
-  <!-- Content Wrapper. Contains page content -->
-  <!-- ... (código anterior) ... -->
 
-  <style>
-    /* Estilos personalizados para la tabla */
-    .table {
-      font-size: 14px;
-    }
+<style>
+  /* ... (estilos existentes) ... */
 
-    .table thead th {
-      background-color: #f2f2f2;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
+  /* Estilos para ocultar los campos opcionales */
+  #camposOpcionales {
+    display: none;
+  }
 
-    .table tbody td {
-      vertical-align: middle;
-    }
+  /* Estilos para el checkbox */
+  .checkbox-container {
+    margin-top: 15px;
+  }
 
-    /* Estilos para los botones de acciones */
-    .btn-group {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  .checkbox-container label {
+    font-weight: normal;
+  }
+</style>
 
-    .btn-group .btn {
-      margin-right: 5px;
-    }
-  </style>
-</main>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const checkboxCamposOpcionales = document.getElementById('checkboxCamposOpcionales');
+    const camposOpcionales = document.getElementById('camposOpcionales');
+
+    checkboxCamposOpcionales.addEventListener('change', function() {
+      if (checkboxCamposOpcionales.checked) {
+        camposOpcionales.style.display = 'block';
+      } else {
+        camposOpcionales.style.display = 'none';
+      }
+    });
+  });
+</script>
