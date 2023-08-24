@@ -13,6 +13,7 @@
   scroll-behavior: smooth;
 }
 
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;
@@ -671,6 +672,21 @@ h1, h2, h3, h4, h5, h6 {
   right: 0px;
   top: 15px;
 }
+/* Estilos para el contenedor con marco */
+.content-container {
+  border: 1px solid #ccc; /* Establece el borde */
+  padding: 20px; /* Añade un espacio interno para separar el contenido del borde */
+  margin: 20px; /* Añade un margen externo para separar el contenido de otros elementos */
+  border-radius: 10px; /* Aplica bordes redondeados */
+}
+
+/* Estilos para el título de la página */
+.pagetitle {
+  margin-bottom: 20px; /* Agrega espacio inferior para separar el título del contenido siguiente */
+  padding-bottom: 10px; /* Añade un espacio interno inferior para separar el título del contenido siguiente */
+  border-bottom: 1px solid #ccc; /* Agrega una línea horizontal debajo del título */
+}
+
 .dashboard .filter .icon {
   color: #aab7cf;
   padding-right: 20px;

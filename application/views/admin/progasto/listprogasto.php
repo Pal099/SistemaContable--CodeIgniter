@@ -1,11 +1,11 @@
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
-    <h1>Programa de gastos</h1>
+    <h1>Programas</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
-        <li class="breadcrumb-item active">Listado de los Programas de gastos</li>
+        <li class="breadcrumb-item active">Listado de los Programas</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -16,8 +16,8 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="col-md-12">
-            <a href="<?php echo base_url(); ?>registro/programagasto/add" class="btn btn-primary btn-flat"><span
-                class="fa fa-plus"></span> Agregar Programa de gastos</a>
+            <a href="<?php echo base_url(); ?>registro/programa/add" class="btn btn-primary btn-flat"><span
+                class="fa fa-plus"></span> Agregar Programa</a>
           </div>
         </div>
         <hr>
@@ -47,14 +47,14 @@
                       </td>
                       <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-programagasto" data-toggle="modal"
+                          <button type="button" class="btn btn-info btn-view-programa" data-toggle="modal"
                             data-target="#modal-default" value="<?php echo $gasto->id; ?>">
                             <span class="fa fa-search"></span>
                           </button>
-                          <a href="<?php echo base_url() ?>registro/programagasto/edit/<?php echo $gasto->id; ?>"
+                          <a href="<?php echo base_url() ?>registro/programa/edit/<?php echo $gasto->id; ?>"
                             class="btn btn-warning"><span class="fa fa-pencil"></span></a>
 
-                          <a href="<?php echo base_url(); ?>registro/programagasto/delete<?php echo $gasto->id; ?>"
+                          <a href="<?php echo base_url(); ?>registro/programa/delete<?php echo $gasto->id; ?>"
                             class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
                         </div>
                       </td>
@@ -80,7 +80,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Informacion de los Programas de gastos</h4>
+        <h4 class="modal-title">Informacion de los Programas</h4>
       </div>
       <div class="modal-body">
 

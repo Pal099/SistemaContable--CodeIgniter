@@ -35,7 +35,6 @@ class Proveedores extends CI_Controller {
 
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
-		$propietario = $this->input->post("propietario");
 		$direccion= $this->input->post("direccion");
 		$telefono= $this->input->post("telefono");
 		$email= $this->input->post("email");
@@ -47,7 +46,6 @@ class Proveedores extends CI_Controller {
 			$data  = array(
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
 				'direccion' => $direccion,
 				'telefono' => $telefono,
 				'email' => $email,
@@ -85,7 +83,6 @@ class Proveedores extends CI_Controller {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$telefono = $this->input->post("telefono");
-		$propietario = $this->input->post("propietario");
 		$telefono = $this->input->post("telefono");
 		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
 		$email= $this->input->post("email");
@@ -104,7 +101,6 @@ class Proveedores extends CI_Controller {
 			$data = array(
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
 				'direccion' => $direccion,	
 				'telefono' => $telefono,
 				'email' => $email,
@@ -123,7 +119,12 @@ class Proveedores extends CI_Controller {
 		}
 		
 	}
-
+	public function getProveedores() {
+		$proveedores = $this->Proveedores_model->getProveedores(); // Asume que tienes un método para obtener proveedores en tu modelo
+		header('Content-Type: application/json');
+		echo json_encode($proveedores);
+	}
+	
 	public function view($id){
 		$data  = array(
 			'proveedor' => $this->Proveedores_model->getProveedor($id), 

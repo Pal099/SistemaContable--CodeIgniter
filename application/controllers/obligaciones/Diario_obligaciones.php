@@ -7,27 +7,36 @@ class Diario_obligaciones extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
-		$this->load->model("Diario_obli_model");
+		$this->load->model("Proveedores_model");
 	}
 
 	
-	public function index()
-	{
-		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->getDiarios(), 
-		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/oblilist",$data);
-		$this->load->view("layouts/footer");
-
-	}
-
+	public function index() {
+        $data  = array(
+            'proveedores' => $this->Proveedores_model->getProveedores(), 
+        );
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/obligacion/oblilist", $data);
+        $this->load->view("layouts/footer");
+    }
+    
+    public function get_proveedores() {
+        $data  = array(
+            'proveedores' => $this->Proveedores_model->getProveedores(),
+        );
+        echo json_encode($data);
+    }
+	
 	public function add(){
 
+		$data  = array(
+			'proveedores' => $this->Proveedores_model->getProveedores(), // Agregar esta línea para obtener la lista de proveedores
+		);
+	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliadd");
+		$this->load->view("admin/obligacion/obliadd", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 

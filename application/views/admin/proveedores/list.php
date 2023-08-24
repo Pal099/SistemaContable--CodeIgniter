@@ -28,7 +28,6 @@
                                     <th>#</th>
                                     <th>Ruc</th>
                                     <th>Razón Social</th>
-                                    <th>Propietario</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Email</th>
@@ -43,7 +42,6 @@
                                              <td><?php echo $proveedor->id;?></td>
                                             <td><?php echo $proveedor->ruc;?></td>
                                             <td><?php echo $proveedor->razon_social;?></td>
-                                            <td><?php echo $proveedor->propietario;?></td>
                                             <td><?php echo $proveedor->direccion;?></td>
                                             <td><?php echo $proveedor->telefono;?></td>
                                             <td><?php echo $proveedor->email;?></td>

@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProgramaGasto extends CI_Controller {
+class Programa extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
-		$this->load->model("ProgramGasto_model");
+		$this->load->model("Programa_model");
 	}
 
 	//----------------------Index Fuente--------------------------------------------------------
@@ -15,7 +15,7 @@ class ProgramaGasto extends CI_Controller {
 	public function index()
 	{
 		$data  = array(
-			'gastos' => $this->ProgramGasto_model->getProgramGastos(), 
+			'gastos' => $this->Programa_model->getProgramGastos(), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -35,7 +35,7 @@ class ProgramaGasto extends CI_Controller {
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 
-		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[programa_de_gastos.codigo]");
+		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[programa.codigo]");
 
 		if ($this->form_validation->run()==TRUE) {
 
@@ -47,8 +47,8 @@ class ProgramaGasto extends CI_Controller {
 
             //----------------------Fuente--------------------------------------------------------
 
-			if ($this->ProgramGasto_model->save($data)) {
-				redirect(base_url()."registro/programagasto");
+			if ($this->Programa_model->save($data)) {
+				redirect(base_url()."registro/programa");
 			}
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
@@ -61,7 +61,7 @@ class ProgramaGasto extends CI_Controller {
 	}
 	public function edit($id){
 		$data  = array(
-			'gastos' => $this->ProgramGasto_model->getProgramGasto($id), 
+			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -73,12 +73,12 @@ class ProgramaGasto extends CI_Controller {
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 	
-		$ProgramGastoactual = $this->ProgramGasto_model->getProgramGasto($idProgramGasto);
+		$ProgramGastoactual = $this->Programa_model->getProgramGasto($idProgramGasto);
 	
 		if ($codigo == $ProgramGastoactual->codigo) {
 			$is_unique = "";
 		} else {
-			$is_unique = "|is_unique[programa_de_gastos.codigo]";
+			$is_unique = "|is_unique[programa.codigo]";
 		}
 	
 		$this->form_validation->set_rules("codigo", "Codigo", "required" . $is_unique);
@@ -88,8 +88,8 @@ class ProgramaGasto extends CI_Controller {
 				'codigo' => $codigo,
 			);
 	
-			if ($this->ProgramGasto_model->update($idProgramGasto, $data)) {
-				redirect(base_url()."registro/programagasto");
+			if ($this->Programa_model->update($idProgramGasto, $data)) {
+				redirect(base_url()."registro/programa");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
 				redirect(base_url()."admin/progasto/editprogasto/".$idProgramGasto);
@@ -100,7 +100,7 @@ class ProgramaGasto extends CI_Controller {
 	}
     public function view($id){
 		$data  = array(
-			'gastos' => $this->ProgramGasto_model->getProgramGasto($id), 
+			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
 		$this->load->view("admin/progasto/viewprogasto",$data);
 	}
@@ -108,7 +108,7 @@ class ProgramaGasto extends CI_Controller {
 		$data  = array(
 			'estado' => "0", 
 		);
-		$this->ProgramGasto_model->update($id,$data);
-		echo "registro/programagasto";
+		$this->Programa_model->update($id,$data);
+		echo "registro/programa";
 	}
 }

@@ -1,13 +1,13 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-      <h1> Programa de gastos
+      <h1> Programas
         <small>Nuevo</small>
       </h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/programagasto">Programa de gastos</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/programa">Programas</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ol>
     </nav>
@@ -27,7 +27,7 @@
                                 
                              </div>
                         <?php endif;?>
-                        <form action="<?php echo base_url();?>registro/programagasto/store" method="POST">
+                        <form action="<?php echo base_url();?>registro/programa/store" method="POST">
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre">
@@ -42,7 +42,7 @@
                                  <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
                                </div> 
                                <div class="col-md-6">
-                                    <a href="<?php echo base_url(); ?>registro/programagasto" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                    <a href="<?php echo base_url(); ?>registro/programa" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
                                  </div>
                             </div>
                         </form>
