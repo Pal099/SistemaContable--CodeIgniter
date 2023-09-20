@@ -15,7 +15,11 @@
                 <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuentaContable">
+                <i class="bi bi-person"></i><span>Cuenta Contable</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/programa">
                 <i class="bi bi-journal-check"></i><span>Programas</span>
