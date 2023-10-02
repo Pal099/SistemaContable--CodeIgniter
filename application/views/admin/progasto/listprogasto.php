@@ -26,10 +26,8 @@
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  <th>opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,26 +35,10 @@
                   <?php foreach ($gastos as $gasto): ?>
                     <tr>
                       <td>
-                        <?php echo $gasto->id; ?>
-                      </td>
-                      <td>
-                        <?php echo $gasto->nombre; ?>
-                      </td>
-                      <td>
                         <?php echo $gasto->codigo; ?>
                       </td>
                       <td>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-programa" data-toggle="modal"
-                            data-target="#modal-default" value="<?php echo $gasto->id; ?>">
-                            <span class="fa fa-search"></span>
-                          </button>
-                          <a href="<?php echo base_url() ?>registro/programa/edit/<?php echo $gasto->id; ?>"
-                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
-                          <a href="<?php echo base_url(); ?>registro/programa/delete<?php echo $gasto->id; ?>"
-                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                        </div>
+                        <?php echo $gasto->nombre; ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>

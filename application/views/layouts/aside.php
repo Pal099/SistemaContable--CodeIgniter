@@ -1,7 +1,8 @@
 <aside id="sidebar" class="sidebar">
+    
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url();?>">
+            <a class="nav-link" href="<?php echo base_url();?>principal">
                 <i class="bi bi-house"></i> <span>Inicio</span>
             </a>
         </li>     
@@ -31,6 +32,13 @@
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>user/Usuarios/logout">
+                <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
+            </a>
+        </li>
+
         
     </ul>
 </aside>

@@ -45,7 +45,28 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/skins/_all-skins.min.css">
 
 </head>
+
 <style>
+ .user-info.user-info-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+   
+    color: white;
+    padding: 10px;
+   
+   
+    font-family: 'Arial', sans-serif; /* Fuente */
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+.user-info.user-info-right span {
+    display: block;
+    margin-bottom: 8px; /* Espacio entre las líneas */
+    font-weight: bold; /* Texto en negrita */
+}
+
+
     #mdialTamanio{
       width: 80% !important;
       height: 90% !important;
@@ -134,32 +155,18 @@
   </style>
 <body>
 <header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">
-<div class="d-flex align-items-center justify-content-between header-center">
-      <a href="<?php echo base_url();?>" class="logo d-flex align-items-center">
-        <img src="assets/template/dist/img/logoUNE.png" alt="">
-        <span class="d-none d-lg-block header-title">Sistema Contable</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->  
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-    
-          <li class="nav-item dropdown pe-3">
-            <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="<?php echo base_url()?>assets/template/dist/img/user.png" alt="Perfil" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php //echo $this->session->userdata("nombre");?></span>
-            </a><!-- End Profile Iamge Icon -->
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="<?php echo base_url(); ?>">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Cerrar Sesion</span>
-              </a>
-            </li>
+    <div class="d-flex align-items-center justify-content-between header-center">
+        <a href="<?php echo base_url();?>principal" class="logo d-flex align-items-center">
+            <img src="assets/template/dist/img/logoUNE.png" alt="">
+            <span class="d-none d-lg-block header-title">Sistema Contable</span>
+        </a>
         
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div><!-- End Logo -->  
+    <div class="user-info user-info-right">
+    <span>Bienvenido: <?php echo $this->session->userdata('nombre_usuario'); ?></span>
+    <span>Unidad Académica: <?php echo $this->session->userdata('unidad_academica'); ?></span>
+</div>
 
-      </ul>
-    </nav><!-- End Icons Navigation -->
+
 </header><!-- End Header -->

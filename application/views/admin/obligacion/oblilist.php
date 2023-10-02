@@ -3,28 +3,31 @@
 <head>
     <!-- ... (otros encabezados) ... -->
     <style>
-         /* Estilo para el contenedor del modal */
-         .modal-container {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
-            align-items: center;
-            justify-content: center;
-        }
+      <style>
+    /* Estilos para el contenedor del modal */
+    .modal-container {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        align-items: center;
+        justify-content: center;
+    }
 
-        /* Estilos para el contenido del modal */
-        .modal-content {
-            background-color: #fefefe;
-            border: 1px solid #888;
-            border-radius: 10px;
-            padding: 20px;
-            width: 50%; /* Ajusta el ancho del contenido del modal */
-        }
+    /* Estilo para el contenedor del contenido */
+    .modal-content {
+        background-color: #fefefe;
+        border: 1px solid #888;
+        border-radius: 10px;
+        padding: 20px;
+        width: 50%;
+        max-height: 70%; /* Establece la altura máxima deseada */
+        overflow-y: auto; /* Agrega un scroll vertical si el contenido excede la altura máxima */
+    }
 
   /* Estilo para el contenedor del modal */
 .modal-container {

@@ -6,6 +6,7 @@ class Proveedores extends CI_Controller {
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
+		
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
 	}
@@ -13,8 +14,9 @@ class Proveedores extends CI_Controller {
 	
 	public function index()
 	{
+		$id_usuario = $this->session->userdata('id_user');
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getProveedores(), 
+			'proveedores' => $this->Proveedores_model->getProveedoresByUser($id_usuario), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -32,7 +34,7 @@ class Proveedores extends CI_Controller {
 	}
 
 	public function store(){
-
+        $id_usuario = $this->session->userdata('id_user'); // Ajusta esto según tu sistema de autenticación
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$direccion= $this->input->post("direccion");
@@ -44,6 +46,7 @@ class Proveedores extends CI_Controller {
 		if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
+				'id_user' => $id_usuario,
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
 				'direccion' => $direccion,
@@ -53,7 +56,7 @@ class Proveedores extends CI_Controller {
 				'estado' => "1"
 			);
 
-			if ($this->Proveedores_model->save($data)) {
+			if ($this->Proveedores_model->save($data, $id_usuario)) {
 				redirect(base_url()."mantenimiento/proveedores");
 			}
 			else{

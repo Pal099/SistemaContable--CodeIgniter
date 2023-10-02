@@ -25,37 +25,24 @@
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Ruc</th>
                                     <th>Razón Social</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Observación</th>
-                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($proveedores)):?>
                                     <?php foreach($proveedores as $proveedor):?>
                                         <tr>
-                                             <td><?php echo $proveedor->id;?></td>
                                             <td><?php echo $proveedor->ruc;?></td>
                                             <td><?php echo $proveedor->razon_social;?></td>
                                             <td><?php echo $proveedor->direccion;?></td>
                                             <td><?php echo $proveedor->telefono;?></td>
                                             <td><?php echo $proveedor->email;?></td>
                                             <td><?php echo $proveedor->observacion;?></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-view-proveedor" data-toggle="modal" data-target="#modal-default" value="<?php echo $proveedor->id;?>">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-                                                    <a href="<?php echo base_url()?>mantenimiento/proveedores/edit/<?php echo $proveedor->id;?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                      
-                                                    <a href="<?php echo base_url();?>mantenimiento/proveedores/delete/<?php echo $proveedor->id;?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                                </div>
-                                            </td>
                                         </tr>
                                     <?php endforeach;?>
                                 <?php endif;?>

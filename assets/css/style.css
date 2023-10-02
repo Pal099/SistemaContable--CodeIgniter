@@ -13,6 +13,20 @@
   scroll-behavior: smooth;
 }
 
+/* Estilos personalizados para la opción de Cerrar Sesión */
+.logout-link {
+  margin-top: auto; /* Empuja la opción hacia abajo */
+  font-size: 12px; /* Tamaño de letra más pequeño */
+}
+
+.logout-icon {
+  font-size: 16px; /* Tamaño del icono más pequeño */
+  margin-right: 4px; /* Espacio a la derecha del icono */
+}
+
+.logout-text {
+  display: none; /* Oculta el texto si lo deseas */
+}
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -289,6 +303,8 @@ h1, h2, h3, h4, h5, h6 {
   color: #3e4f6f;
   font-size: 15px;
 }
+/*Mensaje de error y apariencia del formulario inicio de sesión*/
+
 
 /* Breadcrumbs */
 .breadcrumb {

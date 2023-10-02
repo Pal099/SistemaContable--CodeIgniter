@@ -26,10 +26,8 @@
             <table id="example1" class="table table-bordered table-hover">
            <thead>
                 <tr>
-                  <th>#</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  <th>opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,26 +35,10 @@
                   <?php foreach ($origenes as $origen): ?>
                     <tr>
                       <td>
-                        <?php echo $origen->id; ?>
-                      </td>
-                      <td>
                         <?php echo $origen->nombre; ?>
                       </td>
                       <td>
                         <?php echo $origen->codigo; ?>
-                      </td>
-                      <td>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-origen" data-toggle="modal"
-                            data-target="#modal-default" value="<?php echo $origen->id; ?>">
-                            <span class="fa fa-search"></span>
-                          </button>
-                          <a href="<?php echo base_url() ?>registro/origen/edit/<?php echo $origen->id; ?>"
-                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
-                          <a href="<?php echo base_url(); ?>registro/origen/delete/<?php echo $origen->id; ?>"
-                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                        </div>
                       </td>
                     </tr>
                   <?php endforeach; ?>
