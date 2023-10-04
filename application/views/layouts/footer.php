@@ -69,21 +69,7 @@ $(document).ready(function () {
         });
     });
   
-    $(".btn-view-categorias").on("click", function(){
-        var id = $(this).val();
-        $.ajax({
-            url: base_url + "mantenimiento/categorias/view/" + id,
-            type:"POST",
-            success:function(resp){
-                $("#modal-default .modal-body").html(resp);
-                //alert(resp);
-            }
-
-        });
-
-    });
-
-     $(".btn-view-proveedor").on("click", function(){
+    $(".btn-view-proveedores").on("click", function(){
         var id = $(this).val();
         $.ajax({
             url: base_url + "mantenimiento/proveedores/view/" + id,
@@ -94,10 +80,9 @@ $(document).ready(function () {
             }
 
         });
-
     });
-
-         $(".btn-view-productos").on("click", function(){
+  
+    $(".btn-view-producto").on("click", function(){
         var id = $(this).val();
         $.ajax({
             url: base_url + "mantenimiento/productos/view/" + id,
@@ -108,7 +93,30 @@ $(document).ready(function () {
             }
 
         });
+      });
+      $(".btn-view-categoria").on("click", function(){
+        var id = $(this).val();
+        $.ajax({
+            url: base_url + "mantenimiento/categorias/view/" + id,
+            type:"POST",
+            success:function(resp){
+                $("#modal-default .modal-body").html(resp);
+                //alert(resp);
+            }
 
+        });
+    });
+    $(".btn-view-presupuesto").on("click", function(){
+        var id = $(this).val();
+        $.ajax({
+            url: base_url + "mantenimiento/presupuesto/view/" + id,
+            type:"POST",
+            success:function(resp){
+                $("#modal-default .modal-body").html(resp);
+                //alert(resp);
+            }
+
+        });
     });
 
 

@@ -2,7 +2,7 @@
 
   <div class="pagetitle">
       <h1> Proveedores
-        <small>Nuevo jeje</small>
+        <small>Nuevo</small>
       </h1>
     <nav>
       <ol class="breadcrumb">
@@ -29,32 +29,28 @@
                         <?php endif;?>
                         <form action="<?php echo base_url();?>mantenimiento/proveedores/store" method="POST">
                             <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
-                                <label for="ruc">Ruc:</label>
+                                <label for="ruc">RUC:</label>
                                 <input type="text" class="form-control" id="ruc" name="ruc">
                                 <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                             </div>
                             <div class="form-group">
-                                <label for="razon_social">Razon social:</label>
-                                <input type="text" class="form-control" id="razon_social" name="razon social">
+                                <label for="razon_social">Razon Social:</label>
+                                <input type="text" class="form-control" id="razon_social" name="razon_social">
                             </div>
-                              <div class="form-group">
-                                <label for="propietario">Propietario:</label>
-                                <input type="text" class="form-control" id="propietario" name="propietario">
-                            </div>
-                              <div class="form-group">
-                                <label for="direccion">Dirección:</label>
+                            <div class="form-group">
+                                <label for="direccion">Direccion:</label>
                                 <input type="text" class="form-control" id="direccion" name="direccion">
                             </div>
-                              <div class="form-group">
-                                <label for="telefono">Teléfono:</label>
+                            <div class="form-group">
+                                <label for="telefono">Telefono:</label>
                                 <input type="text" class="form-control" id="telefono" name="telefono">
                             </div>
-                              <div class="form-group">
+                            <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="text" class="form-control" id="email" name="email">
                             </div>
-                              <div class="form-group">
-                                <label for="observacion">Observación:</label>
+                            <div class="form-group">
+                                <label for="observacion">Observacion:</label>
                                 <input type="text" class="form-control" id="observacion" name="observacion">
                             </div>
                             <div class="form-group">

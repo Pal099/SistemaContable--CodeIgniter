@@ -23,7 +23,7 @@ class Seleccion extends CI_Controller {
 
     public function filtrar()
     {
-        $categoria = $this->input->get('categorias'); //Se almacena lo que se consiguió de la bd en la variable categoria.
+        $categoria = $this->input->get('categoria'); //Se almacena lo que se consiguió de la bd en la variable categoria.
 		$proveedor = $this->input->get('proveedor');
 		$data = array(
             'productos' => $this->Productos_model->filtrar_productos_por_categoria($categoria), //En la variable productos mostramos los productos de acuerdo a su categoria.

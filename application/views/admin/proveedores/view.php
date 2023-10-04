@@ -1,7 +1,7 @@
-<p><strong>Ruc:</strong> <?php echo $proveedor->ruc; ?></p>
-<p><strong>Razón social:</strong> <?php echo $proveedor->razon_social; ?></p>
-<p><strong>Propietario:</strong> <?php echo $proveedor->propietario; ?></p>
-<p><strong>Dirección:</strong> <?php echo $proveedor->direccion; ?></p>
-<p><strong>Teléfono:</strong> <?php echo $proveedor->telefono; ?></p>
-<p><strong>Email:</strong> <?php echo $proveedor->email; ?></p>
-<p><strong>Observación:</strong> <?php echo $proveedor->observacion; ?></p>
+<p><strong>RUC:</strong> <?php echo $proveedores->ruc; ?></p>
+<p><strong>Razon Social:</strong> <?php echo $proveedores->razon_social; ?></p>
+<p><strong>Propietario:</strong> <?php echo $proveedores->propietario; ?></p>
+<p><strong>Direcccion:</strong> <?php echo $proveedores->direccion; ?></p>
+<p><strong>Telefono:</strong> <?php echo $proveedores->telefono; ?></p>
+<p><strong>Email:</strong> <?php echo $proveedores->email; ?></p>
+<p><strong>Observacion:</strong> <?php echo $proveedores->observacion; ?></p>

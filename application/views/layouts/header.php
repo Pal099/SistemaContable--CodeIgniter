@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PitStop Informatica</title>
+    <title>Mili Informatica</title>
 
     <!-- Favicons -->
     <link href="<?php echo base_url();?>assets/img/favicon.png" rel="icon">

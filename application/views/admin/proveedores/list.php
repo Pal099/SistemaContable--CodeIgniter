@@ -17,40 +17,41 @@
           <div class="row">
                     <div class="col-md-12">
                             <a href="<?php echo base_url();?>mantenimiento/proveedores/add" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Agregar Proveedor</a>
+                      
+
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12">
-                        <table id="example1" class="table table-bordered table-hover">
+                        <table id="tabla" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Ruc</th>
-                                    <th>Razón Social</th>
+                                    <th>RUC</th>
+                                    <th>Razon Social</th>
                                     <th>Propietario</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
+                                    <th>Direccion</th>
+                                    <th>Telefono</th>
                                     <th>Email</th>
-                                    <th>Observación</th>
-                                     <th>Opciones</th>
+                                    <th>Observacion</th>
+                                    <th>opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($proveedores)):?>
                                     <?php foreach($proveedores as $proveedor):?>
                                         <tr>
-                                             <td><?php echo $proveedor->id;?></td>
+                                            <td><?php echo $proveedor->id;?></td>
                                             <td><?php echo $proveedor->ruc;?></td>
                                             <td><?php echo $proveedor->razon_social;?></td>
-                                            <td><?php echo $proveedor->propietario;?></td>
                                             <td><?php echo $proveedor->direccion;?></td>
                                             <td><?php echo $proveedor->telefono;?></td>
                                             <td><?php echo $proveedor->email;?></td>
                                             <td><?php echo $proveedor->observacion;?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-view-proveedor" data-toggle="modal" data-target="#modal-default" value="<?php echo $proveedor->id;?>">
+                                                    <button type="button" class="btn btn-info btn-view-proveedores" data-toggle="modal" data-target="#modal-default" value="<?php echo $proveedor->id;?>">
                                                         <span class="fa fa-search"></span>
                                                     </button>
                                                     <a href="<?php echo base_url()?>mantenimiento/proveedores/edit/<?php echo $proveedor->id;?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
@@ -94,4 +95,3 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-

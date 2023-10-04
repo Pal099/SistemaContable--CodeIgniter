@@ -14,12 +14,12 @@
 
 body {
   font-family: "Open Sans", sans-serif;
-  background: #f6f9ff;
-  color: #444444;
+  background: #6e2c67;
+  color: #ee8fce;
 }
 
 a {
-  color: #4154f1;
+  color: #F7A6F2;
   text-decoration: none;
 }
 
@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 24px;
   margin-bottom: 0;
   font-weight: 600;
-  color: #012970;
+  color: #0ebd3a;
 }
 
 /*--------------------------------------------------------------
@@ -77,12 +77,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .back-to-top i {
   font-size: 24px;
-  color: #fff;
+  color: #f83fdf;
   line-height: 0;
 }
 .back-to-top:hover {
   background: #6776f4;
-  color: #fff;
+  color: #4cc41d;
 }
 .back-to-top.active {
   visibility: visible;

@@ -35,19 +35,27 @@ class Proveedores extends CI_Controller {
 
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
-		$propietario = $this->input->post("propietario");
-		$direccion= $this->input->post("direccion");
-		$telefono= $this->input->post("telefono");
-		$email= $this->input->post("email");
+		$direccion = $this->input->post("direccion");
+		$telefono = $this->input->post("telefono");
+		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
+					$data  = array(
+				'ruc' => $ruc, 
+				'razon_social' => $razon_social,
+				'direccion' => $direccion,
+				'telefono' => $telefono,
+				'email' => $email,
+				'observacion' => $observacion,
+				'estado' => "1"
+			);
+
+		$this->form_validation->set_rules("ruc","RUC","required|is_unique[proveedores.ruc]");
 
 		if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
 				'direccion' => $direccion,
 				'telefono' => $telefono,
 				'email' => $email,
@@ -72,7 +80,7 @@ class Proveedores extends CI_Controller {
 
 	public function edit($id){
 		$data  = array(
-			'proveedor' => $this->Proveedores_model->getProveedor($id), 
+			'proveedores' => $this->Proveedores_model->getProveedor($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -84,31 +92,31 @@ class Proveedores extends CI_Controller {
 		$idProveedores = $this->input->post("idProveedores");
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
+		$direccion = $this->input->post("direccion");
 		$telefono = $this->input->post("telefono");
-		$propietario = $this->input->post("propietario");
-		$telefono = $this->input->post("telefono");
-		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
-		$email= $this->input->post("email");
-		$observacion= $this->input->post("observacion");
+		$email = $this->input->post("email");
+		$observacion = $this->input->post("observacion");
 
-		$proveedoractual = $this->Proveedores_model->getProveedor($idProveedores);
+		$proveedoresactual = $this->Proveedores_model->getProveedor($idProveedores);
 
-		if ($ruc == $proveedoractual->ruc) {
+		if ($ruc == $proveedoresactual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[proveedor.ruc]";
+			$is_unique = "|is_unique[proveedores.ruc]";
+
 		}
-		
+
+
 		$this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
 		if ($this->form_validation->run()==TRUE) {
 			$data = array(
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
-				'direccion' => $direccion,	
+				'direccion' => $direccion,
 				'telefono' => $telefono,
 				'email' => $email,
 				'observacion' => $observacion,
+				
 			);
 
 			if ($this->Proveedores_model->update($idProveedores,$data)) {
@@ -121,12 +129,13 @@ class Proveedores extends CI_Controller {
 		}else{
 			$this->edit($idProveedores);
 		}
+
 		
 	}
 
 	public function view($id){
 		$data  = array(
-			'proveedor' => $this->Proveedores_model->getProveedor($id), 
+			'proveedores' => $this->Proveedores_model->getProveedor($id), 
 		);
 		$this->load->view("admin/proveedores/view",$data);
 	}

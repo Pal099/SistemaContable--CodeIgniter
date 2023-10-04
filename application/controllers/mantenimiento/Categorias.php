@@ -113,6 +113,12 @@ class Categorias extends CI_Controller {
 		);
 		$this->load->view("admin/categorias/view",$data);
 	}
+	public function reporte($id){
+		$data  = array(
+			'categoria' => $this->Categorias_model->getCategoria($id), 
+		);
+		$this->load->view("./fpdf/PruebaV",$data);
+	}
 
 	public function delete($id){
 		$data  = array(
