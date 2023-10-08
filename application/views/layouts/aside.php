@@ -16,7 +16,11 @@
                 <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
+                <i class="bi bi-bar-chart"></i><span>Presuesto</span>
+            </a>
+        </li> 
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/programa">
                 <i class="bi bi-journal-check"></i><span>Programas</span>

@@ -22,7 +22,8 @@ class Usuarios extends CI_Controller {
         $this->form_validation->set_rules('username', 'Nombre de Usuario', 'required');
         $this->form_validation->set_rules('password', 'Contraseña', 'required');
         $this->form_validation->set_rules('unidad_academica', 'unidad_academica', 'required'); // Agrega esta regla
-    
+        
+        
         // Si el formulario no se envió o no pasó las reglas de validación, muestra la vista de inicio de sesión.
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('admin/usuarios/login_view');
@@ -31,7 +32,6 @@ class Usuarios extends CI_Controller {
             $password = $this->input->post('password');
             $unidad_academica = $this->input->post('unidad_academica');
     
-
             $authenticated = $this->Usuarios_model->validar_credenciales_y_unidad($username, $password, $unidad_academica);
     
             if ($authenticated) {
@@ -47,8 +47,12 @@ class Usuarios extends CI_Controller {
                 $this->load->view('admin/usuarios/login_view', $data);
             }
         }
+    // Guarda el id del usuario en la sesión
+        $this->session->set_userdata('id_user', $usuario->id_user);
+
     }
-    
+   
+
 
     public function logout() {
         // Cierra la sesión del usuario y redirige a la página de inicio de sesión.
@@ -56,4 +60,9 @@ class Usuarios extends CI_Controller {
         session_destroy();
         redirect(base_url('Login/index'));
     }
+
+    // ... código previo de verificación de credenciales de inicio de sesión ...
+
+
+
 }

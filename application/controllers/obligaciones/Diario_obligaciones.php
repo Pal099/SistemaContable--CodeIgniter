@@ -8,12 +8,15 @@ class Diario_obligaciones extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
+		$this->load->model("ProgramGasto_model");
+		$this->load->model("Diario_obli_model");
 	}
 
 	
 	public function index() {
         $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(), 
+            'proveedores' => $this->Proveedores_model->getProveedores(),
+			'gastos' => $this->Diario_obli_model->getDiarios_obli(),
         );
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
@@ -24,6 +27,9 @@ class Diario_obligaciones extends CI_Controller {
     public function get_proveedores() {
         $data  = array(
             'proveedores' => $this->Proveedores_model->getProveedores(),
+			'programa' => $this->Diario_obli_model->getProgramas(),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
         );
         echo json_encode($data);
     }

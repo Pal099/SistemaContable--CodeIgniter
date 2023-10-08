@@ -1,33 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <!-- ... (otros encabezados) ... -->
     <style>
-      <style>
-    /* Estilos para el contenedor del modal */
-    .modal-container {
-        display: none;
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4);
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* Estilo para el contenedor del contenido */
-    .modal-content {
-        background-color: #fefefe;
-        border: 1px solid #888;
-        border-radius: 10px;
-        padding: 20px;
-        width: 50%;
-        max-height: 70%; /* Establece la altura máxima deseada */
-        overflow-y: auto; /* Agrega un scroll vertical si el contenido excede la altura máxima */
-    }
+     
+    
 
   /* Estilo para el contenedor del modal */
 .modal-container {
@@ -42,7 +24,7 @@
     align-items: center;
     justify-content: center;
 }
-2
+
 .modal-content {
     /* Estilos para el contenido del modal */
     background-color: #fefefe;
@@ -53,6 +35,33 @@
     margin-top: 20%; /* Ajusta el margen superior para centrarlo más abajo */
     transform: translateY(-50%); /* Centrado vertical */
 }
+
+
+/* Estilo para el contenedor del modal de programas  */
+.modal-container_obli {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content_obli {
+    /* Estilos para el contenido del modal */
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%; /* Ajusta el ancho del contenido del modal */
+    margin-top: 20%; /* Ajusta el margen superior para centrarlo más abajo */
+    transform: translateY(-50%); /* Centrado vertical */
+}
+
 
 
         /* Estilos para el contenedor con marco */
@@ -321,23 +330,17 @@
     </div>
     <!-- /.content-wrapper -->
 <!-- Lista con las columnas -->
+<!-- Lista con las columnas -->
 <div class="row">
     <div class="col-md-12">
-        <table id="example1" class="table table-bordered table-hover">
+        <table id="example1" class="table table-bordered table-hover dataTable">
             <thead>
                 <tr>
                     <th>Programa</th>
                     <th>F.F.</th>
                     <th>O.F.</th>
                     <th>N° de cuenta</th>
-                    <th>Objeto de gasto</th>
-                    <th>Cta. de Proveedor</th>
-                    <th>Cta. de Proveedor obs.</th>
-                    <th>Comprobante</th>
-                    <th>Descripcion del gasto</th>
-                    <th>Debe</th>
-                    <th>Haber</th>
-                    <th>Item</th>
+                    <th>Acciones</th> <!-- Cambia el encabezado a "Acciones" -->
                 </tr>
             </thead>
             <tbody>
@@ -347,13 +350,10 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="form-group">
-            <!-- Botones "Guardar" y otros botones aquí -->
-        </div>
-    </div>
-    </div>
+<button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
+    <i class="bi bi-plus"></i> Seleccionar datos
+</button>
+
 
 </main>
 <!-- Contenedor del modal -->
@@ -383,6 +383,38 @@
                         <td><?= $proveedor->telefono ?></td>
                         <td><?= $proveedor->email ?></td>
                         <td><?= $proveedor->observacion ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+<!-- Contenedor del modal de programa, ff, of -->
+</div>
+<div class="modal-container_obli" id="modalContainer_obli">
+    <div class="modal-content_obli">
+        <span class="close" id="closeModalBtn_obli">&times;</span>
+        <h3>Tabla dinámica</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre Programa</th>
+                    <th>Fuente de Financiamiento</th>
+                    <th>Origen de Financiamiento</th>
+                    <th>Numero de cuenta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($gastos as $index => $gasto): ?>
+                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>')">
+                        
+                        <td><?= $gasto->nombre_programa ?></td>
+                        <td><?= $gasto->nombre_fuente ?></td>
+                        <td><?= $gasto->nombre_origen ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -459,6 +491,44 @@
     // Preestablecer el campo de fecha con la fecha actual
     const fechaInput = document.getElementById('fecha');
     fechaInput.value = obtenerFechaActual();
+</script>
+
+
+
+
+
+<script>
+    // Función para abrir el modal de programas
+    function openModal_obli() {
+        var modalContainer = document.getElementById('modalContainer_obli');
+        modalContainer.style.display = 'flex';
+    }
+
+    // Función para cerrar el modal de programas
+    function closeModal_obli() {
+        var modalContainer = document.getElementById('modalContainer_obli');
+        modalContainer.style.display = 'none';
+    }
+
+    // Función para seleccionar un programa
+    function selectPrograma(nombre) {
+        // Actualizar los campos de texto en la vista principal
+        document.getElementById('nombre').value = nombre;
+        
+        closeModal_obli(); // Cierra el modal después de seleccionar un programa
+    }
+
+    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
+    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
+    openModalBtn_obli.addEventListener("click", () => {
+        openModal_obli();
+    });
+
+    // Agregar evento al botón de cerrar para cerrar el modal de programas
+    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
+    closeModalBtn_obli.addEventListener("click", () => {
+        closeModal_obli();
+    });
 </script>
 
 </body>

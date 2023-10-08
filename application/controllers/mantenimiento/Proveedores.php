@@ -6,17 +6,17 @@ class Proveedores extends CI_Controller {
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
-		
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
+
 	}
 
 	
 	public function index()
 	{
-		$id_usuario = $this->session->userdata('id_user');
+	
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getProveedoresByUser($id_usuario), 
+			'proveedores' => $this->Proveedores_model->getproveedores(),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -33,43 +33,38 @@ class Proveedores extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-	public function store(){
-        $id_usuario = $this->session->userdata('id_user'); // Ajusta esto según tu sistema de autenticación
+	public function store() {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
-		$direccion= $this->input->post("direccion");
-		$telefono= $this->input->post("telefono");
-		$email= $this->input->post("email");
+		$direccion = $this->input->post("direccion");
+		$telefono = $this->input->post("telefono");
+		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
-
-		if ($this->form_validation->run()==TRUE) {
-
-			$data  = array(
-				'id_user' => $id_usuario,
-				'ruc' => $ruc, 
+		$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
+	
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'ruc' => $ruc,
 				'razon_social' => $razon_social,
 				'direccion' => $direccion,
 				'telefono' => $telefono,
 				'email' => $email,
 				'observacion' => $observacion,
-				'estado' => "1"
+				'estado' => "1",
+				
 			);
-
-			if ($this->Proveedores_model->save($data, $id_usuario)) {
-				redirect(base_url()."mantenimiento/proveedores");
+	
+			if ($this->Proveedores_model->save($data)) {
+				redirect(base_url() . "mantenimiento/proveedores");
+			} else {
+				$this->session->set_flashdata("error", "No se pudo guardar la información");
+				redirect(base_url() . "mantenimiento/proveedores/add");
 			}
-			else{
-				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."mantenimiento/proveedores/add");
-			}
-		}
-		else{
+		} else {
 			$this->add();
 		}
-
-		
 	}
+	
 
 	public function edit($id){
 		$data  = array(
@@ -121,11 +116,6 @@ class Proveedores extends CI_Controller {
 			$this->edit($idProveedores);
 		}
 		
-	}
-	public function getProveedores() {
-		$proveedores = $this->Proveedores_model->getProveedores(); // Asume que tienes un método para obtener proveedores en tu modelo
-		header('Content-Type: application/json');
-		echo json_encode($proveedores);
 	}
 	
 	public function view($id){
