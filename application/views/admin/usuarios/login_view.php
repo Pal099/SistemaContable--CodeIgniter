@@ -78,7 +78,7 @@
         
         body {
             font-family: Arial, sans-serif;
-            background-image: url('/assets/img/rec.jpg'); /* Reemplaza 'ruta-de-tu-imagen-de-fondo.jpg' con la ruta de tu imagen de fondo */
+            background-image: url('./assets/img/rec.jpg'); /* Reemplaza 'ruta-de-tu-imagen-de-fondo.jpg' con la ruta de tu imagen de fondo */
             background-size: cover; /* Para que la imagen de fondo cubra toda la pantalla */
             display: flex;
             justify-content: center;
@@ -233,7 +233,7 @@
 <form action="<?php echo base_url();?>user/Usuarios/login" method="post" onsubmit="return validarFormulario();"> 
     <div class="container">
         <div class="left-panel">
-            <img src="/assets/img/logoUNE.png" alt="Logo de la Empresa" class="logo">
+            <img src="./assets/img/logoUNE.png" alt="Logo de la Empresa" class="logo">
             <div class="welcome-message">
                 Bienvenido al Sistema Contable
             </div>
@@ -243,7 +243,7 @@
                     <option value="" disabled selected>Seleccione una unidad académica</option>
                     <?php
                         // Conexión a la base de datos (debes configurar tu conexión)
-                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                        $conexion = new mysqli('localhost', 'root', 'root', 'contanuevo');
                         
                         // Verificar la conexión
                         if ($conexion->connect_error) {
