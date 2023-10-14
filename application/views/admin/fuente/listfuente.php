@@ -4,7 +4,7 @@
     <h1>Fuentes de financiamiento</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
         <li class="breadcrumb-item active">Listado de las fuentes de financiamiento</li>
       </ol>
     </nav>

@@ -172,7 +172,7 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="bi bi-house breadcrumb-item"><a href="<?php echo base_url(); ?>"> Inicio</a></li>
+                    <li class="bi bi-house breadcrumb-item"><a href="<?php echo base_url(); ?>principal"> Inicio</a></li>
                     <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
                 </ol>
             </nav>

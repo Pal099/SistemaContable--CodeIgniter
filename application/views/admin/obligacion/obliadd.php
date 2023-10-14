@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="assets/style.css">
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
         <li class="breadcrumb-item"><a href="<?php echo base_url();?>obligaciones/diario_obligaciones">Diario de obligaciones</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ol>

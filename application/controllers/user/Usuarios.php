@@ -3,27 +3,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios extends CI_Controller {
 
+
+    //Llamamos al modelo
     public function __construct() {
         parent::__construct();
         // Carga el modelo de usuarios si es necesario
         $this->load->model('Usuarios_model');
     }
 
+
+
+    //Función del login
     public function login() {
         // Verifica si el usuario ya está autenticado, si lo está, redirige a la página de inicio.
         if ($this->session->userdata('logged_in')) {
             redirect(base_url('principal')); // Utiliza base_url() para generar la URL
         }
     
+
+
         // Carga la librería de form_validation de CodeIgniter.
         $this->load->library('form_validation');
     
+
+
         // Define las reglas de validación para el formulario de inicio de sesión.
         $this->form_validation->set_rules('username', 'Nombre de Usuario', 'required');
         $this->form_validation->set_rules('password', 'Contraseña', 'required');
         $this->form_validation->set_rules('unidad_academica', 'unidad_academica', 'required'); // Agrega esta regla
         
         
+
+
         // Si el formulario no se envió o no pasó las reglas de validación, muestra la vista de inicio de sesión.
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('admin/usuarios/login_view');
@@ -37,16 +48,25 @@ class Usuarios extends CI_Controller {
             if ($authenticated) {
 
                 $this->session->set_userdata('logged_in', TRUE);
+
+
                  // Guarda el nombre de usuario y la unidad académica en variables de sesión
                 $this->session->set_userdata('nombre_usuario', $username);
                 $this->session->set_userdata('unidad_academica', $unidad_academica);
                 redirect(base_url('principal'));
+
+
             } else {
 
+
+                //Mandamos un mensaje de error
                 $data['error'] = 'Datos incorrectos o no tiene acceso a esta unidad académica';
                 $this->load->view('admin/usuarios/login_view', $data);
             }
         }
+
+
+
     // Guarda el id del usuario en la sesión
         $this->session->set_userdata('id_user', $usuario->id_user);
 
@@ -61,7 +81,6 @@ class Usuarios extends CI_Controller {
         redirect(base_url('Login/index'));
     }
 
-    // ... código previo de verificación de credenciales de inicio de sesión ...
 
 
 
