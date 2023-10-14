@@ -86,27 +86,28 @@
                                     <input type="text" class="form-control" id="TotalModificado" name="TotalModificado">
                                 </div>
                                 <div class="form-group">
-    <label for="mes">Mes:</label>
-    <select name="mes" id="mes" class="form-control">
-        <?php
-        // Obtén el mes actual en formato numérico
-        $mesActual = date('m');
+                                <label for="mes">Mes:</label>
+                                <select name="mes" id="mes" class="form-control">
+    <?php
+    // Obtén el mes actual en formato numérico
+    $mesActual = date('n'); // 'n' devuelve el mes sin ceros iniciales
 
-        // Definir un arreglo de nombres de meses
-        $nombresMeses = array(
-            'Enero', 'Febrero', 'Marzo', 'Abril',
-            'Mayo', 'Junio', 'Julio', 'Agosto',
-            'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-        );
+    // Definir un arreglo de nombres de meses
+    $nombresMeses = array(
+        'Enero', 'Febrero', 'Marzo', 'Abril',
+        'Mayo', 'Junio', 'Julio', 'Agosto',
+        'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    );
 
-        // Generar opciones para el menú desplegable
-        for ($i = $mesActual - 1; $i < count($nombresMeses); $i++) {
-            $mes = $nombresMeses[$i];
-            echo "<option value='$mes'>$mes</option>";
-        }
-        ?>
-    </select>
-</div>
+    // Obtén el nombre del mes actual
+    $mesActualNombre = $nombresMeses[$mesActual - 1];
+
+    // Genera una opción para el mes actual
+    echo "<option value='$mesActualNombre'>$mesActualNombre</option>";
+    ?>
+</select>
+
+
 
                                 <div class="form-group">
                                     <label for="monto_mes">Monto para el Mes:</label>
