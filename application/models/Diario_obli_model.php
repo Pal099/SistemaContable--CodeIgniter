@@ -10,8 +10,10 @@ class Diario_obli_model extends CI_Model {
 	}
 
 	public function save($data){
-		return $this->db->insert("proveedores",$data);
+		return $this->db->insert("num_asi_deta",$data);
 	}
+
+	
 	public function getDiario($id){
 		$this->db->where("id",$id);
 		$resultado = $this->db->get("proveedores");
@@ -42,11 +44,12 @@ class Diario_obli_model extends CI_Model {
 
 
 	public function getDiarios_obli() {
-		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
+		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as codigo_cuenta');
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
 		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
+		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable', 'left');
 	
 		
 		$query = $this->db->get();

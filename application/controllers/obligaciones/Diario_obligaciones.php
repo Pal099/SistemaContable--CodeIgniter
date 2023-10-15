@@ -55,6 +55,8 @@ class Diario_obligaciones extends CI_Controller {
 		$observacion = $this->input->post("observacion");
 		$fecha = $this->input->post("fecha");
         $tesoreria = $this->input->post("tesoreria");
+		$comprobante = $this->input->post("comprobante");
+		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
         $modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
@@ -80,6 +82,7 @@ class Diario_obligaciones extends CI_Controller {
                 'observacion' => $observacion,
                 'fecha' => $fecha,
                 'tesoreria' => $tesoreria,
+				'comprobante' => $comprobante,
                 'pedi_matricula' => $pedi_matricula,
                 'modalidad' => $modalidad,
                 'tipo_presupuesto' => $tipo_presupuesto,

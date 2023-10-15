@@ -9,7 +9,10 @@
     <!-- ... (otros encabezados) ... -->
     <style>
      
-    
+    .comprobante-container {
+    display: block;
+}
+
 
   /* Estilo para el contenedor del modal */
 .modal-container {
@@ -160,6 +163,21 @@
             flex-wrap: wrap;
             gap: 10px;
         }
+
+        .btn-select-datos {
+        margin-right: 10px; /* Ajusta el margen derecho según tus necesidades */
+    }
+
+    /* Estilos para el contenedor de los botones "Guardar" y "Cancelar" */
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
+    }
+
+    .btn-container .btn {
+        margin-right: 10px; /* Ajusta el margen derecho entre los botones según tus necesidades */
+    }
     </style>
     <!-- En el <head> de tu documento -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -239,9 +257,14 @@
                                 <label for="fecha">Fecha:</label>
                                 <input type="text" class="form-control" id="fecha" name="fecha">
                             </div>
+                            <div class="comprobante-container" style="display: none;">
+                                <label for="comprobante">Comprobante:</label>
+                                <input type="text" id="comprobante" name="comprobante">
+                            </div>
                         </div>
                     </div>
                 </div>
+
 
 <!-- Campos opcionales (ocultos por defecto) -->
 <div class="row optional-fields">
@@ -306,34 +329,29 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="col-md-12 d-flex justify-content-end">
+                <button class="btn btn-primary ms-2" title="Guardar" id="guardarBtn">
+                    Guardar
+                </button>
+                <button class="btn btn-secondary ms-2" title="Cancelar" id="cancelarBtn">
+                    Cancelar
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
 
 
 
-                <!-- Botones -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+                
     <!-- /.content-wrapper -->
 <!-- Lista con las columnas -->
 <!-- Lista con las columnas -->
 <div class="row">
     <div class="col-md-12">
-        <table id="example1" class="table table-bordered table-hover dataTable">
+        <table id="tablaolilist" class="table table-bordered table-hover dataTable">
             <thead>
                 <tr>
                     <th>Programa</th>
@@ -349,11 +367,9 @@
         </table>
     </div>
 </div>
-
-<button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
+<button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
 </button>
-
 
 </main>
 <!-- Contenedor del modal -->
@@ -399,7 +415,8 @@
     <div class="modal-content_obli">
         <span class="close" id="closeModalBtn_obli">&times;</span>
         <h3>Tabla dinámica</h3>
-        <table class="table table-bordered table-hover">
+        <!-- Corrige el id de la tabla a "tablaOblilist" -->
+        <table id="tablaOblilist" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Nombre Programa</th>
@@ -410,17 +427,51 @@
             </thead>
             <tbody>
                 <?php foreach ($gastos as $index => $gasto): ?>
-                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>')">
+                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>', '<?= $gasto->codigo_cuenta?>')">
                         
                         <td><?= $gasto->nombre_programa ?></td>
                         <td><?= $gasto->nombre_fuente ?></td>
                         <td><?= $gasto->nombre_origen ?></td>
+                        <td><?= $gasto->codigo_cuenta ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
+
+
+<script>
+function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
+    // Captura la tabla principal por su ID
+    var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
+    
+    // Crea una nueva fila en la tabla
+    var fila = tabla.insertRow();
+
+    // Inserta celdas en la fila
+    var celdaPrograma = fila.insertCell(0);
+    var celdaFuente = fila.insertCell(1);
+    var celdaOrigen = fila.insertCell(2);
+    var celdaCuenta = fila.insertCell(3);
+
+    // Asigna los valores a las celdas
+    celdaPrograma.innerHTML = nombrePrograma;
+    celdaFuente.innerHTML = nombreFuente;
+    celdaOrigen.innerHTML = nombreOrigen;
+    celdaCuenta.innerHTML = numeroCuenta;
+
+     // Muestra el campo de comprobante
+     var comprobanteContainer = document.querySelector('.comprobante-container');
+    comprobanteContainer.style.display = 'block';
+
+    closeModal_obli()
+}
+</script>
+
+
+
+
 
 <script>
     // Función para abrir el modal
@@ -510,13 +561,7 @@
         modalContainer.style.display = 'none';
     }
 
-    // Función para seleccionar un programa
-    function selectPrograma(nombre) {
-        // Actualizar los campos de texto en la vista principal
-        document.getElementById('nombre').value = nombre;
-        
-        closeModal_obli(); // Cierra el modal después de seleccionar un programa
-    }
+ 
 
     // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
     const openModalBtn_obli = document.getElementById("openModalBtn_obli");

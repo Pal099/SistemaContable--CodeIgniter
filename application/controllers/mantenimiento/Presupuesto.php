@@ -84,6 +84,21 @@ class Presupuesto extends CI_Controller {
 				$this->session->set_flashdata("error", "No se pudo guardar la informacion");
 				redirect(base_url() . "mantenimiento/presupuesto/add");
 			}
+
+			$datos = array(
+				'id_pro' => $this->input->post('programa_id_pro'),
+				'id_ff' => $this->input->post('fuente_de_financiamiento'),
+				'id_of' => $this->input->post('origen_de_financiamiento'),
+				'Haber' => $this->input->post('TotalModificado'),
+				'Debe' => $this->input->post('TotalPresupuestado'),
+				'MontoPago' => $this->input->post('monto_mes'),
+				// No incluir otros campos que no deseas insertar.
+			);
+		
+			if ($this->Presupuesto_model->save2($datos)) {
+				redirect(base_url() . "mantenimiento/presupuesto");
+			}
+			
 		/*}else{
 			$this->add();
 		}*/

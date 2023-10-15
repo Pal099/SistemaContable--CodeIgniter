@@ -39,7 +39,7 @@
                                     <th>Monto mes</th>
                                 </tr>
                             </thead>
-                            <?php if (!empty($presupuestos) || !empty($descripciones) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
+    <?php if (!empty($presupuestos) || !empty($descripciones) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
     <?php foreach ($presupuestos as $index => $presupuesto): ?>
         <tr>
             <td><?php echo $presupuesto->ID_Presupuesto; ?></td>

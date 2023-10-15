@@ -36,4 +36,7 @@ public function getPresu(){
 		$this->db->where("id_presupuesto",$id);
 		return $this->db->update("presupuestos",$data);
 	}
+
+
+	
 }
