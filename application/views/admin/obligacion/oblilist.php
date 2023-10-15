@@ -329,16 +329,7 @@
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-12 d-flex justify-content-end">
-                <button class="btn btn-primary ms-2" title="Guardar" id="guardarBtn">
-                    Guardar
-                </button>
-                <button class="btn btn-secondary ms-2" title="Cancelar" id="cancelarBtn">
-                    Cancelar
-                </button>
-            </div>
-        </div>
+       
     </div>
 </div>
 
@@ -370,7 +361,16 @@
 <button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
 </button>
-
+<div class="row mt-3">
+        <div class="col-md-12 d-flex justify-content-between">
+            <button class="btn btn-primary" title="Guardar" id="guardarBtn">
+                Guardar
+            </button>
+            <button class="btn btn-secondary" title="Cancelar" id="cancelarBtn">
+                Cancelar
+            </button>
+        </div>
+    </div>
 </main>
 <!-- Contenedor del modal -->
 <div class="modal-container" id="modalContainer">
@@ -439,6 +439,26 @@
         </table>
     </div>
 </div>
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    // Agregar evento al botón "Cancelar"
+    const cancelarBtn = document.getElementById("cancelarBtn");
+    cancelarBtn.addEventListener("click", function () {
+        // Limpia el contenido de la tabla de datos seleccionados
+        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
+        const tbody = tablaDatosSeleccionados.querySelector("tbody");
+        tbody.innerHTML = ""; // Borra todas las filas
+
+        // Oculta el campo de comprobante
+        const comprobanteContainer = document.querySelector('.comprobante-container');
+        comprobanteContainer.style.display = 'none';
+    });
+
+});
+
+</script>
 
 
 <script>

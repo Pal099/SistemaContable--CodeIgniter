@@ -197,8 +197,6 @@
                                 <label for="pagado">Pagado:</label>
                                 <input type="text" class="form-control" id="pagado" name="pagado">
                             </div>
-      <!-- ... otros campos opcionales ... -->
-      <!-- Botones de guardar y cancelar -->
       <div class="form-group">
                                <div class="col-md-6">
                                <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
