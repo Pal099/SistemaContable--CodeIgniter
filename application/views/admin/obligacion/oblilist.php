@@ -242,7 +242,90 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+    <div class="col-md-12">
+        <div class="main-fields">
+            <!-- Cuenta Contable -->
+            <div class="row">
+            <div class="col-md-12">
+                <div class="main-fields">
+                 <!-- Cuenta Contable -->
+                    <div class="form-group">
+                        <label for="IDCuentaContable">Cuenta Contable:</label>
+                        <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
+                            <?php foreach($cuentacontable as $cc): ?>
+                                <option value="<?php echo $cc->id; ?>"><?php echo $cc->nombre; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+            </div>
 
+<<<<<<< Updated upstream
+=======
+            <!-- Monto de Pago -->
+            <div class="form-group">
+                <label for="MontoPago">Monto de Pago:</label>
+                <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+            </div>
+
+            <!-- Debe -->
+            <div class="form-group">
+                <label for="Debe">Debe:</label>
+                <input type="text" class="form-control" id="Debe" name="Debe">
+            </div>
+
+            <!-- Haber -->
+            <div class="form-group">
+                <label for="Haber">Haber:</label>
+                <input type="text" class="form-control" id="Haber" name="Haber">
+            </div>
+
+            <!-- Comprobante -->
+            <div class="form-group">
+                <label for="comprobante">Comprobante:</label>
+                <input type="text" class="form-control" id="comprobante" name="comprobante">
+            </div>
+
+            <!-- Origen de Financiamiento -->
+            <div class="form-group">
+                <label for="id_of">Origen de Financiamiento:</label>
+                <select class="form-control" id="id_of" name="id_of">
+                    <?php foreach($origen_de_financiamiento as $of): ?>
+                        <option value="<?php echo $of->id; ?>"><?php echo $of->nombre; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Programa -->
+            <div class="form-group">
+                <label for="id_pro">Programa:</label>
+                <select class="form-control" id="id_pro" name="id_pro">
+                    <?php foreach($programa as $prog): ?>
+                        <option value="<?php echo $prog->id; ?>"><?php echo $prog->nombre; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Fuente de Financiamiento -->
+            <div class="form-group">
+                <label for="id_ff">Fuente de Financiamiento:</label>
+                <select class="form-control" id="id_ff" name="id_ff">
+                    <?php foreach($fuente_de_financiamiento as $ff): ?>
+                        <option value="<?php echo $ff->id; ?>"><?php echo $ff->nombre; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <!-- Cheque -->
+            <div class="form-group">
+                <label for="cheques_che_id">Cheque ID:</label>
+                <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+>>>>>>> Stashed changes
 <!-- Campos opcionales (ocultos por defecto) -->
 <div class="row optional-fields">
     <div class="col-md-12">
@@ -349,9 +432,14 @@
         </table>
     </div>
 </div>
+<<<<<<< Updated upstream
 
 <button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
+=======
+<button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
+   <i class="bi bi-plus"></i> Seleccionar datos
+>>>>>>> Stashed changes
 </button>
 
 
@@ -394,6 +482,7 @@
 
 
 <!-- Contenedor del modal de programa, ff, of -->
+<<<<<<< Updated upstream
 </div>
 <div class="modal-container_obli" id="modalContainer_obli">
     <div class="modal-content_obli">
@@ -421,6 +510,37 @@
         </table>
     </div>
 </div>
+=======
+// </div>
+// <div class="modal-container_obli" id="modalContainer_obli">
+  //  <div class="modal-content_obli">
+//        <span class="close" id="closeModalBtn_obli">&times;</span>
+      //  <h3>Tabla dinámica</h3>
+    //    <!-- Corrige el id de la tabla a "tablaOblilist" -->
+  //      <table id="tablaOblilist" class="table table-bordered table-hover">
+//            <thead>
+          //      <tr>
+        //            <th>Nombre Programa</th>
+      //              <th>Fuente de Financiamiento</th>
+    //                <th>Origen de Financiamiento</th>
+  //                  <th>Numero de cuenta</th>
+//                </tr>
+//            </thead>
+//            <tbody>
+//                <?php foreach ($gastos as $index => $gasto): ?>
+//                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>', '<?= $gasto->codigo_cuenta?>')">
+//                        
+        //                <td><?= $gasto->nombre_programa ?></td>
+      //                  <td><?= $gasto->nombre_fuente ?></td>
+    //                    <td><?= $gasto->nombre_origen ?></td>
+  //                      <td><?= $gasto->codigo_cuenta ?></td>
+//                    </tr>
+//                <?php endforeach; ?>
+//            </tbody>
+//        </table>
+//    </div>
+// </div>
+>>>>>>> Stashed changes
 
 <script>
     // Función para abrir el modal

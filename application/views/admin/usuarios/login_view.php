@@ -227,10 +227,10 @@
 
 </head>
 
-<link href="<?php echo base_url();?>assets/img/logoUNE.png" rel="icon">
+<link href="<?php echo base_url();?>./assets/img/logoUNE.png" rel="icon">
 
 <body>
-<form action="<?php echo base_url();?>user/Usuarios/login" method="post" onsubmit="return validarFormulario();"> 
+<form action="<?php echo base_url();?>./user/Usuarios/login" method="post" onsubmit="return validarFormulario();"> 
     <div class="container">
         <div class="left-panel">
             <img src="./assets/img/logoUNE.png" alt="Logo de la Empresa" class="logo">
@@ -270,7 +270,7 @@
         </div>
         <div class="right-panel">
             <h2>Iniciar Sesión</h2>
-            <?php echo form_open('user/Usuarios/login'); ?>
+            <?php echo form_open('./user/Usuarios/login'); ?>
                 <label for="username">Nombre de Usuario:</label>
                 <input type="text" name="username" required><br>
 
