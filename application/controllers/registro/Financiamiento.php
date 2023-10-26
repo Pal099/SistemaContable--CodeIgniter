@@ -22,7 +22,7 @@ class Financiamiento extends CI_Controller {
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/fuente/listfuente",$data);
 		$this->load->view("layouts/footer");
-
+		
 	}
     public function add(){
 
