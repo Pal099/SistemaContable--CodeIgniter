@@ -88,10 +88,6 @@ class Diario_obli_model extends CI_Model {
 		$query = $this->db->get("origen_de_financiamiento");
 		return $query->result();
 	}
-<<<<<<< Updated upstream
-	
-
-
 	public function getDiarios_obli() {
 		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
 		$this->db->from('num_asi_deta');
@@ -101,10 +97,10 @@ class Diario_obli_model extends CI_Model {
 	
 		
 		$query = $this->db->get();
-=======
+	}	
 	public function getCuentaContable() {
 		$query = $this->db->get("cuentacontable");
->>>>>>> Stashed changes
+
 		return $query->result();
 	}
 

@@ -194,7 +194,7 @@
                             <span class="optional-fields-title">Campos opcionales</span>
                             <!-- Botón "Nuevo" para abrir el modal -->
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-    <i class="bi bi-plus"></i> Nuevo
+                     <i class="bi bi-plus"></i> Nuevo
 </button>
                                     <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
@@ -207,46 +207,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
-                            // re haciendo la vista
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th>Nombre</th>
-                                <th>Observacion</th>
-                                <th>opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($categorias)): ?>
-                                    <?php foreach ($categorias as $categoria): ?>
-                                        <tr>
-                                        <td>
-                                            <?php echo $categoria->id; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $categoria->nombre; ?>
-                                        </td>
-                                        <td>
-                                            <?php echo $categoria->descripcion; ?>
-                                        </td>
-                                            <td>
-                                        <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-view-categorias" data-toggle="modal"
-                                            data-target="#modal-default" value="<?php echo $categoria->id; ?>">
-                                            <span class="fa fa-search"></span>
-                                        </button>
-                                        <a href="<?php echo base_url() ?>mantenimiento/categorias/edit/<?php echo $categoria->id; ?>"
-                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
 
-                                        <a href="<?php echo base_url(); ?>mantenimiento/categorias/delete/<?php echo $categoria->id; ?>"
-                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                        </div>
-                                    </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
                         <div class="main-fields">
                             <div class="form-group">
                                 <label for="ruc">Ruc:</label>
@@ -281,159 +242,212 @@
                                 <label for="fecha">Fecha:</label>
                                 <input type="text" class="form-control" id="fecha" name="fecha">
                             </div>
+                            <div class="form-group">
+                            <label for="IDCuentaContable">Cuenta Contable:</label>
+                            <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
+                            <?php foreach($cuentacontable as $cc): ?>
+                                <option value="<?php echo $cc->id; ?>"><?php echo $cc->nombre; ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                            </div>
+                             <!-- Monto de Pago -->
+                            <div class="form-group">
+                                <label for="MontoPago">Monto de Pago:</label>
+                                <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+                            </div>
+
+                            <!-- Debe -->
+                            <div class="form-group">
+                                <label for="Debe">Debe:</label>
+                                <input type="text" class="form-control" id="Debe" name="Debe">
+                            </div>
+
+                            <!-- Haber -->
+                            <div class="form-group">
+                                <label for="Haber">Haber:</label>
+                                <input type="text" class="form-control" id="Haber" name="Haber">
+                            </div>
+
+                            <!-- Comprobante -->
+                            <div class="form-group">
+                                <label for="comprobante">Comprobante:</label>
+                                <input type="text" class="form-control" id="comprobante" name="comprobante">
+                            </div>
+
+                            <!-- Origen de Financiamiento -->
+                            <div class="form-group">
+                                <label for="id_of">Origen de Financiamiento:</label>
+                                <select class="form-control" id="id_of" name="id_of">
+                                    <?php foreach($origen_de_financiamiento as $of): ?>
+                                        <option value="<?php echo $of->id; ?>"><?php echo $of->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Programa -->
+                            <div class="form-group">
+                                <label for="id_pro">Programa:</label>
+                                <select class="form-control" id="id_pro" name="id_pro">
+                                    <?php foreach($programa as $prog): ?>
+                                        <option value="<?php echo $prog->id; ?>"><?php echo $prog->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Fuente de Financiamiento -->
+                            <div class="form-group">
+                                <label for="id_ff">Fuente de Financiamiento:</label>
+                                <select class="form-control" id="id_ff" name="id_ff">
+                                    <?php foreach($fuente_de_financiamiento as $ff): ?>
+                                        <option value="<?php echo $ff->id; ?>"><?php echo $ff->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Cheque -->
+                            <div class="form-group">
+                                <label for="cheques_che_id">Cheque ID:</label>
+                                <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-    <div class="col-md-12">
-        <div class="main-fields">
-            <!-- Cuenta Contable -->
-            <div class="row">
-            <div class="col-md-12">
-                <div class="main-fields">
-                 <!-- Cuenta Contable -->
-                    <div class="form-group">
-                        <label for="IDCuentaContable">Cuenta Contable:</label>
-                        <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
-                            <?php foreach($cuentacontable as $cc): ?>
-                                <option value="<?php echo $cc->id; ?>"><?php echo $cc->nombre; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-            </div>
+                            <!-- Campos opcionales (ocultos por defecto) -->
+                            <div class="row optional-fields">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="pedi_matricula">Ped. Mat:</label>
+                                                <input type="text" class="form-control" id="pedi_matricula" name="pedi_matricula">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="modalidad">Modalidad:</label>
+                                                <input type="text" class="form-control" id="modalidad" name="modalidad">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="tipo_presupuesto">Tipo de Presupuesto:</label>
+                                                <input type="text" class="form-control" id="tipo_presupuesto" name="tipo_presupuesto">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="unidad_respon">Unidad responsable:</label>
+                                                <input type="text" class="form-control" id="unidad_respon" name="unidad_respon">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="proyecto">Proyecto:</label>
+                                                <input type="text" class="form-control" id="proyecto" name="proyecto">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="estado">Estado:</label>
+                                                <input type="text" class="form-control" id="estado" name="estado">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="nro_pac">Nro. Pac:</label>
+                                                <input type="text" class="form-control" id="nro_pac" name="nro_pac">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="nro_exp">Nro. Exp:</label>
+                                                <input type="text" class="form-control" id="nro_exp" name="nro_exp">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="total">Total:</label>
+                                                <input type="text" class="form-control" id="total" name="total">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="pagado">Pagado:</label>
+                                                <input type="text" class="form-control" id="pagado" name="pagado">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+\\re haciendo la vista
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>RUC</th>
+                                    <th>Número</th>
+                                    <th>Contabilidad</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Observación</th>
+                                    <th>Fecha</th>
+                                    <th>Tesorería</th>
+                                    <th>Pedí Matrícula</th>
+                                    <th>Modalidad</th>
+                                    <th>Tipo de Presupuesto</th>
+                                    <th>Unidad Responsable</th>
+                                    <th>Proyecto</th>
+                                    <th>Estado</th>
+                                    <th>Nro. PAC</th>
+                                    <th>Nro. Expediente</th>
+                                    <th>Total</th>
+                                    <th>Pagado</th>
+                                    <th>Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($data)): ?>
+                                    <?php foreach ($data as $item): ?>
+                                        <tr>
+                                            <td><?php echo $item->id; ?></td>
+                                            <td><?php echo $item->ruc; ?></td>
+                                            <td><?php echo $item->numero; ?></td>
+                                            <td><?php echo $item->contabilidad; ?></td>
+                                            <td><?php echo $item->direccion; ?></td>
+                                            <td><?php echo $item->telefono; ?></td>
+                                            <td><?php echo $item->observacion; ?></td>
+                                            <td><?php echo $item->fecha; ?></td>
+                                            <td><?php echo $item->tesoreria; ?></td>
+                                            <td><?php echo $item->pedi_matricula; ?></td>
+                                            <td><?php echo $item->modalidad; ?></td>
+                                            <td><?php echo $item->tipo_presupuesto; ?></td>
+                                            <td><?php echo $item->unidad_respon; ?></td>
+                                            <td><?php echo $item->proyecto; ?></td>
+                                            <td><?php echo $item->estado; ?></td>
+                                            <td><?php echo $item->nro_pac; ?></td>
+                                            <td><?php echo $item->nro_exp; ?></td>
+                                            <td><?php echo $item->total; ?></td>
+                                            <td><?php echo $item->pagado; ?></td>
+                                            <td>
+                                        <div class="btn-group">
+                                        <button type="button" class="btn btn-info btn-view-Diario_obligaciones" data-toggle="modal"
+                                            data-target="#modal-default" value="<?php echo $data->id; ?>">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                        <a href="<?php echo base_url() ?>mantenimiento/Diario_obligaciones/edit/<?php echo $data->id; ?>"
+                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
 
-<<<<<<< Updated upstream
-=======
-            <!-- Monto de Pago -->
-            <div class="form-group">
-                <label for="MontoPago">Monto de Pago:</label>
-                <input type="text" class="form-control" id="MontoPago" name="MontoPago">
-            </div>
-
-            <!-- Debe -->
-            <div class="form-group">
-                <label for="Debe">Debe:</label>
-                <input type="text" class="form-control" id="Debe" name="Debe">
-            </div>
-
-            <!-- Haber -->
-            <div class="form-group">
-                <label for="Haber">Haber:</label>
-                <input type="text" class="form-control" id="Haber" name="Haber">
-            </div>
-
-            <!-- Comprobante -->
-            <div class="form-group">
-                <label for="comprobante">Comprobante:</label>
-                <input type="text" class="form-control" id="comprobante" name="comprobante">
-            </div>
-
-            <!-- Origen de Financiamiento -->
-            <div class="form-group">
-                <label for="id_of">Origen de Financiamiento:</label>
-                <select class="form-control" id="id_of" name="id_of">
-                    <?php foreach($origen_de_financiamiento as $of): ?>
-                        <option value="<?php echo $of->id; ?>"><?php echo $of->nombre; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <!-- Programa -->
-            <div class="form-group">
-                <label for="id_pro">Programa:</label>
-                <select class="form-control" id="id_pro" name="id_pro">
-                    <?php foreach($programa as $prog): ?>
-                        <option value="<?php echo $prog->id; ?>"><?php echo $prog->nombre; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <!-- Fuente de Financiamiento -->
-            <div class="form-group">
-                <label for="id_ff">Fuente de Financiamiento:</label>
-                <select class="form-control" id="id_ff" name="id_ff">
-                    <?php foreach($fuente_de_financiamiento as $ff): ?>
-                        <option value="<?php echo $ff->id; ?>"><?php echo $ff->nombre; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-            <!-- Cheque -->
-            <div class="form-group">
-                <label for="cheques_che_id">Cheque ID:</label>
-                <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
-            </div>
-
-        </div>
-    </div>
-</div>
-
->>>>>>> Stashed changes
-<!-- Campos opcionales (ocultos por defecto) -->
-<div class="row optional-fields">
-    <div class="col-md-12">
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="pedi_matricula">Ped. Mat:</label>
-                    <input type="text" class="form-control" id="pedi_matricula" name="pedi_matricula">
-                </div>
-                <div class="col-md-6">
-                    <label for="modalidad">Modalidad:</label>
-                    <input type="text" class="form-control" id="modalidad" name="modalidad">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="tipo_presupuesto">Tipo de Presupuesto:</label>
-                    <input type="text" class="form-control" id="tipo_presupuesto" name="tipo_presupuesto">
-                </div>
-                <div class="col-md-6">
-                    <label for="unidad_respon">Unidad responsable:</label>
-                    <input type="text" class="form-control" id="unidad_respon" name="unidad_respon">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="proyecto">Proyecto:</label>
-                    <input type="text" class="form-control" id="proyecto" name="proyecto">
-                </div>
-                <div class="col-md-6">
-                    <label for="estado">Estado:</label>
-                    <input type="text" class="form-control" id="estado" name="estado">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="nro_pac">Nro. Pac:</label>
-                    <input type="text" class="form-control" id="nro_pac" name="nro_pac">
-                </div>
-                <div class="col-md-6">
-                    <label for="nro_exp">Nro. Exp:</label>
-                    <input type="text" class="form-control" id="nro_exp" name="nro_exp">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="total">Total:</label>
-                    <input type="text" class="form-control" id="total" name="total">
-                </div>
-                <div class="col-md-6">
-                    <label for="pagado">Pagado:</label>
-                    <input type="text" class="form-control" id="pagado" name="pagado">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+                                        <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>"
+                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
 
 
 
@@ -455,33 +469,11 @@
     </div>
     <!-- /.content-wrapper -->
 <!-- Lista con las columnas -->
-<!-- Lista con las columnas -->
-<div class="row">
-    <div class="col-md-12">
-        <table id="example1" class="table table-bordered table-hover dataTable">
-            <thead>
-                <tr>
-                    <th>Programa</th>
-                    <th>F.F.</th>
-                    <th>O.F.</th>
-                    <th>N° de cuenta</th>
-                    <th>Acciones</th> <!-- Cambia el encabezado a "Acciones" -->
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Aquí podrías añadir filas con información según tus necesidades -->
-            </tbody>
-        </table>
-    </div>
-</div>
-<<<<<<< Updated upstream
 
 <button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
-=======
 <button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
    <i class="bi bi-plus"></i> Seleccionar datos
->>>>>>> Stashed changes
 </button>
 
 
@@ -524,7 +516,6 @@
 
 
 <!-- Contenedor del modal de programa, ff, of -->
-<<<<<<< Updated upstream
 </div>
 <div class="modal-container_obli" id="modalContainer_obli">
     <div class="modal-content_obli">
@@ -552,37 +543,6 @@
         </table>
     </div>
 </div>
-=======
-// </div>
-// <div class="modal-container_obli" id="modalContainer_obli">
-  //  <div class="modal-content_obli">
-//        <span class="close" id="closeModalBtn_obli">&times;</span>
-      //  <h3>Tabla dinámica</h3>
-    //    <!-- Corrige el id de la tabla a "tablaOblilist" -->
-  //      <table id="tablaOblilist" class="table table-bordered table-hover">
-//            <thead>
-          //      <tr>
-        //            <th>Nombre Programa</th>
-      //              <th>Fuente de Financiamiento</th>
-    //                <th>Origen de Financiamiento</th>
-  //                  <th>Numero de cuenta</th>
-//                </tr>
-//            </thead>
-//            <tbody>
-//                <?php foreach ($gastos as $index => $gasto): ?>
-//                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>', '<?= $gasto->codigo_cuenta?>')">
-//                        
-        //                <td><?= $gasto->nombre_programa ?></td>
-      //                  <td><?= $gasto->nombre_fuente ?></td>
-    //                    <td><?= $gasto->nombre_origen ?></td>
-  //                      <td><?= $gasto->codigo_cuenta ?></td>
-//                    </tr>
-//                <?php endforeach; ?>
-//            </tbody>
-//        </table>
-//    </div>
-// </div>
->>>>>>> Stashed changes
 
 <script>
     // Función para abrir el modal
