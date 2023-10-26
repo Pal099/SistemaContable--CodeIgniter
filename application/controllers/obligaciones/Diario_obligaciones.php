@@ -50,6 +50,7 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function store(){
+		//acá se 
         $ruc = $this->input->post("ruc");
 		$numero = $this->input->post("numero");
 		$contabilidad = $this->input->post("contabilidad");
@@ -68,6 +69,7 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
+
         $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
 
 
@@ -99,8 +101,9 @@ class Diario_obligaciones extends CI_Controller {
 
 			if ($this->Diario_obli_model->save($data)) {
 				$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
-				// Datos para num_asi_deta (Asumo que estás obteniendo estos datos del formulario. Modifica según tus necesidades)
-				$dataDeta = array(
+							// Datos para num_asi_deta (Asumo que estás obteniendo estos datos del formulario. Modifica según tus necesidades)
+				$dataDetaDebe  = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
 					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
 					'MontoPago' => $this->input->post("MontoPago"),
 					'Debe' => $this->input->post("Debe"),
@@ -108,12 +111,32 @@ class Diario_obligaciones extends CI_Controller {
 					'comprobante' => $this->input->post("comprobante"),
 					'id_of' => $this->input->post("id_of"),
 					'id_pro' => $this->input->post("id_pro"),
-					'Num_Asi_IDNum_Asi' => $lastInsertedId,
+					
 					'id_ff' => $this->input->post("id_ff"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
 					'proveedores_id' => $this->input->post("proveedores_id"),
-					'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+					'id_user' => "1"
 				);
+				$this->Diario_obli_model->insertar_detalle($dataDetaDebe);
+				$dataDetaHaber = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
+					'MontoPago' => $this->input->post("MontoPago"),
+					'Debe' => $this->input->post("Debe"),
+					'Haber' => $this->input->post("Haber"),
+					'comprobante' => $this->input->post("comprobante"),
+					'id_of' => $this->input->post("id_of"),
+					'id_pro' => $this->input->post("id_pro"),
+					
+					'id_ff' => $this->input->post("id_ff"),
+					'cheques_che_id' => $this->input->post("cheques_che_id"),
+					'proveedores_id' => $this->input->post("proveedores_id"),
+					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+					'id_user' => "1"
+				);
+				$this->Diario_obli_model->insertar_detalle($dataDetaHaber);
+
 				if ($this->Diario_obli_model->insertar_detalle($dataDeta)) { // Función para guardar en num_asi_deta
 					redirect(base_url() . "obligaciones/diario_obligaciones");
 				} else {

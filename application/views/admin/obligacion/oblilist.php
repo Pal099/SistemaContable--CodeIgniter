@@ -166,6 +166,7 @@
 
 </head>
 <body>
+
 <main id="main" class="content">
     <!-- Content Wrapper. Contains page content -->
     <div class="content-container">
@@ -205,6 +206,47 @@
                 <!-- Campos principales -->
                 <div class="row">
                     <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-hover">
+                            // re haciendo la vista
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Observacion</th>
+                                <th>opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($categorias)): ?>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <tr>
+                                        <td>
+                                            <?php echo $categoria->id; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $categoria->nombre; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $categoria->descripcion; ?>
+                                        </td>
+                                            <td>
+                                        <div class="btn-group">
+                                        <button type="button" class="btn btn-info btn-view-categorias" data-toggle="modal"
+                                            data-target="#modal-default" value="<?php echo $categoria->id; ?>">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                        <a href="<?php echo base_url() ?>mantenimiento/categorias/edit/<?php echo $categoria->id; ?>"
+                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+
+                                        <a href="<?php echo base_url(); ?>mantenimiento/categorias/delete/<?php echo $categoria->id; ?>"
+                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                         <div class="main-fields">
                             <div class="form-group">
                                 <label for="ruc">Ruc:</label>
