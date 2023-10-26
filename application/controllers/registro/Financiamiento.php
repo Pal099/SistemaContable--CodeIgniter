@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Financiamiento extends CI_Controller {
+class Financiamiento extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -10,6 +10,11 @@ class Financiamiento extends CI_Controller {
     $this->load->database();
 		$this->load->model("Registros_financieros_model");
 	}
+
+	protected function middleware()
+    {
+        return ['Sesion'];
+    }
 
 	//----------------------Index Fuente--------------------------------------------------------
 

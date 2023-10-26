@@ -1,14 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Programa extends CI_Controller {
+class Programa extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Programa_model");
+		
 	}
+
+	protected function middleware()
+    {
+        return ['Sesion'];
+    }
 
 	//----------------------Index Fuente--------------------------------------------------------
 

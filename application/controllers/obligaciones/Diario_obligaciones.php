@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Diario_obligaciones extends CI_Controller {
+class Diario_obligaciones extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -10,8 +10,12 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
+		
 	}
-
+	protected function middleware()
+    {
+        return ['Sesion'];
+    }
 	
 	public function index() {
         $data  = array(

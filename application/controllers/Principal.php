@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal extends CI_Controller {
+class Principal extends MY_Controller {
 
     public function index()
     {
@@ -13,11 +13,9 @@ class Principal extends CI_Controller {
         $this->load->view("layouts/footer");
     }
 
-    public function calcularTotalVentas()
+    protected function middleware()
     {
-        // Aquí realiza el cálculo del total de ventas si es necesario
-        // ...
-        return $totalVentas;
+        return ['Sesion'];
     }
 
     public function filtrar()

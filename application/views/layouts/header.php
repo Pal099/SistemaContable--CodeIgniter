@@ -164,7 +164,7 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->  
     <div class="user-info user-info-right">
-    <span>Bienvenido: <?php echo $this->session->userdata('nombre_usuario'); ?></span>
+    <span>Bienvenido: <?php echo $this->session->userdata('Nombre_usuario'); ?></span>
     <span>Unidad Académica: <?php echo $this->session->userdata('unidad_academica'); ?></span>
 </div>
 

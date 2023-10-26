@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Origen extends CI_Controller {
+class Origen extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -9,8 +9,13 @@ class Origen extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
     $this->load->database();
 		$this->load->model("Origen_model");
+		
 	}
 
+	protected function middleware()
+    {
+        return ['Sesion'];
+    }
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()

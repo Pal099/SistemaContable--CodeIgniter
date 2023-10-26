@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Presupuesto extends CI_Controller {
+class Presupuesto extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -14,6 +14,11 @@ class Presupuesto extends CI_Controller {
 	$this->load->model('Cuentas_model');
 	}
 
+	protected function middleware()
+    {
+        return ['Sesion'];
+    }
+	
 	
 	public function index()
 	{

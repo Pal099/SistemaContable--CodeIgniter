@@ -3,85 +3,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios extends CI_Controller {
 
-
-    //Llamamos al modelo
     public function __construct() {
         parent::__construct();
-        // Carga el modelo de usuarios si es necesario
         $this->load->model('Usuarios_model');
+        $this->load->library('form_validation');
+
     }
 
-
-
-    //Función del login
     public function login() {
-        // Verifica si el usuario ya está autenticado, si lo está, redirige a la página de inicio.
         if ($this->session->userdata('logged_in')) {
-            redirect(base_url('principal')); // Utiliza base_url() para generar la URL
+            redirect('principal');
         }
-    
 
-
-        // Carga la librería de form_validation de CodeIgniter.
-        $this->load->library('form_validation');
-    
-
-
-        // Define las reglas de validación para el formulario de inicio de sesión.
         $this->form_validation->set_rules('username', 'Nombre de Usuario', 'required');
         $this->form_validation->set_rules('password', 'Contraseña', 'required');
-        $this->form_validation->set_rules('unidad_academica', 'unidad_academica', 'required'); // Agrega esta regla
-        
-        
+        $this->form_validation->set_rules('unidad_academica', 'Unidad Académica', 'required');
 
-
-        // Si el formulario no se envió o no pasó las reglas de validación, muestra la vista de inicio de sesión.
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('admin/usuarios/login_view');
         } else {
-            $username = $this->input->post('username');
+            $username = trim($this->input->post('username'));
             $password = $this->input->post('password');
             $unidad_academica = $this->input->post('unidad_academica');
-    
-            $authenticated = $this->Usuarios_model->validar_credenciales_y_unidad($username, $password, $unidad_academica);
-    
-            if ($authenticated) {
 
-                $this->session->set_userdata('logged_in', TRUE);
+            $contraseña_hash = $this->Usuarios_model->obtener_contraseña_por_usuario($username);
 
-
-                 // Guarda el nombre de usuario y la unidad académica en variables de sesión
-                $this->session->set_userdata('nombre_usuario', $username);
-                $this->session->set_userdata('unidad_academica', $unidad_academica);
-                redirect(base_url('principal'));
-
-
+            if ($contraseña_hash && password_verify($password, $contraseña_hash)) {
+                // Las contraseñas coinciden
+                $authenticated = $this->Usuarios_model->validar_credenciales_y_unidad($username, $contraseña_hash, $unidad_academica);
             } else {
+                $authenticated = false;
+            }
 
+            if ($authenticated) {
+                // Establecer la sesión para el usuario autenticado
+                $this->session->set_userdata('logged_in', TRUE);
+                $this->session->set_userdata('Nombre_usuario', $username);
+                $this->session->set_userdata('unidad_academica', $unidad_academica);
 
-                //Mandamos un mensaje de error
+                // Recupera el ID del usuario recién autenticado
+                $usuario = $this->Usuarios_model->obtener_usuario_por_nombre($username);
+                $this->session->set_userdata('id_user', $usuario->id_user);
+
+                redirect('principal');
+            } else {
                 $data['error'] = 'Datos incorrectos o no tiene acceso a esta unidad académica';
                 $this->load->view('admin/usuarios/login_view', $data);
             }
         }
-
-
-
-    // Guarda el id del usuario en la sesión
-        $this->session->set_userdata('id_user', $usuario->id_user);
-
     }
-   
 
 
+    
     public function logout() {
-        // Cierra la sesión del usuario y redirige a la página de inicio de sesión.
         $this->session->unset_userdata('logged_in');
+        $this->session->unset_userdata('Nombre_usuario');
+        $this->session->unset_userdata('unidad_academica');
+        $this->session->unset_userdata('id_user');
         session_destroy();
-        redirect(base_url('Login/index'));
+        redirect('login/index');
     }
-
-
-
-
 }
