@@ -1,28 +1,37 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Diario_obligaciones extends CI_Controller {
+class Diario_obligaciones extends CI_CONTROLLER {
 
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Diario_obli_model");
+		$this->load->model("Proveedores_model");
 	}
-
 	
-	public function index()
-	{
-		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->getDiarios(), 
-		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/oblilist",$data);
-		$this->load->view("layouts/footer");
+	
+	public function index() {
+		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
+		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
 
-	}
-
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/obligacion/oblilist", $data);
+        $this->load->view("layouts/footer");
+    }
+    
+    public function get_proveedores() {
+        $data  = array(
+            'proveedores' => $this->Proveedores_model->getProveedores(),
+			'programa' => $this->Diario_obli_model->getProgramas(),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+        );
+        echo json_encode($data);
+    }
+	
 	public function add(){
 
 		$this->load->view("layouts/header");
@@ -32,7 +41,6 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function store(){
-        $ruc = $this->input->post("ruc");
 		$numero = $this->input->post("numero");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
@@ -50,14 +58,12 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
-        $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
 
 
 
         if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
-                'ruc' => $ruc,
 				'numero' => $numero, 
 				'contabilidad' => $contabilidad,
 				'direccion' => $direccion,
@@ -103,7 +109,6 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function update(){
-        $ruc = $this->input->post("ruc");
 		$numero = $this->input->post("numero");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
@@ -132,7 +137,6 @@ class Diario_obligaciones extends CI_Controller {
         if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
-                'ruc' => $ruc,
 				'numero' => $numero, 
 				'contabilidad' => $contabilidad,
 				'direccion' => $direccion,

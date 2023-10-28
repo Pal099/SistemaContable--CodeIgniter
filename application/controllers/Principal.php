@@ -1,17 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal extends CI_Controller {
+class Principal extends CI_CONTROLLER {
 
     public function index()
     {
         $data = array(
-			'productos' => $this->getProductos(),
-			'totalVentas' => $this->calcularTotalVentas(),
 		);
 		$dato = array(
 
-			'totalVentaspormes' => $this->calcularTotalVentasPorMes() // Agrega esta línea para pasar los datos del gráfico a la vista
 
 		);
 		$this->load->view("layouts/header");
@@ -40,49 +37,10 @@ class Principal extends CI_Controller {
         return $resultados->result();
     }
 
-    public function getProducto($id)
+    protected function middleware()
     {
-        $this->db->where("id", $id);
-        $resultado = $this->db->get("productos");
-        return $resultado->row();
+        return ['Sesion'];
     }
-
-    public function calcularTotalVentasPorMes()
-{
-    $this->db->select('MONTH(fecha_venta) as mes, SUM(precio_venta) as total_ventas');
-    $this->db->group_by('mes');
-    $query = $this->db->get('productos');
-    $result = $query->result();
-
-    $totalVentaspormes = array();
-    foreach ($result as $row) {
-        $mes = $this->obtenerNombreMes($row->mes); // Función auxiliar para obtener el nombre del mes
-        $totalVentaspormes[$mes] = $row->total_ventas;
-    }
-
-    return $totalVentaspormes;
-}
-
-private function obtenerNombreMes($mesNumero)
-{
-    $meses = array(
-        1 => 'Enero',
-        2 => 'Febrero',
-        3 => 'Marzo',
-        4 => 'Abril',
-        5 => 'Mayo',
-        6 => 'Junio',
-        7 => 'Julio',
-        8 => 'Agosto',
-        9 => 'Septiembre',
-        10 => 'Octubre',
-        11 => 'Noviembre',
-        12 => 'Diciembre'
-    );
-
-    return $meses[$mesNumero];
-}
-
 
     public function filtrar()
     {

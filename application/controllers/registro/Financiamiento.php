@@ -11,6 +11,8 @@ class Financiamiento extends CI_Controller {
 		$this->load->model("Registros_financieros_model");
 	}
 
+	
+
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()

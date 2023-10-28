@@ -1,27 +1,28 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Origen extends CI_Controller {
+class Programa extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
-    $this->load->database();
-		$this->load->model("Origen_model");
+		$this->load->model("Programa_model");
+		
 	}
 
 	
+
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()
 	{
 		$data  = array(
-			'origenes' => $this->Origen_model->getOrigenes(), 
+			'gastos' => $this->Programa_model->getProgramGastos(), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/origen/listorigen",$data);
+		$this->load->view("admin/progasto/listprogasto",$data);
 		$this->load->view("layouts/footer");
 
 	}
@@ -29,7 +30,7 @@ class Origen extends CI_Controller {
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/origen/addorigen");
+		$this->load->view("admin/progasto/addprogasto");
 		$this->load->view("layouts/footer");
 	}
     public function store(){
@@ -37,7 +38,7 @@ class Origen extends CI_Controller {
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 
-		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[origen_de_financiamiento.codigo]");
+		$this->form_validation->set_rules("codigo","Codigo","required|is_unique[programa.codigo]");
 
 		if ($this->form_validation->run()==TRUE) {
 
@@ -49,12 +50,12 @@ class Origen extends CI_Controller {
 
             //----------------------Fuente--------------------------------------------------------
 
-			if ($this->Origen_model->save($data)) {
-				redirect(base_url()."registro/origen");
+			if ($this->Programa_model->save($data)) {
+				redirect(base_url()."registro/programa");
 			}
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."admin/origen/addorigen");
+				redirect(base_url()."admin/progasto/addprogasto");
 			}
 		}
 		else{
@@ -63,24 +64,24 @@ class Origen extends CI_Controller {
 	}
 	public function edit($id){
 		$data  = array(
-			'origenes' => $this->Origen_model->getOrigen($id), 
+			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/origen/editorigen",$data);
+		$this->load->view("admin/progasto/editprogasto",$data);
 		$this->load->view("layouts/footer");
 	}
     public function update(){
-		$idOrigen = $this->input->post("idOrigen");
+		$idProgramGasto = $this->input->post("idProgramGasto");
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 	
-		$Origenactual = $this->Origen_model->getOrigen($idOrigen);
+		$ProgramGastoactual = $this->Programa_model->getProgramGasto($idProgramGasto);
 	
-		if ($codigo == $Origenactual->codigo) {
+		if ($codigo == $ProgramGastoactual->codigo) {
 			$is_unique = "";
 		} else {
-			$is_unique = "|is_unique[origen_de_financiamiento.codigo]";
+			$is_unique = "|is_unique[programa.codigo]";
 		}
 	
 		$this->form_validation->set_rules("codigo", "Codigo", "required" . $is_unique);
@@ -90,27 +91,27 @@ class Origen extends CI_Controller {
 				'codigo' => $codigo,
 			);
 	
-			if ($this->Origen_model->updateOrigen($idOrigen, $data)) {
-				redirect(base_url()."registro/origen");
+			if ($this->Programa_model->update($idProgramGasto, $data)) {
+				redirect(base_url()."registro/programa");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
-				redirect(base_url()."admin/origen/editorigen/".$idOrigen);
+				redirect(base_url()."admin/progasto/editprogasto/".$idProgramGasto);
 			}
 		} else {
-			$this->edit($idOrigen);
+			$this->edit($idProgramGasto);
 		}
 	}
     public function view($id){
 		$data  = array(
-			'origenes' => $this->Origen_model->getOrigen($id), 
+			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
-		$this->load->view("admin/origen/vieworigen",$data);
+		$this->load->view("admin/progasto/viewprogasto",$data);
 	}
     public function delete($id){
 		$data  = array(
 			'estado' => "0", 
 		);
-		$this->Origen_model->updateOrigen($id,$data);
-		echo "registro/origen";
+		$this->Programa_model->update($id,$data);
+		echo "registro/programa";
 	}
 }

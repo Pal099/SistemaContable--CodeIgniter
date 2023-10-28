@@ -10,18 +10,17 @@ class Cuentas extends CI_Controller {
 		$this->load->model("Cuentas_model");
 	}
 
-	
-	public function index()
-	{
-		$data  = array(
-			'bancos' => $this->Cuentas_model->getCuentas(), 
-		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/cuentas/list",$data);
-		$this->load->view("layouts/footer");
-
-	}
+    
+    public function index()
+    {
+        $data = array(
+            'cuentas' => $this->Cuentas_model->getCuentas(), 
+        );
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/cuentas/list", $data);
+        $this->load->view("layouts/footer");
+    }
 
 	public function add(){
 

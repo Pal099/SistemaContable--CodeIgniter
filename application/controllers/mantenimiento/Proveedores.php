@@ -10,6 +10,7 @@ class Proveedores extends CI_Controller {
 		$this->load->model("Proveedores_model");
 	}
 
+
 	
 	public function index()
 	{

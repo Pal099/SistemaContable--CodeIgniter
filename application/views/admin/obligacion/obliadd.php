@@ -201,7 +201,7 @@
       <!-- Botones de guardar y cancelar -->
       <div class="form-group">
                                <div class="col-md-6">
-                               <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                               <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</a>
                                </div> 
                                <div class="col-md-6">
                                     <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
