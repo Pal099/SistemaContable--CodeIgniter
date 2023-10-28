@@ -13,11 +13,6 @@ class Principal extends MY_Controller {
         $this->load->view("layouts/footer");
     }
 
-    protected function middleware()
-    {
-        return ['Sesion'];
-    }
-
     public function filtrar()
     {
         // Aquí realiza el filtrado si es necesario
