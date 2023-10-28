@@ -19,7 +19,7 @@ class Diario_obligaciones extends CI_Controller {
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/obligacion/oblilist", $data);
+        $this->load->view("admin/obligacion/obli_combined", $data);
         $this->load->view("layouts/footer");
     }
     
@@ -45,7 +45,7 @@ class Diario_obligaciones extends CI_Controller {
 	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliadd", $data); // Pasar los datos a la vista
+		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 

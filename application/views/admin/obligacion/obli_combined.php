@@ -2,14 +2,16 @@
 <html lang="es">
 <head>
     <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="<?php echo base_url('assets/js/obli_combined.js'); ?>"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/obli_combined.css'); ?>">
 
-    <!-- ... (otros encabezados) ... -->
+        <!-- ... (otros encabezados) ... -->
 
-    <!-- En el <head> de tu documento -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- En el <head> de tu documento -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 <body>
@@ -159,9 +161,9 @@
                         </div>
                     </div>
                 </div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+        </div>
+     </div>
                 <div class="row">
                             <!-- Campos opcionales (ocultos por defecto) -->
                             <div class="row optional-fields">
@@ -294,9 +296,6 @@
                                 <?php endif; ?>
                             </tbody>
                         </table>
-
-
-
                 <!-- Botones -->
                 <div class="row">
                     <div class="col-md-12">
@@ -359,145 +358,6 @@
 </div>
 
 
-
-
-<!-- Contenedor del modal de programa, ff, of -->
-</div>
-<div class="modal-container_obli" id="modalContainer_obli">
-    <div class="modal-content_obli">
-        <span class="close" id="closeModalBtn_obli">&times;</span>
-        <h3>Tabla dinámica</h3>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Nombre Programa</th>
-                    <th>Fuente de Financiamiento</th>
-                    <th>Origen de Financiamiento</th>
-                    <th>Numero de cuenta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($gastos as $index => $gasto): ?>
-                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>')">
-                        
-                        <td><?= $gasto->nombre_programa ?></td>
-                        <td><?= $gasto->nombre_fuente ?></td>
-                        <td><?= $gasto->nombre_origen ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<script>
-    // Función para abrir el modal
-    function openModal() {
-        var modalContainer = document.getElementById('modalContainer');
-        modalContainer.style.display = 'flex';
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-        var modalContainer = document.getElementById('modalContainer');
-        modalContainer.style.display = 'none';
-    }
-
-   // Función para seleccionar un proveedor
-   function selectProveedor(ruc, razonSocial, direccion) {
-        // Actualizar los campos de texto en la vista principal
-        document.getElementById('ruc').value = ruc;
-        document.getElementById('contabilidad').value = razonSocial;
-        document.getElementById('tesoreria').value = razonSocial;
-        document.getElementById('direccion').value = direccion;
-
-
-        
-        closeModal(); // Cierra el modal después de seleccionar un proveedor
-    }
-
-    // Agregar evento al botón "Nuevo" para abrir el modal
-    const openModalBtn = document.getElementById("openModalBtn");
-    openModalBtn.addEventListener("click", () => {
-        openModal();
-    });
-
-    // Agregar evento al botón de cerrar para cerrar el modal
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    closeModalBtn.addEventListener("click", () => {
-        closeModal();
-    });
-</script>
-
-
-<script>
-    // Manejar la visibilidad de los campos opcionales
-    const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
-    const optionalFields = document.querySelector(".optional-fields");
-
-    optionalFieldsSwitch.addEventListener("change", () => {
-        if (optionalFieldsSwitch.checked) {
-            optionalFields.style.display = "block";
-        } else {
-            optionalFields.style.display = "none";
-        }
-        
-
-    });
-</script>
-
-<script>
-    // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
-    function obtenerFechaActual() {
-        const fecha = new Date();
-        const dia = fecha.getDate().toString().padStart(2, '0');
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-        const año = fecha.getFullYear();
-        return `${dia}-${mes}-${año}`;
-    }
-
-    // Preestablecer el campo de fecha con la fecha actual
-    const fechaInput = document.getElementById('fecha');
-    fechaInput.value = obtenerFechaActual();
-</script>
-
-
-
-
-
-<script>
-    // Función para abrir el modal de programas
-    function openModal_obli() {
-        var modalContainer = document.getElementById('modalContainer_obli');
-        modalContainer.style.display = 'flex';
-    }
-
-    // Función para cerrar el modal de programas
-    function closeModal_obli() {
-        var modalContainer = document.getElementById('modalContainer_obli');
-        modalContainer.style.display = 'none';
-    }
-
-    // Función para seleccionar un programa
-    function selectPrograma(nombre) {
-        // Actualizar los campos de texto en la vista principal
-        document.getElementById('nombre').value = nombre;
-        
-        closeModal_obli(); // Cierra el modal después de seleccionar un programa
-    }
-
-    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
-    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
-    openModalBtn_obli.addEventListener("click", () => {
-        openModal_obli();
-    });
-
-    // Agregar evento al botón de cerrar para cerrar el modal de programas
-    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
-    closeModalBtn_obli.addEventListener("click", () => {
-        closeModal_obli();
-    });
-</script>
 
 </body>
 </html>
