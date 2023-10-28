@@ -92,3 +92,42 @@ closeModalBtn_obli.addEventListener("click", () => {
     closeModalBtn.addEventListener("click", () => {
         closeModal();
     });
+    document.addEventListener('DOMContentLoaded', function() {
+        const mostrarCamposBtn = document.getElementById('mostrarCamposBtn');
+        const modal = document.getElementById('camposOpcionalesModal');
+        const cerrarModal = document.getElementById('cerrarModal');
+        const guardarBtn = document.getElementById('guardarBtn');
+        const cancelarBtn = document.getElementById('cancelarBtn');
+    
+        mostrarCamposBtn.addEventListener('click', function() {
+          modal.style.display = 'block';
+        });
+    
+        cerrarModal.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+    
+        guardarBtn.addEventListener('click', function() {
+          // Obtener los valores de los campos opcionales
+          const pedi_matricula = document.getElementById('pedi_matricula').value;
+          const modalidad = document.getElementById('modalidad').value;
+          // ... otros campos opcionales ...
+    
+          // Asignar los valores de los campos opcionales al formulario principal
+          document.getElementById('pedi_matricula_main').value = pedi_matricula;
+          document.getElementById('modalidad_main').value = modalidad;
+          // ... asignar otros campos opcionales al formulario principal ...
+    
+          modal.style.display = 'none';
+        });
+    
+        cancelarBtn.addEventListener('click', function() {
+          modal.style.display = 'none';
+        });
+    
+        window.addEventListener('click', function(event) {
+          if (event.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });

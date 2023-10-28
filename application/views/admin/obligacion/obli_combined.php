@@ -5,12 +5,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="<?php echo base_url('assets/js/obli_combined.js'); ?>"></script>
+    <script src="<?php echo base_url('./assets/js/obli_combined.js'); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/obli_combined.css'); ?>">
-
-        <!-- ... (otros encabezados) ... -->
-
-        <!-- En el <head> de tu documento -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
@@ -42,9 +38,9 @@
                             <span class="optional-fields-title">Campos opcionales</span>
                             <!-- Botón "Nuevo" para abrir el modal -->
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-                     <i class="bi bi-plus"></i> Nuevo
-</button>
-                                    <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
+                                 <i class="bi bi-plus"></i> Nuevo
+                            </button>
+                            <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
                         </div>
@@ -55,7 +51,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
-
+                        <form id="formPrincipal" action="<?php echo base_url();?>obligaciones/diario_obligaciones/store" method="POST">
                         <div class="main-fields">
                             <div class="form-group">
                                 <label for="ruc">Ruc:</label>
@@ -90,6 +86,81 @@
                                 <label for="fecha">Fecha:</label>
                                 <input type="text" class="form-control" id="fecha" name="fecha">
                             </div>
+                        </div>
+                             <!-- Primer asiento de la obligación  -->
+
+                        <div class="main-fields">
+                            <div class="form-group">
+
+                            <label for="IDCuentaContable">Cuenta Contable:</label>
+                            <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
+                            <?php foreach($cuentacontable as $cc): ?>
+                                <option value="<?php echo $cc->id; ?>"><?php echo $cc->nombre; ?></option>
+                            <?php endforeach; ?>
+                            </select>
+                            </div>
+                             <!-- Monto de Pago -->
+                            <div class="form-group">
+                                <label for="MontoPago">Monto de Pago:</label>
+                                <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+                            </div>
+
+                            <!-- Debe -->
+                            <div class="form-group">
+                                <label for="Debe">Debe:</label>
+                                <input type="text" class="form-control" id="Debe" name="Debe">
+                            </div>
+
+                            <!-- Haber -->
+                            <div class="form-group">
+                                <label for="Haber">Haber:</label>
+                                <input type="text" class="form-control" id="Haber" name="Haber">
+                            </div>
+
+                            <!-- Comprobante -->
+                            <div class="form-group">
+                                <label for="comprobante">Comprobante:</label>
+                                <input type="text" class="form-control" id="comprobante" name="comprobante">
+                            </div>
+
+                            <!-- Origen de Financiamiento -->
+                            <div class="form-group">
+                                <label for="id_of">Origen de Financiamiento:</label>
+                                <select class="form-control" id="id_of" name="id_of">
+                                    <?php foreach($origen_de_financiamiento as $of): ?>
+                                        <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Programa -->
+                            <div class="form-group">
+                                <label for="id_pro">Programa:</label>
+                                <select class="form-control" id="id_pro" name="id_pro">
+                                    <?php foreach($programa as $prog): ?>
+                                        <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Fuente de Financiamiento -->
+                            <div class="form-group">
+                                <label for="id_ff">Fuente de Financiamiento:</label>
+                                <select class="form-control" id="id_ff" name="id_ff">
+                                    <?php foreach($fuente_de_financiamiento as $ff): ?>
+                                        <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <!-- Cheque -->
+                            <div class="form-group">
+                                <label for="cheques_che_id">Cheque ID:</label>
+                                <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
+                            </div>
+                        </div>
+                         <!-- Segundo asiento de la obligación  -->
+                        <div class="main-fields">
                             <div class="form-group">
                             <label for="IDCuentaContable">Cuenta Contable:</label>
                             <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
@@ -127,7 +198,7 @@
                                 <label for="id_of">Origen de Financiamiento:</label>
                                 <select class="form-control" id="id_of" name="id_of">
                                     <?php foreach($origen_de_financiamiento as $of): ?>
-                                        <option value="<?php echo $of->id; ?>"><?php echo $of->nombre; ?></option>
+                                        <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -137,7 +208,7 @@
                                 <label for="id_pro">Programa:</label>
                                 <select class="form-control" id="id_pro" name="id_pro">
                                     <?php foreach($programa as $prog): ?>
-                                        <option value="<?php echo $prog->id; ?>"><?php echo $prog->nombre; ?></option>
+                                        <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -147,7 +218,7 @@
                                 <label for="id_ff">Fuente de Financiamiento:</label>
                                 <select class="form-control" id="id_ff" name="id_ff">
                                     <?php foreach($fuente_de_financiamiento as $ff): ?>
-                                        <option value="<?php echo $ff->id; ?>"><?php echo $ff->nombre; ?></option>
+                                        <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -157,8 +228,8 @@
                                 <label for="cheques_che_id">Cheque ID:</label>
                                 <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                             </div>
-
                         </div>
+                        
                     </div>
                 </div>
             </div>

@@ -10,12 +10,17 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
+		
 	}
-
+	
 	
 	public function index() {
 		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
 		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
+		$data['programa'] = $this->Diario_obli_model->getProgramas();  // Obtener la lista de proveedores
+		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentesFinanciamiento();  // Obtener la lista de proveedores
+		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenesFinanciamiento();  // Obtener la lista de proveedores
+		$data['cuentacontable'] = $this->Diario_obli_model->getCuentaContable();  // Obtener la lista de cuentas contables
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
@@ -23,15 +28,15 @@ class Diario_obligaciones extends CI_Controller {
         $this->load->view("layouts/footer");
     }
     
-    public function get_proveedores() {
-        $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(),
-			'programa' => $this->Diario_obli_model->getProgramas(),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-        );
-        echo json_encode($data);
-    }
+    // public function get_proveedores() {
+    //     $data  = array(
+    //         'proveedores' => $this->Proveedores_model->getProveedores(),
+	// 		'programa' => $this->Diario_obli_model->getProgramas(),
+	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+    //     );
+    //     echo json_encode($data);
+    // }
 	
 	public function add(){
 
@@ -50,31 +55,52 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function store(){
-		//acá se añaden las validaciones del form 
+		$numero = $this->input->post("numero");
+		$contabilidad = $this->input->post("contabilidad");
+		$direccion = $this->input->post("direccion");
+        $telefono = $this->input->post("telefono");
+		$observacion = $this->input->post("observacion");
+		$fecha = $this->input->post("fecha");
+        $tesoreria = $this->input->post("tesoreria");
+		$comprobante = $this->input->post("comprobante");
+		$programa_id_pro = $this->input->post("id_pro");
+		$fuente_de_financiamiento = $this->input->post("id_ff");
+		$orifen_de_financiamiento = $this->input->post("id_of");
+		//-----------------//---------------------------
+		$pedi_matricula = $this->input->post("pedi_matricula");
+        $modalidad = $this->input->post("modalidad");
+		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
+		$unidad_respon = $this->input->post("unidad_respon");
+		$proyecto = $this->input->post("proyecto");
+		$estado = $this->input->post("estado");
+		$nro_pac = $this->input->post("nro_pac");
+		$nro_exp = $this->input->post("nro_exp");
+		$total = $this->input->post("total");
+		$pagado = $this->input->post("pagado");
         $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
 
         if ($this->form_validation->run()==TRUE) {
 			$data  = array(
-				'ruc' => $this->input->post("ruc"),
-				'numero' => $this->input->post("numero"),
-				'contabilidad' => $this->input->post("contabilidad"),
-				'direccion' => $this->input->post("direccion"),
-				'telefono' => $this->input->post("telefono"),
-				'observacion' => $this->input->post("observacion"),
-				'fecha' => $this->input->post("fecha"),
-				'tesoreria' => $this->input->post("tesoreria"),
-				'pedi_matricula' => $this->input->post("pedi_matricula"),
-				'modalidad' => $this->input->post("modalidad"),
-				'tipo_presupuesto' => $this->input->post("tipo_presupuesto"),
-				'unidad_respon' => $this->input->post("unidad_respon"),
-				'proyecto' => $this->input->post("proyecto"),
-				'estado' => $this->input->post("estado"),
-				'nro_pac' => $this->input->post("nro_pac"),
-				'nro_exp' => $this->input->post("nro_exp"),
-				'total' => $this->input->post("total"),
-				'pagado' => $this->input->post("pagado"),
-				'estado_bd' => "1"			
-
+                'ruc' => $ruc,
+				'numero' => $numero, 
+				'contabilidad' => $contabilidad,
+				'direccion' => $direccion,
+                'telefono' => $telefono,
+                'observacion' => $observacion,
+                'fecha' => $fecha,
+                'tesoreria' => $tesoreria,
+				'comprobante' => $comprobante,
+                'pedi_matricula' => $pedi_matricula,
+                'modalidad' => $modalidad,
+                'tipo_presupuesto' => $tipo_presupuesto,
+                'unidad_respon' => $unidad_respon,
+                'proyecto' => $proyecto,
+                'estado' => $estado,
+                'nro_pac' => $nro_pac,
+                'nro_exp' => $nro_exp,
+                'total' => $total,
+                'pagado' => $pagado,
+				'estado_bd' => "1"
 			);
 
 			if ($this->Diario_obli_model->save($data)) {
@@ -104,7 +130,7 @@ class Diario_obligaciones extends CI_Controller {
 					'Haber' => $this->input->post("Haber"),
 					'comprobante' => $this->input->post("comprobante"),
 					'id_of' => $this->input->post("id_of"),
-					'id_pro' => $this->input->post("id_pro"),
+					'id_pro' => $this->input->post("programa_id_pro"),
 					'id_ff' => $this->input->post("id_ff"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
 					'proveedores_id' => $this->input->post("proveedores_id"),

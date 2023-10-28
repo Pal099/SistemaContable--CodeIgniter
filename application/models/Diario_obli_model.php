@@ -21,7 +21,7 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->update('num_asi', $data);
     }
-	public function eliminar_asiento($id) {a
+	public function eliminar_asiento($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
@@ -91,7 +91,6 @@ class Diario_obli_model extends CI_Model {
 		$this->db->trans_start();  // Iniciar transacción
 	
 		$this->db->insert('num_asi', $data);  
-	
 		$this->db->insert('num_asi_deta', $dataDetaDebe); 
 		$this->db->insert('num_asi_deta', $dataDetaHaber);  
 	
@@ -103,11 +102,9 @@ class Diario_obli_model extends CI_Model {
 	public function getDiarios_obli() {
 		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
 		$this->db->from('num_asi_deta');
-		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
-		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
-		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
-	
-		
+		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
+		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
+		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
 		$query = $this->db->get();
 	}	
 	public function getCuentaContable() {
