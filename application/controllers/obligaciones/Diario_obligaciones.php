@@ -17,6 +17,10 @@ class Diario_obligaciones extends CI_Controller {
 	public function index() {
 		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
 		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
+		$data['programa'] = $this->Diario_obli_model->getProgramas();  
+		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentesFinanciamiento();  
+		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenesFinanciamiento(); 
+		$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables(); 
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
@@ -59,6 +63,10 @@ class Diario_obligaciones extends CI_Controller {
 		$fecha = $this->input->post("fecha");
         $tesoreria = $this->input->post("tesoreria");
 		$comprobante = $this->input->post("comprobante");
+		$programa_id_pro = $this->input->post("id_pro");
+		$cuentacontable = $this->input->post("IDCuentaContable");
+		$fuente_de_financiamiento = $this->input->post("id_ff");
+		$orifen_de_financiamiento = $this->input->post("id_of");
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
         $modalidad = $this->input->post("modalidad");
@@ -109,6 +117,7 @@ class Diario_obligaciones extends CI_Controller {
 					'id_of' => $this->input->post("id_of"),
 					'id_pro' => $this->input->post("id_pro"),
 					'id_ff' => $this->input->post("id_ff"),
+					'cuentacontable' => $this->input->post("IDCuentaContable"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
 					'proveedores_id' => $this->input->post("proveedores_id"),
 					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
@@ -123,8 +132,10 @@ class Diario_obligaciones extends CI_Controller {
 					'Haber' => $this->input->post("Haber"),
 					'comprobante' => $this->input->post("comprobante"),
 					'id_of' => $this->input->post("id_of"),
-					'id_pro' => $this->input->post("id_pro"),
+					'id_pro' => $this->input->post("programa_id_pro"),
 					'id_ff' => $this->input->post("id_ff"),
+					'id_ff' => $this->input->post("id_ff"),
+					'cuentacontable' => $this->input->post("IDCuentaContable"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
 					'proveedores_id' => $this->input->post("proveedores_id"),
 					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera

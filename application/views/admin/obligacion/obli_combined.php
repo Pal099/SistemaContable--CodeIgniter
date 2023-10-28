@@ -8,8 +8,6 @@
     <script src="<?php echo base_url('assets/js/obli_combined.js'); ?>"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/obli_combined.css'); ?>">
 
-        <!-- ... (otros encabezados) ... -->
-
         <!-- En el <head> de tu documento -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -94,7 +92,7 @@
                             <label for="IDCuentaContable">Cuenta Contable:</label>
                             <select class="form-control" id="IDCuentaContable" name="IDCuentaContable">
                             <?php foreach($cuentacontable as $cc): ?>
-                                <option value="<?php echo $cc->id; ?>"><?php echo $cc->nombre; ?></option>
+                                <option value="<?php echo $cc->IDCuentaContable; ?>"><?php echo $cc->DescripcionCuentaContable; ?></option>
                             <?php endforeach; ?>
                             </select>
                             </div>
@@ -127,7 +125,7 @@
                                 <label for="id_of">Origen de Financiamiento:</label>
                                 <select class="form-control" id="id_of" name="id_of">
                                     <?php foreach($origen_de_financiamiento as $of): ?>
-                                        <option value="<?php echo $of->id; ?>"><?php echo $of->nombre; ?></option>
+                                        <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -135,9 +133,9 @@
                             <!-- Programa -->
                             <div class="form-group">
                                 <label for="id_pro">Programa:</label>
-                                <select class="form-control" id="id_pro" name="id_pro">
+                                <select class="form-control" id="id_pro" name="programa_id_pro">
                                     <?php foreach($programa as $prog): ?>
-                                        <option value="<?php echo $prog->id; ?>"><?php echo $prog->nombre; ?></option>
+                                        <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -147,7 +145,7 @@
                                 <label for="id_ff">Fuente de Financiamiento:</label>
                                 <select class="form-control" id="id_ff" name="id_ff">
                                     <?php foreach($fuente_de_financiamiento as $ff): ?>
-                                        <option value="<?php echo $ff->id; ?>"><?php echo $ff->nombre; ?></option>
+                                        <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -230,7 +228,6 @@
                                     </div>
                                 </div>
                             </div>
-\\re haciendo la vista
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -315,11 +312,6 @@
     <!-- /.content-wrapper -->
 <!-- Lista con las columnas -->
 
-<button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
-    <i class="bi bi-plus"></i> Seleccionar datos
-<button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
-   <i class="bi bi-plus"></i> Seleccionar datos
-</button>
 
 
 </main>

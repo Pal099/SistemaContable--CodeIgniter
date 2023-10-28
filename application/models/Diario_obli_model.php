@@ -21,7 +21,7 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->update('num_asi', $data);
     }
-	public function eliminar_asiento($id) {a
+	public function eliminar_asiento($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
@@ -49,6 +49,14 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi_Deta', $idDetalle);
         return $this->db->delete('num_asi_deta');
     }
+
+
+
+
+
+
+
+
 
 //desde acá es código de palo
 	public function getDiarios(){
@@ -88,6 +96,15 @@ class Diario_obli_model extends CI_Model {
 		$query = $this->db->get("origen_de_financiamiento");
 		return $query->result();
 	}
+
+    public function getCuentasContables(){
+        $this->db->where("estado", "1");
+        $resultados = $this->db->get("cuentacontable");
+        return $resultados->result();
+    }
+
+	
+
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
 		$this->db->trans_start();  // Iniciar transacción
