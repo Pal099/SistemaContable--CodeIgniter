@@ -184,7 +184,6 @@
 
 </head>
 <body>
-
 <main id="main" class="content">
     <!-- Content Wrapper. Contains page content -->
     <div class="content-container">
