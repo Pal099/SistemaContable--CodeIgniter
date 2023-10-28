@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Cuentas extends MY_Controller {
+class Cuentas extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
@@ -9,11 +9,7 @@ class Cuentas extends MY_Controller {
     }
 
 
-    protected function middleware()
-    {
-        return ['Sesion'];
-    }
-
+ 
     
     public function index()
     {

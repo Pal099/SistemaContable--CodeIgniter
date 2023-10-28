@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Programa extends MY_Controller {
+class Programa extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -11,10 +11,6 @@ class Programa extends MY_Controller {
 		
 	}
 
-	protected function middleware()
-    {
-        return ['Sesion'];
-    }
 
 	//----------------------Index Fuente--------------------------------------------------------
 

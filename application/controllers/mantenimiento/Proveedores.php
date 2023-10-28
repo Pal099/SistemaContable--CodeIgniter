@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proveedores extends MY_Controller {
+class Proveedores extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -10,11 +10,7 @@ class Proveedores extends MY_Controller {
 		$this->load->model("Proveedores_model");
 	}
 
-	protected function middleware()
-    {
-        return ['Sesion'];
-    }
-
+	
 	
 	public function index()
 	{

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal extends MY_Controller {
+class Principal extends CI_Controller {
 
     public function index()
     {
@@ -13,10 +13,7 @@ class Principal extends MY_Controller {
         $this->load->view("layouts/footer");
     }
 
-    protected function middleware()
-    {
-        return ['Sesion'];
-    }
+   
 
     public function filtrar()
     {
