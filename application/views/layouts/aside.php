@@ -35,6 +35,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuentaContable">
+                <i class="bi bi-person"></i><span>Cuenta Contable</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/financiamiento">
                 <i class="bi bi-cash-stack"></i><span>Fuente de financiamiento</span>
             </a>

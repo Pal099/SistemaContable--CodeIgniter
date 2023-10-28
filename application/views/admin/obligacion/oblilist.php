@@ -184,6 +184,7 @@
 
 </head>
 <body>
+
 <main id="main" class="content">
     <!-- Content Wrapper. Contains page content -->
     <div class="content-container">
@@ -211,7 +212,7 @@
                             <span class="optional-fields-title">Campos opcionales</span>
                             <!-- Botón "Nuevo" para abrir el modal -->
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-    <i class="bi bi-plus"></i> Nuevo
+                     <i class="bi bi-plus"></i> Nuevo
 </button>
                                     <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
@@ -223,6 +224,8 @@
                 <!-- Campos principales -->
                 <div class="row">
                     <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-hover">
+
                         <div class="main-fields">
                             <div class="form-group">
                                 <label for="ruc">Ruc:</label>
@@ -257,14 +260,9 @@
                                 <label for="fecha">Fecha:</label>
                                 <input type="text" class="form-control" id="fecha" name="fecha">
                             </div>
-                            <div class="comprobante-container" style="display: none;">
-                                <label for="comprobante">Comprobante:</label>
-                                <input type="text" id="comprobante" name="comprobante">
-                            </div>
                         </div>
                     </div>
                 </div>
-
 
 <!-- Campos opcionales (ocultos por defecto) -->
 <div class="row optional-fields">
@@ -329,7 +327,6 @@
                 </div>
             </div>
         </div>
-       
     </div>
 </div>
 
@@ -342,7 +339,7 @@
 <!-- Lista con las columnas -->
 <div class="row">
     <div class="col-md-12">
-        <table id="tablaolilist" class="table table-bordered table-hover dataTable">
+        <table id="example1" class="table table-bordered table-hover dataTable">
             <thead>
                 <tr>
                     <th>Programa</th>
@@ -358,7 +355,8 @@
         </table>
     </div>
 </div>
-<button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
+
+<button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
 </button>
 <div class="row mt-3">
@@ -439,59 +437,6 @@
         </table>
     </div>
 </div>
-
-
-<script>
-   document.addEventListener("DOMContentLoaded", function () {
-    // Agregar evento al botón "Cancelar"
-    const cancelarBtn = document.getElementById("cancelarBtn");
-    cancelarBtn.addEventListener("click", function () {
-        // Limpia el contenido de la tabla de datos seleccionados
-        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
-        const tbody = tablaDatosSeleccionados.querySelector("tbody");
-        tbody.innerHTML = ""; // Borra todas las filas
-
-        // Oculta el campo de comprobante
-        const comprobanteContainer = document.querySelector('.comprobante-container');
-        comprobanteContainer.style.display = 'none';
-    });
-
-});
-
-</script>
-
-
-<script>
-function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
-    // Captura la tabla principal por su ID
-    var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
-    
-    // Crea una nueva fila en la tabla
-    var fila = tabla.insertRow();
-
-    // Inserta celdas en la fila
-    var celdaPrograma = fila.insertCell(0);
-    var celdaFuente = fila.insertCell(1);
-    var celdaOrigen = fila.insertCell(2);
-    var celdaCuenta = fila.insertCell(3);
-
-    // Asigna los valores a las celdas
-    celdaPrograma.innerHTML = nombrePrograma;
-    celdaFuente.innerHTML = nombreFuente;
-    celdaOrigen.innerHTML = nombreOrigen;
-    celdaCuenta.innerHTML = numeroCuenta;
-
-     // Muestra el campo de comprobante
-     var comprobanteContainer = document.querySelector('.comprobante-container');
-    comprobanteContainer.style.display = 'block';
-
-    closeModal_obli()
-}
-</script>
-
-
-
-
 
 <script>
     // Función para abrir el modal
@@ -581,7 +526,13 @@ function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta
         modalContainer.style.display = 'none';
     }
 
- 
+    // Función para seleccionar un programa
+    function selectPrograma(nombre) {
+        // Actualizar los campos de texto en la vista principal
+        document.getElementById('nombre').value = nombre;
+        
+        closeModal_obli(); // Cierra el modal después de seleccionar un programa
+    }
 
     // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
     const openModalBtn_obli = document.getElementById("openModalBtn_obli");
