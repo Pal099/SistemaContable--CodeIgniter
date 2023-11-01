@@ -372,6 +372,13 @@
         </div>
     </div>
 </main>
+
+
+
+
+
+
+
 <!-- Contenedor del modal -->
 <div class="modal-container" id="modalContainer">
     <div class="modal-content">
@@ -405,6 +412,10 @@
         </table>
     </div>
 </div>
+
+
+
+
 
 
 
