@@ -78,7 +78,6 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
-        $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
 
         if ($this->form_validation->run()==TRUE) {
 			$data  = array(
@@ -196,7 +195,6 @@ class Diario_obligaciones extends CI_Controller {
 		if ($ruc == $obligacionactual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[diario_obli.ruc]";
 		}
         $this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
         if ($this->form_validation->run()==TRUE) {

@@ -27,26 +27,26 @@
                                 
                              </div>
                         <?php endif;?>
-                        <form action="<?php echo base_url();?>registro/financiamiento/store" method="POST">
-                            <div class="form-group">
-                                <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre">
-                            </div>
-                            <div class="form-group <?php echo form_error('codigo') == true ? 'has-error':''?>">
-                                <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo">
-                                <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
-                            </div>
-                            <div class="form-group">
-                               <div class="col-md-6">
-                                 <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
-                               </div> 
-                               <div class="col-md-6">
-                                    <a href="<?php echo base_url(); ?>registro/financiamiento" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                                 </div>
-                            </div>
-                        </form>
-                    </div>
+                              <form action="<?php echo base_url();?>registro/financiamiento/store" method="POST">
+                                  <div class="form-group">
+                                      <label for="nombre">Nombre:</label>
+                                      <input type="text" class="form-control" id="nombre" name="nombre">
+                                  </div>
+                                  <div class="form-group <?php echo form_error('codigo') == true ? 'has-error':''?>">
+                                      <label for="codigo">Codigo:</label>
+                                      <input type="text" class="form-control" id="codigo" name="codigo">
+                                      <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
+                                  </div>
+                                  <div class="form-group">
+                                    <div class="col-md-6">
+                                      <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                    </div> 
+                                    <div class="col-md-6">
+                                          <a href="<?php echo base_url(); ?>registro/financiamiento" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                      </div>
+                                  </div>
+                              </form>
+                      </div>
                 </div>
             </div>
             <!-- /.box-body -->

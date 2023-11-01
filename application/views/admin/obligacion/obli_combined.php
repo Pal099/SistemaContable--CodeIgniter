@@ -5,7 +5,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
     <script src="<?php echo base_url('assets/js/obli_combined.js'); ?>"></script>
+    
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/obli_combined.css'); ?>">
 
         <!-- En el <head> de tu documento -->
@@ -40,8 +42,7 @@
                             <span class="optional-fields-title">Campos opcionales</span>
                             <!-- Botón "Nuevo" para abrir el modal -->
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-                     <i class="bi bi-plus"></i> Nuevo
-</button>
+                     <i class="bi bi-plus"></i> Nuevo</button>
                                     <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
@@ -50,6 +51,7 @@
                 </div>
 
                 <!-- Campos principales -->
+                <form action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
                 <div class="row">
                     <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
@@ -162,6 +164,7 @@
             </div>
         </div>
      </div>
+     
                 <div class="row">
                             <!-- Campos opcionales (ocultos por defecto) -->
                             <div class="row optional-fields">
@@ -353,4 +356,8 @@
 
 </body>
 </html>
+
+
+
+
 
