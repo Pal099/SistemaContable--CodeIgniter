@@ -37,22 +37,26 @@ class Diario_obligaciones extends CI_CONTROLLER {
 	public function index() {
 		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
 		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
+		$data['programa'] = $this->Diario_obli_model->getProgramas();  // Obtener la lista de proveedores
+		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentesFinanciamiento();  // Obtener la lista de proveedores
+		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenesFinanciamiento();  // Obtener la lista de proveedores
+		$data['cuentacontable'] = $this->Diario_obli_model->getCuentaContable();  // Obtener la lista de cuentas contables
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/obligacion/oblilist", $data);
+        $this->load->view("admin/obligacion/obli_combined", $data);
         $this->load->view("layouts/footer");
     }
     
-    public function get_proveedores() {
-        $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(),
-			'programa' => $this->Diario_obli_model->getProgramas(),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-        );
-        echo json_encode($data);
-    }
+    // public function get_proveedores() {
+    //     $data  = array(
+    //         'proveedores' => $this->Proveedores_model->getProveedores(),
+	// 		'programa' => $this->Diario_obli_model->getProgramas(),
+	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+    //     );
+    //     echo json_encode($data);
+    // }
 	
 	public function add(){
 
@@ -66,7 +70,7 @@ class Diario_obligaciones extends CI_CONTROLLER {
 	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliadd", $data); // Pasar los datos a la vista
+		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
@@ -140,7 +144,7 @@ class Diario_obligaciones extends CI_CONTROLLER {
 					'Haber' => $this->input->post("Haber"),
 					'comprobante' => $this->input->post("comprobante"),
 					'id_of' => $this->input->post("id_of"),
-					'id_pro' => $this->input->post("id_pro"),
+					'id_pro' => $this->input->post("programa_id_pro"),
 					'id_ff' => $this->input->post("id_ff"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
 					'proveedores_id' => $this->input->post("proveedores_id"),
@@ -201,7 +205,7 @@ class Diario_obligaciones extends CI_CONTROLLER {
 		if ($ruc == $obligacionactual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[diario_obli.ruc]";
+			// $is_unique = "|is_unique[diario_obligaciones.ruc]";
 		}
         $this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
         if ($this->form_validation->run()==TRUE) {
