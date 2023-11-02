@@ -11,7 +11,9 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
 		
+		
 	}
+	
 	
 	
 	public function index() {
@@ -28,15 +30,15 @@ class Diario_obligaciones extends CI_Controller {
         $this->load->view("layouts/footer");
     }
     
-    public function get_proveedores() {
-        $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(),
-			'programa' => $this->Diario_obli_model->getProgramas(),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-        );
-        echo json_encode($data);
-    }
+    // public function get_proveedores() {
+    //     $data  = array(
+    //         'proveedores' => $this->Proveedores_model->getProveedores(),
+	// 		'programa' => $this->Diario_obli_model->getProgramas(),
+	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+    //     );
+    //     echo json_encode($data);
+    // }
 	
 	public function add(){
 
@@ -81,6 +83,26 @@ class Diario_obligaciones extends CI_Controller {
 
         if ($this->form_validation->run()==TRUE) {
 			$data  = array(
+                'ruc' => $ruc,
+				'numero' => $numero, 
+				'contabilidad' => $contabilidad,
+				'direccion' => $direccion,
+                'telefono' => $telefono,
+                'observacion' => $observacion,
+                'fecha' => $fecha,
+                'tesoreria' => $tesoreria,
+				'comprobante' => $comprobante,
+                'pedi_matricula' => $pedi_matricula,
+                'modalidad' => $modalidad,
+                'tipo_presupuesto' => $tipo_presupuesto,
+                'unidad_respon' => $unidad_respon,
+                'proyecto' => $proyecto,
+                'estado' => $estado,
+                'nro_pac' => $nro_pac,
+                'nro_exp' => $nro_exp,
+                'total' => $total,
+                'pagado' => $pagado,
+				'estado_bd' => "1",
                 'ruc' => $ruc,
 				'numero' => $numero, 
 				'contabilidad' => $contabilidad,

@@ -110,13 +110,17 @@ class Diario_obli_model extends CI_Model {
 		$this->db->trans_start();  // Iniciar transacción
 	
 		$this->db->insert('num_asi', $data);  
-	
 		$this->db->insert('num_asi_deta', $dataDetaDebe); 
 		$this->db->insert('num_asi_deta', $dataDetaHaber);  
 	
 		$this->db->trans_complete();  // Completar transacción
 	
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
+	}
+	
+	public function getCuentaContable() {
+		$query = $this->db->get("cuentacontable");
+		return $query->result();
 	}
 
 	public function getDiarios_obli() {
@@ -130,11 +134,6 @@ class Diario_obli_model extends CI_Model {
 		
 		$query = $this->db->get();
 	}	
-	public function getCuentaContable() {
-		$query = $this->db->get("cuentacontable");
-
-		return $query->result();
-	}
 
 
 //	public function getDiarios_obli() {
