@@ -55,6 +55,7 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function store(){
+
 		$numero = $this->input->post("numero");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
@@ -65,7 +66,8 @@ class Diario_obligaciones extends CI_Controller {
 		$comprobante = $this->input->post("comprobante");
 		$programa_id_pro = $this->input->post("id_pro");
 		$fuente_de_financiamiento = $this->input->post("id_ff");
-		$orifen_de_financiamiento = $this->input->post("id_of");
+		$origen_de_financiamiento = $this->input->post("id_of");
+		$cuentacontable = $this->input->post("IDCuentaContable");
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
         $modalidad = $this->input->post("modalidad");
@@ -77,7 +79,7 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
-        $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
+       // $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
 
         if ($this->form_validation->run()==TRUE) {
 			$data  = array(
@@ -192,7 +194,7 @@ class Diario_obligaciones extends CI_Controller {
 		if ($ruc == $obligacionactual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[diario_obli.ruc]";
+			// $is_unique = "|is_unique[diario_obligaciones.ruc]";
 		}
         $this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
         if ($this->form_validation->run()==TRUE) {
