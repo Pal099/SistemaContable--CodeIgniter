@@ -1,39 +1,205 @@
-<main id="main" class="main">
-  <!-- Content Wrapper. Contains page content -->
-  <div class="pagetitle">
-    <h1>Diario de Obligaciones</h1>
-    <nav>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
-        <li class="breadcrumb-item active">Diario de Obligaciones</li>
-      </ol>
-    </nav>
-  </div><!-- End Page Title -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-  <section class="section dashboard">
-    <div class="row">
-      <!-- Left side columns -->
-      <div class="col-lg-12">
-        <div class="row">
-          <div class="checkbox-container">
-            <label>
-              <input type="checkbox" id="checkboxCamposOpcionales"> Habilitar campos opcionales
-            </label>
-          </div>
-        </div>
-        <hr>
+    <!-- ... (otros encabezados) ... -->
+    <style>
+     
+    
 
-        <!-- Formulario para agregar obligaciones -->
-        <div class="row">
-          <!-- Left side columns -->
-          <div class="box box-solid">
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-12">
-                  <?php if ($this->session->flashdata("error")): ?>
-                    <div class="alert alert-danger alert-dismissible">
-                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
+  /* Estilo para el contenedor del modal */
+.modal-container {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    /* Estilos para el contenido del modal */
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%; /* Ajusta el ancho del contenido del modal */
+    margin-top: 20%; /* Ajusta el margen superior para centrarlo más abajo */
+    transform: translateY(-50%); /* Centrado vertical */
+}
+
+
+/* Estilo para el contenedor del modal de programas  */
+.modal-container_obli {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content_obli {
+    /* Estilos para el contenido del modal */
+    background-color: #fefefe;
+    border: 1px solid #888;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%; /* Ajusta el ancho del contenido del modal */
+    margin-top: 20%; /* Ajusta el margen superior para centrarlo más abajo */
+    transform: translateY(-50%); /* Centrado vertical */
+}
+
+
+
+        /* Estilos para el contenedor con marco */
+        .content-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+
+        /* Estilos para el título de la página */
+        .pagetitle {
+            margin-bottom: 1px;
+            padding-bottom: 10px;
+        }
+
+        /* Estilos para los botones de acciones */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-group .btn {
+            margin-right: 5px;
+        }
+
+        /* Estilo para el contenedor del contenido */
+        .content {
+            background-color: #DCE1FF; /* Cambia el color a tu preferencia */
+            padding: 20px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
+            color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
+        }
+
+        /* Estilos para los campos opcionales */
+        .optional-fields {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-left: 1px;
+            margin-top: 12px;
+            border-radius: 10px;
+        }
+
+        /* Estilos para el switch deslizable */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 20px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(20px);
+            -ms-transform: translateX(20px);
+            transform: translateX(20px);
+        }
+
+        /* Estilos para los campos principales */
+        .main-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+    </style>
+    <!-- En el <head> de tu documento -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+
+<main id="main" class="content">
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-container">
+        <div class="pagetitle">
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="bi bi-house breadcrumb-item"><a href="<?php echo base_url(); ?>"> Inicio</a></li>
+                    <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
+                </ol>
+            </nav>
+            <h1>Diario de Obligaciones</h1>
+        </div><!-- End Page Title -->
+
+        <section class="section dashboard">
+            <div class="row">
+                <!-- Left side columns -->
+                <div class="row">
+                    <div class="col-md-12 d-flex align-items-center">
+                        <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
+                        <div class="btn-group">
+                            <label class="switch" for="optionalFieldsSwitch">
+                                <input type="checkbox" id="optionalFieldsSwitch">
+                                <span class="slider"></span>
+                            </label>
+                            <span class="optional-fields-title">Campos opcionales</span>
+                            <!-- Botón "Nuevo" para abrir el modal -->
+                            <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
+                     <i class="bi bi-plus"></i> Nuevo
+</button>
+                                    <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </div>
                     </div>
                   <?php endif; ?>
                   <form id="formPrincipal" action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
@@ -132,102 +298,116 @@
                 </div>
               </div>
             </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+<!-- Lista con las columnas -->
 
-        <!-- Tabla de Obligaciones -->
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table id="example1" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
+<button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
+    <i class="bi bi-plus"></i> Seleccionar datos
+<button class="btn btn-sm btn-primary btn-select-datos" title="Seleccione datos para su carga" id="openModalBtn_obli">
+   <i class="bi bi-plus"></i> Seleccionar datos
+</button>
+
+
+</main>
+<!-- Contenedor del modal -->
+<div class="modal-container" id="modalContainer">
+    <div class="modal-content">
+        <span class="close" id="closeModalBtn">&times;</span>
+        <h3>Lista de Proveedores</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
                     <th>#</th>
                     <th>Ruc</th>
-                    <th>Numero</th>
-                    <th>Contabilidad</th>
+                    <th>Razón Social</th>
                     <th>Dirección</th>
                     <th>Teléfono</th>
+                    <th>Email</th>
                     <th>Observación</th>
-                    <th>Fecha</th>
-                    <th>Opciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php if (!empty($obligaciones)): ?>
-                    <?php foreach ($obligaciones as $obligacion): ?>
-                      <tr>
-                        <td><?php echo $obligacion->id; ?></td>
-                        <td><?php echo $obligacion->ruc; ?></td>
-                        <td><?php echo $obligacion->numero; ?></td>
-                        <td><?php echo $obligacion->contabilidad; ?></td>
-                        <td><?php echo $obligacion->direccion; ?></td>
-                        <td><?php echo $obligacion->telefono; ?></td>
-                        <td><?php echo $obligacion->observacion; ?></td>
-                        <td><?php echo $obligacion->fecha; ?></td>
-                        <td>
-                          <div class="btn-group">
-                            <button type="button" class="btn btn-info btn-view-diario_obligaciones" data-toggle="modal"
-                              data-target="#modal-default" value="<?php echo $obligacion->id; ?>">
-                              <span class="fa fa-search"></span>
-                            </button>
-                            <a href="<?php echo base_url() ?>obligaciones/diario_obligaciones/edit/<?php echo $obligacion->id; ?>"
-                              class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                            <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/delete/<?php echo $obligacion->id; ?>"
-                              class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                          </div>
-                        </td>
-                      </tr>
-                    <?php endforeach; ?>
-                  <?php endif; ?>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- /.box-body -->
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($proveedores as $index => $proveedor): ?>
+                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')">
+                        <td><?= $index + 1 ?></td>
+                        <td><?= $proveedor->ruc ?></td>
+                        <td><?= $proveedor->razon_social ?></td>
+                        <td><?= $proveedor->direccion ?></td>
+                        <td><?= $proveedor->telefono ?></td>
+                        <td><?= $proveedor->email ?></td>
+                        <td><?= $proveedor->observacion ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
-    <!-- /.box -->
-  </section>
-  <!-- /.content -->
+</div>
+
+
+
+
+<!-- Contenedor del modal de programa, ff, of -->
+</div>
+<div class="modal-container_obli" id="modalContainer_obli">
+    <div class="modal-content_obli">
+        <span class="close" id="closeModalBtn_obli">&times;</span>
+        <h3>Tabla dinámica</h3>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Nombre Programa</th>
+                    <th>Fuente de Financiamiento</th>
+                    <th>Origen de Financiamiento</th>
+                    <th>Numero de cuenta</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($gastos as $index => $gasto): ?>
+                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>')">
+                        
+                        <td><?= $gasto->nombre_programa ?></td>
+                        <td><?= $gasto->nombre_fuente ?></td>
+                        <td><?= $gasto->nombre_origen ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <!-- /.content-wrapper -->
 </main>
 
+<main id="main" class="main">
+  <!-- Content Wrapper. Contains page content -->
+  <!-- ... (código anterior) ... -->
 
-<style>
-  /* ... (estilos existentes) ... */
+  <style>
+    /* Estilos personalizados para la tabla */
+    .table {
+      font-size: 14px;
+    }
 
-  /* Estilos para ocultar los campos opcionales */
-  #camposOpcionales {
-    display: none;
-  }
+    .table thead th {
+      background-color: #f2f2f2;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
 
-  /* Estilos para el checkbox */
-  .checkbox-container {
-    margin-top: 15px;
-  }
+    .table tbody td {
+      vertical-align: middle;
+    }
 
-  .checkbox-container label {
-    font-weight: normal;
-  }
-</style>
+    /* Estilos para los botones de acciones */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const checkboxCamposOpcionales = document.getElementById('checkboxCamposOpcionales');
-    const camposOpcionales = document.getElementById('camposOpcionales');
-
-    checkboxCamposOpcionales.addEventListener('change', function() {
-      if (checkboxCamposOpcionales.checked) {
-        camposOpcionales.style.display = 'block';
-      } else {
-        camposOpcionales.style.display = 'none';
-      }
-    });
-  });
-</script>
+    .btn-group .btn {
+      margin-right: 5px;
+    }
+  </style>
+</main>

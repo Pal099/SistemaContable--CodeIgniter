@@ -1,6 +1,5 @@
 <!-- =============================================== -->
 <main id="main" class="main">
-
     <div class="pagetitle">
         <h1>Informe Gerencial</h1>
         <nav>
