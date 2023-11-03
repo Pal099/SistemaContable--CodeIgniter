@@ -127,7 +127,7 @@ class Diario_obligaciones extends CI_Controller {
 
 			if ($this->Diario_obli_model->save($data)) {
 				$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
-							// Datos para num_asi_deta (Asumo que estás obteniendo estos datos del formulario. Modifica según tus necesidades)
+							
 				$dataDetaDebe  = array(
 					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
 					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
