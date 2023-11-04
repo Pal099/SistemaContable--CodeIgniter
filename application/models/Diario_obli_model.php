@@ -59,6 +59,22 @@ class Diario_obli_model extends CI_Model {
 
 
 //desde acá es código de palo
+
+public function getProveedorIdByRuc($ruc) {
+    $this->db->select('id'); 
+    $this->db->where('ruc', $ruc);
+    $query = $this->db->get('proveedores'); 
+
+    if ($query->num_rows() > 0) {
+        $row = $query->row();
+        return $row->id; 
+    } else {
+        return false; 
+    }
+}
+
+
+
 	public function getDiarios(){
 		$this->db->where("estado","1");
 		$resultados = $this->db->get("proveedores");
@@ -124,13 +140,14 @@ class Diario_obli_model extends CI_Model {
 	}
 
 	public function getDiarios_obli() {
-		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		$this->db->from('num_asi_deta');
+		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
+		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
 		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
 		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
+		$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
 	
-		
 		$query = $this->db->get();
 	}	
 

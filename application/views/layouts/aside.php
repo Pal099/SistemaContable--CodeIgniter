@@ -7,7 +7,7 @@
             </a>
         </li>     
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">
                 <i class="bi  bi-book"></i><span>Diario de obligaciones</span>
             </a>
         </li>    

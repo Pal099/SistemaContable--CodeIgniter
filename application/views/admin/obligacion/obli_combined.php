@@ -1,5 +1,33 @@
 <style>
-    
+   .notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50; /* Color de fondo del cuadro */
+    color: white; /* Color del texto */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    width: 200px; /* Ancho del cuadro */
+    text-align: center; /* Alineación del texto */
+    z-index: 9999; /* Asegúrate de que esté en la parte superior */
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon img {
+    width: 64px; /* Tamaño de la imagen */
+}
+
+.message {
+    margin-top: 10px;
+}
+
 /* Estilo para el contenedor del modal */
 .modal-container {
   display: none;
@@ -157,7 +185,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="styles.css">
 
 </head>
 <body>
@@ -208,6 +236,7 @@
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
+
                                                         <div class="form-group">
                                                             <label for="numero">Numero:</label>
                                                             <input type="text" class="form-control" id="numero" name="numero">
@@ -240,8 +269,8 @@
                                                         <!-- Primer asiento de la obligación  -->
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
+                                                            <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                         <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
@@ -305,7 +334,7 @@
 
                                                         <!-- Cheque -->
                                                         <div class="form-group">
-                                                            <label for="cheques_che_id">Cheque ID:</label>
+                                                            <label for="">Cheque ID:</label>
                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                         </div>
                                                     </div>
@@ -321,6 +350,11 @@
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
+                                                        <!-- Campo oculto para el select, para poder separar IDCuentaContable-->
+                                                        <div class="form-group" style="display: none;">
+                                                            <label for="cuentacontable_text">Cuenta Contable Seleccionada:</label>
+                                                            <input type="text" class="form-control" id="cuentacontable_text" name="cuentacontable_text" readonly>
+                                                        </div>
 
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
@@ -330,26 +364,26 @@
 
                                                         <!-- Debe -->
                                                         <div class="form-group">
-                                                            <label for="Debe">Debe:</label>
-                                                            <input type="text" class="form-control" id="Debe" name="Debe">
+                                                            <label for="Debe_2">Debe:</label>
+                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
                                                         </div>
 
                                                         <!-- Haber -->
                                                         <div class="form-group">
-                                                            <label for="Haber">Haber:</label>
-                                                            <input type="text" class="form-control" id="Haber" name="Haber">
+                                                            <label for="Haber_2">Haber:</label>
+                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
                                                         </div>
 
                                                         <!-- Comprobante -->
                                                         <div class="form-group">
-                                                            <label for="comprobante">Comprobante:</label>
-                                                            <input type="text" class="form-control" id="comprobante" name="comprobante">
+                                                            <label for="comprobante_2">Comprobante:</label>
+                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
                                                         </div>
 
                                                         <!-- Origen de Financiamiento -->
                                                         <div class="form-group">
-                                                            <label for="id_of">Origen de Financiamiento:</label>
-                                                            <select class="form-control" id="id_of" name="id_of">
+                                                            <label for="id_of_2">Origen de Financiamiento:</label>
+                                                            <select class="form-control" id="id_of_2" name="id_of_2">
                                                                 <?php foreach($origen_de_financiamiento as $of): ?>
                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                 <?php endforeach; ?>
@@ -358,8 +392,8 @@
 
                                                         <!-- Programa -->
                                                         <div class="form-group">
-                                                            <label for="id_pro">Programa:</label>
-                                                            <select class="form-control" id="id_pro" name="id_pro">
+                                                            <label for="id_pro_2">Programa:</label>
+                                                            <select class="form-control" id="id_pro_2" name="id_pro_2">
                                                                 <?php foreach($programa as $prog): ?>
                                                                     <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
                                                                 <?php endforeach; ?>
@@ -368,8 +402,8 @@
 
                                                         <!-- Fuente de Financiamiento -->
                                                         <div class="form-group">
-                                                            <label for="id_ff">Fuente de Financiamiento:</label>
-                                                            <select class="form-control" id="id_ff" name="id_ff">
+                                                            <label for="id_ff_2">Fuente de Financiamiento:</label>
+                                                            <select class="form-control" id="id_ff_2" name="id_ff_2">
                                                                 <?php foreach($fuente_de_financiamiento as $ff): ?>
                                                                     <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                                                 <?php endforeach; ?>
@@ -457,8 +491,17 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <div class="col-md-6">
-                                                <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span class="fa fa-save"></span>Guardar</button>
+                                            <div class="notification" id="notification">
+                                                <div class="icon">
+                                                    <img src="checkmark.png" alt="Checkmark">
+                                                </div>
+                                                <div class="message">Guardado Correctamente</div>
+                                            </div>
+                                        </div>
+
+                                                
                                             </div>
                                             <div class="col-md-6">
                                                 <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
@@ -467,268 +510,303 @@
                                     </div>
                                 </div>
                            </form>   
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>RUC</th>
+                                                    <th>Número</th>
+                                                    <th>Contabilidad</th>
+                                                    <th>Dirección</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha</th>
+                                                    <th>Tesorería</th>
+                                                    <th>Pedí Matrícula</th>
+                                                    <th>Modalidad</th>
+                                                    <th>Tipo de Presupuesto</th>
+                                                    <th>Unidad Responsable</th>
+                                                    <th>Proyecto</th>
+                                                    <th>Estado</th>
+                                                    <th>Nro. PAC</th>
+                                                    <th>Nro. Expediente</th>
+                                                    <th>Total</th>
+                                                    <th>Pagado</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($data)): ?>
+                                                    <?php foreach ($data as $item): ?>
+                                                        <tr>
+                                                            <td><?php echo $item->id; ?></td>
+                                                            <td><?php echo $item->ruc; ?></td>
+                                                            <td><?php echo $item->numero; ?></td>
+                                                            <td><?php echo $item->contabilidad; ?></td>
+                                                            <td><?php echo $item->direccion; ?></td>
+                                                            <td><?php echo $item->telefono; ?></td>
+                                                            <td><?php echo $item->observacion; ?></td>
+                                                            <td><?php echo $item->fecha; ?></td>
+                                                            <td><?php echo $item->tesoreria; ?></td>
+                                                            <td><?php echo $item->pedi_matricula; ?></td>
+                                                            <td><?php echo $item->modalidad; ?></td>
+                                                            <td><?php echo $item->tipo_presupuesto; ?></td>
+                                                            <td><?php echo $item->unidad_respon; ?></td>
+                                                            <td><?php echo $item->proyecto; ?></td>
+                                                            <td><?php echo $item->estado; ?></td>
+                                                            <td><?php echo $item->nro_pac; ?></td>
+                                                            <td><?php echo $item->nro_exp; ?></td>
+                                                            <td><?php echo $item->total; ?></td>
+                                                            <td><?php echo $item->pagado; ?></td>
+                                                            <td>
+                                                        <div class="btn-group">
+                                                        <button type="button" class="btn btn-info btn-view-Diario_obligaciones" data-toggle="modal"
+                                                            data-target="#modal-default" value="<?php echo $data->id; ?>">
+                                                            <span class="fa fa-search"></span>
+                                                        </button>
+                                                        <a href="<?php echo base_url() ?>mantenimiento/Diario_obligaciones/edit/<?php echo $data->id; ?>"
+                                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+
+                                                        <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>"
+                                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                                                        </div>
+                                                    </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                <!-- Botones -->
+                            
+                            </div>
+                        </section>
+                    </div>
+                    <!-- /.content-wrapper -->
+                <!-- Lista con las columnas -->
+
+
+
+                </main>
+                <!-- Contenedor del modal -->
+                <div class="modal-container" id="modalContainer">
+                    <div class="modal-content">
+                        <span class="close" id="closeModalBtn">&times;</span>
+                        <h3>Lista de Proveedores</h3>
+                        <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>RUC</th>
-                                    <th>Número</th>
-                                    <th>Contabilidad</th>
+                                    <th>Ruc</th>
+                                    <th>Razón Social</th>
                                     <th>Dirección</th>
                                     <th>Teléfono</th>
+                                    <th>Email</th>
                                     <th>Observación</th>
-                                    <th>Fecha</th>
-                                    <th>Tesorería</th>
-                                    <th>Pedí Matrícula</th>
-                                    <th>Modalidad</th>
-                                    <th>Tipo de Presupuesto</th>
-                                    <th>Unidad Responsable</th>
-                                    <th>Proyecto</th>
-                                    <th>Estado</th>
-                                    <th>Nro. PAC</th>
-                                    <th>Nro. Expediente</th>
-                                    <th>Total</th>
-                                    <th>Pagado</th>
-                                    <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($data)): ?>
-                                    <?php foreach ($data as $item): ?>
-                                        <tr>
-                                            <td><?php echo $item->id; ?></td>
-                                            <td><?php echo $item->ruc; ?></td>
-                                            <td><?php echo $item->numero; ?></td>
-                                            <td><?php echo $item->contabilidad; ?></td>
-                                            <td><?php echo $item->direccion; ?></td>
-                                            <td><?php echo $item->telefono; ?></td>
-                                            <td><?php echo $item->observacion; ?></td>
-                                            <td><?php echo $item->fecha; ?></td>
-                                            <td><?php echo $item->tesoreria; ?></td>
-                                            <td><?php echo $item->pedi_matricula; ?></td>
-                                            <td><?php echo $item->modalidad; ?></td>
-                                            <td><?php echo $item->tipo_presupuesto; ?></td>
-                                            <td><?php echo $item->unidad_respon; ?></td>
-                                            <td><?php echo $item->proyecto; ?></td>
-                                            <td><?php echo $item->estado; ?></td>
-                                            <td><?php echo $item->nro_pac; ?></td>
-                                            <td><?php echo $item->nro_exp; ?></td>
-                                            <td><?php echo $item->total; ?></td>
-                                            <td><?php echo $item->pagado; ?></td>
-                                            <td>
-                                        <div class="btn-group">
-                                        <button type="button" class="btn btn-info btn-view-Diario_obligaciones" data-toggle="modal"
-                                            data-target="#modal-default" value="<?php echo $data->id; ?>">
-                                            <span class="fa fa-search"></span>
-                                        </button>
-                                        <a href="<?php echo base_url() ?>mantenimiento/Diario_obligaciones/edit/<?php echo $data->id; ?>"
-                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
-                                        <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>"
-                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                        </div>
-                                    </td>
+                                <?php foreach ($proveedores as $index => $proveedor): ?>
+                                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')">
+                                        <td><?= $index + 1 ?></td>
+                                        <td><?= $proveedor->ruc ?></td>
+                                        <td><?= $proveedor->razon_social ?></td>
+                                        <td><?= $proveedor->direccion ?></td>
+                                        <td><?= $proveedor->telefono ?></td>
+                                        <td><?= $proveedor->email ?></td>
+                                        <td><?= $proveedor->observacion ?></td>
                                     </tr>
                                 <?php endforeach; ?>
-                                <?php endif; ?>
                             </tbody>
                         </table>
-                <!-- Botones -->
-            
-            </div>
-        </section>
-    </div>
-    <!-- /.content-wrapper -->
-<!-- Lista con las columnas -->
+                    </div>
+                </div>
+                <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Agregar evento al botón "Cancelar"
+                    const cancelarBtn = document.getElementById("cancelarBtn");
+                    cancelarBtn.addEventListener("click", function () {
+                        // Limpia el contenido de la tabla de datos seleccionados
+                        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
+                        const tbody = tablaDatosSeleccionados.querySelector("tbody");
+                        tbody.innerHTML = ""; // Borra todas las filas
+
+                        // Oculta el campo de comprobante
+                        const comprobanteContainer = document.querySelector('.comprobante-container');
+                        comprobanteContainer.style.display = 'none';
+                    });
+
+                });
+
+                </script>
+
+
+                <script>
+                function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
+                    // Captura la tabla principal por su ID
+                    var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
+                    
+                    // Crea una nueva fila en la tabla
+                    var fila = tabla.insertRow();
+
+                    // Inserta celdas en la fila
+                    var celdaPrograma = fila.insertCell(0);
+                    var celdaFuente = fila.insertCell(1);
+                    var celdaOrigen = fila.insertCell(2);
+                    var celdaCuenta = fila.insertCell(3);
+
+                    // Asigna los valores a las celdas
+                    celdaPrograma.innerHTML = nombrePrograma;
+                    celdaFuente.innerHTML = nombreFuente;
+                    celdaOrigen.innerHTML = nombreOrigen;
+                    celdaCuenta.innerHTML = numeroCuenta;
+
+                    // Muestra el campo de comprobante
+                    var comprobanteContainer = document.querySelector('.comprobante-container');
+                    comprobanteContainer.style.display = 'block';
+
+                    closeModal_obli()
+                }
+                </script>
 
 
 
-</main>
-<!-- Contenedor del modal -->
-<div class="modal-container" id="modalContainer">
-    <div class="modal-content">
-        <span class="close" id="closeModalBtn">&times;</span>
-        <h3>Lista de Proveedores</h3>
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Ruc</th>
-                    <th>Razón Social</th>
-                    <th>Dirección</th>
-                    <th>Teléfono</th>
-                    <th>Email</th>
-                    <th>Observación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($proveedores as $index => $proveedor): ?>
-                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')">
-                        <td><?= $index + 1 ?></td>
-                        <td><?= $proveedor->ruc ?></td>
-                        <td><?= $proveedor->razon_social ?></td>
-                        <td><?= $proveedor->direccion ?></td>
-                        <td><?= $proveedor->telefono ?></td>
-                        <td><?= $proveedor->email ?></td>
-                        <td><?= $proveedor->observacion ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+
+
+                <script>
+                    // Función para abrir el modal
+                    function openModal() {
+                        var modalContainer = document.getElementById('modalContainer');
+                        modalContainer.style.display = 'flex';
+                    }
+
+                    // Función para cerrar el modal
+                    function closeModal() {
+                        var modalContainer = document.getElementById('modalContainer');
+                        modalContainer.style.display = 'none';
+                    }
+
+                // Función para seleccionar un proveedor
+                function selectProveedor(ruc, razonSocial, direccion) {
+                        // Actualizar los campos de texto en la vista principal
+                        document.getElementById('ruc').value = ruc;
+                        document.getElementById('contabilidad').value = razonSocial;
+                        document.getElementById('tesoreria').value = razonSocial;
+                        document.getElementById('direccion').value = direccion;
+
+
+                        
+                        closeModal(); // Cierra el modal después de seleccionar un proveedor
+                    }
+
+                    // Agregar evento al botón "Nuevo" para abrir el modal
+                    const openModalBtn = document.getElementById("openModalBtn");
+                    openModalBtn.addEventListener("click", () => {
+                        openModal();
+                    });
+
+                    // Agregar evento al botón de cerrar para cerrar el modal
+                    const closeModalBtn = document.getElementById("closeModalBtn");
+                    closeModalBtn.addEventListener("click", () => {
+                        closeModal();
+                    });
+                </script>
+
+
+                <script>
+                    // Manejar la visibilidad de los campos opcionales
+                    const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
+                    const optionalFields = document.querySelector(".optional-fields");
+
+                    optionalFieldsSwitch.addEventListener("change", () => {
+                        if (optionalFieldsSwitch.checked) {
+                            optionalFields.style.display = "block";
+                        } else {
+                            optionalFields.style.display = "none";
+                        }
+                        
+
+                    });
+                </script>
+
+                <script>
+                    // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
+                    function obtenerFechaActual() {
+                        const fecha = new Date();
+                        const dia = fecha.getDate().toString().padStart(2, '0');
+                        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                        const año = fecha.getFullYear();
+                        return `${dia}-${mes}-${año}`;
+                    }
+
+                    // Preestablecer el campo de fecha con la fecha actual
+                    const fechaInput = document.getElementById('fecha');
+                    fechaInput.value = obtenerFechaActual();
+                </script>
+
+
+
+
+
+                <script>
+                    // Función para abrir el modal de programas
+                    function openModal_obli() {
+                        var modalContainer = document.getElementById('modalContainer_obli');
+                        modalContainer.style.display = 'flex';
+                    }
+
+                    // Función para cerrar el modal de programas
+                    function closeModal_obli() {
+                        var modalContainer = document.getElementById('modalContainer_obli');
+                        modalContainer.style.display = 'none';
+                    }
+
+                
+
+                    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
+                    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
+                    openModalBtn_obli.addEventListener("click", () => {
+                        openModal_obli();
+                    });
+
+                    // Agregar evento al botón de cerrar para cerrar el modal de programas
+                    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
+                    closeModalBtn_obli.addEventListener("click", () => {
+                        closeModal_obli();
+                    });
+                </script>
+
+
+ <!-- Script para seleccionar el id cuenta contable -->
+
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
-    // Agregar evento al botón "Cancelar"
-    const cancelarBtn = document.getElementById("cancelarBtn");
-    cancelarBtn.addEventListener("click", function () {
-        // Limpia el contenido de la tabla de datos seleccionados
-        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
-        const tbody = tablaDatosSeleccionados.querySelector("tbody");
-        tbody.innerHTML = ""; // Borra todas las filas
+    document.addEventListener("DOMContentLoaded", function () {
+        var select = document.getElementById("cuentacontable");
+        var textInput = document.getElementById("cuentacontable_text");
 
-        // Oculta el campo de comprobante
-        const comprobanteContainer = document.querySelector('.comprobante-container');
-        comprobanteContainer.style.display = 'none';
+        // Actualiza el campo de texto oculto al cambiar la selección
+        select.addEventListener("change", function () {
+            var selectedOption = select.options[select.selectedIndex];
+            textInput.value = selectedOption.textContent;
+        });
     });
-
-});
-
 </script>
 
 
+<!--Script para el mensaje de guardado-->
+<script src="script.js"></script>
+
 <script>
-function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
-    // Captura la tabla principal por su ID
-    var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
-    
-    // Crea una nueva fila en la tabla
-    var fila = tabla.insertRow();
+    function showNotification() {
+    var notification = document.getElementById("notification");
+    notification.style.display = "block";
 
-    // Inserta celdas en la fila
-    var celdaPrograma = fila.insertCell(0);
-    var celdaFuente = fila.insertCell(1);
-    var celdaOrigen = fila.insertCell(2);
-    var celdaCuenta = fila.insertCell(3);
-
-    // Asigna los valores a las celdas
-    celdaPrograma.innerHTML = nombrePrograma;
-    celdaFuente.innerHTML = nombreFuente;
-    celdaOrigen.innerHTML = nombreOrigen;
-    celdaCuenta.innerHTML = numeroCuenta;
-
-     // Muestra el campo de comprobante
-     var comprobanteContainer = document.querySelector('.comprobante-container');
-    comprobanteContainer.style.display = 'block';
-
-    closeModal_obli()
+    <?php if ($this->session->flashdata("success")) : ?>
+    setTimeout(function() {
+        notification.style.display = "none";
+        
+    }, 5000); // Oculta la notificación después de 5 segundos
+    <?php endif; ?>
 }
-</script>
 
-
-
-
-
-<script>
-    // Función para abrir el modal
-    function openModal() {
-        var modalContainer = document.getElementById('modalContainer');
-        modalContainer.style.display = 'flex';
-    }
-
-    // Función para cerrar el modal
-    function closeModal() {
-        var modalContainer = document.getElementById('modalContainer');
-        modalContainer.style.display = 'none';
-    }
-
-   // Función para seleccionar un proveedor
-   function selectProveedor(ruc, razonSocial, direccion) {
-        // Actualizar los campos de texto en la vista principal
-        document.getElementById('ruc').value = ruc;
-        document.getElementById('contabilidad').value = razonSocial;
-        document.getElementById('tesoreria').value = razonSocial;
-        document.getElementById('direccion').value = direccion;
-
-
-        
-        closeModal(); // Cierra el modal después de seleccionar un proveedor
-    }
-
-    // Agregar evento al botón "Nuevo" para abrir el modal
-    const openModalBtn = document.getElementById("openModalBtn");
-    openModalBtn.addEventListener("click", () => {
-        openModal();
-    });
-
-    // Agregar evento al botón de cerrar para cerrar el modal
-    const closeModalBtn = document.getElementById("closeModalBtn");
-    closeModalBtn.addEventListener("click", () => {
-        closeModal();
-    });
-</script>
-
-
-<script>
-    // Manejar la visibilidad de los campos opcionales
-    const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
-    const optionalFields = document.querySelector(".optional-fields");
-
-    optionalFieldsSwitch.addEventListener("change", () => {
-        if (optionalFieldsSwitch.checked) {
-            optionalFields.style.display = "block";
-        } else {
-            optionalFields.style.display = "none";
-        }
-        
-
-    });
-</script>
-
-<script>
-    // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
-    function obtenerFechaActual() {
-        const fecha = new Date();
-        const dia = fecha.getDate().toString().padStart(2, '0');
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-        const año = fecha.getFullYear();
-        return `${dia}-${mes}-${año}`;
-    }
-
-    // Preestablecer el campo de fecha con la fecha actual
-    const fechaInput = document.getElementById('fecha');
-    fechaInput.value = obtenerFechaActual();
-</script>
-
-
-
-
-
-<script>
-    // Función para abrir el modal de programas
-    function openModal_obli() {
-        var modalContainer = document.getElementById('modalContainer_obli');
-        modalContainer.style.display = 'flex';
-    }
-
-    // Función para cerrar el modal de programas
-    function closeModal_obli() {
-        var modalContainer = document.getElementById('modalContainer_obli');
-        modalContainer.style.display = 'none';
-    }
-
- 
-
-    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
-    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
-    openModalBtn_obli.addEventListener("click", () => {
-        openModal_obli();
-    });
-
-    // Agregar evento al botón de cerrar para cerrar el modal de programas
-    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
-    closeModalBtn_obli.addEventListener("click", () => {
-        closeModal_obli();
-    });
 </script>
 </body>
 </html>

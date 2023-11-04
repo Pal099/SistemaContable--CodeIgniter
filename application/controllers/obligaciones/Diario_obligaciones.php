@@ -57,20 +57,25 @@ class Diario_obligaciones extends CI_Controller {
 	}
 
 	public function store(){
-		$numero = $this->input->post("numero");
+		//$numero = $this->input->post("numero");
+		$ruc_id_provee = $this->input->post("ruc");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
         $telefono = $this->input->post("telefono");
 		$observacion = $this->input->post("observacion");
 		$fecha = $this->input->post("fecha");
+		$debe = $this->input->post("Debe");
+		$haber = $this->input->post("Haber");
         $tesoreria = $this->input->post("tesoreria");
 		$comprobante = $this->input->post("comprobante");
+		$cheque_id = $this->input->post("cheques_che_id");
 		$programa_id_pro = $this->input->post("id_pro");
-		$cuentacontable = $this->input->post("IDCuentaContable");
+		$cuentacontable = $this->input->post("cuentacontable");
 		$fuente_de_financiamiento = $this->input->post("id_ff");
-		$orifen_de_financiamiento = $this->input->post("id_of");
+		$origen_de_financiamiento = $this->input->post("id_of");
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
+		$MontoPago = $this->input->post("MontoPago");
         $modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -80,71 +85,49 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
+		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee);
 
-        if ($this->form_validation->run()==TRUE) {
-			$data  = array(
-                'ruc' => $ruc,
-				'numero' => $numero, 
-				'contabilidad' => $contabilidad,
-				'direccion' => $direccion,
-                'telefono' => $telefono,
-                'observacion' => $observacion,
-                'fecha' => $fecha,
-                'tesoreria' => $tesoreria,
-				'comprobante' => $comprobante,
-                'pedi_matricula' => $pedi_matricula,
-                'modalidad' => $modalidad,
-                'tipo_presupuesto' => $tipo_presupuesto,
-                'unidad_respon' => $unidad_respon,
-                'proyecto' => $proyecto,
-                'estado' => $estado,
-                'nro_pac' => $nro_pac,
-                'nro_exp' => $nro_exp,
-                'total' => $total,
-                'pagado' => $pagado,
-				'estado_bd' => "1",
-                'ruc' => $ruc,
-				'numero' => $numero, 
-				'contabilidad' => $contabilidad,
-				'direccion' => $direccion,
-                'telefono' => $telefono,
-                'observacion' => $observacion,
-                'fecha' => $fecha,
-                'tesoreria' => $tesoreria,
-				'comprobante' => $comprobante,
-                'pedi_matricula' => $pedi_matricula,
-                'modalidad' => $modalidad,
-                'tipo_presupuesto' => $tipo_presupuesto,
-                'unidad_respon' => $unidad_respon,
-                'proyecto' => $proyecto,
-                'estado' => $estado,
-                'nro_pac' => $nro_pac,
-                'nro_exp' => $nro_exp,
-                'total' => $total,
-                'pagado' => $pagado,
-				'estado_bd' => "1"
-			);
+       if ($proveedor_id){
+		$dataDetaHaber  = array(
+			//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+			'MontoPago' => $MontoPago,
+			'Debe' => $debe,
+			'Haber' => $haber,
+			'comprobante' => $comprobante,
+			'id_of' => $origen_de_financiamiento,
+			'id_pro' => $programa_id_pro,
+			'id_ff' => $fuente_de_financiamiento,
+			'IDCuentaContable' => $cuentacontable,
+			'cheques_che_id' => $cheque_id,
+			'proveedores_id' => $proveedor_id,
+			'estado_registro' => "1",
+			// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+		);
 
-			if ($this->Diario_obli_model->save($data)) {
-				$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
+	   
+			if ($this->Diario_obli_model->save($dataDetaHaber)) {
+				//$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
 							
 				$dataDetaDebe  = array(
-					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+					//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
 					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
 					'MontoPago' => $this->input->post("MontoPago"),
-					'Debe' => $this->input->post("Debe"),
-					'Haber' => $this->input->post("Haber"),
+					'Debe' => $this->input->post("Debe_2"),
+					'Haber' => $this->input->post("Haber_2"),
 					'comprobante' => $this->input->post("comprobante"),
 					'id_of' => $this->input->post("id_of"),
 					'id_pro' => $this->input->post("id_pro"),
 					'id_ff' => $this->input->post("id_ff"),
-					'cuentacontable' => $this->input->post("IDCuentaContable"),
 					'cheques_che_id' => $this->input->post("cheques_che_id"),
-					'proveedores_id' => $this->input->post("proveedores_id"),
+					'estado_registro' => "1",
+
 					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
-					'id_user' => "1"
 				);
-				$this->Diario_obli_model->insertar_detalle($dataDetaDebe);
+				
+				$this->session->set_flashdata("success", "Guardado correctamente");
+
+				
+				/*$this->Diario_obli_model->insertar_detalle($dataDetaDebe);
 				$dataDetaHaber = array(
 					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
 					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
@@ -169,18 +152,18 @@ class Diario_obligaciones extends CI_Controller {
 				} else {
 					$this->session->set_flashdata("error", "No se pudo guardar la información en num_asi_deta");
 					redirect(base_url() . "obligaciones/diario_obligaciones/add");
-				}
+				}*/
 
 			}
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
 				redirect(base_url()."obligaciones/diario_obligaciones/add");
 			}
-		}
-		else{
-			$this->add();
-		}
-			
+			redirect(base_url()."obligaciones/diario_obligaciones/add");
+
+	   }
+
+	 
 	}
 
 	public function edit($id){
@@ -214,11 +197,7 @@ class Diario_obligaciones extends CI_Controller {
 		$pagado = $this->input->post("pagado");
         $obligacionactual = $this->Diario_obli_model->getDiario($idobli);
 
-		if ($ruc == $obligacionactual->ruc) {
-			$is_unique = "";
-		}else{
-		}
-        $this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
+		
         if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(
