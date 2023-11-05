@@ -363,15 +363,17 @@
                                                         </div>
 
                                                         <!-- Debe -->
-                                                        <div class="form-group">
+                                                        <div class="form-group <?php echo form_error('Debe_2') == true ? 'has-error':''?>">
                                                             <label for="Debe_2">Debe:</label>
                                                             <input type="text" class="form-control" id="Debe_2" name="Debe_2">
+                                                            <?php echo form_error("Debe_2","<span class='help-block'>","</span>");?>
                                                         </div>
 
                                                         <!-- Haber -->
-                                                        <div class="form-group">
+                                                        <div class="form-group <?php echo form_error('Haber_2') == true ? 'has-error':''?>">
                                                             <label for="Haber_2">Haber:</label>
                                                             <input type="text" class="form-control" id="Haber_2" name="Haber_2">
+                                                            <?php echo form_error("Haber_2","<span class='help-block'>","</span>");?>
                                                         </div>
 
                                                         <!-- Comprobante -->
@@ -495,7 +497,6 @@
                                             <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span class="fa fa-save"></span>Guardar</button>
                                             <div class="notification" id="notification">
                                                 <div class="icon">
-                                                    <img src="checkmark.png" alt="Checkmark">
                                                 </div>
                                                 <div class="message">Guardado Correctamente</div>
                                             </div>
@@ -791,22 +792,6 @@
 </script>
 
 
-<!--Script para el mensaje de guardado-->
-<script src="script.js"></script>
 
-<script>
-    function showNotification() {
-    var notification = document.getElementById("notification");
-    notification.style.display = "block";
-
-    <?php if ($this->session->flashdata("success")) : ?>
-    setTimeout(function() {
-        notification.style.display = "none";
-        
-    }, 5000); // Oculta la notificación después de 5 segundos
-    <?php endif; ?>
-}
-
-</script>
 </body>
 </html>

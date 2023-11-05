@@ -86,6 +86,8 @@ class Diario_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee);
+		$this->form_validation->set_rules("Debe_2", "Debe_2", "required|is_unique[num_asi_deta.Debe]");
+		$this->form_validation->set_rules("Haber_2", "Haber_2", "required|is_unique[num_asi_deta.Haber]");
 
        if ($proveedor_id){
 		$dataDetaHaber  = array(
@@ -159,11 +161,11 @@ class Diario_obligaciones extends CI_Controller {
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
 				redirect(base_url()."obligaciones/diario_obligaciones/add");
 			}
-			redirect(base_url()."obligaciones/diario_obligaciones/add");
 
 	   }
 
-	 
+	   redirect(base_url()."obligaciones/diario_obligaciones/add");
+
 	}
 
 	public function edit($id){
