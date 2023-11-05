@@ -10,7 +10,7 @@ class CuentaContable_model extends CI_Model {
         return $resultados->result();
     }
 
-    public function save($data){
+    public function store($data){
         return $this->db->insert("cuentacontable", $data);
     }
 
