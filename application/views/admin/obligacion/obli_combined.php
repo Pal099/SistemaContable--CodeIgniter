@@ -367,6 +367,8 @@
                                                             <label for="Debe_2">Debe:</label>
                                                             <input type="text" class="form-control" id="Debe_2" name="Debe_2">
                                                             <?php echo form_error("Debe_2","<span class='help-block'>","</span>");?>
+                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
+                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Haber -->
@@ -374,6 +376,8 @@
                                                             <label for="Haber_2">Haber:</label>
                                                             <input type="text" class="form-control" id="Haber_2" name="Haber_2">
                                                             <?php echo form_error("Haber_2","<span class='help-block'>","</span>");?>
+                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
+                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Comprobante -->

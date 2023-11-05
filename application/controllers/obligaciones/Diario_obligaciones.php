@@ -15,7 +15,6 @@ class Diario_obligaciones extends CI_Controller {
 	}
 	
 	
-	
 	public function index() {
 		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
 		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
@@ -56,7 +55,9 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-	public function store(){
+ public function store(){
+	//if($this->input->post("submit")){ //Si el botón guardar, guardó entonces
+		
 		//$numero = $this->input->post("numero");
 		$ruc_id_provee = $this->input->post("ruc");
 		$contabilidad = $this->input->post("contabilidad");
@@ -85,10 +86,11 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
-		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee);
+		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 		$this->form_validation->set_rules("Debe_2", "Debe_2", "required|is_unique[num_asi_deta.Debe]");
 		$this->form_validation->set_rules("Haber_2", "Haber_2", "required|is_unique[num_asi_deta.Haber]");
-
+		
+		
        if ($proveedor_id){
 		$dataDetaHaber  = array(
 			//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
@@ -103,9 +105,12 @@ class Diario_obligaciones extends CI_Controller {
 			'cheques_che_id' => $cheque_id,
 			'proveedores_id' => $proveedor_id,
 			'estado_registro' => "1",
+			
 			// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
-		);
+		
+		); // fin del array
 
+			$this->form_validation->set_message('required','El campo Debe y es obligatorio');
 	   
 			if ($this->Diario_obli_model->save($dataDetaHaber)) {
 				//$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
@@ -125,9 +130,6 @@ class Diario_obligaciones extends CI_Controller {
 
 					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
 				);
-				
-				$this->session->set_flashdata("success", "Guardado correctamente");
-
 				
 				/*$this->Diario_obli_model->insertar_detalle($dataDetaDebe);
 				$dataDetaHaber = array(
@@ -156,17 +158,27 @@ class Diario_obligaciones extends CI_Controller {
 					redirect(base_url() . "obligaciones/diario_obligaciones/add");
 				}*/
 
-			}
+			} // Fin del save DataDetaHaber
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
 				redirect(base_url()."obligaciones/diario_obligaciones/add");
-			}
+			} //Fin del else
 
-	   }
+	   } // Fin del if proveedor
 
-	   redirect(base_url()."obligaciones/diario_obligaciones/add");
 
-	}
+	
+
+	//} // Fin del if input submit
+	/*if($this->form_validation->run()!=false){ //Si la validación es correcta
+		$datos["mensaje"]="Validación correcta";
+	 }else{
+		$datos["mensaje"]="Validación incorrecta";
+	 }*/
+
+	 redirect(base_url()."obligaciones/diario_obligaciones/add");
+
+} // fin del store
 
 	public function edit($id){
 		$data  = array(
