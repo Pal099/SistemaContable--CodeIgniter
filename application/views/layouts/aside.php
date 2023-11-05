@@ -36,6 +36,11 @@
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/controlpf">
+                <i class="bi bi-graph-up"></i><span>Control Plan Financiero</span>
+            </a>
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>user/Usuarios/logout">

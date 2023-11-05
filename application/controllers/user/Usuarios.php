@@ -58,7 +58,7 @@ class Usuarios extends CI_Controller {
         // Cierra la sesión del usuario y redirige a la página de inicio de sesión.
         $this->session->unset_userdata('logged_in');
         session_destroy();
-        redirect(base_url('Login/index'));
+        redirect(base_url('/'));
     }
 
     // ... código previo de verificación de credenciales de inicio de sesión ...
