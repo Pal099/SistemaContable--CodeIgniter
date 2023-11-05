@@ -45,7 +45,7 @@
 
                                         <!-- ... otros tipos ... -->
                                     </select>
-                                    <button type="buttont"id="loadPadre">Cargar Cuentas Padre</button>
+                                    <button type="button"id="loadPadre" class="btn btn-primary btn-flat">Cargar Cuentas Padre</button>
                                 </div>
                             </form>
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -68,52 +68,52 @@
 
                             <!-- Formulario principal -->
 
-                            <form action="<?php echo base_url();?>mantenimiento/CuentaContable/store" method="POST">
-                                <!-- Código de Cuenta Contable -->
-                                <input type="hidden" name="tipo" id="hiddenTipo" value="">
+                                <form action="<?php echo base_url();?>mantenimiento/CuentaContable/store" method="POST">
+                                    <!-- Código de Cuenta Contable -->
+                                    <input type="hidden" name="tipo" id="hiddenTipo" value="">
 
-                                <div class="form-group <?php echo form_error('Codigo_CC') == true ? 'has-error':''?>">
-                                    <label for="Codigo_CC">Código:</label>
-                                    <input type="text" class="form-control" id="Codigo_CC" name="Codigo_CC" placeholder="Ejemplo: 2.1.1.01">
-                                    <?php echo form_error("Codigo_CC","<span class='help-block'>","</span>");?>
-                                </div>
-                                <!-- Descripción -->
-                                <div class="form-group <?php echo form_error('Descripcion_CC') == true ? 'has-error':''?>">
-                                    <label for="Descripcion_CC">Descripción:</label>
-                                    <input type="text" class="form-control" id="Descripcion_CC" name="Descripcion_CC">
-                                    <?php echo form_error("Descripcion_CC","<span class='help-block'>","</span>");?>
-                                </div>
-                                <!-- Cuentas Padre (solo se mostrarán si se ha seleccionado un tipo) -->
-                                <?php if (isset($cuentasPadre) && !empty($cuentasPadre)): ?>
-                                <div class="form-group" id="divPadre">
-                                    <label for="padre_id">Cuenta Padre:</label>
-                                    <select class="form-control" id="padre_id" name="padre_id">
-                                        <?php foreach ($cuentasPadre as $cuenta): ?>
-                                        <option value="<?php echo $cuenta->Codigo_CC; ?>"><?php echo $cuenta->Descripcion_CC; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <?php else: ?>
-                                    <p>No hay cuentas padre disponibles.</p>
-                                <?php endif; ?>
-                                <!-- Imputable -->
-                                <div class="form-group">
-                                     <label for="imputable">Imputable:</label>
-                                     <input type="checkbox" id="imputable" name="imputable" value="1">
-                                     <label for="imputable">Sí</label>
-                                </div>
-                                <!-- Botones de Acción -->
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span> Guardar</button>
+                                    <div class="form-group <?php echo form_error('Codigo_CC') == true ? 'has-error':''?>">
+                                        <label for="Codigo_CC">Código:</label>
+                                        <input type="text" class="form-control" id="Codigo_CC" name="Codigo_CC" placeholder="Ejemplo: 2.1.1.01">
+                                        <?php echo form_error("Codigo_CC","<span class='help-block'>","</span>");?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable" class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</a>
+                                    <!-- Descripción -->
+                                    <div class="form-group <?php echo form_error('Descripcion_CC') == true ? 'has-error':''?>">
+                                        <label for="Descripcion_CC">Descripción:</label>
+                                        <input type="text" class="form-control" id="Descripcion_CC" name="Descripcion_CC">
+                                        <?php echo form_error("Descripcion_CC","<span class='help-block'>","</span>");?>
                                     </div>
-                            
-                                </div>
+                                    <!-- Cuentas Padre (solo se mostrarán si se ha seleccionado un tipo) -->
+                                    <?php if (isset($cuentasPadre) && !empty($cuentasPadre)): ?>
+                                    <div class="form-group" id="divPadre">
+                                        <label for="padre_id">Cuenta Padre:</label>
+                                        <select class="form-control" id="padre_id" name="padre_id">
+                                            <?php foreach ($cuentasPadre as $cuenta): ?>
+                                            <option value="<?php echo $cuenta->Codigo_CC; ?>"><?php echo $cuenta->Descripcion_CC; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <?php else: ?>
+                                        <p>No hay cuentas padre disponibles.</p>
+                                    <?php endif; ?>
+                                    <!-- Imputable -->
+                                    <div class="form-group">
+                                        <label for="imputable">Imputable:</label>
+                                        <input type="checkbox" id="imputable" name="imputable" value="1">
+                                        <label for="imputable">Sí</label>
+                                    </div>
+                                    <!-- Botones de Acción -->
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span> Guardar</button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable" class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</a>
+                                        </div>
+                                
+                                    </div>
 
-                            </form>
+                                </form>
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <script type="text/javascript">
                                 $(document).ready(function(){
@@ -145,6 +145,11 @@
                                         if(error != ""){
                                             e.preventDefault();
                                             alert(error);
+                                        }
+                                        if($("#imputable").is(":checked")){
+                                            alert("Imputable está seleccionado, valor: " + $("#imputable").val());
+                                        } else {
+                                            alert("Imputable no está seleccionado");
                                         }
                                     });
                                 });

@@ -47,7 +47,7 @@ class CuentaContable extends CI_Controller {
         $this->form_validation->set_rules("Codigo_CC", "Código", "required|is_unique[cuentacontable.Codigo_CC]");
         $this->form_validation->set_rules("Descripcion_CC", "Descripción", "required");
         // ... (otros campos si es necesario)
-    
+    var_dump($data); 
         if ($this->form_validation->run() == TRUE) {
             // Preparar datos para insertar.
             $codigo = $this->generarCodigo($tipo, $padre_id);
