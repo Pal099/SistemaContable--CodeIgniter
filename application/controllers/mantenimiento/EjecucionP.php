@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Presupuesto extends CI_Controller {
+class EjecucionP extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -20,7 +20,7 @@ class Presupuesto extends CI_Controller {
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/ejecucionp/list", $data);
+		$this->load->view("admin/ejecucion/list_eje", $data);
 		$this->load->view("layouts/footer");
 
 	}
@@ -31,6 +31,6 @@ class Presupuesto extends CI_Controller {
 			'presupuestos' => $this->Presupuesto_model->getPresupuestos(),
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
 		);
-		$this->load->view("admin/presupuesto/view", $data);
+		$this->load->view("admin/ejecucion/view_eje", $data);
 	}
 }

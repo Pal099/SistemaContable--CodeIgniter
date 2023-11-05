@@ -8,6 +8,7 @@ class Programa extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Programa_model");
+		
 	}
 
 	//----------------------Index Fuente--------------------------------------------------------

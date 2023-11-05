@@ -8,7 +8,6 @@ class Proveedores extends CI_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
-
 	}
 
 	

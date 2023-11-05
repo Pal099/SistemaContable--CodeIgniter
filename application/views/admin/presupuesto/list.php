@@ -39,34 +39,33 @@
                                     <th>Monto mes</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <?php if(!empty($presupuestos)):?>
-                                    <?php foreach($presupuestos as $presupuesto):?>
-                                        <tr>
-                                            <td><?php echo $presupuesto->ID_Presupuesto;?></td>
-                                            <td><?php echo $presupuesto->Año;?></td>
-                                            <td><?php echo $presupuesto->Descripcion;?></td>
-                                            <td><?php echo $presupuesto->TotalPresupuestado;?></td>
-                                            <td><?php echo $presupuesto->origen_de_financiamiento;?></td>
-                                            <td><?php echo $presupuesto->fuente_de_financiamiento;?></td>
-                                            <td><?php echo $presupuesto->programa_id_pro;?></td>
-                                            <td><?php echo $presupuesto->TotalModificado;?></td>
-                                            <td><?php echo $presupuesto->mes;?></td>
-                                            <td><?php echo $presupuesto->monto_mes;?></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-view-presupuesto" data-toggle="modal" data-target="#modal-default" value="<?php echo $presupuesto->ID_Presupuesto;?>">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-                                                    <a href="<?php echo base_url()?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                      
-                                                    <a href="<?php echo base_url();?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto;?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach;?>
-                                <?php endif;?>
-                            </tbody>
+    <?php if (!empty($presupuestos) || !empty($descripciones) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
+    <?php foreach ($presupuestos as $index => $presupuesto): ?>
+        <tr>
+            <td><?php echo $presupuesto->ID_Presupuesto; ?></td>
+            <td><?php echo $presupuesto->Año; ?></td>
+            <td><?php echo $descripciones[$index]->DescripcionCuentaContable; ?></td>
+            <td><?php echo $presupuesto->TotalPresupuestado; ?></td>
+            <td><?php echo $origen [$index]->nombre; ?></td>
+            <td><?php echo $registros_financieros [$index]->nombre; ?></td>
+            <td><?php echo $programa [$index]->nombre; ?></td>
+            <td><?php echo $presupuesto->TotalModificado; ?></td>
+            <td><?php echo $presupuesto->mes; ?></td>
+            <td><?php echo $presupuesto->monto_mes; ?></td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info btn-view-presupuesto" data-toggle="modal" data-target="#modal-default" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <a href="<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+                    <a href="<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php endif; ?>
+
+
                         </table>
                     </div>
                 </div>

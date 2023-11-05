@@ -7,23 +7,41 @@
             </a>
         </li>     
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">
                 <i class="bi  bi-book"></i><span>Diario de obligaciones</span>
             </a>
-        </li>            
+        </li>    
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
-                <i class="bi bi-person"></i><span>Proveedor</span>
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
+                <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
-        </li>
+        </li>    
+        
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
                 <i class="bi bi-bar-chart"></i><span>Presuesto</span>
             </a>
         </li> 
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
+                <i class="bi bi-person"></i><span>Proveedor</span>
+            </a>
+        </li>
+        
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/programa">
                 <i class="bi bi-journal-check"></i><span>Programas</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuentaContable">
+                <i class="bi bi-person"></i><span>Cuenta Contable</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
+                <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
             </a>
         </li>
         <li class="nav-item">

@@ -4,7 +4,7 @@
       <h1>Cuentas</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
           <li class="breadcrumb-item active">Listado de las cuentas</li>
         </ol>
       </nav>
@@ -20,41 +20,21 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
+                <div class="row">    
                     <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Cuenta de banco</th>
-                                    <th>Descripcion</th>
-                                    <th>Moneda</th>
-                                    <th>Número</th>
-                                    <th>Fecha de inicio</th>
-                                    <th>Fecha de cierre</th>
-                                     <th>Opciones</th>
+                                    <th>Código cuenta contable</th>
+                                    <th>Descripción de la cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($cuentas)):?>
                                     <?php foreach($cuentas as $cuenta):?>
                                         <tr>
-                                             <td><?php echo $cuenta->cta_id;?></td>
-                                            <td><?php echo $cuenta->cta_banco;?></td>
-                                            <td><?php echo $cuenta->cta_descri;?></td>
-                                            <td><?php echo $cuenta->cta_moneda;?></td>
-                                            <td><?php echo $cuenta->cta_numero;?></td>
-                                            <td><?php echo $cuenta->cta_fecini;?></td>
-                                            <td><?php echo $cuenta->cta_feccie;?></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-view-banco" data-toggle="modal" data-target="#modal-default" value="<?php echo $cuenta->cta_id;?>">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-                                                    <a href="<?php echo base_url()?>mantenimiento/cuentas/edit/<?php echo $cuenta->cta_id;?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                      
-                                                    <a href="<?php echo base_url();?>mantenimiento/cuentas/delete/<?php echo $cuenta->cta_id;?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                                </div>
+                                            <td><?php echo $cuenta->CodigoCuentaContable;?></td>
+                                            <td><?php echo $cuenta->DescripcionCuentaContable;?></td>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>

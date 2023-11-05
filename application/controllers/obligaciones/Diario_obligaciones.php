@@ -10,52 +10,73 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
+		
+		
 	}
-
+	
 	
 	public function index() {
-        $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(),
-			'gastos' => $this->Diario_obli_model->getDiarios_obli(),
-        );
+		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
+		$data['proveedores'] = $this->Proveedores_model->getProveedores();  // Obtener la lista de proveedores
+		$data['programa'] = $this->Diario_obli_model->getProgramas();  
+		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentesFinanciamiento();  
+		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenesFinanciamiento(); 
+		$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables(); 
+
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/obligacion/oblilist", $data);
+        $this->load->view("admin/obligacion/obli_combined", $data);
         $this->load->view("layouts/footer");
     }
     
-    public function get_proveedores() {
-        $data  = array(
-            'proveedores' => $this->Proveedores_model->getProveedores(),
-			'programa' => $this->Diario_obli_model->getProgramas(),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-        );
-        echo json_encode($data);
-    }
+    // public function get_proveedores() {
+    //     $data  = array(
+    //         'proveedores' => $this->Proveedores_model->getProveedores(),
+	// 		'programa' => $this->Diario_obli_model->getProgramas(),
+	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+    //     );
+    //     echo json_encode($data);
+    // }
 	
 	public function add(){
 
 		$data  = array(
 			'proveedores' => $this->Proveedores_model->getProveedores(), // Agregar esta línea para obtener la lista de proveedores
+			'programa' => $this->Diario_obli_model->getProgramas(),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+			'cuentacontable' => $this->Diario_obli_model->getCuentaContable(),
 		);
 	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliadd", $data); // Pasar los datos a la vista
+		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
-	public function store(){
-        $ruc = $this->input->post("ruc");
-		$numero = $this->input->post("numero");
+ public function store(){
+	//if($this->input->post("submit")){ //Si el botón guardar, guardó entonces
+		
+		//$numero = $this->input->post("numero");
+		$ruc_id_provee = $this->input->post("ruc");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
         $telefono = $this->input->post("telefono");
 		$observacion = $this->input->post("observacion");
 		$fecha = $this->input->post("fecha");
+		$debe = $this->input->post("Debe");
+		$haber = $this->input->post("Haber");
         $tesoreria = $this->input->post("tesoreria");
+		$comprobante = $this->input->post("comprobante");
+		$cheque_id = $this->input->post("cheques_che_id");
+		$programa_id_pro = $this->input->post("id_pro");
+		$cuentacontable = $this->input->post("cuentacontable");
+		$fuente_de_financiamiento = $this->input->post("id_ff");
+		$origen_de_financiamiento = $this->input->post("id_of");
+		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
+		$MontoPago = $this->input->post("MontoPago");
         $modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -65,47 +86,99 @@ class Diario_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = $this->input->post("pagado");
-        $this->form_validation->set_rules("ruc","Ruc","required|is_unique[diario_obli.ruc]");
+		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
+		$this->form_validation->set_rules("Debe_2", "Debe_2", "required|is_unique[num_asi_deta.Debe]");
+		$this->form_validation->set_rules("Haber_2", "Haber_2", "required|is_unique[num_asi_deta.Haber]");
+		
+		
+       if ($proveedor_id){
+		$dataDetaHaber  = array(
+			//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+			'MontoPago' => $MontoPago,
+			'Debe' => $debe,
+			'Haber' => $haber,
+			'comprobante' => $comprobante,
+			'id_of' => $origen_de_financiamiento,
+			'id_pro' => $programa_id_pro,
+			'id_ff' => $fuente_de_financiamiento,
+			'IDCuentaContable' => $cuentacontable,
+			'cheques_che_id' => $cheque_id,
+			'proveedores_id' => $proveedor_id,
+			'estado_registro' => "1",
+			
+			// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+		
+		); // fin del array
 
+			$this->form_validation->set_message('required','El campo Debe y es obligatorio');
+	   
+			if ($this->Diario_obli_model->save($dataDetaHaber)) {
+				//$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
+							
+				$dataDetaDebe  = array(
+					//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
+					'MontoPago' => $this->input->post("MontoPago"),
+					'Debe' => $this->input->post("Debe_2"),
+					'Haber' => $this->input->post("Haber_2"),
+					'comprobante' => $this->input->post("comprobante"),
+					'id_of' => $this->input->post("id_of"),
+					'id_pro' => $this->input->post("id_pro"),
+					'id_ff' => $this->input->post("id_ff"),
+					'cheques_che_id' => $this->input->post("cheques_che_id"),
+					'estado_registro' => "1",
 
+					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+				);
+				
+				/*$this->Diario_obli_model->insertar_detalle($dataDetaDebe);
+				$dataDetaHaber = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId, 
+					'IDCuentaContable' => $this->input->post("IDCuentaContable"),
+					'MontoPago' => $this->input->post("MontoPago"),
+					'Debe' => $this->input->post("Debe"),
+					'Haber' => $this->input->post("Haber"),
+					'comprobante' => $this->input->post("comprobante"),
+					'id_of' => $this->input->post("id_of"),
+					'id_pro' => $this->input->post("programa_id_pro"),
+					'id_ff' => $this->input->post("id_ff"),
+					'id_ff' => $this->input->post("id_ff"),
+					'cuentacontable' => $this->input->post("IDCuentaContable"),
+					'cheques_che_id' => $this->input->post("cheques_che_id"),
+					'proveedores_id' => $this->input->post("proveedores_id"),
+					// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
+					'id_user' => "1"
+				);
+				$this->Diario_obli_model->insertar_detalle($dataDetaHaber);
 
-        if ($this->form_validation->run()==TRUE) {
+				if ($this->Diario_obli_model->insertar_detalle($dataDeta)) { // Función para guardar en num_asi_deta
+					redirect(base_url() . "obligaciones/diario_obligaciones");
+				} else {
+					$this->session->set_flashdata("error", "No se pudo guardar la información en num_asi_deta");
+					redirect(base_url() . "obligaciones/diario_obligaciones/add");
+				}*/
 
-			$data  = array(
-                'ruc' => $ruc,
-				'numero' => $numero, 
-				'contabilidad' => $contabilidad,
-				'direccion' => $direccion,
-                'telefono' => $telefono,
-                'observacion' => $observacion,
-                'fecha' => $fecha,
-                'tesoreria' => $tesoreria,
-                'pedi_matricula' => $pedi_matricula,
-                'modalidad' => $modalidad,
-                'tipo_presupuesto' => $tipo_presupuesto,
-                'unidad_respon' => $unidad_respon,
-                'proyecto' => $proyecto,
-                'estado' => $estado,
-                'nro_pac' => $nro_pac,
-                'nro_exp' => $nro_exp,
-                'total' => $total,
-                'pagado' => $pagado,
-				'estado_bd' => "1"
-			);
-
-			if ($this->Diario_obli_model->save($data)) {
-				redirect(base_url()."obligaciones/diario_obligaciones");
-			}
+			} // Fin del save DataDetaHaber
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
 				redirect(base_url()."obligaciones/diario_obligaciones/add");
-			}
-		}
-		else{
-			$this->add();
-		}
-			
-	}
+			} //Fin del else
+
+	   } // Fin del if proveedor
+
+
+	
+
+	//} // Fin del if input submit
+	/*if($this->form_validation->run()!=false){ //Si la validación es correcta
+		$datos["mensaje"]="Validación correcta";
+	 }else{
+		$datos["mensaje"]="Validación incorrecta";
+	 }*/
+
+	 redirect(base_url()."obligaciones/diario_obligaciones/add");
+
+} // fin del store
 
 	public function edit($id){
 		$data  = array(
@@ -138,12 +211,7 @@ class Diario_obligaciones extends CI_Controller {
 		$pagado = $this->input->post("pagado");
         $obligacionactual = $this->Diario_obli_model->getDiario($idobli);
 
-		if ($ruc == $obligacionactual->ruc) {
-			$is_unique = "";
-		}else{
-			$is_unique = "|is_unique[diario_obli.ruc]";
-		}
-        $this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
+		
         if ($this->form_validation->run()==TRUE) {
 
 			$data  = array(

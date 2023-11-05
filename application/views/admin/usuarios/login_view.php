@@ -230,7 +230,7 @@
 <link href="<?php echo base_url();?>./assets/img/logoUNE.png" rel="icon">
 
 <body>
-<form action="<?php echo base_url();?>user/Usuarios/login" method="post" onsubmit="return validarFormulario();"> 
+<form action="<?php echo base_url();?>./user/Usuarios/login" method="post" onsubmit="return validarFormulario();"> 
     <div class="container">
         <div class="left-panel">
             <img src="./assets/img/logoUNE.png" alt="Logo de la Empresa" class="logo">
@@ -243,7 +243,7 @@
                     <option value="" disabled selected>Seleccione una unidad académica</option>
                     <?php
                         // Conexión a la base de datos (debes configurar tu conexión)
-                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                        $conexion = new mysqli('localhost', 'root', 'root', 'contanuevo');
                         
                         // Verificar la conexión
                         if ($conexion->connect_error) {
@@ -270,7 +270,7 @@
         </div>
         <div class="right-panel">
             <h2>Iniciar Sesión</h2>
-            <?php echo form_open('user/Usuarios/login'); ?>
+            <?php echo form_open('./user/Usuarios/login'); ?>
                 <label for="username">Nombre de Usuario:</label>
                 <input type="text" name="username" required><br>
 

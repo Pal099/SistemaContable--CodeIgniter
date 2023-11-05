@@ -9,7 +9,10 @@
     <!-- ... (otros encabezados) ... -->
     <style>
      
-    
+    .comprobante-container {
+    display: block;
+}
+
 
   /* Estilo para el contenedor del modal */
 .modal-container {
@@ -160,6 +163,21 @@
             flex-wrap: wrap;
             gap: 10px;
         }
+
+        .btn-select-datos {
+        margin-right: 10px; /* Ajusta el margen derecho según tus necesidades */
+    }
+
+    /* Estilos para el contenedor de los botones "Guardar" y "Cancelar" */
+    .btn-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px; /* Ajusta el margen superior según tus necesidades */
+    }
+
+    .btn-container .btn {
+        margin-right: 10px; /* Ajusta el margen derecho entre los botones según tus necesidades */
+    }
     </style>
     <!-- En el <head> de tu documento -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -172,7 +190,7 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="bi bi-house breadcrumb-item"><a href="<?php echo base_url(); ?>"> Inicio</a></li>
+                    <li class="bi bi-house breadcrumb-item"><a href="<?php echo base_url(); ?>principal"> Inicio</a></li>
                     <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
                 </ol>
             </nav>
@@ -193,7 +211,7 @@
                             <span class="optional-fields-title">Campos opcionales</span>
                             <!-- Botón "Nuevo" para abrir el modal -->
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-    <i class="bi bi-plus"></i> Nuevo
+                     <i class="bi bi-plus"></i> Nuevo
 </button>
                                     <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
@@ -205,6 +223,8 @@
                 <!-- Campos principales -->
                 <div class="row">
                     <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-hover">
+
                         <div class="main-fields">
                             <div class="form-group">
                                 <label for="ruc">Ruc:</label>
@@ -312,22 +332,7 @@
 
 
 
-                <!-- Botones -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
+                
     <!-- /.content-wrapper -->
 <!-- Lista con las columnas -->
 <!-- Lista con las columnas -->
@@ -353,8 +358,16 @@
 <button class="btn btn-sm btn-primary ms-2" title="Seleccione datos para su carga" id="openModalBtn_obli">
     <i class="bi bi-plus"></i> Seleccionar datos
 </button>
-
-
+<div class="row mt-3">
+        <div class="col-md-12 d-flex justify-content-between">
+            <button class="btn btn-primary" title="Guardar" id="guardarBtn">
+                Guardar
+            </button>
+            <button class="btn btn-secondary" title="Cancelar" id="cancelarBtn">
+                Cancelar
+            </button>
+        </div>
+    </div>
 </main>
 <!-- Contenedor del modal -->
 <div class="modal-container" id="modalContainer">
@@ -399,7 +412,8 @@
     <div class="modal-content_obli">
         <span class="close" id="closeModalBtn_obli">&times;</span>
         <h3>Tabla dinámica</h3>
-        <table class="table table-bordered table-hover">
+        <!-- Corrige el id de la tabla a "tablaOblilist" -->
+        <table id="tablaOblilist" class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Nombre Programa</th>
@@ -410,11 +424,12 @@
             </thead>
             <tbody>
                 <?php foreach ($gastos as $index => $gasto): ?>
-                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>')">
+                    <tr class="list-item" onclick="selectPrograma('<?= $gasto->nombre_programa ?>','<?= $gasto->nombre_fuente ?>','<?= $gasto->nombre_origen?>', '<?= $gasto->codigo_cuenta?>')">
                         
                         <td><?= $gasto->nombre_programa ?></td>
                         <td><?= $gasto->nombre_fuente ?></td>
                         <td><?= $gasto->nombre_origen ?></td>
+                        <td><?= $gasto->codigo_cuenta ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>

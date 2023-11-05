@@ -3,13 +3,13 @@
 
   <div class="pagetitle">
       <h1>
-        Origen de financiamiento
-        <small>Editar Origen</small>
+        Categorias
+        <small>Editar</small>
         </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/origen">Origen de financiamiento</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>mantenimiento/CuentaContable">Categorias</a></li>
         <li class="breadcrumb-item active">Editar</li>
       </ol>
     </nav>
@@ -30,23 +30,27 @@
                              </div>
                         <?php endif;?>
 
-                        <form action="<?php echo base_url();?>registro/origen/update" method="POST">
-                            <input type="hidden" value="<?php echo $origen->id;?>" name="idOrigen">
+                        <form action="<?php echo base_url();?>mantenimiento/categorias/update" method="POST">
+                            <input type="hidden" value="<?php echo $categoria->id;?>" name="idCategoria">
+
+
+                            <div class="form-group <?php echo form_error('nombre') == true ? 'has-error': '';?>">
+
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $cuentacontable->nombre?>">
+                                <?php echo form_error("nombre","<span class='help-block'>","</span>");?>
+
+                            </div>
+
 
                             <div class="form-group">
 
-                                <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $origen->nombre?>">
+                                <label for="descripcion">Observacion:</label>
+                                <input type="text" class="form-control" id="descripcion" name="descripcion" value="<?php echo $cuentacontable->descripcion?>">
                           
                             </div>
 
-                            <div class="form-group <?php echo form_error('codigo') == true ? 'has-error': '';?>">
 
-                                <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $origen->codigo?>">
-                                <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
-
-                            </div>
                             <div class="form-group">
 
                                  <div class="col-md-6">
@@ -55,7 +59,7 @@
 
                                 <div class="col-md-6">
                             
-                                <a href="<?php echo base_url(); ?>registro/origen" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                <a href="<?php echo base_url(); ?>mantenimiento/categorias" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
                             
                                 </div>
                             </div>

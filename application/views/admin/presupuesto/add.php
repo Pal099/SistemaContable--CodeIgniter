@@ -31,14 +31,20 @@
 
                                 </div>
                             <?php endif; ?>
-                            <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
+                    <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
                                 <div class="form-group">
                                     <label for="Año">Año:</label>
-                                    <input type="text" class="form-control" id="Anio" name="Anio">
+                                    <input type="text" class="form-control" id="Año" name="Año">
                                 </div>
                                 <div class="form-group">
-                                    <label for="Descripcion">Descripcion:</label>
-                                    <input type="text" class="form-control" id="Descripcion" name="Descripcion">
+                                    <label for="descripcion">Descripción:</label>
+                                    <select name="descripcion" id="descripcion" class="form-control">
+                                        <?php foreach ($descripciones as $descripcion): ?>
+                                            <option value="<?php echo $descripcion->IDCuentaContable?>">
+                                                <?php echo $descripcion->DescripcionCuentaContable; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="TotalPresupuestado">Total Presupuestado:</label>
@@ -46,8 +52,8 @@
                                         name="TotalPresupuestado">
                                 </div>
                                 <div class="form-group">
-                                    <label for="origen_de_financiamiento_id_of">origen de financiamiento:</label>
-                                    <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of" class="form-control">
+                                    <label for="origen_de_financiamiento">origen de financiamiento:</label>
+                                    <select name="origen_de_financiamiento" id="origen_de_financiamiento" class="form-control">
                                         <?php foreach ($origen as $origen): ?>
                                             <option value="<?php echo $origen->id_of?>">
                                                 <?php echo $origen->nombre; ?>
@@ -56,8 +62,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fuente_de_financiamiento_id_ff">Fuente de financiamiento:</label>
-                                    <select name="fuente_de_financiamiento_id_ff" id="fuente_de_financiamiento_id_ff" class="form-control">
+                                    <label for="fuente_de_financiamiento">Fuente de financiamiento:</label>
+                                    <select name="fuente_de_financiamiento" id="fuente_de_financiamiento" class="form-control">
                                         <?php foreach ($registros_financieros as $fuente): ?>
                                             <option value="<?php echo $fuente->id_ff?>">
                                                 <?php echo $fuente->nombre; ?>
@@ -80,22 +86,29 @@
                                     <input type="text" class="form-control" id="TotalModificado" name="TotalModificado">
                                 </div>
                                 <div class="form-group">
-                                    <label for="mes">Mes:</label>
-                                    <select name="mes" id="mes" class="form-control">
-                                        <option value="Enero">Enero</option>
-                                        <option value="Febrero">Febrero</option>
-                                        <option value="Marzo">Marzo</option>
-                                        <option value="Abril">Abril</option>
-                                        <option value="Mayo">Mayo</option>
-                                        <option value="Junio">Junio</option>
-                                        <option value="Julio">Julio</option>
-                                        <option value="Agosto">Agosto</option>
-                                        <option value="Septiembre">Septiembre</option>
-                                        <option value="Octubre">Octubre</option>
-                                        <option value="Noviembre">Noviembre</option>
-                                        <option value="Diciembre">Diciembre</option>
-                                    </select>
-                                </div>
+                                <label for="mes">Mes:</label>
+                                <select name="mes" id="mes" class="form-control">
+                                            <?php
+                                            // Obtén el mes actual en formato numérico
+                                            $mesActual = date('n'); // 'n' devuelve el mes sin ceros iniciales
+
+                                            // Definir un arreglo de nombres de meses
+                                            $nombresMeses = array(
+                                                'Enero', 'Febrero', 'Marzo', 'Abril',
+                                                'Mayo', 'Junio', 'Julio', 'Agosto',
+                                                'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                                            );
+
+                                            // Obtén el nombre del mes actual
+                                            $mesActualNombre = $nombresMeses[$mesActual - 1];
+
+                                            // Genera una opción para el mes actual
+                                            echo "<option value='$mesActualNombre'>$mesActualNombre</option>";
+                                            ?>
+                                </select>
+
+
+
                                 <div class="form-group">
                                     <label for="monto_mes">Monto para el Mes:</label>
                                     <input type="text" class="form-control" id="monto_mes" name="monto_mes">
@@ -111,7 +124,7 @@
                                         class="fa fa-remove"></span>Cancelar</a>
                             </div>
                         </div>
-                        </form>
+                    </form>
                     </div>
                 </div>
             </div>
@@ -122,3 +135,7 @@
         </div>
     </section>
 </main>
+
+
+
+
