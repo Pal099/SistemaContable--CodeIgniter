@@ -30,7 +30,10 @@ class Diario_obligaciones extends CI_Controller {
 		
     }
 
-  
+	public function pdfs(){
+		$this->load->view("fpdf");
+
+	}
     // public function get_proveedores() {
     //     $data  = array(
     //         'proveedores' => $this->Proveedores_model->getProveedores(),
