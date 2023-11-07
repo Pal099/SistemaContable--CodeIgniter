@@ -19,7 +19,6 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="bi bi-house breadcrumb-item"><a href=admin/obligacion/add"<?php echo base_url(); ?>"> Inicio</a></li>
                     <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
                 </ol>
             </nav>
@@ -45,6 +44,7 @@
                             <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
+                            <a href=" <?php echo base_url();?>generar-pdf" target= "_blank"class="btn btn-primary">Generar PDF</a>
                         </div>
                     </div>
                 </div>
@@ -54,7 +54,9 @@
                     <div class="col-md-10">
                         <table id="example1" class="table table-bordered table-hover">
                             <form  action="<?php echo base_url();?>obligaciones/diario_obligaciones/store" method="POST">
-                                                    <div class="main-fields">
+                                                    <div class="content3">
+                                                    <div class="content-container3">
+                                                        <div class="main-fields">
                                                         <div class="form-group">
                                                             <label for="ruc">Ruc:</label>
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
@@ -90,7 +92,11 @@
                                                             <input type="text" class="form-control" id="fecha" name="fecha">
                                                         </div>
                                                     </div>
+                                                </div>
+                                                </div>
                                                         <!-- Primer asiento de la obligación  -->
+                                                    <div class="content4">
+                                                    <div class="content-container4">
                                                     <div class="main-fields">
                                                         <div class="form-group">
                                                             <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
@@ -162,7 +168,11 @@
                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                         </div>
                                                     </div>
-                                            </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </div>
+
                                                     <!-- Segundo asiento de la obligación  -->
                                                     <div class="main-fields">
                                                         <div class="form-group">

@@ -27,8 +27,10 @@ class Diario_obligaciones extends CI_Controller {
         $this->load->view("layouts/aside");
         $this->load->view("admin/obligacion/obli_combined", $data);
         $this->load->view("layouts/footer");
+		
     }
-    
+
+  
     // public function get_proveedores() {
     //     $data  = array(
     //         'proveedores' => $this->Proveedores_model->getProveedores(),
@@ -48,16 +50,14 @@ class Diario_obligaciones extends CI_Controller {
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable(),
 		);
-	
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
- public function store(){
-	//if($this->input->post("submit")){ //Si el botón guardar, guardó entonces
-		
+ public function store(){		
 		//$numero = $this->input->post("numero");
 		$ruc_id_provee = $this->input->post("ruc");
 		$contabilidad = $this->input->post("contabilidad");
@@ -109,11 +109,9 @@ class Diario_obligaciones extends CI_Controller {
 			// 'id_user' => $this->input->post("id_user") // Asumo que obtienes el id_user de alguna manera
 		
 		); // fin del array
-
-			$this->form_validation->set_message('required','El campo Debe y es obligatorio');
 	   
 			if ($this->Diario_obli_model->save($dataDetaHaber)) {
-				//$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
+				$lastInsertedId = $this->db->insert_id(); // Obtener el ID del último registro insertado en diario_obli
 							
 				$dataDetaDebe  = array(
 					//'Num_Asi_IDNum_Asi' => $lastInsertedId, 
@@ -166,19 +164,12 @@ class Diario_obligaciones extends CI_Controller {
 
 	   } // Fin del if proveedor
 
-
-	
-
-	//} // Fin del if input submit
-	/*if($this->form_validation->run()!=false){ //Si la validación es correcta
-		$datos["mensaje"]="Validación correcta";
-	 }else{
-		$datos["mensaje"]="Validación incorrecta";
-	 }*/
-
 	 redirect(base_url()."obligaciones/diario_obligaciones/add");
 
 } // fin del store
+
+
+
 
 	public function edit($id){
 		$data  = array(
