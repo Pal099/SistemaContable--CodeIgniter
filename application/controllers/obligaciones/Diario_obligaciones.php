@@ -10,8 +10,9 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
-		
+
 	}
+	
 	
 	
 	public function index() {
@@ -23,7 +24,15 @@ class Diario_obligaciones extends CI_Controller {
         $this->load->view("layouts/aside");
         $this->load->view("admin/obligacion/oblilist", $data);
         $this->load->view("layouts/footer");
+		$this->load->view("fpdf");
+
     }
+
+
+	public function pdfs(){
+		$this->load->view("fpdf");
+
+	}
     
     public function get_proveedores() {
         $data  = array(
