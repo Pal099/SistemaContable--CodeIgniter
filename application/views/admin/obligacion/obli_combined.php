@@ -41,6 +41,9 @@
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                  <i class="bi bi-plus"></i> Nuevo
                             </button>
+                            <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit" class="btn btn-primary btn-flat"><span
+                                class="fa fa-edit ms-2"></span> Modificar</a>
+
                             <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
@@ -90,7 +93,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="fecha">Fecha:</label>
-                                                            <input type="text" class="form-control" id="fecha" name="fecha">
+                                                            <input type="date" class="form-control" id="fecha" name="fecha">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -100,8 +103,8 @@
                                                     <div class="content-container4">
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
+                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                         <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
@@ -177,8 +180,8 @@
                                                     <!-- Segundo asiento de la obligación  -->
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
+                                                            <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                         <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
@@ -188,13 +191,13 @@
                                                         </div>
                                                         <!-- Campo oculto para el select, para poder separar IDCuentaContable-->
                                                         <div class="form-group" style="display: none;">
-                                                            <label for="cuentacontable_text">Cuenta Contable Seleccionada:</label>
+                                                            <label for="cuentacontable_text_">Cuenta Contable Seleccionada:</label>
                                                             <input type="text" class="form-control" id="cuentacontable_text" name="cuentacontable_text" readonly>
                                                         </div>
 
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
-                                                            <label for="MontoPago">Monto de Pago:</label>
+                                                            <label for="MontoPago_2">Monto de Pago:</label>
                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago">
                                                         </div>
 
@@ -254,7 +257,7 @@
 
                                                         <!-- Cheque -->
                                                         <div class="form-group">
-                                                            <label for="cheques_che_id">Cheque ID:</label>
+                                                            <label for="cheques_che_id_2">Cheque ID:</label>
                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                         </div>
                                                     </div>
@@ -404,9 +407,7 @@
                                                             data-target="#modal-default" value="<?php echo $data->id; ?>">
                                                             <span class="fa fa-search"></span>
                                                         </button>
-                                                        <a href="<?php echo base_url() ?>mantenimiento/Diario_obligaciones/edit/<?php echo $data->id; ?>"
-                                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
+                                                        
                                                         <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>"
                                                             class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
                                                         </div>
@@ -461,6 +462,8 @@
                     </div>
                 </div>
                 
+
+
 
 
 

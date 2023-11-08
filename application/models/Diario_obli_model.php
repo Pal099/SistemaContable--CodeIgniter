@@ -25,6 +25,12 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
+	public function save_num_asi($data){
+		return $this->db->insert("num_asi",$data);
+	}
+
+
+
 	// num asi deta segundo
 	public function obtener_detalles_por_asiento($idAsiento) {
         $this->db->where('Num_Asi_IDNum_Asi', $idAsiento);

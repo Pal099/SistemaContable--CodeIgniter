@@ -7,10 +7,13 @@ class Usuarios extends CI_Controller {
         parent::__construct();
         $this->load->model('Usuarios_model');
         $this->load->library('form_validation');
+        
 
     }
 
     public function login() {
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/footer");
         if ($this->session->userdata('logged_in')) {
             redirect('principal');
         }
@@ -20,7 +23,9 @@ class Usuarios extends CI_Controller {
         $this->form_validation->set_rules('unidad_academica', 'Unidad Académica', 'required');
 
         if ($this->form_validation->run() === FALSE) {
+            $this->load->view("layouts/header");
             $this->load->view('admin/usuarios/login_view');
+            $this->load->view("layouts/footer");
         } else {
             $username = trim($this->input->post('username'));
             $password = $this->input->post('password');
@@ -61,6 +66,6 @@ class Usuarios extends CI_Controller {
         $this->session->unset_userdata('unidad_academica');
         $this->session->unset_userdata('id_user');
         session_destroy();
-        redirect('login/index');
+        redirect('/');
     }
 }
