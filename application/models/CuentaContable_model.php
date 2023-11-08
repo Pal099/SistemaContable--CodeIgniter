@@ -10,7 +10,7 @@ class CuentaContable_model extends CI_Model {
         return $resultados->result();
     }
 
-    public function store($data){
+    public function save($data){
         return $this->db->insert("cuentacontable", $data);
     }
 
@@ -28,12 +28,12 @@ class CuentaContable_model extends CI_Model {
     // Puedes agregar más métodos aquí según lo necesites.
     public function getCuentasPadre() {
         // Las cuentas que pueden ser "padre" son aquellas que no son imputables.
-        $this->db->where('imputable', 0);  // Donde 'imputable' es un campo booleano en tu tabla.
+       // $this->db->where('imputable', 0);  // Donde 'imputable' es un campo booleano en tu tabla.
         $this->db->where('estado', 1);     // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
         
         // Puedes agregar más condiciones si, por ejemplo, solo ciertos tipos pueden ser padres.-si 
         // Por ejemplo, si solo "Título" y "Grupo" pueden ser padres, puedes agregar:
-        // $this->db->where_in('tipo', ['Título', 'Grupo']);
+        $this->db->where_in('tipo', ['Título', 'Grupo','Subgrupo','Cuenta','Subcuenta','Analítico1']);
         
         $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
     
@@ -43,6 +43,18 @@ class CuentaContable_model extends CI_Model {
     
         return false;
     }
+    public function getCuentasPorTipo($tipo) {
+        $this->db->where('tipo', $tipo);
+        $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
+        $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
+    
+        if ($result->num_rows() > 0) {
+            return $result->result();
+        }
+    
+        return false;
+    }
+    
     
     public function add() {
         $data = array(
@@ -64,7 +76,7 @@ class CuentaContable_model extends CI_Model {
             return $lastCode + 1 . ".0.0.0.00.00.00.000";
         } else {
             // Si no hay ningún título, comenzamos con el código "2" (basado en tu ejemplo)
-            return "2.0.0.0.00.00.00.000";
+            return "1.0.0.0.00.00.00.000";
         }
     }
     public function getNextCodigoGrupo($padre_id) {
@@ -231,16 +243,5 @@ class CuentaContable_model extends CI_Model {
         }
     }
     
-    public function getCuentasPorTipo($tipo) {
-    $this->db->where('tipo', $tipo);
-    $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
-    $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
-
-    if ($result->num_rows() > 0) {
-        return $result->result();
-    }
-
-    return false;
-}
 
 }

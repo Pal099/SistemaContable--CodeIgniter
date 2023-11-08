@@ -5,6 +5,8 @@ class CuentaContable extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->helper('url');
+
         $this->load->model('CuentaContable_model');  // Cargar el modelo
         $this->load->library('session');
     }
@@ -40,22 +42,20 @@ class CuentaContable extends CI_Controller {
         $codigo = $this->input->post("Codigo_CC");
         $descripcion = $this->input->post("Descripcion_CC");
         $tipo = $this->input->post("tipo");
-        $imputable = $this->input->post("imputable");
+        $imputable = $this->input->post("imputable") === '1' ? 1 : 0;
         $padre_id = $this->input->post("padre_id");
     
         // Validación del formulario
         $this->form_validation->set_rules("Codigo_CC", "Código", "required|is_unique[cuentacontable.Codigo_CC]");
         $this->form_validation->set_rules("Descripcion_CC", "Descripción", "required");
         // ... (otros campos si es necesario)
-    var_dump($data); 
         if ($this->form_validation->run() == TRUE) {
             // Preparar datos para insertar.
-            $codigo = $this->generarCodigo($tipo, $padre_id);
             $data = array(
                 'Codigo_CC' => $codigo,
                 'Descripcion_CC' => $descripcion,
                 'tipo' => $tipo,
-                'imputable' => $imputable === 'true' ? 1 : 0,  // imputable es un booleano
+               'imputable' => $imputable,  // usar la variable booleana
                 'padre_id' => $padre_id,
                 'estado' => '1' 
             );
@@ -99,7 +99,7 @@ class CuentaContable extends CI_Controller {
         $codigo = $this->input->post('Codigo_CC');
         $descripcion = $this->input->post('Descripcion_CC');
         $tipo = $this->input->post('tipo');
-        $imputable = $this->input->post('imputable');
+        $imputable = $this->input->post("imputable") === '1' ? 1 : 0;
         $padre_id = $this->input->post('padre_id');
 
         // Validación del formulario
@@ -114,7 +114,7 @@ class CuentaContable extends CI_Controller {
                 'Codigo_CC' => $codigo,
                 'Descripcion_CC' => $descripcion,
                 'tipo' => $tipo,
-                'imputable' => $imputable === 'true' ? 1 : 0,
+                'imputable' => $imputable,  // usar la variable booleana
                 'padre_id' => $padre_id,
             );
 
@@ -170,17 +170,14 @@ class CuentaContable extends CI_Controller {
         $tipo = $this->input->post('tipo');
         $cuentasPadre = $this->CuentaContable_model->getCuentasPorTipo($tipo);
     
-        // Comprueba si se obtuvieron resultados y devuelve un JSON
-        if($cuentasPadre){
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($cuentasPadre));
-        } else {
-            $this->output
-                ->set_status_header(404)
-                ->set_content_type('application/json')
-                ->set_output(json_encode(array('message' => 'No se encontraron cuentas padre')));
-        }
+        // Siempre devolver una estructura de respuesta consistente
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode([
+                'success' => !!$cuentasPadre,
+                'data' => $cuentasPadre ?: [],
+                'message' => $cuentasPadre ? '' : 'No se encontraron cuentas padre'
+            ]));
     }
     
     

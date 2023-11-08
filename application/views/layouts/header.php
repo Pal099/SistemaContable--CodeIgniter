@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sistema Contable</title>
+    <title>CodexVeritas</title>
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Favicons -->
-    <link href="<?php echo base_url();?>assets/img/logoUNE.png" rel="icon">
+    <link href="<?php echo base_url();?>assets/img/Codex.jpeg" rel="icon">
     <link href="<?php echo base_url();?>assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
@@ -157,7 +157,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">
     <div class="d-flex align-items-center justify-content-between header-center">
         <a href="<?php echo base_url();?>principal" class="logo d-flex align-items-center">
-            <img src="assets/template/dist/img/logoUNE.png" alt="">
+            <img src="assets/template/dist/img/Codex.jpeg" alt="">
             <span class="d-none d-lg-block header-title">Sistema Contable</span>
         </a>
         
