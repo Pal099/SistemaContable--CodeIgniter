@@ -43,6 +43,26 @@ class CuentaContable_model extends CI_Model {
     
         return false;
     }
+
+    public function getCuentasPadrePermitidasPorTipo($tipo) {
+        // Asumiendo que tienes una estructura de jerarquía definida
+        $jerarquiaPermitida = [
+            'Grupo' => 'Título',
+            'Subgrupo' => 'Grupo',
+            'Cuenta' => 'Subgrupo',
+            // Añadir más según la jerarquía de tu aplicación
+        ];
+    
+        if(array_key_exists($tipo, $jerarquiaPermitida)){
+            $tipoPadre = $jerarquiaPermitida[$tipo];
+            $this->db->where('tipo', $tipoPadre);
+            $this->db->where('estado', 1);
+            $result = $this->db->get('cuentacontable');
+            return $result->num_rows() > 0 ? $result->result() : false;
+        } else {
+            return false;
+        }
+    }
     public function getCuentasPorTipo($tipo) {
         $this->db->where('tipo', $tipo);
         $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
@@ -55,6 +75,7 @@ class CuentaContable_model extends CI_Model {
         return false;
     }
     
+
     
     public function add() {
         $data = array(
@@ -65,6 +86,8 @@ class CuentaContable_model extends CI_Model {
         $this->load->view('admin/CuentaContable/add', $data);
         $this->load->view('layouts/footer');
     }
+
+
 
     public function getNextCodigoTitulo() {
         $this->db->select_max('Codigo_CC');

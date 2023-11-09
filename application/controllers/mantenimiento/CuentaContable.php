@@ -179,10 +179,23 @@ class CuentaContable extends CI_Controller {
                 'message' => $cuentasPadre ? '' : 'No se encontraron cuentas padre'
             ]));
     }
-    
+    public function getCuentasPadrePorTipo(){
+        $tipo = $this->input->post('tipo');
+        $cuentasPadrePermitidas = $this->CuentaContable_model->getCuentasPadrePermitidasPorTipo($tipo);
+
+        // Devolver la respuesta en formato JSON
+        if($cuentasPadrePermitidas){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($cuentasPadrePermitidas));
+        } else {
+            $this->output
+                ->set_status_header(404)
+                ->set_content_type('application/json')
+                ->set_output(json_encode(['message' => 'No se encontraron cuentas padre para el tipo seleccionado']));
+        }
+    }
     
 }
        
-
-
 ?>
