@@ -99,35 +99,35 @@
                                 });
                                 </script> -->
                             <script type="text/javascript">
-                                    $(document).ready(function(){
-                                        // Actualizado para cargar las cuentas padre cuando se cambia el tipo.
-                                        $('#tipo').change(function(){
-                                            var tipo = $(this).val();
-                                            $('#hiddenTipo').val(tipo);  // Establecer el tipo en el input oculto
+                                            $(document).ready(function(){
+                                                $('#tipo').change(function(){
+                                                    var tipoHijo = $(this).val();
+                                                    $('#hiddenTipo').val(tipoHijo); // Establecer el tipo en el input oculto
 
-                                            $.ajax({
-                                                url: "<?php echo base_url();?>mantenimiento/CuentaContable/getCuentasPadre",
-                                                type: "POST",
-                                                data: { tipo: tipo },
-                                                success: function(response) {
-                                                    var cuentasPadre = $('#padre_id');
-                                                    cuentasPadre.empty(); // Limpia el select antes de agregar nuevas opciones
-                                                    response.data.forEach(function(cuenta) {
-                                                        cuentasPadre.append($('<option>', {
-                                                            value: cuenta.IDCuentaContable,
-                                                            text : cuenta.Descripcion_CC
-                                                        }));
+                                                    $.ajax({
+                                                        url: "<?php echo base_url();?>mantenimiento/CuentaContable/getCuentasPadre",
+                                                        type: "POST",
+                                                        data: { tipo: tipoHijo }, // Aquí es donde debe ir tipoHijo en lugar de solo tipo
+                                                        dataType: "json", // Asegúrate de especificar que esperas una respuesta en formato JSON
+                                                        success: function(response) {
+                                                            var cuentasPadre = $('#padre_id');
+                                                            cuentasPadre.empty(); // Limpia el select antes de agregar nuevas opciones
+                                                            if (response.success && response.data) {
+                                                                response.data.forEach(function(cuenta) {
+                                                                    cuentasPadre.append($('<option>', {
+                                                                        value: cuenta.IDCuentaContable,
+                                                                        text: cuenta.Descripcion_CC
+                                                                    }));
+                                                                });
+                                                            } else {
+                                                                alert(response.message); // No se encontraron cuentas padre
+                                                            }
+                                                        },
+                                                        error: function(xhr, textStatus, errorThrown) {
+                                                            alert("Ocurrió un error al cargar las cuentas padre: " + textStatus);
+                                                        }
                                                     });
-                                                },
-                                                error: function(xhr, textStatus, errorThrown) {
-                                                    if(xhr.status == 404) {
-                                                        alert("No se encontraron cuentas padre para el tipo seleccionado.");
-                                                    } else {
-                                                        alert("Ocurrió un error al cargar las cuentas padre: " + textStatus);
-                                                    }
-                                                }
-                                            });
-                                        });
+                                                });
 
                                     $("form").submit(function(e){
                                         let error = "";

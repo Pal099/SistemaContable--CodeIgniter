@@ -44,24 +44,30 @@ class CuentaContable_model extends CI_Model {
         return false;
     }
 
-    public function getCuentasPadrePermitidasPorTipo($tipo) {
-        // Asumiendo que tienes una estructura de jerarquía definida
-        $jerarquiaPermitida = [
-            'Grupo' => 'Título',
-            'Subgrupo' => 'Grupo',
-            'Cuenta' => 'Subgrupo',
-            // Añadir más según la jerarquía de tu aplicación
-        ];
-    
-        if(array_key_exists($tipo, $jerarquiaPermitida)){
-            $tipoPadre = $jerarquiaPermitida[$tipo];
-            $this->db->where('tipo', $tipoPadre);
-            $this->db->where('estado', 1);
-            $result = $this->db->get('cuentacontable');
-            return $result->num_rows() > 0 ? $result->result() : false;
-        } else {
-            return false;
+    public function getCuentasPadrePorTipo($tipoHijo) {
+        switch ($tipoHijo) {
+            case 'Grupo':
+                $tipoPadre = 'Título';
+                break;
+            case 'Subgrupo':
+                $tipoPadre = 'Grupo';
+                break;
+            // ... Y así sucesivamente para cada tipo de cuenta ...
+            default:
+                $tipoPadre = null;
         }
+    
+        if ($tipoPadre) {
+            $this->db->where('tipo', $tipoPadre);
+            $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
+            $result = $this->db->get('cuentacontable');
+        
+            if ($result->num_rows() > 0) {
+                return $result->result();
+            }
+        }
+        
+        return false;
     }
     public function getCuentasPorTipo($tipo) {
         $this->db->where('tipo', $tipo);

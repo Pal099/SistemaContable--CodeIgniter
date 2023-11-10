@@ -34,11 +34,7 @@ class CuentaContable extends CI_Controller {
     
     
 	public function store() {
-       //echo "<pre>";
-       //print_r($_POST);
-        //echo "</pre>";
-       // die();
-    
+
         $codigo = $this->input->post("Codigo_CC");
         $descripcion = $this->input->post("Descripcion_CC");
         $tipo = $this->input->post("tipo");
@@ -167,16 +163,16 @@ class CuentaContable extends CI_Controller {
         }
     }
     public function getCuentasPadre(){
-        $tipo = $this->input->post('tipo');
-        $cuentasPadre = $this->CuentaContable_model->getCuentasPorTipo($tipo);
-    
-        // Siempre devolver una estructura de respuesta consistente
+        $tipoHijo = $this->input->post('tipo');
+        $cuentasPadre = $this->CuentaContable_model->getCuentasPadrePorTipo($tipoHijo);
+        
+        // Devuelve la respuesta como JSON
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode([
-                'success' => !!$cuentasPadre,
-                'data' => $cuentasPadre ?: [],
-                'message' => $cuentasPadre ? '' : 'No se encontraron cuentas padre'
+                'success' => !empty($cuentasPadre),
+                'data' => $cuentasPadre,
+                'message' => !empty($cuentasPadre) ? '' : 'No se encontraron cuentas padre para el tipo seleccionado.'
             ]));
     }
     public function getCuentasPadrePorTipo(){
