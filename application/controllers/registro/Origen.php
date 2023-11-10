@@ -9,8 +9,10 @@ class Origen extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
     $this->load->database();
 		$this->load->model("Origen_model");
+		
 	}
 
+	
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()

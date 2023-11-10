@@ -13,8 +13,9 @@ class Proveedores extends CI_Controller {
 	
 	public function index()
 	{
+	
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getProveedores(), 
+			'proveedores' => $this->Proveedores_model->getproveedores(),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -31,44 +32,38 @@ class Proveedores extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-	public function store(){
-
+	public function store() {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
-		$propietario = $this->input->post("propietario");
-		$direccion= $this->input->post("direccion");
-		$telefono= $this->input->post("telefono");
-		$email= $this->input->post("email");
+		$direccion = $this->input->post("direccion");
+		$telefono = $this->input->post("telefono");
+		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
-
-		if ($this->form_validation->run()==TRUE) {
-
-			$data  = array(
-				'ruc' => $ruc, 
+		$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
+	
+		if ($this->form_validation->run() == TRUE) {
+			$data = array(
+				'ruc' => $ruc,
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
 				'direccion' => $direccion,
 				'telefono' => $telefono,
 				'email' => $email,
 				'observacion' => $observacion,
-				'estado' => "1"
+				'estado' => "1",
+				
 			);
-
+	
 			if ($this->Proveedores_model->save($data)) {
-				redirect(base_url()."mantenimiento/proveedores");
+				redirect(base_url() . "mantenimiento/proveedores");
+			} else {
+				$this->session->set_flashdata("error", "No se pudo guardar la información");
+				redirect(base_url() . "mantenimiento/proveedores/add");
 			}
-			else{
-				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."mantenimiento/proveedores/add");
-			}
-		}
-		else{
+		} else {
 			$this->add();
 		}
-
-		
 	}
+	
 
 	public function edit($id){
 		$data  = array(
@@ -85,7 +80,6 @@ class Proveedores extends CI_Controller {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$telefono = $this->input->post("telefono");
-		$propietario = $this->input->post("propietario");
 		$telefono = $this->input->post("telefono");
 		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
 		$email= $this->input->post("email");
@@ -104,7 +98,6 @@ class Proveedores extends CI_Controller {
 			$data = array(
 				'ruc' => $ruc, 
 				'razon_social' => $razon_social,
-				'propietario' => $propietario,
 				'direccion' => $direccion,	
 				'telefono' => $telefono,
 				'email' => $email,
@@ -123,7 +116,7 @@ class Proveedores extends CI_Controller {
 		}
 		
 	}
-
+	
 	public function view($id){
 		$data  = array(
 			'proveedor' => $this->Proveedores_model->getProveedor($id), 

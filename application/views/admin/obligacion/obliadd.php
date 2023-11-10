@@ -9,7 +9,7 @@
   <link rel="stylesheet" type="text/css" href="assets/style.css">
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
         <li class="breadcrumb-item"><a href="<?php echo base_url();?>obligaciones/diario_obligaciones">Diario de obligaciones</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ol>
@@ -197,8 +197,6 @@
                                 <label for="pagado">Pagado:</label>
                                 <input type="text" class="form-control" id="pagado" name="pagado">
                             </div>
-      <!-- ... otros campos opcionales ... -->
-      <!-- Botones de guardar y cancelar -->
       <div class="form-group">
                                <div class="col-md-6">
                                <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>

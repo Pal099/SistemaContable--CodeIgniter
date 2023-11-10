@@ -9,16 +9,21 @@ class Proveedores_model extends CI_Model {
 		return $resultados->result();
 	}
 
-	public function save($data){
-		return $this->db->insert("proveedores",$data);
+	
+	public function save($data) {
+	
+		return $this->db->insert('proveedores', $data);
 	}
+	
+	
+	
 	public function getProveedor($id){
 		$this->db->where("id",$id);
 		$resultado = $this->db->get("proveedores");
 		return $resultado->row();
 
 	}
-
+ 
 	public function update($id,$data){
 		$this->db->where("id",$id);
 		return $this->db->update("proveedores",$data);

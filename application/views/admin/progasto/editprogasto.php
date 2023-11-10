@@ -3,13 +3,13 @@
 
   <div class="pagetitle">
       <h1>
-       Programa de gastos
-        <small>Editar Programa</small>
+       Programas
+        <small>Editar Programas</small>
         </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/programagasto">Programa de Gastos</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/programa">Programas</a></li>
         <li class="breadcrumb-item active">Editar</li>
       </ol>
     </nav>
@@ -30,8 +30,8 @@
                              </div>
                         <?php endif;?>
 
-                        <form action="<?php echo base_url();?>registro/programagasto/update" method="POST">
-                            <input type="hidden" value="<?php echo $gastos->id;?>" name="idProgramGasto">
+                        <form action="<?php echo base_url();?>registro/programa/update" method="POST">
+                            <input type="hidden" value="<?php echo $gastos->id;?>" name="idPrograma">
 
                             <div class="form-group">
 
@@ -55,7 +55,7 @@
 
                                 <div class="col-md-6">
                             
-                                <a href="<?php echo base_url(); ?>registro/programagasto" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                <a href="<?php echo base_url(); ?>registro/programa" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
                             
                                 </div>
                             </div>
