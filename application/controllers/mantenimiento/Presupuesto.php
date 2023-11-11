@@ -11,7 +11,7 @@ class Presupuesto extends CI_Controller {
 	$this->load->model("Registros_financieros_model");
 	$this->load->model("Origen_model");
 	$this->load->model('ProgramGasto_model');
-	$this->load->model('Cuentas_model');
+	$this->load->model('CuentaContable_model');
 	$this->load->model('EjecucionP_model');
 	}
 
@@ -20,11 +20,11 @@ class Presupuesto extends CI_Controller {
 	{
 		$data  = array(
 			'presupuestos' => $this->Presupuesto_model->getPresu(),
-			'descripciones' => $this->Cuentas_model->getCuentas(),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
 			'origen' => $this->Origen_model->getOrigenes(),
 			'programa' => $this->ProgramGasto_model->getProgramGastos(),
 			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP(),
+			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables(),
 		);
 		
 		$this->load->view("layouts/header");
@@ -40,7 +40,7 @@ class Presupuesto extends CI_Controller {
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
 			'origen' => $this->Origen_model->getOrigenes(),
 			'programa' => $this->ProgramGasto_model->getProgramGastos(),
-			'descripciones' => $this->Cuentas_model->getCuentas(),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
 		);
 
 		$this->load->view("layouts/header");
@@ -53,7 +53,7 @@ class Presupuesto extends CI_Controller {
 
 		$id_presupuesto = $this->input->post("ID_Presupuesto");
 		$año = $this->input->post("Año");
-		$descripcion = $this->input->post("Descripcion");
+		//$descripcion = $this->input->post("Descripcion");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
 		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
 		$programa_id_pro = $this->input->post("programa_id_pro");
@@ -76,7 +76,7 @@ class Presupuesto extends CI_Controller {
 			$data = array(
 				'ID_Presupuesto' => $id_presupuesto,
 				'Año' => $año,
-				'Descripcion' => $descripcion,
+				//'Descripcion' => $descripcion,
 				'TotalPresupuestado' => $totalpresupuestado,
 				'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
 				'programa_id_pro' => $programa_id_pro,
@@ -104,7 +104,7 @@ class Presupuesto extends CI_Controller {
 				redirect(base_url() . "mantenimiento/presupuesto/add");
 			}
 
-			$datos = array(
+			/*$datos = array(
 				'id_pro' => $this->input->post('programa_id_pro'),
 				'id_ff' => $this->input->post('fuente_de_financiamiento'),
 				'id_of' => $this->input->post('origen_de_financiamiento'),
@@ -116,7 +116,7 @@ class Presupuesto extends CI_Controller {
 		
 			if ($this->Presupuesto_model->save2($datos)) {
 				redirect(base_url() . "mantenimiento/presupuesto");
-			}
+			}*/
 	}
 
 	public function edit($id){
@@ -125,6 +125,7 @@ class Presupuesto extends CI_Controller {
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
 			'origen' => $this->Origen_model->getOrigenes(),
 			'programa' => $this->ProgramGasto_model->getProgramGastos(),
+			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables(),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -134,8 +135,8 @@ class Presupuesto extends CI_Controller {
 
 	public function update(){
 		$id = $this->input->post("ID_Presupuesto");
-		$anio = $this->input->post("Anio");
-		$descripcion = $this->input->post("Descripcion");
+		$anio = $this->input->post("Año");
+		//$descripcion = $this->input->post("Descripcion");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
 		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
 		$programa_id_pro = $this->input->post("programa_id_pro");
@@ -158,7 +159,7 @@ class Presupuesto extends CI_Controller {
 		$data = array(
 			'ID_Presupuesto' => $id,
 			'Anio' => $anio,
-			'Descripcion' => $descripcion,
+			//'Descripcion' => $descripcion,
 			'TotalPresupuestado' => $totalpresupuestado,
 			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
 			'programa_id_pro' => $programa_id_pro,
@@ -193,7 +194,7 @@ class Presupuesto extends CI_Controller {
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
 			'origen' => $this->Origen_model->getOrigenes(),
 			'programa' => $this->ProgramGasto_model->getProgramGastos(),
-			'descripcion' => $this->Cuentas_model->getCuentas(),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
 		);
 		$this->load->view("admin/presupuesto/view", $data);
 	}
