@@ -103,7 +103,7 @@ class Presupuesto extends CI_Controller
 				'MontoPago' => $this->input->post('monto_mes'),
 			);
 		
-			if ($this->Presupuesto_model->save2($datos)) {
+			if ($this->Presupuesto_model->save($datos)) {
 				redirect(base_url() . "mantenimiento/presupuesto");
 			}
 			

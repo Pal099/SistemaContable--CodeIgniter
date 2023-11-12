@@ -6,5 +6,16 @@
 <p><strong>Fuente de financiamiento:</strong> <?php echo $presupuesto->fuente_de_financiamiento_id_ff; ?></p>
 <p><strong>Programa:</strong> <?php echo $presupuesto->programa_id_pro; ?></p>
 <p><strong>Total Modificado:</strong> <?php echo $presupuesto->TotalModificado; ?></p>
-<p><strong>Mes:</strong> <?php echo $presupuesto->mes; ?></p>
-<p><strong>Monto del mes:</strong> <?php echo $presupuesto->monto_mes; ?></p>
+<p><strong>Enero:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Febrero:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Marzo:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Abril:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Mayo:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Junio:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Julio:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Agosto:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Septiembre:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Octubre:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Noviembre:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+<p><strong>Diciembre:</strong> <?php echo $presupuesto->pre_ene; ?></p>
+

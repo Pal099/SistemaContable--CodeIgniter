@@ -35,8 +35,18 @@
                                     <th>Fuente de financiamiento</th>
                                     <th>Programa</th>
                                     <th>Total modificado</th>
-                                    <th>Mes</th>
-                                    <th>Monto mes</th>
+                                    <th>Enero</th>
+                                    <th>Febrero</th>
+                                    <th>Marzo</th>
+                                    <th>Abril</th>
+                                    <th>Mayo</th>
+                                    <th>Junio</th>
+                                    <th>Julio</th>
+                                    <th>Agosto</th>
+                                    <th>Septiembre</th>
+                                    <th>Octubre</th>
+                                    <th>Noviembre</th>
+                                    <th>Diciembre</th>
                                 </tr>
                             </thead>
     <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
@@ -44,7 +54,7 @@
         <tr>
             <td><?php echo $presupuesto->ID_Presupuesto; ?></td>
             <td><?php echo $presupuesto->Año; ?></td>
-            <td><?php echo $cuentacontable[$index]->Codigo_CC; ?></td>
+            <td><?php echo $cuentacontable[$index]->Descripcion_CC; ?></td>
             <td><?php echo $presupuesto->TotalPresupuestado; ?></td>
             <td><?php echo $origen [$index]->nombre; ?></td>
             <td><?php echo $registros_financieros [$index]->nombre; ?></td>
@@ -52,6 +62,16 @@
             <td><?php echo $presupuesto->TotalModificado; ?></td>
             <td><?php echo $presupuesto->pre_ene; ?></td>
             <td><?php echo $presupuesto->pre_feb; ?></td>
+            <td><?php echo $presupuesto->pre_mar; ?></td>
+            <td><?php echo $presupuesto->pre_abr; ?></td>
+            <td><?php echo $presupuesto->pre_may; ?></td>
+            <td><?php echo $presupuesto->pre_jun; ?></td>
+            <td><?php echo $presupuesto->pre_jul; ?></td>
+            <td><?php echo $presupuesto->pre_ago; ?></td>
+            <td><?php echo $presupuesto->pre_sep; ?></td>
+            <td><?php echo $presupuesto->pre_oct; ?></td>
+            <td><?php echo $presupuesto->pre_nov; ?></td>
+            <td><?php echo $presupuesto->pre_dic; ?></td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-info btn-view-presupuesto" data-toggle="modal" data-target="#modal-default" value="<?php echo $presupuesto->ID_Presupuesto; ?>">

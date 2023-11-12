@@ -37,11 +37,11 @@
                                     <input type="text" class="form-control" id="Año" name="Año">
                                 </div>
                                 <div class="form-group">
-                                    <label for="Idcuentacontable">Descripción:</label>
-                                    <select name="Idcuentacontable" id="Idcuentacontable" class="form-control">
-                                        <?php foreach ($cuentacontable as $cc): ?>
-                                            <option value="<?php echo $cc->IDCuentaContable?>">
-                                                <?php echo $cc->Codigo_CC; ?>
+                                    <label for="descripcion">Descripción:</label>
+                                    <select name="descripcion" id="descripcion" class="form-control">
+                                        <?php foreach ($descripciones as $descripcion): ?>
+                                            <option value="<?php echo $descripcion->IDCuentaContable?>">
+                                                <?php echo $descripcion->DescripcionCuentaContable; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
