@@ -57,20 +57,54 @@
                 <div class="row">
                     <div class="col-md-10">
                         <table id="example1" class="table table-bordered table-hover">
+                        
                             <form  action="<?php echo base_url();?>obligaciones/diario_obligaciones/store" method="POST">
                                                     <div class="content3">
                                                     <div class="content-container3">
                                                         <div class="main-fields">
-                                                        <div class="form-group">
+                                                        <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                                             <label for="ruc">Ruc:</label>
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
-                                                        <div class="form-group">
-                                                            <label for="numero">Numero:</label>
-                                                            <input type="text" class="form-control" id="numero" name="numero">
-                                                        </div>
+
+                                                        <?php
+// Conexión a la base de datos (debes configurar tu conexión)
+$conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+
+// Verificar la conexión
+if ($conexion->connect_error) {
+    die("La conexión a la base de datos falló: " . $conexion->connect_error);
+}
+
+// Obtener el número actual registrado en la base de datos
+$consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+$resultado = $conexion->query($consulta);
+
+if ($resultado->num_rows > 0) {
+    // Obtiene el último número registrado
+    $fila = $resultado->fetch_assoc();
+    $numero_actual = $fila['ultimo_numero'];
+
+    // Incrementar el número actual en 1 para el próximo registro
+    $numero_siguiente = $numero_actual + 1;
+} else {
+    // Si no hay registros, establece el número inicial como 1
+    $numero_actual = 1;
+    $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+}
+
+// Cierra la conexión a la base de datos
+$conexion->close();
+?>
+
+<div class="form-group">
+    <label for="num_asi">Numero:</label>
+    <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+</div>
+
+
                                                         <div class="form-group">
                                                             <label for="contabilidad">Contabilidad:</label>
                                                             <input type="text" class="form-control" id="contabilidad" name="contabilidad">
@@ -98,6 +132,7 @@
                                                     </div>
                                                 </div>
                                                 </div>
+                                                
                                                         <!-- Primer asiento de la obligación  -->
                                                     <div class="content4">
                                                     <div class="content-container4">

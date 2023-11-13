@@ -79,6 +79,20 @@ public function getProveedorIdByRuc($ruc) {
     }
 }
 
+public function getUsuarioId($nombre){
+	$nombre = $this->session->userdata("Nombre_usuario");
+	$this->db->select('id_user'); 
+    $this->db->where('Nombre_usuario', $nombre);
+    $query = $this->db->get('usuarios'); 
+
+    if ($query->num_rows() > 0) {
+        $row = $query->row();
+        return $row->id_user; 
+    } else {
+        return false; 
+    }
+
+}
 
 
 	public function getDiarios(){
@@ -104,19 +118,36 @@ public function getProveedorIdByRuc($ruc) {
 		return $this->db->update("proveedores",$data);
 	}
 
-	public function getProgramas() {
-		$query = $this->db->get("programa");
-		return $query->result();
+	public function getProgramGastos($id_uni_respon_usu) {
+		$this->db->select('programa.*');
+		$this->db->from('programa');
+		$this->db->join('uni_respon_usu', 'programa.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('programa.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		
+		$resultados = $this->db->get();
+		return $resultados->result();
 	}
 	
-	public function getFuentesFinanciamiento() {
-		$query = $this->db->get("fuente_de_financiamiento");
-		return $query->result();
+	public function getFuentes($id_uni_respon_usu) {
+		$this->db->select('fuente_de_financiamiento.*');
+		$this->db->from('fuente_de_financiamiento');
+		$this->db->join('uni_respon_usu', 'fuente_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('fuente_de_financiamiento.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get();
+		return $resultados->result();
 	}
 	
-	public function getOrigenesFinanciamiento() {
-		$query = $this->db->get("origen_de_financiamiento");
-		return $query->result();
+	public function getOrigenes($id_uni_respon_usu) {
+		$this->db->select('origen_de_financiamiento.*');
+		$this->db->from('origen_de_financiamiento');
+		$this->db->join('uni_respon_usu', 'origen_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('origen_de_financiamiento.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		
+		$resultados = $this->db->get();
+		return $resultados->result();
 	}
 
     public function getCuentasContables(){
@@ -157,6 +188,11 @@ public function getProveedorIdByRuc($ruc) {
 		$query = $this->db->get();
 	}	
 
+	public function obtener_usuario_por_id($id) {
+        
+		$query = $this->db->get_where('usuarios', array('id_user' => $id));
+		return $query->row();
+   }
 
 //	public function getDiarios_obli() {
 //		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');

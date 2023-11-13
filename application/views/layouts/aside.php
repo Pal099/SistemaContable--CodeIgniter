@@ -19,7 +19,7 @@
         
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
-                <i class="bi bi-bar-chart"></i><span>Presuesto</span>
+                <i class="bi bi-bar-chart"></i><span>Presupuesto</span>
             </a>
         </li> 
 
@@ -51,7 +51,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>user/Usuarios/logout">
+            <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
             </a>
         </li>
