@@ -6,7 +6,7 @@
       </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
         <li class="breadcrumb-item"><a href="<?php echo base_url();?>mantenimiento/proveedores">Proveedores</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ol>
@@ -37,10 +37,7 @@
                                 <label for="razon_social">Razon social:</label>
                                 <input type="text" class="form-control" id="razon_social" name="razon social">
                             </div>
-                              <div class="form-group">
-                                <label for="propietario">Propietario:</label>
-                                <input type="text" class="form-control" id="propietario" name="propietario">
-                            </div>
+                             
                               <div class="form-group">
                                 <label for="direccion">Dirección:</label>
                                 <input type="text" class="form-control" id="direccion" name="direccion">

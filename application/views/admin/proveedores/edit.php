@@ -43,10 +43,7 @@
                                 <input type="text" class="form-control" id="razon_social" name="razon_social" value="<?php echo $proveedor->razon_social?>">
                             </div>
 
-                             <div class="form-group">
-                                <label for="propietario">Propietario:</label>
-                                <input type="text" class="form-control" id="propietario" name="propietario" value="<?php echo $proveedor->propietario?>">
-                            </div>
+                            
 
                              <div class="form-group">
                                 <label for="direccion">Dirección:</label>

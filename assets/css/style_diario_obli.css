@@ -1,0 +1,199 @@
+.notification {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #4CAF50; /* Color de fondo del cuadro */
+    color: white; /* Color del texto */
+    border-radius: 10px; /* Bordes redondeados */
+    padding: 10px; /* Espaciado interno */
+    width: 200px; /* Ancho del cuadro */
+    text-align: center; /* Alineación del texto */
+    z-index: 9999; /* Asegúrate de que esté en la parte superior */
+}
+
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon img {
+    width: 64px; /* Tamaño de la imagen */
+}
+
+.message {
+    margin-top: 10px;
+}
+
+/* Estilo para el contenedor del modal */
+.modal-container {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 20;
+  bottom: 150;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content1 {
+  /* Estilos para el contenido del modal de proveedores */
+  background-color: #fefefe;
+  border: 1px solid #888;
+  border-radius: 10px;
+  padding: 20spx;
+  width: 65%; /* Ajusta el ancho del contenido del modal */
+  margin-top: 10%; /* Ajusta el margen superior para centrarlo más abajo */
+  transform: translateY(-50%); /* Centrado vertical */
+}
+
+
+
+.modal-content_obli {
+  /* Estilos para el contenido del modal */
+  background-color: #fefefe;
+  border: 1px solid #888;
+  border-radius: 10px;
+  padding: 20px;
+  width: 50%; /* Ajusta el ancho del contenido del modal */
+  margin-top: 20%; /* Ajusta el margen superior para centrarlo más abajo */
+  transform: translateY(-50%); /* Centrado vertical */
+}
+
+      /* Estilos para el contenedor con marco */
+      .content-container {
+          border: 1px solid #ccc;
+          padding: 10px;
+          margin: 10px;
+          border-radius: 10px;
+      }
+
+       /* Estilos para el contenedor con marco 2*/
+       .content-container3 {
+        border: 3px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 10px;
+    }
+
+     /* Estilos para el contenedor con marco 3*/
+     .content-container4 {
+        border: 3px solid #ccc;
+        padding: 10px;
+        margin: 5px;
+        border-radius: 10px;
+    }
+      /* Estilos para el título de la página */
+      .pagetitle {
+          margin-bottom: 1px;
+          padding-bottom: 10px;
+      }
+
+      /* Estilos para los botones de acciones */
+      .btn-group {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .btn-group .btn {
+          margin-right: 5px;
+      }
+
+      /* Estilo para el contenedor del contenido del diario obli */
+      .content {
+          background-color: #DCE1FF; /* Cambia el color a tu preferencia */
+          padding: 10px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
+          color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
+      }
+
+       /* Estilo para el contenedor del contenido del diario obli */
+       .content3 {
+        background-color: #DCE1FF; /* Cambia el color a tu preferencia */
+        padding: 5px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
+        color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
+    }
+    /* Estilo para el contenedor del contenido del diario obli */
+    .content4 {
+        background-color: #DCE1FF; /* Cambia el color a tu preferencia */
+        padding: 5px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
+        color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
+    }
+         /* Estilo para el contenedor del contenido separado del diario obli */
+         .main-fields {
+            background-color: #DCE1FF; /* Cambia el color a tu preferencia */
+            padding: 20px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
+            color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
+        }
+
+
+      /* Estilos para los campos opcionales */
+      .optional-fields {
+          display: none;
+          border: 1px solid #ccc;
+          padding: 10px;
+          margin-left: 1px;
+          margin-top: 12px;
+          border-radius: 10px;
+      }
+
+      /* Estilos para el switch deslizable */
+      .switch {
+          position: relative;
+          display: inline-block;
+          width: 40px;
+          height: 20px;
+      }
+
+      .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+          border-radius: 20px;
+      }
+
+      .slider:before {
+          position: absolute;
+          content: "";
+          height: 16px;
+          width: 16px;
+          left: 2px;
+          bottom: 2px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+          border-radius: 50%;
+      }
+
+      input:checked + .slider {
+          background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+          box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+          -webkit-transform: translateX(20px);
+          -ms-transform: translateX(20px);
+          transform: translateX(20px);
+      }
+
+      /* Estilos para los campos principales */
+      .main-fields {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+      }

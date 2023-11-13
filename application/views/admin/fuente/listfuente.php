@@ -4,7 +4,7 @@
     <h1>Fuentes de financiamiento</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
         <li class="breadcrumb-item active">Listado de las fuentes de financiamiento</li>
       </ol>
     </nav>
@@ -26,10 +26,8 @@
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  <th>opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,26 +35,10 @@
                   <?php foreach ($fuentes as $fuente): ?>
                     <tr>
                       <td>
-                        <?php echo $fuente->id; ?>
-                      </td>
-                      <td>
                         <?php echo $fuente->codigo; ?>
                       </td>
                       <td>
                         <?php echo $fuente->nombre; ?>
-                      </td>
-                      <td>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-financiamiento" data-toggle="modal"
-                            data-target="#modal-default" value="<?php echo $fuente->id; ?>">
-                            <span class="fa fa-search"></span>
-                          </button>
-                          <a href="<?php echo base_url() ?>registro/financiamiento/edit/<?php echo $fuente->id; ?>"
-                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
-                          <a href="<?php echo base_url(); ?>registro/financiamiento/delete/<?php echo $fuente->id; ?>"
-                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                        </div>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -93,4 +75,4 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
+<!-- /.modal --> 
