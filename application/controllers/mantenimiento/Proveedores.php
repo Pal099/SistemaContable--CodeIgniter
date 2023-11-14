@@ -1,22 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proveedores extends CI_Controller {
+class Proveedores extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
+		$this->load->library('session');
+		$this->load->model("Usuarios_model");
+		
 	}
+
+	
 
 	
 	
 	public function index()
 	{
-	
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getproveedores(),
+			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu  ),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -34,6 +42,9 @@ class Proveedores extends CI_Controller {
 	}
 
 	public function store() {
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$direccion = $this->input->post("direccion");
@@ -50,6 +61,7 @@ class Proveedores extends CI_Controller {
 				'telefono' => $telefono,
 				'email' => $email,
 				'observacion' => $observacion,
+				'id_uni_respon_usu' => $id_uni_respon_usu,
 				'estado' => "1",
 				
 			);

@@ -31,17 +31,17 @@
 
                                 </div>
                             <?php endif; ?>
-                            <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
+                    <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
                                 <div class="form-group">
                                     <label for="Año">Año:</label>
                                     <input type="text" class="form-control" id="Año" name="Año">
                                 </div>
                                 <div class="form-group">
-                                    <label for="descripcion">Descripción:</label>
-                                    <select name="descripcion" id="descripcion" class="form-control">
-                                        <?php foreach ($descripciones as $descripcion): ?>
-                                            <option value="<?php echo $descripcion->IDCuentaContable?>">
-                                                <?php echo $descripcion->DescripcionCuentaContable; ?>
+                                    <label for="Idcuentacontable">Descripción:</label>
+                                    <select name="Idcuentacontable" id="Idcuentacontable" class="form-control">
+                                        <?php foreach ($cuentacontable as $cc): ?>
+                                            <option value="<?php echo $cc->IDCuentaContable?>">
+                                                <?php echo $cc->Codigo_CC; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -88,24 +88,24 @@
                                 <div class="form-group">
                                 <label for="mes">Mes:</label>
                                 <select name="mes" id="mes" class="form-control">
-    <?php
-    // Obtén el mes actual en formato numérico
-    $mesActual = date('n'); // 'n' devuelve el mes sin ceros iniciales
+                                            <?php
+                                            // Obtén el mes actual en formato numérico
+                                            $mesActual = date('n'); // 'n' devuelve el mes sin ceros iniciales
 
-    // Definir un arreglo de nombres de meses
-    $nombresMeses = array(
-        'Enero', 'Febrero', 'Marzo', 'Abril',
-        'Mayo', 'Junio', 'Julio', 'Agosto',
-        'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    );
+                                            // Definir un arreglo de nombres de meses
+                                            $nombresMeses = array(
+                                                'Enero', 'Febrero', 'Marzo', 'Abril',
+                                                'Mayo', 'Junio', 'Julio', 'Agosto',
+                                                'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                                            );
 
-    // Obtén el nombre del mes actual
-    $mesActualNombre = $nombresMeses[$mesActual - 1];
+                                            // Obtén el nombre del mes actual
+                                            $mesActualNombre = $nombresMeses[$mesActual - 1];
 
-    // Genera una opción para el mes actual
-    echo "<option value='$mesActualNombre'>$mesActualNombre</option>";
-    ?>
-</select>
+                                            // Genera una opción para el mes actual
+                                            echo "<option value='$mesActualNombre'>$mesActualNombre</option>";
+                                            ?>
+                                </select>
 
 
 
@@ -124,7 +124,7 @@
                                         class="fa fa-remove"></span>Cancelar</a>
                             </div>
                         </div>
-                        </form>
+                    </form>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,10 @@ class Programa extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
-		$this->load->model("Programa_model");
+		$this->load->model("Programa_model");	
+		$this->load->model("Usuarios_model");
+		$this->load->library('session');
+
 		
 	}
 
@@ -16,8 +19,21 @@ class Programa extends CI_Controller {
 
 	public function index()
 	{
+		//Con la libreria Session traemos los datos del usuario
+		//Obtenemos el nombre que nos va servir para obtener su id
+		$nombre=$this->session->userdata('Nombre_usuario'); 
+
+		//Con el método getUserIdByUserName en el modelo del usuario, nos devuelve el id
+		//id conseguido mediante el nombre del usuario
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		
+		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
+		//esa id es importante para hacer las relaciones y registros por usuario
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
+
 		$data  = array(
-			'gastos' => $this->Programa_model->getProgramGastos(), 
+			'gastos' => $this->Programa_model->getProgramGastos($id_uni_respon_usu), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -33,6 +49,9 @@ class Programa extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
     public function store(){
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
@@ -44,7 +63,8 @@ class Programa extends CI_Controller {
 			$data  = array(
 				'nombre' => $nombre, 
 				'codigo' => $codigo,
-				'estado' => "1"
+				'id_uni_respon_usu'=>$id_uni_respon_usu,
+				'estado' => "1",
 			);
 
             //----------------------Fuente--------------------------------------------------------
