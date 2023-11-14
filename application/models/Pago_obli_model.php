@@ -1,15 +1,21 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Diario_obli_model extends CI_Model {
-	//acá empieza el javorai de isaac
-	//num asi primero
+class Pago_obli_model extends CI_Model
+{
 	public function __construct() {
         $this->load->database();
     }
-	public function obtener_asientos() {
-        return $this->db->get('num_asi')->result_array();
-    }
+	public function obtener_asientos($id_uni_respon_usu) {
+		$this->db->select('num_asi.*');
+		$this->db->from('num_asi');
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('num_asi.estado_registro', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		
+		$resultados = $this->db->get();
+		return $resultados->result();    }
+	
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->get('num_asi')->row_array();
@@ -150,7 +156,6 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 
-   
     public function getCuentasContables(){
         $this->db->select('cuentacontable.*');
 		$this->db->from('cuentacontable');
@@ -161,7 +166,7 @@ public function getUsuarioId($nombre){
         return $resultados->result();
     }
 
-
+	
 	
 
 	//guardar asientos
@@ -182,34 +187,36 @@ public function getUsuarioId($nombre){
 		return $query->result();
 	}
 
-	public function getDiarios_obli() {
-		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
+
+
+	public function getDiarios_obli($id_uni_respon_usu)
+	{
+		$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa,num_asi.FechaEmision as fecha, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
 		$this->db->from('num_asi_deta');
-		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
+		$this->db->join('uni_respon_usu', 'programa.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
 		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
-		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
 		$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
-	
-		$query = $this->db->get();
-	}	
+		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
 
-	public function obtener_usuario_por_id($id) {
-        
+		$query = $this->db->get();
+		if (!$query) {
+			die("Database query error: " . $this->db->error());
+		}
+		$results = $query->result();
+
+
+		return $results;
+	}
+
+	public function obtener_usuario_por_id($id)
+	{
+
 		$query = $this->db->get_where('usuarios', array('id_user' => $id));
 		return $query->row();
-   }
+	}
 
-//	public function getDiarios_obli() {
-//		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
-//		$this->db->from('num_asi_deta');
-//		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
-//		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
-//		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
-//	
-//		
-//		$query = $this->db->get();
-//		return $query->result();
-//	}
 	
+
 }

@@ -70,39 +70,39 @@
 
 
                                                         <?php
-// Conexión a la base de datos (debes configurar tu conexión)
-$conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                        // Conexión a la base de datos (debes configurar tu conexión)
+                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
-// Verificar la conexión
-if ($conexion->connect_error) {
-    die("La conexión a la base de datos falló: " . $conexion->connect_error);
-}
+                                                        // Verificar la conexión
+                                                        if ($conexion->connect_error) {
+                                                            die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                        }
 
-// Obtener el número actual registrado en la base de datos
-$consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-$resultado = $conexion->query($consulta);
+                                                        // Obtener el número actual registrado en la base de datos
+                                                        $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                        $resultado = $conexion->query($consulta);
 
-if ($resultado->num_rows > 0) {
-    // Obtiene el último número registrado
-    $fila = $resultado->fetch_assoc();
-    $numero_actual = $fila['ultimo_numero'];
+                                                        if ($resultado->num_rows > 0) {
+                                                            // Obtiene el último número registrado
+                                                            $fila = $resultado->fetch_assoc();
+                                                            $numero_actual = $fila['ultimo_numero'];
 
-    // Incrementar el número actual en 1 para el próximo registro
-    $numero_siguiente = $numero_actual + 1;
-} else {
-    // Si no hay registros, establece el número inicial como 1
-    $numero_actual = 1;
-    $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
-}
+                                                            // Incrementar el número actual en 1 para el próximo registro
+                                                            $numero_siguiente = $numero_actual + 1;
+                                                        } else {
+                                                            // Si no hay registros, establece el número inicial como 1
+                                                            $numero_actual = 1;
+                                                            $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+                                                        }
 
-// Cierra la conexión a la base de datos
-$conexion->close();
-?>
+                                                        // Cierra la conexión a la base de datos
+                                                        $conexion->close();
+                                                        ?>
 
-<div class="form-group">
-    <label for="num_asi">Numero:</label>
-    <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
-</div>
+                                                            <div class="form-group">
+                                                                <label for="num_asi">Numero:</label>
+                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+                                                            </div>
 
 
                                                         <div class="form-group">
@@ -142,7 +142,7 @@ $conexion->close();
                                                             <select class="form-control" id="cuentacontable" name="cuentacontable">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </select>
@@ -219,7 +219,7 @@ $conexion->close();
                                                             <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </select>
