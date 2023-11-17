@@ -14,16 +14,21 @@ class EjecucionP extends CI_Controller {
 
 	
 	public function index()
-	{
-		$data  = array(
-			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP(),
-		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/ejecucion/list_eje", $data);
-		$this->load->view("layouts/footer");
+{
+    // Suponiendo que $id_uni_respon_usu se obtenga de la sesión del usuario o mediante algún otro método.
+    $id_uni_respon_usu = $this->session->userdata('id_uni_respon_usu');
 
-	}
+    // Ahora pasamos el ID como argumento al método getEjecucionesP().
+    $data = array(
+        'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
+    );
+
+    // Cargar vistas con datos
+    $this->load->view("layouts/header");
+    $this->load->view("layouts/aside");
+    $this->load->view("admin/ejecucion/list_eje", $data);
+    $this->load->view("layouts/footer");
+}
 
 	public function view($id){
 		$data = array(
@@ -33,4 +38,5 @@ class EjecucionP extends CI_Controller {
 		);
 		$this->load->view("admin/ejecucion/view_eje", $data);
 	}
+	
 }

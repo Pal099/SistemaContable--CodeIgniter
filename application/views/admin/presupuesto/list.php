@@ -39,19 +39,19 @@
                                     <th>Monto mes</th>
                                 </tr>
                             </thead>
-    <?php if (!empty($presupuestos) || !empty($descripciones) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
+    <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa)|| !empty($registros_financieros) || !empty($origen) ): ?>
     <?php foreach ($presupuestos as $index => $presupuesto): ?>
         <tr>
             <td><?php echo $presupuesto->ID_Presupuesto; ?></td>
             <td><?php echo $presupuesto->Año; ?></td>
-            <td><?php echo $descripciones[$index]->DescripcionCuentaContable; ?></td>
+            <td><?php echo $cuentacontable[$index]->Codigo_CC; ?></td>
             <td><?php echo $presupuesto->TotalPresupuestado; ?></td>
             <td><?php echo $origen [$index]->nombre; ?></td>
             <td><?php echo $registros_financieros [$index]->nombre; ?></td>
             <td><?php echo $programa [$index]->nombre; ?></td>
             <td><?php echo $presupuesto->TotalModificado; ?></td>
-            <td><?php echo $presupuesto->mes; ?></td>
-            <td><?php echo $presupuesto->monto_mes; ?></td>
+            <td><?php echo $presupuesto->pre_ene; ?></td>
+            <td><?php echo $presupuesto->pre_feb; ?></td>
             <td>
                 <div class="btn-group">
                     <button type="button" class="btn btn-info btn-view-presupuesto" data-toggle="modal" data-target="#modal-default" value="<?php echo $presupuesto->ID_Presupuesto; ?>">

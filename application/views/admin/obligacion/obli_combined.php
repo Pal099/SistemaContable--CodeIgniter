@@ -19,7 +19,6 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="bi bi-house breadcrumb-item"><a href=admin/obligacion/add"<?php echo base_url(); ?>"> Inicio</a></li>
                     <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
                 </ol>
             </nav>
@@ -42,9 +41,14 @@
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                  <i class="bi bi-plus"></i> Nuevo
                             </button>
+                            <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit" class="btn btn-primary btn-flat"><span
+                                class="fa fa-edit ms-2"></span> Modificar</a>
+
                             <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
+                            <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
+
                         </div>
                     </div>
                 </div>
@@ -53,18 +57,54 @@
                 <div class="row">
                     <div class="col-md-10">
                         <table id="example1" class="table table-bordered table-hover">
+                        
                             <form  action="<?php echo base_url();?>obligaciones/diario_obligaciones/store" method="POST">
-                                                    <div class="main-fields">
-                                                        <div class="form-group">
+                                                    <div class="content3">
+                                                    <div class="content-container3">
+                                                        <div class="main-fields">
+                                                        <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                                             <label for="ruc">Ruc:</label>
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
-                                                        <div class="form-group">
-                                                            <label for="numero">Numero:</label>
-                                                            <input type="text" class="form-control" id="numero" name="numero">
-                                                        </div>
+
+                                                        <?php
+                                                        // Conexión a la base de datos (debes configurar tu conexión)
+                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+
+                                                        // Verificar la conexión
+                                                        if ($conexion->connect_error) {
+                                                            die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                        }
+
+                                                        // Obtener el número actual registrado en la base de datos
+                                                        $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                        $resultado = $conexion->query($consulta);
+
+                                                        if ($resultado->num_rows > 0) {
+                                                            // Obtiene el último número registrado
+                                                            $fila = $resultado->fetch_assoc();
+                                                            $numero_actual = $fila['ultimo_numero'];
+
+                                                            // Incrementar el número actual en 1 para el próximo registro
+                                                            $numero_siguiente = $numero_actual + 1;
+                                                        } else {
+                                                            // Si no hay registros, establece el número inicial como 1
+                                                            $numero_actual = 1;
+                                                            $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+                                                        }
+
+                                                        // Cierra la conexión a la base de datos
+                                                        $conexion->close();
+                                                        ?>
+
+                                                            <div class="form-group">
+                                                                <label for="num_asi">Numero:</label>
+                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+                                                            </div>
+
+
                                                         <div class="form-group">
                                                             <label for="contabilidad">Contabilidad:</label>
                                                             <input type="text" class="form-control" id="contabilidad" name="contabilidad">
@@ -87,17 +127,22 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="fecha">Fecha:</label>
-                                                            <input type="text" class="form-control" id="fecha" name="fecha">
+                                                            <input type="date" class="form-control" id="fecha" name="fecha">
                                                         </div>
                                                     </div>
+                                                </div>
+                                                </div>
+                                                
                                                         <!-- Primer asiento de la obligación  -->
+                                                    <div class="content4">
+                                                    <div class="content-container4">
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
+                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </select>
@@ -162,28 +207,32 @@
                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                         </div>
                                                     </div>
-                                            </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </div>
+
                                                     <!-- Segundo asiento de la obligación  -->
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
+                                                            <label for="cuentacontable_2">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
                                                         <!-- Campo oculto para el select, para poder separar IDCuentaContable-->
                                                         <div class="form-group" style="display: none;">
-                                                            <label for="cuentacontable_text">Cuenta Contable Seleccionada:</label>
+                                                            <label for="cuentacontable_text_">Cuenta Contable Seleccionada:</label>
                                                             <input type="text" class="form-control" id="cuentacontable_text" name="cuentacontable_text" readonly>
                                                         </div>
 
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
-                                                            <label for="MontoPago">Monto de Pago:</label>
+                                                            <label for="MontoPago_2">Monto de Pago:</label>
                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago">
                                                         </div>
 
@@ -243,7 +292,7 @@
 
                                                         <!-- Cheque -->
                                                         <div class="form-group">
-                                                            <label for="cheques_che_id">Cheque ID:</label>
+                                                            <label for="cheques_che_id_2">Cheque ID:</label>
                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                         </div>
                                                     </div>
@@ -393,9 +442,7 @@
                                                             data-target="#modal-default" value="<?php echo $data->id; ?>">
                                                             <span class="fa fa-search"></span>
                                                         </button>
-                                                        <a href="<?php echo base_url() ?>mantenimiento/Diario_obligaciones/edit/<?php echo $data->id; ?>"
-                                                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-
+                                                        
                                                         <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>"
                                                             class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
                                                         </div>
@@ -450,6 +497,8 @@
                     </div>
                 </div>
                 
+
+
 
 
 

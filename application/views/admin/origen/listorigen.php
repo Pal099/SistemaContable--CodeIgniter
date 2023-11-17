@@ -26,7 +26,7 @@
             <table id="example1" class="table table-bordered table-hover">
            <thead>
                 <tr>
-                  <th>Codigo</th>
+                  <th>Código</th>
                   <th>Nombre</th>
                 </tr>
               </thead>
@@ -35,10 +35,10 @@
                   <?php foreach ($origenes as $origen): ?>
                     <tr>
                       <td>
-                        <?php echo $origen->nombre; ?>
+                        <?php echo $origen->codigo; ?>
                       </td>
                       <td>
-                        <?php echo $origen->codigo; ?>
+                        <?php echo $origen->nombre; ?>
                       </td>
                     </tr>
                   <?php endforeach; ?>
