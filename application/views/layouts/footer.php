@@ -45,6 +45,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url();?>assets/template/dist/js/demo.js"></script>
 <script src="<?php echo base_url();?>assets/js/modal_obli.js"></script>
+<script src="<?php echo base_url();?>assets/js/login.js"></script>
+
 
 <script>
 $(document).ready(function () {

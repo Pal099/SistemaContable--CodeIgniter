@@ -4,12 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CuentaContable_model extends CI_Model {
 //Aquí cargamos en la tabla"cuentacontable" los arrays
 
-    public function getCuentasContables(){
-        $this->db->where("estado", "1");
-        $resultados = $this->db->get("cuentacontable");
-        return $resultados->result();
+    public function getCuentasContables($id_uni_respon_usu){
+        $this->db->select('cuentacontable.*');
+		$this->db->from('cuentacontable');
+		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('cuentacontable.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		
+		$resultados = $this->db->get();
+		return $resultados->result();   
     }
 
+
+    
     public function save($data){
         return $this->db->insert("cuentacontable", $data);
     }
@@ -28,12 +35,12 @@ class CuentaContable_model extends CI_Model {
     // Puedes agregar más métodos aquí según lo necesites.
     public function getCuentasPadre() {
         // Las cuentas que pueden ser "padre" son aquellas que no son imputables.
-        $this->db->where('imputable', 0);  // Donde 'imputable' es un campo booleano en tu tabla.
+       // $this->db->where('imputable', 0);  // Donde 'imputable' es un campo booleano en tu tabla.
         $this->db->where('estado', 1);     // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
         
         // Puedes agregar más condiciones si, por ejemplo, solo ciertos tipos pueden ser padres.-si 
         // Por ejemplo, si solo "Título" y "Grupo" pueden ser padres, puedes agregar:
-        // $this->db->where_in('tipo', ['Título', 'Grupo']);
+        $this->db->where_in('tipo', ['Título', 'Grupo','Subgrupo','Cuenta','Subcuenta','Analítico1']);
         
         $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
     
@@ -43,6 +50,45 @@ class CuentaContable_model extends CI_Model {
     
         return false;
     }
+
+    public function getCuentasPadrePorTipo($tipoHijo) {
+        switch ($tipoHijo) {
+            case 'Grupo':
+                $tipoPadre = 'Título';
+                break;
+            case 'Subgrupo':
+                $tipoPadre = 'Grupo';
+                break;
+            // ... Y así sucesivamente para cada tipo de cuenta ...
+            default:
+                $tipoPadre = null;
+        }
+    
+        if ($tipoPadre) {
+            $this->db->where('tipo', $tipoPadre);
+            $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
+            $result = $this->db->get('cuentacontable');
+        
+            if ($result->num_rows() > 0) {
+                return $result->result();
+            }
+        }
+        
+        return false;
+    }
+    public function getCuentasPorTipo($tipo) {
+        $this->db->where('tipo', $tipo);
+        $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
+        $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
+    
+        if ($result->num_rows() > 0) {
+            return $result->result();
+        }
+    
+        return false;
+    }
+    
+
     
     public function add() {
         $data = array(
@@ -54,6 +100,8 @@ class CuentaContable_model extends CI_Model {
         $this->load->view('layouts/footer');
     }
 
+
+
     public function getNextCodigoTitulo() {
         $this->db->select_max('Codigo_CC');
         $this->db->where('tipo', 'Título');
@@ -64,7 +112,7 @@ class CuentaContable_model extends CI_Model {
             return $lastCode + 1 . ".0.0.0.00.00.00.000";
         } else {
             // Si no hay ningún título, comenzamos con el código "2" (basado en tu ejemplo)
-            return "2.0.0.0.00.00.00.000";
+            return "1.0.0.0.00.00.00.000";
         }
     }
     public function getNextCodigoGrupo($padre_id) {
@@ -231,16 +279,5 @@ class CuentaContable_model extends CI_Model {
         }
     }
     
-    public function getCuentasPorTipo($tipo) {
-    $this->db->where('tipo', $tipo);
-    $this->db->where('estado', 1);  // Asumiendo que 'estado' es un campo que indica si la cuenta está activa.
-    $result = $this->db->get('cuentacontable');  // 'cuentacontable' es el nombre de tu tabla.
-
-    if ($result->num_rows() > 0) {
-        return $result->result();
-    }
-
-    return false;
-}
 
 }
