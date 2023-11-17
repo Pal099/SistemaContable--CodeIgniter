@@ -28,12 +28,12 @@ class Pago_de_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Pago_obli_model->obtener_asientos();
+		$data['asientos'] = $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu);
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
-		$data['programa'] = $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu);
-		$data['Obli'] = $this->Pago_obli_model->getDiarios_obli(); 
-		$data['fuente_de_financiamiento'] = $this->Pago_obli_model->getFuentes($id_uni_respon_usu);  
-		$data['origen_de_financiamiento'] = $this->Pago_obli_model->getOrigenes($id_uni_respon_usu);
+		$data['programa'] = $this->Pago_obli_model->getProgramGastos();
+		//$data['Obli'] = $this->Pago_obli_model->getDiarios_obli(); 
+		$data['fuente_de_financiamiento'] = $this->Pago_obli_model->getFuentes();  
+		$data['origen_de_financiamiento'] = $this->Pago_obli_model->getOrigenes();
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables(); 
 
         $this->load->view("layouts/header");
@@ -65,10 +65,12 @@ class Pago_de_obligaciones extends CI_Controller {
 
 		$data  = array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
-			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
-			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
-			'cuentacontable' => $this->Pago_obli_model->getCuentaContable(),
+			'programa' => $this->Pago_obli_model->getProgramGastos(),
+			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes(),
+			'Obli' => $this->Pago_obli_model->getDiarios_obli(),
+			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes(),
+			'cuentacontable' => $this->Pago_obli_model->getCuentasContables(),
+			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");

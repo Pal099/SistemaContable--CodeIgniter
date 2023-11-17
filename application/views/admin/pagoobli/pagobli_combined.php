@@ -152,7 +152,7 @@
                                                         name="cuentacontable">
                                                         <?php foreach ($cuentacontable as $cc): ?>
                                                             <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
@@ -238,7 +238,7 @@
                             <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                 <?php foreach ($cuentacontable as $cc): ?>
                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -539,65 +539,78 @@
                         <th>Razon Social</th>
                         <th>Numero</th>
                         <th>Fecha</th>
-                        <th>Monto Pago</th>
+                        <th>Total</th>
+                        <th>Monto Pagado</th>
+                        <th>Monto de Pago</th>
                         <th>Debe</th>
                         <th>Haber</th>
+                        <th>Codigo y Descripción CC</th>
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    <?php var_dump($asi);
-                    if ($asi !== null): ?>
-                        <?php foreach ($Obli as $Oblis => $asi): ?>
-                            <?php if ($asi->Debe > 0 && $asi->Haber == 0): ?>
-                                <tr class="list-item"
-                                    onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',  '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->nombre_fuente ?>', '<?= $asi->nombre_programa ?>', '<?= $asi->nombre_origen ?>',)">
-                                    <td>
-                                        <?= $Oblis + 1 ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->ruc_proveedor ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->razso_proveedor ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->numero ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->fecha ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->MontoPago ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->Debe ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->Haber ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_fuente ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_programa ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_origen ?>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <?php echo "La variable es nula. Comprueba por qué"; ?>
-                    <?php endif; ?>
+
+
+                    <?php foreach ($Obli as $Oblis => $asi): ?>
+                        <?php if ($asi->Debe > 0 && $asi->Haber == 0): ?>
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
+                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
+                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                                <td>
+                                    <?= $Oblis + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $asi->ruc_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->razso_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->fecha ?>
+                                </td>
+                                <td>
+                                    <?= $asi->total ?>
+                                </td>
+                                <td>
+                                    <?= $asi->pagado ?>
+                                </td>
+                                <td>
+                                    <?= $asi->MontoPago ?>
+                                </td>
+                                <td>
+                                    <?= $asi->Debe ?>
+                                </td>
+                                <td>
+                                    <?= $asi->Haber ?>
+                                </td>
+                                <td>
+                                    <?= $asi->codigo ?> -
+                                    <?= $asi->descrip ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_fuente ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_programa ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_origen ?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
                 </tbody>
             </table>
         </div>
     </div>
-     
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
@@ -631,20 +644,23 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens) {
+        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
             // Actualizar los campos de texto en la vista principal
+            console.log(fuentes, programas, origens);
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
             document.getElementById('fecha').value = fechas;
-            document.getElementById('numero').value = numeros;
+            document.getElementById('num_asi').value = numeros;
             document.getElementById('Debe').value = debes;
             document.getElementById('Haber').value = habers;
-            document.getElementById('Monto_Pago').value = montos;
-            document.getElementById('Fuente_de_Financiamiento').value = fuentes;
-            document.getElementById('Programa').value = programas;
-            document.getElementById('Origen_de_Financiamiento').value = origens;
-
+            document.getElementById('MontoPago').value = montos;
+            document.getElementById('id_ff').value = fuentes;
+            document.getElementById('id_pro').value = programas;
+            document.getElementById('id_of').value = origens;
+            document.getElementById('cuentacontable').value = cuentas;
+            document.getElementById('cuentacontable').value = descrip;
+           
 
             closeModal(); // Cierra el modal después de seleccionar un proveedor
         }
