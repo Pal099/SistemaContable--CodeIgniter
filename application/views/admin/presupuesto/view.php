@@ -18,4 +18,3 @@
 <p><strong>Octubre:</strong> <?php echo $presupuesto->pre_oct; ?></p>
 <p><strong>Noviembre:</strong> <?php echo $presupuesto->pre_nov; ?></p>
 <p><strong>Diciembre:</strong> <?php echo $presupuesto->pre_dic; ?></p>
-

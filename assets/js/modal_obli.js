@@ -106,19 +106,6 @@
                     });
                 
 
-            
-                    // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
-                    function obtenerFechaActual() {
-                        const fecha = new Date();
-                        const dia = fecha.getDate().toString().padStart(2, '0');
-                        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-                        const año = fecha.getFullYear();
-                        return `${dia}-${mes}-${año}`;
-                    }
-
-                    // Preestablecer el campo de fecha con la fecha actual
-                    const fechaInput = document.getElementById('fecha');
-                    fechaInput.value = obtenerFechaActual();
                 
 
 

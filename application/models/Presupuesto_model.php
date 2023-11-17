@@ -33,8 +33,6 @@ public function getPresu($id_uni_respon_usu) {
 }
 
 
-
-
 	public function save($data){
 		return $this->db->insert("presupuestos",$data);
 	}
