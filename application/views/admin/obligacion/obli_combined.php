@@ -43,10 +43,6 @@
                             </button>
                             <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit" class="btn btn-primary btn-flat"><span
                                 class="fa fa-edit ms-2"></span> Modificar</a>
-
-                            <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
                             <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
 
                         </div>
@@ -64,7 +60,7 @@
                                                         <div class="main-fields">
                                                         <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                                             <label for="ruc">Ruc:</label>
-                                                            <input type="text" class="form-control" id="ruc" name="ruc">
+                                                            <input type="text" class="form-control" id="ruc" name="ruc"readonly>
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
@@ -241,8 +237,6 @@
                                                             <label for="Debe_2">Debe:</label>
                                                             <input type="text" class="form-control" id="Debe_2" name="Debe_2">
                                                             <?php echo form_error("Debe_2","<span class='help-block'>","</span>");?>
-                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
-                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Haber -->
@@ -250,8 +244,6 @@
                                                             <label for="Haber_2">Haber:</label>
                                                             <input type="text" class="form-control" id="Haber_2" name="Haber_2">
                                                             <?php echo form_error("Haber_2","<span class='help-block'>","</span>");?>
-                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
-                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Comprobante -->
@@ -372,12 +364,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                         <div class="col-md-6">
-                                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span class="fa fa-save"></span>Guardar</button>
-                                            <div class="notification" id="notification">
-                                                <div class="icon">
-                                                </div>
-                                                <div class="message">Guardado Correctamente</div>
-                                            </div>
+                                        <div class="col-md-6">
+                                 <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                               </div>
                                         </div>
 
                                                 

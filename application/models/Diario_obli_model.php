@@ -101,7 +101,11 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 
-	public function save($data){
+	public function saveDebe($data){
+		return $this->db->insert("num_asi_deta",$data);
+	}
+
+	public function saveHaber($data){
 		return $this->db->insert("num_asi_deta",$data);
 	}
 

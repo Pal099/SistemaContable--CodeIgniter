@@ -7,6 +7,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="<?php echo base_url();?>assets/css/style_pago_obli.css" rel="stylesheet">
+
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
 </head>
@@ -104,7 +106,7 @@
                                                 <div class="form-group">
                                                     <label for="num_asi">Numero:</label>
                                                     <input type="text" class="form-control" id="num_asi" name="num_asi"
-                                                        value="<?php echo $numero_actual; ?>">
+                                                        value="<?php echo $numero_actual; ?>" read_o>
                                                 </div>
 
 
@@ -152,7 +154,7 @@
                                                         name="cuentacontable">
                                                         <?php foreach ($cuentacontable as $cc): ?>
                                                             <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                                                <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
@@ -238,7 +240,7 @@
                             <select class="form-control" id="cuentacontable_2" name="cuentacontable_2">
                                 <?php foreach ($cuentacontable as $cc): ?>
                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                        <?php echo $cc->CodigoCuentaContable . ' - ' . $cc->DescripcionCuentaContable; ?>
+                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -526,77 +528,89 @@
         </tbody>
         </table>
     </main>
-    <!-- Contenedor del modal -->
-    <div class="modal-container" id="modalContainer">
-        <div class="modal-content">
-            <span class="close" id="closeModalBtn">&times;</span>
-            <h3>Lista de Obligaciones</h3>
-            <table class="table table-bordered table-hover">
-                <thead>
+   <!-- Contenedor del modal -->
+<div class="modal-container2" id="modalContainer_2">
+    <div class="modal-content2">
+        <span class="close_2" id="closeModalBtn_2" onclick="closeModal_2()">&times;</span>
+        <h3>Lista de Obligaciones</h3>
+        <table class="table table-bordered table-hover">
+        <thead>
                     <tr>
                         <th>#</th>
                         <th>Ruc</th>
                         <th>Razon Social</th>
                         <th>Numero</th>
                         <th>Fecha</th>
-                        <th>Monto Pago</th>
+                        <th>Total</th>
+                        <th>Monto Pagado</th>
+                        <th>Monto de Pago</th>
                         <th>Debe</th>
                         <th>Haber</th>
+                        <th>Codigo y Descripción CC</th>
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>
+
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                    ?>
-                        <?php foreach ($asientos as $Oblis => $asi): ?>
-                            <?php if ($asi->Debe > 0 && $asi->Haber == 0): ?>
-                                <tr class="list-item"
-                                    onclick="selectAsi('<?= $asi->ruc ?>', '<?= $asi->razon_social ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',  '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->nombre_fuente ?>', '<?= $asi->nombre_programa ?>', '<?= $asi->nombre_origen ?>',)">
-                                    <td>
-                                        <?= $Oblis + 1 ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->ruc ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->razon_social ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->numero ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->fecha ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->MontoPago ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->Debe ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->Haber ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_fuente ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_programa ?>
-                                    </td>
-                                    <td>
-                                        <?= $asi->nombre_origen ?>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php  ?>
-                        
+                    <?php foreach ($asientos as $asiento => $asi): ?>
+                        <?php if ($asi->id_form == 1 && $asi->op !=1 && $asi->Debe > 0): ?>
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
+                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
+                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                                <td>
+                                    <?= $asiento + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $asi->ruc_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->razso_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->fecha ?>
+                                </td>
+                                <td>
+                                    <?= $asi->total ?>
+                                </td>
+                                <td>
+                                    <?= $asi->pagado ?>
+                                </td>
+                                <td>
+                                    <?= $asi->MontoPago ?>
+                                </td>
+                                <td>
+                                    <?= $asi->Debe ?>
+                                </td>
+                                <td>
+                                    <?= $asi->Haber ?>
+                                </td>
+                                <td>
+                                    <?= $asi->codigo ?> -
+                                    <?= $asi->descrip ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_fuente ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_programa ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_origen ?>
+                                </td>
+                                
+                            </tr>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
                 </tbody>
-            </table>
-        </div>
+        </table>
     </div>
-     
+</div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
@@ -615,53 +629,55 @@
         });
 
     </script>
+<script>
+    // Función para abrir el modal
+    function openModal_2() {
+        var modalContainer = document.getElementById('modalContainer_2');
+        modalContainer.style.display = 'flex';
+        openModalBtn.style.zIndex = -1;
+    }
 
-    <script>
-        // Función para abrir el modal
-        function openModal() {
-            var modalContainer = document.getElementById('modalContainer');
-            modalContainer.style.display = 'flex';
-        }
+    // Función para cerrar el modal
+    function closeModal_2() {
+        var modalContainer = document.getElementById('modalContainer_2');
+        modalContainer.style.display = 'none';
+        openModalBtn.style.zIndex = 1;
+    }
 
-        // Función para cerrar el modal
-        function closeModal() {
-            var modalContainer = document.getElementById('modalContainer');
-            modalContainer.style.display = 'none';
-        }
-
-        // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens) {
+  // Función para seleccionar un asi
+  function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
             // Actualizar los campos de texto en la vista principal
+            console.log(fuentes, programas, origens);
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
             document.getElementById('fecha').value = fechas;
-            document.getElementById('numero').value = numeros;
+            document.getElementById('num_asi').value = numeros;
             document.getElementById('Debe').value = debes;
             document.getElementById('Haber').value = habers;
-            document.getElementById('Monto_Pago').value = montos;
-            document.getElementById('Fuente_de_Financiamiento').value = fuentes;
-            document.getElementById('Programa').value = programas;
-            document.getElementById('Origen_de_Financiamiento').value = origens;
+            document.getElementById('MontoPago').value = montos;
+            document.getElementById('id_ff').value = fuentes;
+            document.getElementById('id_pro').value = programas;
+            document.getElementById('id_of').value = origens;
+            document.getElementById('cuentacontable').value = cuentas;
+            document.getElementById('cuentacontable').value = descrip;
 
 
-            closeModal(); // Cierra el modal después de seleccionar un proveedor
+            closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
 
-        // Agregar evento al botón "Nuevo" para abrir el modal
-        const openModalBtn = document.getElementById("openModalBtn");
-        openModalBtn.addEventListener("click", () => {
-            openModal();
-        });
+    // Agregar evento al botón "Nuevo" para abrir el modal
+    const openModalBtn_2 = document.getElementById("openModalBtn");
+    openModalBtn_2.addEventListener("click", () => {
+        openModal_2();
+    });
 
-        // Agregar evento al botón de cerrar para cerrar el modal
-        const closeModalBtn = document.getElementById("closeModalBtn");
-        closeModalBtn.addEventListener("click", () => {
-            closeModal();
-        });
-    </script>
-
-
+    // Agregar evento al botón de cerrar para cerrar el modal
+    const closeModalBtn_2 = document.getElementById("closeModalBtn_2");
+    closeModalBtn_2.addEventListener("click", () => {
+        closeModal_2();
+    });
+</script>
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
