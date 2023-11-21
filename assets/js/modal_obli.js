@@ -15,7 +15,7 @@
 
                 });
 
-        
+                
 
 
     
@@ -53,13 +53,13 @@
         
                     // Función para abrir el modal
                     function openModal() {
-                        var modalContainer = document.getElementById('modalContainer');
+                        var modalContainer = document.getElementById('modalContainer_diario');
                         modalContainer.style.display = 'flex';
                     }
 
                     // Función para cerrar el modal
                     function closeModal() {
-                        var modalContainer = document.getElementById('modalContainer');
+                        var modalContainer = document.getElementById('modalContainer_diario');
                         modalContainer.style.display = 'none';
                     }
 

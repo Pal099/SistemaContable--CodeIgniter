@@ -10,8 +10,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link href="<?php echo base_url();?>assets/js/style_pago_obli.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/js/style_diario_obli.css" rel="stylesheet">
+    <script src="assets/js/modal_obli.js"></script>
+    <link href="<?php echo base_url();?>assets/css/style_diario_obli.css" rel="stylesheet">
 
 
 </head>
