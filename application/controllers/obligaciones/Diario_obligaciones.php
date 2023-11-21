@@ -146,7 +146,7 @@ class Diario_obligaciones extends CI_Controller {
 					if ($lastInsertedId) {
 							$dataDetaDebe = array(
 								'Num_Asi_IDNum_Asi' => $lastInsertedId, // Utiliza el ID recién insertado
-								'MontoPago' => $debe,
+								'MontoPago' => $MontoPago,
 								'Debe' => $debe,
 								'numero'=>$numero,
 								'comprobante' => $comprobante,
