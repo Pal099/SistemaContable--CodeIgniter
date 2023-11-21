@@ -72,7 +72,7 @@
             </a>
         </li>
       
-        <li class="nav-item">
+        <li class="ncav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
             </a>

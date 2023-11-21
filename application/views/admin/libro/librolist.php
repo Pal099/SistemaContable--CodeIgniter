@@ -1,3 +1,5 @@
+<!-- librolist.php en application/views/admin/libro/ -->
+
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Libro Mayor</h1>
@@ -13,25 +15,18 @@
         <div class="card">
             <div class="card-body">
                 <!-- Formulario para Filtros -->
-                <form class="row g-3 mb-4">
-                    <!-- Agrega esto en tu formulario de búsqueda en librolist.php -->
-<div class="row mb-3">
-    <label for="busquedaCuentaContable" class="col-sm-2 col-form-label">Buscar Cuenta:</label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
-    </div>
-</div>
-
+                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
                     <div class="col-md-4">
                         <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
-                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio">
+                        <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
                     </div>
                     <div class="col-md-4">
                         <label for="fechaFin" class="form-label">Hasta:</label>
-                        <input type="date" class="form-control" id="fechaFin" name="fechaFin">
+                        <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
                     </div>
                     <div class="col-md-4">
-                        <!-- Otros filtros como Programa, Origen de Financiamiento, etc. -->
+                        <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
+                        <input type="text" class="form-control" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Buscar</button>
@@ -43,20 +38,37 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Orden</th>
+                                <th>Fecha</th>
                                 <th>N° Asiento</th>
                                 <th>N° OP</th>
-                                <th>Fecha</th>
                                 <th>Comprobante</th>
                                 <th>Descripción del gasto</th>
                                 <th>Debe</th>
                                 <th>Haber</th>
                                 <th>Saldo</th>
-                                <!-- Agregar más columnas según sea necesario -->
+                                <th>Cuenta Contable</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Aquí se cargarían los datos del Libro Mayor -->
+                            <?php if(!empty($entradas)): ?>
+                                <?php foreach ($entradas as $entrada): ?>
+                                    <tr>
+                                        <td><?php echo $entrada['FechaEmision']; ?></td>
+                                        <td><?php echo $entrada['numero']; ?></td>
+                                        <td><?php echo $entrada['Num_Asi_IDNum_Asi']; ?></td>
+                                        <td><?php echo $entrada['comprobante']; ?></td>
+                                        <td><?php echo $entrada['Descripcion']; ?></td>
+                                        <td><?php echo $entrada['Debe']; ?></td>
+                                        <td><?php echo $entrada['Haber']; ?></td>
+                                        <td><?php // Calcular y mostrar el saldo ?></td>
+                                        <td><?php echo $entrada['Codigo_CC']; ?> - <?php echo $entrada['Descripcion_CC']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="9" class="text-center">No se encontraron registros.</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
