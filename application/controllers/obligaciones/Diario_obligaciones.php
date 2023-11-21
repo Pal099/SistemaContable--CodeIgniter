@@ -9,6 +9,7 @@ class Diario_obligaciones extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
+		$this->load->model("Pago_obli_model");
 		$this->load->model("Diario_obli_model");
 		$this->load->model("Usuarios_model");
 		$this->load->library('form_validation');
@@ -94,8 +95,8 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
-			$debe = $this->input->post("Debe");
-			$haber_2 = $this->input->post("Haber_2");
+			$debe = floatval($this->input->post("Debe"));
+			$haber_2 = floatval($this->input->post("Haber_2"));
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
 			$cheque_id = $this->input->post("cheques_che_id");
@@ -105,7 +106,7 @@ class Diario_obligaciones extends CI_Controller {
 			$origen_de_financiamiento = $this->input->post("id_of");
 			//-----------------//---------------------------
 			$pedi_matricula = $this->input->post("pedi_matricula");
-			$MontoPago = $this->input->post("MontoPago");
+			$MontoPago = floatval($this->input->post("MontoPago"));
 			$modalidad = $this->input->post("modalidad");
 			$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 			$unidad_respon = $this->input->post("unidad_respon");
@@ -114,7 +115,7 @@ class Diario_obligaciones extends CI_Controller {
 			$nro_pac = $this->input->post("nro_pac");
 			$nro_exp = $this->input->post("nro_exp");
 			$total = $this->input->post("total");
-			$pagado = $this->input->post("pagado");
+			$pagado = floatval($this->input->post("pagado"));
 			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
 			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");

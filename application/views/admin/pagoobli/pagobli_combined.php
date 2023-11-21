@@ -72,8 +72,7 @@
                                                     <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                 </div>
 
-
-                                                <?php
+                                                                                                <?php
                                                 // Conexión a la base de datos (debes configurar tu conexión)
                                                 $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
@@ -106,8 +105,10 @@
                                                 <div class="form-group">
                                                     <label for="num_asi">Numero:</label>
                                                     <input type="text" class="form-control" id="num_asi" name="num_asi"
-                                                        value="<?php echo $numero_actual; ?>" read_o>
+                                                        value="<?php echo $numero_siguiente; ?>" readonly>
                                                 </div>
+
+
 
 
                                                 <div class="form-group">
@@ -255,7 +256,7 @@
                         <!-- Monto de Pago -->
                         <div class="form-group">
                             <label for="MontoPago_2">Monto de Pago:</label>
-                            <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2">
                         </div>
 
                         <!-- Debe -->
@@ -555,7 +556,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
-                        <?php if ($asi->id_form == 1 && $asi->op !=1 && $asi->Debe > 0): ?>
+                        <?php         if ($asi->id_form == 1 && $asi->Debe > 0 && $asi->pagado != $asi->total): ?>
                             <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
                                       '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
                                       ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">

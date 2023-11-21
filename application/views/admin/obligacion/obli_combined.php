@@ -64,41 +64,42 @@
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
+                                                                                                            <?php
+                                                    // Conexión a la base de datos (debes configurar tu conexión)
+                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
-                                                        <?php
-                                                        // Conexión a la base de datos (debes configurar tu conexión)
-                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                    // Verificar la conexión
+                                                    if ($conexion->connect_error) {
+                                                        die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                    }
 
-                                                        // Verificar la conexión
-                                                        if ($conexion->connect_error) {
-                                                            die("La conexión a la base de datos falló: " . $conexion->connect_error);
-                                                        }
+                                                    // Obtener el número actual registrado en la base de datos
+                                                    $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
 
-                                                        // Obtener el número actual registrado en la base de datos
-                                                        $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-                                                        $resultado = $conexion->query($consulta);
+                                                    if ($resultado->num_rows > 0) {
+                                                        // Obtiene el último número registrado
+                                                        $fila = $resultado->fetch_assoc();
+                                                        $numero_actual = $fila['ultimo_numero'];
 
-                                                        if ($resultado->num_rows > 0) {
-                                                            // Obtiene el último número registrado
-                                                            $fila = $resultado->fetch_assoc();
-                                                            $numero_actual = $fila['ultimo_numero'];
+                                                        // Incrementar el número actual en 1 para el próximo registro
+                                                        $numero_siguiente = $numero_actual + 1;
+                                                    } else {
+                                                        // Si no hay registros, establece el número inicial como 1
+                                                        $numero_actual = 1;
+                                                        $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+                                                    }
 
-                                                            // Incrementar el número actual en 1 para el próximo registro
-                                                            $numero_siguiente = $numero_actual + 1;
-                                                        } else {
-                                                            // Si no hay registros, establece el número inicial como 1
-                                                            $numero_actual = 1;
-                                                            $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
-                                                        }
+                                                    // Cierra la conexión a la base de datos
+                                                    $conexion->close();
+                                                    ?>
 
-                                                        // Cierra la conexión a la base de datos
-                                                        $conexion->close();
-                                                        ?>
+                                                    <div class="form-group">
+                                                        <label for="num_asi">Numero:</label>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi"
+                                                            value="<?php echo $numero_siguiente; ?>" readonly>
+                                                    </div>
 
-                                                            <div class="form-group">
-                                                                <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
-                                                            </div>
 
 
                                                         <div class="form-group">
@@ -146,7 +147,7 @@
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
                                                             <label for="MontoPago">Monto de Pago:</label>
-                                                            <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+                                                            <input type="numeric" class="form-control" id="MontoPago" name="MontoPago">
                                                         </div>
 
                                                         <!-- Debe -->

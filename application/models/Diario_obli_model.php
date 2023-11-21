@@ -198,6 +198,48 @@ public function getUsuarioId($nombre){
 		$query = $this->db->get();
 	}	
 
+
+
+	public function getMontoPagadoAnterior($proveedor_id) {
+		$this->db->select_sum('MontoPago', 'suma_acumulativa');
+		$this->db->where('proveedores_id', $proveedor_id);
+		$query = $this->db->get('num_asi_deta');
+	
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->suma_acumulativa;
+		} else {
+			return 0; // Retorna 0 si no hay registros anteriores para ese proveedor
+		}
+	}
+
+
+	public function getSumaAcumulativa($proveedor_id) {
+		$this->db->select_sum('Debe');
+		$this->db->where('proveedores_id', $proveedor_id);
+		$query = $this->db->get('num_asi_deta');
+	
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->Debe;
+
+		}
+	
+		return 0;
+	}
+	
+	public function updateMontoPagado($id_num_asi, $nuevo_monto_pagado) {
+		$this->db->where('IDNum_Asi', $id_num_asi);
+		$this->db->update('num_asi', array('MontoPagado' => $nuevo_monto_pagado));
+	}
+	
+	public function actualizarMontoTotal($idNumAsi, $montoTotal)
+{
+    $this->db->where('IDNum_Asi', $idNumAsi);
+    $this->db->update('num_asi', array('MontoTotal' => $montoTotal));
+}
+
+
 	public function obtener_usuario_por_id($id) {
         
 		$query = $this->db->get_where('usuarios', array('id_user' => $id));
