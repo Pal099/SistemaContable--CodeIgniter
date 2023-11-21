@@ -17,6 +17,13 @@
             </a>
         </li>   
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/libromayor">
+                <i class="bi  bi-books"></i><span>Libro Mayor</span>
+            </a>
+        </li>   
+        
+        
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
