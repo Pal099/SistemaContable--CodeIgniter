@@ -42,8 +42,22 @@
   justify-content: center;
 }
 
+.modal-container2 {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 20;
+    bottom: 150;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+  }
+
 .modal-content1 {
-  /* Estilos para el contenido del modal de proveedores */
+  /* Estilos para el contenido del modal de proveedores en diario obli*/
   background-color: #fefefe;
   border: 1px solid #888;
   border-radius: 10px;
@@ -52,6 +66,8 @@
   margin-top: 10%; /* Ajusta el margen superior para centrarlo más abajo */
   transform: translateY(-50%); /* Centrado vertical */
 }
+
+
 
 
 

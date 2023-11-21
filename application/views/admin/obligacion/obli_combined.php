@@ -10,6 +10,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="assets/js/modal_obli.js"></script>
+    <link href="<?php echo base_url();?>assets/css/style_diario_obli.css" rel="stylesheet">
+
 
 </head>
 <body>
@@ -43,10 +46,6 @@
                             </button>
                             <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit" class="btn btn-primary btn-flat"><span
                                 class="fa fa-edit ms-2"></span> Modificar</a>
-
-                            <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
                             <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
 
                         </div>
@@ -64,45 +63,46 @@
                                                         <div class="main-fields">
                                                         <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                                             <label for="ruc">Ruc:</label>
-                                                            <input type="text" class="form-control" id="ruc" name="ruc">
+                                                            <input type="text" class="form-control" id="ruc" name="ruc"readonly>
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
+                                                                                                            <?php
+                                                    // Conexión a la base de datos (debes configurar tu conexión)
+                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
-                                                        <?php
-                                                        // Conexión a la base de datos (debes configurar tu conexión)
-                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                    // Verificar la conexión
+                                                    if ($conexion->connect_error) {
+                                                        die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                    }
 
-                                                        // Verificar la conexión
-                                                        if ($conexion->connect_error) {
-                                                            die("La conexión a la base de datos falló: " . $conexion->connect_error);
-                                                        }
+                                                    // Obtener el número actual registrado en la base de datos
+                                                    $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
 
-                                                        // Obtener el número actual registrado en la base de datos
-                                                        $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-                                                        $resultado = $conexion->query($consulta);
+                                                    if ($resultado->num_rows > 0) {
+                                                        // Obtiene el último número registrado
+                                                        $fila = $resultado->fetch_assoc();
+                                                        $numero_actual = $fila['ultimo_numero'];
 
-                                                        if ($resultado->num_rows > 0) {
-                                                            // Obtiene el último número registrado
-                                                            $fila = $resultado->fetch_assoc();
-                                                            $numero_actual = $fila['ultimo_numero'];
+                                                        // Incrementar el número actual en 1 para el próximo registro
+                                                        $numero_siguiente = $numero_actual + 1;
+                                                    } else {
+                                                        // Si no hay registros, establece el número inicial como 1
+                                                        $numero_actual = 1;
+                                                        $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+                                                    }
 
-                                                            // Incrementar el número actual en 1 para el próximo registro
-                                                            $numero_siguiente = $numero_actual + 1;
-                                                        } else {
-                                                            // Si no hay registros, establece el número inicial como 1
-                                                            $numero_actual = 1;
-                                                            $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
-                                                        }
+                                                    // Cierra la conexión a la base de datos
+                                                    $conexion->close();
+                                                    ?>
 
-                                                        // Cierra la conexión a la base de datos
-                                                        $conexion->close();
-                                                        ?>
+                                                    <div class="form-group">
+                                                        <label for="num_asi">Numero:</label>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi"
+                                                            value="<?php echo $numero_siguiente; ?>" readonly>
+                                                    </div>
 
-                                                            <div class="form-group">
-                                                                <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
-                                                            </div>
 
 
                                                         <div class="form-group">
@@ -150,7 +150,7 @@
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
                                                             <label for="MontoPago">Monto de Pago:</label>
-                                                            <input type="text" class="form-control" id="MontoPago" name="MontoPago">
+                                                            <input type="numeric" class="form-control" id="MontoPago" name="MontoPago">
                                                         </div>
 
                                                         <!-- Debe -->
@@ -241,8 +241,6 @@
                                                             <label for="Debe_2">Debe:</label>
                                                             <input type="text" class="form-control" id="Debe_2" name="Debe_2">
                                                             <?php echo form_error("Debe_2","<span class='help-block'>","</span>");?>
-                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
-                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Haber -->
@@ -250,8 +248,6 @@
                                                             <label for="Haber_2">Haber:</label>
                                                             <input type="text" class="form-control" id="Haber_2" name="Haber_2">
                                                             <?php echo form_error("Haber_2","<span class='help-block'>","</span>");?>
-                                                            <h2><?php if(isset($mensaje)) echo $mensaje; ?></h2>
-                                                            <?=validation_errors();?> <!--mostrar los errores de validación-->
                                                         </div>
 
                                                         <!-- Comprobante -->
@@ -372,12 +368,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                         <div class="col-md-6">
-                                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span class="fa fa-save"></span>Guardar</button>
-                                            <div class="notification" id="notification">
-                                                <div class="icon">
-                                                </div>
-                                                <div class="message">Guardado Correctamente</div>
-                                            </div>
+                                        <div class="col-md-6">
+                                 <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                               </div>
                                         </div>
 
                                                 
@@ -497,8 +490,6 @@
                     </div>
                 </div>
                 
-
-
 
 
 

@@ -120,6 +120,18 @@ public function obtener_unidades_academicas()
         }
     }
 
+    public function getNombreUnidadAcademica($id_unidad) {
+        $this->db->select('unidad'); // Asumiendo que el campo que contiene el nombre es 'nombre'
+        $this->db->where('id_unidad', $id_unidad);
+        $query = $this->db->get('unidad_academica');
+
+        if ($query->num_rows() > 0) {
+            $unidad = $query->row();
+            return $unidad->unidad;
+        }
+
+        return null;
+    }
     
     
     //Acá es el método para registrar, y es llamado en el controlador Registro_usuario

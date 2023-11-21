@@ -37,14 +37,14 @@
                                     <input type="text" class="form-control" id="Año" name="Año">
                                 </div>
                                 <div class="form-group">
-                                    <label for="Idcuentacontable">Descripción:</label>
-                                    <select name="Idcuentacontable" id="Idcuentacontable" class="form-control">
-                                        <?php foreach ($cuentacontable as $cc): ?>
-                                            <option value="<?php echo $cc->IDCuentaContable?>">
-                                                <?php echo $cc->Codigo_CC; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                     <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
+                                                <?php foreach ($cuentacontable as $cc): ?>
+                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
+                                                             <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                             </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="TotalPresupuestado">Total Presupuestado:</label>
@@ -85,28 +85,40 @@
                                     <label for="TotalModificado">Total Modificado:</label>
                                     <input type="text" class="form-control" id="TotalModificado" name="TotalModificado">
                                 </div>
-                                <div class="form-group">
-                                <label for="mes">Mes:</label>
-                                <select name="mes" id="mes" class="form-control">
-                                            <?php
-                                            // Obtén el mes actual en formato numérico
-                                            $mesActual = date('n'); // 'n' devuelve el mes sin ceros iniciales
+                                 <!-- Agrega un campo de selección para el mes -->
+                        <div class="form-group">
+                            <label for="mes">Mes:</label>
+                            <select name="mes" id="mes" class="form-control">
+                                <?php
+                                $mesesMapping = array(
+                                    'Enero' => 'ene',
+                                    'Febrero' => 'feb',
+                                    'Marzo' => 'mar',
+                                    'Abril' => 'abr',
+                                    'Mayo' => 'may',
+                                    'Junio' => 'jun',
+                                    'Julio' => 'jul',
+                                    'Agosto' => 'ago',
+                                    'Septiembre' => 'sep',
+                                    'Octubre' => 'oct',
+                                    'Noviembre' => 'nov',
+                                    'Diciembre' => 'dic'
+                                );
 
-                                            // Definir un arreglo de nombres de meses
-                                            $nombresMeses = array(
-                                                'Enero', 'Febrero', 'Marzo', 'Abril',
-                                                'Mayo', 'Junio', 'Julio', 'Agosto',
-                                                'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-                                            );
+                                foreach ($mesesMapping as $nombreMes => $abreviaturaMes) {
+                                    echo "<option value='$abreviaturaMes'>$nombreMes</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
 
-                                            // Obtén el nombre del mes actual
-                                            $mesActualNombre = $nombresMeses[$mesActual - 1];
-
-                                            // Genera una opción para el mes actual
-                                            echo "<option value='$mesActualNombre'>$mesActualNombre</option>";
-                                            ?>
-                                </select>
-
+                        <!-- Agrega campos de texto para cada mes -->
+                        <?php foreach ($mesesMapping as $nombreMes => $abreviaturaMes): ?>
+                            <div class="form-group" id="pre_<?php echo $abreviaturaMes; ?>_field" style="display: none;">
+                                <label for="pre_<?php echo $abreviaturaMes; ?>"><?php echo $nombreMes; ?>:</label>
+                                <input type="text" name="pre_<?php echo $abreviaturaMes; ?>" id="pre_<?php echo $abreviaturaMes; ?>" class="form-control">
+                            </div>
+                        <?php endforeach; ?>
 
 
                                 <div class="form-group">
@@ -134,4 +146,28 @@
         </div>
         </div>
     </section>
+
+
+
+    <script>
+    // Función para mostrar u ocultar el campo de texto según el mes seleccionado
+    function mostrarCampoTexto() {
+        var mesSeleccionado = document.getElementById('mes').value;
+        var camposMes = document.querySelectorAll('[id^=pre_]_field');
+
+        camposMes.forEach(function(campo) {
+            campo.style.display = 'none';
+        });
+
+        var campoMesSeleccionado = document.getElementById('pre_' + mesSeleccionado + '_field');
+        if (campoMesSeleccionado) {
+            campoMesSeleccionado.style.display = 'block';
+        }
+    }
+
+    document.getElementById('mes').addEventListener('change', mostrarCampoTexto);
+    mostrarCampoTexto();
+</script>
+
+
 </main>
