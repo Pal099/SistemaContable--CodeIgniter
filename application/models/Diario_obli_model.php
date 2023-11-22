@@ -215,10 +215,10 @@ public function getUsuarioId($nombre){
 	}
 
 	public function getSumaAcumulativa($proveedor_id) {
-		$this->db->select('num_asi_deta.Debe, num_asi.MontoPagado, num_asi.MontoTotal, num_asi.estado');
+		$this->db->select('num_asi_deta.Debe as Debe, num_asi.MontoPagado as MontoPagado, num_asi.MontoTotal as MontoTotal, num_asi.estado as estado');
 		$this->db->where('proveedores_id', $proveedor_id);
-		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_Asi.IDNum_Asi');
-		$query = $this->db->get('num_asi');
+		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi', 'left'); // Realiza una unión izquierda
+		$query = $this->db->get('num_asi_deta');
 	
 		if ($query->num_rows() > 0) {
 			$result = $query->row();
@@ -230,14 +230,14 @@ public function getUsuarioId($nombre){
 			$nuevoMontopagado = $montopagado + $debe;
 	
 			// Actualiza el campo montopagado
-			$this->db->where('proveedores_id', $proveedor_id);
-			$this->db->update('num_asi_deta', ['MontoPagado' => $nuevoMontopagado]);
+			$this->db->where('id_provee', $proveedor_id);
+			$this->db->update('num_asi', ['MontoPagado' => $nuevoMontopagado]);
 	
 			// Verifica si se igualó al montototal
 			if ($nuevoMontopagado >= $montototal) {
 				// Cambia el estado al valor 3
-				$this->db->where('proveedores_id', $proveedor_id);
-				$this->db->update('num_asi_deta', ['estado' => 3]);
+				$this->db->where('id_provee', $proveedor_id);
+				$this->db->update('num_asi', ['estado' => 3]);
 			}
 	
 			return $nuevoMontopagado;
@@ -245,6 +245,8 @@ public function getUsuarioId($nombre){
 	
 		return 0;
 	}
+	
+
 	
 	
 	public function updateMontoPagado($id_num_asi, $nuevo_monto_pagado) {
