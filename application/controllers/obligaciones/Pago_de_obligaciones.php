@@ -120,7 +120,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$suma_acumulativa = floatval($this->Diario_obli_model->getSumaAcumulativa($proveedor_id));
 
 		// Sumar el nuevo MontoPagado al MontoPagado acumulado
-		$nuevo_monto_pagado = floatval($suma_acumulativa + $pagado);
+		$nuevo_monto_pagado = floatval($suma_acumulativa);
 
 		// Obtener MontoTotal de la vista Diario de Obligaciones para el mismo proveedor
 		$monto_total_diario = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));

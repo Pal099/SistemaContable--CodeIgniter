@@ -26,6 +26,7 @@ class Diario_obli_model extends CI_Model {
         return $this->db->delete('num_asi');
     }
 	public function save_num_asi($data){
+		$this->db->where('IDNum_Asi');
 		return $this->db->insert("num_asi",$data);
 	}
 
@@ -201,7 +202,7 @@ public function getUsuarioId($nombre){
 
 
 	public function getMontoPagadoAnterior($proveedor_id) {
-		$this->db->select_sum('MontoPago', 'suma_acumulativa');
+		$this->db->select_sum('MontoPago');
 		$this->db->where('proveedores_id', $proveedor_id);
 		$query = $this->db->get('num_asi_deta');
 	
@@ -213,20 +214,38 @@ public function getUsuarioId($nombre){
 		}
 	}
 
-
 	public function getSumaAcumulativa($proveedor_id) {
-		$this->db->select_sum('Debe');
+		$this->db->select('num_asi_deta.Debe, num_asi.MontoPagado, num_asi.MontoTotal, num_asi.estado');
 		$this->db->where('proveedores_id', $proveedor_id);
-		$query = $this->db->get('num_asi_deta');
+		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_Asi.IDNum_Asi');
+		$query = $this->db->get('num_asi');
 	
 		if ($query->num_rows() > 0) {
 			$result = $query->row();
-			return $result->Debe;
-
+			$debe = $result->Debe;
+			$montopagado = $result->MontoPagado;
+			$montototal = $result->MontoTotal;
+	
+			// Calcula el nuevo valor de montopagado
+			$nuevoMontopagado = $montopagado + $debe;
+	
+			// Actualiza el campo montopagado
+			$this->db->where('proveedores_id', $proveedor_id);
+			$this->db->update('num_asi_deta', ['MontoPagado' => $nuevoMontopagado]);
+	
+			// Verifica si se igualó al montototal
+			if ($nuevoMontopagado >= $montototal) {
+				// Cambia el estado al valor 3
+				$this->db->where('proveedores_id', $proveedor_id);
+				$this->db->update('num_asi_deta', ['estado' => 3]);
+			}
+	
+			return $nuevoMontopagado;
 		}
 	
 		return 0;
 	}
+	
 	
 	public function updateMontoPagado($id_num_asi, $nuevo_monto_pagado) {
 		$this->db->where('IDNum_Asi', $id_num_asi);
