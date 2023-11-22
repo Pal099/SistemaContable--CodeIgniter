@@ -1,7 +1,3 @@
-<style>
- 
-</style>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
