@@ -7,7 +7,7 @@ class Pago_obli_model extends CI_Model
         $this->load->database();
     }
 	public function obtener_asientos($id_uni_respon_usu) {
-		$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa,num_asi.FechaEmision as fecha,num_asi.MontoTotal as total,num_asi.MontoPagado as pagado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
+		$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa,num_asi.FechaEmision as fecha,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
 		 fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo,cuentacontable.Descripcion_CC as descrip ');
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
@@ -17,12 +17,44 @@ class Pago_obli_model extends CI_Model
 		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
 		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
 		$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('num_asi.MontoPagado != num_asi.MontoTotal');
 		$this->db->where('num_asi_deta.estado_registro', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 		
 		$resultados = $this->db->get();
 		return $resultados->result();    
 	
+	}
+
+
+
+	public function getOpAnterior($proveedor_id) {
+		$this->db->select('op');
+		$this->db->where('id_provee', $proveedor_id);
+		$query = $this->db->get('num_asi');
+	
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->op;
+		} else {
+			return 0; // Retorna 0 si no hay registros anteriores para ese proveedor
+		}
+	}
+	public function getMontoTotalByProveedorId($proveedor_id) {
+		// Supongamos que tienes una tabla llamada 'diario_obligaciones' con un campo 'MontoTotal'
+		$this->db->select('MontoTotal');
+		$this->db->from('num_asi');
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->order_by('FechaEmision', 'DESC'); // Ordenar por tiempo o ID en orden descendente
+		$this->db->limit(1); // Obtener solo el resultado superior
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->MontoTotal;
+		}
+	
+		return 0; // o el valor predeterminado que desees si no se encuentra ninguna entrada para el proveedor
 	}
 	
 	public function obtener_asiento_por_id($id) {
@@ -40,9 +72,24 @@ class Pago_obli_model extends CI_Model
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
-	public function save_num_asi($data){
-		return $this->db->insert("num_asi",$data);
+	public function save_num_asi($data) {
+		$id_provee = $data['id_provee'];
+	
+		// Verificar si ya existe un registro para el proveedor en la tabla 'num_asi'
+		$existingRecord = $this->db->get_where('num_asi', array('id_provee' => $id_provee))->row();
+	
+		if ($existingRecord) {
+			// Actualizar el registro existente
+			$this->db->where('id_provee', $id_provee);
+			$this->db->update('num_asi', $data);
+		} else {
+			// Insertar un nuevo registro si no existe
+			$this->db->insert("num_asi", $data);
+		}
+	
+		return true; // Puedes ajustar el retorno según tus necesidades
 	}
+	
 
 
 

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Diario_obli_model extends CI_Model {
+class Cdp_model extends CI_Model {
 	//acá empieza el javorai de isaac
 	//num asi primero
 	public function __construct() {
@@ -26,7 +26,6 @@ class Diario_obli_model extends CI_Model {
         return $this->db->delete('num_asi');
     }
 	public function save_num_asi($data){
-		$this->db->where('IDNum_Asi');
 		return $this->db->insert("num_asi",$data);
 	}
 
@@ -156,11 +155,20 @@ public function getUsuarioId($nombre){
 	}
 
    
-    public function getCuentasContables(){
+    public function getCuentasContables($id_uni_respon_usu){
         $this->db->select('cuentacontable.*');
 		$this->db->from('cuentacontable');
 		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 		$this->db->where('cuentacontable.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        $resultados = $this->db->get();
+        return $resultados->result();
+    }
+	public function getPresupuestos($id_uni_respon_usu){
+        $this->db->select('presupuestos.*');
+		$this->db->from('presupuestos');
+		$this->db->join('uni_respon_usu', 'presupuestos.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('presupuestos.estado', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
         $resultados = $this->db->get();
         return $resultados->result();
@@ -188,7 +196,7 @@ public function getUsuarioId($nombre){
 	}
 
 	public function getDiarios_obli() {
-		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
+		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as Codigocuentacontable ,cuentacontable.Descripcion_CC as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
@@ -198,68 +206,6 @@ public function getUsuarioId($nombre){
 	
 		$query = $this->db->get();
 	}	
-
-
-
-	public function getMontoPagadoAnterior($proveedor_id) {
-		$this->db->select_sum('MontoPago');
-		$this->db->where('proveedores_id', $proveedor_id);
-		$query = $this->db->get('num_asi_deta');
-	
-		if ($query->num_rows() > 0) {
-			$result = $query->row();
-			return $result->suma_acumulativa;
-		} else {
-			return 0; // Retorna 0 si no hay registros anteriores para ese proveedor
-		}
-	}
-
-	public function getSumaAcumulativa($proveedor_id) {
-		$this->db->select('num_asi_deta.Debe as Debe, num_asi.MontoPagado as MontoPagado, num_asi.MontoTotal as MontoTotal, num_asi.estado as estado');
-		$this->db->where('proveedores_id', $proveedor_id);
-		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi', 'left'); // Realiza una unión izquierda
-		$query = $this->db->get('num_asi_deta');
-	
-		if ($query->num_rows() > 0) {
-			$result = $query->row();
-			$debe = $result->Debe;
-			$montopagado = $result->MontoPagado;
-			$montototal = $result->MontoTotal;
-	
-			// Calcula el nuevo valor de montopagado
-			$nuevoMontopagado = $montopagado + $debe;
-	
-			// Actualiza el campo montopagado
-			$this->db->where('id_provee', $proveedor_id);
-			$this->db->update('num_asi', ['MontoPagado' => $nuevoMontopagado]);
-	
-			// Verifica si se igualó al montototal
-			if ($nuevoMontopagado >= $montototal) {
-				// Cambia el estado al valor 3
-				$this->db->where('id_provee', $proveedor_id);
-				$this->db->update('num_asi', ['estado' => 3]);
-			}
-	
-			return $nuevoMontopagado;
-		}
-	
-		return 0;
-	}
-	
-
-	
-	
-	public function updateMontoPagado($id_num_asi, $nuevo_monto_pagado) {
-		$this->db->where('IDNum_Asi', $id_num_asi);
-		$this->db->update('num_asi', array('MontoPagado' => $nuevo_monto_pagado));
-	}
-	
-	public function actualizarMontoTotal($idNumAsi, $montoTotal)
-{
-    $this->db->where('IDNum_Asi', $idNumAsi);
-    $this->db->update('num_asi', array('MontoTotal' => $montoTotal));
-}
-
 
 	public function obtener_usuario_por_id($id) {
         

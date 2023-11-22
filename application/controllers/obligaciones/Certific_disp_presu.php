@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Diario_obligaciones extends CI_Controller {
+class Certific_disp_presu extends CI_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -9,9 +9,9 @@ class Diario_obligaciones extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
-		$this->load->model("Pago_obli_model");
-		$this->load->model("Diario_obli_model");
+		$this->load->model("Cdp_model");
 		$this->load->model("Usuarios_model");
+		$this->load->model("Presupuesto_model");
 		$this->load->library('form_validation');
 
 	}
@@ -31,17 +31,25 @@ class Diario_obligaciones extends CI_Controller {
 		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-
-		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
-		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
-		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
-		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);  
-		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
-		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
+        $data  = array(
+			'asientos' => $this->Cdp_model->obtener_asientos(),
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),  // Obtener la lista de proveedores
+			'programa' => $this->Cdp_model->getProgramGastos($id_uni_respon_usu),
+			'fuente_de_financiamiento' => $this->Cdp_model->getFuentes($id_uni_respon_usu), 
+			'origen_de_financiamiento' => $this->Cdp_model->getOrigenes($id_uni_respon_usu),
+			'cuentacontable'=> $this->Cdp_model->getCuentasContables($id_uni_respon_usu),
+			'presupuestos'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
+        );
+		//$data['asientos'] = $this->Cdp_model->obtener_asientos();
+		//$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
+		//$data['programa'] = $this->Cdp_model->getProgramGastos($id_uni_respon_usu);
+		//$data['fuente_de_financiamiento'] = $this->Cdp_model->getFuentes($id_uni_respon_usu);  
+		//$data['origen_de_financiamiento'] = $this->Cdp_model->getOrigenes($id_uni_respon_usu);
+		//$data['cuentacontable'] = $this->Cdp_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/obligacion/obli_combined", $data);
+        $this->load->view("admin/cdp/obli_combined", $data);
         $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
@@ -56,9 +64,9 @@ class Diario_obligaciones extends CI_Controller {
     public function get_proveedores() {
         $data  = array(
             'proveedores' => $this->Proveedores_model->getProveedores(),
-			'programa' => $this->Diario_obli_model->getProgramas(),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+			'programa' => $this->Cdp_model->getProgramas(),
+			'fuente_de_financiamiento' => $this->Cdp_model->getFuentesFinanciamiento(),
+			'origen_de_financiamiento' => $this->Cdp_model->getOrigenesFinanciamiento(),
         );
         echo json_encode($data);
     }
@@ -71,15 +79,16 @@ class Diario_obligaciones extends CI_Controller {
 
 		$data  = array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
-			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
-			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'programa' => $this->Cdp_model->getProgramGastos($id_uni_respon_usu),
+			'fuente_de_financiamiento' => $this->Cdp_model->getFuentes($id_uni_respon_usu),
+			'origen_de_financiamiento' => $this->Cdp_model->getOrigenes($id_uni_respon_usu),
+			'cuentacontable' => $this->Cdp_model->getCuentaContable($id_uni_respon_usu),
+			'presupuestos'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
+		$this->load->view("admin/cdp/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
@@ -95,8 +104,8 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
-			$debe = floatval($this->input->post("Debe"));
-			$haber_2 = floatval($this->input->post("Haber_2"));
+			$debe = $this->input->post("Debe");
+			$haber_2 = $this->input->post("Haber_2");
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
 			$cheque_id = $this->input->post("cheques_che_id");
@@ -106,7 +115,7 @@ class Diario_obligaciones extends CI_Controller {
 			$origen_de_financiamiento = $this->input->post("id_of");
 			//-----------------//---------------------------
 			$pedi_matricula = $this->input->post("pedi_matricula");
-			$MontoPago = floatval($this->input->post("MontoPago"));
+			$MontoPago = $this->input->post("MontoPago");
 			$modalidad = $this->input->post("modalidad");
 			$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 			$unidad_respon = $this->input->post("unidad_respon");
@@ -115,8 +124,8 @@ class Diario_obligaciones extends CI_Controller {
 			$nro_pac = $this->input->post("nro_pac");
 			$nro_exp = $this->input->post("nro_exp");
 			$total = $this->input->post("total");
-			$pagado = floatval($this->input->post("pagado"));
-			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
+			$pagado = $this->input->post("pagado");
+			$proveedor_id = $this->Cdp_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
 			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
 			$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
@@ -141,12 +150,12 @@ class Diario_obligaciones extends CI_Controller {
 						'estado_registro' => "1",
 					);
 		
-					$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi);
+					$lastInsertedId = $this->Cdp_model->save_num_asi($dataNum_Asi);
 		
 					if ($lastInsertedId) {
 							$dataDetaDebe = array(
 								'Num_Asi_IDNum_Asi' => $lastInsertedId, // Utiliza el ID recién insertado
-								'MontoPago' => $MontoPago,
+								'MontoPago' => $debe,
 								'Debe' => $debe,
 								'numero'=>$numero,
 								'comprobante' => $comprobante,
@@ -161,7 +170,7 @@ class Diario_obligaciones extends CI_Controller {
 								'estado_registro' => "1",
 							);
 			
-								if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+								if ($this->Cdp_model->saveDebe($dataDetaDebe)) {
 									$dataDetaHaber = array(
 										'Num_Asi_IDNum_Asi' => $lastInsertedId, // Utiliza el ID recién insertado
 										'MontoPago' => $MontoPago,
@@ -179,8 +188,8 @@ class Diario_obligaciones extends CI_Controller {
 										'estado_registro' => "1",
 									);
 
-										$this->Diario_obli_model->saveHaber($dataDetaHaber);
-										return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+										$this->Cdp_model->saveHaber($dataDetaHaber);
+										return redirect(base_url() . "obligaciones/Certific_disp_presu/add");
 									
 
 								}
@@ -201,11 +210,11 @@ class Diario_obligaciones extends CI_Controller {
 
 	public function edit($id){
 		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->obtener_asiento_por_id($id), 
+			'obligaciones' => $this->Cdp_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliedit",$data);
+		$this->load->view("admin/cdp/obliedit",$data);
 		$this->load->view("layouts/footer");
 	}
 
@@ -256,12 +265,12 @@ class Diario_obligaciones extends CI_Controller {
 				'estado_registro' => "1",
 			);
 
-			if ($this->Diario_obli_model->save_num_asiave($idobli,$data)) {
-				redirect(base_url()."obligaciones/diario_obligaciones");
+			if ($this->Cdp_model->save_num_asiave($idobli,$data)) {
+				redirect(base_url()."obligaciones/Certific_disp_presu");
 			}
 			else{
 				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."obligaciones/diario_obligaciones/add".$idobli);
+				redirect(base_url()."obligaciones/Certific_disp_presu/add".$idobli);
 			}
 	}
  
@@ -272,16 +281,16 @@ class Diario_obligaciones extends CI_Controller {
 
 	public function view($id){
 		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->getDiario($id), 
+			'obligaciones' => $this->Cdp_model->getDiario($id), 
 		);
-		$this->load->view("admin/obligacion/obliview",$data);
+		$this->load->view("admin/cdp/obliview",$data);
 	}
 
 	public function delete($id){
 		$data  = array(
 			'estado_bd' => "0", 
 		);
-		$this->Diario_obli_model->update($id,$data);
-		echo "obligaciones/diario_obligaciones";
+		$this->Cdp_model->update($id,$data);
+		echo "obligaciones/Certific_disp_presu";
 	}
 }
