@@ -10,9 +10,10 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Diario_obli_model");
-		$this->load->model("Usuarios_model");
-		
+
 	}
+	
+	
 	
 	
 	public function index() {
@@ -39,22 +40,25 @@ class Diario_obligaciones extends CI_Controller {
         $this->load->view("layouts/aside");
         $this->load->view("admin/obligacion/obli_combined", $data);
         $this->load->view("layouts/footer");
-		
+		$this->load->view("fpdf");
+
     }
+
 
 	public function pdfs(){
 		$this->load->view("fpdf");
 
 	}
-    // public function get_proveedores() {
-    //     $data  = array(
-    //         'proveedores' => $this->Proveedores_model->getProveedores(),
-	// 		'programa' => $this->Diario_obli_model->getProgramas(),
-	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-    //     );
-    //     echo json_encode($data);
-    // }
+    
+    public function get_proveedores() {
+        $data  = array(
+            'proveedores' => $this->Proveedores_model->getProveedores(),
+			'programa' => $this->Diario_obli_model->getProgramas(),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
+        );
+        echo json_encode($data);
+    }
 	
 	public function add(){
 

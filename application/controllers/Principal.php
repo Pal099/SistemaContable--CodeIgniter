@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Principal extends MY_Controller {
+class Principal extends CI_Controller {
 
     public function index()
     {
@@ -10,6 +10,18 @@ class Principal extends MY_Controller {
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
         $this->load->view("admin/principal");
+        $this->load->view("layouts/footer");
+    }
+
+   
+
+    public function filtrar()
+    {
+        // Aquí realiza el filtrado si es necesario
+        // ...
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/carrito/micarrito", $dato);
         $this->load->view("layouts/footer");
     }
 

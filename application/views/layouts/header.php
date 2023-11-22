@@ -159,6 +159,8 @@
     .logo img {
     max-width: 100px; /* Ajusta el tamaño máximo del logo según tus necesidades */
 }
+
+
   </style>
 <body>
 <header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">

@@ -166,7 +166,7 @@ public function getUsuarioId($nombre){
 
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
-		$this->db->trans_start();  // Iniciar transacción
+		$this->db->trans_start();  // Iniciar transacción 
 	
 		$this->db->insert('num_asi', $data);  
 		$this->db->insert('num_asi_deta', $dataDetaDebe); 
