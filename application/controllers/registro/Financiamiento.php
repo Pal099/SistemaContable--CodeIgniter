@@ -12,6 +12,8 @@ class Financiamiento extends CI_Controller {
 		$this->load->model("Usuarios_model");
 	}
 
+
+
 	
 	//----------------------Index Fuente--------------------------------------------------------
 

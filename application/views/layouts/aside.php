@@ -13,9 +13,9 @@
         </li>    
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">
-                <i class="bi  bi-book"></i><span>Pago de obligaciones</span>
+                <i class="bi  bi-books"></i><span>Pago de obligaciones</span>
             </a>
-        </li>  
+        </li>   
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>

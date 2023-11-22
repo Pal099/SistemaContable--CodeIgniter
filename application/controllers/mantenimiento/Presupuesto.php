@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Presupuesto extends CI_Controller {
 
+
 	//private $permisos;
 	public function __construct(){
 		parent::__construct();
@@ -11,11 +12,16 @@ class Presupuesto extends CI_Controller {
 	$this->load->model("Registros_financieros_model");
 	$this->load->model("Origen_model");
 	$this->load->model('Programa_model');
+	$this->load->model('Cuentas_model');
 	$this->load->model('CuentaContable_model');
 	$this->load->model('Usuarios_model');
 	$this->load->model('EjecucionP_model'); 
-
 	}
+
+
+
+
+
 
 	
 	public function index()
@@ -38,7 +44,7 @@ class Presupuesto extends CI_Controller {
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->Programa_model->getProgramGastos($id_uni_respon_usu),
 			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
-			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables(),
+			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		
 		$this->load->view("layouts/header");
@@ -53,11 +59,11 @@ class Presupuesto extends CI_Controller {
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data  = array(
-			'presupuesto' => $this->Presupuesto_model->getPresupuestos($id_uni_respon_usu),
+			'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->Programa_model->getProgramGastos($id_uni_respon_usu),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
@@ -67,79 +73,47 @@ class Presupuesto extends CI_Controller {
 	}
 
 	public function store(){
-
-		$nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		
-		$id_presupuesto = $this->input->post("ID_Presupuesto");
 		$año = $this->input->post("Año");
-		$descripcion = $this->input->post("Descripcion");
+		$descripcion = $this->input->post("cuentacontable");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
-		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
+		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento");
 		$programa_id_pro = $this->input->post("programa_id_pro");
-		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
+		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento");
 		$TotalModificado = $this->input->post("TotalModificado");
-		$pre_ene = $this->input->post("pre_ene");
-		$pre_feb = $this->input->post("pre_feb");
-		$pre_mar = $this->input->post("pre_mar");
-		$pre_abr = $this->input->post("pre_abr");
-		$pre_may = $this->input->post("pre_may");
-		$pre_jun = $this->input->post("pre_jun");
-		$pre_jul = $this->input->post("pre_jul");
-		$pre_ago = $this->input->post("pre_ago");
-		$pre_sep = $this->input->post("pre_sep");
-		$pre_oct = $this->input->post("pre_oct");
-		$pre_nov = $this->input->post("pre_nov");
-		$pre_dic = $this->input->post("pre_dic");
-
-
-			$data = array(
-				'ID_Presupuesto' => $id_presupuesto,
-				'Año' => $año,
-				'Descripcion' => $descripcion,
-				'TotalPresupuestado' => $totalpresupuestado,
-				'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
-				'programa_id_pro' => $programa_id_pro,
-				'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
-				'TotalModificado' => $TotalModificado,
-				'pre_ene' => $pre_ene,
-				'pre_feb' => $pre_feb,
-				'pre_mar' => $pre_mar,
-				'pre_abr' => $pre_abr,
-				'pre_may' => $pre_may,
-				'pre_jun' => $pre_jun,
-				'pre_jul' => $pre_jul,
-				'pre_ago' => $pre_ago,
-				'pre_sep' => $pre_sep,
-				'pre_oct' => $pre_oct,
-				'pre_nov' => $pre_nov,
-				'pre_dic' => $pre_dic,
-				'uni_respon_usu'=>$id_uni_respon_usu,
-				'estado' => "1"
-			);
-
-			if ($this->Presupuesto_model->save($data)) {
-				redirect(base_url() . "mantenimiento/presupuesto");
-			} else {
-				redirect(base_url() . "mantenimiento/presupuesto/add");
-			}
-
-			/*$datos = array(
-				'id_pro' => $this->input->post('programa_id_pro'),
-				'id_ff' => $this->input->post('fuente_de_financiamiento'),
-				'id_of' => $this->input->post('origen_de_financiamiento'),
-				'Haber' => $this->input->post('TotalModificado'),
-				'Debe' => $this->input->post('TotalPresupuestado'),
-				'MontoPago' => $this->input->post('monto_mes'),
-				// No incluir otros campos que no deseas insertar.
-			);
-		
-			if ($this->Presupuesto_model->save2($datos)) {
-				redirect(base_url() . "mantenimiento/presupuesto");
-			}*/
+		$mesSeleccionado = $this->input->post('mes');
+		$preMes = $this->input->post("pre_" . $mesSeleccionado);
+	
+		// Crear un array para asignar valores a los campos de mes específicos
+		$meses = array('ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic');
+		$data = array(
+			'Año' => $año,
+			'idcuentacontable' => $descripcion,
+			'TotalPresupuestado' => $totalpresupuestado,
+			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
+			'programa_id_pro' => $programa_id_pro,
+			'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
+			'TotalModificado' => $TotalModificado,
+			'id_uni_respon_usu' => $id_uni_respon_usu,
+			'estado' => "1"
+		);
+	
+		// Añadir valores de los campos de mes al array
+		foreach ($meses as $mes) {
+			$campoMes = "pre_" . $mes;
+			$data[$campoMes] = ($mes == $mesSeleccionado);
+		}
+	
+		if ($this->Presupuesto_model->save($data)) {
+			redirect(base_url() . "mantenimiento/presupuesto");
+		} else {
+			redirect(base_url() . "mantenimiento/presupuesto/add");
+		}
 	}
-
+	
 	public function edit($id){
 		$data = array(
 			'presupuesto' => $this->Presupuesto_model->getPresupuesto($id),

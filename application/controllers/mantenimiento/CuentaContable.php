@@ -8,12 +8,16 @@ class CuentaContable extends CI_Controller {
         $this->load->helper('url');
 
         $this->load->model('CuentaContable_model');  // Cargar el modelo
+        $this->load->model('Usuarios_model');  
         $this->load->library('session');
     }
 
     public function index() {
+        $nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         $data = array(
-            'cuentascontables' => $this->CuentaContable_model->getCuentasContables(),
+            'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
         );
         $this->load->view('layouts/header');
         $this->load->view('layouts/aside');
@@ -34,6 +38,10 @@ class CuentaContable extends CI_Controller {
     
     
 	public function store() {
+        
+        $nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
         $codigo = $this->input->post("Codigo_CC");
         $descripcion = $this->input->post("Descripcion_CC");
@@ -53,6 +61,7 @@ class CuentaContable extends CI_Controller {
                 'tipo' => $tipo,
                'imputable' => $imputable,  // usar la variable booleana
                 'padre_id' => $padre_id,
+                'id_uni_respon_usu' =>$id_uni_respon_usu,
                 'estado' => '1' 
             );
           //  echo "Tipo: $tipo";

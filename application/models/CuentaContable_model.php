@@ -4,12 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CuentaContable_model extends CI_Model {
 //Aquí cargamos en la tabla"cuentacontable" los arrays
 
-    public function getCuentasContables(){
-        $this->db->where("estado", "1");
-        $resultados = $this->db->get("cuentacontable");
-        return $resultados->result();
+    public function getCuentasContables($id_uni_respon_usu){
+        $this->db->select('cuentacontable.*');
+		$this->db->from('cuentacontable');
+		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('cuentacontable.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		
+		$resultados = $this->db->get();
+		return $resultados->result();   
     }
 
+
+    
     public function save($data){
         return $this->db->insert("cuentacontable", $data);
     }

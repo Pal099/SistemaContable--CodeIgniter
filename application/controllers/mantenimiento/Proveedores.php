@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proveedores extends CI_Controller {
+class Proveedores extends MY_Controller {
 
 	//private $permisos;
 	public function __construct(){
@@ -13,6 +13,9 @@ class Proveedores extends CI_Controller {
 		
 	}
 
+	
+
+	
 	
 	public function index()
 	{
