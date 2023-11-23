@@ -16,20 +16,63 @@
             <div class="card-body">
                 <!-- Formulario para Filtros -->
                 <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
-                    <div class="col-md-4">
-                        <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
-                        <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="fechaFin" class="form-label">Hasta:</label>
-                        <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
-                    </div>
-                    <div class="col-md-4">
+                    
+                    <!-- Buscar Cuenta -->
+                    <div class="col-md-12">
                         <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
-                        <input type="text" class="form-control" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
+                        <input type="text" class="form-control mb-2" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
                     </div>
+                    
+                    <!-- Fechas -->
+                    <div class="col-md-3">
+                        <label for="fechaInicio" class="form-label">Fecha Desde:</label>
+                        <input type="date" class="form-control mb-2" id="fechaInicio" name="fecha_inicio" style="width: 160px; padding: 0.375rem 0.75rem;">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fechaFin" class="form-label">Fecha Hasta:</label>
+                        <input type="date" class="form-control mb-2" id="fechaFin" name="fecha_fin" style="width: 160px; padding: 0.375rem 0.75rem;">
+                    </div>
+                    
+                    <!-- Select para Ver Diario (puedes omitir este si no es necesario) -->
+                    <div class="col-md-3">
+                        <label for="verDiario" class="form-label">Ver Diario:</label>
+                        <select class="form-select mb-2" id="verDiario" name="verDiario" style="width: 160px; padding: 0.375rem 0.75rem;">
+                            <option value="todos">Todos</option>
+                            <option value="libroDiarioBorrador">Libro diario borrador</option>
+                            <option value="ordenPago">Orden de pago</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Programa -->
+                    <div class="col-md-3">
+                        <label for="programa" class="form-label">Programa:</label>
+                        <select class="form-select mb-2" id="programa" name="programa" style="width: 160px; ">
+                            <option value="">Seleccionar</option>
+                            <!-- Opciones dinámicas aquí -->
+                        </select>
+                    </div>
+                    
+                    <!-- Origen de Financiamiento -->
+                    <div class="col-md-3">
+                        <label for="origenFinanciamiento" class="form-label">Origen Financiamiento:</label>
+                        <select class="form-select mb-2" id="origenFinanciamiento" name="origenFinanciamiento" style="width: 200px; padding: 0.375rem 0.75rem;">
+                            <option value="">Seleccionar</option>
+                            <!-- Opciones dinámicas aquí -->
+                        </select>
+                    </div>
+                    
+                    <!-- Fuente de Financiamiento -->
+                    <div class="col-md-3">
+                        <label for="fuenteFinanciamiento" class="form-label">Fuente Financiamiento:</label>
+                        <select class="form-select mb-2" id="fuenteFinanciamiento" name="fuenteFinanciamiento" style="width: 160px; padding: 0.375rem 0.75rem;">
+                            <option value="">Seleccionar</option>
+                            <!-- Opciones dinámicas aquí -->
+                        </select>
+                    </div>
+
+                    <!-- Botón de búsqueda -->
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Buscar</button>
+                        <button type="submit" class="btn btn-primary mt-3">Buscar</button>
                     </div>
                 </form>
                 
