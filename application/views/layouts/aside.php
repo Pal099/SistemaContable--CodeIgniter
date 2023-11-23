@@ -17,18 +17,6 @@
             </a>
         </li>   
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu/add">
-            <i class="bi  bi-book"></i><span>CDP</span>
-            </a>
-        </li>  
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/libromayor">
-                <i class="bi  bi-books"></i><span>Libro Mayor</span>
-            </a>
-        </li>   
-        
-        
-        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
@@ -45,7 +33,7 @@
                 <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
         </li>
-
+        
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/programa">
                 <i class="bi bi-journal-check"></i><span>Programas</span>
@@ -54,11 +42,6 @@
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuentaContable">
                 <i class="bi bi-person"></i><span>Cuenta Contable</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
-                <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
             </a>
         </li>
         <li class="nav-item">
@@ -71,13 +54,8 @@
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/controlpf">
-                <i class="bi bi-graph-up"></i><span>Control Plan Financiero</span>
-            </a>
-        </li>
-      
-        <li class="ncav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
             </a>

@@ -184,28 +184,34 @@ class Pago_de_obligaciones extends CI_Controller {
 						'id_form' => "2",
 						'estado_registro' => "1",
 					);
-	
+
+					$filas = $this->input->post('filas');
 					if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
-						$dataDetaHaber = array(
-							'Num_Asi_IDNum_Asi' => $lastInsertedId,
-							'MontoPago' => $haber_2,
-							'Haber' => $haber_2,
-							'numero' => $numero,
-							'comprobante' => $comprobante,
-							'id_of' => $origen_de_financiamiento,
-							'id_pro' => $programa_id_pro,
-							'id_ff' => $fuente_de_financiamiento,
-							'IDCuentaContable' => $cuentacontable,
-							'cheques_che_id' => $cheque_id,
-							'proveedores_id' => $proveedor_id,
-							'id_uni_respon_usu' => $id_uni_respon_usu,
-							'id_form' => "2",
-							'estado_registro' => "1",
-						);
-	
-						$this->Diario_obli_model->saveHaber($dataDetaHaber);
+						
+						// Iterar sobre las filas para guardar el haber
+						foreach ($filas as $fila) {
+							$dataDetaHaber = array(
+								'Num_Asi_IDNum_Asi' => $lastInsertedId,
+								'MontoPago' => $fila['haber_2'], // Asegúrate de ajustar el nombre según tus datos
+								'Haber' => $fila['haber_2'],
+								'numero' => $fila['numero'],
+								'comprobante' => $fila['comprobante_2'],
+								'id_of' => $fila['id_of_2'],
+								'id_pro' => $fila['id_pro_2'],
+								'id_ff' => $fila['id_ff_2'],
+								'IDCuentaContable' => $fila['idcuentacontable_2'],
+								'cheques_che_id' => $fila['cheques_che_id_2'],
+								'proveedores_id' => $fila['proveedor_id'],
+								'id_uni_respon_usu' => $fila['id_uni_respon_usu'],
+								'id_form' => "2",
+								'estado_registro' => "1",
+							);
+					
+							$this->Diario_obli_model->saveHaber($dataDetaHaber);
+						}
 						return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
 					}
+					
 				}
 			} else {
 				$this->add();

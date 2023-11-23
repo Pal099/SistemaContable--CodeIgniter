@@ -4,10 +4,11 @@
 <head>
     <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link href="<?php echo base_url();?>assets/css/style_pago_obli.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>assets/css/style_pago_obli.css" rel="stylesheet">
 
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
@@ -33,7 +34,11 @@
                         <div class="col-md-12 d-flex align-items-center">
                             <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
                             <div class="btn-group">
-                                
+                                <label class="switch" for="optionalFieldsSwitch">
+                                    <input type="checkbox" id="optionalFieldsSwitch">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="optional-fields-title">Campos opcionales</span>
                                 <!-- Botón "Nuevo" para abrir el modal -->
                                 <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                     <i class="bi bi-plus"></i> Nuevo
@@ -67,7 +72,6 @@
                                                     <input type="text" class="form-control" id="ruc" name="ruc">
                                                     <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                 </div>
-
 
                                                 <?php
                                                 // Conexión a la base de datos (debes configurar tu conexión)
@@ -133,9 +137,10 @@
                                                 </div>
                                                 </div>
                                                 
-                                                        <!-- Primer asiento de la obligación  -->
+                                                <!-- Primer asiento de la obligación  -->
+                                               
 
-                                                <table class="table table-bordered table-striped">
+                                                <table class="table table-bordered table-striped" id="miTabla">
                                                                         <thead>
                                                                             <tr>
                                                                               <!-- acá podemos insertar una ID <th>#</th> -->  
@@ -148,6 +153,7 @@
                                                                                 <th>Debe</th>
                                                                                 <th>Haber</th>
                                                                                 <th>Cheque</th>
+                                                                                <th><button id="agregarFila">Agregar Fila</button></th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
@@ -189,13 +195,13 @@
                                                                                             <input type="text" class="form-control" id="Debe" name="Debe">
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber" name="Haber" readonly >
+                                                                                            <input type="text" class="form-control" id="Haber" name="Haber">
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                                                         </td>
                                                                                     </tr>
-                                                                                    <tr>
+                                                                                    <tr id="filaBase">
                                                                                           <!-- segundo asiento  -->
                                                                                       
                                                                                           <!-- acá podemos insertar una ID  -->
@@ -230,7 +236,7 @@
                                                                                             <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
                                                                                         </td>
                                                                                         <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2" readonly>
+                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="Haber_2" name="Haber_2">
@@ -238,10 +244,14 @@
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
                                                                                         </td>
+                                                                                        <td>
+                                                                                            <button class="eliminarFila">Eliminar</button>
+                                                                                        </td>
                                                                                     </tr>
+                                                                                    
                                                                         </tbody>
                                                                     </table>
-                                                    <!-- Segundo asiento de la obligación  -->
+                                                
                                                     
                                                     
                                                 </div>
@@ -249,32 +259,31 @@
                                         </div>
                                     </div>
                                 </div>
-        
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span
-                                    class="fa fa-save"></span>Guardar</button>
-                            <div class="notification" id="notification">
-                                <div class="icon">
-                                </div>
-                                <div class="message">Guardado Correctamente</div>
-                            </div>
-                        </div>
-
-
-                    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
                     <div class="col-md-6">
-                        <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones"
-                            class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                        <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()" id="guardarFilas"><span
+                                class="fa fa-save"></span>Guardar</button>
+                        <div class="notification" id="notification">
+                            <div class="icon">
+                            </div>
+                            <div class="message">Guardado Correctamente</div>
+                        </div>
                     </div>
+
+
+                </div>
+                <div class="col-md-6">
+                    <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones" class="btn btn-danger"><span
+                            class="fa fa-remove"></span>Cancelar</a>
                 </div>
             </div>
         </div>
+        </div>
         </form>
 
-    <!--    <thead>
+        <thead>
             <tr>
                 <th>#</th>
                 <th>RUC</th>
@@ -297,7 +306,7 @@
                 <th>Pagado</th>
                 <th>Opciones</th>
             </tr>
-        </thead>-->
+        </thead>
         <tbody>
             <?php if (!empty($data)): ?>
                 <?php foreach ($data as $item): ?>
@@ -376,13 +385,13 @@
         </tbody>
         </table>
     </main>
-   <!-- Contenedor del modal -->
-<div class="modal-container2" id="modalContainer_2">
-    <div class="modal-content2">
-        <span class="close_2" id="closeModalBtn_2" onclick="closeModal_2()">&times;</span>
-        <h3>Lista de Obligaciones</h3>
-        <table class="table table-bordered table-hover">
-        <thead>
+    <!-- Contenedor del modal -->
+    <div class="modal-container2" id="modalContainer_2">
+        <div class="modal-content2">
+            <span class="close_2" id="closeModalBtn_2" onclick="closeModal_2()">&times;</span>
+            <h3>Lista de Obligaciones</h3>
+            <table class="table table-bordered table-hover">
+                <thead>
                     <tr>
                         <th>#</th>
                         <th>Ruc</th>
@@ -403,7 +412,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
-                        <?php if ($asi->id_form == 1 && $asi->op !=1 && $asi->Debe > 0): ?>
+                        <?php if ($asi->id_form == 1 && $asi->Debe > 0 && $asi->pagado < $asi->total): ?>
                             <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
                                       '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
                                       ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
@@ -450,15 +459,15 @@
                                 <td>
                                     <?= $asi->nombre_origen ?>
                                 </td>
-                                
+
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
 
                 </tbody>
-        </table>
+            </table>
+        </div>
     </div>
-</div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
@@ -477,25 +486,25 @@
         });
 
     </script>
-<script>
-    // Función para abrir el modal
-    function openModal_2() {
-        var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'flex';
-        openModalBtn.style.zIndex = -1;
-    }
+    <script>
+        // Función para abrir el modal
+        function openModal_2() {
+            var modalContainer = document.getElementById('modalContainer_2');
+            modalContainer.style.display = 'flex';
+            openModalBtn.style.zIndex = -1;
+        }
 
-    // Función para cerrar el modal
-    function closeModal_2() {
-        var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'none';
-        openModalBtn.style.zIndex = 1;
-    }
+        // Función para cerrar el modal
+        function closeModal_2() {
+            var modalContainer = document.getElementById('modalContainer_2');
+            modalContainer.style.display = 'none';
+            openModalBtn.style.zIndex = 1;
+        }
 
-  // Función para seleccionar un asi
-  function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+        // Función para seleccionar un asi
+        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
             // Actualizar los campos de texto en la vista principal
-            console.log(fuentes, programas, origens);
+            
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
@@ -514,18 +523,18 @@
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
 
-    // Agregar evento al botón "Nuevo" para abrir el modal
-    const openModalBtn_2 = document.getElementById("openModalBtn");
-    openModalBtn_2.addEventListener("click", () => {
-        openModal_2();
-    });
+        // Agregar evento al botón "Nuevo" para abrir el modal
+        const openModalBtn_2 = document.getElementById("openModalBtn");
+        openModalBtn_2.addEventListener("click", () => {
+            openModal_2();
+        });
 
-    // Agregar evento al botón de cerrar para cerrar el modal
-    const closeModalBtn_2 = document.getElementById("closeModalBtn_2");
-    closeModalBtn_2.addEventListener("click", () => {
-        closeModal_2();
-    });
-</script>
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_2 = document.getElementById("closeModalBtn_2");
+        closeModalBtn_2.addEventListener("click", () => {
+            closeModal_2();
+        });
+    </script>
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
@@ -588,6 +597,81 @@
             closeModal_obli();
         });
     </script>
+   
+   <script>
+    $(document).ready(function () {
+       
+        
+        
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        // ... tu código JavaScript existente ...
+        // Manejar el clic en "Agregar Fila"
+        $("#agregarFila").on("click", function (e) {
+            e.preventDefault();
+            // Clonar la fila base y limpiar los valores
+            var nuevaFila = $("#filaBase").clone();
+            nuevaFila.find("select, input").val("");
+
+            // Habilitar campos según tus necesidades
+            nuevaFila.find("#comprobante_2, #MontoPago_2, #Debe_2").prop('readonly', false);
+
+            // Mostrar la nueva fila
+            nuevaFila.show();
+
+            // Agregar la nueva fila a la tabla
+            $("#miTabla tbody").append(nuevaFila);
+        });
+
+        // Manejar clic en "Eliminar Fila"
+        $("#miTabla").on("click", ".eliminarFila", function () {
+            if ($("#miTabla tbody tr").length > 2) {
+                $(this).closest("tr").remove();
+            } else {
+                alert("No se puede eliminar la última fila.");
+            }
+        });
+
+        // Guardar Datos con CodeIgniter
+    $("#guardarFilas").on("click", function() {
+    // Crear un array para almacenar la información de cada fila
+    var filas = [];
+
+    // Iterar sobre las filas de la tabla
+    $("#miTabla tbody tr").each(function () {
+        var fila = {};
+        fila.id_pro = $(this).find("select[name='id_pro_2']").val();
+        fila.id_ff = $(this).find("select[name='id_ff_2']").val();
+        // Agrega el resto de los campos según tus necesidades
+        fila.id_of = $(this).find("select[name='id_of_2']").val();
+        fila.IDCuentaContable = $(this).find("select[name='idcuentacontable_2']").val();
+        fila.comprobante = $(this).find("input[name='comprobante_2']").val();
+        fila.MontoPago = $(this).find("input[name='MontoPago_2']").val();
+        fila.Debe = $(this).find("input[name='Debe_2']").val();
+        fila.Haber = $(this).find("input[name='Haber_2']").val();
+        fila.cheques_che_id = $(this).find("input[name='cheques_che_id_2']").val();
+
+        // Agregar la fila al array
+        filas.push(fila);
+    });
+
+    // Enviar el array al servidor a través de una solicitud AJAX
+    /*$.ajax({
+        url: 'obligaciones/Pago_de_obligaciones/store',
+        type: 'POST',
+        data: { filas: filas },
+        success: function(response) {
+            // Manejar la respuesta del servidor si es necesario
+        }
+    });*/
+    
+});
+    });
+</script>
+
 </body>
 
 </html>

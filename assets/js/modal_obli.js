@@ -15,7 +15,7 @@
 
                 });
 
-        
+                
 
 
     
@@ -53,20 +53,14 @@
         
                     // Función para abrir el modal
                     function openModal() {
-                        var modalContainer = document.getElementById('modalContainer');
+                        var modalContainer = document.getElementById('modalContainer_diario');
                         modalContainer.style.display = 'flex';
-                         // Mueve el botón "openModalBtn" detrás del modal
-                        var openModalBtn = document.getElementById('openModalBtn');
-                        openModalBtn.style.zIndex = -1;
                     }
 
                     // Función para cerrar el modal
                     function closeModal() {
-                        var modalContainer = document.getElementById('modalContainer');
+                        var modalContainer = document.getElementById('modalContainer_diario');
                         modalContainer.style.display = 'none';
-                         // Restaura el z-index del botón "openModalBtn"
-                        var openModalBtn = document.getElementById('openModalBtn');
-                        openModalBtn.style.zIndex = 1;
                     }
 
                 // Función para seleccionar un proveedor
@@ -110,41 +104,8 @@
                         
 
                     });
-                
 
-                
-
-
-
-
-
-              
-                    // Función para abrir el modal de programas
-                    function openModal_obli() {
-                        var modalContainer = document.getElementById('modalContainer_obli');
-                        modalContainer.style.display = 'flex';
-                    }
-
-                    // Función para cerrar el modal de programas
-                    function closeModal_obli() {
-                        var modalContainer = document.getElementById('modalContainer_obli');
-                        modalContainer.style.display = 'none';
-                    }
-
-                
-
-                    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
-                    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
-                    openModalBtn_obli.addEventListener("click", () => {
-                        openModal_obli();
-                    });
-
-                    // Agregar evento al botón de cerrar para cerrar el modal de programas
-                    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
-                    closeModalBtn_obli.addEventListener("click", () => {
-                        closeModal_obli();
-                    });
-                
+                    
 
 
 
