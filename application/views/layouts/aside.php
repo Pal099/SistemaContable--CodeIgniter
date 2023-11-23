@@ -10,7 +10,12 @@
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Balance_Gral/listarBalancesPorNumeroCuenta">
                 <i class="bi  bi-cash-coin"></i><span>Balance General</span>
             </a>
-        </li>       
+        </li>  
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuadrodeResultados/listarCuadroDeResultados">
+                <i class="bi  bi-journal-check"></i><span>Cuadro de Resultados</span>
+            </a>
+        </li>      
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">
                 <i class="bi  bi-book"></i><span>Diario de obligaciones</span>
