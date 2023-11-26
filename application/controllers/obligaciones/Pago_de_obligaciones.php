@@ -135,8 +135,8 @@ class Pago_de_obligaciones extends CI_Controller {
 		$monto_total_diario = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
 
 	
-		$this->form_validation->set_rules("Debe_2", "debe_2", "required");
-		$this->form_validation->set_rules("Haber_2", "haber_2", "required");
+		//$this->form_validation->set_rules("Debe_2", "debe_2", "required");
+		//$this->form_validation->set_rules("Haber_2", "haber_2", "required");
 		//se debe igualar el debe con la suma del haber
 		//$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 
@@ -144,7 +144,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		
 		
 		if ($proveedor_id) {
-			if ($this->form_validation->run() == TRUE) {
+			//if ($this->form_validation->run() == TRUE) {
 				
 				
 				$dataNum_Asi = array(
@@ -242,9 +242,9 @@ class Pago_de_obligaciones extends CI_Controller {
 						echo 'Esta no es una solicitud AJAX';
 					}
 				}
-			} else {
-				$this->add();
-			}
+			//} else {
+			//	$this->add();
+			//}
 		}
 	}
 	
