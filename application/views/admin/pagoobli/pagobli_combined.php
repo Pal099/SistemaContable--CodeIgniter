@@ -4,7 +4,7 @@
 <head>
     <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    
+
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -61,8 +61,7 @@
                         <div class="col-md-10">
                             <table id="example1" class="table table-bordered table-hover">
 
-                                <form action="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/store"
-                                    method="POST">
+                                <form id="formularioPrincipal">
                                     <div class="content3">
                                         <div class="content-container3">
                                             <div class="main-fields">
@@ -103,12 +102,10 @@
                                                 $conexion->close();
                                                 ?>
 
-                                                            <div class="form-group">
-                                                                <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
-                                                            </div>
-
-
+                                                        <div class="form-group">
+                                                            <label for="num_asi">Numero:</label>
+                                                            <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+                                                        </div>
                                                         <div class="form-group">
                                                             <label for="contabilidad">Contabilidad:</label>
                                                             <input type="text" class="form-control" id="contabilidad" name="contabilidad">
@@ -263,7 +260,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-6">
-                        <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()" id="guardarFilas"><span
+                        <button type="submit" class="btn btn-success btn-flat" id="guardarFilas"><span
                                 class="fa fa-save"></span>Guardar</button>
                         <div class="notification" id="notification">
                             <div class="icon">
@@ -279,110 +276,11 @@
                             class="fa fa-remove"></span>Cancelar</a>
                 </div>
             </div>
-        </div>
-        </div>
-        </form>
+     </div>
+    </div>
+</form>
 
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>RUC</th>
-                <th>Número</th>
-                <th>Contabilidad</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Observación</th>
-                <th>Fecha</th>
-                <th>Tesorería</th>
-                <th>Pedí Matrícula</th>
-                <th>Modalidad</th>
-                <th>Tipo de Presupuesto</th>
-                <th>Unidad Responsable</th>
-                <th>Proyecto</th>
-                <th>Estado</th>
-                <th>Nro. PAC</th>
-                <th>Nro. Expediente</th>
-                <th>Total</th>
-                <th>Pagado</th>
-                <th>Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($data)): ?>
-                <?php foreach ($data as $item): ?>
-                    <tr>
-                        <td>
-                            <?php echo $item->id; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->ruc; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->numero; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->contabilidad; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->direccion; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->telefono; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->observacion; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->fecha; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->tesoreria; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->pedi_matricula; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->modalidad; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->tipo_presupuesto; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->unidad_respon; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->proyecto; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->estado; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->nro_pac; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->nro_exp; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->total; ?>
-                        </td>
-                        <td>
-                            <?php echo $item->pagado; ?>
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info btn-view-Pago_de_obligaciones" data-toggle="modal"
-                                    data-target="#modal-default" value="<?php echo $data->id; ?>">
-                                    <span class="fa fa-search"></span>
-                                </button>
-
-                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $data->id; ?>"
-                                    class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
+                        
         </table>
     </main>
     <!-- Contenedor del modal -->
@@ -468,7 +366,7 @@
             </table>
         </div>
     </div>
-    <script>
+   <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
             const cancelarBtn = document.getElementById("cancelarBtn");
@@ -485,7 +383,7 @@
 
         });
 
-    </script>
+    </script>-->
     <script>
         // Función para abrir el modal
         function openModal_2() {
@@ -516,8 +414,8 @@
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
-            document.getElementById('cuentacontable').value = cuentas;
-            document.getElementById('cuentacontable').value = descrip;
+            document.getElementById('IDCuentaContable').value = cuentas;
+            document.getElementById('IDCuentaContable').value = descrip;
 
 
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
@@ -563,14 +461,14 @@
 
         // Preestablecer el campo de fecha con la fecha actual
         const fechaInput = document.getElementById('fecha');
-        fechaInput.value = obtenerFechaActual();
+        //fechaInput.value = obtenerFechaActual();
     </script>
 
 
 
 
 
-    <script>
+ <!--   <script>
         // Función para abrir el modal de programas
         function openModal_obli() {
             var modalContainer = document.getElementById('modalContainer_obli');
@@ -596,38 +494,31 @@
         closeModalBtn_obli.addEventListener("click", () => {
             closeModal_obli();
         });
-    </script>
+    </script>-->
    
    <script>
     $(document).ready(function () {
-       
-        
-        
-    });
-</script>
 
-<script>
-    $(document).ready(function () {
-        // ... tu código JavaScript existente ...
-        // Manejar el clic en "Agregar Fila"
+        // Ocultar el botón de eliminar en la primera y segunda fila (la estática)
+        
+        // Agregar fila
         $("#agregarFila").on("click", function (e) {
             e.preventDefault();
-            // Clonar la fila base y limpiar los valores
             var nuevaFila = $("#filaBase").clone();
+
+            // Limpiar valores de los campos en la nueva fila
             nuevaFila.find("select, input").val("");
-
-            // Habilitar campos según tus necesidades
-            nuevaFila.find("#comprobante_2, #MontoPago_2, #Debe_2").prop('readonly', false);
-
+            
             // Mostrar la nueva fila
             nuevaFila.show();
 
-            // Agregar la nueva fila a la tabla
+            // Agregar la nueva fila al final de la tabla
             $("#miTabla tbody").append(nuevaFila);
         });
 
-        // Manejar clic en "Eliminar Fila"
-        $("#miTabla").on("click", ".eliminarFila", function () {
+        // Eliminar fila
+        $("#miTabla").on("click", ".eliminarFila", function (e) {
+            e.preventDefault();
             if ($("#miTabla tbody tr").length > 2) {
                 $(this).closest("tr").remove();
             } else {
@@ -635,40 +526,87 @@
             }
         });
 
-        // Guardar Datos con CodeIgniter
-    $("#guardarFilas").on("click", function() {
-    // Crear un array para almacenar la información de cada fila
-    var filas = [];
-
-    // Iterar sobre las filas de la tabla
-    $("#miTabla tbody tr").each(function () {
-        var fila = {};
-        fila.id_pro = $(this).find("select[name='id_pro_2']").val();
-        fila.id_ff = $(this).find("select[name='id_ff_2']").val();
-        // Agrega el resto de los campos según tus necesidades
-        fila.id_of = $(this).find("select[name='id_of_2']").val();
-        fila.IDCuentaContable = $(this).find("select[name='idcuentacontable_2']").val();
-        fila.comprobante = $(this).find("input[name='comprobante_2']").val();
-        fila.MontoPago = $(this).find("input[name='MontoPago_2']").val();
-        fila.Debe = $(this).find("input[name='Debe_2']").val();
-        fila.Haber = $(this).find("input[name='Haber_2']").val();
-        fila.cheques_che_id = $(this).find("input[name='cheques_che_id_2']").val();
-
-        // Agregar la fila al array
-        filas.push(fila);
+        
     });
 
-    // Enviar el array al servidor a través de una solicitud AJAX
-    /*$.ajax({
-        url: 'obligaciones/Pago_de_obligaciones/store',
-        type: 'POST',
-        data: { filas: filas },
-        success: function(response) {
-            // Manejar la respuesta del servidor si es necesario
-        }
-    });*/
-    
-});
+    $("#formularioPrincipal").on("submit", function() {
+        var datosFormulario = {
+            ruc: $("#ruc").val(),
+            num_asi: $("#num_asi").val(),
+            contabilidad: $("#contabilidad").val(),
+            direccion: $("#direccion").val(),
+            telefono: $("#telefono").val(),
+            tesoreria: $("#tesoreria").val(),
+            observacion: $("#observacion").val(),
+            fecha: $("#fecha").val(),
+
+            // Agrega más campos según sea necesario
+            id_pro: $("#id_pro").val(),
+            id_ff: $("#id_ff").val(),
+            id_of: $("#id_of").val(),
+            IDCuentaContable: $("#idcuentacontable").val(),
+            comprobante: $("#comprobante").val(),
+            Debe: $("#Debe").val(),
+            Haber: $("#Haber").val(),
+            cheques_che_id: $("#cheques_che_id").val(),
+
+        };
+
+        
+
+        var filas = [];
+        var fila = {};
+        fila.id_pro = $(this).find("select[id='id_pro_2']").val();
+        fila.id_ff = $(this).find("select[id='id_ff_2']").val();
+        fila.id_of = $(this).find("select[id='id_of_2']").val();
+        fila.IDCuentaContable = $(this).find("select[id='idcuentacontable_2']").val();
+        fila.comprobante = $(this).find("input[id='comprobante_2']").val();
+        fila.Haber = $(this).find("input[id='Haber_2']").val();
+        fila.Debe = $(this).find("input[id='Debe_2']").val();
+        fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();
+
+        filas.push(fila);
+
+        $("#miTabla tbody #filaBase").each(function () {
+           
+            fila.id_pro = $(this).find("select[id='id_pro_2']").val();
+            fila.id_ff = $(this).find("select[id='id_ff_2']").val();
+            fila.id_of = $(this).find("select[id='id_of_2']").val();
+            fila.IDCuentaContable = $(this).find("select[id='idcuentacontable_2']").val();
+            fila.comprobante = $(this).find("input[id='comprobante_2']").val();
+            fila.Haber = $(this).find("input[id='Haber_2']").val();
+            fila.Debe = $(this).find("input[id='Debe_2']").val();
+            fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();
+
+            filas.push(fila);
+            
+        });
+        // Combinar datos del formulario principal y de las filas dinámicas
+        var datosCompletos = {
+                datosFormulario: datosFormulario,
+                filas: filas,
+            };
+      
+        $.ajax({
+            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+            type: 'POST',
+            data: {  datos: datosCompletos},
+            //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+            success: function(response) {
+                alert(response);
+                console.log(response);
+                if (response.includes('Datos guardados exitosamente.')) {
+                    alert('Datos guardados exitosamente.');
+                    // ... (código adicional si es necesario)
+                } else {
+                    alert('Error al guardar los datos: ' + response);
+                    // ... (código adicional si es necesario)
+                }
+            },
+            error: function(xhr, status, error) {
+            alert("Error en la solicitud AJAX:", status, error);
+            }
+        });
     });
 </script>
 

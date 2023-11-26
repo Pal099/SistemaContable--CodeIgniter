@@ -1,5 +1,7 @@
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 
 class Pago_de_obligaciones extends CI_Controller {
 
@@ -80,26 +82,33 @@ class Pago_de_obligaciones extends CI_Controller {
 	}
 
 	public function store() {
+		header('Access-Control-Allow-Origin: *');
+		$datosCompletos = $this->input->post('datos');
+		$datosFormulario = $datosCompletos['datosFormulario'];
+		var_dump($datosFormulario);
+
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$ruc_id_provee = $this->input->post("ruc");
-		$numero = $this->input->post("num_asi");
+	
+		$ruc_id_provee = $datosFormulario['ruc'];
+		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
-		$contabilidad = $this->input->post("contabilidad");
-		$direccion = $this->input->post("direccion");
-		$telefono = $this->input->post("telefono");
-		$observacion = $this->input->post("observacion");
-		$fecha = $this->input->post("fecha");
-		$debe = floatval($this->input->post("Debe"));
-		$haber_2 = floatval($this->input->post("Haber_2"));
-		$tesoreria = $this->input->post("tesoreria");
-		$comprobante = $this->input->post("comprobante");
-		$cheque_id = $this->input->post("cheques_che_id");
-		$programa_id_pro = $this->input->post("id_pro");
-		$cuentacontable = $this->input->post("cuentacontable");
-		$fuente_de_financiamiento = $this->input->post("id_ff");
-		$origen_de_financiamiento = $this->input->post("id_of");
+		$contabilidad = $datosFormulario['contabilidad'];
+		$direccion = $datosFormulario['direccion'];
+		$telefono = $datosFormulario['telefono'];
+		$observacion = $datosFormulario['observacion'];
+		$fecha = $datosFormulario['fecha'];
+		$debe = floatval($datosFormulario['Debe']);
+		$haber_2 = floatval($datosFormulario['Haber']);
+		$tesoreria = $datosFormulario['tesoreria'];
+		$comprobante = $datosFormulario['comprobante'];
+		$cheque_id = $datosFormulario['cheques_che_id'];
+		$programa_id_pro = $datosFormulario['id_pro'];
+		$cuentacontable = $datosFormulario['IDCuentaContable'];
+		$fuente_de_financiamiento = $datosFormulario['id_ff'];
+		$origen_de_financiamiento = $datosFormulario['id_of'];
+
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
 		$MontoPago = floatval($this->input->post("MontoPago"));
@@ -128,12 +137,16 @@ class Pago_de_obligaciones extends CI_Controller {
 	
 		$this->form_validation->set_rules("Debe_2", "debe_2", "required");
 		$this->form_validation->set_rules("Haber_2", "haber_2", "required");
-		$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
-	
+		//se debe igualar el debe con la suma del haber
+		//$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
+
+		echo "Valor de \$ruc_id_provee: " . $ruc_id_provee;
+		
+		
 		if ($proveedor_id) {
 			if ($this->form_validation->run() == TRUE) {
 				
-
+				
 				$dataNum_Asi = array(
 					'FechaEmision' => $fecha,
 					'ped_mat' => $pedi_matricula,
@@ -156,18 +169,18 @@ class Pago_de_obligaciones extends CI_Controller {
 	
 				if ($lastInsertedId) {
 					
-						if ($nuevo_monto_pagado == $monto_total_diario) {
-							$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
-							$op_increment = $op + 1;
-						} else {
-							$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
-							$op_increment = $op; // No incrementar si no se cumple la condición
-						}
+					if ($nuevo_monto_pagado == $monto_total_diario) {
+						$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
+						$op_increment = $op + 1;
+					} else {
+						$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
+						$op_increment = $op; // No incrementar si no se cumple la condición
+					}
 		
-						// Actualizar el MontoPagado en la misma fila
-					    $this->Diario_obli_model->updateMontoPagado($lastInsertedId, $nuevo_monto_pagado);
+					// Actualizar el MontoPagado en la misma fila
+					$this->Diario_obli_model->updateMontoPagado($lastInsertedId, $nuevo_monto_pagado);
 
-		
+					
 					$dataDetaDebe = array(
 						'Num_Asi_IDNum_Asi' => $lastInsertedId,
 						'MontoPago' => $haber_2,
@@ -185,33 +198,49 @@ class Pago_de_obligaciones extends CI_Controller {
 						'estado_registro' => "1",
 					);
 
-					$filas = $this->input->post('filas');
-					if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+					
+					if ($this->input->is_ajax_request()) {
 						
-						// Iterar sobre las filas para guardar el haber
-						foreach ($filas as $fila) {
-							$dataDetaHaber = array(
-								'Num_Asi_IDNum_Asi' => $lastInsertedId,
-								'MontoPago' => $fila['haber_2'], // Asegúrate de ajustar el nombre según tus datos
-								'Haber' => $fila['haber_2'],
-								'numero' => $fila['numero'],
-								'comprobante' => $fila['comprobante_2'],
-								'id_of' => $fila['id_of_2'],
-								'id_pro' => $fila['id_pro_2'],
-								'id_ff' => $fila['id_ff_2'],
-								'IDCuentaContable' => $fila['idcuentacontable_2'],
-								'cheques_che_id' => $fila['cheques_che_id_2'],
-								'proveedores_id' => $fila['proveedor_id'],
-								'id_uni_respon_usu' => $fila['id_uni_respon_usu'],
-								'id_form' => "2",
-								'estado_registro' => "1",
-							);
+						$datosFormulario = $datosCompletos['filas'];
+						$filas = $datosCompletos['filas'];
+						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+							foreach ($filas as $fila) {
+								// Procesar cada fila y guardar los datos en la base de datos
+								// ...
 					
-							$this->Diario_obli_model->saveHaber($dataDetaHaber);
-						}
-						return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
+								// Ejemplo de cómo podrías procesar una fila
+								$dataDetaHaber = array(
+									'Num_Asi_IDNum_Asi' => $lastInsertedId,
+									'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
+									'Haber' => $fila['Haber'],
+									//'Debe' => "0",
+									'numero' => $numero,
+									'comprobante' => $fila['comprobante'],
+									'id_of' => $fila['id_of'],	
+									'id_pro' => $fila['id_pro'],
+									'id_ff' => $fila['id_ff'],
+									'IDCuentaContable' => $fila['IDCuentaContable'],
+									'cheques_che_id' => $fila['cheques_che_id'],
+									'proveedores_id' => $proveedor_id,
+									'id_uni_respon_usu' => $id_uni_respon_usu,
+									'id_form' => "2",
+									'estado_registro' => "1",
+								);
+
+								
+								// Ejemplo de cómo podrías guardar una fila
+								$this->Diario_obli_model->saveHaber($dataDetaHaber);
+								
+							}
+
 					}
-					
+						
+						return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
+					}else {
+						// Esta lógica se ejecutará si la solicitud no es AJAX
+						// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
+						echo 'Esta no es una solicitud AJAX';
+					}
 				}
 			} else {
 				$this->add();
