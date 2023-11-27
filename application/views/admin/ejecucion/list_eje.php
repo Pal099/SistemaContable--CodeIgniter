@@ -14,9 +14,16 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Presupuesto</th>
-                <th>Cuenta Contable</th>
+                <th>Origen de Financiamiento    </th>
+                <th>Fuente de Financiamiento</th>
+                <th>Programa</th>
+                <th>Cuenta</th>
+                <th>Presupuesto Inicial</th>
+                <th>Presupuesto Modificado</th>
+                <th>Obligado</th>
+                <th>Pagado</th>
+
+
                 <!-- Agrega más cabeceras según los datos que quieras mostrar -->
             </tr>
         </thead>
@@ -25,7 +32,13 @@
             <tr>
                 <td><?php echo $ep->ID; // Asegúrate de que la propiedad coincida con tu base de datos ?></td>
                 <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->cuentacontable; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+                <td><?php echo $ep->presupuesto; ?></td>
+
                 <!-- Asegúrate de agregar aquí más celdas si agregaste más cabeceras -->
             </tr>
             <?php endforeach; ?>
