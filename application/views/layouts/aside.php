@@ -27,7 +27,7 @@
             </a>
         </li>   
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu/add">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu/index">
             <i class="bi  bi-book"></i><span>CDP</span>
             </a>
         </li>  
