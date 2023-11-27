@@ -10,6 +10,9 @@ class EjecucionP extends CI_Controller {
 	$this->load->model("EjecucionP_model");
 	$this->load->model("Presupuesto_model");
 	$this->load->model("CuentaContable_model");
+	$this->load->model("Pago_obli_model");
+	$this->load->model("Diario_obli_model");
+
 	}
 
 	
