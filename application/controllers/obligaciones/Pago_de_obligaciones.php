@@ -108,7 +108,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$cuentacontable = $datosFormulario['IDCuentaContable'];
 		$fuente_de_financiamiento = $datosFormulario['id_ff'];
 		$origen_de_financiamiento = $datosFormulario['id_of'];
-
+		
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
 		$MontoPago = floatval($this->input->post("MontoPago"));
@@ -145,7 +145,6 @@ class Pago_de_obligaciones extends CI_Controller {
 		
 		if ($proveedor_id) {
 			//if ($this->form_validation->run() == TRUE) {
-				
 				
 				$dataNum_Asi = array(
 					'FechaEmision' => $fecha,
