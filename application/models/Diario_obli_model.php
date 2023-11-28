@@ -156,7 +156,7 @@ public function getUsuarioId($nombre){
 	}
 
    
-    public function getCuentasContables(){
+/*     public function getCuentasContables(){
         $this->db->select('cuentacontable.*');
 		$this->db->from('cuentacontable');
 		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
@@ -165,9 +165,24 @@ public function getUsuarioId($nombre){
         $resultados = $this->db->get();
         return $resultados->result();
     }
+ */
 
+ public function getCuentasContables($busqueda = '') {
+    $this->db->select('
+        cuentacontable.Codigo_CC,
+        cuentacontable.Descripcion_CC
+    ');
 
-	
+    $this->db->from('cuentacontable');
+
+    // Búsqueda por código o descripción de la cuenta
+    if (!empty($busqueda)) {
+        $this->db->like('cuentacontable.Codigo_CC', $busqueda);
+        $this->db->or_like('cuentacontable.Descripcion_CC', $busqueda);
+    }
+
+    return $this->db->get()->result_array();
+}
 
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
@@ -188,7 +203,7 @@ public function getUsuarioId($nombre){
 	}
 
 	public function getDiarios_obli() {
-		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
+		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as Codigo_CC ,cuentacontable.Descripcion_CC as Descripcion_CC ,');		
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');

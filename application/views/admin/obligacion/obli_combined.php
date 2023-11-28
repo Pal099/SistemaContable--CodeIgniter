@@ -168,13 +168,15 @@
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable" name="idcuentacontable">
-                                                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                        <td>     <select class="form-control" id="idcuentacontable" name="idcuentacontable" required>
+                                                                                                    <option value="">Seleccione una cuenta</option>
+                                                                                                    <?php foreach ($cuentacontable as $cc): ?>
+                                                                                                        <option value="<?php echo $cc->IDCuentaContable; ?>">
+                                                                                                            <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
+                                                                                                        </option>
+                                                                                                    <?php endforeach; ?>
+                                                                                                </select>
+                                                                                        </td>
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante" name="comprobante">
