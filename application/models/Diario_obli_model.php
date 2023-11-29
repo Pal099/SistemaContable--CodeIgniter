@@ -185,17 +185,22 @@ public function getUsuarioId($nombre){
 	}
 
    
-    public function getCuentasContables(){
-        $this->db->select('cuentacontable.*');
+	public function getCuentasContables($busqueda = '') {
+		$this->db->select('
+			cuentacontable.Codigo_CC,
+			cuentacontable.Descripcion_CC
+		');
+	
 		$this->db->from('cuentacontable');
-		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('cuentacontable.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-        $resultados = $this->db->get();
-        return $resultados->result();
-    }
-
-
+	
+		// Búsqueda por código o descripción de la cuenta
+		if (!empty($busqueda)) {
+			$this->db->like('cuentacontable.Codigo_CC', $busqueda);
+			$this->db->or_like('cuentacontable.Descripcion_CC', $busqueda);
+		}
+	
+		return $this->db->get()->result_array();
+	}
 	
 
 	//guardar asientos

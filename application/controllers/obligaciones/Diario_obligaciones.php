@@ -192,6 +192,8 @@ class Diario_obligaciones extends CI_Controller {
 				}else {
 					$this->add();
 				}
+			} else {
+				return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 			}
 		
 

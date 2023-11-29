@@ -144,14 +144,15 @@
                                                     <div class="content-container4">
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
-                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
+                                                        <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                            <div class="input-group">
+                                                                <input class="form-control" id="cuentacontable" name="cuentacontable">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
+                                                                        <i class="bi bi-search"></i> Busqueda Cuenta
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
@@ -501,7 +502,36 @@
                 <!-- Lista con las columnas -->
 
 
-
+                <div class="modal-container" id="modalContainer_3">
+                    <div class="modal-content3">
+                        <span class="close_3" id="closeModalBtn_3" onclick="closeModal_3()">&times;</span>
+                        <h3>Buscador de Cuentas Contables</h3>
+                        <table class="table table-bordered table-hover">
+                        <thead>
+                                            <tr >
+                >                               <th>IDCuentaContable</th>
+                                                <th>Código de Cuenta</th>
+                                                <th>Descripción de Cuenta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cuentacontable as $dato): ?>
+                                                <tr class="list-item" onclick="selectCC('<?= $dato->IDCuentaContable ?>', '<?= $dato->IDCuentaContable ?>', '<?= $dato->IDCuentaContable ?>')">
+                                                    <td>
+                                                        <?= $dato->IDCuentaContable ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Codigo_CC ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Descripcion_CC ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                    </div>
+                </div>
                
                 <!-- Contenedor del modal -->
                 <div class="modal-container" id="modalContainer">
@@ -536,8 +566,7 @@
                         </table>
                     </div>
                 </div>
-                
-
+               
                 <script>
                     
                 document.addEventListener("DOMContentLoaded", function () {
@@ -651,7 +680,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         var select = document.getElementById("cuentacontable");
-        var textInput = document.getElementById("cuentacontable_text");
+        var textInput = document.getElementById("cuentacontable_text"); 
 
         // Actualiza el campo de texto oculto al cambiar la selección
         select.addEventListener("change", function () {
@@ -661,6 +690,46 @@
     });
 
                 </script>
+<script>
+    // Función para abrir el modal de las cuentas contables
+    function openModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn_3.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn_3.style.zIndex = 1;
+    }
+    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+    document.getElementById('IDCuentaContable').value = IDCuentaContable; // Asume que tienes un campo con id 'idcuentacontable'
+    document.getElementById('IDCuentaContable').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+    document.getElementById('IDCuentaContable').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+    closeModal_3(); 
+    }
+
+ // Agregar evento al botón "buscar cuenta" para abrir el modal
+        const openModalBtn_3 = document.getElementById("openModalBtn_3");
+        openModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            openModal_3();
+        });
+
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+        closeModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeModal_3();
+        });
+    
+
+</script>
 
 
 </body>
