@@ -63,7 +63,7 @@
                                                         <div class="main-fields">
                                                         <div class="form-group <?php echo form_error('ruc') == true ? 'has-error':''?>">
                                                             <label for="ruc">Ruc:</label>
-                                                            <input type="text" class="form-control" id="ruc" name="ruc"readonly>
+                                                            <input type="text" class="form-control" id="ruc" name="ruc" readonly required>
                                                             <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                                                         </div>
 
@@ -99,17 +99,17 @@
 
                                                             <div class="form-group">
                                                                 <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>"required>
                                                             </div>
 
 
                                                         <div class="form-group">
                                                             <label for="contabilidad">Contabilidad:</label>
-                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad">
+                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad"required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="direccion">Dirección:</label>
-                                                            <input type="text" class="form-control" id="direccion" name="direccion">
+                                                            <input type="text" class="form-control" id="direccion" name="direccion"required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="telefono">Teléfono:</label>
@@ -117,7 +117,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="tesoreria">Tesoreria:</label>
-                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria">
+                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria"required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="observacion">Observación:</label>
@@ -125,7 +125,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="fecha">Fecha:</label>
-                                                            <input type="date" class="form-control" id="fecha" name="fecha">
+                                                            <input type="date" class="form-control" id="fecha" name="fecha"required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -157,17 +157,17 @@
                                                                                      <!--   <td><select class="form-control" id="id_pro" name="id_pro">
                                                                                                 
                                                                                             </select></td> -->
-                                                                                        <td><select class="form-control" id="id_ff" name="id_ff">
+                                                                                        <td><select class="form-control" id="id_ff" name="id_ff" required>
                                                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
                                                                                                     <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="id_of" name="id_of">
+                                                                                        <td><select class="form-control" id="id_of" name="id_of"required>
                                                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                        <td><select class="form-control" id="idcuentacontable" name="idcuentacontable"required>
                                                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                                                         <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
@@ -182,10 +182,10 @@
                                                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago" readonly>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Debe" name="Debe">
+                                                                                            <input type="text" class="form-control" id="Debe" name="Debe"required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber" name="Haber">
+                                                                                            <input type="text" class="form-control" id="Haber" name="Haber"required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
@@ -197,17 +197,17 @@
                                                                                           <!-- acá podemos insertar una ID  -->
 
                                                                                         
-                                                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2">
+                                                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2"required>
                                                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
                                                                                                     <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="id_of_2" name="id_of_2">
+                                                                                        <td><select class="form-control" id="id_of_2" name="id_of_2"required>
                                                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2"required>
                                                                                                 <?php foreach ($cuentacontable as $cc): ?>
                                                                                                     <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                                                         <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
@@ -219,13 +219,13 @@
                                                                                             <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
                                                                                         </td>
                                                                                         <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly >
                                                                                         </td>
                                                                                         <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
+                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2"required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
+                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2"required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">

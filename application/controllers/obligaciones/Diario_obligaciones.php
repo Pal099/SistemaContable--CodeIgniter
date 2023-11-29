@@ -96,6 +96,7 @@ class Diario_obligaciones extends CI_Controller {
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
 			$debe = floatval($this->input->post("Debe"));
+			$detalle = $this->input->post("detalles");
 			$haber_2 = floatval($this->input->post("Haber_2"));
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
@@ -150,6 +151,7 @@ class Diario_obligaciones extends CI_Controller {
 								'Debe' => $debe,
 								'numero'=>$numero,
 								'comprobante' => $comprobante,
+								'detalles' => $detalle,
 								'id_of' => $origen_de_financiamiento,
 								'id_pro' => $programa_id_pro,
 								'id_ff' => $fuente_de_financiamiento,
@@ -168,6 +170,7 @@ class Diario_obligaciones extends CI_Controller {
 										'Haber' => $haber_2,
 										'numero'=>$numero,
 										'comprobante' => $comprobante,
+										'detalles' => $detalle,
 										'id_of' => $origen_de_financiamiento,
 										'id_pro' => $programa_id_pro,
 										'id_ff' => $fuente_de_financiamiento,
@@ -188,15 +191,21 @@ class Diario_obligaciones extends CI_Controller {
 					}			
 				
 				}else {
-					$this->add();
+					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 				}
+			}else {
+				return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 			}
 		
 
 		
 	} // fin del store
 
-
+	public function busqueda_por_cuenta() {
+        $numero_cuenta = $this->input->get('busqueda');
+		$desc_cuenta = $this->input->get('busqueda');
+        $this->mostrar_vista($numero_cuenta, $desc_cuenta);
+    }
 
 
 	public function edit($id){

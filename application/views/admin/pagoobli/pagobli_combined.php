@@ -310,7 +310,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
-                        <?php if ($asi->id_form == 1 && $asi->Debe > 0 && $asi->pagado < $asi->total): ?>
+                        <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
                             <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
                                       '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
                                       ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
@@ -432,7 +432,9 @@
         closeModalBtn_2.addEventListener("click", () => {
             closeModal_2();
         });
+
     </script>
+    
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
