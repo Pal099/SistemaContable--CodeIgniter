@@ -167,13 +167,13 @@
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable" name="idcuentacontable"required>
-                                                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                            <td>
+                                                                                            <input type="text" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="text" class="form-control" id="descripcion_cc" name="descripcion_cc" >
+                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
+                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
+                                                                                            </button>
+                                                                                        </td>
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante" name="comprobante">
@@ -207,13 +207,13 @@
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2"required>
-                                                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                            <td>
+                                                                                        <input type="text" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="text" class="form-control" id="descripcion_cc_2" name="descripcion_cc_2" >
+                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_4">
+                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
+                                                                                            </button>
+                                                                                        </td>
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
@@ -371,7 +371,70 @@
                         </table>
                     </div>
                 </div>
-                
+                <div class="modal-container" id="modalContainer_3">
+                    <div class="modal-content">
+                        
+                        <span class="close_3" id="closeModalBtn_3" onclick="closeModal_3()">&times;</span>
+                        <h3>Buscador de Cuentas Contables</h3>
+                        <input type="text" id="searchInput" placeholder="Buscar por código o descripción...">
+                        <table class="table table-bordered table-hover" id="cuentasContablesTable">
+                        <thead>
+                                            <tr >
+                                               <th>IDCuentaContable</th>
+                                                <th>Código de Cuenta</th>
+                                                <th>Descripción de Cuenta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cuentacontable as $dato): ?>
+                                                <tr class="list-item" onclick="selectCC( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                    <td>
+                                                        <?= $dato->IDCuentaContable ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Codigo_CC ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Descripcion_CC ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                    </div>
+                </div>
+                <div class="modal-container" id="modalContainer_4">
+                    <div class="modal-content">
+                        
+                        <span class="close_4" id="closeModalBtn_4" onclick="closeModal_4()">&times;</span>
+                        <h3>Buscador de Cuentas Contables</h3>
+                        <input type="text" id="searchInput_2" placeholder="Buscar por código o descripción...">
+                        <table class="table table-bordered table-hover" id="cuentasContablesTable_2">
+                        <thead>
+                                            <tr >
+                                               <th>IDCuentaContable</th>
+                                                <th>Código de Cuenta</th>
+                                                <th>Descripción de Cuenta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cuentacontable as $dato): ?>
+                                                <tr class="list-item" onclick="selectCC2( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                    <td>
+                                                        <?= $dato->IDCuentaContable ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Codigo_CC ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Descripcion_CC ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                    </div>
+                </div>
 
                 <script>
                     
@@ -495,6 +558,135 @@
         });
     });
 
-                </script>
+</script>
+<script>
+    // Función para abrir el modal de las cuentas contables
+    function openModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn_3.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn_3.style.zIndex = 1;
+    }
+    function selectCC( Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+    
+    document.getElementById('idcuentacontable').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+    document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+    closeModal_3(); 
+    }
+
+ // Agregar evento al botón "buscar cuenta" para abrir el modal
+        const openModalBtn_3 = document.getElementById("openModalBtn_3");
+        openModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            openModal_3();
+        });
+
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+        closeModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeModal_3();
+        });
+    
+    function filterResults() {
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
+        filter = input.value.toUpperCase();
+        table = document.getElementById("cuentasContablesTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    document.getElementById("searchInput").addEventListener("input", filterResults);
+</script>
+
+<script>
+    // Función para abrir el modal de las cuentas contables
+    function openModal_4() {
+        var modalContainer = document.getElementById('modalContainer_4');
+        modalContainer.style.display = 'flex';
+        openModalBtn_4.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_4() {
+        var modalContainer = document.getElementById('modalContainer_4');
+        modalContainer.style.display = 'none';
+        openModalBtn_4.style.zIndex = 1;
+    }
+    function selectCC2( Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+    
+    document.getElementById('idcuentacontable_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+    document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+    closeModal_4(); 
+    }
+
+    // Agregar evento al botón "buscar cuenta" para abrir el modal
+        const openModalBtn_4 = document.getElementById("openModalBtn_4");
+        openModalBtn_4.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            openModal_4();
+        });
+
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_4 = document.getElementById("closeModalBtn_4");
+        closeModalBtn_4.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeModal_4();
+        });
+    
+    function filterResults() {
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
+        filter = input.value.toUpperCase();
+        table = document.getElementById("cuentasContablesTable_2");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    document.getElementById("searchInput_2").addEventListener("input", filterResults);
+</script>
 </body>
 </html>

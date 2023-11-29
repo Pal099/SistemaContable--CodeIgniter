@@ -673,16 +673,21 @@
         });
     
     function filterResults() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("searchInput");
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
         filter = input.value.toUpperCase();
         table = document.getElementById("cuentasContablesTable");
         tr = table.getElementsByTagName("tr");
 
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2]; // Cambia el índice según la posición de la columna que quieres buscar
-            if (td) {
-                txtValue = td.textContent || td.innerText;
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
                 } else {
@@ -733,16 +738,21 @@
         });
     
     function filterResults() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("searchInput_2");
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
         filter = input.value.toUpperCase();
         table = document.getElementById("cuentasContablesTable_2");
         tr = table.getElementsByTagName("tr");
 
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[2]; // Cambia el índice según la posición de la columna que quieres buscar
-            if (td) {
-                txtValue = td.textContent || td.innerText;
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                     tr[i].style.display = "";
                 } else {

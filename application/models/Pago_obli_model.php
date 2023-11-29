@@ -212,7 +212,7 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 
-    public function getCuentasContables(){
+    public function getCuentasContables($id_uni_respon_usu){
         $this->db->select('cuentacontable.*');
 		$this->db->from('cuentacontable');
 		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
