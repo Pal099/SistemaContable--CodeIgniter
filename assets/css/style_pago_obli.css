@@ -31,6 +31,16 @@
     color: #333; /* Color del icono de cerrar */
 }
 
+/* Estilo para el botón de cerrar */
+.close_3 {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333; /* Color del icono de cerrar */
+}
+
 /* Estilo para la tabla en el contenido del modal */
 .modal-content2 table {
     width: 100%;

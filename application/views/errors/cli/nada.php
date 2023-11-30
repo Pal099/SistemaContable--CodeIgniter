@@ -431,10 +431,7 @@
                                 </div>
                            </form>   
                                             <thead>
-                                                <tr>
-                                                   
-                                                    <th>Opciones</th>
-                                                </tr>
+                                               
                                             </thead>
                                             <tbody>
                                                 <?php if (!empty($data)): ?>
