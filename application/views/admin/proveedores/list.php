@@ -1,3 +1,14 @@
+<head>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+</head>
 
 <main id="main" class="main">
 <!-- Content Wrapper. Contains page content -->
@@ -80,4 +91,9 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<script>
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
+</script>
 
