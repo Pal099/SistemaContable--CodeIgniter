@@ -144,15 +144,14 @@
                                                     <div class="content-container4">
                                                     <div class="main-fields">
                                                         <div class="form-group">
-                                                        <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                                            <div class="input-group">
-                                                                <input class="form-control" id="cuentacontable" name="cuentacontable">
-                                                                <div class="input-group-append">
-                                                                    <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
-                                                                        <i class="bi bi-search"></i> Busqueda Cuenta
-                                                                    </button>
-                                                                </div>
-                                                            </div>
+                                                            <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
+                                                                <?php foreach ($cuentacontable as $cc): ?>
+                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
                                                         </div>
                                                         <!-- Monto de Pago -->
                                                         <div class="form-group">
@@ -432,10 +431,7 @@
                                 </div>
                            </form>   
                                             <thead>
-                                                <tr>
-                                                   
-                                                    <th>Opciones</th>
-                                                </tr>
+                                               
                                             </thead>
                                             <tbody>
                                                 <?php if (!empty($data)): ?>
@@ -485,36 +481,7 @@
                 <!-- Lista con las columnas -->
 
 
-                <div class="modal-container" id="modalContainer_3">
-                    <div class="modal-content3">
-                        <span class="close_3" id="closeModalBtn_3" onclick="closeModal_3()">&times;</span>
-                        <h3>Buscador de Cuentas Contables</h3>
-                        <table class="table table-bordered table-hover">
-                        <thead>
-                                            <tr >
-                >                               <th>IDCuentaContable</th>
-                                                <th>Código de Cuenta</th>
-                                                <th>Descripción de Cuenta</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($cuentacontable as $dato): ?>
-                                                <tr class="list-item" onclick="selectCC('<?= $dato->IDCuentaContable ?>', '<?= $dato->IDCuentaContable ?>', '<?= $dato->IDCuentaContable ?>')">
-                                                    <td>
-                                                        <?= $dato->IDCuentaContable ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $dato->Codigo_CC ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $dato->Descripcion_CC ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                    </div>
-                </div>
+
                
                 <!-- Contenedor del modal -->
                 <div class="modal-container" id="modalContainer">

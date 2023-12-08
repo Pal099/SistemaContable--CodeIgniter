@@ -20,6 +20,11 @@
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">
                 <i class="bi  bi-books"></i><span>Pago de obligaciones</span>
             </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
+                <i class="bi  bi-plus"></i><span>Depósito</span>
+            </a>
         </li>   
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu">
@@ -88,6 +93,7 @@
             </a>
         </li>
 
+               
         
     </ul>
 </aside>

@@ -168,11 +168,11 @@
     <?php foreach ($presupuestos as $presupuesto): ?>
             <td><?php echo $presupuesto->ID_Presupuesto; ?></td>
             <td><?php echo $presupuesto->Año; ?></td>
-            <td><?php echo $presupuesto->Idcuentacontable; ?></td>
-            <td><?php echo $presupuesto->TotalPresupuestado; ?></td>
-            <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
-            <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
-            <td><?php echo $presupuesto->programa; ?></td>
+            <td><?php echo !empty($cuentacontable) ? $cuentacontable[0]->Descripcion_CC : ''; ?></td>
+<td><?php echo !empty($origen) ? $origen[0]->nombre : ''; ?></td>
+<td><?php echo !empty($registros_financieros) ? $registros_financieros[0]->nombre : ''; ?></td>
+<td><?php echo !empty($programa) ? $programa[0]->nombre : ''; ?></td>
+
             <td><?php echo $presupuesto->TotalModificado; ?></td>
             <td><?php echo $presupuesto->pre_ene; ?></td>
             <td><?php echo $presupuesto->pre_feb; ?></td>
@@ -180,7 +180,6 @@
             <td><?php echo $presupuesto->pre_abr; ?></td>
             <td><?php echo $presupuesto->pre_may; ?></td>
             <td><?php echo $presupuesto->pre_jun; ?></td>
-            <td><?php echo $presupuesto->pre_jul; ?></td>
             <td><?php echo $presupuesto->pre_ago; ?></td>
             <td><?php echo $presupuesto->pre_sep; ?></td>
             <td><?php echo $presupuesto->pre_oct; ?></td>

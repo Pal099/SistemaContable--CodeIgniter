@@ -33,8 +33,8 @@
                                 <?php if(!empty($cuentas)):?>
                                     <?php foreach($cuentas as $cuenta):?>
                                         <tr>
-                                            <td><?php echo $cuenta->CodigoCuentaContable;?></td>
-                                            <td><?php echo $cuenta->DescripcionCuentaContable;?></td>
+                                            <td><?php echo $cuenta->Codigo_CC;?></td>
+                                            <td><?php echo $cuenta->Descripcion_CC;?></td>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>

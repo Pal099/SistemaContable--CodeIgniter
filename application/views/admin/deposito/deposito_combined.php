@@ -22,10 +22,10 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Asiento Diario</li>
+                    <li class="breadcrumb-item active">Vista de los Depositos</li>
                 </ol>
             </nav>
-            <h1>Registro de Recaudación y Depósitos Bancarios</h1>
+            <h1>Deposito Bancario</h1>
         </div><!-- End Page Title -->
 
         <section class="section dashboard">
@@ -33,7 +33,7 @@
                 <!-- Left side columns -->
                 <div class="row">
                     <div class="col-md-12 d-flex align-items-center">
-                        <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del proveedor</h1>
+                        <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
                         <div class="btn-group">
                             <label class="switch" for="optionalFieldsSwitch">
                                 <input type="checkbox" id="optionalFieldsSwitch">
@@ -193,49 +193,49 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                           <!-- segundo asiento  -->
-                                                                                      
-                                                                                          <!-- acá podemos insertar una ID  -->
+                                                        
+                                                            <!-- acá podemos insertar una ID  -->
 
-                                                                                        
-                                                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2">
-                                                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="id_of_2" name="id_of_2">
-                                                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
-                                                                                        </td>
-                                                                                        <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
-                                                                                        </td>
-                                                                                        <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
-                                                                                        </td>
-                                                                                    </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                    <!-- Segundo asiento de la obligación  -->
-                                                    
-                                                    
+                                                        
+                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2">
+                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
+                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select></td>
+                                                        <td><select class="form-control" id="id_of_2" name="id_of_2">
+                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
+                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select></td>
+                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                <?php foreach ($cuentacontable as $cc): ?>
+                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
+                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </select></td>
+                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
+                                                        <td contenteditable="true">
+                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
+                                                        </td>
+                                                        <td contenteditable="false">
+                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                        </td>
+                                                        <td contenteditable="false">
+                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
+                                                        </td>
+                                                        <td contenteditable="true">
+                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
+                                                        </td>
+                                                        <td contenteditable="true">
+                                                            <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
+                                                        </td>
+                                                    </tr>
+                                        </tbody>
+                                    </table>
+                    <!-- Segundo asiento de la obligación  -->
+                    
+                    
                                                 </div>
                                             </div>
                                         </div>

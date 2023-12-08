@@ -1,0 +1,20 @@
+/* Estilo del botón de alternar la barra lateral */
+.toggle-sidebar-btn_2 {
+    position: fixed;
+    top: 5px; /* Puedes ajustar la posición vertical según tus necesidades */
+    left: 0px; /* Puedes ajustar la posición horizontal según tus necesidades */
+    font-size: 15px;
+    cursor: pointer;
+    color: #4154f1; /* Color del botón */
+    background-color: #f6f9ff; /* Color de fondo del botón */
+    padding: 2px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(1, 41, 112, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .toggle-sidebar-btn_2:hover {
+    background-color: #4154f1; /* Cambia el color de fondo al pasar el mouse */
+    color: #f6f9ff; /* Cambia el color del texto al pasar el mouse */
+  }
+  
