@@ -16,19 +16,21 @@
             <div class="card-body">
                 <!-- Formulario para Filtros -->
                 <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
                         <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="fechaFin" class="form-label">Hasta:</label>
                         <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
                         <input type="text" class="form-control" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
                     </div>
-                    <div class="col-12">
+                    
+                    <div class="col-3">
+                        <br>
                         <button type="submit" class="btn btn-primary">Buscar</button>
                     </div>
                 </form>

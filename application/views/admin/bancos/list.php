@@ -1,3 +1,20 @@
+<head>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+  <style>
+    /* Estilo para el thead de DataTables */
+    #example1 thead {
+      background-color: #e6f7fe; /* Cambia esto al color que desees */
+      color: white; /* Cambia esto al color del texto que desees */
+    }
+  </style>
+</head>
 <main id="main" class="main">
 <!-- Content Wrapper. Contains page content -->
 <div class="pagetitle">
@@ -87,3 +104,8 @@
 </div>
 <!-- /.modal -->
 
+<script>
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
+</script>
