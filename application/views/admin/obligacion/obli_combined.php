@@ -54,7 +54,7 @@
 
                 <!-- Campos principales -->
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
                         
                             <form  action="<?php echo base_url();?>obligaciones/diario_obligaciones/store" method="POST">

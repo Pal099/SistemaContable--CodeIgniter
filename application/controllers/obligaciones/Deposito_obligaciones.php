@@ -41,7 +41,7 @@ class Deposito_obligaciones extends CI_Controller {
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/obligacion/deposito_combined", $data);
+        $this->load->view("admin/deposito/deposito_combined", $data);
         $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
@@ -79,7 +79,7 @@ class Deposito_obligaciones extends CI_Controller {
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/deposito_combined", $data); // Pasar los datos a la vista
+		$this->load->view("admin/deposito/deposito_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
