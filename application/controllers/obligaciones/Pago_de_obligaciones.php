@@ -200,7 +200,7 @@ class Pago_de_obligaciones extends CI_Controller {
 					
 					if ($this->input->is_ajax_request()) {
 						
-						$datosFormulario = $datosCompletos['filas'];
+						//$datosFormulario = $datosCompletos['filas'];
 						$filas = $datosCompletos['filas'];
 						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
 							foreach ($filas as $fila) {

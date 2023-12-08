@@ -173,9 +173,11 @@
                                                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                            </select>
+                                                                                        </td>
                                                                                         <td>
-                                                                                            <input type="text" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="text" class="form-control" id="codigo_cc" name="codigo_cc">
                                                                                             <input type="text" class="form-control" id="descripcion_cc" name="descripcion_cc" >
                                                                                             <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
                                                                                                 <i class="bi bi-search"></i> Busqueda Cuenta
@@ -217,10 +219,12 @@
                                                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                            </select>
+                                                                                        </td>
                                                                                      
                                                                                         <td>
-                                                                                            <input type="text" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="text" class="form-control" id="codigo_cc_2" name="codigo_cc_2">
                                                                                             <input type="text" class="form-control" id="descripcion_cc_2" name="descripcion_cc_2" >
                                                                                             <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_4">
                                                                                                 <i class="bi bi-search"></i> Busqueda Cuenta
@@ -385,7 +389,7 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($cuentacontable as $dato): ?>
-                                                <tr class="list-item" onclick="selectCC( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                <tr class="list-item" onclick="selectCC( '<?= $dato->IDCuentaContable ?>','<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
                                                     <td>
                                                         <?= $dato->IDCuentaContable ?>
                                                     </td>
@@ -417,7 +421,7 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($cuentacontable as $dato): ?>
-                                                <tr class="list-item" onclick="selectCC2( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
                                                     <td>
                                                         <?= $dato->IDCuentaContable ?>
                                                     </td>
@@ -626,15 +630,25 @@
         var filas = [];
 
         $("#miTabla tbody #filaBase").each(function () {
-            var fila = {};
-            fila.id_pro = $(this).find("select[id='id_pro_2']").val();
+            var fila = {
+                id_pro: $("#id_pro_2").val(),
+                id_ff: $("#id_ff_2").val(),
+                id_of: $("#id_of_2").val(),
+                IDCuentaContable: $("#idcuentacontable_2").val(),
+                comprobante: $("#comprobante_2").val(),
+                Debe: $("#Debe_2").val(),
+                Haber: $("#Haber_2").val(),
+                cheques_che_id: $("#cheques_che_id_2").val(),
+
+            };
+            /*fila.id_pro = $(this).find("select[id='id_pro_2']").val();
             fila.id_ff = $(this).find("select[id='id_ff_2']").val();
             fila.id_of = $(this).find("select[id='id_of_2']").val();
             fila.IDCuentaContable = $(this).find("select[id='idcuentacontable_2']").val();
             fila.comprobante = $(this).find("input[id='comprobante_2']").val();
             fila.Haber = $(this).find("input[id='Haber_2']").val();
             fila.Debe = $(this).find("input[id='Debe_2']").val();
-            fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();
+            fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();*/
 
             filas.push(fila);
             
@@ -682,13 +696,13 @@
         modalContainer.style.display = 'none';
         openModalBtn_3.style.zIndex = 1;
     }
-    function selectCC( Codigo_CC, Descripcion_CC) {
+    function selectCC( IDCuentaContable,Codigo_CC, Descripcion_CC) {
     // Actualizar los campos de texto en la vista principal con los valores seleccionados
-    
-    document.getElementById('idcuentacontable').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-    document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        document.getElementById('idcuentacontable').value = IDCuentaContable;
+        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    closeModal_3(); 
+        closeModal_3(); 
     }
 
  // Agregar evento al botón "buscar cuenta" para abrir el modal
@@ -747,13 +761,13 @@
         modalContainer.style.display = 'none';
         openModalBtn_4.style.zIndex = 1;
     }
-    function selectCC2( Codigo_CC, Descripcion_CC) {
+    function selectCC2( IDCuentaContable, Codigo_CC, Descripcion_CC) {
     // Actualizar los campos de texto en la vista principal con los valores seleccionados
-    
-    document.getElementById('idcuentacontable_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-    document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        document.getElementById('idcuentacontable_2').value = IDCuentaContable;
+        document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    closeModal_4(); 
+        closeModal_4(); 
     }
 
     // Agregar evento al botón "buscar cuenta" para abrir el modal
