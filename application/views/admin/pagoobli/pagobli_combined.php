@@ -624,17 +624,6 @@
         
 
         var filas = [];
-        /*var fila = {};
-        fila.id_pro = $(this).find("select[id='id_pro_2']").val();
-        fila.id_ff = $(this).find("select[id='id_ff_2']").val();
-        fila.id_of = $(this).find("select[id='id_of_2']").val();
-        fila.IDCuentaContable = $(this).find("select[id='idcuentacontable_2']").val();
-        fila.comprobante = $(this).find("input[id='comprobante_2']").val();
-        fila.Haber = $(this).find("input[id='Haber_2']").val();
-        fila.Debe = $(this).find("input[id='Debe_2']").val();
-        fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();
-
-        filas.push(fila);*/
 
         $("#miTabla tbody #filaBase").each(function () {
             var fila = {};
