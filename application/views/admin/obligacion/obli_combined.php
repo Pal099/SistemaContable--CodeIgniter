@@ -171,7 +171,8 @@
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
                                                                                         <td>
-                                                                                            <input type="text" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="text" class="form-control" id="codigo_cc" name="codigo_cc">
                                                                                             <input type="text" class="form-control" id="descripcion_cc" name="descripcion_cc" >
                                                                                             <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
                                                                                                 <i class="bi bi-search"></i> Busqueda Cuenta
@@ -218,7 +219,8 @@
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
                                                                                         <td>
-                                                                                            <input type="text" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="text" class="form-control" id="codigo_cc_2" name="codigo_cc_2">
                                                                                             <input type="text" class="form-control" id="descripcion_cc_2" name="descripcion_cc_2" >
                                                                                             <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_4">
                                                                                                 <i class="bi bi-search"></i> Busqueda Cuenta
@@ -461,7 +463,7 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($cuentacontable as $dato): ?>
-                                                <tr class="list-item" onclick="selectCC( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                <tr class="list-item" onclick="selectCC( '<?= $dato->IDCuentaContable ?>','<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
                                                     <td>
                                                         <?= $dato->IDCuentaContable ?>
                                                     </td>
@@ -493,7 +495,7 @@
                                         </thead>
                                         <tbody>
                                             <?php foreach ($cuentacontable as $dato): ?>
-                                                <tr class="list-item" onclick="selectCC2( '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
                                                     <td>
                                                         <?= $dato->IDCuentaContable ?>
                                                     </td>
@@ -648,18 +650,18 @@
         modalContainer.style.display = 'none';
         openModalBtn_3.style.zIndex = 1;
     }
-    function selectCC( Codigo_CC, Descripcion_CC) {
+    function selectCC( IDCuentaContable,Codigo_CC, Descripcion_CC) {
     // Actualizar los campos de texto en la vista principal con los valores seleccionados
-    
-    document.getElementById('idcuentacontable').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-    document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        document.getElementById('idcuentacontable').value = IDCuentaContable;
+        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    closeModal_3(); 
+        closeModal_3(); 
     }
 
  // Agregar evento al botón "buscar cuenta" para abrir el modal
         const openModalBtn_3 = document.getElementById("openModalBtn_3");
-        openModalBtn_3.addEventListener("click", (event) => {
+            openModalBtn_3.addEventListener("click", (event) => {
             event.preventDefault();
 
             openModal_3();
@@ -667,7 +669,7 @@
 
         // Agregar evento al botón de cerrar para cerrar el modal
         const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
-        closeModalBtn_3.addEventListener("click", (event) => {
+            closeModalBtn_3.addEventListener("click", (event) => {
             event.preventDefault();
             closeModal_3();
         });
@@ -713,13 +715,13 @@
         modalContainer.style.display = 'none';
         openModalBtn_4.style.zIndex = 1;
     }
-    function selectCC2( Codigo_CC, Descripcion_CC) {
+    function selectCC2( IDCuentaContable, Codigo_CC, Descripcion_CC) {
     // Actualizar los campos de texto en la vista principal con los valores seleccionados
-    
-    document.getElementById('idcuentacontable_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-    document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        document.getElementById('idcuentacontable_2').value = IDCuentaContable;
+        document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    closeModal_4(); 
+        closeModal_4(); 
     }
 
     // Agregar evento al botón "buscar cuenta" para abrir el modal

@@ -95,6 +95,7 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
+			//-----------------//--------------------------- 1
 			$debe = floatval($this->input->post("Debe"));
 			$detalle = $this->input->post("detalles");
 			$haber_2 = floatval($this->input->post("Haber_2"));
@@ -102,9 +103,17 @@ class Diario_obligaciones extends CI_Controller {
 			$comprobante = $this->input->post("comprobante");
 			$cheque_id = $this->input->post("cheques_che_id");
 			$programa_id_pro = $this->input->post("id_pro");
-			$cuentacontable = $this->input->post("cuentacontable");
+			$cuentacontable = $this->input->post("idcuentacontable");
 			$fuente_de_financiamiento = $this->input->post("id_ff");
 			$origen_de_financiamiento = $this->input->post("id_of");
+			//-----------------//--------------------------- 2
+			$detalle_2 = $this->input->post("detalles_2");
+			$comprobante_2 = $this->input->post("comprobante_2");
+			$cheque_id_2 = $this->input->post("cheques_che_id");
+			$programa_id_pro_2 = $this->input->post("id_pro_2");
+			$cuentacontable_2 = $this->input->post("idcuentacontable_2");
+			$fuente_de_financiamiento_2 = $this->input->post("id_ff_2");
+			$origen_de_financiamiento_2 = $this->input->post("id_of_2");
 			//-----------------//---------------------------
 			$pedi_matricula = $this->input->post("pedi_matricula");
 			$MontoPago = floatval($this->input->post("MontoPago"));
@@ -169,13 +178,13 @@ class Diario_obligaciones extends CI_Controller {
 										'MontoPago' => $MontoPago,
 										'Haber' => $haber_2,
 										'numero'=>$numero,
-										'comprobante' => $comprobante,
-										'detalles' => $detalle,
-										'id_of' => $origen_de_financiamiento,
-										'id_pro' => $programa_id_pro,
-										'id_ff' => $fuente_de_financiamiento,
-										'IDCuentaContable' => $cuentacontable,
-										'cheques_che_id' => $cheque_id,
+										'comprobante' => $comprobante_2,
+										'detalles' => $detalle_2,
+										'id_of' => $origen_de_financiamiento_2,
+										'id_pro' => $programa_id_pro_2,
+										'id_ff' => $fuente_de_financiamiento_2,
+										'IDCuentaContable' => $cuentacontable_2,
+										'cheques_che_id' => $cheque_id_2,
 										'proveedores_id' => $proveedor_id,
 										'id_uni_respon_usu'=>$id_uni_respon_usu,
 										'id_form' => "1",
