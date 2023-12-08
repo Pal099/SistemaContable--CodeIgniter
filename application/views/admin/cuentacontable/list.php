@@ -1,3 +1,22 @@
+<head>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+  <style>
+    /* Estilo para el thead de DataTables */
+    #example1 thead {
+      background-color: #e6f7fe; /* Cambia esto al color que desees */
+      color: white; /* Cambia esto al color del texto que desees */
+    }
+  </style>
+</head>
+
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
@@ -15,63 +34,63 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
-        <div class="col-md-12">
-    <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span
-            class="fa fa-plus"></span> Agregar Cuenta Contable</a>
-</div>
-</div>
-<hr>
-<div class="row">
-    <div class="col-md-12">
-        <table id="example1" class="table table-bordered table-hover">
-            <thead>
+          <div class="col-md-12">
+            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span
+                class="fa fa-plus"></span> Agregar Cuenta Contable</a>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-md-12">
+            <table id="example1" class="table table-bordered table-hover">
+              <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Código</th>
-                    <th>Descripción</th>
-                    <th>Tipo</th>
-                    <th>Imputable</th>
-                    <th>Opciones</th>
+                  <th>#</th>
+                  <th>Código</th>
+                  <th>Descripción</th>
+                  <th>Tipo</th>
+                  <th>Imputable</th>
+                  <th>Opciones</th>
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 <?php if (!empty($cuentascontables)): ?>
-                    <?php foreach ($cuentascontables as $cuentacontable): ?>
-                        <tr>
-                            <td><?php echo $cuentacontable->IDCuentaContable; ?></td>
-                            <td><?php echo $cuentacontable->Codigo_CC; ?></td>
-                            <td><?php echo $cuentacontable->Descripcion_CC; ?></td>
-                            <td><?php echo $cuentacontable->tipo; ?></td>
-                            <td><?php echo $cuentacontable->imputable == 1 ? 'Sí' : 'No'; ?></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-info btn-view" data-toggle="modal"
-                                        data-target="#modal-default" value="<?php echo $cuentacontable->IDCuentaContable; ?>">
-                                        <span class="fa fa-search"></span>
-                                    </button>
-                                    <a href="<?php echo base_url() ?>mantenimiento/CuentaContable/edit/<?php echo $cuentacontable->IDCuentaContable; ?>"
-                                        class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+                  <?php foreach ($cuentascontables as $cuentacontable): ?>
+                    <tr>
+                      <td><?php echo $cuentacontable->IDCuentaContable; ?></td>
+                      <td><?php echo $cuentacontable->Codigo_CC; ?></td>
+                      <td><?php echo $cuentacontable->Descripcion_CC; ?></td>
+                      <td><?php echo $cuentacontable->tipo; ?></td>
+                      <td><?php echo $cuentacontable->imputable == 1 ? 'Sí' : 'No'; ?></td>
+                      <td>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-info btn-view" data-toggle="modal"
+                            data-target="#modal-default" value="<?php echo $cuentacontable->IDCuentaContable; ?>">
+                            <span class="fa fa-search"></span>
+                          </button>
+                          <a href="<?php echo base_url() ?>mantenimiento/CuentaContable/edit/<?php echo $cuentacontable->IDCuentaContable; ?>"
+                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
 
-                                    <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/delete/<?php echo $cuentacontable->IDCuentaContable; ?>"
-                                        class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                          <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/delete/<?php echo $cuentacontable->IDCuentaContable; ?>"
+                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                        </div>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
                 <?php endif; ?>
-            </tbody>
-        </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
     </div>
-</div>
-</div>
-<!-- /.box-body -->
-</div>
-<!-- /.box -->
-</section>
-<!-- /.content -->
+    <!-- /.box -->
+  </section>
+  <!-- /.content -->
 </div>
 
-  <!-- /.content-wrapper -->
+<!-- /.content-wrapper -->
 </main>
 <div class="modal fade" id="modal-default">
   <div class="modal-dialog">
@@ -93,3 +112,8 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+<script>
+  $(document).ready(function() {
+    $('#example1').DataTable();
+  });
+</script>
