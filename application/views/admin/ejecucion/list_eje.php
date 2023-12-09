@@ -1,4 +1,8 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <title>Ejecución Presupuestaria</title>
   <!-- DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
 
@@ -11,60 +15,61 @@
     /* Estilo para el thead de DataTables */
     #example1 thead {
       background-color: #e6f7fe; /* Cambia esto al color que desees */
-      color: white; /* Cambia esto al color del texto que desees */
+      color: #333; /* Cambia esto al color del texto que desees */
     }
   </style>
 </head>
-<main id="main" class="main">
-    <!-- Content Wrapper. Contains page content -->
-    <div class="pagetitle">
-        <h1>Ejecución Presupuestaria</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
-                <li class="breadcrumb-item active">Listado Presupuestaria</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+<body>
+  <main id="main" class="main">
+      <div class="pagetitle">
+          <h1>Ejecución Presupuestaria</h1>
+          <nav>
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+                  <li class="breadcrumb-item active">Listado Presupuestaria</li>
+              </ol>
+          </nav>
+      </div><!-- End Page Title -->
 
-    <h2>Listado de Ejecuciones Presupuestarias</h2>
-    <table id="example1" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Origen de Financiamiento    </th>
-                <th>Fuente de Financiamiento</th>
-                <th>Programa</th>
-                <th>Cuenta</th>
-                <th>Presupuesto Inicial</th>
-                <th>Presupuesto Modificado</th>
-                <th>Obligado</th>
-                <th>Pagado</th>
+      <h2>Listado de Ejecuciones Presupuestarias</h2>
+      <table id="example1" class="table table-bordered">
+          <thead>
+              <tr>
+                  <th>Origen de Financiamiento</th>
+                  <th>Fuente de Financiamiento</th>
+                  <th>Programa</th>
+                  <th>Cuenta</th>
+                  <th>Presupuesto Inicial</th>
+                  <th>Presupuesto Modificado</th>
+                  <th>Obligado</th>
+                  <th>Pagado</th>
+              </tr>
+          </thead>
+          <tbody>
+              <?php foreach($ejecucionpresupuestaria as $ep): ?>
+              <tr>
+                  <td><?php echo $ep->origen_de_financiamiento_id_of; ?></td>
+                  <td><?php echo $ep->fuente_de_financiamiento_id_ff; ?></td>
+                  <td><?php echo $ep->programa_id_pro; ?></td>
+                  <td><?php echo $ep->Idcuentacontable; ?></td>
+                  <td><?php echo $ep->TotalPresupuestado; ?></td>
+                  <td><?php echo $ep->TotalModificado; ?></td>
+                  <td><?php echo $ep->Obligado; ?></td>
+                  <td><?php echo $ep->Pagado; ?></td>
+              </tr>
+              <?php endforeach; ?>
+          </tbody>
+      </table>
+  </main>
 
-
-                <!-- Agrega más cabeceras según los datos que quieras mostrar -->
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($ejecucionpresupuestaria as $ep): ?>
-            <tr>
-                <td><?php echo $ep->ID; // Asegúrate de que la propiedad coincida con tu base de datos ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-                <td><?php echo $ep->presupuesto; ?></td>
-
-                <!-- Asegúrate de agregar aquí más celdas si agregaste más cabeceras -->
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</main>
-
-<script>
-    $(document).ready(function() {
-        $('#example1').DataTable();
-    });
-</script>
+  <script>
+      $(document).ready(function() {
+          $('#example1').DataTable({
+              "language": {
+                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+              }
+          });
+      });
+  </script>
+</body>
+</html>

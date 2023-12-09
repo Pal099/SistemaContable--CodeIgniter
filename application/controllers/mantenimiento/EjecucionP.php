@@ -19,11 +19,11 @@ class EjecucionP extends CI_Controller {
 	public function index()
 {
     // Suponiendo que $id_uni_respon_usu se obtenga de la sesión del usuario o mediante algún otro método.
-    $id_uni_respon_usu = $this->session->userdata('id_uni_respon_usu');
+    //$id_uni_respon_usu = $this->session->userdata('id_uni_respon_usu');
 
     // Ahora pasamos el ID como argumento al método getEjecucionesP().
     $data = array(
-        'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
+        'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta(),
     );
 
     // Cargar vistas con datos
@@ -35,11 +35,15 @@ class EjecucionP extends CI_Controller {
 
 	public function view($id){
 		$data = array(
-			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionP($id),
-			'presupuestos' => $this->Presupuesto_model->getPresupuestos(),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
-		);
-		$this->load->view("admin/ejecucion/view_eje", $data);
+            'sumaDebePorCuenta' => $this->EjecucionP_model->getSumaDebePorCuenta(),
+        );
+
+        // Cargar vistas con datos
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        // Asegúrate de crear la vista 'reporte_ejecucion_presupuestaria' en la carpeta correspondiente
+        $this->load->view("admin/ejecucion/list_eje", $data);
+        $this->load->view("layouts/footer");
 	}
 	
 }
