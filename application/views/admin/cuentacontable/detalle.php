@@ -5,16 +5,24 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <style media= "print">
+        @page{
+            size: A4;
+            margin: 0;
+        }
+        .boton{
+            display: none;
+            visibility: none;
+        }
+    </style>
 </head>
 <body>
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
-    <h1>LIST CUENTAS CONTABLES</h1>
+    <h1>LISTA CUENTAS CONTABLES</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
         <li class="breadcrumb-item active">Listado Categorias</li>
       </ol>
     </nav>
@@ -25,19 +33,6 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
-        <div class="col-md-6">
-            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Agregar Cuenta Contable</a>
-            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index2" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Generar Reportes</a>
-        </div>
-        <div class="col-md-6">
-            <!-- Filtro por Tipo -->
-            <select class="form-control" id="filterTipo" onchange="filterByTipo(this.value)">
-                <option value="">Filtrar por Tipo</option>
-                <option value="Título">Título</option>
-                <option value="Grupo">Grupo</option>
-                <!-- ... otros tipos ... -->
-            </select>
-        </div>
         </div>
         <hr>
         <div class="row">
@@ -51,7 +46,6 @@
                             <th>Tipo</th>
                             <th>Código Padre</th> <!-- Nueva columna -->
                             <th>Imputable</th>
-                            <th>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,16 +58,6 @@
                                     <td><?php echo $cuentacontable->tipo; ?></td>
                                     <td><?php echo $cuentacontable->padre_id ? $cuentacontable->padre_id : 'N/A'; ?></td> <!-- Mostrar el código padre -->
                                     <td><?php echo $cuentacontable->imputable == 1 ? 'Sí' : 'No'; ?></td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-info btn-view" data-toggle="modal" data-target="#modal-default" value="<?php echo $cuentacontable->IDCuentaContable; ?>">
-                                                <span class="fa fa-search"></span>
-                                            </button>
-                                            <a href="<?php echo base_url() ?>mantenimiento/CuentaContable/edit/<?php echo $cuentacontable->IDCuentaContable; ?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                                            <!-- Confirmación al eliminar -->
-                                            <a href="#" onclick="confirmDelete(<?php echo $cuentacontable->IDCuentaContable; ?>)" class="btn btn-danger"><span class="fa fa-remove"></span></a>
-                                        </div>
-                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -88,18 +72,11 @@
   </section>
   <!-- /.content -->
 </main>
+<div class="container">
+<a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index" class="btn btn-primary boton"><span></span> Regresar</a>
+<a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index2/1" class="btn btn-success boton" onclick="window.print()"><span></span> Imprimir</a>
+<a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index2/2" class="btn btn-success boton"><span></span> Generar Excel</a>
+</div>
 </body>
 
 </html>
-
-<script>
-    function confirmDelete(id) {
-        if (confirm("¿Estás seguro de que quieres eliminar esta cuenta?")) {
-            window.location.href = "<?php echo base_url(); ?>mantenimiento/CuentaContable/delete/" + id;
-        }
-    }
-
-    function filterByTipo(tipo) {
-        // Aquí puedes implementar el filtrado, ya sea recargando la página con el filtro aplicado o usando JavaScript para filtrar los resultados actuales.
-    }
-</script>
