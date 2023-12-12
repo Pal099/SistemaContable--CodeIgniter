@@ -140,7 +140,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		//se debe igualar el debe con la suma del haber
 		//$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 
-		echo "Valor de \$ruc_id_provee: " . $ruc_id_provee;
+	
 		
 		
 		if ($proveedor_id) {
@@ -200,37 +200,33 @@ class Pago_de_obligaciones extends CI_Controller {
 					
 					if ($this->input->is_ajax_request()) {
 						
-						//$datosFormulario = $datosCompletos['filas'];
+						$datosFormulario = $datosCompletos['filas'];
 						$filas = $datosCompletos['filas'];
 						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
 							foreach ($filas as $fila) {
-								// Procesar cada fila y guardar los datos en la base de datos
-								// ...
-					
 								// Ejemplo de cómo podrías procesar una fila
 								$dataDetaHaber = array(
-									'Num_Asi_IDNum_Asi' => $lastInsertedId,
-									'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
-									'Haber' => $fila['Haber'],
-									//'Debe' => "0",
-									'numero' => $numero,
-									'comprobante' => $fila['comprobante'],
-									'id_of' => $fila['id_of'],	
-									'id_pro' => $fila['id_pro'],
-									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentaContable'],
-									'cheques_che_id' => $fila['cheques_che_id'],
-									'proveedores_id' => $proveedor_id,
-									'id_uni_respon_usu' => $id_uni_respon_usu,
-									'id_form' => "2",
-									'estado_registro' => "1",
-								);
-
+								'Num_Asi_IDNum_Asi' => $lastInsertedId,
+								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
+								'Haber' => $fila['Haber'],
+								//'Debe' => "0",
+								'numero' => $numero,
+								'comprobante' => $fila['comprobante'],
+								'id_of' => $fila['id_of'],	
+								'id_pro' => $fila['id_pro'],
+								'id_ff' => $fila['id_ff'],
+								'IDCuentaContable' => $fila['IDCuentaContable'],
+								'cheques_che_id' => $fila['cheques_che_id'],
+								'proveedores_id' => $proveedor_id,
+								'id_uni_respon_usu' => $id_uni_respon_usu,
+								'id_form' => "2",
+								'estado_registro' => "1",
+							);
 								
-								// Ejemplo de cómo podrías guardar una fila
-								$this->Diario_obli_model->saveHaber($dataDetaHaber);
+							// Ejemplo de cómo podrías guardar una fila
+							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 								
-							}
+						}
 
 					}
 						

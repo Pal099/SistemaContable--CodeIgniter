@@ -34,11 +34,7 @@
                         <div class="col-md-12 d-flex align-items-center">
                             <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
                             <div class="btn-group">
-                                <label class="switch" for="optionalFieldsSwitch">
-                                    <input type="checkbox" id="optionalFieldsSwitch">
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="optional-fields-title">Campos opcionales</span>
+                                
                                 <!-- Botón "Nuevo" para abrir el modal -->
                                 <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                     <i class="bi bi-plus"></i> Nuevo
@@ -437,24 +433,7 @@
                                     </table>
                     </div>
                 </div>
-   <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Agregar evento al botón "Cancelar"
-            const cancelarBtn = document.getElementById("cancelarBtn");
-            cancelarBtn.addEventListener("click", function () {
-                // Limpia el contenido de la tabla de datos seleccionados
-                const tablaDatosSeleccionados = document.getElementById("tablaolilist");
-                const tbody = tablaDatosSeleccionados.querySelector("tbody");
-                tbody.innerHTML = ""; // Borra todas las filas
-
-                // Oculta el campo de comprobante
-                const comprobanteContainer = document.querySelector('.comprobante-container');
-                comprobanteContainer.style.display = 'none';
-            });
-
-        });
-
-    </script>-->
+  
     <script>
         // Función para abrir el modal
         function openModal_2() {
@@ -505,22 +484,6 @@
         });
 
     </script>
-    
-    <script>
-        // Manejar la visibilidad de los campos opcionales
-        const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
-        const optionalFields = document.querySelector(".optional-fields");
-
-        optionalFieldsSwitch.addEventListener("change", () => {
-            if (optionalFieldsSwitch.checked) {
-                optionalFields.style.display = "block";
-            } else {
-                optionalFields.style.display = "none";
-            }
-
-
-        });
-    </script>
 
     <script>
         // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
@@ -537,55 +500,28 @@
         //fechaInput.value = obtenerFechaActual();
     </script>
 
-
-
-
-
- <!--   <script>
-        // Función para abrir el modal de programas
-        function openModal_obli() {
-            var modalContainer = document.getElementById('modalContainer_obli');
-            modalContainer.style.display = 'flex';
-        }
-
-        // Función para cerrar el modal de programas
-        function closeModal_obli() {
-            var modalContainer = document.getElementById('modalContainer_obli');
-            modalContainer.style.display = 'none';
-        }
-
-
-
-        // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
-        const openModalBtn_obli = document.getElementById("openModalBtn_obli");
-        openModalBtn_obli.addEventListener("click", () => {
-            openModal_obli();
-        });
-
-        // Agregar evento al botón de cerrar para cerrar el modal de programas
-        const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
-        closeModalBtn_obli.addEventListener("click", () => {
-            closeModal_obli();
-        });
-    </script>-->
    
-   <script>
+<script>
     $(document).ready(function () {
 
-        // Ocultar el botón de eliminar en la primera y segunda fila (la estática)
-        
         // Agregar fila
         $("#agregarFila").on("click", function (e) {
             e.preventDefault();
             var nuevaFila = $("#filaBase").clone();
 
-            // Limpiar valores de los campos en la nueva fila
+            // Remove the ID to avoid duplicates
+            nuevaFila.removeAttr('id');
+
+            // Agregar una clase a todos los elementos de la fila clonada
+            nuevaFila.find("select, input").addClass("filaClonada");
+
+            // Clear values of the fields in the new row
             nuevaFila.find("select, input").val("");
-            
-            // Mostrar la nueva fila
+
+            // Show the new row
             nuevaFila.show();
 
-            // Agregar la nueva fila al final de la tabla
+            // Append the new row to the table body
             $("#miTabla tbody").append(nuevaFila);
         });
 
@@ -593,16 +529,21 @@
         $("#miTabla").on("click", ".eliminarFila", function (e) {
             e.preventDefault();
             if ($("#miTabla tbody tr").length > 2) {
-                $(this).closest("tr").remove();
+            $(this).closest("tr").remove();
             } else {
-                alert("No se puede eliminar la última fila.");
+            alert("No se puede eliminar la última fila.");
             }
         });
-
+        
+        
         
     });
+</script>
 
+<script>
+    
     $("#formularioPrincipal").on("submit", function() {
+        //datos que no son de la tabla dinamica
         var datosFormulario = {
             ruc: $("#ruc").val(),
             num_asi: $("#num_asi").val(),
@@ -625,60 +566,61 @@
 
         };
 
+        // variable para saber si el debe es igual a haber
+        let sumahaber = 0;
+       
+        var filas = [];
         
 
-        var filas = [];
-
-        $("#miTabla tbody #filaBase").each(function () {
+        $("#miTabla tbody tr:gt(0)").each(function () {
             var fila = {
-                id_pro: $("#id_pro_2").val(),
-                id_ff: $("#id_ff_2").val(),
-                id_of: $("#id_of_2").val(),
-                IDCuentaContable: $("#idcuentacontable_2").val(),
-                comprobante: $("#comprobante_2").val(),
-                Debe: $("#Debe_2").val(),
-                Haber: $("#Haber_2").val(),
-                cheques_che_id: $("#cheques_che_id_2").val(),
-
+                id_pro: $(this).find("select[name='id_pro_2']").val(),
+                id_ff: $(this).find("select[name='id_ff_2']").val(),
+                id_of: $(this).find("select[name='id_of_2']").val(),
+                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                comprobante: $(this).find("input[name='comprobante_2']").val(),
+                Debe: $(this).find("input[name='Debe_2']").val(),
+                Haber: $(this).find("input[name='Haber_2']").val(),
+                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
             };
-            /*fila.id_pro = $(this).find("select[id='id_pro_2']").val();
-            fila.id_ff = $(this).find("select[id='id_ff_2']").val();
-            fila.id_of = $(this).find("select[id='id_of_2']").val();
-            fila.IDCuentaContable = $(this).find("select[id='idcuentacontable_2']").val();
-            fila.comprobante = $(this).find("input[id='comprobante_2']").val();
-            fila.Haber = $(this).find("input[id='Haber_2']").val();
-            fila.Debe = $(this).find("input[id='Debe_2']").val();
-            fila.cheques_che_id = $(this).find("input[id='cheques_che_id_2']").val();*/
-
+            // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
+            var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
+            sumahaber += valorClonado;
             filas.push(fila);
-            
         });
+       
         // Combinar datos del formulario principal y de las filas dinámicas
         var datosCompletos = {
-                datosFormulario: datosFormulario,
-                filas: filas,
-            };
-      
-        $.ajax({
-            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-            type: 'POST',
-            data: {  datos: datosCompletos},
-            //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-            success: function(response) {
-                //alert(response);
-                //console.log(response);
-                if (response.includes('Datos guardados exitosamente.')) {
-                    alert('Datos guardados exitosamente.');
-                    // ... (código adicional si es necesario)
-                } else {
-                    alert('Error al guardar los datos: ' + response);
-                    // ... (código adicional si es necesario)
+            datosFormulario: datosFormulario,
+            filas: filas,
+        };
+        
+        if(Math.abs(sumahaber - datosFormulario.Debe) < 0.0001){
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+                type: 'POST',
+                data: {  datos: datosCompletos},
+                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                success: function(response) {
+                    //alert(response);
+                    console.log(response);
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                        // ... (código adicional si es necesario)
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        // ... (código adicional si es necesario)
+                    }
+                },
+                error: function(xhr, status, error) {
+                alert("Error en la solicitud AJAX:", status, error);
                 }
-            },
-            error: function(xhr, status, error) {
-            alert("Error en la solicitud AJAX:", status, error);
-            }
-        });
+            });
+        }else{
+            alert('El debe y el haber son diferentes');
+            return false;
+        }
+        
     });
 </script>
 
@@ -755,35 +697,47 @@
         openModalBtn_4.style.zIndex = -1;
     }
 
-    // Función para cerrar el modal
-    function closeModal_4() {
-        var modalContainer = document.getElementById('modalContainer_4');
-        modalContainer.style.display = 'none';
-        openModalBtn_4.style.zIndex = 1;
-    }
-    function selectCC2( IDCuentaContable, Codigo_CC, Descripcion_CC) {
-    // Actualizar los campos de texto en la vista principal con los valores seleccionados
-        document.getElementById('idcuentacontable_2').value = IDCuentaContable;
-        document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-        document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        // Función para cerrar el modal
+        function closeModal_4() {
+            var modalContainer = document.getElementById('modalContainer_4');
+            modalContainer.style.display = 'none';
+            openModalBtn_4.style.zIndex = 1;
+        }
 
-        closeModal_4(); 
-    }
+        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Obtener la fila actual dinámica
+            var currentDynamicRow = $("#miTabla tbody tr:last");
 
-    // Agregar evento al botón "buscar cuenta" para abrir el modal
-        const openModalBtn_4 = document.getElementById("openModalBtn_4");
-        openModalBtn_4.addEventListener("click", (event) => {
-            event.preventDefault();
+            // Actualizar los campos de texto en la vista principal con los valores seleccionados
+            currentDynamicRow.find('#idcuentacontable_2').val(IDCuentaContable);
+            currentDynamicRow.find('#codigo_cc_2').val(Codigo_CC);
+            currentDynamicRow.find('#descripcion_cc_2').val(Descripcion_CC);
 
-            openModal_4();
-        });
-
-        // Agregar evento al botón de cerrar para cerrar el modal
-        const closeModalBtn_4 = document.getElementById("closeModalBtn_4");
-        closeModalBtn_4.addEventListener("click", (event) => {
-            event.preventDefault();
             closeModal_4();
+        }
+
+        // Abrir modal en fila dinamica
+        const openModalBtn_4 = document.getElementById("openModalBtn_4");
+        // To this (using event delegation)
+        document.getElementById("miTabla").addEventListener("click", function(event) {
+            if (event.target && event.target.id === "openModalBtn_4") {
+                event.preventDefault();
+                
+                openModal_4();
+            }
         });
+        
+        // Cerrar modal en fila dinamica
+        const closeModalBtn_4 = document.getElementById("closeModalBtn_4");
+        // To this (using event delegation)
+        document.getElementById("miTabla").addEventListener("click", function(event) {
+            if (event.target && event.target.id === "closeModalBtn_4") {
+                event.preventDefault();
+                closeModal_4();
+            }
+        });
+
+        
     
         function filterResults() {
         var input, filter, table, tr, td1, td2, i, txtValue;
