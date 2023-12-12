@@ -94,46 +94,62 @@
                                                     $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
                                                 }
 
+                                                // Obtener el número actual registrado en la base de datos
+                                                $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                                $resultado = $conexion->query($consulta);
+
+                                                // Verificar si hay filas en el resultado
+                                                if ($resultado !== false && $resultado->num_rows > 0) {
+                                                    $op = $resultado->fetch_assoc();
+                                                    $op_actual = $op['op'];
+                                                    // Incrementar el número actual en 1 para el próximo registro
+                                                    $op_actual = $op_actual + 1;
+                                                } else {
+                                                    $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                                }
+
                                                 // Cierra la conexión a la base de datos
                                                 $conexion->close();
                                                 ?>
-
-                                                        <div class="form-group">
-                                                            <label for="num_asi">Numero:</label>
-                                                            <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="contabilidad">Contabilidad:</label>
-                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="direccion">Dirección:</label>
-                                                            <input type="text" class="form-control" id="direccion" name="direccion">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="telefono">Teléfono:</label>
-                                                            <input type="text" class="form-control" id="telefono" name="telefono">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="tesoreria">Tesoreria:</label>
-                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="observacion">Observación:</label>
-                                                            <input type="text" class="form-control" id="observacion" name="observacion">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="fecha">Fecha:</label>
-                                                            <input type="date" class="form-control" id="fecha" name="fecha">
-                                                        </div>
-                                                    </div>
+                                                <div class="form-group">
+                                                    <label for="op">N° Op</label>
+                                                    <input type="text" class="form-control" id="op"
+                                                    name="op" value="<?= $op_actual ?>"readonly>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="num_asi">Numero:</label>
+                                                    <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?> " readonly>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="contabilidad">Contabilidad:</label>
+                                                    <input type="text" class="form-control" id="contabilidad" name="contabilidad">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="direccion">Dirección:</label>
+                                                    <input type="text" class="form-control" id="direccion" name="direccion">
+                                                </div>
+                                                 <div class="form-group">
+                                                    <label for="telefono">Teléfono:</label>
+                                                    <input type="text" class="form-control" id="telefono" name="telefono">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="tesoreria">Tesoreria:</label>
+                                                    <input type="text" class="form-control" id="tesoreria" name="tesoreria">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="observacion">Observación:</label>
+                                                    <input type="text" class="form-control" id="observacion" name="observacion">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fecha">Fecha:</label>
+                                                    <input type="date" class="form-control" id="fecha" name="fecha">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                                 
-                                                <!-- Primer asiento de la obligación  -->
-                                               
-
-                                                <table class="table table-bordered table-striped" id="miTabla">
+                                    <!-- Primer asiento de la obligación  -->
+                                    <table class="table table-bordered table-striped" id="miTabla">
                                                                         <thead>
                                                                             <tr>
                                                                               <!-- acá podemos insertar una ID <th>#</th> -->  
@@ -545,6 +561,7 @@
     $("#formularioPrincipal").on("submit", function() {
         //datos que no son de la tabla dinamica
         var datosFormulario = {
+            op: $("#op").val(),
             ruc: $("#ruc").val(),
             num_asi: $("#num_asi").val(),
             contabilidad: $("#contabilidad").val(),

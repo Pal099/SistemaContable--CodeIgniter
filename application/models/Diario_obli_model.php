@@ -25,16 +25,11 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
-	public function save_num_asi($data, $proveedor_id) {
-		$this->db->where('id_provee', $proveedor_id);
-		$this->db->insert("num_asi", $data);
-	
-		// Obtener el último ID insertado
-		$lastInsertedId = $this->db->insert_id();
-	
-		return $lastInsertedId;
+	public function save_num_asi($data){
+		$this->db->where('IDNum_Asi');
+		return $this->db->insert("num_asi",$data);
 	}
-	
+
 
 
 	// num asi deta segundo
@@ -64,66 +59,35 @@ class Diario_obli_model extends CI_Model {
 
 
 
+	//desde acá es código de palo
 
+	public function getProveedorIdByRuc($ruc) {
+		$this->db->select('id'); 
+		$this->db->where('ruc', $ruc);
+		$query = $this->db->get('proveedores'); 
 
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->id; 
+		} else {
+			return false; 
+		}
+	}
 
+	public function getUsuarioId($nombre){
+		$nombre = $this->session->userdata("Nombre_usuario");
+		$this->db->select('id_user'); 
+		$this->db->where('Nombre_usuario', $nombre);
+		$query = $this->db->get('usuarios'); 
 
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->id_user; 
+		} else {
+			return false; 
+		}
 
-
-//desde acá es código de palo
-public function obtenerEstadoSegunSumaMonto($proveedor_id) {
-    // Consulta SQL preparada para obtener la información más reciente de la tabla num_asi para un proveedor específico
-    $consulta = "SELECT * FROM num_asi WHERE id_provee = ? ORDER BY FechaEmision DESC LIMIT 1";
-
-    // Ejecuta la consulta preparada
-    $resultado = $this->db->query($consulta, array($proveedor_id));
-
-    // Verifica si se obtuvieron resultados
-    if ($resultado->num_rows() > 0) {
-        $row = $resultado->row();
-
-        // Verifica la condición para determinar el estado y devuelve el número correspondiente
-        if ($row->SumaMonto != $row->MontoTotal) {
-            return 3; // Pendiente
-        } 
-		if ($row->SumaMonto == $row->MontoTotal) {
-            return 4; // Pagado
-        }
-    } else {
-        // En caso de no encontrar registros
-        return null;
-    }
-}
-
-
-public function getProveedorIdByRuc($ruc) {
-    $this->db->select('id'); 
-    $this->db->where('ruc', $ruc);
-    $query = $this->db->get('proveedores'); 
-
-    if ($query->num_rows() > 0) {
-        $row = $query->row();
-        return $row->id; 
-    } else {
-        return false; 
-    }
-}
-
-public function getUsuarioId($nombre){
-	$nombre = $this->session->userdata("Nombre_usuario");
-	$this->db->select('id_user'); 
-    $this->db->where('Nombre_usuario', $nombre);
-    $query = $this->db->get('usuarios'); 
-
-    if ($query->num_rows() > 0) {
-        $row = $query->row();
-        return $row->id_user; 
-    } else {
-        return false; 
-    }
-
-}
-
+	}
 
 	public function getDiarios(){
 		$this->db->where("estado","1");
@@ -184,19 +148,23 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 
-   
-    public function getCuentasContables(){
-        $this->db->select('cuentacontable.*');
+	public function getCuentasContables($busqueda = '') {
+		$this->db->select('
+			cuentacontable.Codigo_CC,
+			cuentacontable.Descripcion_CC
+		');
 		$this->db->from('cuentacontable');
-		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		
 		$this->db->where('cuentacontable.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-        $resultados = $this->db->get();
-        return $resultados->result();
-    }
-
-
+		
+		// Búsqueda por código o descripción de la cuenta
+		if (!empty($busqueda)) {
+			$this->db->like('cuentacontable.Codigo_CC', $busqueda);
+			$this->db->or_like('cuentacontable.Descripcion_CC', $busqueda);
+		}
 	
+		$this->mostrar_vista($busqueda);
+	}
 
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
@@ -215,7 +183,7 @@ public function getUsuarioId($nombre){
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
-
+	
 	public function getDiarios_obli() {
 		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');
@@ -228,122 +196,122 @@ public function getUsuarioId($nombre){
 		$query = $this->db->get();
 	}	
 
-// En tu modelo Diario_obli_model
-public function getMontoPagadoPorIdNumAsi($proveedor_id, $idNumAsi) {
-    $this->db->select_sum('MontoPago');
-    $this->db->where('proveedores_id', $proveedor_id);
-    $this->db->where('Num_Asi_IDNum_Asi', $idNumAsi);
-    $query = $this->db->get('num_asi_deta');
+	// En tu modelo Diario_obli_model
+	public function getMontoPagadoPorIdNumAsi($proveedor_id, $idNumAsi) {
+		$this->db->select_sum('MontoPago');
+		$this->db->where('proveedores_id', $proveedor_id);
+		$this->db->where('Num_Asi_IDNum_Asi', $idNumAsi);
+		$query = $this->db->get('num_asi_deta');
 
-    if ($query->num_rows() > 0) {
-        $result = $query->row();
-        return $result->MontoPago;
-    }
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->MontoPago;
+		}
 
-    return 0;
-}
+		return 0;
+	}
 
-public function guardar_monto_pago($idNumAsi, $nuevoMontoPago) {
-	// Actualiza el campo MontoPagado en la fila correspondiente
-	$this->db->where('IDNum_Asi', $idNumAsi);
-	$this->db->update('num_asi', ['MontoPagado' => $nuevoMontoPagado]);
-}
+	public function guardar_monto_pago($idNumAsi, $nuevoMontoPago) {
+		// Actualiza el campo MontoPagado en la fila correspondiente
+		$this->db->where('IDNum_Asi', $idNumAsi);
+		$this->db->update('num_asi', ['MontoPagado' => $nuevoMontoPagado]);
+	}
 
-// En tu modelo Diario_obli_model
-public function getPrimerIdNumAsi($proveedor_id) {
-    $this->db->select_min('IDNum_Asi');
-    $this->db->where('id_provee', $proveedor_id);
-    $query = $this->db->get('num_asi');
+	// En tu modelo Diario_obli_model
+	public function getPrimerIdNumAsi($proveedor_id) {
+		$this->db->select_min('IDNum_Asi');
+		$this->db->where('id_provee', $proveedor_id);
+		$query = $this->db->get('num_asi');
 
-    if ($query->num_rows() > 0) {
-        $result = $query->row();
-        return $result->IDNum_Asi;
-    }
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->IDNum_Asi;
+		}
 
-    return null;
-}
+		return null;
+	}
 
-public function getMontoPagoAnterior($proveedor_id) {
-    $this->db->select('SumaMonto');
-    $this->db->where('id_provee', $proveedor_id);
-    $this->db->order_by('num_asi.IDNum_Asi', 'DESC'); // Ordena por IDNum_Asi de forma descendente
-    $this->db->limit(2); // Limita el resultado a dos filas (la más reciente y la anterior)
+	public function getMontoPagoAnterior($proveedor_id) {
+		$this->db->select('SumaMonto');
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->order_by('num_asi.IDNum_Asi', 'DESC'); // Ordena por IDNum_Asi de forma descendente
+		$this->db->limit(2); // Limita el resultado a dos filas (la más reciente y la anterior)
 
-    $query = $this->db->get('num_asi');
+		$query = $this->db->get('num_asi');
 
-    if ($query->num_rows() > 1) {
-        // Obtiene el segundo resultado (la fila anterior)
-        $query->next_row();
-        return $query->row()->SumaMonto;
-    } else {
-        return 0; // O cualquier valor predeterminado si no hay registros anteriores
-    }
-}
-
-
-public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id,$numero) {
-    $this->db->where('IDNum_Asi', $id_num_asi);
-	$this->db->where('id_form', '1');
-	$this->db->where('num_asi', $numero);
-	$this->db->where('id_provee', $proveedor_id);
-    $this->db->update('num_asi', array('SumaMonto' => $suma_monto, 'MontoPagado' =>$suma_monto));
-    return $this->db->affected_rows() > 0;
-}
-
-public function updateEstadoSuma($idNum_Asi, $num_asi, $suma_monto, $proveedor_id, $nuevo_monto_pagado) {
-    $this->db->where('IDNum_Asi', $idNum_Asi);
-    $this->db->where('num_asi', $num_asi);
-    $this->db->where('SumaMonto', $suma_monto);
-    $this->db->where('id_provee', $proveedor_id);
-    $this->db->where('MontoPagado', $nuevo_monto_pagado);
-    $this->db->where('(SumaMonto = MontoTotal OR SumaMonto > MontoTotal)');
-
-    $this->db->update('num_asi', array('estado' => 1, 'SumaMonto' => $suma_monto));
-    
-    return $this->db->affected_rows() > 0;
-}
+		if ($query->num_rows() > 1) {
+			// Obtiene el segundo resultado (la fila anterior)
+			$query->next_row();
+			return $query->row()->SumaMonto;
+		} else {
+			return 0; // O cualquier valor predeterminado si no hay registros anteriores
+		}
+	}
 
 
+	public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id,$numero) {
+		$this->db->where('IDNum_Asi', $id_num_asi);
+		$this->db->where('id_form', '1');
+		$this->db->where('num_asi', $numero);
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->update('num_asi', array('SumaMonto' => $suma_monto, 'MontoPagado' =>$suma_monto));
+		return $this->db->affected_rows() > 0;
+	}
 
-// En Diario_obli_model.php
+	public function updateEstadoSuma($idNum_Asi, $num_asi, $suma_monto, $proveedor_id, $nuevo_monto_pagado) {
+		$this->db->where('IDNum_Asi', $idNum_Asi);
+		$this->db->where('num_asi', $num_asi);
+		$this->db->where('SumaMonto', $suma_monto);
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->where('MontoPagado', $nuevo_monto_pagado);
+		$this->db->where('(SumaMonto = MontoTotal OR SumaMonto > MontoTotal)');
 
-public function getMontoPagadoByIdForm($proveedor_id) {
-    $this->db->select_sum('MontoPagado');
-    $this->db->from('num_asi');
-    $this->db->where('id_provee', $proveedor_id);
-    $this->db->where('id_form', 1);
-    $query = $this->db->get();
-
-    return $query->row()->MontoPagado;
-}
-
-public function updateMontoPagadoByIdForm($proveedor_id, $monto_pagado) {
-    $this->db->where('id_provee', $proveedor_id);
-    $this->db->where('id_form', 1);
-    $this->db->set('MontoPagado', $monto_pagado);
-    $this->db->update('num_asi');
-}
+		$this->db->update('num_asi', array('estado' => 1, 'SumaMonto' => $suma_monto));
+		
+		return $this->db->affected_rows() > 0;
+	}
 
 
 
+	// En Diario_obli_model.php
+
+	public function getMontoPagadoByIdForm($proveedor_id) {
+		$this->db->select_sum('MontoPagado');
+		$this->db->from('num_asi');
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->where('id_form', 1);
+		$query = $this->db->get();
+
+		return $query->row()->MontoPagado;
+	}
+
+	public function updateMontoPagadoByIdForm($proveedor_id, $monto_pagado) {
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->where('id_form', 1);
+		$this->db->set('MontoPagado', $monto_pagado);
+		$this->db->update('num_asi');
+	}
 
 
-public function getDebeFromNumAsiDeta($id_provee)
-{
-    $this->db->select_sum('Debe');
-    $this->db->from('num_asi_deta');
-    $this->db->where('proveedores_id', $id_provee);
-    $this->db->where('estado_registro', '1');
 
-    $query = $this->db->get();
 
-    if ($query->num_rows() > 0) {
-        $row = $query->row();
-        return floatval($row->Debe);
-    } else {
-        return 0;
-    }
-}
+
+	public function getDebeFromNumAsiDeta($id_provee)
+	{
+		$this->db->select_sum('Debe');
+		$this->db->from('num_asi_deta');
+		$this->db->where('proveedores_id', $id_provee);
+		$this->db->where('estado_registro', '1');
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return floatval($row->Debe);
+		} else {
+			return 0;
+		}
+	}
 
 
 	public function getMontoPagadoAnterior($proveedor_id) {
@@ -419,10 +387,10 @@ public function getDebeFromNumAsiDeta($id_provee)
 	}
 	
 	public function actualizarMontoTotal($idNumAsi, $montoTotal)
-{
-    $this->db->where('IDNum_Asi', $idNumAsi);
-    $this->db->update('num_asi', array('MontoTotal' => $montoTotal));
-}
+	{
+		$this->db->where('IDNum_Asi', $idNumAsi);
+		$this->db->update('num_asi', array('MontoTotal' => $montoTotal));
+	}
 
 
 	public function obtener_usuario_por_id($id) {
@@ -430,17 +398,4 @@ public function getDebeFromNumAsiDeta($id_provee)
 		$query = $this->db->get_where('usuarios', array('id_user' => $id));
 		return $query->row();
    }
-
-//	public function getDiarios_obli() {
-//		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
-//		$this->db->from('num_asi_deta');
-//		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
-//		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
-//		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
-//	
-//		
-//		$query = $this->db->get();
-//		return $query->result();
-//	}
-	
 }

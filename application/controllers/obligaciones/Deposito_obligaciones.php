@@ -127,10 +127,11 @@ class Deposito_obligaciones extends CI_Controller {
 			$total = $this->input->post("total");
 			$pagado = floatval($this->input->post("pagado"));
 			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
-			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
+			$this->form_validation->set_rules("Debe_2", "debe_2", "required[num_asi_deta.Debe]");
+			$this->form_validation->set_rules("Haber_2", "haber_2", "required[num_asi_deta.Haber]");
 			$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
-	
+			$op= $this->input->post("OP");
+			
 			if ($proveedor_id) {
 				if ($this->form_validation->run() == TRUE) {
 					$dataNum_Asi = array(
@@ -146,8 +147,9 @@ class Deposito_obligaciones extends CI_Controller {
 						'id_provee' => $proveedor_id,
 						'MontoTotal' => $debe,
 						'estado' => $estado,
+						'op'=>$op,
 						'id_uni_respon_usu'=>$id_uni_respon_usu,
-						'id_form' => "1",
+						'id_form' => "3",
 						'estado_registro' => "1",
 					);
 		
@@ -168,7 +170,7 @@ class Deposito_obligaciones extends CI_Controller {
 								'cheques_che_id' => $cheque_id,
 								'proveedores_id' => $proveedor_id,
 								'id_uni_respon_usu'=>$id_uni_respon_usu,
-								'id_form' => "1",
+								'id_form' => "3",
 								'estado_registro' => "1",
 							);
 			
@@ -187,7 +189,7 @@ class Deposito_obligaciones extends CI_Controller {
 										'cheques_che_id' => $cheque_id_2,
 										'proveedores_id' => $proveedor_id,
 										'id_uni_respon_usu'=>$id_uni_respon_usu,
-										'id_form' => "1",
+										'id_form' => "3",
 										'estado_registro' => "1",
 									);
 

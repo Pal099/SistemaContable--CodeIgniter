@@ -22,10 +22,10 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Vista del Diario de obligaciones</li>
+                    <li class="breadcrumb-item active">Vista del Deposito Bancario</li>
                 </ol>
             </nav>
-            <h1>Diario de Obligaciones</h1>
+            <h1>Deposito Bancario</h1>
         </div><!-- End Page Title -->
 
         <section class="section dashboard">
@@ -93,13 +93,27 @@
                                                         $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
                                                     }
 
+                                                    // Obtener el número actual registrado en la base de datos
+                                                    $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
+
+                                                    // Verificar si hay filas en el resultado
+                                                    if ($resultado !== false && $resultado->num_rows > 0) {
+                                                        $op = $resultado->fetch_assoc();
+                                                        $op_actual = $op['op'];
+                                                        // Incrementar el número actual en 1 para el próximo registro
+                                                        $op_actual = $op_actual + 1;
+                                                    } else {
+                                                        $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                                    }
+
                                                     // Cierra la conexión a la base de datos
                                                     $conexion->close();
                                                     ?>
 
                                                             <div class="form-group">
                                                                 <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>" required>
+                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                             </div>
 
 
@@ -309,6 +323,11 @@
                                                 <div class="col-md-6">
                                                     <label for="pagado">Pagado:</label>
                                                     <input type="text" class="form-control" id="pagado" name="pagado">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="OP">N° Op</label>
+                                                    <input type="text" class="form-control" id="OP"
+                                                    name="OP" value="<?= $op_actual ?>"readonly>
                                                 </div>
                                             </div>
                                         </div>

@@ -90,7 +90,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-	
+		$op= $datosFormulario['op'];
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
@@ -121,27 +121,18 @@ class Pago_de_obligaciones extends CI_Controller {
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
+		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
+		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 	
-		//$suma_acumulativa = $this->Diario_obli_model->getMontoPagadoAnterior($proveedor_id);
-
-		// Obtener la suma acumulativa de MontoPagado para el proveedor
-		$suma_acumulativa = floatval($this->Diario_obli_model->getSumaAcumulativa($proveedor_id));
-
-		// Sumar el nuevo MontoPagado al MontoPagado acumulado
-		$nuevo_monto_pagado = floatval($suma_acumulativa);
-
-		// Obtener MontoTotal de la vista Diario de Obligaciones para el mismo proveedor
-		$monto_total_diario = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
-
+		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
 	
-		//$this->form_validation->set_rules("Debe_2", "debe_2", "required");
-		//$this->form_validation->set_rules("Haber_2", "haber_2", "required");
-		//se debe igualar el debe con la suma del haber
-		//$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
-
+		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
 	
+		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
+		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 		
+			
 		
 		if ($proveedor_id) {
 			//if ($this->form_validation->run() == TRUE) {
@@ -155,30 +146,24 @@ class Pago_de_obligaciones extends CI_Controller {
 					'proyecto' => $proyecto,
 					'nro_pac' => $nro_pac,
 					'nro_exp' => $nro_exp,
-					'MontoPagado' => $suma_acumulativa, 
 					'id_provee' => $proveedor_id,
-					'MontoTotal' => $monto_total_diario,
+					'MontoPagado' => $nuevo_monto_pago,
+					'SumaMonto' => $suma_monto, 
+					'MontoTotal' => $MontoTotal,
+					'op'=>$op,
 					'estado' => $estado,
 					'id_uni_respon_usu' => $id_uni_respon_usu,
 					'id_form' => "2",
 					'estado_registro' => "1",
 				);
-	
+				// Aquí deberías llamar a la función que obtiene $id_num_asi
+				$id_num_asi = $this->Pago_obli_model->getIdNumAsiByProveedor($proveedor_id);
+				
+				$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
+
 				$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi);
 	
 				if ($lastInsertedId) {
-					
-					if ($nuevo_monto_pagado == $monto_total_diario) {
-						$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
-						$op_increment = $op + 1;
-					} else {
-						$op = $this->Pago_obli_model->getOpAnterior($proveedor_id);
-						$op_increment = $op; // No incrementar si no se cumple la condición
-					}
-		
-					// Actualizar el MontoPagado en la misma fila
-					$this->Diario_obli_model->updateMontoPagado($lastInsertedId, $nuevo_monto_pagado);
-
 					
 					$dataDetaDebe = array(
 						'Num_Asi_IDNum_Asi' => $lastInsertedId,
@@ -223,6 +208,8 @@ class Pago_de_obligaciones extends CI_Controller {
 								'estado_registro' => "1",
 							);
 								
+							$this->Diario_obli_model->saveHaber($dataDetaHaber);
+							$this->Diario_obli_model->updateMontoPagado($proveedor_id, $id_num_asi, $nuevo_monto_pago);
 							// Ejemplo de cómo podrías guardar una fila
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 								

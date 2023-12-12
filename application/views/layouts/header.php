@@ -176,5 +176,4 @@
     <span>Unidad Académica: <?php echo $this->session->userdata('unidad_academica'); ?></span>
 </div>
 
-
 </header><!-- End Header -->

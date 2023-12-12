@@ -65,7 +65,6 @@
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
             </a>
         </li>
-
         
     </ul>
 </aside>
