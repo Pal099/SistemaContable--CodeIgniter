@@ -117,8 +117,8 @@ class Diario_obligaciones extends CI_Controller {
 			$total = $this->input->post("total");
 			$pagado = floatval($this->input->post("pagado"));
 			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
-			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
+			$this->form_validation->set_rules("Debe_2", "debe_2", "required[num_asi_deta.Debe]");
+			$this->form_validation->set_rules("Haber_2", "haber_2", "required[num_asi_deta.Haber]");
 			$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 			$op= $this->input->post("OP");
 
