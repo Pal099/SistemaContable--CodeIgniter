@@ -146,6 +146,7 @@ class Deposito_obligaciones extends CI_Controller {
 						'MontoPagado' => $pagado,
 						'id_provee' => $proveedor_id,
 						'MontoTotal' => $debe,
+						'modalidad' => $modalidad,
 						'estado' => $estado,
 						'op'=>$op,
 						'id_uni_respon_usu'=>$id_uni_respon_usu,

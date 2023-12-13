@@ -4,7 +4,6 @@
 <head>
     <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
@@ -111,11 +110,12 @@
                                                 // Cierra la conexión a la base de datos
                                                 $conexion->close();
                                                 ?>
+                                                
                                                 <div class="form-group">
                                                     <label for="op">N° Op</label>
-                                                    <input type="text" class="form-control" id="op"
-                                                    name="op" value="<?= $op_actual ?>"readonly>
+                                                    <input type="text" class="form-control" id="op" name="op" value="<?php echo $op_actual; ?>" readonly>
                                                 </div>
+                                        
                                                 <div class="form-group">
                                                     <label for="num_asi">Numero:</label>
                                                     <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?> " readonly>
@@ -158,6 +158,7 @@
                                                                                 <th>Origen</th>
                                                                                 <th>Cuenta Contable</th>
                                                                                 <th>Comprobante</th>
+                                                                                <th>Detalles</th>
                                                                                 <th>Monto de Pago</th>
                                                                                 <th>Debe</th>
                                                                                 <th>Haber</th>
@@ -198,6 +199,9 @@
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante" name="comprobante">
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="detalles" name="detalles" required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago" readonly>
@@ -246,6 +250,9 @@
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="detalles_2" name="detalles_2" required>
                                                                                         </td>
                                                                                         <td contenteditable="false">
                                                                                             <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
@@ -561,9 +568,11 @@
     $("#formularioPrincipal").on("submit", function() {
         //datos que no son de la tabla dinamica
         var datosFormulario = {
+        
             op: $("#op").val(),
             ruc: $("#ruc").val(),
             num_asi: $("#num_asi").val(),
+            detalles: $("#detalles").val(),
             contabilidad: $("#contabilidad").val(),
             direccion: $("#direccion").val(),
             telefono: $("#telefono").val(),
@@ -582,7 +591,7 @@
             cheques_che_id: $("#cheques_che_id").val(),
 
         };
-
+  
         // variable para saber si el debe es igual a haber
         let sumahaber = 0;
        
@@ -595,6 +604,7 @@
                 id_ff: $(this).find("select[name='id_ff_2']").val(),
                 id_of: $(this).find("select[name='id_of_2']").val(),
                 IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                detalles: $(this).find("input[name='detalles_2']").val(),
                 comprobante: $(this).find("input[name='comprobante_2']").val(),
                 Debe: $(this).find("input[name='Debe_2']").val(),
                 Haber: $(this).find("input[name='Haber_2']").val(),
@@ -605,7 +615,7 @@
             sumahaber += valorClonado;
             filas.push(fila);
         });
-       
+     
         // Combinar datos del formulario principal y de las filas dinámicas
         var datosCompletos = {
             datosFormulario: datosFormulario,
@@ -616,10 +626,10 @@
             $.ajax({
                 url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
                 type: 'POST',
-                data: {  datos: datosCompletos},
+                data: {  datos: datosCompletos },
                 //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                 success: function(response) {
-                    //alert(response);
+                    alert(filas);
                     console.log(response);
                     if (response.includes('Datos guardados exitosamente.')) {
                         alert('Datos guardados exitosamente.');
@@ -630,7 +640,11 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                alert("Error en la solicitud AJAX:", status, error);
+                    
+                    console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+                    
                 }
             });
         }else{
