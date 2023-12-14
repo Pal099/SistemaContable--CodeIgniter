@@ -207,10 +207,10 @@
                                                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago" readonly>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Debe" name="Debe">
+                                                                                            <input type="text" class="form-control" id="Debe" name="Debe" >
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber" name="Haber">
+                                                                                            <input type="text" class="form-control" id="Haber" name="Haber" value="<?php echo 0; ?>" >
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
@@ -258,16 +258,16 @@
                                                                                             <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
                                                                                         </td>
                                                                                         <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
+                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2" value="<?php echo 0; ?>">
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
-                                                                                        </td>
+                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2" >
+                                                                                        </td> 
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <button class="eliminarFila">Eliminar</button>
+                                                                                            <button class="eliminarFila" hidden >Eliminar</button>
                                                                                         </td>
                                                                                     </tr>
                                                                                     
@@ -325,20 +325,21 @@
                         <th>Monto Pagado</th>
                         <th>Monto de Pago</th>
                         <th>Debe</th>
-                        <th>Haber</th>
                         <th>Codigo y Descripción CC</th>
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>
-
+                        <th>Detalles</th>
+                        <th>Comprobante</th>
+                        <th>Cheque</th>                                                                      
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
                         <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
-                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
-                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>',
+                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
+                                      ,'<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>')">
                                 <td>
                                     <?= $asiento + 1 ?>
                                 </td>
@@ -367,9 +368,6 @@
                                     <?= $asi->Debe ?>
                                 </td>
                                 <td>
-                                    <?= $asi->Haber ?>
-                                </td>
-                                <td>
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
@@ -382,7 +380,15 @@
                                 <td>
                                     <?= $asi->nombre_origen ?>
                                 </td>
-
+                                <td>
+                                    <?= $asi->detalles ?>
+                                </td>
+                                <td>
+                                    <?= $asi->comprobante ?>
+                                </td>
+                                <td>
+                                    <?= $asi->cheques_che_id ?>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -473,23 +479,23 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+        function selectAsi(ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq) {
             // Actualizar los campos de texto en la vista principal
             
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
             document.getElementById('fecha').value = fechas;
-            document.getElementById('num_asi').value = numeros;
             document.getElementById('Debe').value = debes;
-            document.getElementById('Haber').value = habers;
             document.getElementById('MontoPago').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
-            document.getElementById('IDCuentaContable').value = cuentas;
-            document.getElementById('IDCuentaContable').value = descrip;
-
+            document.getElementById('codigo_cc').value = cuentas;
+            document.getElementById('descripcion_cc').value = descrip;
+            document.getElementById('detalles').value = deta;
+            document.getElementById('comprobante').value = comp;
+            document.getElementById('cheques_che_id').value = cheq;
 
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
@@ -531,6 +537,15 @@
         $("#agregarFila").on("click", function (e) {
             e.preventDefault();
             var nuevaFila = $("#filaBase").clone();
+            var campoRequerido = $("#codigo_cc_2").val();
+            
+            if (campoRequerido === "") {
+                alert("Por favor, completa el campo cuentas contables antes de agregar una nueva fila.");
+                return; // Salir de la función si el campo no está completo
+            }
+
+            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+            nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
             // Remove the ID to avoid duplicates
             nuevaFila.removeAttr('id');
@@ -751,9 +766,8 @@
         const openModalBtn_4 = document.getElementById("openModalBtn_4");
         // To this (using event delegation)
         document.getElementById("miTabla").addEventListener("click", function(event) {
-            if (event.target && event.target.id === "openModalBtn_4") {
+            if (event.target && event.target.id === "openModalBtn_4") { 
                 event.preventDefault();
-                
                 openModal_4();
             }
         });
@@ -770,7 +784,7 @@
 
         
     
-        function filterResults() {
+    function filterResults() {
         var input, filter, table, tr, td1, td2, i, txtValue;
         input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
         filter = input.value.toUpperCase();
