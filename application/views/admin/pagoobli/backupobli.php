@@ -8,6 +8,8 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="<?php echo base_url();?>assets/css/style_pago_obli.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
@@ -581,7 +583,7 @@ $conexion->close();
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span
+                            <button type="submit" class="btn btn-success btn-flat" id="btnGuardar" onclick="showNotification()"><span
                                     class="fa fa-save"></span>Guardar</button>
                             <div class="notification" id="notification">
                                 <div class="icon">
@@ -962,6 +964,17 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         closeModal_2();
     });
 </script>
+
+<script>
+    $(document).ready(function() {
+        // Agrega un manejador de eventos al botón de guardar
+        $('#btnGuardar').click(function() {
+            // Muestra el modal automáticamente
+            $('#myModal').modal('show');
+        });
+    });
+</script>
+
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
