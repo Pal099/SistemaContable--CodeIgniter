@@ -431,10 +431,7 @@
                                 </div>
                            </form>   
                                             <thead>
-                                                <tr>
-                                                   
-                                                    <th>Opciones</th>
-                                                </tr>
+                                               
                                             </thead>
                                             <tbody>
                                                 <?php if (!empty($data)): ?>
@@ -486,9 +483,9 @@
 
 
                
-                                    <!-- Contenedor del modal -->
-                    <div class="modal-container-proveedores" id="modalContainer">
-                        <div class="modal-content-proveedores">
+                <!-- Contenedor del modal -->
+                <div class="modal-container" id="modalContainer">
+                    <div class="modal-content1">
                         <span class="close" id="closeModalBtn">&times;</span>
                         <h3>Lista de Proveedores</h3>
                         <table class="table table-bordered table-hover">

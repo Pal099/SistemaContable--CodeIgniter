@@ -8,6 +8,8 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="<?php echo base_url();?>assets/css/style_pago_obli.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
@@ -29,29 +31,70 @@
             <section class="section dashboard">
                 <div class="row">
                     <!-- Left side columns -->
+                    
                     <div class="row">
                         <div class="col-md-12 d-flex align-items-center">
                             <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
-                            <div class="btn-group">
-                                <label class="switch" for="optionalFieldsSwitch">
-                                    <input type="checkbox" id="optionalFieldsSwitch">
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="optional-fields-title">Campos opcionales</span>
-                                <!-- Botón "Nuevo" para abrir el modal -->
+                            <div class="btn-group">  
+                            <div class="form-group">
+                            <?php
+
+                                // Configuración de la base de datos
+                                $host = 'localhost';  // Cambia a tu host
+                                $usuario = 'root';  // Cambia a tu nombre de usuario
+                                $clave = '';  // Cambia a tu contraseña
+                                $base_de_datos = 'contanuevo';  // Cambia a tu nombre de base de datos
+
+                                // Crear conexión
+                                $conexion = new mysqli($host, $usuario, $clave, $base_de_datos);
+
+                                // Verificar la conexión
+                                if ($conexion->connect_error) {
+                                    die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                }
+
+                                // Obtener el número actual registrado en la base de datos
+                                $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                $resultado = $conexion->query($consulta);
+
+                                // Verificar si hay filas en el resultado
+                                if ($resultado !== false && $resultado->num_rows > 0) {
+                                    $op = $resultado->fetch_assoc();
+                                    $op_actual = $op['op'];
+                                    // Incrementar el número actual en 1 para el próximo registro
+                                    $op_actual = $op_actual + 1;
+                                } else {
+                                    $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                $conexion->close();
+
+                                ?>
+
+
+                            <label for="op">N° Op</label>
+                            <input type="text" class="form-control" id="op"
+                                name="op" value="<?= $op_actual ?>"readonly>
+                                </div>
                                 <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                     <i class="bi bi-plus"></i> Nuevo
                                 </button>
-                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/edit"
-                                    class="btn btn-primary btn-flat"><span class="fa fa-edit ms-2"></span> Modificar</a>
+                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/edit" class="btn btn-primary btn-flat">
+                                    <span class="fa fa-edit ms-2"></span> Modificar
+                                </a>
+                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs" target="_blank" class="btn btn-primary">
+                                    <i class="bi bi-file-pdf"></i> Generar PDF
+                                </a>
 
-                                <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                                <a href=" <?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs"
-                                    target="_blank" class="btn btn-primary">Generar PDF</a>
-
+                            
+                                <label class="switch" for="optionalFieldsSwitch">
+                                    <input type="checkbox" id="optionalFieldsSwitch">
+                                    <span class="slider"></span>Campos Opciopnales
+                                </label>
+                                
                             </div>
+
                         </div>
                     </div>
 
@@ -72,7 +115,7 @@
                                                     <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                 </div>
 
-                                                                                                <?php
+                                                 <?php
                                                 // Conexión a la base de datos (debes configurar tu conexión)
                                                 $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
@@ -137,9 +180,10 @@
                                                         name="observacion">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label for="fecha">Fecha:</label>
-                                                    <input type="date" class="form-control" id="fecha" name="fecha">
-                                                </div>
+                                                <label for="fecha">Fecha:</label>
+                                                <input type="datetime-local" class="form-control" id="fecha" name="fecha">
+                                            </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -148,18 +192,24 @@
                                     <div class="content4">
                                         <div class="content-container4">
                                             <div class="main-fields">
-                                                <div class="form-group">
-                                                    <label for="cuentacontable">Código y Descripción de Cuenta
-                                                        Contable:</label>
-                                                    <select class="form-control" id="cuentacontable"
-                                                        name="cuentacontable">
+                                            <div class="form-group">
+                                                <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="cuentacontable" name="cuentacontable">
                                                         <?php foreach ($cuentacontable as $cc): ?>
                                                             <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                 <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-sm btn-primary ms-2" id="openModalBtn">
+                                                            <i class="bi bi-search"></i> Busqueda Cuenta
+                                                        </button>
+                                                    </div>
                                                 </div>
+                                            </div>
+
                                                 <!-- Monto de Pago -->
                                                 <div class="form-group">
                                                     <label for="MontoPago">Monto de Pago:</label>
@@ -228,6 +278,41 @@
                                                     <input type="text" class="form-control" id="cheques_che_id"
                                                         name="cheques_che_id">
                                                 </div>
+                                                <?php
+// Conexión a la base de datos (debes configurar tu conexión)
+$conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+
+// Verificar la conexión
+if ($conexion->connect_error) {
+    die("La conexión a la base de datos falló: " . $conexion->connect_error);
+}
+
+// Obtener el número actual registrado en la base de datos
+$consulta = "SELECT SumaMonto as suma_m FROM num_asi";
+$resultado = $conexion->query($consulta);
+
+// Verificar si hay filas en el resultado
+if ($resultado->num_rows > 0) {
+    $suma_monto = $resultado->fetch_assoc();
+    $numero_actual = $suma_monto['suma_m'];
+} else {
+    $numero_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+}
+
+// Cierra la conexión a la base de datos
+$conexion->close();
+?>
+
+<!-- Monto de Pago -->
+<div class="form-group">
+    <label for="monto_pagado_acumulado">Monto Pagado:</label>
+    <input type="text" class="form-control" id="monto_pagado_acumulado" name="monto_pagado_acumulado" value="<?php echo $numero_actual; ?>" readonly>
+</div>
+
+
+
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -371,11 +456,59 @@
                                 <label for="proyecto">Proyecto:</label>
                                 <input type="text" class="form-control" id="proyecto" name="proyecto">
                             </div>
-                            <div class="col-md-6">
-                                <label for="estado">Estado:</label>
-                                <input type="text" class="form-control" id="estado" name="estado">
-                            </div>
-                        </div>
+                            <?php
+
+// Configuración de la conexión a la base de datos
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$dbname = 'contanuevo';
+
+// Conexión a la base de datos
+$conexion = new mysqli($host, $user, $pass, $dbname);
+
+// Verifica la conexión
+if ($conexion->connect_error) {
+    die("Error de conexión: " . $conexion->connect_error);
+}
+
+// Función para determinar el estado
+function determinarEstado($conexion)
+{
+    // Consulta SQL para obtener la información más reciente de la tabla num_asi
+    $consulta = "SELECT * FROM num_asi ORDER BY FechaEmision DESC LIMIT 1";
+    
+    // Ejecuta la consulta
+    $resultado = $conexion->query($consulta);
+
+    // Verifica si se obtuvieron resultados
+    if ($resultado->num_rows > 0) {
+        $row = $resultado->fetch_assoc();
+
+        // Verifica la condición para determinar el estado
+        if ($row['SumaMonto'] < $row['MontoTotal']) {
+            return 'Pendiente';
+        } else {
+            return 'No Aplicable';
+        }
+    } else {
+        // En caso de no encontrar registros
+        return 'No Aplicable';
+    }
+}
+
+// Llama a la función para determinar el estado
+$estado = determinarEstado($conexion);
+
+// Cierra la conexión a la base de datos
+$conexion->close();
+?>
+
+<div class="col-md-6">
+    <label for="estado">Estado:</label>
+    <input type="text" class="form-control" id="estado" name="estado" value="<?= $estado ?>" readonly>
+</div>
+
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -399,15 +532,58 @@
                                 <label for="pagado">Pagado:</label>
                                 <input type="text" class="form-control" id="pagado" name="pagado">
                             </div>
+                            <div class="form-group">
+                            <?php
+
+                                // Configuración de la base de datos
+                                $host = 'localhost';  // Cambia a tu host
+                                $usuario = 'root';  // Cambia a tu nombre de usuario
+                                $clave = '';  // Cambia a tu contraseña
+                                $base_de_datos = 'contanuevo';  // Cambia a tu nombre de base de datos
+
+                                // Crear conexión
+                                $conexion = new mysqli($host, $usuario, $clave, $base_de_datos);
+
+                                // Verificar la conexión
+                                if ($conexion->connect_error) {
+                                    die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                }
+
+                                // Obtener el número actual registrado en la base de datos
+                                $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                $resultado = $conexion->query($consulta);
+
+                                // Verificar si hay filas en el resultado
+                                if ($resultado !== false && $resultado->num_rows > 0) {
+                                    $op = $resultado->fetch_assoc();
+                                    $op_actual = $op['op'];
+                                    // Incrementar el número actual en 1 para el próximo registro
+                                    $op_actual = $op_actual + 1;
+                                } else {
+                                    $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                $conexion->close();
+
+                                ?>
+
+
+                            <label for="OP">N° Op</label>
+                            <input type="text" class="form-control" id="OP"
+                                name="OP" value="<?= $op_actual ?>"readonly>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            
+                </div>
+                <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span
+                            <button type="submit" class="btn btn-success btn-flat" id="btnGuardar" onclick="showNotification()"><span
                                     class="fa fa-save"></span>Guardar</button>
                             <div class="notification" id="notification">
                                 <div class="icon">
@@ -422,34 +598,12 @@
                         <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones"
                             class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
                     </div>
-                </div>
             </div>
         </div>
         </form>
 
         <thead>
-            <tr>
-                <th>#</th>
-                <th>RUC</th>
-                <th>Número</th>
-                <th>Contabilidad</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Observación</th>
-                <th>Fecha</th>
-                <th>Tesorería</th>
-                <th>Pedí Matrícula</th>
-                <th>Modalidad</th>
-                <th>Tipo de Presupuesto</th>
-                <th>Unidad Responsable</th>
-                <th>Proyecto</th>
-                <th>Estado</th>
-                <th>Nro. PAC</th>
-                <th>Nro. Expediente</th>
-                <th>Total</th>
-                <th>Pagado</th>
-                <th>Opciones</th>
-            </tr>
+            
         </thead>
         <tbody>
             <?php if (!empty($data)): ?>
@@ -529,6 +683,27 @@
         </tbody>
         </table>
     </main>
+    
+<!-- Modal -->
+<div class="modal fade" id="modalPdf">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>¿Deseas generar un PDF del pago recién hecho?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Generar PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
    <!-- Contenedor del modal -->
 <div class="modal-container2" id="modalContainer_2">
     <div class="modal-content2">
@@ -537,7 +712,6 @@
         <table class="table table-bordered table-hover">
         <thead>
                     <tr>
-                        <th>#</th>
                         <th>Ruc</th>
                         <th>Razon Social</th>
                         <th>Numero</th>
@@ -551,67 +725,169 @@
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>
+                        <th>Suma Monto</th>
+                        <th>Estado</th>
 
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach ($asientos as $asiento => $asi): ?>
-                        <?php         if ($asi->id_form == 1 && $asi->Debe > 0 && $asi->pagado < $asi->total): ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
-                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
-                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
-                                <td>
-                                    <?= $asiento + 1 ?>
-                                </td>
-                                <td>
-                                    <?= $asi->ruc_proveedor ?>
-                                </td>
-                                <td>
-                                    <?= $asi->razso_proveedor ?>
-                                </td>
-                                <td>
-                                    <?= $asi->numero ?>
-                                </td>
-                                <td>
-                                    <?= $asi->fecha ?>
-                                </td>
-                                <td>
-                                    <?= $asi->total ?>
-                                </td>
-                                <td>
-                                    <?= $asi->pagado ?>
-                                </td>
-                                <td>
-                                    <?= $asi->MontoPago ?>
-                                </td>
-                                <td>
-                                    <?= $asi->Debe ?>
-                                </td>
-                                <td>
-                                    <?= $asi->Haber ?>
-                                </td>
-                                <td>
-                                    <?= $asi->codigo ?> -
-                                    <?= $asi->descrip ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_fuente ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_programa ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_origen ?>
-                                </td>
-                                
-                            </tr>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                <?php
+$registros_por_proveedor = array();
 
-                </tbody>
+foreach ($asientos as $asi) {
+    $clave_proveedor = $asi->provee;
+
+    $resta_montos = $asi->total - $asi->suma_monto;
+
+    // Evalúa diferentes casos usando un switch
+    switch (true) {
+        case $asi->suma_monto == $asi->total && $resta_montos == 0:
+            break;
+
+        case $asi->suma_monto < $asi->total && $resta_montos != 0 && $asi->id_form == 1:
+                agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+
+                break;
+
+                case $asi->suma_monto == 0 && $asi->total !=0 && $resta_montos != 0 && $asi->id_form == 1:
+                    agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+    
+                    break;
+    }
+}
+
+function agregarRegistroProveedor(&$registros, $clave, $asi) {
+    // Lógica adicional para verificar si el registro está pagado
+    $resta_montos = $asi->total - $asi->suma_monto;
+
+    // Verificar si SumaMonto y MontoTotal son iguales, y la resta es igual a 0
+    if ($asi->suma_monto == $asi->total && $resta_montos == 0 && $asi->id_form==1) {
+        // No agregar el registro si está pagado
+        return;
+    }
+    // Verifica si ya existe un registro para este proveedor
+    if (!isset($registros[$clave])) {
+        $registros[$clave] = $asi;
+    } 
+}
+?>
+
+<tbody>
+    <?php foreach ($registros_por_proveedor as $asi): ?>
+        <?php
+        // Agrega un bloque adicional para manejar la lógica de estados e Id_form
+        $estado_texto = '';
+
+        // Utilizamos un switch para manejar la lógica de estados
+        switch ($asi->estado) {
+            case 3:
+                // Caso 1: Estado 3 (pendiente)
+                $estado_texto = 'Pendiente';
+                break;
+
+            case 4:
+                // Caso 2: Estado 4 (pagado)
+                // Puedes agregar más lógica según tus requerimientos
+                // También puedes añadir condiciones adicionales para casos específicos
+                $estado_texto = 'Pagado';
+                break;
+
+            // Puedes agregar más casos según tus requerimientos
+
+            default:
+                // En caso de que el estado no coincida con ningún caso
+                $estado_texto = 'Pendiente';
+        }
+        ?>
+
+        <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
+                  '<?= $asi->pagado ?>','<?= $asi->pago ?>','<?= $asi->pagado ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>','<?= $asi->suma_monto ?>'
+                  ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+            <td><?= $asi->ruc_proveedor ?></td>
+            <td><?= $asi->razso_proveedor ?></td>
+            <td><?= $asi->numero ?></td>
+            <td><?= $asi->fecha ?></td>
+            <td><?= $asi->total ?></td>
+            <td><?= $asi->pagado ?></td>
+            <td><?= $asi->pago ?></td>
+            <td><?= $asi->Debe ?></td>
+            <td><?= $asi->Haber ?></td>
+            <td><?= $asi->codigo ?> - <?= $asi->descrip ?></td>
+            <td><?= $asi->nombre_fuente ?></td>
+            <td><?= $asi->nombre_programa ?></td>
+            <td><?= $asi->nombre_origen ?></td>
+            <td><?= $asi->suma_monto ?></td>
+            <td><?= $estado_texto ?></td> <!-- Mostrar el estado en una nueva columna -->
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+
         </table>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Función para abrir el modal de búsqueda de cuenta
+    function openModalBusqueda() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal de búsqueda de cuenta
+    function closeModalBusqueda() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn.style.zIndex = 1;
+    }
+
+    // Evento al hacer clic en el botón de búsqueda para abrir el modal
+    const openModalBtn = document.getElementById("openModalBtn");
+    openModalBtn.addEventListener("click", () => {
+        openModalBusqueda();
+    });
+
+    // Evento al hacer clic en el botón de cerrar para cerrar el modal de búsqueda
+    const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+    closeModalBtn_3.addEventListener("click", () => {
+        closeModalBusqueda();
+    });
+
+    // Lógica para manejar la búsqueda y actualización de resultados
+    document.getElementById('formBusquedaCuenta').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Obtener el valor de búsqueda
+        var busquedaCuenta = document.getElementById('inputBusquedaCuenta').value;
+
+        // Realizar la lógica de búsqueda (puedes usar AJAX para obtener resultados del servidor)
+        // En este ejemplo, simplemente mostramos un mensaje
+        document.getElementById('tablaResultadosCuenta').innerHTML = '<p>Resultados para: ' + busquedaCuenta + '</p>';
+
+        // Puedes rellenar los resultados con datos obtenidos del servidor
+        // y mostrarlos en la #tablaResultadosCuenta
+    });
+</script>
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
@@ -630,6 +906,37 @@
         });
 
     </script>
+
+
+
+<script>
+    // Función para abrir el modal
+    function openModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_2() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn.style.zIndex = 1;
+    }
+ // Agregar evento al botón "Nuevo" para abrir el modal
+ const openModalBtn_3 = document.getElementById("openModalBtn");
+    openModalBtn_3.addEventListener("click", () => {
+        openModal_3();
+    });
+
+    // Agregar evento al botón de cerrar para cerrar el modal
+    const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+    closeModalBtn_3.addEventListener("click", () => {
+        closeModal_3();
+    });
+
+</script>
+
 <script>
     // Función para abrir el modal
     function openModal_2() {
@@ -641,31 +948,30 @@
     // Función para cerrar el modal
     function closeModal_2() {
         var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'none';
+        modalContainer.style.display = 'none';2
         openModalBtn.style.zIndex = 1;
     }
 
-  // Función para seleccionar un asi
-  function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
-            // Actualizar los campos de texto en la vista principal
-            console.log(fuentes, programas, origens);
-            document.getElementById('ruc').value = ruc;
-            document.getElementById('contabilidad').value = razonSocial;
-            document.getElementById('tesoreria').value = razonSocial;
-            document.getElementById('fecha').value = fechas;
-            document.getElementById('num_asi').value = numeros;
-            document.getElementById('Debe').value = debes;
-            document.getElementById('Haber').value = habers;
-            document.getElementById('MontoPago').value = montos;
-            document.getElementById('id_ff').value = fuentes;
-            document.getElementById('id_pro').value = programas;
-            document.getElementById('id_of').value = origens;
-            document.getElementById('cuentacontable').value = cuentas;
-            document.getElementById('cuentacontable').value = descrip;
+    function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, montoPagado, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+    // Actualizar los campos de texto en la vista principal
+    console.log(fuentes, programas, origens);
+    document.getElementById('ruc').value = ruc;
+    document.getElementById('contabilidad').value = razonSocial;
+    document.getElementById('tesoreria').value = razonSocial;
+    document.getElementById('fecha').value = fechas;
+    document.getElementById('num_asi').value = numeros;
+    document.getElementById('Debe').value = debes;
+    document.getElementById('Haber').value = habers;
+    document.getElementById('MontoPago').value = montos;
+    document.getElementById('monto_pagado_acumulado').value = montoPagado;
+    document.getElementById('id_ff').value = fuentes;
+    document.getElementById('id_pro').value = programas;
+    document.getElementById('id_of').value = origens;
+    document.getElementById('cuentacontable').value = cuentas;
+    document.getElementById('cuentacontable').value = descrip;
 
-
-            closeModal_2(); // Cierra el modal después de seleccionar un proveedor
-        }
+    closeModal_2(); // Cierra el modal después de seleccionar un proveedor
+}
 
     // Agregar evento al botón "Nuevo" para abrir el modal
     const openModalBtn_2 = document.getElementById("openModalBtn");
@@ -679,6 +985,8 @@
         closeModal_2();
     });
 </script>
+
+
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
@@ -711,6 +1019,13 @@
     </script>
 
 
+<script>
+    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+    document.getElementById('Debe').addEventListener('input', function() {
+        document.getElementById('MontoPago').value = this.value;
+    });
+</script>
+
 
 
 
@@ -741,6 +1056,23 @@
             closeModal_obli();
         });
     </script>
+
+
+
+<!-- Agrega estos scripts al final de tu cuerpo HTML -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#btnGuardar').click(function () {
+            $('#modalPdf').modal('show');
+        });
+    });
+</script>
+
+
 </body>
 
 </html>
