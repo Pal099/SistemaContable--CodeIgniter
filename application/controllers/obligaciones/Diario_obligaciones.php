@@ -95,13 +95,14 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
+			$detalles = $this->input->post("detalles");
 			$debe = floatval($this->input->post("Debe"));
 			$haber_2 = floatval($this->input->post("Haber_2"));
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
 			$cheque_id = $this->input->post("cheques_che_id");
 			$programa_id_pro = $this->input->post("id_pro");
-			$cuentacontable = $this->input->post("cuentacontable");
+			$cuentacontable = $this->input->post("idcuentacontable");
 			$fuente_de_financiamiento = $this->input->post("id_ff");
 			$origen_de_financiamiento = $this->input->post("id_of");
 			//-----------------//---------------------------
@@ -151,6 +152,7 @@ class Diario_obligaciones extends CI_Controller {
 								'MontoPago' => $MontoPago,
 								'Debe' => $debe,
 								'numero'=>$numero,
+								'detalles'=>$detalles,
 								'comprobante' => $comprobante,
 								'id_of' => $origen_de_financiamiento,
 								'id_pro' => $programa_id_pro,
@@ -183,6 +185,8 @@ class Diario_obligaciones extends CI_Controller {
 
 										$this->Diario_obli_model->saveHaber($dataDetaHaber);
 										return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+										
+
 									
 
 								}
