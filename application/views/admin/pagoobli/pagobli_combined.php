@@ -216,7 +216,7 @@
                                                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
                                                                                         </td>
                                                                                     </tr>
-                                                                                    <tr id="filaBase">
+                                                                                    <tr id="filaBase" class="filaBase">
                                                                                           <!-- segundo asiento  -->
                                                                                       
                                                                                           <!-- acá podemos insertar una ID  -->
@@ -320,6 +320,7 @@
                         <th>Ruc</th>
                         <th>Razon Social</th>
                         <th>Numero</th>
+                        <th>Direccion</th>   
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Monto Pagado</th>
@@ -331,15 +332,15 @@
                         <th>Fuente de Financiamiento</th>
                         <th>Detalles</th>
                         <th>Comprobante</th>
-                        <th>Cheque</th>                                                                      
+                        <th>Cheque</th>                                   
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
                         <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>',
-                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
-                                      ,'<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>')">
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>','<?= $asi->direccion_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                                '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')">
                                 <td>
                                     <?= $asiento + 1 ?>
                                 </td>
@@ -351,6 +352,9 @@
                                 </td>
                                 <td>
                                     <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->direccion_proveedor ?>
                                 </td>
                                 <td>
                                     <?= $asi->fecha ?>
@@ -368,6 +372,7 @@
                                     <?= $asi->Debe ?>
                                 </td>
                                 <td>
+                                    <?= $asi->idcuenta ?> -
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
@@ -479,12 +484,13 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq) {
+        function selectAsi(ruc, razonSocial, direct,fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta) {
             // Actualizar los campos de texto en la vista principal
             
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
+            document.getElementById('direccion').value = direct;
             document.getElementById('fecha').value = fechas;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
@@ -496,7 +502,7 @@
             document.getElementById('detalles').value = deta;
             document.getElementById('comprobante').value = comp;
             document.getElementById('cheques_che_id').value = cheq;
-
+            document.getElementById('idcuentacontable').value = idcuenta;
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
 
@@ -533,35 +539,41 @@
 <script>
     $(document).ready(function () {
 
-        // Agregar fila
+       // Agregar fila
         $("#agregarFila").on("click", function (e) {
             e.preventDefault();
+
+            // Clonar la fila base
             var nuevaFila = $("#filaBase").clone();
-            var campoRequerido = $("#codigo_cc_2").val();
-            
-            if (campoRequerido === "") {
-                alert("Por favor, completa el campo cuentas contables antes de agregar una nueva fila.");
-                return; // Salir de la función si el campo no está completo
-            }
+
+            // Obtener el índice de la última fila original
+            var lastOriginalIndex = $("#miTabla tbody tr[data-original='true']").index();
+
+            // Incrementar el índice en 1 para la nueva fila clonada
+            var newIndex = lastOriginalIndex + 1;
+
+            // Establecer el índice en el atributo 'data-index'
+            nuevaFila.attr('data-index', newIndex);
 
             // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
             nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-            // Remove the ID to avoid duplicates
+            // Quitar el ID para evitar duplicados
             nuevaFila.removeAttr('id');
 
             // Agregar una clase a todos los elementos de la fila clonada
             nuevaFila.find("select, input").addClass("filaClonada");
 
-            // Clear values of the fields in the new row
+            // Limpiar los valores de los campos en la nueva fila
             nuevaFila.find("select, input").val("");
 
-            // Show the new row
+            // Mostrar la nueva fila
             nuevaFila.show();
 
-            // Append the new row to the table body
+            // Agregar la nueva fila al cuerpo de la tabla
             $("#miTabla tbody").append(nuevaFila);
         });
+
 
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function (e) {
@@ -606,7 +618,7 @@
             cheques_che_id: $("#cheques_che_id").val(),
 
         };
-  
+        
         // variable para saber si el debe es igual a haber
         let sumahaber = 0;
        
@@ -687,28 +699,27 @@
         openModalBtn_3.style.zIndex = 1;
     }
     function selectCC( IDCuentaContable,Codigo_CC, Descripcion_CC) {
-    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+        // Actualizar los campos de texto en la vista principal con los valores seleccionados
         document.getElementById('idcuentacontable').value = IDCuentaContable;
         document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
         document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
-
         closeModal_3(); 
     }
 
  // Agregar evento al botón "buscar cuenta" para abrir el modal
-        const openModalBtn_3 = document.getElementById("openModalBtn_3");
-        openModalBtn_3.addEventListener("click", (event) => {
-            event.preventDefault();
+    const openModalBtn_3 = document.getElementById("openModalBtn_3");
+    openModalBtn_3.addEventListener("click", (event) => {
+        event.preventDefault();
+        
+        openModal_3();
+    });
 
-            openModal_3();
-        });
-
-        // Agregar evento al botón de cerrar para cerrar el modal
-        const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
-        closeModalBtn_3.addEventListener("click", (event) => {
-            event.preventDefault();
-            closeModal_3();
-        });
+    // Agregar evento al botón de cerrar para cerrar el modal
+    const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+    closeModalBtn_3.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeModal_3();
+    });
     
     function filterResults() {
         var input, filter, table, tr, td1, td2, i, txtValue;
@@ -757,20 +768,24 @@
         function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
             // Obtener la fila actual dinámica
             var currentDynamicRow = $("#miTabla tbody tr:last");
-
             // Actualizar los campos de texto en la vista principal con los valores seleccionados
             currentDynamicRow.find('#idcuentacontable_2').val(IDCuentaContable);
             currentDynamicRow.find('#codigo_cc_2').val(Codigo_CC);
             currentDynamicRow.find('#descripcion_cc_2').val(Descripcion_CC);
-
+                
             closeModal_4();
+           
         }
 
         // Abrir modal en fila dinamica
         const openModalBtn_4 = document.getElementById("openModalBtn_4");
         // To this (using event delegation)
         document.getElementById("miTabla").addEventListener("click", function(event) {
-            if (event.target && event.target.id === "openModalBtn_4") { 
+            // Verifica si el clic se hizo en el botón o en el icono de la lupa
+            if (
+                (event.target && event.target.id === "openModalBtn_4") ||
+                (event.target && event.target.parentNode && event.target.parentNode.id === "openModalBtn_4")
+            ) {
                 event.preventDefault();
                 openModal_4();
             }
