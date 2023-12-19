@@ -1,37 +1,12 @@
 .columna-ancha {
-    width: 8%;
+  width: 8%;
 }
-.columna-fuente{
-    width: 10%;
+.columna-fuente {
+  width: 10%;
 }
-.columna-origen{
-    width: 10%;
+.columna-origen {
+  width: 10%;
 }
-.columna-ctncontable{
-    width: 25%;
+.columna-ctncontable {
+  width: 25%;
 }
-
-/* Estilos para los campos opcionales */
-.optional-fields {
-  display: none;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-left: 1px;
-  margin-top: 12px;
-  border-radius: 10px;
-}
-
-input:checked + .slider {
-  background-color: #2196f3;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(20px);
-}
-
