@@ -683,27 +683,6 @@ $conexion->close();
         </tbody>
         </table>
     </main>
-    
-<!-- Modal -->
-<div class="modal fade" id="modalPdf">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Confirmación</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>¿Deseas generar un PDF del pago recién hecho?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Generar PDF</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
    <!-- Contenedor del modal -->
 <div class="modal-container2" id="modalContainer_2">
     <div class="modal-content2">
@@ -986,6 +965,15 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     });
 </script>
 
+<script>
+    $(document).ready(function() {
+        // Agrega un manejador de eventos al botón de guardar
+        $('#btnGuardar').click(function() {
+            // Muestra el modal automáticamente
+            $('#myModal').modal('show');
+        });
+    });
+</script>
 
     <script>
         // Manejar la visibilidad de los campos opcionales
@@ -1057,21 +1045,14 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         });
     </script>
 
-
-
-<!-- Agrega estos scripts al final de tu cuerpo HTML -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 <script>
-    $(document).ready(function () {
-        $('#btnGuardar').click(function () {
-            $('#modalPdf').modal('show');
-        });
-    });
-</script>
+    var deseaGenerarPDF = confirm("¿Desea generar un PDF con el último registro ingresado?");
 
+    if (deseaGenerarPDF) {
+        // Redirigir a la vista del PDF o hacer la acción necesaria para generar el PDF
+        window.open("<?php echo base_url('obligaciones/Pago_de_obligaciones/pdfs'); ?>", "_blank");
+    }
+</script>
 
 </body>
 
