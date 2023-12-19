@@ -50,3 +50,19 @@
 .modal-content2 table tbody tr:hover {
     background-color: #f5f5f5;
 }
+
+.btn-group .btn:not(:first-child):not(:last-child) {
+    border-radius: 20px;
+}
+.columna-ancha {
+    width: 8%;
+  }
+  .columna-fuente {
+    width: 10%;
+  }
+  .columna-origen {
+    width: 10%;
+  }
+  .columna-ctncontable {
+    width: 25%;
+  }

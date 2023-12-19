@@ -71,8 +71,9 @@ h1, h2, h3, h4, h5, h6 {
 .pagetitle h1 {
   font-size: 24px;
   margin-bottom: 0;
+  margin-top: 20px;
   font-weight: 600;
-  color: #012970;
+  color: #000000;
 }
 
 /*--------------------------------------------------------------

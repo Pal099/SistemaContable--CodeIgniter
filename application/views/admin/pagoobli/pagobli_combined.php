@@ -2,311 +2,344 @@
 <html lang="es">
 
 <head>
-    <!-- Agrega estos enlaces en el <head> de tu documento HTML -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="<?php echo base_url(); ?>assets/css/style_pago_obli.css" rel="stylesheet">
-
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
-
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
 </head>
 
 <body>
     <main id="main" class="content">
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-container">
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">Pago de Obligaciones</a></li>
+            </ol>
+        </nav>
+
+        <div class="container-fluid bg-white rounded-3">
+            <!-- Encabezado con botones -->
             <div class="pagetitle">
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active">Vista del Pago de obligaciones</li>
-                    </ol>
-                </nav>
-                <h1>Pago de Obligaciones</h1>
-            </div><!-- End Page Title -->
-
-            <section class="section dashboard">
-                <div class="row">
-                    <!-- Left side columns -->
-                    <div class="row">
-                        <div class="col-md-12 d-flex align-items-center">
-                            <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
-                            <div class="btn-group">
-                                
-                                <!-- Botón "Nuevo" para abrir el modal -->
-                                <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
-                                    <i class="bi bi-plus"></i> Nuevo
-                                </button>
-                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/edit"
-                                    class="btn btn-primary btn-flat"><span class="fa fa-edit ms-2"></span> Modificar</a>
-
-                                <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </button>
-                                <a href=" <?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs"
-                                    target="_blank" class="btn btn-primary">Generar PDF</a>
-
-                            </div>
+                <div class="container-fluid d-flex flex-row justify-content-between">
+                    <div class="col-md-6 ">
+                        <h1>Pago de Obligación</h1>
+                    </div>
+                    <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-2 ">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button class="btn btn-primary" title="Nuevo" id="openModalBtn">
+                                <i class="bi bi-plus"></i> Nuevo
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
+                                <span class="fa fa-edit ms-2"></span> Modificar
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                Generar PDF
+                            </button>
+                            <button class="btn btn-danger ml-3 " title="Eliminar">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Campos principales -->
+            <section class="section dashboard">
+                <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
-                            <table id="example1" class="table table-bordered table-hover">
+                        <!-- Campos principales -->
+                        <div class="row">
+                            <form id="formularioPrincipal">
+                                <div class="container-fluid mt-4">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row g-3 align-items-center">
+                                                        <div class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                            <label for="ruc">Ruc:</label>
+                                                            <input type="text" class="form-control" id="ruc" name="ruc">
+                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                        </div>
 
-                                <form id="formularioPrincipal">
-                                    <div class="content3">
-                                        <div class="content-container3">
-                                            <div class="main-fields">
-                                                <div
-                                                    class="form-group <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                    <label for="ruc">Ruc:</label>
-                                                    <input type="text" class="form-control" id="ruc" name="ruc">
-                                                    <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                </div>
+                                                        <?php
+                                                        // Conexión a la base de datos (debes configurar tu conexión)
+                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
-                                                <?php
-                                                // Conexión a la base de datos (debes configurar tu conexión)
-                                                $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                        // Verificar la conexión
+                                                        if ($conexion->connect_error) {
+                                                            die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                        }
 
-                                                // Verificar la conexión
-                                                if ($conexion->connect_error) {
-                                                    die("La conexión a la base de datos falló: " . $conexion->connect_error);
-                                                }
+                                                        // Obtener el número actual registrado en la base de datos
+                                                        $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                        $resultado = $conexion->query($consulta);
 
-                                                // Obtener el número actual registrado en la base de datos
-                                                $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-                                                $resultado = $conexion->query($consulta);
+                                                        if ($resultado->num_rows > 0) {
+                                                            // Obtiene el último número registrado
+                                                            $fila = $resultado->fetch_assoc();
+                                                            $numero_actual = $fila['ultimo_numero'];
 
-                                                if ($resultado->num_rows > 0) {
-                                                    // Obtiene el último número registrado
-                                                    $fila = $resultado->fetch_assoc();
-                                                    $numero_actual = $fila['ultimo_numero'];
+                                                            // Incrementar el número actual en 1 para el próximo registro
+                                                            $numero_siguiente = $numero_actual + 1;
+                                                        } else {
+                                                            // Si no hay registros, establece el número inicial como 1
+                                                            $numero_actual = 1;
+                                                            $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
+                                                        }
 
-                                                    // Incrementar el número actual en 1 para el próximo registro
-                                                    $numero_siguiente = $numero_actual + 1;
-                                                } else {
-                                                    // Si no hay registros, establece el número inicial como 1
-                                                    $numero_actual = 1;
-                                                    $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
-                                                }
+                                                        // Obtener el número actual registrado en la base de datos
+                                                        $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                                        $resultado = $conexion->query($consulta);
 
-                                                // Obtener el número actual registrado en la base de datos
-                                                $consulta = "SELECT MAX(op) as op FROM num_asi";
-                                                $resultado = $conexion->query($consulta);
+                                                        // Verificar si hay filas en el resultado
+                                                        if ($resultado !== false && $resultado->num_rows > 0) {
+                                                            $op = $resultado->fetch_assoc();
+                                                            $op_actual = $op['op'];
+                                                            // Incrementar el número actual en 1 para el próximo registro
+                                                            $op_actual = $op_actual + 1;
+                                                        } else {
+                                                            $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                                        }
 
-                                                // Verificar si hay filas en el resultado
-                                                if ($resultado !== false && $resultado->num_rows > 0) {
-                                                    $op = $resultado->fetch_assoc();
-                                                    $op_actual = $op['op'];
-                                                    // Incrementar el número actual en 1 para el próximo registro
-                                                    $op_actual = $op_actual + 1;
-                                                } else {
-                                                    $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
-                                                }
-
-                                                // Cierra la conexión a la base de datos
-                                                $conexion->close();
-                                                ?>
-                                                
-                                                <div class="form-group">
-                                                    <label for="op">N° Op</label>
-                                                    <input type="text" class="form-control" id="op" name="op" value="<?php echo $op_actual; ?>" readonly>
-                                                </div>
-                                        
-                                                <div class="form-group">
-                                                    <label for="num_asi">Numero:</label>
-                                                    <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?> " readonly>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="contabilidad">Contabilidad:</label>
-                                                    <input type="text" class="form-control" id="contabilidad" name="contabilidad">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="direccion">Dirección:</label>
-                                                    <input type="text" class="form-control" id="direccion" name="direccion">
-                                                </div>
-                                                 <div class="form-group">
-                                                    <label for="telefono">Teléfono:</label>
-                                                    <input type="text" class="form-control" id="telefono" name="telefono">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="tesoreria">Tesoreria:</label>
-                                                    <input type="text" class="form-control" id="tesoreria" name="tesoreria">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="observacion">Observación:</label>
-                                                    <input type="text" class="form-control" id="observacion" name="observacion">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="fecha">Fecha:</label>
-                                                    <input type="date" class="form-control" id="fecha" name="fecha">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                                
-                                    <!-- Primer asiento de la obligación  -->
-                                    <table class="table table-bordered table-striped" id="miTabla">
-                                                                        <thead>
-                                                                            <tr>
-                                                                              <!-- acá podemos insertar una ID <th>#</th> -->  
-                                                                                <th>Programa</th>
-                                                                                <th>Fuente</th>
-                                                                                <th>Origen</th>
-                                                                                <th>Cuenta Contable</th>
-                                                                                <th>Comprobante</th>
-                                                                                <th>Detalles</th>
-                                                                                <th>Monto de Pago</th>
-                                                                                <th>Debe</th>
-                                                                                <th>Haber</th>
-                                                                                <th>Cheque</th>
-                                                                                <th><button id="agregarFila">Agregar Fila</button></th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-
-                                                                                    <tr>
-                                                                                        <!-- acá podemos insertar una ID  -->
-                                                                                          <!-- acá podemos insertar una ID  -->
-
-                                                                                        <td><select class="form-control" id="id_pro" name="id_pro">
-                                                                                                <?php foreach ($programa as $prog): ?>
-                                                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="id_ff" name="id_ff">
-                                                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="id_of" name="id_of">
-                                                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <input type="hidden" class="form-control" id="idcuentacontable" name="idcuentacontable">
-                                                                                            <input type="text" class="form-control" id="codigo_cc" name="codigo_cc">
-                                                                                            <input type="text" class="form-control" id="descripcion_cc" name="descripcion_cc" >
-                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
-                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
-                                                                                            </button>
-                                                                                        </td>
-                                                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="comprobante" name="comprobante">
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="detalles" name="detalles" required>
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="MontoPago" name="MontoPago" readonly>
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Debe" name="Debe" >
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber" name="Haber" value="<?php echo 0; ?>" >
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    <tr id="filaBase" class="filaBase">
-                                                                                        <!-- segundo asiento  -->
-                                                                                                    
-                                                                                        <!-- acá podemos insertar una ID  -->
-
-                                                                                        <td><select class="form-control" id="id_pro_2" name="id_pro_2">
-                                                                                                <?php foreach ($programa as $prog): ?>
-                                                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2">
-                                                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
-                                                                                        <td><select class="form-control" id="id_of_2" name="id_of_2">
-                                                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select>
-                                                                                        </td>
-                                                                                     
-                                                                                        <td>
-                                                                                            <input type="hidden" class="form-control idcuentacontable_2" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                                                            <input type="text" class="form-control codigo_cc_2" id="codigo_cc_2" name="codigo_cc_2">
-                                                                                            <input type="text" class="form-control descripcion_cc_2" id="descripcion_cc_2" name="descripcion_cc_2" >
-                                                                                            <button class="btn btn-sm btn-primary ms-2 openModalBtn_4" id="openModalBtn_4">
-                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
-                                                                                            </button>
-                                                                                        </td>
-                                                                                      
-                                                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="detalles_2" name="detalles_2" required>
-                                                                                        </td>
-                                                                                        <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
-                                                                                        </td>
-                                                                                        <td contenteditable="false">
-                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2" value="<?php echo 0; ?>">
-                                                                                        </td>
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2" >
-                                                                                        </td> 
-                                                                                        <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <button class="eliminarFila" hidden >Eliminar</button>
-                                                                                        </td>
-                                                                                    </tr>
-                                                                                    
-                                                                        </tbody>
-                                                                    </table>
-                                                
-                                                    
-                                                    
+                                                        // Cierra la conexión a la base de datos
+                                                        $conexion->close();
+                                                        ?>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="op">N° Op</label>
+                                                            <input type="text" class="form-control" id="op" name="op" value="<?= $op_actual ?>" readonly>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="num_asi">Numero:</label>
+                                                            <input type="text" class="form-control w-100" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?> " readonly>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="contabilidad">Contabilidad:</label>
+                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="direccion">Dirección:</label>
+                                                            <input type="text" class="form-control" id="direccion" name="direccion">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="telefono">Teléfono:</label>
+                                                            <input type="text" class="form-control w-100" id="telefono" name="telefono">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="tesoreria">Tesoreria:</label>
+                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="observacion">Observación:</label>
+                                                            <input type="text" class="form-control" id="observacion" name="observacion">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="fecha">Fecha:</label>
+                                                            <input type="date" class="form-control" id="fecha" name="fecha">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
+                                            <table class="table table-hover table-bordered table-sm rounded-3" id="miTabla">
+                                                <thead class="align-middle">
+                                                    <tr>
+                                                        <th class="columna-ancha">Programa</th>
+                                                        <th class="columna-fuente">Fuente</th>
+                                                        <th class="columna-origen">Origen</th>
+                                                        <th class="columna-ctncontable">Cuenta Contable</th>
+                                                        <th>Comprobante</th>
+                                                        <th>Detalles</th>
+                                                        <th>Monto de Pago</th>
+                                                        <th>Debe</th>
+                                                        <th>Haber</th>
+                                                        <th>Cheque</th>
+                                                        <th>Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="input-group input-group-sm ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_pro" name="id_pro">
+                                                                    <?php foreach ($programa as $prog) : ?>
+                                                                        <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_ff" name="id_ff">
+                                                                    <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                        <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_of" name="id_of">
+                                                                    <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                        <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="hidden" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc" name="codigo_cc">
+                                                                <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc" name="descripcion_cc">
+                                                                <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont1" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="openModalBtn_3">
+                                                                    <i class="bi bi-search"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm align-items-center  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="comprobante" name="comprobante">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm align-items-center  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control small border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" required>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Haber" name="Haber" required>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control small border-0 bg-transparent" id="cheques_che_id" name="cheques_che_id">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                <button type="button" class="btn btn-outline-primary border-0 agregarFila" id="agregarFila">
+                                                                    <i class="bi bi-plus-square"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="filaBase" class="filaBase">
+                                                        <!-- segundo asiento  -->
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_pro_2" name="id_pro_2" required>
+                                                                    <?php foreach ($programa as $prog) : ?>
+                                                                        <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_ff_2" name="id_ff_2" required>
+                                                                    <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                        <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <select class="form-control border-0 bg-transparent" id="id_of_2" name="id_of_2" required>
+                                                                    <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                        <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                    <?php endforeach; ?>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm">
+                                                                <input type="hidden" class="form-control border-0 bg-transparent idcuentacontable_2" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent codigo_cc_2" id="codigo_cc_2" name="codigo_cc_2">
+                                                                <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent descripcion_cc_2" id="descripcion_cc_2" name="descripcion_cc_2">
+                                                                <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary openModalBtn_4" id="botonBuscar2">
+                                                                    <i class="bi bi-search"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="comprobante_2" name="comprobante_2">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" required>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="Haber_2" name="Haber_2" required>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="cheques_che_id_2" name="cheques_che_id_2">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                <button type="button" class="btn btn-outline-primary border-0 agregarFila" >
+                                                                    <i class="bi bi-plus-square"></i>
+                                                                </button>
+                                                                <button type="button" class="btn btn-outline-danger border-0 eliminarFila" hidden>
+                                                                    <i class="bi bi-trash3"></i>
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-success btn-flat" id="guardarFilas"><span
-                                class="fa fa-save"></span>Guardar</button>
-                        <div class="notification" id="notification">
-                            <div class="icon">
-                            </div>
-                            <div class="message">Guardado Correctamente</div>
+                                <div class="container-fluid mt-3 mb-3">
+                                    <div class="col-md-12 d-flex flex-row justify-content-end">
+                                        <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
+                                        <div class="notification" id="notification">
+                                            <div class="icon">
+                                            </div>
+                                            <div class="message">Guardado Correctamente</div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
+                                            <span class="fa fa-remove"></span> Cancelar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-
                 </div>
-                <div class="col-md-6">
-                    <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones" class="btn btn-danger"><span
-                            class="fa fa-remove"></span>Cancelar</a>
-                </div>
-            </div>
-     </div>
-    </div>
-</form>
-
-                        
-        </table>
+            </section>
+        </div>
     </main>
     <!-- Contenedor del modal -->
     <div class="modal-container2" id="modalContainer_2">
@@ -541,7 +574,7 @@
        
         
        // Agregar fila
-        $("#agregarFila").on("click", function (e) {
+        $(".agregarFila").on("click", function (e) {
             e.preventDefault();
             e.stopPropagation();
             // Clonar la fila base
