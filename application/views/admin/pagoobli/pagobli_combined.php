@@ -217,9 +217,9 @@
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr id="filaBase" class="filaBase">
-                                                                                          <!-- segundo asiento  -->
-                                                                                      
-                                                                                          <!-- acá podemos insertar una ID  -->
+                                                                                        <!-- segundo asiento  -->
+                                                                                                    
+                                                                                        <!-- acá podemos insertar una ID  -->
 
                                                                                         <td><select class="form-control" id="id_pro_2" name="id_pro_2">
                                                                                                 <?php foreach ($programa as $prog): ?>
@@ -239,10 +239,10 @@
                                                                                         </td>
                                                                                      
                                                                                         <td>
-                                                                                            <input type="hidden" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                                                            <input type="text" class="form-control" id="codigo_cc_2" name="codigo_cc_2">
-                                                                                            <input type="text" class="form-control" id="descripcion_cc_2" name="descripcion_cc_2" >
-                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_4">
+                                                                                            <input type="hidden" class="form-control idcuentacontable_2" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="text" class="form-control codigo_cc_2" id="codigo_cc_2" name="codigo_cc_2">
+                                                                                            <input type="text" class="form-control descripcion_cc_2" id="descripcion_cc_2" name="descripcion_cc_2" >
+                                                                                            <button class="btn btn-sm btn-primary ms-2 openModalBtn_4" id="openModalBtn_4">
                                                                                                 <i class="bi bi-search"></i> Busqueda Cuenta
                                                                                             </button>
                                                                                         </td>
@@ -538,11 +538,12 @@
    
 <script>
     $(document).ready(function () {
-
+       
+        
        // Agregar fila
         $("#agregarFila").on("click", function (e) {
             e.preventDefault();
-
+            e.stopPropagation();
             // Clonar la fila base
             var nuevaFila = $("#filaBase").clone();
 
@@ -578,6 +579,7 @@
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function (e) {
             e.preventDefault();
+            e.stopPropagation();
             if ($("#miTabla tbody tr").length > 2) {
             $(this).closest("tr").remove();
             } else {
@@ -585,14 +587,13 @@
             }
         });
         
-        
-        
     });
 </script>
 
 <script>
     
-    $("#formularioPrincipal").on("submit", function() {
+    $("#formularioPrincipal").on("submit", function(e) {
+       
         //datos que no son de la tabla dinamica
         var datosFormulario = {
         
@@ -625,7 +626,8 @@
         var filas = [];
         
 
-        $("#miTabla tbody tr:gt(0)").each(function () {
+        $("#miTabla tbody tr:gt(0)").each(function (e) {
+            
             var fila = {
                 id_pro: $(this).find("select[name='id_pro_2']").val(),
                 id_ff: $(this).find("select[name='id_ff_2']").val(),
@@ -749,48 +751,54 @@
 </script>
 
 <script>
+      
+        
+    var currentRow = null;
     // Función para abrir el modal de las cuentas contables
-    function openModal_4() {
+    function openModal_4(currentRowParam) {
+        
         var modalContainer = document.getElementById('modalContainer_4');
         modalContainer.style.display = 'flex';
         modalContainer.style.top = '30%';
-
+        currentRow = currentRowParam; // Almacenar la fila actual
         openModalBtn_4.style.zIndex = -1;
     }
 
-        // Función para cerrar el modal
-        function closeModal_4() {
-            var modalContainer = document.getElementById('modalContainer_4');
-            modalContainer.style.display = 'none';
-            openModalBtn_4.style.zIndex = 1;
-        }
+    // Función para cerrar el modal
+    function closeModal_4() {
+        var modalContainer = document.getElementById('modalContainer_4');
+        modalContainer.style.display = 'none';
+        openModalBtn_4.style.zIndex = 1;
+    }
 
-        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Obtener la fila actual dinámica
-            var currentDynamicRow = $("#miTabla tbody tr:last");
-            // Actualizar los campos de texto en la vista principal con los valores seleccionados
-            currentDynamicRow.find('#idcuentacontable_2').val(IDCuentaContable);
-            currentDynamicRow.find('#codigo_cc_2').val(Codigo_CC);
-            currentDynamicRow.find('#descripcion_cc_2').val(Descripcion_CC);
-                
-            closeModal_4();
-           
-        }
+        
+    // Usa la fila actual almacenada al seleccionar la cuenta
+    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        // Utiliza 'currentRow' en lugar de buscar la última fila
+        currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+        currentRow.find('.codigo_cc_2').val(Codigo_CC);
+        currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+        closeModal_4();
+    }
 
         // Abrir modal en fila dinamica
         const openModalBtn_4 = document.getElementById("openModalBtn_4");
         // To this (using event delegation)
+        // Actualiza la función de clic para pasar la fila actual al abrir el modal
         document.getElementById("miTabla").addEventListener("click", function(event) {
-            // Verifica si el clic se hizo en el botón o en el icono de la lupa
+            
+            // Encuentra la fila desde la cual se abrió el modal
+            var row = $(event.target).closest('tr');
             if (
-                (event.target && event.target.id === "openModalBtn_4") ||
-                (event.target && event.target.parentNode && event.target.parentNode.id === "openModalBtn_4")
+                (event.target && event.target.className.includes("openModalBtn_4")) ||
+                (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
             ) {
+                event.stopPropagation();
                 event.preventDefault();
-                openModal_4();
+                openModal_4(row);
             }
         });
-        
+            
         // Cerrar modal en fila dinamica
         const closeModalBtn_4 = document.getElementById("closeModalBtn_4");
         // To this (using event delegation)
@@ -801,33 +809,36 @@
             }
         });
 
-        
-    
-    function filterResults() {
-        var input, filter, table, tr, td1, td2, i, txtValue;
-        input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
-        filter = input.value.toUpperCase();
-        table = document.getElementById("cuentasContablesTable_2");
-        tr = table.getElementsByTagName("tr");
-
-        for (i = 0; i < tr.length; i++) {
-            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
             
-            if (td1 && td2) {
-                // Combina los textos de ambas posiciones en una cadena
-                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+        
+        function filterResults() {
+            var input, filter, table, tr, td1, td2, i, txtValue;
+            input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
+            filter = input.value.toUpperCase();
+            table = document.getElementById("cuentasContablesTable_2");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+                td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
                 
-                // Busca en la cadena combinada
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+                if (td1 && td2) {
+                    // Combina los textos de ambas posiciones en una cadena
+                    txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                    
+                    // Busca en la cadena combinada
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
         }
-    }
-    document.getElementById("searchInput_2").addEventListener("input", filterResults);
+        document.getElementById("searchInput_2").addEventListener("input", filterResults);
+
+    
+    
 </script>
 
 
