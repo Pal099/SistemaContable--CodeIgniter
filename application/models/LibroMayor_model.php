@@ -8,7 +8,7 @@ class LibroMayor_model extends CI_Model {
         $this->load->database();
     }
 
-    public function obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idCuentaContable = null){
+    public function obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idCuentaContable = null, $terminoBusqueda = ''){
         $this->db->select("
             nad.IDNum_Asi_Deta,
             nad.numero,
@@ -18,25 +18,28 @@ class LibroMayor_model extends CI_Model {
             nad.Haber,
             nad.comprobante,
             na.FechaEmision,
-            na.num_asi,
-            na.MontoTotal
+            na.Num_Asi,
+            na.MontoTotal,
+            cc.Codigo_CC,
+            cc.Descripcion_CC
         ");
         $this->db->from('num_asi_deta nad');
         $this->db->join('num_asi na', 'nad.Num_Asi_IDNum_Asi = na.IDNum_Asi', 'inner');
+        $this->db->join('cuentacontable cc', 'nad.IDCuentaContable = cc.IDCuentaContable', 'inner');
         $this->db->where('na.FechaEmision >=', $fechaInicio);
         $this->db->where('na.FechaEmision <=', $fechaFin);
 
-        // Filtrar por cuenta contable si se proporciona un ID
         if ($idCuentaContable !== null) {
             $this->db->where('nad.IDCuentaContable', $idCuentaContable);
         }
-         // Filtrar por término de búsqueda si se proporciona
-    if (!empty($terminoBusqueda)) {
-        $this->db->like('cc.Codigo_CC', $terminoBusqueda);
-        $this->db->or_like('cc.Descripcion_CC', $terminoBusqueda);
-    }
 
-        // Filtrar por registros activos o cualquier otro criterio necesario
+        if (!empty($terminoBusqueda)) {
+            $this->db->group_start();
+            $this->db->like('cc.Codigo_CC', $terminoBusqueda);
+            $this->db->or_like('cc.Descripcion_CC', $terminoBusqueda);
+            $this->db->group_end();
+        }
+
         $this->db->where('na.estado', 1); // Asumiendo que 1 representa 'activo'
         $this->db->where('nad.estado_registro', 1); // Asumiendo que 1 representa 'activo'
 

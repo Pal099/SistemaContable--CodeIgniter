@@ -11,63 +11,51 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
-        <div class="card">
-            <div class="card-body">
-                <!-- Formulario para Filtros -->
-                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
-                    
-                    <!-- Buscar Cuenta -->
-                    <div class="col-md-12">
+   
+    <form class="row" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
+                    <!-- Columna para búsqueda de cuenta y código -->
+                    <div class="col-md-4">
                         <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
                         <input type="text" class="form-control mb-2" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
+                        <!-- Suponiendo que tienes un campo en tu base de datos llamado 'codigo' -->
+                        <input type="text" class="form-control" id="codigoCuenta" name="codigoCuenta" placeholder="Código de cuenta" readonly>
                     </div>
-                    
-                    <!-- Fechas -->
-                    <div class="col-md-3">
-                        <label for="fechaInicio" class="form-label">Fecha Desde:</label>
-                        <input type="date" class="form-control mb-2" id="fechaInicio" name="fecha_inicio" style="width: 160px; padding: 0.375rem 0.75rem;">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="fechaFin" class="form-label">Fecha Hasta:</label>
-                        <input type="date" class="form-control mb-2" id="fechaFin" name="fecha_fin" style="width: 160px; padding: 0.375rem 0.75rem;">
-                    </div>
-                    
-                    <!-- Select para Ver Diario (puedes omitir este si no es necesario) -->
-                    <div class="col-md-3">
-                        <label for="verDiario" class="form-label">Ver Diario:</label>
-                        <select class="form-select mb-2" id="verDiario" name="verDiario" style="width: 160px; padding: 0.375rem 0.75rem;">
-                            <option value="todos">Todos</option>
-                            <option value="libroDiarioBorrador">Libro diario borrador</option>
-                            <option value="ordenPago">Orden de pago</option>
-                        </select>
-                    </div>
-                    
-                    <!-- Programa -->
-                    <div class="col-md-3">
-                        <label for="programa" class="form-label">Programa:</label>
-                        <select class="form-select mb-2" id="programa" name="programa" style="width: 160px; ">
-                            <option value="">Seleccionar</option>
-                            <!-- Opciones dinámicas aquí -->
-                        </select>
-                    </div>
-                    
-                    <!-- Origen de Financiamiento -->
-                    <div class="col-md-3">
-                        <label for="origenFinanciamiento" class="form-label">Origen Financiamiento:</label>
-                        <select class="form-select mb-2" id="origenFinanciamiento" name="origenFinanciamiento" style="width: 200px; padding: 0.375rem 0.75rem;">
-                            <option value="">Seleccionar</option>
-                            <!-- Opciones dinámicas aquí -->
-                        </select>
-                    </div>
-                    
-                    <!-- Fuente de Financiamiento -->
-                    <div class="col-md-3">
-                        <label for="fuenteFinanciamiento" class="form-label">Fuente Financiamiento:</label>
-                        <select class="form-select mb-2" id="fuenteFinanciamiento" name="fuenteFinanciamiento" style="width: 160px; padding: 0.375rem 0.75rem;">
-                            <option value="">Seleccionar</option>
-                            <!-- Opciones dinámicas aquí -->
-                        </select>
+
+                    <!-- Columna para fechas y selects -->
+                    <div class="col-md-8">
+                        <div class="row">
+                            <!-- Fecha Desde y Hasta -->
+                            <div class="col-md-6">
+                                <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
+                                <input type="date" class="form-control mb-2" id="fechaInicio" name="fecha_inicio">
+                                <label for="fechaFin" class="form-label">Hasta:</label>
+                                <input type="date" class="form-control mb-2" id="fechaFin" name="fecha_fin">
+                            </div>
+                            <!-- Selects -->
+                            <div class="col-md-6">
+                                <label for="verDiario" class="form-label">Ver Diario:</label>
+                                <select class="form-select mb-2" id="verDiario" name="verDiario">
+                                    <option value="todos">Todos</option>
+                                    <option value="libroDiarioBorrador">Libro diario borrador</option>
+                                    <option value="ordenPago">Orden de pago</option>
+                                </select>
+                                <label for="programa" class="form-label">Programa:</label>
+                                <select class="form-select mb-2" id="programa" name="programa">
+                                    <option value="todos">Todos</option>
+                                    <!-- Añadir más opciones de programas aquí -->
+                                </select>
+                                <label for="origenFinanciamiento" class="form-label">Origen de Financiamiento:</label>
+                                <select class="form-select mb-2" id="origenFinanciamiento" name="origenFinanciamiento">
+                                    <option value="todos">Todos</option>
+                                    <!-- Añadir más opciones de origen de financiamiento aquí -->
+                                </select>
+                                <label for="fuenteFinanciamiento" class="form-label">Fuente de Financiamiento:</label>
+                                <select class="form-select mb-2" id="fuenteFinanciamiento" name="fuenteFinanciamiento">
+                                    <option value="todos">Todos</option>
+                                    <!-- Añadir más opciones de fuente de financiamiento aquí -->
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Botón de búsqueda -->
@@ -75,7 +63,6 @@
                         <button type="submit" class="btn btn-primary mt-3">Buscar</button>
                     </div>
                 </form>
-                
                 <!-- Tabla de Resultados -->
                 <div class="table-responsive">
                     <table class="table table-bordered">
@@ -119,3 +106,32 @@
         </div>
     </section>
 </main>
+<!-- Inicio del Script de Búsqueda -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Inclusión de jQuery -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#busquedaCuentaContable").on("keyup", function() {
+            var descripcion = $(this).val();
+            if(descripcion !== '') {
+                $.ajax({
+                    url: "<?php echo base_url();?>LibroMayor/buscarCuenta", // Asegúrate de que esta URL corresponda al método en tu controlador
+                    type: "POST",
+                    data: {descripcion_cc: descripcion},
+                    success: function(data) {
+                        var cuentas = JSON.parse(data);
+                        // Aquí va la lógica para actualizar la interfaz de usuario con los resultados
+                        // Esto podría ser rellenar una lista desplegable con las cuentas o
+                        // mostrar sugerencias de autocompletado debajo del campo de entrada
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Error al obtener datos: ", textStatus, errorThrown);
+                        // Manejar errores de la petición aquí
+                    }
+                });
+            } else {
+                // Lógica para limpiar los resultados de búsqueda previos si el campo está vacío
+            }
+        });
+    });
+</script>
+<!-- Fin del Script de Búsqueda -->

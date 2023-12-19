@@ -24,6 +24,12 @@ class CuentaContable_model extends CI_Model {
         $this->db->where("IDCuentaContable", $id);
         return $this->db->update("cuentacontable", $data);
     }
+    public function buscarPorDescripcion($descripcion){
+        $this->db->like('Descripcion_CC', $descripcion);
+        $resultados = $this->db->get('cuentacontable');
+        return $resultados->result_array(); // Devuelve el resultado como un array asociativo
+    }
+
 
     // Puedes agregar más métodos aquí según lo necesites.
 }
