@@ -22,7 +22,7 @@
         <div class="pagetitle">
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item active">Vista de los Depositos</li>
+                    <li class="breadcrumb-item active">Vista del Deposito Bancario</li>
                 </ol>
             </nav>
             <h1>Deposito Bancario</h1>
@@ -44,9 +44,9 @@
                             <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
                                  <i class="bi bi-plus"></i> Nuevo
                             </button>
-                            <a href="<?php echo base_url(); ?>obligaciones/Deposito_obligaciones/edit" class="btn btn-primary btn-flat"><span
+                            <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit" class="btn btn-primary btn-flat"><span
                                 class="fa fa-edit ms-2"></span> Modificar</a>
-                            <a href=" <?php echo base_url();?>obligaciones/Deposito_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
+                            <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
 
                         </div>
                     </div>
@@ -54,10 +54,10 @@
 
                 <!-- Campos principales -->
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
                         
-                            <form  action="<?php echo base_url();?>obligaciones/Deposito_obligaciones/store" method="POST">
+                            <form  action="<?php echo base_url();?>obligaciones/deposito_obligaciones/store" method="POST">
                                                     <div class="content3">
                                                     <div class="content-container3">
                                                         <div class="main-fields">
@@ -93,31 +93,45 @@
                                                         $numero_siguiente = 2; // Si es el primer registro, el próximo número será 2
                                                     }
 
+                                                    // Obtener el número actual registrado en la base de datos
+                                                    $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
+
+                                                    // Verificar si hay filas en el resultado
+                                                    if ($resultado !== false && $resultado->num_rows > 0) {
+                                                        $op = $resultado->fetch_assoc();
+                                                        $op_actual = $op['op'];
+                                                        // Incrementar el número actual en 1 para el próximo registro
+                                                        $op_actual = $op_actual + 1;
+                                                    } else {
+                                                        $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                                    }
+
                                                     // Cierra la conexión a la base de datos
                                                     $conexion->close();
                                                     ?>
 
                                                             <div class="form-group">
                                                                 <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_actual; ?>">
+                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                             </div>
 
 
                                                         <div class="form-group">
                                                             <label for="contabilidad">Contabilidad:</label>
-                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad">
+                                                            <input type="text" class="form-control" id="contabilidad" name="contabilidad" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="direccion">Dirección:</label>
-                                                            <input type="text" class="form-control" id="direccion" name="direccion">
+                                                            <input type="text" class="form-control" id="direccion" name="direccion" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="telefono">Teléfono:</label>
-                                                            <input type="text" class="form-control" id="telefono" name="telefono">
+                                                            <input type="text" class="form-control" id="telefono" name="telefono" >
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="tesoreria">Tesoreria:</label>
-                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria">
+                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria" required>
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="observacion">Observación:</label>
@@ -125,7 +139,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="fecha">Fecha:</label>
-                                                            <input type="date" class="form-control" id="fecha" name="fecha">
+                                                            <input type="date" class="form-control" id="fecha" name="fecha" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -137,11 +151,12 @@
                                                                         <thead>
                                                                             <tr>
                                                                               <!-- acá podemos insertar una ID <th>#</th> -->  
-                                                                              
+                                                                               
                                                                                 <th>Fuente</th>
                                                                                 <th>Origen</th>
                                                                                 <th>Cuenta Contable</th>
                                                                                 <th>Comprobante</th>
+                                                                                <th>Detalles</th>
                                                                                 <th>Monto de Pago</th>
                                                                                 <th>Debe</th>
                                                                                 <th>Haber</th>
@@ -154,38 +169,40 @@
                                                                                         <!-- acá podemos insertar una ID  -->
                                                                                           <!-- acá podemos insertar una ID  -->
 
-                                                                                     <!--   <td><select class="form-control" id="id_pro" name="id_pro">
-                                                                                                
-                                                                                            </select></td> -->
-                                                                                        <td><select class="form-control" id="id_ff" name="id_ff">
+                                                                                        
+                                                                                        <td><select class="form-control" id="id_ff" name="id_ff" required>
                                                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
                                                                                                     <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="id_of" name="id_of">
+                                                                                        <td><select class="form-control" id="id_of" name="id_of" required>
                                                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                                                     <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select></td>
-                                                                                        <td><select class="form-control" id="idcuentacontable" name="idcuentacontable">
-                                                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select></td>
+                                                                                        <td>
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable" name="idcuentacontable">
+                                                                                            <input type="text" class="form-control" id="codigo_cc" name="codigo_cc">
+                                                                                            <input type="text" class="form-control" id="descripcion_cc" name="descripcion_cc" >
+                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_3">
+                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
+                                                                                            </button>
+                                                                                        </td>
                                                                                         <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="comprobante" name="comprobante">
                                                                                         </td>
                                                                                         <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="detalles" name="detalles" required>
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="MontoPago" name="MontoPago" readonly>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Debe" name="Debe">
+                                                                                            <input type="text" class="form-control" id="Debe" name="Debe" required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
-                                                                                            <input type="text" class="form-control" id="Haber" name="Haber">
+                                                                                            <input type="text" class="form-control" id="Haber" name="Haber" required>
                                                                                         </td>
                                                                                         <td contenteditable="true">
                                                                                             <input type="text" class="form-control" id="cheques_che_id" name="cheques_che_id">
@@ -193,49 +210,53 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                           <!-- segundo asiento  -->
-                                                        
-                                                            <!-- acá podemos insertar una ID  -->
+                                                                                      
+                                                                                          <!-- acá podemos insertar una ID  -->
 
-                                                        
-                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2">
-                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select></td>
-                                                        <td><select class="form-control" id="id_of_2" name="id_of_2">
-                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                                <?php endforeach; ?>
-                                                            </select></td>
-                                                        <td><select class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                                        <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </select></td>
-                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
-                                                        <td contenteditable="true">
-                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
-                                                        </td>
-                                                        <td contenteditable="false">
-                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
-                                                        </td>
-                                                        <td contenteditable="false">
-                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2">
-                                                        </td>
-                                                        <td contenteditable="true">
-                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2">
-                                                        </td>
-                                                        <td contenteditable="true">
-                                                            <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
-                                                        </td>
-                                                    </tr>
-                                        </tbody>
-                                    </table>
-                    <!-- Segundo asiento de la obligación  -->
-                    
-                    
+                                                                                        
+                                                                                        <td><select class="form-control" id="id_ff_2" name="id_ff_2" required>
+                                                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
+                                                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                                                <?php endforeach; ?>
+                                                                                            </select></td>
+                                                                                        <td><select class="form-control" id="id_of_2" name="id_of_2" required>
+                                                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
+                                                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                                                <?php endforeach; ?>
+                                                                                            </select></td>
+                                                                                        <td>
+                                                                                            <input type="hidden" class="form-control" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                                            <input type="text" class="form-control" id="codigo_cc_2" name="codigo_cc_2">
+                                                                                            <input type="text" class="form-control" id="descripcion_cc_2" name="descripcion_cc_2" >
+                                                                                            <button class="btn btn-sm btn-primary ms-2" id="openModalBtn_4">
+                                                                                                <i class="bi bi-search"></i> Busqueda Cuenta
+                                                                                            </button>
+                                                                                        </td>
+                                                                                        <!-- Los siguientes campos son ejemplos, modifícalos según tus necesidades -->
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="comprobante_2" name="comprobante_2">
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="detalles_2" name="detalles_2" required>
+                                                                                        </td>
+                                                                                        <td contenteditable="false">
+                                                                                            <input type="text" class="form-control" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                                                        </td>
+                                                                                        <td contenteditable="false">
+                                                                                            <input type="text" class="form-control" id="Debe_2" name="Debe_2" required>
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="Haber_2" name="Haber_2" required>
+                                                                                        </td>
+                                                                                        <td contenteditable="true">
+                                                                                            <input type="text" class="form-control" id="cheques_che_id_2" name="cheques_che_id_2">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                    <!-- Segundo asiento de la obligación  -->
+                                                    
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -303,6 +324,11 @@
                                                     <label for="pagado">Pagado:</label>
                                                     <input type="text" class="form-control" id="pagado" name="pagado">
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="OP">N° Op</label>
+                                                    <input type="text" class="form-control" id="OP"
+                                                    name="OP" value="<?= $op_actual ?>"readonly>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -319,13 +345,74 @@
                                                 
                                             </div>
                                             <div class="col-md-6">
-                                                <a href="<?php echo base_url(); ?>obligaciones/Deposito_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                                <a href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                            </form>   
-                                            
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>RUC</th>
+                                                    <th>Número</th>
+                                                    <th>Contabilidad</th>
+                                                    <th>Dirección</th>
+                                                    <th>Teléfono</th>
+                                                    <th>Observación</th>
+                                                    <th>Fecha</th>
+                                                    <th>Tesorería</th>
+                                                    <th>Pedí Matrícula</th>
+                                                    <th>Modalidad</th>
+                                                    <th>Tipo de Presupuesto</th>
+                                                    <th>Unidad Responsable</th>
+                                                    <th>Proyecto</th>
+                                                    <th>Estado</th>
+                                                    <th>Nro. PAC</th>
+                                                    <th>Nro. Expediente</th>
+                                                    <th>Total</th>
+                                                    <th>Pagado</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($data)): ?>
+                                                    <?php foreach ($data as $item): ?>
+                                                        <tr>
+                                                            <td><?php echo $item->id; ?></td>
+                                                            <td><?php echo $item->ruc; ?></td>
+                                                            <td><?php echo $item->numero; ?></td>
+                                                            <td><?php echo $item->contabilidad; ?></td>
+                                                            <td><?php echo $item->direccion; ?></td>
+                                                            <td><?php echo $item->telefono; ?></td>
+                                                            <td><?php echo $item->observacion; ?></td>
+                                                            <td><?php echo $item->fecha; ?></td>
+                                                            <td><?php echo $item->tesoreria; ?></td>
+                                                            <td><?php echo $item->pedi_matricula; ?></td>
+                                                            <td><?php echo $item->modalidad; ?></td>
+                                                            <td><?php echo $item->tipo_presupuesto; ?></td>
+                                                            <td><?php echo $item->unidad_respon; ?></td>
+                                                            <td><?php echo $item->proyecto; ?></td>
+                                                            <td><?php echo $item->estado; ?></td>
+                                                            <td><?php echo $item->nro_pac; ?></td>
+                                                            <td><?php echo $item->nro_exp; ?></td>
+                                                            <td><?php echo $item->total; ?></td>
+                                                            <td><?php echo $item->pagado; ?></td>
+                                                            <td>
+                                                        <div class="btn-group">
+                                                        <button type="button" class="btn btn-info btn-view-Deposito_obligaciones" data-toggle="modal"
+                                                            data-target="#modal-default" value="<?php echo $data->id; ?>">
+                                                            <span class="fa fa-search"></span>
+                                                        </button>
+                                                        
+                                                        <a href="<?php echo base_url(); ?>mantenimiento/Deposito_obligaciones/delete/<?php echo $data->id; ?>"
+                                                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                                                        </div>
+                                                    </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </tbody>
                                         </table>
                                 <!-- Botones -->
                             
@@ -334,7 +421,7 @@
                     </div>
                     <!-- /.content-wrapper -->
                 <!-- Lista con las columnas -->
-
+                
 
 
                
@@ -371,7 +458,70 @@
                         </table>
                     </div>
                 </div>
-                
+                <div class="modal-container" id="modalContainer_3">
+                    <div class="modal-content">
+                        
+                        <span class="close_3" id="closeModalBtn_3" onclick="closeModal_3()">&times;</span>
+                        <h3>Buscador de Cuentas Contables</h3>
+                        <input type="text" id="searchInput" placeholder="Buscar por código o descripción...">
+                        <table class="table table-bordered table-hover" id="cuentasContablesTable">
+                        <thead>
+                                            <tr >
+                                               <th>IDCuentaContable</th>
+                                                <th>Código de Cuenta</th>
+                                                <th>Descripción de Cuenta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cuentacontable as $dato): ?>
+                                                <tr class="list-item" onclick="selectCC( '<?= $dato->IDCuentaContable ?>','<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                    <td>
+                                                        <?= $dato->IDCuentaContable ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Codigo_CC ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Descripcion_CC ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                    </div>
+                </div>
+                <div class="modal-container" id="modalContainer_4">
+                    <div class="modal-content">
+                        
+                        <span class="close_4" id="closeModalBtn_4" onclick="closeModal_4()">&times;</span>
+                        <h3>Buscador de Cuentas Contables</h3>
+                        <input type="text" id="searchInput_2" placeholder="Buscar por código o descripción...">
+                        <table class="table table-bordered table-hover" id="cuentasContablesTable_2">
+                        <thead>
+                                            <tr >
+                                               <th>IDCuentaContable</th>
+                                                <th>Código de Cuenta</th>
+                                                <th>Descripción de Cuenta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($cuentacontable as $dato): ?>
+                                                <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
+                                                    <td>
+                                                        <?= $dato->IDCuentaContable ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Codigo_CC ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $dato->Descripcion_CC ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                    </div>
+                </div>
 
                 <script>
                     
@@ -395,7 +545,7 @@
 
 
     
-                function selectPrograma( nombreFuente, nombreOrigen, numeroCuenta) {
+                function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
                     // Captura la tabla principal por su ID
                     var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
                     
@@ -403,13 +553,13 @@
                     var fila = tabla.insertRow();
 
                     // Inserta celdas en la fila
-                    
-                    var celdaFuente = fila.insertCell(0);
-                    var celdaOrigen = fila.insertCell(1);
-                    var celdaCuenta = fila.insertCell(2);
+                    var celdaPrograma = fila.insertCell(0);
+                    var celdaFuente = fila.insertCell(1);
+                    var celdaOrigen = fila.insertCell(2);
+                    var celdaCuenta = fila.insertCell(3);
 
                     // Asigna los valores a las celdas
-                 
+                    celdaPrograma.innerHTML = nombrePrograma;
                     celdaFuente.innerHTML = nombreFuente;
                     celdaOrigen.innerHTML = nombreOrigen;
                     celdaCuenta.innerHTML = numeroCuenta;
@@ -495,6 +645,138 @@
         });
     });
 
-                </script>
+</script>
+
+<script>
+    // Función para abrir el modal de las cuentas contables
+    function openModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn_3.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn_3.style.zIndex = 1;
+    }
+    function selectCC( IDCuentaContable,Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+        document.getElementById('idcuentacontable').value = IDCuentaContable;
+        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+        closeModal_3(); 
+    }
+
+ // Agregar evento al botón "buscar cuenta" para abrir el modal
+        const openModalBtn_3 = document.getElementById("openModalBtn_3");
+            openModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            openModal_3();
+        });
+
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+            closeModalBtn_3.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeModal_3();
+        });
+    
+    function filterResults() {
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
+        filter = input.value.toUpperCase();
+        table = document.getElementById("cuentasContablesTable");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    document.getElementById("searchInput").addEventListener("input", filterResults);
+</script>
+
+<script>
+    // Función para abrir el modal de las cuentas contables
+    function openModal_4() {
+        var modalContainer = document.getElementById('modalContainer_4');
+        modalContainer.style.display = 'flex';
+        openModalBtn_4.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_4() {
+        var modalContainer = document.getElementById('modalContainer_4');
+        modalContainer.style.display = 'none';
+        openModalBtn_4.style.zIndex = 1;
+    }
+    function selectCC2( IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+        document.getElementById('idcuentacontable_2').value = IDCuentaContable;
+        document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+        closeModal_4(); 
+    }
+
+    // Agregar evento al botón "buscar cuenta" para abrir el modal
+        const openModalBtn_4 = document.getElementById("openModalBtn_4");
+        openModalBtn_4.addEventListener("click", (event) => {
+            event.preventDefault();
+
+            openModal_4();
+        });
+
+        // Agregar evento al botón de cerrar para cerrar el modal
+        const closeModalBtn_4 = document.getElementById("closeModalBtn_4");
+        closeModalBtn_4.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeModal_4();
+        });
+    
+    function filterResults() {
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
+        filter = input.value.toUpperCase();
+        table = document.getElementById("cuentasContablesTable_2");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    document.getElementById("searchInput_2").addEventListener("input", filterResults);
+</script>
+
+
 </body>
 </html>

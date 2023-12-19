@@ -1,4 +1,6 @@
 <?php
+
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Diario_obligaciones extends CI_Controller {
@@ -95,8 +97,9 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
-			$detalles = $this->input->post("detalles");
+			//-----------------//--------------------------- 1
 			$debe = floatval($this->input->post("Debe"));
+			$detalle = $this->input->post("detalles");
 			$haber_2 = floatval($this->input->post("Haber_2"));
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
@@ -105,6 +108,14 @@ class Diario_obligaciones extends CI_Controller {
 			$cuentacontable = $this->input->post("idcuentacontable");
 			$fuente_de_financiamiento = $this->input->post("id_ff");
 			$origen_de_financiamiento = $this->input->post("id_of");
+			//-----------------//--------------------------- 2
+			$detalle_2 = $this->input->post("detalles_2");
+			$comprobante_2 = $this->input->post("comprobante_2");
+			$cheque_id_2 = $this->input->post("cheques_che_id");
+			$programa_id_pro_2 = $this->input->post("id_pro_2");
+			$cuentacontable_2 = $this->input->post("idcuentacontable_2");
+			$fuente_de_financiamiento_2 = $this->input->post("id_ff_2");
+			$origen_de_financiamiento_2 = $this->input->post("id_of_2");
 			//-----------------//---------------------------
 			$pedi_matricula = $this->input->post("pedi_matricula");
 			$MontoPago = floatval($this->input->post("MontoPago"));
@@ -118,10 +129,11 @@ class Diario_obligaciones extends CI_Controller {
 			$total = $this->input->post("total");
 			$pagado = floatval($this->input->post("pagado"));
 			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
-			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
+			$this->form_validation->set_rules("Debe_2", "debe_2", "required[num_asi_deta.Debe]");
+			$this->form_validation->set_rules("Haber_2", "haber_2", "required[num_asi_deta.Haber]");
 			$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 			$op= $this->input->post("OP");
+
 
 			if ($proveedor_id) {
 				if ($this->form_validation->run() == TRUE) {
@@ -144,7 +156,7 @@ class Diario_obligaciones extends CI_Controller {
 						'estado_registro' => "1",
 					);
 		
-					$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
+					$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi);
 		
 					if ($lastInsertedId) {
 							$dataDetaDebe = array(
@@ -152,8 +164,8 @@ class Diario_obligaciones extends CI_Controller {
 								'MontoPago' => $MontoPago,
 								'Debe' => $debe,
 								'numero'=>$numero,
-								'detalles'=>$detalles,
 								'comprobante' => $comprobante,
+								'detalles' => $detalle,
 								'id_of' => $origen_de_financiamiento,
 								'id_pro' => $programa_id_pro,
 								'id_ff' => $fuente_de_financiamiento,
@@ -171,12 +183,13 @@ class Diario_obligaciones extends CI_Controller {
 										'MontoPago' => $MontoPago,
 										'Haber' => $haber_2,
 										'numero'=>$numero,
-										'comprobante' => $comprobante,
-										'id_of' => $origen_de_financiamiento,
-										'id_pro' => $programa_id_pro,
-										'id_ff' => $fuente_de_financiamiento,
-										'IDCuentaContable' => $cuentacontable,
-										'cheques_che_id' => $cheque_id,
+										'comprobante' => $comprobante_2,
+										'detalles' => $detalle_2,
+										'id_of' => $origen_de_financiamiento_2,
+										'id_pro' => $programa_id_pro_2,
+										'id_ff' => $fuente_de_financiamiento_2,
+										'IDCuentaContable' => $cuentacontable_2,
+										'cheques_che_id' => $cheque_id_2,
 										'proveedores_id' => $proveedor_id,
 										'id_uni_respon_usu'=>$id_uni_respon_usu,
 										'id_form' => "1",
@@ -185,8 +198,6 @@ class Diario_obligaciones extends CI_Controller {
 
 										$this->Diario_obli_model->saveHaber($dataDetaHaber);
 										return redirect(base_url() . "obligaciones/diario_obligaciones/add");
-										
-
 									
 
 								}
@@ -194,15 +205,21 @@ class Diario_obligaciones extends CI_Controller {
 					}			
 				
 				}else {
-					$this->add();
+					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 				}
+			}else {
+				return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 			}
 		
 
 		
 	} // fin del store
 
-
+	public function busqueda_por_cuenta() {
+        $numero_cuenta = $this->input->get('busqueda');
+		$desc_cuenta = $this->input->get('busqueda');
+        $this->mostrar_vista($numero_cuenta, $desc_cuenta);
+    }
 
 
 	public function edit($id){

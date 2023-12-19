@@ -7,7 +7,7 @@ class Pago_obli_model extends CI_Model
         $this->load->database();
     }
 	public function obtener_asientos($id_uni_respon_usu) {
-		$this->db->select('num_asi_deta.*, num_asi_deta.MontoPago as pago, programa.nombre as nombre_programa, num_asi.op as op, num_asi.SumaMonto as suma_monto, num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
+		$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa,num_asi.FechaEmision as fecha,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
 		 fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo,cuentacontable.Descripcion_CC as descrip ');
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
@@ -17,7 +17,7 @@ class Pago_obli_model extends CI_Model
 		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
 		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
 		$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('num_asi.MontoPagado <= num_asi.MontoTotal');
+		$this->db->where('num_asi.MontoPagado != num_asi.MontoTotal');
 		$this->db->where('num_asi_deta.estado_registro', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 		
@@ -25,59 +25,8 @@ class Pago_obli_model extends CI_Model
 		return $resultados->result();    
 	
 	}
-	public function guardarNuevoRegistro() {
-        // Conexión a la base de datos (asegúrate de tenerla configurada)
-        $this->load->database();
 
-        // Obtener el número de operación actual (max + 1)
-        $this->db->select_max('op');
-	
-        $query = $this->db->get('num_asi');
-		$this->db->join('proveedores', 'proveedores.id = num_asi.id_provee');
 
-        $op_actual = $query->row()->op;
-
-        // Insertar un nuevo registro con el número de operación autoincremental
-        $data = array(
-            'op' => $op_actual + 1,
-            // Agrega otras columnas según tus necesidades
-        );
-        $this->db->insert('num_asi', $data);
-
-        // Devolver el nuevo número de operación
-        return $op_actual + 1;
-    }
-
-	public function getIdNumAsiByProveedor($id_proveedor) {
-		$this->db->select('IDNum_Asi');
-		$this->db->where('id_provee', $id_proveedor);
-		$query = $this->db->get('num_asi');
-	
-		if ($query->num_rows() > 0) {
-			return $query->row()->IDNum_Asi;
-		} else {
-			return null; // O cualquier valor predeterminado si no hay registros que cumplan con las condiciones
-		}
-	}
-	
-
-	public function obtenerIdFormIdProveedor($id_proveedor)
-    {
-        $this->db->select('id_form, id_provee');
-        $this->db->from('num_asi');
-        $this->db->where('id_form', 1);
-        $this->db->where('id_provee', $id_proveedor);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->row_array(); // Retorna el resultado como un array asociativo
-        } else {
-            return array(); // Retorna un array vacío si no hay resultados
-        }
-    }
-
- 
 
 	public function getOpAnterior($proveedor_id) {
 		$this->db->select('op');
@@ -123,7 +72,23 @@ class Pago_obli_model extends CI_Model
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
+	public function save_num_asi($data) {
+		$id_provee = $data['id_provee'];
 	
+		// Verificar si ya existe un registro para el proveedor en la tabla 'num_asi'
+		$existingRecord = $this->db->get_where('num_asi', array('id_provee' => $id_provee))->row();
+	
+		if ($existingRecord) {
+			// Actualizar el registro existente
+			$this->db->where('id_provee', $id_provee);
+			$this->db->update('num_asi', $data);
+		} else {
+			// Insertar un nuevo registro si no existe
+			$this->db->insert("num_asi", $data);
+		}
+	
+		return true; // Puedes ajustar el retorno según tus necesidades
+	}
 	
 
 
@@ -247,7 +212,7 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 
-    public function getCuentasContables(){
+    public function getCuentasContables($id_uni_respon_usu){
         $this->db->select('cuentacontable.*');
 		$this->db->from('cuentacontable');
 		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');

@@ -26,20 +26,46 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+<<<<<<<< HEAD:application/views/admin/bancos/list.php
                                     <th>Descripcion</th>
                                     <th>Agente</th>
                                     <th>Teléfono</th>
                                      <th>Opciones</th>
+========
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Precio Venta</th>
+                                    <th>Registro de Venta</th>
+                                    <th>Precio Compra</th>
+                                    <th>Existencia</th>
+                                    <th>Stock Minimo</th>
+                                    <th>Categoria</th>
+                                    <th>Proveedor</th>
+                                    <th>Opciones</th>
+>>>>>>>> 0952ec7aacc546fd6ee4a9ecba62af8d70b12001:application/views/admin/productos/list.php
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($bancos)):?>
                                     <?php foreach($bancos as $banco):?>
                                         <tr>
+<<<<<<<< HEAD:application/views/admin/bancos/list.php
                                              <td><?php echo $banco->ban_id;?></td>
                                             <td><?php echo $banco->ban_descri;?></td>
                                             <td><?php echo $banco->ban_agente;?></td>
                                             <td><?php echo $banco->ban_telefono;?></td>
+========
+                                            <td><?php echo $Producto->id;?></td>
+                                            <td><?php echo $Producto->codigo;?></td>
+                                            <td><?php echo $Producto->nombre;?></td>
+                                            <td><?php echo $Producto->precio_venta;?></td>
+                                            <td><?php echo $Producto->fecha_venta;?></td>
+                                            <td><?php echo $Producto->precio_compra;?></td>
+                                            <td><?php echo $Producto->existencia;?></td>
+                                            <td><?php echo $Producto->stock_minimo;?></td>
+                                            <td><?php echo $Producto->cate;?></td>
+                                            <td><?php echo $Producto->prop;?></td>
+>>>>>>>> 0952ec7aacc546fd6ee4a9ecba62af8d70b12001:application/views/admin/productos/list.php
                                             <td>
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-info btn-view-banco" data-toggle="modal" data-target="#modal-default" value="<?php echo $banco->ban_id;?>">
