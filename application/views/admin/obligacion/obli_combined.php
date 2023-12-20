@@ -438,7 +438,8 @@
                     <div class="modal-content1">
                         <span class="close" id="closeModalBtn">&times;</span>
                         <h3>Lista de Proveedores</h3>
-                        <table class="table table-bordered table-hover">
+                        <input type="text" id="searchInput_3" placeholder="Buscar por RUC o Razon Social...">
+                        <table class="table table-bordered table-hover" id="tablaProveedor">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -531,53 +532,48 @@
                     </div>
                 </div>
 
-                <script>
+<script>
                     
-                document.addEventListener("DOMContentLoaded", function () {
-                    // Agregar evento al botón "Cancelar"
-                    const cancelarBtn = document.getElementById("cancelarBtn");
-                    cancelarBtn.addEventListener("click", function () {
-                        // Limpia el contenido de la tabla de datos seleccionados
-                        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
-                        const tbody = tablaDatosSeleccionados.querySelector("tbody");
-                        tbody.innerHTML = ""; // Borra todas las filas
+    document.addEventListener("DOMContentLoaded", function () {
+        // Agregar evento al botón "Cancelar"
+        const cancelarBtn = document.getElementById("cancelarBtn");
+        cancelarBtn.addEventListener("click", function () {
+        // Limpia el contenido de la tabla de datos seleccionados
+        const tablaDatosSeleccionados = document.getElementById("tablaolilist");
+        const tbody = tablaDatosSeleccionados.querySelector("tbody");
+            tbody.innerHTML = ""; // Borra todas las filas
 
-                        // Oculta el campo de comprobante
-                        const comprobanteContainer = document.querySelector('.comprobante-container');
-                        comprobanteContainer.style.display = 'none';
-                    });
-
-                });
-
-                
-
-
+            // Oculta el campo de comprobante
+            const comprobanteContainer = document.querySelector('.comprobante-container');
+            comprobanteContainer.style.display = 'none';
+        });
+    });
     
-                function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
-                    // Captura la tabla principal por su ID
-                    var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
+    function selectPrograma(nombrePrograma, nombreFuente, nombreOrigen, numeroCuenta) {
+        // Captura la tabla principal por su ID
+        var tabla = document.getElementById('tablaolilist').getElementsByTagName('tbody')[0];
                     
-                    // Crea una nueva fila en la tabla
-                    var fila = tabla.insertRow();
+        // Crea una nueva fila en la tabla
+        var fila = tabla.insertRow();
 
-                    // Inserta celdas en la fila
-                    var celdaPrograma = fila.insertCell(0);
-                    var celdaFuente = fila.insertCell(1);
-                    var celdaOrigen = fila.insertCell(2);
-                    var celdaCuenta = fila.insertCell(3);
+        // Inserta celdas en la fila
+        var celdaPrograma = fila.insertCell(0);
+        var celdaFuente = fila.insertCell(1);
+        var celdaOrigen = fila.insertCell(2);
+        var celdaCuenta = fila.insertCell(3);
 
-                    // Asigna los valores a las celdas
-                    celdaPrograma.innerHTML = nombrePrograma;
-                    celdaFuente.innerHTML = nombreFuente;
-                    celdaOrigen.innerHTML = nombreOrigen;
-                    celdaCuenta.innerHTML = numeroCuenta;
+        // Asigna los valores a las celdas
+        celdaPrograma.innerHTML = nombrePrograma;
+        celdaFuente.innerHTML = nombreFuente;
+        celdaOrigen.innerHTML = nombreOrigen;
+        celdaCuenta.innerHTML = numeroCuenta;
 
-                    // Muestra el campo de comprobante
-                    var comprobanteContainer = document.querySelector('.comprobante-container');
-                    comprobanteContainer.style.display = 'block';
+        // Muestra el campo de comprobante
+        var comprobanteContainer = document.querySelector('.comprobante-container');
+        comprobanteContainer.style.display = 'block';
 
-                    closeModal_obli()
-                }
+        closeModal_obli()
+    }
             
             
     // Función para abrir el modal
@@ -595,52 +591,42 @@
     }
 
 
-                // Función para seleccionar un proveedor
-                function selectProveedor(ruc, razonSocial, direccion) {
-                        // Actualizar los campos de texto en la vista principal
-                        document.getElementById('ruc').value = ruc;
-                        document.getElementById('contabilidad').value = razonSocial;
-                        document.getElementById('tesoreria').value = razonSocial;
-                        document.getElementById('direccion').value = direccion;
+    // Función para seleccionar un proveedor
+    function selectProveedor(ruc, razonSocial, direccion) {
+        // Actualizar los campos de texto en la vista principal
+        document.getElementById('ruc').value = ruc;
+        document.getElementById('contabilidad').value = razonSocial;
+        document.getElementById('tesoreria').value = razonSocial;
+        document.getElementById('direccion').value = direccion;
 
+        closeModal(); // Cierra el modal después de seleccionar un proveedor
+    }
 
-                        
-                        closeModal(); // Cierra el modal después de seleccionar un proveedor
-                    }
+    // Agregar evento al botón "Nuevo" para abrir el modal
+    const openModalBtn = document.getElementById("openModalBtn");
+    openModalBtn.addEventListener("click", () => {
+        openModal();
+    });
 
-                    // Agregar evento al botón "Nuevo" para abrir el modal
-                    const openModalBtn = document.getElementById("openModalBtn");
-                    openModalBtn.addEventListener("click", () => {
-                        openModal();
-                    });
+    // Agregar evento al botón de cerrar para cerrar el modal
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    closeModalBtn.addEventListener("click", () => {
+        closeModal();
+    });
 
-                    // Agregar evento al botón de cerrar para cerrar el modal
-                    const closeModalBtn = document.getElementById("closeModalBtn");
-                    closeModalBtn.addEventListener("click", () => {
-                        closeModal();
-                    });
-                
+    // Manejar la visibilidad de los campos opcionales
+    const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
+    const optionalFields = document.querySelector(".optional-fields");
 
-
-            
-                    // Manejar la visibilidad de los campos opcionales
-                    const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
-                    const optionalFields = document.querySelector(".optional-fields");
-
-                    optionalFieldsSwitch.addEventListener("change", () => {
-                        if (optionalFieldsSwitch.checked) {
-                            optionalFields.style.display = "block";
-                        } else {
-                            optionalFields.style.display = "none";
-                        }
+    optionalFieldsSwitch.addEventListener("change", () => {
+        if (optionalFieldsSwitch.checked) {
+            optionalFields.style.display = "block";
+        } else {
+            optionalFields.style.display = "none";
+        }
                         
 
-                    });
-
-                    
-
-
-
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         var select = document.getElementById("cuentacontable");
@@ -653,6 +639,32 @@
         });
     });
 
+    function filterResults() {
+        var input, filter, table, tr, td1, td2, i, txtValue;
+        input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaProveedor");
+        tr = table.getElementsByTagName("tr");
+
+        for (i = 0; i < tr.length; i++) {
+            td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+            td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            
+            if (td1 && td2) {
+                // Combina los textos de ambas posiciones en una cadena
+                txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                
+                // Busca en la cadena combinada
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    document.getElementById("searchInput_3").addEventListener("input", filterResults);
+
 </script>
 
 <script>
@@ -662,8 +674,7 @@
         modalContainer.style.display = 'flex';
         modalContainer.style.top = '30%';
         openModalBtn_3.style.zIndex = -1;
-
-    }
+    }
 
     // Función para cerrar el modal
     function closeModal_3() {
