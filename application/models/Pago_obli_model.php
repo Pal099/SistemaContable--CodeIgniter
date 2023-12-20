@@ -7,8 +7,8 @@ class Pago_obli_model extends CI_Model
         $this->load->database();
     }
 	public function obtener_asientos($id_uni_respon_usu) {
-		$this->db->select('num_asi_deta.*, num_asi_deta.MontoPago as pago, programa.nombre as nombre_programa, num_asi.op as op, num_asi.SumaMonto as suma_monto, num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
-		 fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo,cuentacontable.Descripcion_CC as descrip ');
+		$this->db->select('num_asi_deta.*, num_asi_deta.MontoPago as pago, programa.nombre as nombre_programa, num_asi.op as op, num_asi.SumaMonto as suma_monto, num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.direccion as direccion_proveedor, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor,
+		 fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen,cuentacontable.IDCuentaContable as idcuenta, cuentacontable.Codigo_CC as codigo,cuentacontable.Descripcion_CC as descrip, proveedores.telefono as telefono, num_asi_deta.detalles as detalle');
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
@@ -92,12 +92,11 @@ class Pago_obli_model extends CI_Model
 		}
 	}
 	public function getMontoTotalByProveedorId($proveedor_id) {
-		// Supongamos que tienes una tabla llamada 'diario_obligaciones' con un campo 'MontoTotal'
 		$this->db->select('MontoTotal');
 		$this->db->from('num_asi');
 		$this->db->where('id_provee', $proveedor_id);
-		$this->db->order_by('FechaEmision', 'DESC'); // Ordenar por tiempo o ID en orden descendente
-		$this->db->limit(1); // Obtener solo el resultado superior
+		$this->db->order_by('FechaEmision', 'DESC'); 
+		$this->db->limit(1); 
 		$query = $this->db->get();
 	
 		if ($query->num_rows() > 0) {

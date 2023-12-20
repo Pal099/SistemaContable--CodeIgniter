@@ -138,7 +138,7 @@ class Diario_obligaciones extends CI_Controller {
 						'id_provee' => $proveedor_id,
 						'MontoTotal' => $debe,
 						'estado' => $estado,
-						'op'=>$op,
+						//'op'=>$op,
 						'id_uni_respon_usu'=>$id_uni_respon_usu,
 						'id_form' => "1",
 						'estado_registro' => "1",

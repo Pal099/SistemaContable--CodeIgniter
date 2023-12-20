@@ -62,6 +62,43 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
+
+    //----------------//------------------------------------
+
+    //Rectangulo para Datos del Egreso
+    $pdf->setY(33);
+    $pdf->setX(90);
+    $pdf->Rect(113,$pdf->GetY(), 95, 33);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Ln();
+
+     //----------------//------------------------------------
+
+    //Rectangulo para Documentos Adjuntos
+    $pdf->setY(72);
+    $pdf->setX(10);
+    $pdf->Rect(10,$pdf->GetY(), 198, 35);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Ln();
+
+       //----------------//------------------------------------
+
+    //Rectangulo para Imputación Presupuestaria
+    $pdf->setY(112);
+    $pdf->setX(10);
+    $pdf->Rect(10,$pdf->GetY(), 198, 100);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Ln();
+
+         //----------------//------------------------------------
+
+    //Rectangulo para Imputación Presupuestaria
+    $pdf->setY(215);
+    $pdf->setX(10);
+    $pdf->Rect(10,$pdf->GetY(), 198, 75);
+    $pdf->SetFont('Arial', 'B', 12);
+    $pdf->Ln();
+
        $datosProveedor = $this->Pdf_model->obtenerDatos();
 
        // Verifica si hay datos en el array antes de intentar acceder a ellos
@@ -76,7 +113,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', 'B', 10);
            $pdf->setY(40);
            $pdf->setX(10);
-           $pdf->Cell(5, $textypos, "Razon Social:");
+           $pdf->Cell(5, $textypos, "Razon Social:"); //Estos son los titulos
            //-------------------//----------------------------
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(40);
@@ -143,10 +180,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
        }
 
        // Agregamos los datos del Orden de Pago
-       $pdf->SetFont('Arial', 'B', 15);
-$pdf->setY(35);
-$pdf->setX(135);
-$pdf->Cell(5, $textypos, "Datos del Egreso:");
+
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(5);
@@ -189,218 +223,275 @@ $pdf->setX(135);
 $pdf->Cell(5, $textypos, "");
 
 
-       /// Apartir de aqui empezamos con la tabla de productos
-       $pdf->setY(65);$pdf->setX(135);
-       $pdf->Ln();
-       /////////////////////////////
-       //// Array de Cabecera
-       $header = array("Cod.", "Descripcion","Cant.","Precio","Total");
-       //// Arrar de Productos
-       $products = array(
-           array("0010", "Producto 1",2,120,0),
-           array("0024", "Producto 2",5,80,0),
-           array("0001", "Producto 3",1,40,0),
-           array("0001", "Producto 3",5,80,0),
-           array("0001", "Producto 3",4,30,0),
-           array("0001", "Producto 3",7,80,0),
-       );
-           // Column widths
-           $w = array(20, 95, 20, 25, 25);
-           // Header
-           for($i=0;$i<count($header);$i++)
-               $pdf->Cell($w[$i],7,$header[$i],1,0,'C');
-           $pdf->Ln();
-           // Data
-           $total = 0;
-           foreach($products as $row)
-           {
-               $pdf->Cell($w[0],6,$row[0],1);
-               $pdf->Cell($w[1],6,$row[1],1);
-               $pdf->Cell($w[2],6,number_format($row[2]),'1',0,'R');
-               $pdf->Cell($w[3],6,"$ ".number_format($row[3],2,".",","),'1',0,'R');
-               $pdf->Cell($w[4],6,"$ ".number_format($row[3]*$row[2],2,".",","),'1',0,'R');
-
-               $pdf->Ln();
-               $total+=$row[3]*$row[2];
-
-           }
-       /////////////////////////////
-       //// Apartir de aqui esta la tabla con los subtotales y totales
-       $yposdinamic = 60 + (count($products)*10);
-
-       $pdf->setY($yposdinamic);
-       $pdf->setX(235);
-           $pdf->Ln();
-       /////////////////////////////
-       $header = array("", "");
-       $data2 = array(
-           array("Subtotal",$total),
-           array("Descuento", 0),
-           array("Impuesto", 0),
-           array("Total", $total),
-       );
-           // Column widths
-           $w2 = array(40, 40);
-           // Header
-
-           $pdf->Ln();
-           // Data
-           foreach($data2 as $row)
-           {
-       $pdf->setX(115);
-               $pdf->Cell($w2[0],6,$row[0],1);
-               $pdf->Cell($w2[1],6,"$ ".number_format($row[1], 2, ".",","),'1',0,'R');
-
-               $pdf->Ln();
-           }
-       /////////////////////////////
-
-       $yposdinamic += (count($data2)*10);
-       $pdf->SetFont('Arial','B',10);    
-
-       $pdf->setY($yposdinamic);
-       $pdf->setX(10);
-       $pdf->Cell(5,$textypos,"TERMINOS Y CONDICIONES");
-       $pdf->SetFont('Arial','',10);    
-
-       $pdf->setY($yposdinamic+10);
-       $pdf->setX(10);
-       $pdf->Cell(5,$textypos,"El cliente se compromete a pagar la factura.");
-       $pdf->setY($yposdinamic+20);
-       $pdf->setX(10);
-       $pdf->Cell(5,$textypos,"Powered by Evilnapsis");
 
 
 
-        $pdf->Output('paginaEnBlanco.pdf' , 'I' );
+//-----------------Datos del Egreso------------------
+
+$pdf->SetFont('Arial', 'B', 15);
+$pdf->setY(35);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Datos del Egreso:");
+
+//-------------//---------------//-----------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(40);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Banco/Egreso:"); //Titulo
+//----------------//------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(40);
+$pdf->setX(144);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+//----------------//-------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(45);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Cta Cte Nro:"); //Titulo
+//----------------//------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(45);
+$pdf->setX(139);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+
+//----------------//-------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(50);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Cheque(s)/OT:"); //Titulo
+//----------------//------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(50);
+$pdf->setX(143);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+//----------------//-------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(55);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Importe Cheque(s):"); //Titulo
+//-----------Para el menos retención-------------------
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->setY(55);
+$pdf->setX(180);
+$pdf->Cell(5, $textypos, "(Menos Retencion)"); //Titulo
+//----------------//------------------------------------
+$pdf->SetFont('Arial', '', 10   );  // Sin negrita para los datos de la base de datos
+$pdf->setY(55);
+$pdf->setX(152);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------//-------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(60);
+$pdf->setX(118);
+$pdf->Cell(5, $textypos, "Cuenta Proveedor:"); //Titulo
+//----------------//------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(60);
+$pdf->setX(151);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+
+
+
+
+
+
+
+//-----------------Documentos Adjuntos-------------------------------
+
+$pdf->SetFont('Arial', 'B', 13);
+$pdf->setY(73);
+$pdf->setX(13);
+$pdf->Cell(5, $textypos, "Documentos Adjuntos:"); //Titulo del Documento Adjunto
+//----------------//------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(80);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Observacion:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(80);
+$pdf->setX(33);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(85);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Datos del comprobante Nro:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(85);
+$pdf->setX(58);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['comprobante']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(90);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Datos de la recepcion Nro:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(90);
+$pdf->setX(56);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(95);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Datos de la obligacion Nro:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(95);
+$pdf->setX(57);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(100);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Datos de UOC:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(100);
+$pdf->setX(36);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(80);
+$pdf->setX(110);
+$pdf->Cell(5, $textypos, "Tipo:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(80);
+$pdf->setX(120);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(85);
+$pdf->setX(110);
+$pdf->Cell(5, $textypos, "Fecha:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(85);
+$pdf->setX(123);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(90);
+$pdf->setX(110);
+$pdf->Cell(5, $textypos, "OBL Nro:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(90);
+$pdf->setX(126);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(95);
+$pdf->setX(110);
+$pdf->Cell(5, $textypos, "Contrato:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(95);
+$pdf->setX(126);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(100);
+$pdf->setX(110);
+$pdf->Cell(5, $textypos, "Egreso Nro:");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(100);
+$pdf->setX(131);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+
+
+
+
+
+//-------------------------Imputacion Presupuestaria--------------------------------------
+$pdf->SetFont('Arial', 'B', 13);
+$pdf->setY(113);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Imputacion Presupuestaria");
+//----------------------------//-------
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "Periodo");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(30);
+$pdf->Cell(5, $textypos, "Tipo");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(45);
+$pdf->Cell(5, $textypos, "Programa");
+
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(68);
+$pdf->Cell(5, $textypos, "Sub. Pro");
+
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(89);
+$pdf->Cell(5, $textypos, "Rubro");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(107);
+$pdf->Cell(5, $textypos, "Org.");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(123);
+$pdf->Cell(5, $textypos, "Dpto.");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(140);
+$pdf->Cell(5, $textypos, "Concepto");
+
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(120);
+$pdf->setX(173);
+$pdf->Cell(5, $textypos, "Importe del Egreso");
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(123);
+$pdf->setX(10);
+$pdf->Cell(5, $textypos, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
+
+
+
+
+
+
+
+
+
+        $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );
    }
 
 
-public function recibo()
-   {
-        //Se agrega la clase desde thirdparty para usar FPDF
-        require_once APPPATH.'third_party/fpdf/fpdf.php';
-           
-        $pdf = new FPDF();
-        $pdf->AddPage('P','A4',0);
-        $pdf->SetFont('Arial','B',16);
-        //$pdf->Cell(0,0,'Hola mundo FPDF desde Codeigniter',0,1,'C');
-       $pdf->SetFont('Arial','B',12);    
-       $textypos = 5;
-       $pdf->setY(12);
-       $pdf->setX(10);
-       // Agregamos los datos de la empresa
-       $pdf->Cell(5,$textypos,"FACTURA CON FPDF Y");
-       $pdf->SetFont('Arial','B',10);    
-       $pdf->setY(30);$pdf->setX(10);
-       $pdf->Cell(5,$textypos,"DE:");
-       $pdf->SetFont('Arial','',10);    
-       $pdf->setY(35);$pdf->setX(10);
-       $pdf->Cell(5,$textypos,"Nombre de la empresa");
-       $pdf->setY(40);$pdf->setX(10);
-       $pdf->Cell(5,$textypos,"Direccion de la empresa");
-       $pdf->setY(45);$pdf->setX(10);
-       $pdf->Cell(5,$textypos,"Telefono de la empresa");
-       $pdf->setY(50);$pdf->setX(10);
-       $pdf->Cell(5,$textypos,"Email de la empresa");
-
-       // Agregamos los datos del cliente
-       $pdf->SetFont('Arial','B',10);    
-       $pdf->setY(30);$pdf->setX(75);
-       $pdf->Cell(5,$textypos,"PARA:");
-       $pdf->SetFont('Arial','',10);    
-       $pdf->setY(35);$pdf->setX(75);
-       $pdf->Cell(5,$textypos,"Nombre del cliente");
-       $pdf->setY(40);$pdf->setX(75);
-       $pdf->Cell(5,$textypos,"Direccion del cliente");
-       $pdf->setY(45);$pdf->setX(75);
-       $pdf->Cell(5,$textypos,"Telefono del cliente");
-       $pdf->setY(50);$pdf->setX(75);
-       $pdf->Cell(5,$textypos,"Email del cliente");
-
-       // Agregamos los datos del cliente
-       $pdf->SetFont('Arial','B',10);    
-       $pdf->setY(30);$pdf->setX(135);
-       $pdf->Cell(5,$textypos,"FACTURA #12345");
-       $pdf->SetFont('Arial','',10);    
-       $pdf->setY(35);$pdf->setX(135);
-       $pdf->Cell(5,$textypos,"Fecha: 11/DIC/2019");
-       $pdf->setY(40);$pdf->setX(135);
-       $pdf->Cell(5,$textypos,"Vencimiento: 11/ENE/2020");
-       $pdf->setY(45);$pdf->setX(135);
-       $pdf->Cell(5,$textypos,"");
-       $pdf->setY(50);$pdf->setX(135);
-       $pdf->Cell(5,$textypos,"");
-
-       /// Apartir de aqui empezamos con la tabla de productos
-       $pdf->setY(60);$pdf->setX(135);
-       $pdf->Ln();
-       /////////////////////////////
-       //// Array de Cabecera
-       $header = array("Cod.", "Descripcion","Cant.","Precio","Total");
-       //// Arrar de Productos
-       $products = array(
-           array("0010", "Producto 1",2,120,0),
-           array("0024", "Producto 2",5,80,0),
-           array("0001", "Producto 3",1,40,0),
-           array("0001", "Producto 3",5,80,0),
-           array("0001", "Producto 3",4,30,0),
-           array("0001", "Producto 3",7,80,0),
-       );
-           // Column widths
-           $w = array(20, 95, 20, 25, 25);
-           // Header
-           for($i=0;$i<count($header);$i++)
-               $pdf->Cell($w[$i],7,$header[$i],1,0,'C');
-           $pdf->Ln();
-           // Data
-           $total = 0;
-           foreach($products as $row)
-           {
-               $pdf->Cell($w[0],6,$row[0],1);
-               $pdf->Cell($w[1],6,$row[1],1);
-               $pdf->Cell($w[2],6,number_format($row[2]),'1',0,'R');
-               $pdf->Cell($w[3],6,"$ ".number_format($row[3],2,".",","),'1',0,'R');
-               $pdf->Cell($w[4],6,"$ ".number_format($row[3]*$row[2],2,".",","),'1',0,'R');
-
-               $pdf->Ln();
-               $total+=$row[3]*$row[2];
-
-           }
-       /////////////////////////////
-       //// Apartir de aqui esta la tabla con los subtotales y totales
-       $yposdinamic = 60 + (count($products)*10);
-
-       $pdf->setY($yposdinamic);
-       $pdf->setX(235);
-           $pdf->Ln();
-       /////////////////////////////
-       $header = array("", "");
-       $data2 = array(
-           array("Subtotal",$total),
-           array("Descuento", 0),
-           array("Impuesto", 0),
-           array("Total", $total),
-       );
-           // Column widths
-           $w2 = array(40, 40);
-           // Header
-
-           $pdf->Ln();
-           // Data
-           foreach($data2 as $row)
-           {
-       $pdf->setX(115);
-               $pdf->Cell($w2[0],6,$row[0],1);
-               $pdf->Cell($w2[1],6,"$ ".number_format($row[1], 2, ".",","),'1',0,'R');
-
-               $pdf->Ln();
-           }
-       /////////////////////////////
-
-        $pdf->Output('recibo.pdf' , 'I' );
-   }
-    
     
     
     
