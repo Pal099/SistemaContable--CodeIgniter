@@ -46,6 +46,9 @@
                             <button type="button" class="btn btn-primary" title="Ec" id="openModalBtn">
                                 <i class="bi bi-file-earmark-spreadsheet"></i></i> Excel
                             </button>
+                            <a href="<?php echo base_url(); ?>obligaciones/Excel_pago_obli_dep/resumenPorMeses" class="btn btn-success boton"><span></span> Ver detalles</a>
+                            <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
+
                         </div>
                     </div>
                 </div>

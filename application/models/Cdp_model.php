@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cdp_model extends CI_Model {
 	//acá empieza el javorai de isaac
-    //mentira yo no tuve nada q ver con esto
 	//num asi primero
 	public function __construct() {
         $this->load->database();

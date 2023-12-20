@@ -34,10 +34,19 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
-          <div class="col-md-12">
-            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span
-                class="fa fa-plus"></span> Agregar Cuenta Contable</a>
-          </div>
+        <div class="col-md-6">
+            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Agregar Cuenta Contable</a>
+            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index2" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Generar Reportes</a>
+        </div>
+        <div class="col-md-6">
+            <!-- Filtro por Tipo -->
+            <select class="form-control" id="filterTipo" onchange="filterByTipo(this.value)">
+                <option value="">Filtrar por Tipo</option>
+                <option value="Título">Título</option>
+                <option value="Grupo">Grupo</option>
+                <!-- ... otros tipos ... -->
+            </select>
+        </div>
         </div>
         <hr>
         <div class="row">

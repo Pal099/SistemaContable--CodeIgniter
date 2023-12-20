@@ -1,48 +1,69 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class EjecucionP_model extends CI_Model {
+class EjecucionP_model extends CI_Model
+{
 
-	public function getSumaDebePorCuenta() {
-		$this->db->select('
-        p.origen_de_financiamiento_id_of,
-        p.fuente_de_financiamiento_id_ff,
-        p.programa_id_pro,
-        p.Idcuentacontable,
-        p.Año,
-        p.TotalPresupuestado,
-        p.TotalModificado,
-        IFNULL(SUM(d.Debe), 0) as Obligado,
-        IFNULL(SUM(d.Haber), 0) as Pagado
-    ');
-    $this->db->from('presupuestos p'); // Asegúrate de que el nombre de la tabla sea correcto
-    $this->db->join('cuentacontable c', 'p.Idcuentacontable = c.IDCuentaContable');
-    $this->db->join('num_asi_deta d', 'c.IDCuentaContable = d.IDCuentaContable', 'left');
-    $this->db->group_by('p.Idcuentacontable, p.ID_Presupuesto');
-    $query = $this->db->get();
-
-    if ($query->num_rows() > 0) {
-        return $query->result();
-    } else {
-        return false;
-    }
-}
-
-	
-
-	public function save($data){
-		return $this->db->insert("ejecucionpresupuestaria",$data);
+	public function getEjecucionesP($id_uni_respon_usu)
+	{
+		$this->db->select("ep.*, p.ID_presupuesto as presupuesto, cc.IDCuentaContable as cuentacontable");
+		$this->db->from("ejecucionpresupuestaria ep");
+		$this->db->join("presupuestos p", "ep.presupuesto_ID_Presupuesto = p.ID_presupuesto");
+		$this->db->join("cuentacontable cc", "ep.IDCuentaContable = cc.IDCuentaContable");
+		$this->db->join('uni_respon_usu', 'ep.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get();
+		return $resultados->result();
 	}
 
-	public function getEjecucionP($id){
-		$this->db->where("ID_EjecucionPresupuestaria",$id);
+
+
+	public function save($data)
+	{
+		return $this->db->insert("ejecucionpresupuestaria", $data);
+	}
+
+	public function getEjecucionP($id)
+	{
+		$this->db->where("ID_EjecucionPresupuestaria", $id);
 		$resultado = $this->db->get("ejecucionpresupuestaria");
 		return $resultado->row();
 
 	}
 
-	public function update($id, $data){
-		$this->db->where("ID_EjecucionPresupuestaria",$id);
-		return $this->db->update("ejecucionpresupuestaria",$data);
+	public function update($id, $data)
+	{
+		$this->db->where("ID_EjecucionPresupuestaria", $id);
+		return $this->db->update("ejecucionpresupuestaria", $data);
 	}
+
+	public function getMontoEjecutadoMesAnterior($id_uni_respon_usu, $año, $mesActual)
+	{
+		// Lógica para obtener el MontoEjecutado del mes anterior
+		$mesAnterior = obtenerMesAnterior($mesActual);
+
+		// Ajusta esto según tu estructura de base de datos
+		$this->db->select('MontoEjecutado');
+		$this->db->where('id_uni_respon_usu', $id_uni_respon_usu);
+		$this->db->where('año', $año);
+		$this->db->where('mes', $mesAnterior);
+
+		$query = $this->db->get('ejecucionpresupuestaria');
+
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->MontoEjecutado;
+		} else {
+			return 0; // Puedes ajustar esto según tus necesidades
+		}
+	}
+	private function obtenerMesAnterior($mesActual) {
+        $meses = array('ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic');
+        $indexMesActual = array_search($mesActual, $meses);
+
+        // Manejar el caso de enero
+        $indexMesAnterior = ($indexMesActual - 1 + 12) % 12;
+
+        return $meses[$indexMesAnterior];
+    }
 }
