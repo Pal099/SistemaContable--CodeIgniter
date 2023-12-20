@@ -50,15 +50,6 @@ class Pago_de_obligaciones extends CI_Controller {
 		$this->load->view("fpdf");
 
 	}
-    // public function get_proveedores() {
-    //     $data  = array(
-    //         'proveedores' => $this->Proveedores_model->getProveedores(),
-	// 		'programa' => $this->Diario_obli_model->getProgramas(),
-	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-    //     );
-    //     echo json_encode($data);
-    // }
 	
 	public function add(){
 

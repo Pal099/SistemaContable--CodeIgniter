@@ -41,12 +41,11 @@ class Pago_obli_model extends CI_Model
 		}
 	}
 	public function getMontoTotalByProveedorId($proveedor_id) {
-		// Supongamos que tienes una tabla llamada 'diario_obligaciones' con un campo 'MontoTotal'
 		$this->db->select('MontoTotal');
 		$this->db->from('num_asi');
 		$this->db->where('id_provee', $proveedor_id);
-		$this->db->order_by('FechaEmision', 'DESC'); // Ordenar por tiempo o ID en orden descendente
-		$this->db->limit(1); // Obtener solo el resultado superior
+		$this->db->order_by('FechaEmision', 'DESC'); 
+		$this->db->limit(1); 
 		$query = $this->db->get();
 	
 		if ($query->num_rows() > 0) {
