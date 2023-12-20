@@ -47,6 +47,7 @@
                             <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
+                            <a href="<?php echo base_url(); ?>obligaciones/Excel_pago_obli_dep/resumenPorMeses" class="btn btn-success boton"><span></span> Ver detalles</a>
                             <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
 
                         </div>
