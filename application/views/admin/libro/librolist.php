@@ -11,15 +11,24 @@
         </nav>
     </div><!-- End Page Title -->
 
-   
-    <form class="row" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
-                    <!-- Columna para búsqueda de cuenta y código -->
-                    <div class="col-md-4">
-                        <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
-                        <input type="text" class="form-control mb-2" id="busquedaCuentaContable" name="busquedaCuentaContable" placeholder="Ingrese código o descripción">
-                        <!-- Suponiendo que tienes un campo en tu base de datos llamado 'codigo' -->
-                        <input type="text" class="form-control" id="codigoCuenta" name="codigoCuenta" placeholder="Código de cuenta" readonly>
+    <section class="section">
+        <div class="card">
+            <div class="card-body">
+                <!-- Formulario para Filtros -->
+                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
+                    <div class="col-md-3">
+                        <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
+                        <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
                     </div>
+                    <div class="col-md-3">
+                        <label for="fechaFin" class="form-label">Hasta:</label>
+                        <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
+                    </div>
+                    <div class="col-md-3">
+                      <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
+                          <input type="text" class="form-control mb-2" id="busquedaCuentaContable" placeholder="Ingrese código o descripción">
+                        </div>
+                        <div id="resultadosBusqueda" class="col-md-12 mt-2"></div>
 
                     <!-- Columna para fechas y selects -->
                     <div class="col-md-8">
@@ -57,10 +66,10 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Botón de búsqueda -->
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+                    
+                    <div class="col-3">
+                        <br>
+                        <button type="submit" class="btn btn-primary">Buscar</button>
                     </div>
                 </form>
                 <!-- Tabla de Resultados -->
@@ -106,32 +115,37 @@
         </div>
     </section>
 </main>
-<!-- Inicio del Script de Búsqueda -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Inclusión de jQuery -->
-<script type="text/javascript">
+<script>
     $(document).ready(function() {
-        $("#busquedaCuentaContable").on("keyup", function() {
+        $('#busquedaCuentaContable').on('input', function() {
             var descripcion = $(this).val();
-            if(descripcion !== '') {
+            if (descripcion !== '') {
                 $.ajax({
-                    url: "<?php echo base_url();?>LibroMayor/buscarCuenta", // Asegúrate de que esta URL corresponda al método en tu controlador
-                    type: "POST",
-                    data: {descripcion_cc: descripcion},
+                    url: '<?php echo base_url();?>LibroMayor/buscarCuentaContable', // URL del método en tu controlador
+                    type: 'POST',
+                    data: { descripcion_cc: descripcion },
                     success: function(data) {
                         var cuentas = JSON.parse(data);
-                        // Aquí va la lógica para actualizar la interfaz de usuario con los resultados
-                        // Esto podría ser rellenar una lista desplegable con las cuentas o
-                        // mostrar sugerencias de autocompletado debajo del campo de entrada
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error("Error al obtener datos: ", textStatus, errorThrown);
-                        // Manejar errores de la petición aquí
+                        var tbodyHtml = '';
+                        $.each(cuentas, function(i, cuenta) {
+                            tbodyHtml += '<tr>' +
+                                '<td>' + cuenta.FechaEmision + '</td>' +
+                                '<td>' + cuenta.numero + '</td>' +
+                                '<td>' + cuenta.Num_Asi_IDNum_Asi + '</td>' +
+                                '<td>' + cuenta.comprobante + '</td>' +
+                                '<td>' + cuenta.Descripcion + '</td>' +
+                                '<td>' + cuenta.Debe + '</td>' +
+                                '<td>' + cuenta.Haber + '</td>' +
+                                '<td>' + 'Calcular saldo' + '</td>' + // Aquí deberás calcular el saldo
+                                '<td>' + cuenta.Codigo_CC + ' - ' + cuenta.Descripcion_CC + '</td>' +
+                                '</tr>';
+                        });
+                        $('table tbody').html(tbodyHtml);
                     }
                 });
             } else {
-                // Lógica para limpiar los resultados de búsqueda previos si el campo está vacío
+                $('table tbody').html(''); // Limpia la tabla si el campo de búsqueda está vacío
             }
         });
     });
 </script>
-<!-- Fin del Script de Búsqueda -->

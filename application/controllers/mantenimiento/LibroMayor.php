@@ -48,5 +48,9 @@ class LibroMayor extends CI_Controller {
         echo json_encode($cuentas);
     }
     
+    // En tu controlador LibroMayor.php
+
+
+
     // Otros métodos necesarios para la gestión del Libro Mayor podrían ir aquí
 }

@@ -6,36 +6,24 @@ class Presupuesto_model extends CI_Model
 
 
 
-	public function getPresu($id_uni_respon_usu)
-	{
-		$this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.nombre as fuente_de_financiamiento, of.nombre as origen_de_financiamiento, pr.nombre as programa');
-		$this->db->from('presupuestos pre');
-		$this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff");
-		$this->db->join("origen_de_financiamiento of", "pre.origen_de_financiamiento_id_of = of.id_of");
-		$this->db->join("programa pr", "pre.programa_id_pro = pr.id_pro");
-		$this->db->join("cuentacontable c", "pre.IDCUENTACONTABLE = c.IDCuentaContable");
-		$this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('pre.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+public function getPresu($id_uni_respon_usu) {
+	$this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.nombre as fuente_de_financiamiento, of.nombre as origen_de_financiamiento, pr.nombre as programa');
+	$this->db->from('presupuestos pre');
+	$this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff");
+    $this->db->join("origen_de_financiamiento of", "pre.origen_de_financiamiento_id_of = of.id_of");
+    $this->db->join("programa pr", "pre.programa_id_pro = pr.id_pro");
+    $this->db->join("cuentacontable c", "pre.Idcuentacontable = c.IDCuentaContable");
+	$this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+	$this->db->where('pre.estado', '1');
+	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+	
+	$resultados = $this->db->get();
+	return $resultados->result();
+}
 
-		$resultados = $this->db->get();
-		return $resultados->result();
-	}
 
-	//codigo para traer la descripcion de las tablas en el formulario del view principal
-	public function getCuentaContableData($idCuentaContable)
-	{
-		$this->db->select('Descripcion_CC');  // Reemplaza 'campo_deseado' con el nombre real del campo que necesitas
-		$this->db->from('cuentacontable');
-		$this->db->where('Idcuentacontable', $idCuentaContable);
-
-		$result = $this->db->get()->row();
-		return $result->Descripcion_CC;  // Reemplaza 'campo_deseado' aquí también
-	}
-
-	public function save($data)
-	{
-		return $this->db->insert("presupuestos", $data);
+	public function save($data){
+		return $this->db->insert("presupuestos",$data);
 	}
 
 	public function getPresupuesto($id)

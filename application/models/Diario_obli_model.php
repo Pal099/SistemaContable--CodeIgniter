@@ -148,23 +148,24 @@ class Diario_obli_model extends CI_Model {
 		return $resultados->result();
 	}
 
+   
 	public function getCuentasContables($busqueda = '') {
 		$this->db->select('
 			cuentacontable.Codigo_CC,
 			cuentacontable.Descripcion_CC
 		');
+	
 		$this->db->from('cuentacontable');
-		
-		$this->db->where('cuentacontable.estado', '1');
-		
+	
 		// Búsqueda por código o descripción de la cuenta
 		if (!empty($busqueda)) {
 			$this->db->like('cuentacontable.Codigo_CC', $busqueda);
 			$this->db->or_like('cuentacontable.Descripcion_CC', $busqueda);
 		}
 	
-		$this->mostrar_vista($busqueda);
+		return $this->db->get()->result_array();
 	}
+	
 
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {

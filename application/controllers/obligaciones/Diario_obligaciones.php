@@ -207,7 +207,7 @@ class Diario_obligaciones extends CI_Controller {
 				}else {
 					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 				}
-			}else {
+			} else {
 				return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 			}
 		

@@ -12,38 +12,86 @@
 
 <body>
     <main id="main" class="content">
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">Pago de Obligaciones</a></li>
-            </ol>
-        </nav>
-
-        <div class="container-fluid bg-white rounded-3">
-            <!-- Encabezado con botones -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-container">
             <div class="pagetitle">
-                <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
-                        <h1>Pago de Obligación</h1>
-                    </div>
-                    <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-2 ">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button class="btn btn-primary" title="Nuevo" id="openModalBtn">
-                                <i class="bi bi-plus"></i> Nuevo
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                <span class="fa fa-edit ms-2"></span> Modificar
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                Generar PDF
-                            </button>
-                            <button class="btn btn-danger ml-3 " title="Eliminar">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active">Vista del Pago de obligaciones</li>
+                    </ol>
+                </nav>
+                <h1>Pago de Obligaciones</h1>
+            </div><!-- End Page Title -->
+
+            <section class="section dashboard">
+                <div class="row">
+                    <!-- Left side columns -->
+                    
+                    <div class="row">
+                        <div class="col-md-12 d-flex align-items-center">
+                            <h1 style="color: #030E50; font-size: 20px; margin-right: auto;">Datos del asiento</h1>
+                            <div class="btn-group">
+                            <div class="form-group">
+                            <?php
+
+                                // Configuración de la base de datos
+                                $host = 'localhost';  // Cambia a tu host
+                                $usuario = 'root';  // Cambia a tu nombre de usuario
+                                $clave = '';  // Cambia a tu contraseña
+                                $base_de_datos = 'contanuevo';  // Cambia a tu nombre de base de datos
+
+                                // Crear conexión
+                                $conexion = new mysqli($host, $usuario, $clave, $base_de_datos);
+
+                                // Verificar la conexión
+                                if ($conexion->connect_error) {
+                                    die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                }
+
+                                // Obtener el número actual registrado en la base de datos
+                                $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                $resultado = $conexion->query($consulta);
+
+                                // Verificar si hay filas en el resultado
+                                if ($resultado !== false && $resultado->num_rows > 0) {
+                                    $op = $resultado->fetch_assoc();
+                                    $op_actual = $op['op'];
+                                    // Incrementar el número actual en 1 para el próximo registro
+                                    $op_actual = $op_actual + 1;
+                                } else {
+                                    $op_actual = 0; // Manejar el caso en que la consulta no fue exitosa
+                                }
+
+                                // Cierra la conexión a la base de datos
+                                $conexion->close();
+
+                                ?>
+
+
+                            <label for="op">N° Op</label>
+                            <input type="text" class="form-control" id="op"
+                                name="op" value="<?= $op_actual ?>"readonly>
+                                </div>
+                                                                <!-- Botón "Nuevo" para abrir el modal -->
+                                <button class="btn btn-sm btn-primary ms-2" title="Nuevo" id="openModalBtn">
+                                    <i class="bi bi-plus"></i> Nuevo
+                                </button>
+                                <a href="<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/edit"
+                                    class="btn btn-primary btn-flat"><span class="fa fa-edit ms-2"></span> Modificar</a>
+
+                                <a href=" <?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs"
+                                    target="_blank" class="btn btn-primary">Generar PDF</a>
+                                    <label class="switch" for="optionalFieldsSwitch">
+                                    <input type="checkbox" id="optionalFieldsSwitch">
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="optional-fields-title">Campos opcionales</span>
+
+
+                            </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
 
             <section class="section dashboard">
                 <div class="container-fluid">
@@ -63,9 +111,9 @@
                                                             <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                         </div>
 
-                                                        <?php
-                                                        // Conexión a la base de datos (debes configurar tu conexión)
-                                                        $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                 <?php
+                                                // Conexión a la base de datos (debes configurar tu conexión)
+                                                $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
                                                         // Verificar la conexión
                                                         if ($conexion->connect_error) {
@@ -548,17 +596,49 @@
 
         // Preestablecer el campo de fecha con la fecha actual
         const fechaInput = document.getElementById('fecha');
-        //fechaInput.value = obtenerFechaActual();
+        fechaInput.value = obtenerFechaActual();
     </script>
 
-    <!-- Script para agregar nuevas filas a la tabla -->
-    <script>
-        $(document).ready(function() {
 
-            // Agregar fila
-            $(document).on("click", ".agregarFila", function(e) {
-                e.preventDefault();
-                var nuevaFila = $("#filaBase").clone();
+
+
+            <!--   <script>
+                    // Función para abrir el modal de programas
+                    function openModal_obli() {
+                        var modalContainer = document.getElementById('modalContainer_obli');
+                        modalContainer.style.display = 'flex';
+                    }
+
+                    // Función para cerrar el modal de programas
+                    function closeModal_obli() {
+                        var modalContainer = document.getElementById('modalContainer_obli');
+                        modalContainer.style.display = 'none';
+                    }
+
+
+
+                    // Agregar evento al botón "Seleccionar Datos" para abrir el modal de programas
+                    const openModalBtn_obli = document.getElementById("openModalBtn_obli");
+                    openModalBtn_obli.addEventListener("click", () => {
+                        openModal_obli();
+                    });
+
+                    // Agregar evento al botón de cerrar para cerrar el modal de programas
+                    const closeModalBtn_obli = document.getElementById("closeModalBtn_obli");
+                    closeModalBtn_obli.addEventListener("click", () => {
+                        closeModal_obli();
+                    });
+                </script>-->
+            
+            <script>
+                $(document).ready(function () {
+
+                    // Ocultar el botón de eliminar en la primera y segunda fila (la estática)
+                    
+                    // Agregar fila
+                    $("#agregarFila").on("click", function (e) {
+                        e.preventDefault();
+                        var nuevaFila = $("#filaBase").clone();
 
                 // Remove the ID to avoid duplicates
                 nuevaFila.removeAttr('id');

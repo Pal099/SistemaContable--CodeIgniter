@@ -201,6 +201,14 @@ class CuentaContable extends CI_Controller {
         }
     }
     
+    // En tu modelo CuentaContable_model.php
+
+public function buscarPorDescripcion($descripcion){
+    $this->db->like('Descripcion_CC', $descripcion); // Busca cuentas que coincidan con la descripción
+    $query = $this->db->get('cuentacontable'); // Asume que 'cuentacontable' es el nombre de tu tabla de cuentas contables
+    return $query->result_array(); // Devuelve los resultados
+}
+
 }
        
 ?>

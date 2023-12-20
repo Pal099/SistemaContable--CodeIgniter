@@ -1,52 +1,48 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Presupuesto extends CI_Controller {
-
+class Presupuesto extends CI_Controller
+{
 
 	//private $permisos;
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
-	//	$this->permisos= $this->backend_lib->control();
-	$this->load->model("Presupuesto_model");
-	$this->load->model("Registros_financieros_model");
-	$this->load->model("Origen_model");
-	$this->load->model('Programa_model');
-	$this->load->model('Cuentas_model');
-	$this->load->model('CuentaContable_model');
-	$this->load->model('Usuarios_model');
-	$this->load->model('EjecucionP_model'); 
+		//	$this->permisos= $this->backend_lib->control();
+		$this->load->model("Presupuesto_model");
+		$this->load->model("Registros_financieros_model");
+		$this->load->model("Origen_model");
+		$this->load->model('ProgramGasto_model');
+		$this->load->model('CuentaContable_model');
+		$this->load->model('Usuarios_model');
+		$this->load->model('EjecucionP_model');
 	}
 
 
-
-
-
-
-	
 	public function index()
 	{
 		//Con la libreria Session traemos los datos del usuario
 		//Obtenemos el nombre que nos va servir para obtener su id
-		$nombre=$this->session->userdata('Nombre_usuario');
+		$nombre = $this->session->userdata('Nombre_usuario');
 
 		//Con el método getUserIdByUserName en el modelo del usuario, nos devuelve el id
 		//id conseguido mediante el nombre del usuario
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
-		
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+
 		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		
-		$data  = array(
+		$id=$this->input->post("ID_Presupuesto");
+
+		$data = array(
 			'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
-			'programa' => $this->Programa_model->getProgramGastos($id_uni_respon_usu),
+			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
 			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
 			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
-		
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
 		$this->load->view("admin/presupuesto/list", $data);
@@ -54,9 +50,10 @@ class Presupuesto extends CI_Controller {
 
 	}
 
-	public function add(){
-		$nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+	public function add()
+	{
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data  = array(
 			'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
@@ -117,10 +114,10 @@ class Presupuesto extends CI_Controller {
 	public function edit($id){
 		$data = array(
 			'presupuesto' => $this->Presupuesto_model->getPresupuesto($id),
-			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
-			'origen' => $this->Origen_model->getOrigenes(),
-			'programa' => $this->ProgramGasto_model->getProgramGastos(),
-			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables(),
+			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
+			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
+			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -128,9 +125,10 @@ class Presupuesto extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-	public function update(){
+	public function update()
+	{
 		$id = $this->input->post("ID_Presupuesto");
-		$anio = $this->input->post("Año");
+		$año = $this->input->post("Año");
 		//$descripcion = $this->input->post("Descripcion");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
 		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
@@ -153,7 +151,7 @@ class Presupuesto extends CI_Controller {
 		$presupuestoactual = $this->Presupuesto_model->getPresupuesto($id);
 		$data = array(
 			'ID_Presupuesto' => $id,
-			'Anio' => $anio,
+			'Año' => $año,
 			//'Descripcion' => $descripcion,
 			'TotalPresupuestado' => $totalpresupuestado,
 			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
@@ -180,21 +178,26 @@ class Presupuesto extends CI_Controller {
 			$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
 			redirect(base_url() . "mantenimiento/presupuesto/edit/" . $id);
 		}
-		
+
 	}
 
-	public function view($id){
+	public function view($id)
+	{
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
 			'presupuestos' => $this->Presupuesto_model->getPresupuesto($id),
-			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
-			'origen' => $this->Origen_model->getOrigenes(),
-			'programa' => $this->ProgramGasto_model->getProgramGastos(),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
+			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
+			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
+			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		$this->load->view("admin/presupuesto/view", $data);
 	}
 
-	public function delete($id){
+	public function delete($id)
+	{
 		$data = array(
 			'estado' => "0",
 		);
