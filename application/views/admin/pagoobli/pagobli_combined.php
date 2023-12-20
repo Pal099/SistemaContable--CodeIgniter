@@ -360,30 +360,26 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="container-fluid mt-3 mb-3">
+                                    <div class="col-md-12 d-flex flex-row justify-content-end">
+                                        <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
+                                        <div class="notification" id="notification">
+                                            <div class="icon">
+                                            </div>
+                                            <div class="message">Guardado Correctamente</div>
+                                        </div>
+
+                                        <button type="button" class="btn btn-danger" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
+                                            <span class="fa fa-remove"></span> Cancelar
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
+            </section>
         </div>
-        <div class="container-fluid mt-3 mb-3">
-            <div class="col-md-12 d-flex flex-row justify-content-end">
-                <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
-                <div class="notification" id="notification">
-                    <div class="icon">
-                    </div>
-                    <div class="message">Guardado Correctamente</div>
-                </div>
-
-                <button type="button" class="btn btn-danger" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
-                    <span class="fa fa-remove"></span> Cancelar
-                </button>
-            </div>
-        </div>
-        </div>
-        </form>
-
-
-        </table>
     </main>
     <!-- Contenedor del modal -->
     <div class="modal-container2" id="modalContainer_2">
@@ -468,72 +464,7 @@
             </table>
         </div>
     </div>
-
-    <div class="modal-container" id="modalContainer_3">
-        <div class="modal-content">
-
-            <span class="close_3" id="closeModalBtn_3" onclick="closeModal_3()">&times;</span>
-            <h3>Buscador de Cuentas Contables</h3>
-            <input type="text" id="searchInput" placeholder="Buscar por código o descripción...">
-            <table class="table table-bordered table-hover" id="cuentasContablesTable">
-                <thead>
-                    <tr>
-                        <th>IDCuentaContable</th>
-                        <th>Código de Cuenta</th>
-                        <th>Descripción de Cuenta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cuentacontable as $dato) : ?>
-                        <tr class="list-item" onclick="selectCC( '<?= $dato->IDCuentaContable ?>','<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
-                            <td>
-                                <?= $dato->IDCuentaContable ?>
-                            </td>
-                            <td>
-                                <?= $dato->Codigo_CC ?>
-                            </td>
-                            <td>
-                                <?= $dato->Descripcion_CC ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="modal-container" id="modalContainer_4">
-        <div class="modal-content">
-
-            <span class="close_4" id="closeModalBtn_4" onclick="closeModal_4()">&times;</span>
-            <h3>Buscador de Cuentas Contables</h3>
-            <input type="text" id="searchInput_2" placeholder="Buscar por código o descripción...">
-            <table class="table table-bordered table-hover" id="cuentasContablesTable_2">
-                <thead>
-                    <tr>
-                        <th>IDCuentaContable</th>
-                        <th>Código de Cuenta</th>
-                        <th>Descripción de Cuenta</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($cuentacontable as $dato) : ?>
-                        <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')">
-                            <td>
-                                <?= $dato->IDCuentaContable ?>
-                            </td>
-                            <td>
-                                <?= $dato->Codigo_CC ?>
-                            </td>
-                            <td>
-                                <?= $dato->Descripcion_CC ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+    <!-- Script modalContainer 2 -->
     <script>
         // Función para abrir el modal
         function openModal_2() {
@@ -583,7 +514,8 @@
             closeModal_2();
         });
     </script>
-
+    
+    <!-- script para las fechas -->
     <script>
         // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
         function obtenerFechaActual() {
