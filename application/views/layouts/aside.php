@@ -21,11 +21,7 @@
                 <i class="bi  bi-books"></i><span>Pago de obligaciones</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
-                <i class="bi  bi-books"></i><span>Depositos</span>
-            </a>
-        </li>   
+       
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu">
             <i class="bi  bi-book"></i><span>CDP</span>
@@ -67,12 +63,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>registro/financiamiento">
+            <a class="nav-link" href="<?php echo base_url(); ?>registro/Financiamiento">
                 <i class="bi bi-cash-stack"></i><span>Fuente de financiamiento</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>registro/origen">
+            <a class="nav-link" href="<?php echo base_url(); ?>registro/Origen">
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
