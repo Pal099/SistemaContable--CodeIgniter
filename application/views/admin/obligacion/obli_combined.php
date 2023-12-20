@@ -105,33 +105,6 @@
                                                         <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" disabled>
                                                     </div>
 
-<<<<<<< HEAD
-                                                        <div class="form-group col-md-4">
-                                                            <label for="contabilidad">Contabilidad:</label>
-                                                            <input type="text" class="form-control w-100" id="contabilidad" name="contabilidad" required>
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="direccion">Dirección:</label>
-                                                            <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="telefono">Teléfono:</label>
-                                                            <input type="text" class="form-control" id="telefono" name="telefono">
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="tesoreria">Tesoreria:</label>
-                                                            <input type="text" class="form-control w-100" id="tesoreria" name="tesoreria" required>
-                                                        </div>
-                                                        <div class="form-group col-12">
-                                                            <label for="observacion">Observación:</label>
-                                                            <input type="text" class="form-control w-100" id="observacion" name="observacion">
-                                                        </div>
-                                                        <div class="form-group col-12 mb-3">
-                                                            <label for="fecha">Fecha:</label>
-                                                            <input type="datetime-local" class="form-control" id="fecha" name="fecha">
-                                                            </div>
-
-=======
                                                     <div class="form-group col-md-4">
                                                         <label for="contabilidad">Contabilidad:</label>
                                                         <input type="text" class="form-control w-100" id="contabilidad" name="contabilidad" required>
@@ -218,7 +191,6 @@
                                                                 </div>
                                                             </div>
                                                         </div>
->>>>>>> 1961249cd23794226e62dd1fd7efda6c6d848ef4
                                                     </div>
                                                 </div>
                                                 </div>
@@ -685,7 +657,6 @@
         <!-- Botones -->
 
 
-<<<<<<< HEAD
 
                 <div class="modal-container" id="modalContainer_3">
                     <div class="modal-content">
@@ -717,55 +688,6 @@
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
-=======
-        <!-- Modal Proveedores con boostrap -->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Lista de Proveedores</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-hover table-bordered table-sm rounded-3">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ruc</th>
-                                    <th>Razón Social</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                    <th>Observación</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($proveedores as $index => $proveedor) : ?>
-                                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')">
-                                        <td><?= $index + 1 ?></td>
-                                        <td><?= $proveedor->ruc ?></td>
-                                        <td><?= $proveedor->razon_social ?></td>
-                                        <td><?= $proveedor->direccion ?></td>
-                                        <td><?= $proveedor->telefono ?></td>
-                                        <td><?= $proveedor->email ?></td>
-                                        <td><?= $proveedor->observacion ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal con Bootstrap Cuentas Contables numero 1-->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Buscador de Cuentas Contables</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
->>>>>>> 1961249cd23794226e62dd1fd7efda6c6d848ef4
                     </div>
                 </div>
                 <div class="modal-container" id="modalContainer_4">

@@ -20,11 +20,11 @@
     <!-- Vendor CSS Files -->
     <link href="<?php echo base_url();?>/assets/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url();?>/assets/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- Template Main CSS File -->
@@ -32,26 +32,115 @@
 
     <!-- Bootstrap 5 -->
     <link rel="stylesheet" href="<?php echo base_url();?>/assets/bootstrap5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/jquery-ui/jquery-ui.css"> 
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/jquery-ui/jquery-ui.css"> 
 
 
      <!-- Ionicons  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/Ionicons/css/ionicons.min.css">
      <!-- DataTables  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- DataTables Export-->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/datatables-export/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/datatables-export/css/buttons.dataTables.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/font-awesome/css/font-awesome.min.css">
     <!-- Theme style  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/dist/css/AdminLTE.min.css"> 
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/AdminLTE.min.css"> 
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load.  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>/assets/template/dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/skins/_all-skins.min.css">
+    <link href="<?php echo base_url();?>assets/css/style_diario_obli.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login2.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login3.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/asiede.css" rel="stylesheet">
 
 
 
-    <link href="<?php echo base_url();?>/assets/css/style_login.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>/assets/css/style_login2.css" rel="stylesheet">
+
+    <link href="<?php echo base_url();?>assets/css/style_login.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login2.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login3.css" rel="stylesheet">
+
+
+
+    <link href="<?php echo base_url();?>assets/css/style_login.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login2.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login3.css" rel="stylesheet">
+
+
+</head>
+
+<style>
+ .user-info.user-info-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+   
+    color: white;
+    padding: 1px;
+   
+   
+    font-family: 'Arial', sans-serif; /* Fuente */
+    font-size: 14px; /* Tamaño de fuente */
+}
+
+.user-info.user-info-right span {
+    display: block;
+    margin-bottom: 8px; /* Espacio entre las líneas */
+    font-weight: bold; /* Texto en negrita */
+}
+
+
+    #mdialTamanio{
+      width: 80% !important;
+      height: 90% !important;
+    }
+     /* Fondo degradado azul para la cabecera */
+     .blue-gradient-bg {
+            background: linear-gradient(to right, #007bff, #003366);
+        }
+       /* Color blanco para el título de la cabecera */
+       .header .header-title {
+            color: white;
+            text-align: center; /* Centra el texto */
+        }
+        
+/* Alineación centrada para el título */
+ .header-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Estilo para la imagen del logo */
+        .header-logo {
+            max-width: 100px; /* Ajusta el tamaño de la imagen según tus necesidades */
+            margin-right: 50px; /* Espacio entre la imagen y el título */
+        }
+     /* Estilos para el modal */
+     .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      padding-top: 100px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .campos-opcionales {
+    display: none;
+  }
+  /* Estilos para centrar el título horizontalmente */
+.header-title-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Ajusta la altura según tus necesidades */
+    color: white; /* Color del texto */
+    font-size: 24px; /* Tamaño del texto */
+    margin: 0;
+}
     .modal-content {
       background-color: #fefefe;
       margin: auto;
@@ -88,7 +177,6 @@
 }
   </style>
 <body>
-
 <header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">
     <div class="d-flex align-items-center justify-content-between header-center">
         <a href="<?php echo base_url();?>principal" class="logo d-flex align-items-center">
@@ -105,6 +193,3 @@
 </div>
 
 </header><!-- End Header -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-</body>
-</html>
