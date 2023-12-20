@@ -216,7 +216,6 @@
                                     <button class="btn btn-sm btn-danger ms-2" title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
-                            <a href=" <?php echo base_url();?>obligaciones/diario_obligaciones/pdfs" target= "_blank"class="btn btn-primary">Generar PDF</a>
                         </div>
                     </div>
                 </div>
@@ -370,13 +369,6 @@
         </div>
     </div>
 </main>
-
-
-
-
-
-
-
 <!-- Contenedor del modal -->
 <div class="modal-container" id="modalContainer">
     <div class="modal-content">
@@ -410,10 +402,6 @@
         </table>
     </div>
 </div>
-
-
-
-
 
 
 
