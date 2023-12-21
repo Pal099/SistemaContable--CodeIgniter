@@ -359,13 +359,12 @@
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Monto Pagado</th>
-                        <th>Monto de Pago</th>
                         <th>Debe</th>
-                        <th>Haber</th>
                         <th>Codigo y Descripción CC</th>
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>   
+                        <th>Suma de Monto Pagado</th>   
                         <th>Estado</th>                                  
                     </tr>
                 </thead>
@@ -441,20 +440,19 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
 
         <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->nume ?>', '<?= $asi->fecha ?>',
                   '<?= $asi->pagado ?>','<?= $asi->pago ?>','<?= $asi->pagado ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>','<?= $asi->suma_monto ?>'
-                  ,'<?= $asi->telefono ?>','<?= $asi->detalle?>','<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                  ,'<?= $asi->telefono ?>','<?= $asi->suma_monto ?>','<?= $asi->comprobante ?>','<?= $asi->detalle?>','<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
             <td><?= $asi->ruc_proveedor ?></td>
             <td><?= $asi->razso_proveedor ?></td>
             <td><?= $asi->nume ?></td>
             <td><?= $asi->fecha ?></td>
             <td><?= $asi->total ?></td>
             <td><?= $asi->pagado ?></td>
-            <td><?= $asi->pago ?></td>
             <td><?= $asi->Debe ?></td>
-            <td><?= $asi->Haber ?></td>
             <td><?= $asi->codigo ?> - <?= $asi->descrip ?></td>
             <td><?= $asi->nombre_fuente ?></td>
             <td><?= $asi->nombre_programa ?></td>
             <td><?= $asi->nombre_origen ?></td>
+            <td><?= $asi->suma_monto?></td>
             <td><?= $estado_texto ?></td> <!-- Mostrar el estado en una nueva columna -->
 
         </tr>
@@ -548,23 +546,26 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
 
       // Función para seleccionar un asi
 
-      function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, debes, habers, fuentes, programas, origens, cuentas, telefono, detalle, descrip, codigoDescrip) {
+      function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, codigos, comprobante, detalle, descrip, codigoDescrip) {
     // Actualizar los campos de texto en la vista principal
     document.getElementById('ruc').value = ruc;
     document.getElementById('contabilidad').value = razonSocial;
     document.getElementById('tesoreria').value = razonSocial;
-    document.getElementById('fecha').value = fechas;
     document.getElementById('num_asi').value = numeros;
+    document.getElementById('fecha').value = fechas;
+    document.getElementById('MontoPago').value = montos;
     document.getElementById('Debe').value = habers;
     document.getElementById('Haber').value = debes;
-    document.getElementById('MontoPago').value = montos;
     document.getElementById('id_ff').value = fuentes;
     document.getElementById('id_pro').value = programas;
+    document.getElementById('detalles').value = detalle;
     document.getElementById('id_of').value = origens;
-    document.getElementById('cuentacontable').value = cuentas;
-    document.getElementById('telefono').value = telefono;
-    document.getElementById('observacion').value = detalle; // Añadir línea para el teléfono
-    document.getElementById('cuentacontable').value = descrip;  // Agrega esta línea para mostrar el valor de num_asi
+    document.getElementById('codigo_cc').value = codigos;
+    document.getElementById('descripcion_cc').value = detalle;
+    document.getElementById('comprobante').value = descrip;
+
+
+    
     closeModal_2(); // Cierra el modal después de seleccionar un proveedor
 }
 

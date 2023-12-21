@@ -698,7 +698,26 @@
         </script>
         <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
         
+        <script>
+    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+    document.getElementById('Debe').addEventListener('input', function() {
+        document.getElementById('Haber_2').value = this.value;
+    });
+</script>   
+ 
+<script>
+    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+    document.getElementById('comprobante').addEventListener('input', function() {
+        document.getElementById('comprobante_2').value = this.value;
+    });
+</script> 
 
+<script>
+    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+    document.getElementById('detalles').addEventListener('input', function() {
+        document.getElementById('detalles_2').value = this.value;
+    });
+</script> 
     </main>
 
 </body>

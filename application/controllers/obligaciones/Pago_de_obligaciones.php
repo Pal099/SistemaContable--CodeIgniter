@@ -116,6 +116,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
+		
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 
 		$MontoPagado = $this->Pago_obli_model->obtenerDebeMasRecientePorIdProveedor($proveedor_id, $id_num_asi_deta);
@@ -125,6 +126,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
 	
 		$suma_monto = $mp + $monto_pago_anterior;
+
 		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 		
 			
