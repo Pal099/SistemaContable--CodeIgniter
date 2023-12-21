@@ -25,6 +25,28 @@ class Pago_obli_model extends CI_Model
 		return $resultados->result();    
 	
 	}
+
+	public function obtenerDebeMasRecientePorIdProveedor($id_proveedor, $id_num_asi_deta) {
+		$this->db->select('MontoPago');
+		$this->db->from('num_asi_deta');
+		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
+		$this->db->where('num_asi_deta.proveedores_id', $id_proveedor);
+		$this->db->where('num_asi_deta.IDNum_Asi_Deta', $id_num_asi_deta);
+		$this->db->order_by('num_asi.FechaEmision', 'desc'); // Ordenar por fecha descendente
+		$this->db->limit(1); // Obtener solo el primer resultado (el más reciente)
+	
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			return $query->row()->MontoPago;
+		} else {
+			return null; // Otra acción o valor por defecto según tus necesidades
+		}
+	}
+	
+
+
+
 	public function guardarNuevoRegistro() {
         // Conexión a la base de datos (asegúrate de tenerla configurada)
         $this->load->database();

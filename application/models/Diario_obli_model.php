@@ -262,22 +262,23 @@ public function getPrimerIdNumAsi($proveedor_id) {
 
     return null;
 }
-public function getMontoPagoAnterior($proveedor_id, $num_asi_actual) {
-    $this->db->select('MontoPagado');
+
+public function getMontoPagoAnterior($proveedor_id) {
+    $this->db->select('SumaMonto');
     $this->db->where('id_provee', $proveedor_id);
-    $this->db->where('num_asi.IDNum_Asi <', $num_asi_actual);  // Filtra por IDNum_Asi menor al actual
-    $this->db->order_by('num_asi.IDNum_Asi', 'DESC');
-    $this->db->limit(1);  // Solo necesitas el primer resultado
+    $this->db->order_by('num_asi.IDNum_Asi', 'DESC'); // Ordena por IDNum_Asi de forma descendente
+    $this->db->limit(2); // Limita el resultado a dos filas (la más reciente y la anterior)
 
     $query = $this->db->get('num_asi');
 
-    if ($query->num_rows() > 0) {
-        return $query->row()->MontoPagado;
+    if ($query->num_rows() > 1) {
+        // Obtiene el segundo resultado (la fila anterior)
+        $query->next_row();
+        return $query->row()->SumaMonto;
     } else {
         return 0; // O cualquier valor predeterminado si no hay registros anteriores
     }
 }
-
 
 
 public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id,$numero) {

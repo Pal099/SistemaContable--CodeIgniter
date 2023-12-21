@@ -85,6 +85,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
+		$id_num_asi_deta = $this->input->post("IDNum_Asi_Deta");
 		$contabilidad = $datosFormulario['contabilidad'];
 		$direccion = $datosFormulario['direccion'];
 		$telefono = $datosFormulario['telefono'];
@@ -100,10 +101,11 @@ class Pago_de_obligaciones extends CI_Controller {
 		$cuentacontable = $datosFormulario['IDCuentaContable'];
 		$fuente_de_financiamiento = $datosFormulario['id_ff'];
 		$origen_de_financiamiento = $datosFormulario['id_of'];
+		$mp = $datosFormulario['mp'];
+
 		
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
-		$MontoPago = floatval($this->input->post("MontoPago"));
 		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -114,14 +116,15 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
-		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
-	
+
+		$MontoPagado = $this->Pago_obli_model->obtenerDebeMasRecientePorIdProveedor($proveedor_id, $id_num_asi_deta);
+
 		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
 	
 		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
 	
-		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
+		$suma_monto = $mp + $monto_pago_anterior;
 		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 		
 			
@@ -138,7 +141,7 @@ class Pago_de_obligaciones extends CI_Controller {
 					'nro_pac' => $nro_pac,
 					'nro_exp' => $nro_exp,
 					'id_provee' => $proveedor_id,
-					'MontoPagado' => $nuevo_monto_pago,
+					'MontoPagado' => $mp,
 					'SumaMonto' => $suma_monto, 
 					'MontoTotal' => $MontoTotal,
 					'op' => $op,
