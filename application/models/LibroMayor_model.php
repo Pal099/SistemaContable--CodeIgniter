@@ -46,7 +46,13 @@ class LibroMayor_model extends CI_Model {
         $query = $this->db->get();
         return $query->result_array();
     }
-
+    public function obtenerEntradasPorCuentaContable($idCuentaContable) {
+        // Asumiendo que tienes una columna 'IDCuentaContable' en tu tabla 'num_asi_deta'
+        $this->db->where('IDCuentaContable', $idCuentaContable);
+        $query = $this->db->get('num_asi_deta');
+        return $query->result_array();
+    }
+    
     // Otros métodos relacionados con el Libro Mayor podrían ir aquí
 
 }

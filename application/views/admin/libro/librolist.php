@@ -15,7 +15,7 @@
         <div class="card">
             <div class="card-body">
                 <!-- Formulario para Filtros -->
-                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
+                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/" method="post">
                     <div class="col-md-3">
                         <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
                         <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
@@ -121,30 +121,50 @@
             var descripcion = $(this).val();
             if (descripcion !== '') {
                 $.ajax({
-                    url: '<?php echo base_url();?>LibroMayor/buscarCuentaContable', // URL del método en tu controlador
+                    url: '<?php echo base_url();?>LibroMayor/buscarCuentaContable',
                     type: 'POST',
                     data: { descripcion_cc: descripcion },
                     success: function(data) {
                         var cuentas = JSON.parse(data);
-                        var tbodyHtml = '';
+                        var selectHtml = '<select id="selectorCuentaContable">';
                         $.each(cuentas, function(i, cuenta) {
-                            tbodyHtml += '<tr>' +
-                                '<td>' + cuenta.FechaEmision + '</td>' +
-                                '<td>' + cuenta.numero + '</td>' +
-                                '<td>' + cuenta.Num_Asi_IDNum_Asi + '</td>' +
-                                '<td>' + cuenta.comprobante + '</td>' +
-                                '<td>' + cuenta.Descripcion + '</td>' +
-                                '<td>' + cuenta.Debe + '</td>' +
-                                '<td>' + cuenta.Haber + '</td>' +
-                                '<td>' + 'Calcular saldo' + '</td>' + // Aquí deberás calcular el saldo
-                                '<td>' + cuenta.Codigo_CC + ' - ' + cuenta.Descripcion_CC + '</td>' +
-                                '</tr>';
+                            selectHtml += '<option value="' + cuenta.IDCuentaContable + '">' + cuenta.Descripcion_CC + '</option>';
                         });
-                        $('table tbody').html(tbodyHtml);
+                        selectHtml += '</select>';
+                        $('#resultadosBusqueda').html(selectHtml);
+
+                        // Listener para el selector de cuentas
+                        $('#selectorCuentaContable').on('change', function() {
+                            var idCuentaContable = $(this).val();
+                            $.ajax({
+                                url: '<?php echo base_url();?>LibroMayor/filtrarEntradasPorCuentaContable',
+                                type: 'POST',
+                                data: { idCuentaContable: idCuentaContable },
+                                success: function(data) {
+                                    var entradas = JSON.parse(data);
+                                    var tbodyHtml = '';
+                                    $.each(entradas, function(i, entrada) {
+                                        tbodyHtml += '<tr>' +
+                                            '<td>' + entrada.FechaEmision + '</td>' +
+                                            '<td>' + entrada.numero + '</td>' +
+                                            '<td>' + entrada.Num_Asi_IDNum_Asi + '</td>' +
+                                            '<td>' + entrada.comprobante + '</td>' +
+                                            '<td>' + entrada.Descripcion + '</td>' +
+                                            '<td>' + entrada.Debe + '</td>' +
+                                            '<td>' + entrada.Haber + '</td>' +
+                                            '<td>' + (entrada.Debe - entrada.Haber) + '</td>' + // Calculo del saldo
+                                            '<td>' + entrada.Codigo_CC + ' - ' + entrada.Descripcion_CC + '</td>' +
+                                            '</tr>';
+                                    });
+                                    $('#tablaResultados tbody').html(tbodyHtml);
+                                }
+                            });
+                        });
                     }
                 });
             } else {
-                $('table tbody').html(''); // Limpia la tabla si el campo de búsqueda está vacío
+                $('#resultadosBusqueda').html(''); // Limpia los resultados si el campo de búsqueda está vacío
+                $('#tablaResultados tbody').html(''); // Limpia la tabla
             }
         });
     });

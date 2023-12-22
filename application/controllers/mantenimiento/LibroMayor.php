@@ -48,6 +48,12 @@ class LibroMayor extends CI_Controller {
         echo json_encode($cuentas);
     }
     
+    public function filtrarEntradasPorCuentaContable(){
+        $idCuentaContable = $this->input->post('idCuentaContable');
+        $entradasFiltradas = $this->LibroMayor_model->obtenerEntradasPorCuentaContable($idCuentaContable);
+        echo json_encode($entradasFiltradas);
+    }
+    
     // En tu controlador LibroMayor.php
 
 
