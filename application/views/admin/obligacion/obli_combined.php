@@ -5,10 +5,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
-    <script src="<?php echo base_url(); ?>/assets/js/modal_obli.js"></script>
-    <script src="<?php echo base_url(); ?>/assets/js/cuenta_contable.js"></script>
-    <script src="<?php echo base_url(); ?>/assets/js/boton_modal_N.js"></script>
-    <script src="<?php echo base_url(); ?>/assets/js/campos_op.js"></script>
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -28,23 +24,23 @@
                     <div class="col-md-6 ">
                         <h1>Diario de Obligación</h1>
                     </div>
-                    <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-2 ">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="col-md-6 mt-2 ">
+                        <div class="d-flex gap-2 justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
                                 <label class="form-check-label" for="camposOpcionalesSwitch">Campos Opcionales</label>
                             </div>
                             <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
-                                <i class="bi bi-plus"></i> Nuevo
+                                <i class="bi bi-plus"></i>
                             </button>
                             <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit'">
-                                <span class="fa fa-edit"></span> Modificar
+                                <span class="fa fa-edit"></span>
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                            <button type="button" class="btn btn-pdf" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                 <i class="bi bi-file-pdf"></i> PDF
                             </button>
-                            <button type="button" class="btn btn-primary" title="Ec" id="openModalBtn">
-                                <i class="bi bi-file-earmark-spreadsheet"></i></i> Excel
+                            <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Excel
                             </button>
                         </div>
                     </div>
@@ -106,8 +102,8 @@
                                                     </div>
 
                                                     <div class="form-group col-md-4">
-                                                        <label for="contabilidad">Contabilidad:</label>
-                                                        <input type="text" class="form-control w-100" id="contabilidad" name="contabilidad" required>
+                                                        <label for="razon_social">Razón Social:</label>
+                                                        <input type="text" class="form-control w-100" id="razon_social" name="razon_social" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="direccion">Dirección:</label>
@@ -358,9 +354,11 @@
                                 </table>
                             </div>
                             <div class="container-fluid mt-4 mb-3">
-                                <div class="col-md-12 d-flex flex-row justify-content-end">
+                                <div class="col-md-12 d-flex flex-row justify-content-center">
                                     <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
-                                    <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones" class="btn btn-danger ml-3"><span class="fa fa-remove"></span>Cancelar</a>
+                                    <button class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                        <i class="fa fa-remove"></i> Cancelar
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -379,7 +377,7 @@
                         <td><?php echo $item->id; ?></td>
                         <td><?php echo $item->ruc; ?></td>
                         <td><?php echo $item->numero; ?></td>
-                        <td><?php echo $item->contabilidad; ?></td>
+                        <td><?php echo $item->razon_social; ?></td>
                         <td><?php echo $item->direccion; ?></td>
                         <td><?php echo $item->telefono; ?></td>
                         <td><?php echo $item->observacion; ?></td>
@@ -435,7 +433,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($proveedores as $index => $proveedor) : ?>
-                                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')">
+                                    <tr class="list-item" onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')" data-bs-dismiss="modal">
                                         <td><?= $index + 1 ?></td>
                                         <td><?= $proveedor->ruc ?></td>
                                         <td><?= $proveedor->razon_social ?></td>
@@ -610,6 +608,16 @@
                 var camposOpcionalesCollapse = new bootstrap.Collapse(document.getElementById('camposOpcionalesCollapse'));
                 camposOpcionalesCollapse.toggle();
             });
+        </script>
+
+        <!-- Seleccionar un Proveedor -->
+        <script>
+            function selectProveedor(ruc, razonSocial, direccion) {
+                document.getElementById('ruc').value = ruc;
+                document.getElementById('razon_social').value = razonSocial;
+                document.getElementById('direccion').value = direccion;
+                // Agrega el resto de los campos si es necesario
+            }
         </script>
 
         <!-- Script de bootstrap -->

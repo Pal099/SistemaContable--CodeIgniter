@@ -1,173 +1,212 @@
-<main id="main" class="main">
+<!DOCTYPE html>
+<html lang="es">
 
-    <div class="pagetitle">
-        <h1> Presupuesto
-            <small>Nuevo</small>
-        </h1>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
+</head>
+
+<body>
+    <main id="main" class="content">
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>mantenimiento/presupuesto">Presupuesto</a>
-                </li>
-                <li class="breadcrumb-item active">Nuevo</li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/mantenimiento/presupuesto">Listado Presupuesto</a></li>
+                <li class="breadcrumb-item">Agregar presupuesto</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section dashboard">
-        <div class="row">
-            <!-- Left side columns -->
-            <div class="box box-solid">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php if ($this->session->flashdata("error")): ?>
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert"
-                                        aria-hidden="true">&times;</button>
-                                    <p><i class="icon fa fa-ban"></i>
-                                        <?php echo $this->session->flashdata("error"); ?>
-                                    </p>
-
-                                </div>
-                            <?php endif; ?>
-                    <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
-                                <div class="form-group">
-                                    <label for="Año">Año:</label>
-                                    <input type="text" class="form-control" id="Año" name="Año">
-                                </div>
-                                <div class="form-group">
-                                     <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
-                                            <select class="form-control" id="cuentacontable" name="cuentacontable">
-                                                <?php foreach ($cuentacontable as $cc): ?>
-                                                    <option value="<?php echo $cc->IDCuentaContable; ?>">
-                                                             <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                             </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="TotalPresupuestado">Total Presupuestado:</label>
-                                    <input type="text" class="form-control" id="TotalPresupuestado"
-                                        name="TotalPresupuestado">
-                                </div>
-                                <div class="form-group">
-                                    <label for="origen_de_financiamiento">origen de financiamiento:</label>
-                                    <select name="origen_de_financiamiento" id="origen_de_financiamiento" class="form-control">
-                                        <?php foreach ($origen as $origen): ?>
-                                            <option value="<?php echo $origen->id_of?>">
-                                                <?php echo $origen->nombre; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="fuente_de_financiamiento">Fuente de financiamiento:</label>
-                                    <select name="fuente_de_financiamiento" id="fuente_de_financiamiento" class="form-control">
-                                        <?php foreach ($registros_financieros as $fuente): ?>
-                                            <option value="<?php echo $fuente->id_ff?>">
-                                                <?php echo $fuente->nombre; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="programa_id_pro">Programa:</label>
-                                    <select name="programa_id_pro" id="programa_id_pro" class="form-control">
-                                        <?php foreach ($programa as $prog): ?>
-                                            <option value="<?php echo $prog->id_pro?>">
-                                                <?php echo $prog->nombre; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="TotalModificado">Total Modificado:</label>
-                                    <input type="text" class="form-control" id="TotalModificado" name="TotalModificado">
-                                </div>
-                                 <!-- Agrega un campo de selección para el mes -->
-                        <div class="form-group">
-                            <label for="mes">Mes:</label>
-                            <select name="mes" id="mes" class="form-control">
-                                <?php
-                                $mesesMapping = array(
-                                    'Enero' => 'ene',
-                                    'Febrero' => 'feb',
-                                    'Marzo' => 'mar',
-                                    'Abril' => 'abr',
-                                    'Mayo' => 'may',
-                                    'Junio' => 'jun',
-                                    'Julio' => 'jul',
-                                    'Agosto' => 'ago',
-                                    'Septiembre' => 'sep',
-                                    'Octubre' => 'oct',
-                                    'Noviembre' => 'nov',
-                                    'Diciembre' => 'dic'
-                                );
-
-                                foreach ($mesesMapping as $nombreMes => $abreviaturaMes) {
-                                    echo "<option value='$abreviaturaMes'>$nombreMes</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-
-                        <!-- Agrega campos de texto para cada mes -->
-                        <?php foreach ($mesesMapping as $nombreMes => $abreviaturaMes): ?>
-                            <div class="form-group" id="pre_<?php echo $abreviaturaMes; ?>_field" style="display: none;">
-                                <label for="pre_<?php echo $abreviaturaMes; ?>"><?php echo $nombreMes; ?>:</label>
-                                <input type="text" name="pre_<?php echo $abreviaturaMes; ?>" id="pre_<?php echo $abreviaturaMes; ?>" class="form-control">
-                            </div>
-                        <?php endforeach; ?>
-
-
-                                <div class="form-group">
-                                    <label for="monto_mes">Monto para el Mes:</label>
-                                    <input type="text" class="form-control" id="monto_mes" name="monto_mes">
-                                </div>
-                                
-                        <div class="form-group">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-success btn-flat"><span
-                                        class="fa fa-save"></span>Guardar</button>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="<?php echo base_url(); ?>mantenimiento/presupuesto" class="btn btn-danger"><span
-                                        class="fa fa-remove"></span>Cancelar</a>
+        <div class="container-fluid bg-white rounded-3">
+            <div class="pagetitle">
+                <div class="container-fluid d-flex flex-row justify-content-between">
+                    <div class="col-md-6 ">
+                        <h1>Agregar presupuesto</h1>
+                    </div>
+                    <div class="col-md-6 mt-2 ">
+                        <div class="d-flex justify-content-md-end">
+                            <div class="form-check form-switch mt-2 " style="font-size: 17px;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
+                                <label class="form-check-label" for="camposOpcionalesSwitch">Agregar presupuesto por mes</label>
                             </div>
                         </div>
-                    </form>
                     </div>
                 </div>
             </div>
-            <!-- /.box-body -->
+
+            <!-- fin del encabezado -->
+            <section class="seccion_agregar_presupuesto">
+                <div class="container-fluid">
+                    <div class="row">
+                        <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/store" method="POST">
+                            <div class="container-fluid mt-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row g-3 align-items-center">
+                                                    <div class="form-group">
+                                                        <label for="Año">Año:</label>
+                                                        <input type="number" class="form-control" id="Año" name="Año" placeholder="Ej. 2023" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Idcuentacontable">Cuenta Contable:</label>
+                                                        <select name="Idcuentacontable" id="Idcuentacontable" class="form-control" required>
+                                                            <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="TotalPresupuestado">Total Presupuestado:</label>
+                                                        <input type="number" class="form-control" id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="origen_de_financiamiento_id_of">Origen de Financiamiento:</label>
+                                                        <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of" class="form-control" required>
+                                                            <?php foreach ($origen as $o) : ?>
+                                                                <option value="<?php echo $o->id_of ?>">
+                                                                    <?php echo $o->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fuente_de_financiamiento_id_ff">Fuente de Financiamiento:</label>
+                                                        <select name="fuente_de_financiamiento_id_ff" id="fuente_de_financiamiento_id_ff" class="form-control" required>
+                                                            <?php foreach ($registros_financieros as $fuente) : ?>
+                                                                <option value="<?php echo $fuente->id_ff ?>">
+                                                                    <?php echo $fuente->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="programa_id_pro">Programa:</label>
+                                                        <select name="programa_id_pro" id="programa_id_pro" class="form-control" required>
+                                                            <?php foreach ($programa as $prog) : ?>
+                                                                <option value="<?php echo $prog->id_pro ?>">
+                                                                    <?php echo $prog->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="TotalModificado">Total Modificado:</label>
+                                                        <input type="number" class="form-control" id="TotalModificado" name="TotalModificado" required>
+                                                    </div>
+                                                    <!-- Campos de los meses del presupuesto -->
+                                                    <div class="collapse mt-4" id="camposMesesCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ene">Presupuesto Enero:</label>
+                                                                    <input type="number" class="form-control" id="pre_ene" name="pre_ene">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jul">Presupuesto Julio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jul" name="pre_jul">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_feb">Presupuesto Febrero:</label>
+                                                                    <input type="number" class="form-control" id="pre_feb" name="pre_feb">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
+                                                                    <input type="number" class="form-control" id="pre_ago" name="pre_ago">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_mar">Presupuesto Marzo:</label>
+                                                                    <input type="number" class="form-control" id="pre_mar" name="pre_mar">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_sep" name="pre_sep">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_abr">Presupuesto Abril:</label>
+                                                                    <input type="number" class="form-control" id="pre_abr" name="pre_abr">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_oct">Presupuesto Octubre:</label>
+                                                                    <input type="number" class="form-control" id="pre_oct" name="pre_oct">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_may">Presupuesto Mayo:</label>
+                                                                    <input type="number" class="form-control" id="pre_may" name="pre_may">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_nov">Presupuesto Noviembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_nov" name="pre_nov">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jun">Presupuesto Junio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jun" name="pre_jun">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_dic">Presupuesto Diciembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_dic" name="pre_dic">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mt-3 mb-3">
+                                <div class="col-md-12 d-flex flex-row justify-content-center">
+                                    <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
+                                    <button class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                                        <i class="fa fa-remove"></i> Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </div>
-        <!-- /.box -->
-        </div>
-        </div>
-    </section>
+        <!-- Script para mostrar los campos de los meses -->
+        <script>
+            document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
+                var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
+                camposMesesCollapse.toggle();
+            });
+        </script>
+    </main>
+</body>
 
-
-
-    <script>
-    // Función para mostrar u ocultar el campo de texto según el mes seleccionado
-    function mostrarCampoTexto() {
-        var mesSeleccionado = document.getElementById('mes').value;
-        var camposMes = document.querySelectorAll('[id^=pre_]_field');
-
-        camposMes.forEach(function(campo) {
-            campo.style.display = 'none';
-        });
-
-        var campoMesSeleccionado = document.getElementById('pre_' + mesSeleccionado + '_field');
-        if (campoMesSeleccionado) {
-            campoMesSeleccionado.style.display = 'block';
-        }
-    }
-
-    document.getElementById('mes').addEventListener('change', mostrarCampoTexto);
-    mostrarCampoTexto();
-</script>
-
-
-</main>
+</html>

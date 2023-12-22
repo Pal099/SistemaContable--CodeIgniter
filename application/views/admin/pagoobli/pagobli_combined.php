@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
-    <link href="<?php echo base_url(); ?>assets/css/style_pago_obli.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
 </head>
 
@@ -26,7 +26,7 @@
                     <div class="col-md-6 ">
                         <h1>Pago de Obligación</h1>
                     </div>
-                    <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-2 ">
+                    <div class="col-md-6 mt-2 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button class="btn btn-primary" title="Nuevo" id="openModalBtn">
                                 <i class="bi bi-plus"></i> Nuevo
@@ -35,7 +35,7 @@
                                 <span class="fa fa-edit ms-2"></span> Modificar
                             </button>
                             <button type="button" class="btn btn-primary" onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                Generar PDF
+                                <i class="bi bi-file-pdf"></i> PDF
                             </button>
                             <button class="btn btn-danger ml-3 " title="Eliminar">
                                 <i class="bi bi-trash"></i> Eliminar
@@ -313,7 +313,7 @@
                                     </div>
                                 </div>
                                 <div class="container-fluid mt-3 mb-3">
-                                    <div class="col-md-12 d-flex flex-row justify-content-end">
+                                    <div class="col-md-12 d-flex flex-row justify-content-center">
                                         <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
                                         <div class="notification" id="notification">
                                             <div class="icon">
@@ -466,7 +466,7 @@
             closeModal_2();
         });
     </script>
-    
+
     <!-- script para las fechas -->
     <script>
         // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
@@ -481,6 +481,35 @@
         // Preestablecer el campo de fecha con la fecha actual
         const fechaInput = document.getElementById('fecha');
         //fechaInput.value = obtenerFechaActual();
+    </script>
+
+    <!-- funcion para mostrar el toast -->
+    <script>
+        function showToast(message, bgColor, makeTextWhite) {
+            // Seleccionar el toast
+            var toastElement = document.getElementById('toastErrorFila');
+
+            // Animacion para el toast
+            toastElement.setAttribute('data-mdb-animation-init', '');
+            toastElement.setAttribute('data-mdb-animation-reset', 'true');
+            toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
+
+            // Actualizar el mensaje y el color de fondo del toast
+            var toastBody = toastElement.querySelector('.toast-body');
+            toastBody.innerText = message;
+            toastElement.classList.add(bgColor);
+
+            // Hacer el texto del cuerpo blanco si es necesario
+            if (makeTextWhite) {
+                toastBody.classList.add('text-white');
+            }
+
+            // Mostrar el toast
+            var toast = new bootstrap.Toast(toastElement, {
+                animation: true
+            });
+            toast.show();
+        }
     </script>
 
     <!-- Script para agregar nuevas filas a la tabla -->
@@ -514,7 +543,7 @@
                 if ($("#miTabla tbody tr").length > 2) {
                     $(this).closest("tr").remove();
                 } else {
-                    alert("No se puede eliminar la última fila.");
+                    showToast('No es posible eliminar está fila.', 'bg-danger', true);
                 }
             });
         });
@@ -685,6 +714,16 @@
         </div>
     </div>
 
+    <!-- alerta toast -->
+    <div id="toastErrorFila" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
     <!-- Script destinado al primer modal con bootstrap (Buscar y seleccionar) -->
     <script>
         function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
@@ -758,9 +797,23 @@
         }
         document.getElementById("searchInput_3").addEventListener("input", filterResults);
     </script>
+    <!-- script para las alertas -->
+    <script>
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastLiveExample = document.getElementById('liveToast')
+
+        if (toastTrigger) {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+            toastTrigger.addEventListener('click', () => {
+                toastBootstrap.show()
+            })
+        }
+    </script>
 
     <!-- Script de bootstrap -->
     <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
+    <!-- Script de Popper para el toast -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
 
 </body>
 
