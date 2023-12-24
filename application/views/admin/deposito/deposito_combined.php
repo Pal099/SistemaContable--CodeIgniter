@@ -652,8 +652,6 @@
     function openModal_3() {
         var modalContainer = document.getElementById('modalContainer_3');
         modalContainer.style.display = 'flex';
-        modalContainer.style.top = '30%';
-
         openModalBtn_3.style.zIndex = -1;
     }
 
@@ -719,8 +717,6 @@
     function openModal_4() {
         var modalContainer = document.getElementById('modalContainer_4');
         modalContainer.style.display = 'flex';
-        modalContainer.style.top = '30%';
-
         openModalBtn_4.style.zIndex = -1;
     }
 

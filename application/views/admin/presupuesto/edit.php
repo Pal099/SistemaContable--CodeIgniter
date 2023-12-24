@@ -1,187 +1,206 @@
-<main id="main" class="main">
+<!DOCTYPE html>
+<html lang="es">
 
-    <div class="pagetitle">
-        <h1>
-            Presupuesto
-            <small>Editar</small>
-        </h1>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+</head>
+
+<body>
+    <main id="main" class="content">
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>mantenimiento/presupuesto">Presupuesto</a>
-                </li>
-                <li class="breadcrumb-item active">Editar</li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/mantenimiento/presupuesto">Listado Presupuesto</a></li>
+                <li class="breadcrumb-item">Editar presupuesto</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
-
-    <section class="section dashboard">
-        <div class="row">
-            <!-- Left side columns -->
-            <div class="box box-solid">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?php if ($this->session->flashdata("error")): ?>
-                                <div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="close" data-dismiss="alert"
-                                        aria-hidden="true">&times;</button>
-                                    <p><i class="icon fa fa-ban"></i>
-                                        <?php echo $this->session->flashdata("error"); ?>
-                                    </p>
-
-                                </div>
-                            <?php endif; ?>
-                            <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
-                                <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>"
-                                    name="ID_Presupuesto">
-                                <div class="form-group">
-                                    <label for="Anio">Año:</label>
-                                    <input type="text" class="form-control" id="Anio" name="Anio"
-                                        value="<?php echo $presupuesto->Anio ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="Descripcion">Descripcion:</label>
-                                    <input type="text" class="form-control" id="Descripcion" name="Descripcion"
-                                        value="<?php echo $presupuesto->Descripcion ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="TotalPresupuestado">Total Presupuestado:</label>
-                                    <input type="text" class="form-control" id="TotalPresupuestado"
-                                        name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="origen_de_financiamiento_id_of">Origen de financiamiento: </label>
-                                    <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of"
-                                        class="form-control">
-                                        <?php foreach ($origen as $origen): ?>
-                                            <?php if ($origen->id_of == $presupuesto->origen_de_financiamiento_id_of): ?>
-                                                <option value="<?php echo $origen->id_of ?>" selected>
-                                                    <?php echo $origen->nombre; ?>
-                                                </option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $origen->id_of ?>">
-                                                    <?php echo $origen->nombre; ?>
-                                                </option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="registros_financieros">Fuente de Financiamiento: </label>
-                                    <select name="fuente_de_financiamiento_id_ff" id="fuente_de_financiamiento_id_ff"
-                                        class="form-control">
-                                        <?php foreach ($registros_financieros as $fuente): ?>
-                                            <?php if ($fuente->id_ff == $presupuesto->fuente_de_financiamiento_id_ff): ?>
-                                                <option value="<?php echo $fuente->id_ff ?>" selected>
-                                                    <?php echo $fuente->nombre; ?>
-                                                </option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $fuente->id_ff ?>">
-                                                    <?php echo $fuente->nombre; ?>
-                                                </option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="programa">Programa: </label>
-                                    <select name="programa_id_pro" id="programa_id_pro" class="form-control">
-                                        <?php foreach ($programa as $prog): ?>
-                                            <?php if ($prog->id_pro == $presupuesto->programa_id_pro): ?>
-                                                <option value="<?php echo $prog->id_pro ?>" selected>
-                                                    <?php echo $prog->nombre; ?>
-                                                </option>
-                                            <?php else: ?>
-                                                <option value="<?php echo $prog->id_pro ?>">
-                                                    <?php echo $prog->nombre; ?>
-                                                </option>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="TotalModificado">Total Modificado:</label>
-                                    <input type="text" class="form-control" id="TotalModificado" name="TotalModificado"
-                                        value="<?php echo $presupuesto->TotalModificado ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_ene">Enero:</label>
-                                    <input type="text" class="form-control" id="pre_ene" name="pre_ene"
-                                        value="<?php echo $presupuesto->pre_ene ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_feb">Febrero:</label>
-                                    <input type="text" class="form-control" id="pre_feb" name="pre_feb"
-                                        value="<?php echo $presupuesto->pre_feb ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_mar">Marzo:</label>
-                                    <input type="text" class="form-control" id="pre_mar" name="pre_mar"
-                                        value="<?php echo $presupuesto->pre_mar ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_abr">Abril:</label>
-                                    <input type="text" class="form-control" id="pre_abr" name="pre_abr"
-                                        value="<?php echo $presupuesto->pre_abr ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_may">Mayo:</label>
-                                    <input type="text" class="form-control" id="pre_may" name="pre_may"
-                                        value="<?php echo $presupuesto->pre_may ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_jun">Junio:</label>
-                                    <input type="text" class="form-control" id="pre_jun" name="pre_jun"
-                                        value="<?php echo $presupuesto->pre_jun ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_jul">Julio:</label>
-                                    <input type="text" class="form-control" id="pre_jul" name="pre_jul"
-                                        value="<?php echo $presupuesto->pre_jul ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_ago">Agosto:</label>
-                                    <input type="text" class="form-control" id="pre_ago" name="pre_ago"
-                                        value="<?php echo $presupuesto->pre_ago ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_sep">Septiembre:</label>
-                                    <input type="text" class="form-control" id="pre_sep" name="pre_sep"
-                                        value="<?php echo $presupuesto->pre_sep ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_oct">Octubre:</label>
-                                    <input type="text" class="form-control" id="pre_oct" name="pre_oct"
-                                        value="<?php echo $presupuesto->pre_oct ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_nov">Noviembre:</label>
-                                    <input type="text" class="form-control" id="pre_nov" name="pre_nov"
-                                        value="<?php echo $presupuesto->pre_nov ?>">
-                                </div>
-                                <div class="form-group">
-                                    <label for="pre_dic">Diciembre:</label>
-                                    <input type="text" class="form-control" id="pre_dic" name="pre_dic"
-                                        value="<?php echo $presupuesto->pre_dic?>">
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-success btn-flat"><span
-                                                class="fa fa-save"></span>Guardar</button>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <a href="<?php echo base_url(); ?>mantenimiento/presupuesto"
-                                            class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                                    </div>
-                                </div>
-                            </form>
+        <div class="container-fluid bg-white rounded-3">
+            <div class="pagetitle">
+                <div class="container-fluid d-flex flex-row justify-content-between">
+                    <div class="col-md-6 ">
+                        <h1>Editar presupuesto</h1>
+                    </div>
+                    <div class="col-md-6 mt-2">
+                        <div class="d-flex justify-content-md-end">
+                            <div class="form-check form-switch mt-2 " style="font-size: 17px;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
+                                <label class="form-check-label" for="camposOpcionalesSwitch">Editar el presupuesto por mes</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- /.box -->
+            <!-- fin del encabezado -->
+            <section class="seccion_editar_presupuesto">
+                <div class="container-fluid">
+                    <div class="row">
+                        <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
+                            <div class="container-fluid mt-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row g-3 align-items-center">
+                                                    <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
+                                                    <div class="form-group">
+                                                        <label for="Año">Año:</label>
+                                                        <input type="number" class="form-control" id="Año" name="Año" value="<?php echo $presupuesto->Año ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="Idcuentacontable">Cuenta Contable:</label>
+                                                        <select name="Idcuentacontable" id="Idcuentacontable" class="form-control" required>
+                                                            <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="TotalPresupuestado">Total Presupuestado:</label>
+                                                        <input type="number" class="form-control" id="TotalPresupuestado" name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="origen_de_financiamiento_id_of">Origen de Financiamiento:</label>
+                                                        <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of" class="form-control" required>
+                                                            <?php foreach ($origen as $o) : ?>
+                                                                <option value="<?php echo $o->id_of ?>">
+                                                                    <?php echo $o->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="fuente_de_financiamiento_id_ff">Fuente de Financiamiento:</label>
+                                                        <select name="fuente_de_financiamiento_id_ff" id="fuente_de_financiamiento_id_ff" class="form-control" required>
+                                                            <?php foreach ($registros_financieros as $fuente) : ?>
+                                                                <option value="<?php echo $fuente->id_ff ?>">
+                                                                    <?php echo $fuente->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="programa_id_pro">Programa:</label>
+                                                        <select name="programa_id_pro" id="programa_id_pro" class="form-control" required>
+                                                            <?php foreach ($programa as $prog) : ?>
+                                                                <option value="<?php echo $prog->id_pro ?>">
+                                                                    <?php echo $prog->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="TotalModificado">Total Modificado:</label>
+                                                        <input type="number" class="form-control" id="TotalModificado" name="TotalModificado" value="<?php echo $presupuesto->TotalModificado ?>">
+                                                    </div>
+                                                    <!-- Campos de los meses del presupuesto -->
+                                                    <div class="collapse mt-4" id="camposMesesCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ene">Presupuesto Enero:</label>
+                                                                    <input type="number" class="form-control" id="pre_ene" name="pre_ene" value="<?php echo $presupuesto->pre_ene ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jul">Presupuesto Julio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jul" name="pre_jul" value="<?php echo $presupuesto->pre_jul ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_feb">Presupuesto Febrero:</label>
+                                                                    <input type="number" class="form-control" id="pre_feb" name="pre_feb" value="<?php echo $presupuesto->pre_feb ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
+                                                                    <input type="number" class="form-control" id="pre_ago" name="pre_ago" value="<?php echo $presupuesto->pre_ago ?>">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_mar">Presupuesto Marzo:</label>
+                                                                    <input type="number" class="form-control" id="pre_mar" name="pre_mar" value="<?php echo $presupuesto->pre_mar ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_sep" name="pre_sep" value="<?php echo $presupuesto->pre_sep ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_abr">Presupuesto Abril:</label>
+                                                                    <input type="number" class="form-control" id="pre_abr" name="pre_abr" value="<?php echo $presupuesto->pre_abr ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_oct">Presupuesto Octubre:</label>
+                                                                    <input type="number" class="form-control" id="pre_oct" name="pre_oct" value="<?php echo $presupuesto->pre_oct ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_may">Presupuesto Mayo:</label>
+                                                                    <input type="number" class="form-control" id="pre_may" name="pre_may" value="<?php echo $presupuesto->pre_may ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_nov">Presupuesto Noviembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_nov" name="pre_nov" value="<?php echo $presupuesto->pre_nov ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jun">Presupuesto Junio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jun" name="pre_jun" value="<?php echo $presupuesto->pre_jun ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_dic">Presupuesto Diciembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_dic" name="pre_dic" value="<?php echo $presupuesto->pre_dic ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid mt-3 mb-3">
+                                <div class="col-md-12 d-flex flex-row justify-content-center">
+                                    <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
+                                    <button class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                                        <i class="fa fa-remove"></i> Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
-</main>
+        <!-- Script para mostrar los campos de los meses -->
+        <script>
+            document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
+                var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
+                camposMesesCollapse.toggle();
+            });
+        </script>
+    </main>
+</body>
+
+</html>

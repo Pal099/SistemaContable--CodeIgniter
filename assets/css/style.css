@@ -311,7 +311,7 @@ h1, h2, h3, h4, h5, h6 {
 .breadcrumb {
   font-size: 14px;
   font-family: "Nunito", sans-serif;
-  color: #899bbd;
+  color: #000000;
   font-weight: 600;
 }
 .breadcrumb a {
@@ -325,7 +325,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #899bbd;
 }
 .breadcrumb .active {
-  color: #51678f;
+  color: #000000;
   font-weight: 600;
 }
 
@@ -1220,17 +1220,6 @@ transform: translateY(-50%); /* Centrado vertical */
     .pagetitle {
         margin-bottom: 1px;
         padding-bottom: 10px;
-    }
-
-    /* Estilos para los botones de acciones */
-    .btn-group {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .btn-group .btn {
-        margin-right: 5px;
     }
 
     /* Estilo para el contenedor del contenido */

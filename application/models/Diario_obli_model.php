@@ -25,16 +25,11 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
-	public function save_num_asi($data, $proveedor_id) {
-		$this->db->where('id_provee', $proveedor_id);
-		$this->db->insert("num_asi", $data);
-	
-		// Obtener el último ID insertado
-		$lastInsertedId = $this->db->insert_id();
-	
-		return $lastInsertedId;
+	public function save_num_asi($data){
+		$this->db->where('IDNum_Asi');
+		return $this->db->insert("num_asi",$data);
 	}
-	
+
 
 
 	// num asi deta segundo
@@ -63,31 +58,8 @@ class Diario_obli_model extends CI_Model {
     }
 
 
+
 	//desde acá es código de palo
-	public function obtenerEstadoSegunSumaMonto($proveedor_id) {
-		// Consulta SQL preparada para obtener la información más reciente de la tabla num_asi para un proveedor específico
-		$consulta = "SELECT * FROM num_asi WHERE id_provee = ? ORDER BY FechaEmision DESC LIMIT 1";
-
-		// Ejecuta la consulta preparada
-		$resultado = $this->db->query($consulta, array($proveedor_id));
-
-		// Verifica si se obtuvieron resultados
-		if ($resultado->num_rows() > 0) {
-			$row = $resultado->row();
-
-			// Verifica la condición para determinar el estado y devuelve el número correspondiente
-			if ($row->SumaMonto != $row->MontoTotal) {
-				return 3; // Pendiente
-			} 
-			if ($row->SumaMonto == $row->MontoTotal) {
-				return 4; // Pagado
-			}
-		} else {
-			// En caso de no encontrar registros
-			return null;
-		}
-	}
-
 
 	public function getProveedorIdByRuc($ruc) {
 		$this->db->select('id'); 
@@ -116,7 +88,6 @@ class Diario_obli_model extends CI_Model {
 		}
 
 	}
-
 
 	public function getDiarios(){
 		$this->db->where("estado","1");
@@ -177,24 +148,23 @@ class Diario_obli_model extends CI_Model {
 		return $resultados->result();
 	}
 
-   
 	public function getCuentasContables($busqueda = '') {
 		$this->db->select('
 			cuentacontable.Codigo_CC,
 			cuentacontable.Descripcion_CC
 		');
-	
 		$this->db->from('cuentacontable');
-	
+		
+		$this->db->where('cuentacontable.estado', '1');
+		
 		// Búsqueda por código o descripción de la cuenta
 		if (!empty($busqueda)) {
 			$this->db->like('cuentacontable.Codigo_CC', $busqueda);
 			$this->db->or_like('cuentacontable.Descripcion_CC', $busqueda);
 		}
 	
-		return $this->db->get()->result_array();
+		$this->mostrar_vista($busqueda);
 	}
-	
 
 	//guardar asientos
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
@@ -213,7 +183,7 @@ class Diario_obli_model extends CI_Model {
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
-
+	
 	public function getDiarios_obli() {
 		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');
