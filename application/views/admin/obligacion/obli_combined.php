@@ -98,7 +98,7 @@
 
                                                     <div class="form-group col-md-4">
                                                         <label for="num_asi">Numero:</label>
-                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" disabled>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
@@ -123,7 +123,7 @@
                                                     </div>
                                                     <div class="form-group col-12 mb-3">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                                        <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
                                                     </div>
                                                     <!-- Campos Opcionales del formulario -->
                                                     <div class="collapse mt-4" id="camposOpcionalesCollapse">
