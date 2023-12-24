@@ -252,4 +252,10 @@ class Presupuesto extends CI_Controller
 		$this->Presupuesto_model->update($id, $data);
 		echo "mantenimiento/presupuesto";
 	}
+
+	public function getPresupuestoDetalle($id) {
+		$presupuestoDetalle = $this->Presupuesto_model->getPresupuesto($id);
+		echo json_encode($presupuestoDetalle);
+	}
 }
+
