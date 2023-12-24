@@ -46,11 +46,11 @@
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center">
                                                     <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="Año">Año:</label>
                                                         <input type="number" class="form-control" id="Año" name="Año" value="<?php echo $presupuesto->Año ?>">
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="Idcuentacontable">Cuenta Contable:</label>
                                                         <select name="Idcuentacontable" id="Idcuentacontable" class="form-control" required>
                                                             <?php foreach ($cuentacontable as $cc) : ?>
@@ -60,11 +60,11 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="TotalPresupuestado">Total Presupuestado:</label>
                                                         <input type="number" class="form-control" id="TotalPresupuestado" name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>">
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="origen_de_financiamiento_id_of">Origen de Financiamiento:</label>
                                                         <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of" class="form-control" required>
                                                             <?php foreach ($origen as $o) : ?>
@@ -74,7 +74,7 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="fuente_de_financiamiento_id_ff">Fuente de Financiamiento:</label>
                                                         <select name="fuente_de_financiamiento_id_ff" id="fuente_de_financiamiento_id_ff" class="form-control" required>
                                                             <?php foreach ($registros_financieros as $fuente) : ?>
@@ -84,7 +84,7 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-4">
                                                         <label for="programa_id_pro">Programa:</label>
                                                         <select name="programa_id_pro" id="programa_id_pro" class="form-control" required>
                                                             <?php foreach ($programa as $prog) : ?>
@@ -94,7 +94,7 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group col-md-12">
                                                         <label for="TotalModificado">Total Modificado:</label>
                                                         <input type="number" class="form-control" id="TotalModificado" name="TotalModificado" value="<?php echo $presupuesto->TotalModificado ?>">
                                                     </div>
