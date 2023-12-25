@@ -11,6 +11,9 @@
   width: 25%;
 }
 
+.body {
+  background-color: #284977; /* Cambia #ffffff al código de color que desees */
+}
 .btn-pdf {
   background-color: red;
   color: white;
