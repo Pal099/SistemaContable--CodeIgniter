@@ -366,47 +366,29 @@
                                 <thead>
                                     <tr>
                                         <th>id_num_asi</th>
-                                        <th>Nombre</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
-                                        <th>Observacion</th>
+                                        <th>FechaEmision</th>
+                                        <th>num_asi</th>
+                                        <th>op</th>
+                                        <th>Estado</th>
                                         <th>opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($asientos)) : ?>
-                                        <?php foreach ($asientos as $item) : ?>
+                                        <?php foreach ($asientos as $asiento) : ?>
                                             <tr>
-                                                <td><?php echo $item->IDNum_Asi; ?></td>
-                                                <td><?php echo $item->ruc; ?></td>
-                                                <td><?php echo $item->numero; ?></td>
-                                                <td><?php echo $item->razon_social; ?></td>
-                                                <td><?php echo $item->direccion; ?></td>
-                                                <td><?php echo $item->observacion; ?></td>
-                                                <td><?php echo $item->fecha; ?></td>
-                                                <td><?php echo $item->tesoreria; ?></td>
-                                                <td><?php echo $item->proyecto; ?></td>
-                                                <td><?php echo $item->estado; ?></td>
-                                                <td><?php echo $item->total; ?></td>
-                                                <td><?php echo $item->pagado; ?></td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-info btn-view-Diario_obligaciones" data-toggle="modal" data-target="#modal-default" value="<?php echo $data->id; ?>">
-                                                            <span class="fa fa-search"></span>
-                                                        </button>
-
-                                                        <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                                    </div>
-                                                </td>
+                                                <td><?php echo $asiento->IDNum_Asi ?></td>
+                                                <td><?php echo $asiento->FechaEmision ?></td>
+                                                <td><?php echo $asiento->num_asi ?></td>
+                                                <td><?php echo $asiento->op ?></td>
+                                                <td><?php echo $asiento->estado ?></td>
+                                                
                                             </tr>
                                         <?php endforeach; ?>
-                                    <?php endif; ?>
+                                        <?php else : ?>
+                                            <p>No se encontraron datos.</p>
+                                            <?php endif; ?>
+
                                 </tbody>
                             </table>
                         </div>
