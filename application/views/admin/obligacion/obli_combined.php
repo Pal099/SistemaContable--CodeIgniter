@@ -98,7 +98,7 @@
 
                                                     <div class="form-group col-md-4">
                                                         <label for="num_asi">Numero:</label>
-                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" disabled>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
