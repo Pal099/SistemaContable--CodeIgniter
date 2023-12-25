@@ -55,16 +55,16 @@
                                                         <tr>
                                                             <td><?= $cuenta->Codigo_CC ?></td>
                                                             <td><?= $cuenta->Descripcion_CC ?></td>
-                                                            <td><?= isset($cuenta->TotalDebe) ? $cuenta->TotalDebe : 0 ?></td>
-                                                            <td><?= isset($cuenta->TotalHaber) ? $cuenta->TotalHaber : 0 ?></td>
+                                                            <td><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?></td>
+                                                            <td><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?></td>
                                                         </tr>
                                                         <?php if (isset($cuenta->cuentasHijas)) : ?>
                                                             <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
                                                                 <tr>
                                                                     <td><?= $cuentaHija->Codigo_CC ?></td>
                                                                     <td><?= $cuentaHija->Descripcion_CC ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalDebe) ? $cuentaHija->TotalDebe : 0 ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalHaber) ? $cuentaHija->TotalHaber : 0 ?></td>
+                                                                    <td><?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?></td>
+                                                                    <td><?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?></td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>
