@@ -406,7 +406,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-hover table-bordered table-sm rounded-3">
+                        <input type="text" id="searchInput" placeholder="Buscar por RUC o Razon Social...">
+                        <table class="table table-hover table-bordered table-sm rounded-3" id="tablaProveedor">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -605,6 +606,31 @@
                 document.getElementById('direccion').value = direccion;
                 // Agrega el resto de los campos si es necesario
             }
+            function filterResults() {
+                var input, filter, table, tr, td1, td2, i, txtValue;
+                input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
+                filter = input.value.toUpperCase();
+                table = document.getElementById("tablaProveedor");
+                tr = table.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+                    
+                    if (td1 && td2) {
+                        // Combina los textos de ambas posiciones en una cadena
+                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                        
+                        // Busca en la cadena combinada
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            document.getElementById("searchInput").addEventListener("input", filterResults);
         </script>
 
         <!-- Script de bootstrap -->
