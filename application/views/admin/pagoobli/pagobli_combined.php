@@ -150,6 +150,7 @@
                                                         <th class="columna-origen">Origen</th>
                                                         <th class="columna-ctncontable">Cuenta Contable</th>
                                                         <th>Comprobante</th>
+                                                        <th>Detalles</th>
                                                         <th>Monto de Pago</th>
                                                         <th>Debe</th>
                                                         <th>Haber</th>
