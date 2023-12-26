@@ -1,4 +1,6 @@
 <?php
+
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Diario_obligaciones extends CI_Controller {
@@ -15,10 +17,7 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->library('form_validation');
 
 	}
-	
-	
-	
-	
+		
 	public function index() {
 		//Con la libreria Session traemos los datos del usuario
 		//Obtenemos el nombre que nos va servir para obtener su id
@@ -32,12 +31,13 @@ class Diario_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
+		$data['asientos'] = $this->Diario_obli_model->obtener_asientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);  
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
+		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");

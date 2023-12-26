@@ -8,7 +8,10 @@ class Diario_obli_model extends CI_Model {
         $this->load->database();
     }
 	public function obtener_asientos() {
-        return $this->db->get('num_asi')->result_array();
+		return $this->db->get('num_asi')->result_array();
+		var_dump($result); // Solo para depuración
+  		 return $result;
+
     }
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
