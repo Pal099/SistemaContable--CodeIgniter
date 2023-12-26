@@ -1,5 +1,6 @@
 <?php
 
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Diario_obligaciones extends CI_Controller {
@@ -147,6 +148,7 @@ class Diario_obligaciones extends CI_Controller {
 						'MontoPagado' => $pagado,
 						'id_provee' => $proveedor_id,
 						'MontoTotal' => $debe,
+						'modalidad' => $modalidad,
 						'estado' => $estado,
 						'op'=>$op,
 						'id_uni_respon_usu'=>$id_uni_respon_usu,
@@ -154,7 +156,7 @@ class Diario_obligaciones extends CI_Controller {
 						'estado_registro' => "1",
 					);
 		
-					$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi);
+					$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 		
 					if ($lastInsertedId) {
 							$dataDetaDebe = array(

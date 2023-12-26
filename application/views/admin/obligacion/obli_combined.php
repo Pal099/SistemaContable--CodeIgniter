@@ -617,6 +617,7 @@
             function selectProveedor(ruc, razonSocial, direccion) {
                 document.getElementById('ruc').value = ruc;
                 document.getElementById('razon_social').value = razonSocial;
+                document.getElementById('tesoreria').value = razonSocial;
                 document.getElementById('direccion').value = direccion;
                 // Agrega el resto de los campos si es necesario
             }
