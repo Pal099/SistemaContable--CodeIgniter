@@ -50,15 +50,6 @@ class Pago_de_obligaciones extends CI_Controller {
 		$this->load->view("fpdf");
 
 	}
-    // public function get_proveedores() {
-    //     $data  = array(
-    //         'proveedores' => $this->Proveedores_model->getProveedores(),
-	// 		'programa' => $this->Diario_obli_model->getProgramas(),
-	// 		'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentesFinanciamiento(),
-	// 		'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenesFinanciamiento(),
-    //     );
-    //     echo json_encode($data);
-    // }
 	
 	public function add(){
 
@@ -90,7 +81,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$op= $datosFormulario['op'];
+		$op = $datosFormulario['op'];
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
@@ -99,6 +90,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$telefono = $datosFormulario['telefono'];
 		$observacion = $datosFormulario['observacion'];
 		$fecha = $datosFormulario['fecha'];
+		$detalles = $datosFormulario['detalles'];
 		$debe = floatval($datosFormulario['Debe']);
 		$haber_2 = floatval($datosFormulario['Haber']);
 		$tesoreria = $datosFormulario['tesoreria'];
@@ -133,7 +125,6 @@ class Pago_de_obligaciones extends CI_Controller {
 		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 		
 			
-		
 		if ($proveedor_id) {
 			//if ($this->form_validation->run() == TRUE) {
 				
@@ -150,7 +141,7 @@ class Pago_de_obligaciones extends CI_Controller {
 					'MontoPagado' => $nuevo_monto_pago,
 					'SumaMonto' => $suma_monto, 
 					'MontoTotal' => $MontoTotal,
-					'op'=>$op,
+					'op' => $op,
 					'estado' => $estado,
 					'id_uni_respon_usu' => $id_uni_respon_usu,
 					'id_form' => "2",
@@ -161,7 +152,7 @@ class Pago_de_obligaciones extends CI_Controller {
 				
 				$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
 
-				$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi);
+				$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 	
 				if ($lastInsertedId) {
 					
@@ -175,6 +166,7 @@ class Pago_de_obligaciones extends CI_Controller {
 						'id_pro' => $programa_id_pro,
 						'id_ff' => $fuente_de_financiamiento,
 						'IDCuentaContable' => $cuentacontable,
+						'detalles' => $detalles,
 						'cheques_che_id' => $cheque_id,
 						'proveedores_id' => $proveedor_id,
 						'id_uni_respon_usu' => $id_uni_respon_usu,
@@ -194,7 +186,7 @@ class Pago_de_obligaciones extends CI_Controller {
 								'Num_Asi_IDNum_Asi' => $lastInsertedId,
 								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
 								'Haber' => $fila['Haber'],
-								//'Debe' => "0",
+								'detalles' => $fila['detalles'],
 								'numero' => $numero,
 								'comprobante' => $fila['comprobante'],
 								'id_of' => $fila['id_of'],	
@@ -210,8 +202,6 @@ class Pago_de_obligaciones extends CI_Controller {
 								
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 							$this->Diario_obli_model->updateMontoPagado($proveedor_id, $id_num_asi, $nuevo_monto_pago);
-							// Ejemplo de cómo podrías guardar una fila
-							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 								
 						}
 

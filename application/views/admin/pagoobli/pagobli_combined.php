@@ -203,6 +203,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
                                                                 <input type="text" class="form-control small border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
                                                             </div>
                                                         </td>
@@ -278,6 +283,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
                                                                 <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
                                                             </div>
                                                         </td>
@@ -345,25 +355,27 @@
                         <th>Ruc</th>
                         <th>Razon Social</th>
                         <th>Numero</th>
+                        <th>Direccion</th>   
                         <th>Fecha</th>
                         <th>Total</th>
                         <th>Monto Pagado</th>
                         <th>Monto de Pago</th>
                         <th>Debe</th>
-                        <th>Haber</th>
                         <th>Codigo y Descripción CC</th>
                         <th>Origen de Financiamiento</th>
                         <th>Programa</th>
                         <th>Fuente de Financiamiento</th>
-
+                        <th>Detalles</th>
+                        <th>Comprobante</th>
+                        <th>Cheque</th>                                   
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($asientos as $asiento => $asi) : ?>
-                        <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)) : ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
-                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
-                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                    <?php foreach ($asientos as $asiento => $asi): ?>
+                        <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>','<?= $asi->direccion_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                                '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')">
                                 <td>
                                     <?= $asiento + 1 ?>
                                 </td>
@@ -375,6 +387,9 @@
                                 </td>
                                 <td>
                                     <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->direccion_proveedor ?>
                                 </td>
                                 <td>
                                     <?= $asi->fecha ?>
@@ -392,9 +407,7 @@
                                     <?= $asi->Debe ?>
                                 </td>
                                 <td>
-                                    <?= $asi->Haber ?>
-                                </td>
-                                <td>
+                                    <?= $asi->idcuenta ?> -
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
@@ -407,7 +420,15 @@
                                 <td>
                                     <?= $asi->nombre_origen ?>
                                 </td>
-
+                                <td>
+                                    <?= $asi->detalles ?>
+                                </td>
+                                <td>
+                                    <?= $asi->comprobante ?>
+                                </td>
+                                <td>
+                                    <?= $asi->cheques_che_id ?>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -433,27 +454,27 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+        function selectAsi(ruc, razonSocial, direct,fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta) {
             // Actualizar los campos de texto en la vista principal
-
+            
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('tesoreria').value = razonSocial;
+            document.getElementById('direccion').value = direct;
             document.getElementById('fecha').value = fechas;
-            document.getElementById('num_asi').value = numeros;
             document.getElementById('Debe').value = debes;
-            document.getElementById('Haber').value = habers;
             document.getElementById('MontoPago').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
-            document.getElementById('IDCuentaContable').value = cuentas;
-            document.getElementById('IDCuentaContable').value = descrip;
-
-
+            document.getElementById('codigo_cc').value = cuentas;
+            document.getElementById('descripcion_cc').value = descrip;
+            document.getElementById('detalles').value = deta;
+            document.getElementById('comprobante').value = comp;
+            document.getElementById('cheques_che_id').value = cheq;
+            document.getElementById('idcuentacontable').value = idcuenta;
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
-
         // Agregar evento al botón "Nuevo" para abrir el modal
         const openModalBtn_2 = document.getElementById("openModalBtn");
         openModalBtn_2.addEventListener("click", () => {
