@@ -30,7 +30,7 @@ class Diario_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Diario_obli_model->obtener_asientos($id_uni_respon_usu);// Obtener la lista de asientos
+		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);  
@@ -73,6 +73,7 @@ class Diario_obligaciones extends CI_Controller {
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 
@@ -220,12 +221,22 @@ class Diario_obligaciones extends CI_Controller {
 
 
 	public function edit($id){
+		
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
 		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->obtener_asiento_por_id($id), 
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
+			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliedit",$data);
+		$this->load->view("admin/obligacion/obli_combined",$data);
 		$this->load->view("layouts/footer");
 	}
 

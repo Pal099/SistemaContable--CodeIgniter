@@ -9,14 +9,20 @@ class Diario_obli_model extends CI_Model {
     }
 	public function obtener_asientos() {
 		return $this->db->get('num_asi')->result_array();
-		var_dump($result); // Solo para depuración
-  		 return $result;
 
     }
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->get('num_asi')->row_array();
     }
+	public function GETasientos($id_uni_respon_usu) {
+		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+		$this->db->where('estado_registro', '1');
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get('num_asi');
+		return $resultados->result();
+	}
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }

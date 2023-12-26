@@ -33,9 +33,7 @@
                                     <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
                                         <i class="bi bi-plus"></i>
                                     </button>
-                                    <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit'">
-                                        <span class="fa fa-edit"></span>
-                                    </button>
+
                                     <button type="button" class="btn btn-pdf" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                         <i class="bi bi-file-pdf"></i> PDF
                                     </button>
@@ -363,7 +361,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
-                                <thead>
+                            <thead>
                                     <tr>
                                         <th>id_num_asi</th>
                                         <th>FechaEmision</th>
@@ -375,14 +373,30 @@
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($asientos)) : ?>
-                                        <?php foreach ($asientos as $asiento) : ?>
+                                        <?php foreach ($asientos as $asien) : ?>
                                             <tr>
-                                                <td><?php echo $asiento->IDNum_Asi ?></td>
-                                                <td><?php echo $asiento->FechaEmision ?></td>
-                                                <td><?php echo $asiento->num_asi ?></td>
-                                                <td><?php echo $asiento->op ?></td>
-                                                <td><?php echo $asiento->estado ?></td>
-                                                
+                                                <td><?php echo $asien->IDNum_Asi ?></td>
+                                                <td><?php echo $asien->FechaEmision ?></td>
+                                                <td><?php echo $asien->num_asi ?></td>
+                                                <td><?php echo $asien->op ?></td>
+                                                <td><?php echo $asien->estado ?></td>
+                                                <td>
+                                                    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                     <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
+                                                        <span class="fa fa-search"></span>
+                                                    </button> 
+                                                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                        <i class="bi bi-pencil-fill"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                        <span class="fa fa-edit"></span>
+                                                    </button>
+                                                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    </div>
+                                                </td>
+
                                             </tr>
                                         <?php endforeach; ?>
                                         <?php else : ?>
