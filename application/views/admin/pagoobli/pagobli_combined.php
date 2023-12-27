@@ -348,13 +348,12 @@
                         <th>Fecha</th>
                         <th>Monto Pagado</th>
                         <th>Monto de Pago</th>
-
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($asientos as $asiento => $asi): ?>
                         <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>','<?= $asi->direccion_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
                                 '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
                                 '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')">
                                 <td>
@@ -369,20 +368,44 @@
                                 <td>
                                     <?= $asi->numero ?>
                                 </td>
-                               
+                                <td>
+                                    <?= $asi->fecha ?>
+                                </td>
                                 <td>
                                     <?= $asi->pagado ?>
                                 </td>
                                 <td>
                                     <?= $asi->MontoPago ?>
                                 </td>
-                                <td>
+                                <td hidden>
                                     <?= $asi->Debe ?>
                                 </td>
-                                <td>
+                                <td hidden>
                                     <?= $asi->Haber ?>
                                 </td>
-                                
+                                <td hidden>
+                                    <?= $asi->idcuenta ?> -
+                                    <?= $asi->codigo ?> -
+                                    <?= $asi->descrip ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->nombre_fuente ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->nombre_programa ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->nombre_origen ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->detalles ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->comprobante ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->cheques_che_id ?>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -408,13 +431,11 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, direct,fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta) {
+        function selectAsi(ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta) {
             // Actualizar los campos de texto en la vista principal
             
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
-            document.getElementById('tesoreria').value = razonSocial;
-            document.getElementById('direccion').value = direct;
             document.getElementById('fecha').value = fechas;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
