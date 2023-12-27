@@ -177,6 +177,16 @@
                                                                             <label for="OP">N° Op</label>
                                                                             <input type="text" class="form-control w-100" id="OP" name="OP" value="<?= $op_actual ?>" readonly>
                                                                         </div>
+                                                                        <div class="input-group input-group-sm  ">
+                                                                            <label for="MontoPago">MontoPago</label>
+
+                                                                            <input type="hidden" class="form-control border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
+                                                                        </div>
+                                                                        <div class="input-group input-group-sm  ">
+                                                                            <label for="MontoPago_2">MontoPago_2</label>
+
+                                                                            <input type="hidden" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -196,7 +206,6 @@
                                                     <th class="columna-ctncontable" scope="col">Cuenta Contable</th>
                                                     <th scope="col">Comprobante</th>
                                                     <th scope="col">Detalles</th>
-                                                    <th scope="col">Monto de Pago</th>
                                                     <th scope="col">Debe</th>
                                                     <th scope="col">Haber</th>
                                                     <th scope="col">Cheque</th>
@@ -251,11 +260,7 @@
                                                             <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles" required>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text" class="form-control small border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
-                                                        </div>
-                                                    </td>
+                                                    
                                                     <td>
                                                         <div class="input-group input-group-sm  ">
                                                             <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" required>
@@ -321,11 +326,7 @@
                                                             <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2" required>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
-                                                        </div>
-                                                    </td>
+
                                                     <td>
                                                         <div class="input-group input-group-sm  ">
                                                             <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" required>
@@ -651,7 +652,35 @@
         <!-- Script de bootstrap -->
         <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
 
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('comprobante').addEventListener('input', function() {
+                document.getElementById('comprobante_2').value = this.value;
+            });
+        </script> 
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('cheques_che_id').addEventListener('input', function() {
+                document.getElementById('cheques_che_id_2').value = this.value;
+            });
+        </script> 
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('detalles').addEventListener('input', function() {
+                document.getElementById('detalles_2').value = this.value;
+            });
+        </script> 
+       <script>
+            // Este script escucha los cambios en el campo 'debe'
+            // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
+            document.getElementById('Debe').addEventListener('input', function() {
+                document.getElementById('Haber_2').value = this.value;
+                document.getElementById('Haber').value = 0;
+                document.getElementById('Debe_2').value = 0;
+                
 
+            });
+        </script>
     </main>
 
 </body>
