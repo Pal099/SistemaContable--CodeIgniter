@@ -6,6 +6,8 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <!-- Estilos de DataTable de jquery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
 
 
@@ -98,7 +100,7 @@
 
                                                     <div class="form-group col-md-4">
                                                         <label for="num_asi">Numero:</label>
-                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" disabled>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
@@ -123,7 +125,7 @@
                                                     </div>
                                                     <div class="form-group col-12 mb-3">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="date" class="form-control" id="fecha" name="fecha" required>
+                                                        <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
                                                     </div>
                                                     <!-- Campos Opcionales del formulario -->
                                                     <div class="collapse mt-4" id="camposOpcionalesCollapse">
@@ -412,14 +414,15 @@
 
         <!-- Modal Proveedores con boostrap -->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Lista de Proveedores</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-hover table-bordered table-sm rounded-3">
+
+                        <table id="TablaProveedores" class="table table-hover table-bordered table-sm rounded-3">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -445,41 +448,36 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
         </div>
 
+
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-cuentascont-1">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="searchInput_4" placeholder="Buscar por código o descripción...">
-                        <table class="table table-bordered table-hover" id="cuentasContablesTable_4">
+                        <table class="table align-middle table-bordered table-hover table-sm" id="cuentasContablesTable_4">
                             <thead>
                                 <tr>
-                                    <th>IDCuentaContable</th>
+                                    <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato) : ?>
-                                    <tr class="list-item" onclick="selectCC(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
-                                        <td>
-                                            <?= $dato->IDCuentaContable ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Codigo_CC ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Descripcion_CC ?>
-                                        </td>
+                                    <tr class="list-item" onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
+                                        <td><?= $dato->IDCuentaContable ?></td>
+                                        <td><?= $dato->Codigo_CC ?></td>
+                                        <td><?= $dato->Descripcion_CC ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -488,6 +486,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
         <div class="modal fade" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
@@ -616,13 +615,52 @@
                 document.getElementById('ruc').value = ruc;
                 document.getElementById('razon_social').value = razonSocial;
                 document.getElementById('direccion').value = direccion;
-                // Agrega el resto de los campos si es necesario
             }
+        </script>
+
+        <!-- Script encargado de las tablas de proveedores -->
+        <script>
+            $(document).ready(function() {
+                $('#TablaProveedores').DataTable({
+                    paging: true, // Acá se habilita la paginación
+                    pageLength: 5, // Cuantas Filas por pagina
+                    lengthChange: false, // cambio de longitud
+                    searching: true, // Barra de busqueda
+                    info: true, // Cantidad de registros
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    }
+                });
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#cuentasContablesTable_4').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    scrollY: '50vh',
+                    scrollCollapse: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    }
+                });
+
+                $('#modalCuentasCont1').on('shown.bs.modal', function(e) {
+                    $($.fn.dataTable.tables(true)).DataTable()
+                        .columns.adjust()
+                        .responsive.recalc();
+                });
+            });
         </script>
 
         <!-- Script de bootstrap -->
         <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
-
+        <!-- Script de DataTable de jquery -->
+        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 
     </main>
 
