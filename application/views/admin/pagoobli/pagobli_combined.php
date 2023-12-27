@@ -221,13 +221,10 @@
                                                                 <button type="button" class="btn btn-outline-primary border-0 agregarFila">
                                                                     <i class="bi bi-plus-square"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-outline-danger border-0 eliminarFila">
-                                                                    <i class="bi bi-trash3"></i>
-                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr id="filaBase">
+                                                    <tr id="filaBase" class="filaBase">
                                                         <!-- segundo asiento  -->
                                                         <td>
                                                             <div class="input-group input-group-sm  ">
@@ -258,10 +255,10 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-sm">
-                                                                <input type="hidden" class="form-control border-0 bg-transparent" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                                <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc_2" name="codigo_cc_2">
-                                                                <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc_2" name="descripcion_cc_2">
-                                                                <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="botonBuscar2">
+                                                                <input type="hidden" class="form-control border-0 bg-transparent idcuentacontable_2" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                                <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent codigo_cc_2" id="codigo_cc_2" name="codigo_cc_2">
+                                                                <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent descripcion_cc_2" id="descripcion_cc_2" name="descripcion_cc_2">
+                                                                <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary openModalBtn_4" id="botonBuscar2">
                                                                     <i class="bi bi-search"></i>
                                                                 </button>
                                                             </div>
@@ -301,7 +298,7 @@
                                                                 <button type="button" class="btn btn-outline-primary border-0 agregarFila">
                                                                     <i class="bi bi-plus-square"></i>
                                                                 </button>
-                                                                <button type="button" class="btn btn-outline-danger border-0 eliminarFila">
+                                                                <button type="button" class="btn btn-outline-danger border-0 eliminarFila" hidden>
                                                                     <i class="bi bi-trash3"></i>
                                                                 </button>
                                                             </div>
@@ -315,11 +312,7 @@
                                 <div class="container-fluid mt-3 mb-3">
                                     <div class="col-md-12 d-flex flex-row justify-content-center">
                                         <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
-                                        <div class="notification" id="notification">
-                                            <div class="icon">
-                                            </div>
-                                            <div class="message">Guardado Correctamente</div>
-                                        </div>
+                                       
 
                                         <button type="button" class="btn btn-danger" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
                                             <span class="fa fa-remove"></span> Cancelar
@@ -510,49 +503,60 @@
 
     <!-- Script para agregar nuevas filas a la tabla -->
     <script>
-        $(document).ready(function() {
-
+        $(document).ready(function () {
+        
+            
             // Agregar fila
-            $(document).on("click", ".agregarFila", function(e) {
+            $(document).on("click", ".agregarFila", function (e) {
                 e.preventDefault();
+                    
+                // Clonar la fila base
                 var nuevaFila = $("#filaBase").clone();
 
-                // Remove the ID to avoid duplicates
+                // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+                nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+                // Quitar el ID para evitar duplicados
                 nuevaFila.removeAttr('id');
 
                 // Agregar una clase a todos los elementos de la fila clonada
                 nuevaFila.find("select, input").addClass("filaClonada");
 
-                // Clear values of the fields in the new row
+                // Limpiar los valores de los campos en la  nueva fila
                 nuevaFila.find("select, input").val("");
 
-                // Show the new row
+                // Mostrar la nueva fila
                 nuevaFila.show();
 
-                // Append the new row to the table body
+                // Agregar la nueva fila al cuerpo de la tabla
                 $("#miTabla tbody").append(nuevaFila);
             });
 
+
             // Eliminar fila
-            $(document).on("click", ".eliminarFila", function(e) {
+            $("#miTabla").on("click", ".eliminarFila", function (e) {
                 e.preventDefault();
-                if ($("#miTabla tbody tr").length > 2) {
-                    $(this).closest("tr").remove();
-                } else {
-                    showToast('No es posible eliminar está fila.', 'bg-danger', true);
-                }
+            
+                $(this).closest("tr").remove();
+                    
             });
+            
         });
     </script>
 
+
     <!-- Envio de formulario principal -->
     <script>
-        $("#formularioPrincipal").on("submit", function() {
+        
+        $("#formularioPrincipal").on("submit", function(e) {
+        
             //datos que no son de la tabla dinamica
             var datosFormulario = {
+            
                 op: $("#op").val(),
                 ruc: $("#ruc").val(),
                 num_asi: $("#num_asi").val(),
+                detalles: $("#detalles").val(),
                 contabilidad: $("#contabilidad").val(),
                 direccion: $("#direccion").val(),
                 telefono: $("#telefono").val(),
@@ -571,19 +575,21 @@
                 cheques_che_id: $("#cheques_che_id").val(),
 
             };
-
+            
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
-
+        
             var filas = [];
+            
 
-
-            $("#miTabla tbody tr:gt(0)").each(function() {
+            $("#miTabla tbody tr:gt(0)").each(function (e) {
+                
                 var fila = {
                     id_pro: $(this).find("select[name='id_pro_2']").val(),
                     id_ff: $(this).find("select[name='id_ff_2']").val(),
                     id_of: $(this).find("select[name='id_of_2']").val(),
                     IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                    detalles: $(this).find("input[name='detalles_2']").val(),
                     comprobante: $(this).find("input[name='comprobante_2']").val(),
                     Debe: $(this).find("input[name='Debe_2']").val(),
                     Haber: $(this).find("input[name='Haber_2']").val(),
@@ -594,23 +600,21 @@
                 sumahaber += valorClonado;
                 filas.push(fila);
             });
-
+        
             // Combinar datos del formulario principal y de las filas dinámicas
             var datosCompletos = {
                 datosFormulario: datosFormulario,
                 filas: filas,
             };
-
-            if (Math.abs(sumahaber - datosFormulario.Debe) < 0.0001) {
+            
+            if(Math.abs(sumahaber - datosFormulario.Debe) < 0.0001){
                 $.ajax({
                     url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
                     type: 'POST',
-                    data: {
-                        datos: datosCompletos
-                    },
+                    data: {  datos: datosCompletos },
                     //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                     success: function(response) {
-                        //alert(response);
+                        alert(filas);
                         console.log(response);
                         if (response.includes('Datos guardados exitosamente.')) {
                             alert('Datos guardados exitosamente.');
@@ -621,14 +625,18 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        alert("Error en la solicitud AJAX:", status, error);
+                        
+                        console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                        console.log(datosCompletos);
+                        alert("Error en la solicitud AJAX: " + status + " - " + error);
+                        
                     }
                 });
-            } else {
+            }else{
                 alert('El debe y el haber son diferentes');
                 return false;
             }
-
+            
         });
     </script>
 
@@ -760,39 +768,78 @@
 
     <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
     <script>
-        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Actualizar los campos de texto en la vista principal con los valores seleccionados
-            document.getElementById('idcuentacontable_2').value = IDCuentaContable;
-            document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-            document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+        var currentRow = null;
+        // Función para abrir el modal de las cuentas contables
+        function openModal_4(currentRowParam) {
+            
+            var modalContainer = document.getElementById('modalCuentasCont2');
+            
+            currentRow = currentRowParam; // Almacenar la fila actual
+           
         }
 
-        function filterResults() {
-            var input, filter, table, tr, td1, td2, i, txtValue;
-            input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
-            filter = input.value.toUpperCase();
-            table = document.getElementById("cuentasContablesTable_3");
-            tr = table.getElementsByTagName("tr");
+            
+        // Usa la fila actual almacenada al seleccionar la cuenta
+        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Utiliza 'currentRow' en lugar de buscar la última fila
+            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+            currentRow.find('.codigo_cc_2').val(Codigo_CC);
+            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+            closeModal_4();
+        }
 
-            for (i = 0; i < tr.length; i++) {
-                td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+            // Abrir modal en fila dinamica
+            const openModalBtn_4 = document.getElementById("openModalBtn_4");
+            // To this (using event delegation)
+            // Actualiza la función de clic para pasar la fila actual al abrir el modal
+            document.getElementById("miTabla").addEventListener("click", function(event) {
+                
+                // Encuentra la fila desde la cual se abrió el modal
+                var row = $(event.target).closest('tr');
+                if (
+                    (event.target && event.target.className.includes("openModalBtn_4")) ||
+                    (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
+                ) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    openModal_4(row);
+                }
+            });
+                
+                
+            
+            function filterResults() {
+                var input, filter, table, tr, td1, td2, i, txtValue;
+                input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
+                filter = input.value.toUpperCase();
+                table = document.getElementById("cuentasContablesTable_3");
+                tr = table.getElementsByTagName("tr");
 
-                if (td1 && td2) {
-                    // Combina los textos de ambas posiciones en una cadena
-                    txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                    // Busca en la cadena combinada
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+                    
+                    if (td1 && td2) {
+                        // Combina los textos de ambas posiciones en una cadena
+                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+                        
+                        // Busca en la cadena combinada
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
                     }
                 }
             }
-        }
-        document.getElementById("searchInput_3").addEventListener("input", filterResults);
+            document.getElementById("searchInput_2").addEventListener("input", filterResults);
+
+        
+        
     </script>
+
+
     <!-- script para las alertas -->
     <script>
         const toastTrigger = document.getElementById('liveToastBtn')
