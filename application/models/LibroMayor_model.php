@@ -3,56 +3,69 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LibroMayor_model extends CI_Model {
 
-    public function __construct(){
+    public function __construct() {
         parent::__construct();
         $this->load->database();
     }
+    public function buscarPorDescripcion($descripcion) {
+        $this->db->like('Descripcion_CC', $descripcion);
+        $query = $this->db->get('cuentacontable');
+        return $query->row_array(); // Devuelve la primera cuenta que coincide
+    }
 
-    public function obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idCuentaContable = null, $terminoBusqueda = ''){
-        $this->db->select("
-            nad.IDNum_Asi_Deta,
-            nad.numero,
-            nad.IDCuentaContable,
-            nad.MontoPago,
-            nad.Debe,
-            nad.Haber,
-            nad.comprobante,
-            na.FechaEmision,
-            na.Num_Asi,
-            na.MontoTotal,
-            cc.Codigo_CC,
-            cc.Descripcion_CC
-        ");
-        $this->db->from('num_asi_deta nad');
-        $this->db->join('num_asi na', 'nad.Num_Asi_IDNum_Asi = na.IDNum_Asi', 'inner');
-        $this->db->join('cuentacontable cc', 'nad.IDCuentaContable = cc.IDCuentaContable', 'inner');
-        $this->db->where('na.FechaEmision >=', $fechaInicio);
-        $this->db->where('na.FechaEmision <=', $fechaFin);
 
-        if ($idCuentaContable !== null) {
-            $this->db->where('nad.IDCuentaContable', $idCuentaContable);
-        }
 
-        if (!empty($terminoBusqueda)) {
+    public function obtenerEntradasConFiltros($filtros) {
+        $this->db->select('nd.*, na.FechaEmision, cc.Codigo_CC, cc.Descripcion_CC');
+        $this->db->from('num_asi_deta as nd');
+        $this->db->join('num_asi as na', 'nd.Num_Asi_IDNum_Asi = na.IDNum_Asi', 'inner');
+        $this->db->join('cuentacontable as cc', 'nd.IDCuentaContable = cc.IDCuentaContable', 'inner');
+        
+        if (!empty($filtros['codigo_cuenta_contable'])) {
             $this->db->group_start();
-            $this->db->like('cc.Codigo_CC', $terminoBusqueda);
-            $this->db->or_like('cc.Descripcion_CC', $terminoBusqueda);
+            $this->db->like('cc.Codigo_CC', $filtros['codigo_cuenta_contable']);
+            $this->db->or_like('cc.Descripcion_CC', $filtros['codigo_cuenta_contable']);
             $this->db->group_end();
         }
+        // Aplicar filtros de fecha
+        if (!empty($filtros['fecha_inicio'])) {
+            $this->db->where('na.FechaEmision >=', $filtros['fecha_inicio']);
+        }
+        if (!empty($filtros['fecha_fin'])) {
+            $this->db->where('na.FechaEmision <=', $filtros['fecha_fin']);
+        }
+        
+        // Filtro por código de cuenta contable
+        if (!empty($filtros['codigo_cuenta_contable'])) {
+            $this->db->like('cc.Codigo_CC', $filtros['codigo_cuenta_contable']);
+            $this->db->or_like('cc.Descripcion_CC', $filtros['codigo_cuenta_contable']);
+        }
 
-        $this->db->where('na.estado', 1); // Asumiendo que 1 representa 'activo'
-        $this->db->where('nad.estado_registro', 1); // Asumiendo que 1 representa 'activo'
+        // Filtro por tipo de diario
+        if (!empty($filtros['ver_diario']) && $filtros['ver_diario'] !== 'todos') {
+            // Aquí necesitarás ajustar la condición según cómo se identifiquen los tipos de diario en tu base de datos
+            $this->db->where('na.tipo_diario', $filtros['ver_diario']); // Cambia 'tipo_diario' por la columna correspondiente
+        }
+
+        // Filtro por programa
+        if (!empty($filtros['programa']) && $filtros['programa'] !== 'todos') {
+            $this->db->where('nd.id_pro', $filtros['programa']);
+        }
+
+        // Filtro por origen de financiamiento
+        if (!empty($filtros['origen_financiamiento']) && $filtros['origen_financiamiento'] !== 'todos') {
+            $this->db->where('nd.id_of', $filtros['origen_financiamiento']);
+        }
+
+        // Filtro por fuente de financiamiento
+        if (!empty($filtros['fuente_financiamiento']) && $filtros['fuente_financiamiento'] !== 'todos') {
+            $this->db->where('nd.id_ff', $filtros['fuente_financiamiento']);
+        };
+        if (!empty($filtros['descripcion_cuenta_contable'])) {
+            $this->db->like('cc.Descripcion_CC', $filtros['descripcion_cuenta_contable']);
+        }
 
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function obtenerEntradasPorCuentaContable($idCuentaContable) {
-        // Asumiendo que tienes una columna 'IDCuentaContable' en tu tabla 'num_asi_deta'
-        $this->db->where('IDCuentaContable', $idCuentaContable);
-        $query = $this->db->get('num_asi_deta');
-        return $query->result_array();
-    }
-    
-    // Otros métodos relacionados con el Libro Mayor podrían ir aquí
-
 }

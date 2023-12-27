@@ -1,87 +1,105 @@
-<!-- librolist.php en application/views/admin/libro/ -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Libro Mayor</title>
+    <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .header-color {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e3e6f0;
+        }
+        .page-title {
+            padding: 20px 0;
+        }
+        /* Agrega aquí más estilos personalizados si es necesario */
+    </style>
+</head>
+<body>
 
-<main id="main" class="main">
-    <div class="pagetitle">
+<div class="container mt-5">
+    <div class="page-title text-center header-color">
         <h1>Libro Mayor</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
-                <li class="breadcrumb-item active">Libro Mayor</li>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Libro Mayor</li>
             </ol>
         </nav>
-    </div><!-- End Page Title -->
+    </div>
 
-    <section class="section">
-        <div class="card">
+    <section class="section mt-3">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 header-color">
+                <h6 class="m-0 font-weight-bold text-primary">Filtros de Búsqueda</h6>
+            </div>
             <div class="card-body">
-                <!-- Formulario para Filtros -->
-                <form class="row g-3 mb-4" action="<?php echo base_url();?>LibroMayor/" method="post">
-                    <div class="col-md-3">
+                <form class="row g-3 mb-4" action="<?php echo base_url(); ?>LibroMayor/buscarCuenta" method="post">
+                    <div class="col-md-4">
                         <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
                         <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="fechaFin" class="form-label">Hasta:</label>
                         <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
                     </div>
-                    <div class="col-md-3">
-                      <label for="busquedaCuentaContable" class="form-label">Buscar Cuenta:</label>
-                          <input type="text" class="form-control mb-2" id="busquedaCuentaContable" placeholder="Ingrese código o descripción">
-                        </div>
-                        <div id="resultadosBusqueda" class="col-md-12 mt-2"></div>
-
-                    <!-- Columna para fechas y selects -->
-                    <div class="col-md-8">
-                        <div class="row">
-                            <!-- Fecha Desde y Hasta -->
-                            <div class="col-md-6">
-                                <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
-                                <input type="date" class="form-control mb-2" id="fechaInicio" name="fecha_inicio">
-                                <label for="fechaFin" class="form-label">Hasta:</label>
-                                <input type="date" class="form-control mb-2" id="fechaFin" name="fecha_fin">
-                            </div>
-                            <!-- Selects -->
-                            <div class="col-md-6">
-                                <label for="verDiario" class="form-label">Ver Diario:</label>
-                                <select class="form-select mb-2" id="verDiario" name="verDiario">
-                                    <option value="todos">Todos</option>
-                                    <option value="libroDiarioBorrador">Libro diario borrador</option>
-                                    <option value="ordenPago">Orden de pago</option>
-                                </select>
-                                <label for="programa" class="form-label">Programa:</label>
-                                <select class="form-select mb-2" id="programa" name="programa">
-                                    <option value="todos">Todos</option>
-                                    <!-- Añadir más opciones de programas aquí -->
-                                </select>
-                                <label for="origenFinanciamiento" class="form-label">Origen de Financiamiento:</label>
-                                <select class="form-select mb-2" id="origenFinanciamiento" name="origenFinanciamiento">
-                                    <option value="todos">Todos</option>
-                                    <!-- Añadir más opciones de origen de financiamiento aquí -->
-                                </select>
-                                <label for="fuenteFinanciamiento" class="form-label">Fuente de Financiamiento:</label>
-                                <select class="form-select mb-2" id="fuenteFinanciamiento" name="fuenteFinanciamiento">
-                                    <option value="todos">Todos</option>
-                                    <!-- Añadir más opciones de fuente de financiamiento aquí -->
-                                </select>
-                            </div>
-                        </div>
+                    <div class="col-md-4">
+                        <label for="descripcionCuentaContable" class="form-label">Descripción de Cuenta Contable:</label>
+                        <input type="text" class="form-control" id="descripcionCuentaContable" name="descripcion_cuenta_contable" placeholder="Descripción de la cuenta">
                     </div>
-                    
-                    <div class="col-3">
-                        <br>
-                        <button type="submit" class="btn btn-primary">Buscar</button>
+                    <div class="col-md-3">
+                        <label for="verDiario" class="form-label">Ver Diario:</label>
+                        <select class="form-select" id="verDiario" name="ver_diario">
+                            <option value="todos">Todos</option>
+                            <option value="libroDiarioBorrador">Libro diario borrador</option>
+                            <option value="ordenPago">Orden de pago</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="programa" class="form-label">Programa:</label>
+                        <select class="form-select" id="programa" name="programa">
+                            <option value="todos">Todos</option>
+                            <option value="seleccionar">Seleccionar</option>
+                            <!-- Añadir más opciones de programas aquí -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="origenFinanciamiento" class="form-label">Origen de Financiamiento:</label>
+                        <select class="form-select" id="origenFinanciamiento" name="origen_financiamiento">
+                            <option value="todos">Todos</option>
+                            <option value="seleccionar">Seleccionar</option>
+                            <!-- Añadir más opciones de origen de financiamiento aquí -->
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fuenteFinanciamiento" class="form-label">Fuente de Financiamiento:</label>
+                        <select class="form-select" id="fuenteFinanciamiento" name="fuente_financiamiento">
+                            <option value="todos">Todos</option>
+                            <option value="seleccionar">Seleccionar</option>
+                            <!-- Añadir más opciones de fuente de financiamiento aquí -->
+                        </select>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary mt-3">Buscar</button>
                     </div>
                 </form>
-                <!-- Tabla de Resultados -->
+            </div>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 header-color">
+                <h6 class="m-0 font-weight-bold text-primary">Resultados</h6>
+            </div>
+            <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
                                 <th>Fecha</th>
                                 <th>N° Asiento</th>
                                 <th>N° OP</th>
                                 <th>Comprobante</th>
-                                <th>Descripción del gasto</th>
+                                <th>Descripción del Gasto</th>
                                 <th>Debe</th>
                                 <th>Haber</th>
                                 <th>Saldo</th>
@@ -89,7 +107,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(!empty($entradas)): ?>
+                            <?php if (isset($entradas) && is_array($entradas)): ?>
                                 <?php foreach ($entradas as $entrada): ?>
                                     <tr>
                                         <td><?php echo $entrada['FechaEmision']; ?></td>
@@ -114,58 +132,9 @@
             </div>
         </div>
     </section>
-</main>
-<script>
-    $(document).ready(function() {
-        $('#busquedaCuentaContable').on('input', function() {
-            var descripcion = $(this).val();
-            if (descripcion !== '') {
-                $.ajax({
-                    url: '<?php echo base_url();?>LibroMayor/buscarCuentaContable',
-                    type: 'POST',
-                    data: { descripcion_cc: descripcion },
-                    success: function(data) {
-                        var cuentas = JSON.parse(data);
-                        var selectHtml = '<select id="selectorCuentaContable">';
-                        $.each(cuentas, function(i, cuenta) {
-                            selectHtml += '<option value="' + cuenta.IDCuentaContable + '">' + cuenta.Descripcion_CC + '</option>';
-                        });
-                        selectHtml += '</select>';
-                        $('#resultadosBusqueda').html(selectHtml);
+</div>
 
-                        // Listener para el selector de cuentas
-                        $('#selectorCuentaContable').on('change', function() {
-                            var idCuentaContable = $(this).val();
-                            $.ajax({
-                                url: '<?php echo base_url();?>LibroMayor/filtrarEntradasPorCuentaContable',
-                                type: 'POST',
-                                data: { idCuentaContable: idCuentaContable },
-                                success: function(data) {
-                                    var entradas = JSON.parse(data);
-                                    var tbodyHtml = '';
-                                    $.each(entradas, function(i, entrada) {
-                                        tbodyHtml += '<tr>' +
-                                            '<td>' + entrada.FechaEmision + '</td>' +
-                                            '<td>' + entrada.numero + '</td>' +
-                                            '<td>' + entrada.Num_Asi_IDNum_Asi + '</td>' +
-                                            '<td>' + entrada.comprobante + '</td>' +
-                                            '<td>' + entrada.Descripcion + '</td>' +
-                                            '<td>' + entrada.Debe + '</td>' +
-                                            '<td>' + entrada.Haber + '</td>' +
-                                            '<td>' + (entrada.Debe - entrada.Haber) + '</td>' + // Calculo del saldo
-                                            '<td>' + entrada.Codigo_CC + ' - ' + entrada.Descripcion_CC + '</td>' +
-                                            '</tr>';
-                                    });
-                                    $('#tablaResultados tbody').html(tbodyHtml);
-                                }
-                            });
-                        });
-                    }
-                });
-            } else {
-                $('#resultadosBusqueda').html(''); // Limpia los resultados si el campo de búsqueda está vacío
-                $('#tablaResultados tbody').html(''); // Limpia la tabla
-            }
-        });
-    });
-</script>
+<script src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
