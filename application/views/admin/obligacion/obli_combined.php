@@ -103,6 +103,10 @@
                                                                 <label for="razon_social">Nombre y Apellido:</label>
                                                                 <input type="text" class="form-control w-100" id="razon_social" name="razon_social" required>
                                                             </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label for="fecha">Fecha:</label>
+                                                                <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+                                                            </div>
                                                             <!-- Borré la mayoría de campos a pedido de mi papá  -->
                                                         <!--     <div class="form-group col-md-4">
                                                                 <label for="direccion">Dirección:</label>
@@ -112,10 +116,6 @@
                                                             <div class="form-group col-12">
                                                                 <label for="observacion">Concepto:</label>
                                                                 <input type="text" class="form-control w-100" id="observacion" name="observacion">
-                                                            </div>
-                                                            <div class="form-group col-12 mb-3">
-                                                                <label for="fecha">Fecha:</label>
-                                                                <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
                                                             </div>
                                                             <!-- Campos Opcionales del formulario -->
                                                             <div class="collapse mt-4" id="camposOpcionalesCollapse">
@@ -674,11 +674,9 @@
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
             document.getElementById('Debe').addEventListener('input', function() {
-                document.getElementById('Haber_2').value = this.value;
-                document.getElementById('Haber').value = 0;
-                document.getElementById('Debe_2').value = 0;
-                
-
+            document.getElementById('Haber_2').value = this.value;
+            document.getElementById('Haber').value = 0;
+            document.getElementById('Debe_2').value = 0;            
             });
         </script>
     </main>
