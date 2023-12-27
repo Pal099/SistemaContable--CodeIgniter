@@ -11,19 +11,6 @@
   width: 25%;
 }
 
-.modal-presupuesto-large {
-  max-width: 90%;
-}
-
-.btn-pdf {
-  background-color: red;
-  color: white;
-}
-
-.btn-excel {
-  background-color: green;
-  color: white;
-}
 /* Posicion del toast */
 #toastErrorFila {
   position: fixed;

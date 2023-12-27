@@ -416,8 +416,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
-                        <table id="TablaProveedores" class="table table-hover table-bordered table-sm rounded-3">
+                        <table id="TablaProveedores" class="table table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -452,14 +451,14 @@
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table align-middle table-bordered table-hover table-sm" id="cuentasContablesTable_4">
+                        <table class="table table-hover table-sm" id="TablaCuentaCont1">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -482,17 +481,16 @@
             </div>
         </div>
 
-
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table align-middle table-bordered table-hover table-sm" id="cuentasContablesTable_3">
+                        <table class="table table-hover table-sm" id="TablaCuentaCont2">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -524,34 +522,7 @@
                 document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
             }
-
-            function filterResults() {
-                var input, filter, table, tr, td1, td2, i, txtValue;
-                input = document.getElementById("searchInput_4"); // Ajusta el ID según tu campo de búsqueda
-                filter = input.value.toUpperCase();
-                table = document.getElementById("cuentasContablesTable_4");
-                tr = table.getElementsByTagName("tr");
-
-                for (i = 0; i < tr.length; i++) {
-                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                    if (td1 && td2) {
-                        // Combina los textos de ambas posiciones en una cadena
-                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                        // Busca en la cadena combinada
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-            document.getElementById("searchInput_4").addEventListener("input", filterResults);
         </script>
-
 
         <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
         <script>
@@ -561,32 +532,6 @@
                 document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
                 document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
             }
-
-            function filterResults() {
-                var input, filter, table, tr, td1, td2, i, txtValue;
-                input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
-                filter = input.value.toUpperCase();
-                table = document.getElementById("cuentasContablesTable_3");
-                tr = table.getElementsByTagName("tr");
-
-                for (i = 0; i < tr.length; i++) {
-                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                    if (td1 && td2) {
-                        // Combina los textos de ambas posiciones en una cadena
-                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                        // Busca en la cadena combinada
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-            document.getElementById("searchInput_3").addEventListener("input", filterResults);
         </script>
 
         <!-- Script para mostrar los campos opcionales -->
@@ -612,11 +557,11 @@
         <script>
             $(document).ready(function() {
                 $('#TablaProveedores').DataTable({
-                    paging: true, // Acá se habilita la paginación
-                    pageLength: 5, // Cuantas Filas por pagina
-                    lengthChange: false, // cambio de longitud
-                    searching: true, // Barra de busqueda
-                    info: true, // Cantidad de registros
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
                     }
@@ -627,12 +572,10 @@
         <!-- Script para las tablas de lo modales de cuentas contables -->
         <script>
             $(document).ready(function() {
-                var table1 = $('#cuentasContablesTable_3').DataTable({
+                var table1 = $('#TablaCuentaCont1').DataTable({
                     paging: true,
                     pageLength: 10,
                     lengthChange: true,
-                    scrollY: '50vh',
-                    scrollCollapse: true,
                     searching: true,
                     info: true,
                     language: {
@@ -640,29 +583,15 @@
                     }
                 });
 
-                var table2 = $('#cuentasContablesTable_4').DataTable({
+                var table2 = $('#TablaCuentaCont2').DataTable({
                     paging: true,
                     pageLength: 10,
                     lengthChange: true,
-                    scrollY: '50vh',
-                    scrollCollapse: true,
                     searching: true,
                     info: true,
                     language: {
                         url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
                     }
-                });
-
-                $('#modalCuentasCont1').on('shown.bs.modal', function(e) {
-                    $($.fn.dataTable.tables(true)).DataTable()
-                        .columns.adjust()
-                        .responsive.recalc();
-                });
-
-                $('#modalCuentasCont2').on('shown.bs.modal', function(e) {
-                    $($.fn.dataTable.tables(true)).DataTable()
-                        .columns.adjust()
-                        .responsive.recalc();
                 });
             });
         </script>

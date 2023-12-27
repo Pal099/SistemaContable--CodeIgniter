@@ -11,13 +11,38 @@
   width: 25%;
 }
 
-.modal-cuentascont-1 {
-  max-width: 90%;
+/* Css de las tablas y modales de cuentas contables */
+.cuentas-contables {
+  max-width: 65%;
+}
+.cuentas-contables tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.cuentas-contables thead,
+.cuentas-contables tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
 }
 
+/* Css de las tabla y modal de proveedor */
 .modal-presupuesto-large {
   max-width: 90%;
 }
+.modal-presupuesto-large tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.modal-presupuesto-large thead,
+.modal-presupuesto-large tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
+}
+
 
 .btn-pdf {
   background-color: red;

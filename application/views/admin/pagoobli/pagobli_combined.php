@@ -2,12 +2,11 @@
 <html lang="es">
 
 <head>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css" rel="stylesheet" >
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -315,12 +314,6 @@
                                 <div class="container-fluid mt-3 mb-3">
                                     <div class="col-md-12 d-flex flex-row justify-content-center">
                                         <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas"><span class="fa fa-save"></span>Guardar</button>
-                                        <div class="notification" id="notification">
-                                            <div class="icon">
-                                            </div>
-                                            <div class="message">Guardado Correctamente</div>
-                                        </div>
-
                                         <button type="button" class="btn btn-danger" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
                                             <span class="fa fa-remove"></span> Cancelar
                                         </button>
@@ -333,6 +326,7 @@
             </section>
         </div>
     </main>
+    
     <!-- Contenedor del modal -->
     <div class="modal-container2" id="modalContainer_2">
         <div class="modal-content2">
@@ -793,6 +787,7 @@
         }
         document.getElementById("searchInput_3").addEventListener("input", filterResults);
     </script>
+
     <!-- script para las alertas -->
     <script>
         const toastTrigger = document.getElementById('liveToastBtn')
