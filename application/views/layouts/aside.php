@@ -22,6 +22,16 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
+                <i class="bi  bi-books"></i><span>Depositos</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/LibroMayor">
+                <i class="bi  bi-books"></i><span>Libro Mayor</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Balance_Gral">
                 <i class="bi bi-graph-up"></i><span>Balance General</span>
             </a>
