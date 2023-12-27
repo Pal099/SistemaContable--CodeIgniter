@@ -48,6 +48,8 @@
                                                         <th>Descripción de la Cuenta</th>
                                                         <th>Total Debe</th>
                                                         <th>Total Haber</th>
+                                                        <th>Total Deudor</th>
+                                                        <th>Total Acreedor</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-group-divider">
@@ -57,6 +59,8 @@
                                                             <td><?= $cuenta->Descripcion_CC ?></td>
                                                             <td><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?></td>
                                                             <td><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?></td>
+                                                            <td><?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?></td>
+                                                            <td><?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?></td>
                                                         </tr>
                                                         <?php if (isset($cuenta->cuentasHijas)) : ?>
                                                             <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
@@ -65,6 +69,8 @@
                                                                     <td><?= $cuentaHija->Descripcion_CC ?></td>
                                                                     <td><?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?></td>
                                                                     <td><?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?></td>
+                                                                    <td><?= isset($cuentaHija->TotalDeudor) ? number_format($cuentaHija->TotalDeudor, 0, ',', '.') : 0 ?></td>
+                                                                    <td><?= isset($cuentaHija->TotalAcreedor) ? number_format($cuentaHija->TotalAcreedor, 0, ',', '.') : 0 ?></td>
                                                                 </tr>
                                                             <?php endforeach; ?>
                                                         <?php endif; ?>

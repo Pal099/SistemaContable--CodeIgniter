@@ -381,13 +381,13 @@
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
-                                <td hidden>
+                                <td >
                                     <?= $asi->nombre_fuente ?>
                                 </td>
-                                <td hidden>
+                                <td >
                                     <?= $asi->nombre_programa ?>
                                 </td>
-                                <td hidden>
+                                <td >
                                     <?= $asi->nombre_origen ?>
                                 </td>
                                 <td hidden>
