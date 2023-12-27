@@ -700,13 +700,6 @@ h6 {
   right: 0px;
   top: 15px;
 }
-/* Estilos para el contenedor con marco */
-.content-container {
-  border: 1px solid #ccc; /* Establece el borde */
-  padding: 20px; /* Añade un espacio interno para separar el contenido del borde */
-  margin: 20px; /* Añade un margen externo para separar el contenido de otros elementos */
-  border-radius: 10px; /* Aplica bordes redondeados */
-}
 
 /* Estilos para el título de la página */
 .pagetitle {
@@ -741,10 +734,6 @@ h6 {
 .dashboard .filter .dropdown-item {
   padding: 8px 15px;
 }
-/* Estilos para el modal */
-
-
-
 
 .close {
   color: #aaa;
@@ -1144,27 +1133,11 @@ h6 {
   color: #012970;
 }
 
-/* Estilos para el contenedor con marco */
-.content-container {
-  border: 1px solid #ccc;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 10px;
-}
-
 /* Estilos para el título de la página */
 .pagetitle {
   margin-bottom: 1px;
   padding-bottom: 10px;
 }
-
-/* Estilo para el contenedor del contenido */
-.content {
-  background-color: #dce1ff; /* Cambia el color a tu preferencia */
-  padding: 20px; /* Agrega un espacio interno al contenido para evitar que se superponga con el fondo */
-  color: #000000; /* Cambia el color del texto para que sea legible en el fondo */
-}
-
 
 .slider {
   position: absolute;

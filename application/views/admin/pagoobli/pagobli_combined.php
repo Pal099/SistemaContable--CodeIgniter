@@ -57,12 +57,7 @@
                                             <div class="card">
                                                 <div class="card-body">
                                                     <div class="row g-3 align-items-center">
-                                                        <div class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                            <label for="ruc">Ruc:</label>
-                                                            <input type="text" class="form-control" id="ruc" name="ruc">
-                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                        </div>
-
+                                                        
                                                         <?php
                                                         // Conexión a la base de datos (debes configurar tu conexión)
                                                         $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
@@ -106,37 +101,31 @@
                                                         // Cierra la conexión a la base de datos
                                                         $conexion->close();
                                                         ?>
-                                                        <div class="form-group col-md-4">
+                                                        
+                                                        <div class="form-group col-md-2">
                                                             <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op" value="<?= $op_actual ?>" readonly>
                                                         </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="num_asi">Numero:</label>
+                                                        <div class="form-group col-md-2">
+                                                            <label for="num_asi">N° asiento:</label>
                                                             <input type="text" class="form-control w-100" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?> " readonly>
                                                         </div>
+                                                        <div class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                            <label for="ruc">RUC o CI:</label>
+                                                            <input type="text" class="form-control" id="ruc" name="ruc">
+                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                        </div>
                                                         <div class="form-group col-md-4">
-                                                            <label for="contabilidad">Contabilidad:</label>
+                                                            <label for="contabilidad">Nombre y Apellido:</label>
                                                             <input type="text" class="form-control" id="contabilidad" name="contabilidad">
                                                         </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="direccion">Dirección:</label>
-                                                            <input type="text" class="form-control" id="direccion" name="direccion">
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="telefono">Teléfono:</label>
-                                                            <input type="text" class="form-control w-100" id="telefono" name="telefono">
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="tesoreria">Tesoreria:</label>
-                                                            <input type="text" class="form-control" id="tesoreria" name="tesoreria">
-                                                        </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="observacion">Observación:</label>
+                                                        <div class="form-group col-md-12">
+                                                            <label for="observacion">Concepto:</label>
                                                             <input type="text" class="form-control" id="observacion" name="observacion">
                                                         </div>
-                                                        <div class="form-group col-md-4">
-                                                            <label for="fecha">Fecha:</label>
-                                                            <input type="date" class="form-control" id="fecha" name="fecha">
+                                                        <div class="form-group col-12 mb-3">
+                                                                <label for="fecha">Fecha:</label>
+                                                                <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -150,6 +139,7 @@
                                                         <th class="columna-origen">Origen</th>
                                                         <th class="columna-ctncontable">Cuenta Contable</th>
                                                         <th>Comprobante</th>
+                                                        <th>Detalles</th>
                                                         <th>Monto de Pago</th>
                                                         <th>Debe</th>
                                                         <th>Haber</th>
@@ -199,6 +189,11 @@
                                                         <td>
                                                             <div class="input-group input-group-sm align-items-center  ">
                                                                 <input type="text" class="form-control border-0 bg-transparent" id="comprobante" name="comprobante">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles">
                                                             </div>
                                                         </td>
                                                         <td>
@@ -278,6 +273,11 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-sm  ">
+                                                                <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-sm  ">
                                                                 <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
                                                             </div>
                                                         </td>
@@ -344,26 +344,18 @@
                         <th>#</th>
                         <th>Ruc</th>
                         <th>Razon Social</th>
-                        <th>Numero</th>
+                        <th>Numero de asiento</th>
                         <th>Fecha</th>
-                        <th>Total</th>
                         <th>Monto Pagado</th>
                         <th>Monto de Pago</th>
-                        <th>Debe</th>
-                        <th>Haber</th>
-                        <th>Codigo y Descripción CC</th>
-                        <th>Origen de Financiamiento</th>
-                        <th>Programa</th>
-                        <th>Fuente de Financiamiento</th>
-
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($asientos as $asiento => $asi) : ?>
-                        <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)) : ?>
-                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
-                                      '<?= $asi->MontoPago ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>'
-                                      ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                    <?php foreach ($asientos as $asiento => $asi): ?>
+                        <?php if (($asi->id_form == 1 && $asi->Debe > 0) && ($asi->pagado < $asi->total)): ?>
+                            <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                                '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')">
                                 <td>
                                     <?= $asiento + 1 ?>
                                 </td>
@@ -380,34 +372,40 @@
                                     <?= $asi->fecha ?>
                                 </td>
                                 <td>
-                                    <?= $asi->total ?>
-                                </td>
-                                <td>
                                     <?= $asi->pagado ?>
                                 </td>
                                 <td>
                                     <?= $asi->MontoPago ?>
                                 </td>
-                                <td>
+                                <td hidden>
                                     <?= $asi->Debe ?>
                                 </td>
-                                <td>
+                                <td hidden>
                                     <?= $asi->Haber ?>
                                 </td>
-                                <td>
+                                <td hidden>
+                                    <?= $asi->idcuenta ?> -
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
-                                <td>
+                                <td >
                                     <?= $asi->nombre_fuente ?>
                                 </td>
-                                <td>
+                                <td >
                                     <?= $asi->nombre_programa ?>
                                 </td>
-                                <td>
+                                <td >
                                     <?= $asi->nombre_origen ?>
                                 </td>
-
+                                <td hidden>
+                                    <?= $asi->detalles ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->comprobante ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->cheques_che_id ?>
+                                </td>
                             </tr>
                         <?php endif; ?>
                     <?php endforeach; ?>
@@ -433,27 +431,25 @@
         }
 
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, numeros, fechas, montos, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+        function selectAsi(ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta) {
             // Actualizar los campos de texto en la vista principal
-
+            
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
-            document.getElementById('tesoreria').value = razonSocial;
             document.getElementById('fecha').value = fechas;
-            document.getElementById('num_asi').value = numeros;
             document.getElementById('Debe').value = debes;
-            document.getElementById('Haber').value = habers;
             document.getElementById('MontoPago').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
-            document.getElementById('IDCuentaContable').value = cuentas;
-            document.getElementById('IDCuentaContable').value = descrip;
-
-
+            document.getElementById('codigo_cc').value = cuentas;
+            document.getElementById('descripcion_cc').value = descrip;
+            document.getElementById('detalles').value = deta;
+            document.getElementById('comprobante').value = comp;
+            document.getElementById('cheques_che_id').value = cheq;
+            document.getElementById('idcuentacontable').value = idcuenta;
             closeModal_2(); // Cierra el modal después de seleccionar un proveedor
         }
-
         // Agregar evento al botón "Nuevo" para abrir el modal
         const openModalBtn_2 = document.getElementById("openModalBtn");
         openModalBtn_2.addEventListener("click", () => {

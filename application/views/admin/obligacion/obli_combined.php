@@ -35,9 +35,7 @@
                             <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
                                 <i class="bi bi-plus"></i>
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit'">
-                                <span class="fa fa-edit"></span>
-                            </button>
+
                             <button type="button" class="btn btn-pdf" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                 <i class="bi bi-file-pdf"></i> PDF
                             </button>
@@ -60,11 +58,6 @@
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                        <label for="ruc">Ruc:</label>
-                                                        <input type="text" class="form-control" id="ruc" name="ruc" readonly>
-                                                        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                    </div>
 
                                                     <?php
                                                     $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
@@ -97,30 +90,29 @@
 
                                                     $conexion->close();
                                                     ?>
-
-                                                    <div class="form-group col-md-4">
+                                                    <div class="form-group col-md-2">
                                                         <label for="num_asi">Numero:</label>
                                                         <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
                                                     </div>
+                                                    <div class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                        <label for="ruc">Ruc:</label>
+                                                        <input type="text" class="form-control" id="ruc" name="ruc" readonly>
+                                                        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                    </div>
 
-                                                    <div class="form-group col-md-4">
-                                                        <label for="razon_social">Razón Social:</label>
+
+                                                    <div class="form-group col-md-8">
+                                                        <label for="razon_social">Nombre y Apellido:</label>
                                                         <input type="text" class="form-control w-100" id="razon_social" name="razon_social" required>
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="direccion">Dirección:</label>
-                                                        <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="telefono">Teléfono:</label>
-                                                        <input type="text" class="form-control" id="telefono" name="telefono">
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="tesoreria">Tesoreria:</label>
-                                                        <input type="text" class="form-control w-100" id="tesoreria" name="tesoreria" required>
-                                                    </div>
+                                                    <!-- Borré la mayoría de campos a pedido de mi papá  -->
+                                                    <!--     <div class="form-group col-md-4">
+                                                                <label for="direccion">Dirección:</label>
+                                                                <input type="text" class="form-control" id="direccion" name="direccion" required>
+                                                            </div> -->
+
                                                     <div class="form-group col-12">
-                                                        <label for="observacion">Observación:</label>
+                                                        <label for="observacion">Concepto:</label>
                                                         <input type="text" class="form-control w-100" id="observacion" name="observacion">
                                                     </div>
                                                     <div class="form-group col-12 mb-3">
@@ -244,8 +236,8 @@
                                             <td>
                                                 <div class="input-group input-group-sm">
                                                     <input type="hidden" class="form-control small border-0 bg-transparent" id="idcuentacontable" name="idcuentacontable">
-                                                    <input style="font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="codigo_cc" name="codigo_cc">
-                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="descripcion_cc" name="descripcion_cc">
+                                                    <input style="font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="codigo_cc" name="codigo_cc" required>
+                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="descripcion_cc" name="descripcion_cc" required>
                                                     <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont1" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="openModalBtn_3">
                                                         <i class="bi bi-search"></i>
                                                     </button>
@@ -314,8 +306,8 @@
                                             <td>
                                                 <div class="input-group input-group-sm">
                                                     <input type="hidden" class="form-control border-0 bg-transparent" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                    <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc_2" name="codigo_cc_2">
-                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc_2" name="descripcion_cc_2">
+                                                    <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc_2" name="codigo_cc_2" required>
+                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc_2" name="descripcion_cc_2" required>
                                                     <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="botonBuscar2">
                                                         <i class="bi bi-search"></i>
                                                     </button>
@@ -355,6 +347,50 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="container-fluid">
+                                <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
+                                    <thead>
+                                        <tr>
+                                            <th>id_num_asi</th>
+                                            <th>Fecha de Emisión</th>
+                                            <th>num_asi</th>
+                                            <th>op</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($asientos)) : ?>
+                                            <?php foreach ($asientos as $asien) : ?>
+                                                <tr>
+                                                    <td><?php echo $asien->IDNum_Asi ?></td>
+                                                    <td><?php echo $asien->FechaEmision ?></td>
+                                                    <td><?php echo $asien->num_asi ?></td>
+                                                    <td><?php echo $asien->op ?></td>
+                                                    <td><?php echo $asien->estado ?></td>
+                                                    <td>
+                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                            <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                <span class="fa fa-search"></span>
+                                                            </button>
+                                                            <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                <i class="bi bi-pencil-fill"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <p>No se encontraron datos.</p>
+                                        <?php endif; ?>
+
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="container-fluid mt-4 mb-3">
                                 <div class="col-md-12 d-flex flex-row justify-content-center">
                                     <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
@@ -365,50 +401,9 @@
                             </div>
                         </form>
                     </div>
+                </div>
             </section>
         </div>
-        <thead>
-            <tr>
-
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($data)) : ?>
-                <?php foreach ($data as $item) : ?>
-                    <tr>
-                        <td><?php echo $item->id; ?></td>
-                        <td><?php echo $item->ruc; ?></td>
-                        <td><?php echo $item->numero; ?></td>
-                        <td><?php echo $item->razon_social; ?></td>
-                        <td><?php echo $item->direccion; ?></td>
-                        <td><?php echo $item->telefono; ?></td>
-                        <td><?php echo $item->observacion; ?></td>
-                        <td><?php echo $item->fecha; ?></td>
-                        <td><?php echo $item->tesoreria; ?></td>
-                        <td><?php echo $item->pedi_matricula; ?></td>
-                        <td><?php echo $item->modalidad; ?></td>
-                        <td><?php echo $item->tipo_presupuesto; ?></td>
-                        <td><?php echo $item->unidad_respon; ?></td>
-                        <td><?php echo $item->proyecto; ?></td>
-                        <td><?php echo $item->estado; ?></td>
-                        <td><?php echo $item->nro_pac; ?></td>
-                        <td><?php echo $item->nro_exp; ?></td>
-                        <td><?php echo $item->total; ?></td>
-                        <td><?php echo $item->pagado; ?></td>
-                        <td>
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info btn-view-Diario_obligaciones" data-toggle="modal" data-target="#modal-default" value="<?php echo $data->id; ?>">
-                                    <span class="fa fa-search"></span>
-                                </button>
-
-                                <a href="<?php echo base_url(); ?>mantenimiento/Diario_obligaciones/delete/<?php echo $data->id; ?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-        </table>
         <!-- Botones -->
 
 
@@ -457,7 +452,7 @@
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-cuentascont-1">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
@@ -489,35 +484,28 @@
 
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="searchInput_3" placeholder="Buscar por código o descripción...">
-                        <table class="table table-bordered table-hover" id="cuentasContablesTable_3">
+                        <table class="table align-middle table-bordered table-hover table-sm" id="cuentasContablesTable_3">
                             <thead>
                                 <tr>
-                                    <th>IDCuentaContable</th>
+                                    <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato) : ?>
-                                    <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
-                                        <td>
-                                            <?= $dato->IDCuentaContable ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Codigo_CC ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Descripcion_CC ?>
-                                        </td>
+                                    <tr class="list-item" onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
+                                        <td><?= $dato->IDCuentaContable ?></td>
+                                        <td><?= $dato->Codigo_CC ?></td>
+                                        <td><?= $dato->Descripcion_CC ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -614,7 +602,9 @@
             function selectProveedor(ruc, razonSocial, direccion) {
                 document.getElementById('ruc').value = ruc;
                 document.getElementById('razon_social').value = razonSocial;
+                document.getElementById('tesoreria').value = razonSocial;
                 document.getElementById('direccion').value = direccion;
+                // Agrega el resto de los campos si es necesario
             }
         </script>
 
@@ -634,9 +624,23 @@
             });
         </script>
 
+        <!-- Script para las tablas de lo modales de cuentas contables -->
         <script>
             $(document).ready(function() {
-                var table = $('#cuentasContablesTable_4').DataTable({
+                var table1 = $('#cuentasContablesTable_3').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    scrollY: '50vh',
+                    scrollCollapse: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    }
+                });
+
+                var table2 = $('#cuentasContablesTable_4').DataTable({
                     paging: true,
                     pageLength: 10,
                     lengthChange: true,
@@ -650,6 +654,12 @@
                 });
 
                 $('#modalCuentasCont1').on('shown.bs.modal', function(e) {
+                    $($.fn.dataTable.tables(true)).DataTable()
+                        .columns.adjust()
+                        .responsive.recalc();
+                });
+
+                $('#modalCuentasCont2').on('shown.bs.modal', function(e) {
                     $($.fn.dataTable.tables(true)).DataTable()
                         .columns.adjust()
                         .responsive.recalc();

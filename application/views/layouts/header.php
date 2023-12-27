@@ -49,6 +49,12 @@
   <link href="<?php echo base_url(); ?>assets/css/style_login3.css" rel="stylesheet">
 
 
+    <link href="<?php echo base_url();?>assets/css/style_diario_obli.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login2.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/style_login3.css" rel="stylesheet">
+
+
 </head>
 
 <style>
