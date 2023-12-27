@@ -3,7 +3,6 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
@@ -19,6 +18,7 @@
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de Obligación</a></li>
             </ol>
         </nav>
+
         <!-- Content Wrapper. Contains page content -->
         <div class="container-fluid bg-white rounded-3">
             <div class="pagetitle">
@@ -189,207 +189,209 @@
                                 </div>
                                 <!-- Tabla -->
                                 <!-- Primer asiento de la obligación  -->
-                                <table class="table table-hover table-bordered table-sm rounded-3  ">
-                                    <thead class="align-middle">
-                                        <tr>
-                                            <th class="columna-ancha" scope="col">Programa</th>
-                                            <th class="columna-fuente" scope="col">Fuente</th>
-                                            <th class="columna-origen" scope="col">Origen</th>
-                                            <th class="columna-ctncontable" scope="col">Cuenta Contable</th>
-                                            <th scope="col">Comprobante</th>
-                                            <th scope="col">Detalles</th>
-                                            <th scope="col">Monto de Pago</th>
-                                            <th scope="col">Debe</th>
-                                            <th scope="col">Haber</th>
-                                            <th scope="col">Cheque</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="table-group-divider">
-                                        <tr class="align-items-center">
-                                            <td>
-                                                <div class="input-group input-group-sm ">
-                                                    <select class="form-control small border-0 bg-transparent" id="id_pro" name="id_pro" required>
-                                                        <?php foreach ($programa as $prog) : ?>
-                                                            <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm ">
-                                                    <select class="form-control small border-0 bg-transparent" id="id_ff" name="id_ff" required>
-                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                            <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <select class="form-control small border-0 bg-transparent" id="id_of" name="id_of" required>
-                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                            <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm">
-                                                    <input type="hidden" class="form-control small border-0 bg-transparent" id="idcuentacontable" name="idcuentacontable">
-                                                    <input style="font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="codigo_cc" name="codigo_cc" required>
-                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="descripcion_cc" name="descripcion_cc" required>
-                                                    <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont1" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="openModalBtn_3">
-                                                        <i class="bi bi-search"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm align-items-center  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="comprobante" name="comprobante">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control small border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control small border-0 bg-transparent" id="Haber" name="Haber" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control small border-0 bg-transparent" id="cheques_che_id" name="cheques_che_id">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <!-- segundo asiento  -->
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <select class="form-control border-0 bg-transparent" id="id_pro_2" name="id_pro_2" required>
-                                                        <?php foreach ($programa as $prog) : ?>
-                                                            <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <select class="form-control border-0 bg-transparent" id="id_ff_2" name="id_ff_2" required>
-                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                            <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <select class="form-control border-0 bg-transparent" id="id_of_2" name="id_of_2" required>
-                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                            <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm">
-                                                    <input type="hidden" class="form-control border-0 bg-transparent" id="idcuentacontable_2" name="idcuentacontable_2">
-                                                    <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc_2" name="codigo_cc_2" required>
-                                                    <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc_2" name="descripcion_cc_2" required>
-                                                    <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="botonBuscar2">
-                                                        <i class="bi bi-search"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="comprobante_2" name="comprobante_2">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="Haber_2" name="Haber_2" required>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm  ">
-                                                    <input type="text" class="form-control border-0 bg-transparent" id="cheques_che_id_2" name="cheques_che_id_2">
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="container-fluid">
-                                <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
-                                    <thead>
-                                        <tr>
-                                            <th>id_num_asi</th>
-                                            <th>Fecha de Emisión</th>
-                                            <th>num_asi</th>
-                                            <th>op</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (!empty($asientos)) : ?>
-                                            <?php foreach ($asientos as $asien) : ?>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <table class="table table-hover table-bordered table-sm rounded-3  ">
+                                            <thead class="align-middle">
                                                 <tr>
-                                                    <td><?php echo $asien->IDNum_Asi ?></td>
-                                                    <td><?php echo $asien->FechaEmision ?></td>
-                                                    <td><?php echo $asien->num_asi ?></td>
-                                                    <td><?php echo $asien->op ?></td>
-                                                    <td><?php echo $asien->estado ?></td>
+                                                    <th class="columna-ancha" scope="col">Programa</th>
+                                                    <th class="columna-fuente" scope="col">Fuente</th>
+                                                    <th class="columna-origen" scope="col">Origen</th>
+                                                    <th class="columna-ctncontable" scope="col">Cuenta Contable</th>
+                                                    <th scope="col">Comprobante</th>
+                                                    <th scope="col">Detalles</th>
+                                                    <th scope="col">Monto de Pago</th>
+                                                    <th scope="col">Debe</th>
+                                                    <th scope="col">Haber</th>
+                                                    <th scope="col">Cheque</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-group-divider">
+                                                <tr class="align-items-center">
                                                     <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                            <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-pencil-fill"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-trash"></i>
+                                                        <div class="input-group input-group-sm ">
+                                                            <select class="form-control small border-0 bg-transparent" id="id_pro" name="id_pro" required>
+                                                                <?php foreach ($programa as $prog) : ?>
+                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm ">
+                                                            <select class="form-control small border-0 bg-transparent" id="id_ff" name="id_ff" required>
+                                                                <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <select class="form-control small border-0 bg-transparent" id="id_of" name="id_of" required>
+                                                                <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="hidden" class="form-control small border-0 bg-transparent" id="idcuentacontable" name="idcuentacontable">
+                                                            <input style="font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="codigo_cc" name="codigo_cc" required>
+                                                            <input style="width: 60%; font-size: smaller;" type="text" class="form-control small border-0 bg-transparent" id="descripcion_cc" name="descripcion_cc" required>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont1" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="openModalBtn_3">
+                                                                <i class="bi bi-search"></i>
                                                             </button>
                                                         </div>
                                                     </td>
-
+                                                    <td>
+                                                        <div class="input-group input-group-sm align-items-center  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="comprobante" name="comprobante">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="detalles" name="detalles" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control small border-0 bg-transparent" id="MontoPago" name="MontoPago" readonly>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control small border-0 bg-transparent" id="Haber" name="Haber" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control small border-0 bg-transparent" id="cheques_che_id" name="cheques_che_id">
+                                                        </div>
+                                                    </td>
                                                 </tr>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <p>No se encontraron datos.</p>
-                                        <?php endif; ?>
+                                                <tr>
+                                                    <!-- segundo asiento  -->
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <select class="form-control border-0 bg-transparent" id="id_pro_2" name="id_pro_2" required>
+                                                                <?php foreach ($programa as $prog) : ?>
+                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <select class="form-control border-0 bg-transparent" id="id_ff_2" name="id_ff_2" required>
+                                                                <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <select class="form-control border-0 bg-transparent" id="id_of_2" name="id_of_2" required>
+                                                                <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm">
+                                                            <input type="hidden" class="form-control border-0 bg-transparent" id="idcuentacontable_2" name="idcuentacontable_2">
+                                                            <input style="font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="codigo_cc_2" name="codigo_cc_2" required>
+                                                            <input style="width: 60%; font-size: smaller;" type="text" class="form-control border-0 bg-transparent" id="descripcion_cc_2" name="descripcion_cc_2" required>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modalCuentasCont2" style="height: 30px;" class="btn btn-sm btn-outline-primary" id="botonBuscar2">
+                                                                <i class="bi bi-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="comprobante_2" name="comprobante_2">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="detalles_2" name="detalles_2" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="MontoPago_2" name="MontoPago_2" readonly>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="Haber_2" name="Haber_2" required>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group input-group-sm  ">
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="cheques_che_id_2" name="cheques_che_id_2">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- Tabla de Num_asi -->
+                                        <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>id_num_asi</th>
+                                                    <th>Fecha de Emisión</th>
+                                                    <th>num_asi</th>
+                                                    <th>op</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($asientos)) : ?>
+                                                    <?php foreach ($asientos as $asien) : ?>
+                                                        <tr>
+                                                            <td><?php echo $asien->IDNum_Asi ?></td>
+                                                            <td><?php echo $asien->FechaEmision ?></td>
+                                                            <td><?php echo $asien->num_asi ?></td>
+                                                            <td><?php echo $asien->op ?></td>
+                                                            <td><?php echo $asien->estado ?></td>
+                                                            <td>
+                                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
 
-                                    </tbody>
-                                </table>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else : ?>
+                                                    <p>No se encontraron datos.</p>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="container-fluid mt-4 mb-3">
                                 <div class="col-md-12 d-flex flex-row justify-content-center">
@@ -513,7 +515,7 @@
             </div>
         </div>
 
-        <!-- Script destinado al primer modal con bootstrap (Buscar y seleccionar) -->
+        <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
             function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
                 // Actualizar los campos de texto en la vista principal con los valores seleccionados
@@ -524,7 +526,7 @@
             }
         </script>
 
-        <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
+        <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
         <script>
             function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
                 // Actualizar los campos de texto en la vista principal con los valores seleccionados
@@ -549,7 +551,6 @@
                 document.getElementById('razon_social').value = razonSocial;
                 document.getElementById('tesoreria').value = razonSocial;
                 document.getElementById('direccion').value = direccion;
-                // Agrega el resto de los campos si es necesario
             }
         </script>
 

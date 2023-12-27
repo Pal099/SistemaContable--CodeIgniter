@@ -11,6 +11,39 @@
   width: 25%;
 }
 
+/* Css de las tablas y modales de cuentas contables */
+.cuentas-contables {
+  max-width: 65%;
+}
+.cuentas-contables tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.cuentas-contables thead,
+.cuentas-contables tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
+}
+
+/* Css de las tabla y modal de lista de obligacion */
+.lista-obligacion {
+  max-width: 90%;
+}
+.lista-obligacion tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.lista-obligacion thead,
+.lista-obligacion tbody tr {
+  display: table; /* Mantiene el comportamiento */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
+  text-overflow: ellipsis;
+}
+
 /* Posicion del toast */
 #toastErrorFila {
   position: fixed;
