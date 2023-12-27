@@ -268,7 +268,7 @@
                                                     </td>
                                                     <td>
                                                         <div class="input-group input-group-sm  ">
-                                                            <input type="text" class="form-control small border-0 bg-transparent" id="Haber" name="Haber" required>
+                                                            <input type="text" class="form-control small border-0 bg-transparent" id="Haber" name="Haber" readOnly>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -329,7 +329,7 @@
 
                                                     <td>
                                                         <div class="input-group input-group-sm  ">
-                                                            <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" required>
+                                                            <input type="text" class="form-control border-0 bg-transparent" id="Debe_2" name="Debe_2" readOnly>
                                                         </div>
                                                     </td>
                                                     <td>
