@@ -31,7 +31,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu);
+		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['Obli'] = $this->Pago_obli_model->getDiarios_obli(); 
@@ -63,7 +63,7 @@ class Pago_de_obligaciones extends CI_Controller {
 			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
-			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");

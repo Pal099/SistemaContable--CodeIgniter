@@ -154,7 +154,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_pro" name="id_pro">
                                                                             <?php foreach ($programa as $prog) : ?>
-                                                                                <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                                <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -163,7 +163,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_ff" name="id_ff">
                                                                             <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                                <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                                <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -172,7 +172,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_of" name="id_of">
                                                                             <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                                <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                                <option value="<?php echo $of->id_of; ?>"><?php echo $of->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -234,7 +234,7 @@
                                                                     <div class="input-group input-group-sm  ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_pro_2" name="id_pro_2" required>
                                                                             <?php foreach ($programa as $prog) : ?>
-                                                                                <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                                <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -243,7 +243,7 @@
                                                                     <div class="input-group input-group-sm  ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_ff_2" name="id_ff_2" required>
                                                                             <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                                <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                                <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -252,7 +252,7 @@
                                                                     <div class="input-group input-group-sm  ">
                                                                         <select class="form-control border-0 bg-transparent" id="id_of_2" name="id_of_2" required>
                                                                             <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                                <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                                <option value="<?php echo $of->id_of; ?>"><?php echo $of->codigo; ?></option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -324,6 +324,48 @@
                                     </div>
                                 </div>
                             </form>
+                                             <!-- Tabla de Num_asi -->
+                                            <table id="vistapago" class="table table-hover table-bordered table-sm rounded-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>id_num_asi</th>
+                                                    <th>Fecha de Emisión</th>
+                                                    <th>num_asi</th>
+                                                    <th>op</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($asientos)) : ?>
+                                                    <?php foreach ($asientos as $asien) : ?>
+                                                        <tr>
+                                                            <td><?php echo $asien->IDNum_Asi ?></td>
+                                                            <td><?php echo $asien->FechaEmision ?></td>
+                                                            <td><?php echo $asien->num_asi ?></td>
+                                                            <td><?php echo $asien->op ?></td>
+                                                            <td><?php echo $asien->estado ?></td>
+                                                            <td>
+                                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else : ?>
+                                                    <p>No se encontraron datos.</p>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
                         </div>
                     </div>
                 </div>
@@ -450,6 +492,24 @@
         }
     </script>
 
+                    <!-- Script de DataTable de vista  -->
+                    <script>
+            $(document).ready(function() {
+                $('#vistapago').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "language": {
+                        "search": "Busqueda de asientos:"
+                    }
+                });
+            });
+        </script>
+
     <!-- script para las fechas -->
     <script>
         // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
@@ -498,12 +558,12 @@
     <!-- Script para agregar nuevas filas a la tabla -->
     <script>
         $(document).ready(function () {
-        
-            
+
+
             // Agregar fila
             $(document).on("click", ".agregarFila", function (e) {
                 e.preventDefault();
-                    
+
                 // Clonar la fila base
                 var nuevaFila = $("#filaBase").clone();
 
@@ -530,15 +590,13 @@
             // Eliminar fila
             $("#miTabla").on("click", ".eliminarFila", function (e) {
                 e.preventDefault();
-            
+
                 $(this).closest("tr").remove();
-                    
+
             });
-            
+
         });
     </script>
-
-
     <!-- Envio de formulario principal -->
     <script>
         
@@ -823,6 +881,57 @@
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de Popper para el toast -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script>
+
+    // Abrir modal en fila dinamica
+            const openModalBtn_4 = document.getElementById("openModalBtn_4");
+            // To this (using event delegation)
+            // Actualiza la función de clic para pasar la fila actual al abrir el modal
+            document.getElementById("miTabla").addEventListener("click", function(event) {
+
+                // Encuentra la fila desde la cual se abrió el modal
+                var row = $(event.target).closest('tr');
+                if (
+                    (event.target && event.target.className.includes("openModalBtn_4")) ||
+                    (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
+                ) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    openModal_4(row);
+                }
+            });
+
+
+
+            function filterResults() {
+                var input, filter, table, tr, td1, td2, i, txtValue;
+                input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
+                filter = input.value.toUpperCase();
+                table = document.getElementById("cuentasContablesTable_3");
+                tr = table.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
+                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
+
+                    if (td1 && td2) {
+                        // Combina los textos de ambas posiciones en una cadena
+                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
+
+                        // Busca en la cadena combinada
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+            document.getElementById("searchInput_2").addEventListener("input", filterResults);
+
+
+
+    </script>
 
 </body>
 

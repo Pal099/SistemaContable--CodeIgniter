@@ -119,10 +119,7 @@
                                                         <label for="observacion">Concepto:</label>
                                                         <input type="text" class="form-control w-100" id="observacion" name="observacion">
                                                     </div>
-                                                    <div class="form-group col-12 mb-3">
-                                                        <label for="fecha">Fecha:</label>
-                                                        <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
-                                                    </div>
+
                                                     <!-- Campos Opcionales del formulario -->
                                                     <div class="collapse mt-4" id="camposOpcionalesCollapse">
                                                         <div class="form-group">
@@ -220,7 +217,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control small border-0 bg-transparent" id="id_pro" name="id_pro" required>
                                                                 <?php foreach ($programa as $prog) : ?>
-                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->codigo; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -229,7 +226,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control small border-0 bg-transparent" id="id_ff" name="id_ff" required>
                                                                 <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->codigo; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -238,7 +235,7 @@
                                                         <div class="input-group input-group-sm  ">
                                                             <select class="form-control small border-0 bg-transparent" id="id_of" name="id_of" required>
                                                                 <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->codigo; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -286,7 +283,7 @@
                                                         <div class="input-group input-group-sm  ">
                                                             <select class="form-control border-0 bg-transparent" id="id_pro_2" name="id_pro_2" required>
                                                                 <?php foreach ($programa as $prog) : ?>
-                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->nombre; ?></option>
+                                                                    <option value="<?php echo $prog->id_pro; ?>"><?php echo $prog->codigo; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -295,7 +292,7 @@
                                                         <div class="input-group input-group-sm  ">
                                                             <select class="form-control border-0 bg-transparent" id="id_ff_2" name="id_ff_2" required>
                                                                 <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->nombre; ?></option>
+                                                                    <option value="<?php echo $ff->id_ff; ?>"><?php echo $ff->codigo ; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -304,7 +301,7 @@
                                                         <div class="input-group input-group-sm  ">
                                                             <select class="form-control border-0 bg-transparent" id="id_of_2" name="id_of_2" required>
                                                                 <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->nombre; ?></option>
+                                                                    <option value="<?php echo $of->id_of; ?>"><?php echo $of->codigo; ?></option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -349,7 +346,7 @@
                                             </tbody>
                                         </table>
                                         <!-- Tabla de Num_asi -->
-                                        <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
+                                        <table id="vistaobli" class="table table-hover table-bordered table-sm rounded-3">
                                             <thead>
                                                 <tr>
                                                     <th>id_num_asi</th>
@@ -629,6 +626,23 @@
         </script>
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+                <!-- Script de DataTable de vista  -->
+        <script>
+            $(document).ready(function() {
+                $('#vistaobli').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "language": {
+                        "search": "Busqueda de asientos:"
+                    }
+                });
+            });
+        </script>
 
     </main>
 
