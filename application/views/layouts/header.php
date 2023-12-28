@@ -8,8 +8,6 @@
   <title>Codex Veritas</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Favicons -->
   <link href="<?php echo base_url(); ?>assets/img/codex.png" rel="icon">
   <link href="<?php echo base_url(); ?>assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -21,11 +19,7 @@
   <!-- Vendor CSS Files -->
   <link href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
   <link href="<?php echo base_url(); ?>/assets/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="<?php echo base_url(); ?>assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="<?php echo base_url(); ?>assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="<?php echo base_url(); ?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="<?php echo base_url(); ?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="<?php echo base_url(); ?>assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
   <!-- Template Main CSS File -->
   <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet">
 
@@ -36,10 +30,6 @@
 
   <!-- Ionicons  -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/Ionicons/css/ionicons.min.css">
-  <!-- DataTables  -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/datatables.net-bs/css/dataTables.bootstrap.min.css">
-  <!-- DataTables Export-->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/datatables-export/css/buttons.dataTables.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/font-awesome/css/font-awesome.min.css">
   <!-- Theme style  -->
@@ -116,24 +106,6 @@
     /* Ajusta el tamaño de la imagen según tus necesidades */
     margin-right: 50px;
     /* Espacio entre la imagen y el título */
-  }
-
-  /* Estilos para el modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-
-  .campos-opcionales {
-    display: none;
   }
 
   /* Estilos para centrar el título horizontalmente */

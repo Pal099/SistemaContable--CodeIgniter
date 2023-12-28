@@ -3,9 +3,10 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <!-- Estilos de DataTable de jquery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
 
 
@@ -17,86 +18,87 @@
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de Obligación</a></li>
             </ol>
         </nav>
+
         <!-- Content Wrapper. Contains page content -->
-                <div class="container-fluid bg-white rounded-3">
-                    <div class="pagetitle">
-                        <div class="container-fluid d-flex flex-row justify-content-between">
-                            <div class="col-md-6 ">
-                                <h1>Diario de Obligación</h1>
+        <div class="container-fluid bg-white rounded-3">
+            <div class="pagetitle">
+                <div class="container-fluid d-flex flex-row justify-content-between">
+                    <div class="col-md-6 ">
+                        <h1>Diario de Obligación</h1>
+                    </div>
+                    <div class="col-md-6 mt-2 ">
+                        <div class="d-flex gap-2 justify-content-md-end">
+                            <div class="form-check form-switch mt-2 " style="font-size: 17px;">
+                                <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
+                                <label class="form-check-label" for="camposOpcionalesSwitch">Campos Opcionales</label>
                             </div>
-                            <div class="col-md-6 mt-2 ">
-                                <div class="d-flex gap-2 justify-content-md-end">
-                                    <div class="form-check form-switch mt-2 " style="font-size: 17px;">
-                                        <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
-                                        <label class="form-check-label" for="camposOpcionalesSwitch">Campos Opcionales</label>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
-                                        <i class="bi bi-plus"></i>
-                                    </button>
+                            <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
+                                <i class="bi bi-plus"></i>
+                            </button>
 
-                                    <button type="button" class="btn btn-pdf" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
-                                        <i class="bi bi-file-pdf"></i> PDF
-                                    </button>
-                                    <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
-                                        <i class="bi bi-file-earmark-spreadsheet"></i> Excel
-                                    </button>
-                                </div>
-                            </div>
+                            <button type="button" class="btn btn-pdf" onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                                <i class="bi bi-file-pdf"></i> PDF
+                            </button>
+                            <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Excel
+                            </button>
                         </div>
-                    </div><!-- End Page Title -->
+                    </div>
+                </div>
+            </div><!-- End Page Title -->
 
-                    <section class="section dashboard">
-                        <div class="container-fluid">
-                            <!-- Campos principales -->
-                            <div class="row">
-                                <form action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
-                                    <div class="container-fluid mt-4">
-                                        <div class="row justify-content-center">
-                                            <div class="col-md-12">
-                                                <div class="card">
-                                                    <div class="card-body">
-                                                        <div class="row">
-                                                        
-                                                            <?php
-                                                            $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-                                                            if ($conexion->connect_error) {
-                                                                die("La conexión a la base de datos falló: " . $conexion->connect_error);
-                                                            }
+            <section class="section dashboard">
+                <div class="container-fluid">
+                    <!-- Campos principales -->
+                    <div class="row">
+                        <form action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
+                            <div class="container-fluid mt-4">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row">
 
-                                                            $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-                                                            $resultado = $conexion->query($consulta);
+                                                    <?php
+                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+                                                    if ($conexion->connect_error) {
+                                                        die("La conexión a la base de datos falló: " . $conexion->connect_error);
+                                                    }
 
-                                                            if ($resultado->num_rows > 0) {
-                                                                $fila = $resultado->fetch_assoc();
-                                                                $numero_actual = $fila['ultimo_numero'];
-                                                                $numero_siguiente = $numero_actual + 1;
-                                                            } else {
-                                                                $numero_actual = 1;
-                                                                $numero_siguiente = 2;
-                                                            }
+                                                    $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
 
-                                                            $consulta = "SELECT MAX(op) as op FROM num_asi";
-                                                            $resultado = $conexion->query($consulta);
+                                                    if ($resultado->num_rows > 0) {
+                                                        $fila = $resultado->fetch_assoc();
+                                                        $numero_actual = $fila['ultimo_numero'];
+                                                        $numero_siguiente = $numero_actual + 1;
+                                                    } else {
+                                                        $numero_actual = 1;
+                                                        $numero_siguiente = 2;
+                                                    }
 
-                                                            if ($resultado !== false && $resultado->num_rows > 0) {
-                                                                $op = $resultado->fetch_assoc();
-                                                                $op_actual = $op['op'];
-                                                                $op_actual = $op_actual + 1;
-                                                            } else {
-                                                                $op_actual = 0;
-                                                            }
+                                                    $consulta = "SELECT MAX(op) as op FROM num_asi";
+                                                    $resultado = $conexion->query($consulta);
 
-                                                            $conexion->close();
-                                                            ?>
-                                                            <div class="form-group col-md-2">
-                                                                <label for="num_asi">Numero:</label>
-                                                                <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
-                                                            </div>
-                                                            <div class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                                <label for="ruc">Ruc:</label>
-                                                                <input type="text" class="form-control" id="ruc" name="ruc" readonly>
-                                                                <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                            </div>
+                                                    if ($resultado !== false && $resultado->num_rows > 0) {
+                                                        $op = $resultado->fetch_assoc();
+                                                        $op_actual = $op['op'];
+                                                        $op_actual = $op_actual + 1;
+                                                    } else {
+                                                        $op_actual = 0;
+                                                    }
+
+                                                    $conexion->close();
+                                                    ?>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="num_asi">Numero:</label>
+                                                        <input type="text" class="form-control" id="num_asi" name="num_asi" value="<?php echo $numero_siguiente; ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                        <label for="ruc">Ruc:</label>
+                                                        <input type="text" class="form-control" id="ruc" name="ruc" readonly>
+                                                        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                    </div>
 
 
                                                             <div class="form-group col-md-4">
@@ -112,10 +114,31 @@
                                                                 <label for="direccion">Dirección:</label>
                                                                 <input type="text" class="form-control" id="direccion" name="direccion" required>
                                                             </div> -->
-                                                        
-                                                            <div class="form-group col-12">
-                                                                <label for="observacion">Concepto:</label>
-                                                                <input type="text" class="form-control w-100" id="observacion" name="observacion">
+
+                                                    <div class="form-group col-12">
+                                                        <label for="observacion">Concepto:</label>
+                                                        <input type="text" class="form-control w-100" id="observacion" name="observacion">
+                                                    </div>
+                                                    <div class="form-group col-12 mb-3">
+                                                        <label for="fecha">Fecha:</label>
+                                                        <input type="datetime-local" class="form-control" id="fecha" name="fecha" required>
+                                                    </div>
+                                                    <!-- Campos Opcionales del formulario -->
+                                                    <div class="collapse mt-4" id="camposOpcionalesCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <label for="pedi_matricula">Ped. Mat:</label>
+                                                                    <input type="text" class="form-control" id="pedi_matricula" name="pedi_matricula">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="modalidad">Modalidad:</label>
+                                                                    <input type="text" class="form-control" id="modalidad" name="modalidad">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="tipo_presupuesto">Tipo de Presupuesto:</label>
+                                                                    <input type="text" class="form-control w-100" id="tipo_presupuesto" name="tipo_presupuesto">
+                                                                </div>
                                                             </div>
                                                             <!-- Campos Opcionales del formulario -->
                                                             <div class="collapse mt-4" id="camposOpcionalesCollapse">
@@ -135,37 +158,13 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                            <label for="unidad_respon">Unidad responsable:</label>
-                                                                            <input type="text" class="form-control" id="unidad_respon" name="unidad_respon">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="proyecto">Proyecto:</label>
-                                                                            <input type="text" class="form-control" id="proyecto" name="proyecto">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="estado">Estado:</label>
-                                                                            <input type="text" class="form-control w-100" id="estado" name="estado">
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="nro_exp">Nro. Exp:</label>
+                                                                    <input type="text" class="form-control" id="nro_exp" name="nro_exp">
                                                                 </div>
-                                                                <div class="form-group">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4">
-                                                                            <label for="nro_pac">Nro. Pac:</label>
-                                                                            <input type="text" class="form-control" id="nro_pac" name="nro_pac">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="nro_exp">Nro. Exp:</label>
-                                                                            <input type="text" class="form-control" id="nro_exp" name="nro_exp">
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="total">Total:</label>
-                                                                            <input type="text" class="form-control w-100" id="total" name="total">
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="total">Total:</label>
+                                                                    <input type="text" class="form-control w-100" id="total" name="total">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <div class="row">
@@ -195,8 +194,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Tabla -->
-                                        <!-- Primer asiento de la obligación  -->
+                                    </div>
+                                </div>
+                                <!-- Tabla -->
+                                <!-- Primer asiento de la obligación  -->
+                                <div class="card">
+                                    <div class="card-body">
                                         <table class="table table-hover table-bordered table-sm rounded-3  ">
                                             <thead class="align-middle">
                                                 <tr>
@@ -345,84 +348,77 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <!-- Tabla de Num_asi -->
+                                        <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>id_num_asi</th>
+                                                    <th>Fecha de Emisión</th>
+                                                    <th>num_asi</th>
+                                                    <th>op</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if (!empty($asientos)) : ?>
+                                                    <?php foreach ($asientos as $asien) : ?>
+                                                        <tr>
+                                                            <td><?php echo $asien->IDNum_Asi ?></td>
+                                                            <td><?php echo $asien->FechaEmision ?></td>
+                                                            <td><?php echo $asien->num_asi ?></td>
+                                                            <td><?php echo $asien->op ?></td>
+                                                            <td><?php echo $asien->estado ?></td>
+                                                            <td>
+                                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else : ?>
+                                                    <p>No se encontraron datos.</p>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="container-fluid mt-4 mb-3">
-                                        <div class="col-md-12 d-flex flex-row justify-content-center">
-                                            <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
-                                            <button class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
-                                                <i class="fa fa-remove"></i> Cancelar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
-                        </div> 
-                    </section>
-                    
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
-                            <thead>
-                                    <tr>
-                                        <th>id_num_asi</th>
-                                        <th>FechaEmision</th>
-                                        <th>num_asi</th>
-                                        <th>op</th>
-                                        <th>Estado</th>
-                                        <th>opciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($asientos)) : ?>
-                                        <?php foreach ($asientos as $asien) : ?>
-                                            <tr>
-                                                <td><?php echo $asien->IDNum_Asi ?></td>
-                                                <td><?php echo $asien->FechaEmision ?></td>
-                                                <td><?php echo $asien->num_asi ?></td>
-                                                <td><?php echo $asien->op ?></td>
-                                                <td><?php echo $asien->estado ?></td>
-                                                <td>
-                                                    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                     <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $asien->IDNum_Asi; ?>">
-                                                        <span class="fa fa-search"></span>
-                                                    </button> 
-                                                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                        <i class="bi bi-pencil-fill"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                        <span class="fa fa-edit"></span>
-                                                    </button>
-                                                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-                                        <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <p>No se encontraron datos.</p>
-                                            <?php endif; ?>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>       
-                </div>         
+                            <div class="container-fluid mt-4 mb-3">
+                                <div class="col-md-12 d-flex flex-row justify-content-center">
+                                    <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span class="fa fa-save"></span>Guardar</button>
+                                    <button class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                        <i class="fa fa-remove"></i> Cancelar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
         <!-- Botones -->
 
 
         <!-- Modal Proveedores con boostrap -->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Lista de Proveedores</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="searchInput" placeholder="Buscar por RUC o Razon Social...">
-                        <table class="table table-hover table-bordered table-sm rounded-3" id="tablaProveedor">
+                        <table id="TablaProveedores" class="table table-hover table-sm">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -448,41 +444,36 @@
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
         </div>
 
+
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
         <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="searchInput_4" placeholder="Buscar por código o descripción...">
-                        <table class="table table-bordered table-hover" id="cuentasContablesTable_4">
+                        <table class="table table-hover table-sm" id="TablaCuentaCont1">
                             <thead>
                                 <tr>
-                                    <th>IDCuentaContable</th>
+                                    <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato) : ?>
-                                    <tr class="list-item" onclick="selectCC(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
-                                        <td>
-                                            <?= $dato->IDCuentaContable ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Codigo_CC ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Descripcion_CC ?>
-                                        </td>
+                                    <tr class="list-item" onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
+                                        <td><?= $dato->IDCuentaContable ?></td>
+                                        <td><?= $dato->Codigo_CC ?></td>
+                                        <td><?= $dato->Descripcion_CC ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -493,45 +484,38 @@
         </div>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Buscador de Cuentas Contables</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" id="searchInput_3" placeholder="Buscar por código o descripción...">
-                        <table class="table table-bordered table-hover" id="cuentasContablesTable_3">
+                        <table class="table table-hover table-sm" id="TablaCuentaCont2">
                             <thead>
                                 <tr>
-                                    <th>IDCuentaContable</th>
+                                    <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato) : ?>
-                                    <tr class="list-item" onclick="selectCC2(  <?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
-                                        <td>
-                                            <?= $dato->IDCuentaContable ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Codigo_CC ?>
-                                        </td>
-                                        <td>
-                                            <?= $dato->Descripcion_CC ?>
-                                        </td>
+                                    <tr class="list-item" onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')" data-bs-dismiss="modal">
+                                        <td><?= $dato->IDCuentaContable ?></td>
+                                        <td><?= $dato->Codigo_CC ?></td>
+                                        <td><?= $dato->Descripcion_CC ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        </div>
                     </div>
                 </div>
             </div>
-        </div> 
-        <!-- Script destinado al primer modal con bootstrap (Buscar y seleccionar) -->
+        </div>
+
+        <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
             function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
                 // Actualizar los campos de texto en la vista principal con los valores seleccionados
@@ -540,36 +524,9 @@
                 document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
             }
-
-            function filterResults() {
-                var input, filter, table, tr, td1, td2, i, txtValue;
-                input = document.getElementById("searchInput_4"); // Ajusta el ID según tu campo de búsqueda
-                filter = input.value.toUpperCase();
-                table = document.getElementById("cuentasContablesTable_4");
-                tr = table.getElementsByTagName("tr");
-
-                for (i = 0; i < tr.length; i++) {
-                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                    if (td1 && td2) {
-                        // Combina los textos de ambas posiciones en una cadena
-                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                        // Busca en la cadena combinada
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-            document.getElementById("searchInput_4").addEventListener("input", filterResults);
         </script>
 
-
-        <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
+        <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
         <script>
             function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
                 // Actualizar los campos de texto en la vista principal con los valores seleccionados
@@ -577,32 +534,6 @@
                 document.getElementById('codigo_cc_2').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
                 document.getElementById('descripcion_cc_2').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
             }
-
-            function filterResults() {
-                var input, filter, table, tr, td1, td2, i, txtValue;
-                input = document.getElementById("searchInput_3"); // Ajusta el ID según tu campo de búsqueda
-                filter = input.value.toUpperCase();
-                table = document.getElementById("cuentasContablesTable_3");
-                tr = table.getElementsByTagName("tr");
-
-                for (i = 0; i < tr.length; i++) {
-                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                    if (td1 && td2) {
-                        // Combina los textos de ambas posiciones en una cadena
-                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                        // Busca en la cadena combinada
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-            document.getElementById("searchInput_3").addEventListener("input", filterResults);
         </script>
 
         <!-- Script para mostrar los campos opcionales -->
@@ -620,33 +551,50 @@
                 document.getElementById('razon_social').value = razonSocial;
                 document.getElementById('tesoreria').value = razonSocial;
                 document.getElementById('direccion').value = direccion;
-                // Agrega el resto de los campos si es necesario
             }
-            function filterResults() {
-                var input, filter, table, tr, td1, td2, i, txtValue;
-                input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
-                filter = input.value.toUpperCase();
-                table = document.getElementById("tablaProveedor");
-                tr = table.getElementsByTagName("tr");
+        </script>
 
-                for (i = 0; i < tr.length; i++) {
-                    td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                    td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-                    
-                    if (td1 && td2) {
-                        // Combina los textos de ambas posiciones en una cadena
-                        txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-                        
-                        // Busca en la cadena combinada
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
+        <!-- Script encargado de las tablas de proveedores -->
+        <script>
+            $(document).ready(function() {
+                $('#TablaProveedores').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
                     }
-                }
-            }
-            document.getElementById("searchInput").addEventListener("input", filterResults);
+                });
+            });
+        </script>
+
+        <!-- Script para las tablas de lo modales de cuentas contables -->
+        <script>
+            $(document).ready(function() {
+                var table1 = $('#TablaCuentaCont1').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    }
+                });
+
+                var table2 = $('#TablaCuentaCont2').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    }
+                });
+            });
         </script>
 
         <!-- Script de bootstrap -->
@@ -679,6 +627,9 @@
             document.getElementById('Debe_2').value = 0;            
             });
         </script>
+        <!-- Script de DataTable de jquery -->
+        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+
     </main>
 
 </body>
