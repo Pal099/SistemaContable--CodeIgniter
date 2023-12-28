@@ -838,6 +838,24 @@
         
         
     </script>
+    <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('comprobante').addEventListener('input', function() {
+                document.getElementById('comprobante_2').value = this.value;
+            });
+        </script> 
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('cheques_che_id').addEventListener('input', function() {
+                document.getElementById('cheques_che_id_2').value = this.value;
+            });
+        </script> 
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('detalles').addEventListener('input', function() {
+                document.getElementById('detalles_2').value = this.value;
+            });
+        </script> 
 
 
     <!-- script para las alertas -->
