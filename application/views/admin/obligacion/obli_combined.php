@@ -152,10 +152,6 @@
                                                                     <input type="text" class="form-control w-100"
                                                                         id="tipo_presupuesto" name="tipo_presupuesto">
                                                                 </div>
-                                                            </div>
-                                                            <!-- Campos Opcionales del formulario -->
-                                                            <div class="collapse mt-4" id="camposOpcionalesCollapse">
-                                                                
                                                                 <div class="col-md-4">
                                                                     <label for="nro_exp">Nro. Exp:</label>
                                                                     <input type="text" class="form-control" id="nro_exp"
@@ -174,14 +170,14 @@
                                                                                 class="form-control w-100" id="pagado"
                                                                                 name="pagado">
                                                                         </div>
-                                                                        <div class="col-md-12">
-                                                                            <label for="OP">N° Op</label>
-                                                                            <input type="text"
-                                                                                class="form-control w-100" id="OP"
-                                                                                name="OP" value="<?= $op_actual ?>"
-                                                                                readonly>
+                                                                        <div class="form-group col-md-1">
+                                                                            <label for="op">N° Op</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="op" name="op"
+                                                                                value="<?= $op_actual ?>" readonly>
                                                                         </div>
-                                                                        <div class="input-group input-group-sm  ">
+                                                                        <div class="input-group input-group-sm  "
+                                                                            hidden>
                                                                             <label for="MontoPago">MontoPago</label>
 
                                                                             <input type="hidden"
@@ -189,16 +185,14 @@
                                                                                 id="MontoPago" name="MontoPago"
                                                                                 readonly>
                                                                         </div>
-                                                                        <div class="input-group input-group-sm  ">
-                                                                            <label for="MontoPago_2">MontoPago_2</label>
 
-                                                                            <input type="hidden"
-                                                                                class="form-control border-0 bg-transparent"
-                                                                                id="MontoPago_2" name="MontoPago_2"
-                                                                                readonly>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <!-- Campos Opcionales del formulario -->
+                                                            <div class="collapse mt-4" id="camposOpcionalesCollapse">
+
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -557,7 +551,7 @@
                             <tbody>
                                 <?php foreach ($proveedores as $index => $proveedor): ?>
                                     <tr class="list-item"
-                                        onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>', '<?= $proveedor->direccion ?>')"
+                                        onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
                                         data-bs-dismiss="modal">
                                         <td>
                                             <?= $index + 1 ?>
@@ -655,7 +649,7 @@
                     total: $("#total").val(),
                     pagado: $("#pagado").val(),
                     MontoPago: $("#MontoPago").val(),
-                    MontoPago2: $("#MontoPago_2").val(),
+                    //MontoPago2: $("#MontoPago_2").val(),
                     // Agrega más campos según sea necesario
                     id_pro: $("#id_pro").val(),
                     id_ff: $("#id_ff").val(),
@@ -689,13 +683,14 @@
                         Haber: $(this).find("input[name='Haber_2']").val(),
                         cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
                     };
+                    
                     // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
                     var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
                     sumahaber += valorClonado;
                     filas.push(fila);
                 });
 
-
+              
                 // Combinar datos del formulario principal y de las filas dinámicas
                 var datosCompletos = {
                     datosFormulario: datosFormulario,
@@ -711,15 +706,13 @@
                         data: { datos: datosCompletos },
                         //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                         success: function (response) {
-                            alert(filas);
-                            alert(filas);
                             console.log(response);
                             if (response.includes('Datos guardados exitosamente.')) {
                                 alert('Datos guardados exitosamente.');
                                 // ... (código adicional si es necesario)
                             } else {
                                 alert('Error al guardar los datos: ' + response);
-                                // ... (código adicional si es necesario)
+                                console.log(response);
                             }
                         },
                         error: function (xhr, status, error) {
@@ -897,10 +890,10 @@
 
         <!-- Seleccionar un Proveedor -->
         <script>
-            function selectProveedor(ruc, razonSocial, direccion) {
+            function selectProveedor(ruc, razonSocial) {
                 document.getElementById('ruc').value = ruc;
                 document.getElementById('razon_social').value = razonSocial;
-                document.getElementById('direccion').value = direccion;
+                //document.getElementById('direccion').value = direccion;
             }
         </script>
 
@@ -968,7 +961,7 @@
                 document.getElementById('detalles_2').value = this.value;
             });
         </script>
-        <script>
+       <!-- <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
             document.getElementById('Debe').addEventListener('input', function () {
@@ -976,7 +969,7 @@
                 document.getElementById('Haber').value = 0;
                 document.getElementById('Debe_2').value = 0;
             });
-        </script>
+        </script>-->
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
         <!-- Script de DataTable de vista  -->

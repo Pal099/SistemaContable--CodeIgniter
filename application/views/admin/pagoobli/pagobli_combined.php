@@ -434,17 +434,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($asientos)): ?>
-                                        <?php foreach ($asientos as $asien): ?>
+                                    <?php if (!empty($asiento)): ?>
+                                        <?php foreach ($asiento as $asien): ?>
                                             <tr>
                                                 <td>
-                                                    <?php echo $asien->id_numasi ?>
+                                                    <?php echo $asien->IDNum_Asi ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $asien->fecha ?>
+                                                    <?php echo $asien->FechaEmision ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $asien->nume ?>
+                                                    <?php echo $asien->num_asi ?>
                                                 </td>
                                                 <td>
                                                     <?php echo $asien->op ?>
@@ -457,15 +457,15 @@
                                                         <button type="button"
                                                             class="btn btn-primary btn-view-presupuesto btn-sm"
                                                             data-bs-toggle="modal" data-bs-target="#modalPresupuesto"
-                                                            value="<?php echo $asien->id_numasi; ?>">
+                                                            value="<?php echo $asien->IDNum_Asi; ?>">
                                                             <span class="fa fa-search"></span>
                                                         </button>
                                                         <button class="btn btn-warning btn-sm"
-                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->id_numasi; ?>'">
+                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                             <i class="bi bi-pencil-fill"></i>
                                                         </button>
                                                         <button class="btn btn-danger btn-remove btn-sm"
-                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->id_numasi; ?>'">
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>

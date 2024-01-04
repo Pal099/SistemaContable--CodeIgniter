@@ -64,6 +64,7 @@ class Pago_de_obligaciones extends CI_Controller {
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
+			'asiento' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");

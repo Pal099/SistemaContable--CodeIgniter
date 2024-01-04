@@ -104,8 +104,6 @@ class Diario_obligaciones extends CI_Controller
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
 		$contabilidad = $datosFormulario['contabilidad'];
-		$direccion = $datosFormulario['direccion'];
-		$telefono = $datosFormulario['telefono'];
 		$observacion = $datosFormulario['observacion'];
 		$fecha = $datosFormulario['fecha'];
 		//-----------------//--------------------------- 1
@@ -127,9 +125,8 @@ class Diario_obligaciones extends CI_Controller
 		$proyecto = $this->input->post("proyecto");
 		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
-		$nro_exp = $this->input->post("nro_exp");
-		$total = $this->input->post("total");
-		$pagado = floatval($this->input->post("pagado"));
+		$nro_exp = $datosFormulario['nro_exp'];
+		$pagado = $datosFormulario['$pagado'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 
 
@@ -182,28 +179,31 @@ class Diario_obligaciones extends CI_Controller
 				if ($this->input->is_ajax_request()) {
 
 					$datosFormulario = $datosCompletos['filas'];
-					$filas = $datosCompletos['filas'];
-					if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
-						foreach ($filas as $fila) {
-							// Ejemplo de cómo podrías procesar una fila
-							$dataDetaHaber = array(
+						$filas = $datosCompletos['filas'];
+						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+							foreach ($filas as $fila) {
+								// Ejemplo de cómo podrías procesar una fila
+								$dataDetaHaber = array(
 								'Num_Asi_IDNum_Asi' => $lastInsertedId,
 								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
 								'Haber' => $fila['Haber'],
 								'detalles' => $fila['detalles'],
 								'numero' => $numero,
 								'comprobante' => $fila['comprobante'],
-								'id_of' => $fila['id_of'],
+								'id_of' => $fila['id_of'],	
 								'id_pro' => $fila['id_pro'],
 								'id_ff' => $fila['id_ff'],
 								'IDCuentaContable' => $fila['IDCuentaContable'],
 								'cheques_che_id' => $fila['cheques_che_id'],
 								'proveedores_id' => $proveedor_id,
 								'id_uni_respon_usu' => $id_uni_respon_usu,
-								'id_form' => "2",
+								'id_form' => "1",
 								'estado_registro' => "1",
 							);
-
+								
+							$this->Diario_obli_model->saveHaber($dataDetaHaber);
+							
+								
 						}
 
 					}
@@ -216,13 +216,7 @@ class Diario_obligaciones extends CI_Controller
 				}
 
 			}
-
-
-		} else {
-			return redirect(base_url() . "obligaciones/diario_obligaciones/add");
-		}
-
-
+		} 
 
 	} // fin del store
 
