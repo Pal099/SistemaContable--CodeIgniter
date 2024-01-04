@@ -1,4 +1,6 @@
 <?php
+
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Diario_obligaciones extends CI_Controller {
@@ -15,10 +17,7 @@ class Diario_obligaciones extends CI_Controller {
 		$this->load->library('form_validation');
 
 	}
-	
-	
-	
-	
+		
 	public function index() {
 		//Con la libreria Session traemos los datos del usuario
 		//Obtenemos el nombre que nos va servir para obtener su id
@@ -32,12 +31,13 @@ class Diario_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Diario_obli_model->obtener_asientos();
+		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);  
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
+		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
@@ -74,6 +74,7 @@ class Diario_obligaciones extends CI_Controller {
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 
@@ -95,15 +96,25 @@ class Diario_obligaciones extends CI_Controller {
 			$telefono = $this->input->post("telefono");
 			$observacion = $this->input->post("observacion");
 			$fecha = $this->input->post("fecha");
+			//-----------------//--------------------------- 1
 			$debe = floatval($this->input->post("Debe"));
+			$detalle = $this->input->post("detalles");
 			$haber_2 = floatval($this->input->post("Haber_2"));
 			$tesoreria = $this->input->post("tesoreria");
 			$comprobante = $this->input->post("comprobante");
 			$cheque_id = $this->input->post("cheques_che_id");
 			$programa_id_pro = $this->input->post("id_pro");
-			$cuentacontable = $this->input->post("cuentacontable");
+			$cuentacontable = $this->input->post("idcuentacontable");
 			$fuente_de_financiamiento = $this->input->post("id_ff");
 			$origen_de_financiamiento = $this->input->post("id_of");
+			//-----------------//--------------------------- 2
+			$detalle_2 = $this->input->post("detalles_2");
+			$comprobante_2 = $this->input->post("comprobante_2");
+			$cheque_id_2 = $this->input->post("cheques_che_id");
+			$programa_id_pro_2 = $this->input->post("id_pro_2");
+			$cuentacontable_2 = $this->input->post("idcuentacontable_2");
+			$fuente_de_financiamiento_2 = $this->input->post("id_ff_2");
+			$origen_de_financiamiento_2 = $this->input->post("id_of_2");
 			//-----------------//---------------------------
 			$pedi_matricula = $this->input->post("pedi_matricula");
 			$MontoPago = floatval($this->input->post("MontoPago"));
@@ -117,10 +128,11 @@ class Diario_obligaciones extends CI_Controller {
 			$total = $this->input->post("total");
 			$pagado = floatval($this->input->post("pagado"));
 			$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-			$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
-			$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
+			$this->form_validation->set_rules("Debe_2", "debe_2", "required[num_asi_deta.Debe]");
+			$this->form_validation->set_rules("Haber_2", "haber_2", "required[num_asi_deta.Haber]");
 			$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 			$op= $this->input->post("OP");
+
 
 			if ($proveedor_id) {
 				if ($this->form_validation->run() == TRUE) {
@@ -136,6 +148,7 @@ class Diario_obligaciones extends CI_Controller {
 						'MontoPagado' => $pagado,
 						'id_provee' => $proveedor_id,
 						'MontoTotal' => $debe,
+						'modalidad' => $modalidad,
 						'estado' => $estado,
 						'op'=>$op,
 						'id_uni_respon_usu'=>$id_uni_respon_usu,
@@ -152,6 +165,7 @@ class Diario_obligaciones extends CI_Controller {
 								'Debe' => $debe,
 								'numero'=>$numero,
 								'comprobante' => $comprobante,
+								'detalles' => $detalle,
 								'id_of' => $origen_de_financiamiento,
 								'id_pro' => $programa_id_pro,
 								'id_ff' => $fuente_de_financiamiento,
@@ -169,12 +183,13 @@ class Diario_obligaciones extends CI_Controller {
 										'MontoPago' => $MontoPago,
 										'Haber' => $haber_2,
 										'numero'=>$numero,
-										'comprobante' => $comprobante,
-										'id_of' => $origen_de_financiamiento,
-										'id_pro' => $programa_id_pro,
-										'id_ff' => $fuente_de_financiamiento,
-										'IDCuentaContable' => $cuentacontable,
-										'cheques_che_id' => $cheque_id,
+										'comprobante' => $comprobante_2,
+										'detalles' => $detalle_2,
+										'id_of' => $origen_de_financiamiento_2,
+										'id_pro' => $programa_id_pro_2,
+										'id_ff' => $fuente_de_financiamiento_2,
+										'IDCuentaContable' => $cuentacontable_2,
+										'cheques_che_id' => $cheque_id_2,
 										'proveedores_id' => $proveedor_id,
 										'id_uni_respon_usu'=>$id_uni_respon_usu,
 										'id_form' => "1",
@@ -190,9 +205,9 @@ class Diario_obligaciones extends CI_Controller {
 					}			
 				
 				}else {
-					$this->add();
+					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 				}
-			} else {
+			}else {
 				return redirect(base_url() . "obligaciones/diario_obligaciones/add");
 			}
 		
@@ -200,16 +215,30 @@ class Diario_obligaciones extends CI_Controller {
 		
 	} // fin del store
 
-
+	public function busqueda_por_cuenta() {
+        $numero_cuenta = $this->input->get('busqueda');
+		$desc_cuenta = $this->input->get('busqueda');
+        $this->mostrar_vista($numero_cuenta, $desc_cuenta);
+    }
 
 
 	public function edit($id){
+		
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
 		$data  = array(
-			'obligaciones' => $this->Diario_obli_model->obtener_asiento_por_id($id), 
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
+			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
+			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
+			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obliedit",$data);
+		$this->load->view("admin/obligacion/obli_combined",$data);
 		$this->load->view("layouts/footer");
 	}
 

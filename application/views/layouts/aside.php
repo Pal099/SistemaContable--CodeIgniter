@@ -1,19 +1,14 @@
 <aside id="sidebar" class="sidebar">
-    
+
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url();?>principal">
+            <a class="nav-link" href="<?php echo base_url(); ?>principal">
                 <i class="bi bi-house"></i> <span>Inicio</span>
             </a>
-        </li>     
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">
                 <i class="bi  bi-book"></i><span>Diario de obligaciones</span>
-            </a>
-        </li>    
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/Deposito_obligaciones/add">
-                <i class="bi  bi-book"></i><span>Registo de Recaudación y Depósito</span>
             </a>
         </li>
         <li class="nav-item">
@@ -23,32 +18,35 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
-                <i class="bi  bi-plus"></i><span>Depósito</span>
+                <i class="bi  bi-books"></i><span>Depositos</span>
             </a>
-        </li>   
+        </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/certific_disp_presu">
-            <i class="bi  bi-book"></i><span>CDP</span>
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
+                <i class="bi  bi-books"></i><span>Depositos</span>
             </a>
-        </li>  
+        </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/libromayor">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/LibroMayor">
                 <i class="bi  bi-books"></i><span>Libro Mayor</span>
             </a>
-        </li>   
-        
-        
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Balance_Gral">
+                <i class="bi bi-graph-up"></i><span>Balance General</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
-        </li>    
-        
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
                 <i class="bi bi-bar-chart"></i><span>Presupuesto</span>
             </a>
-        </li> 
+        </li>
 
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
@@ -67,11 +65,6 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
-                <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/financiamiento">
                 <i class="bi bi-cash-stack"></i><span>Fuente de financiamiento</span>
             </a>
@@ -81,19 +74,12 @@
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/controlpf">
-                <i class="bi bi-graph-up"></i><span>Control Plan Financiero</span>
-            </a>
-        </li>
-      
-        <li class="ncav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
             </a>
         </li>
 
-               
-        
     </ul>
 </aside>

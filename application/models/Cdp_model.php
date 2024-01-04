@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Cdp_model extends CI_Model {
 	//acá empieza el javorai de isaac
-    //mentira yo no tuve nada q ver con esto
 	//num asi primero
 	public function __construct() {
         $this->load->database();
@@ -22,45 +21,10 @@ class Cdp_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->update('num_asi', $data);
     }
-
-public function obtener_asiento_por_numero($num_asi) {
-    $this->db->where('num_asi', $num_asi);
-    return $this->db->get('num_asi')->row_array();
-}
-
-public function obtener_origen_financiamiento($id_of) {
-    $this->db->where('id_of', $id_of);
-    return $this->db->get('origen_de_financiamiento')->row_array();
-}
-
-public function obtener_fuente_financiamiento($id_ff) {
-    $this->db->where('id_ff', $id_ff);
-    return $this->db->get('fuente_de_financiamiento')->row_array();
-}
-
-public function obtener_programa($id_pro) {
-    $this->db->where('id_pro', $id_pro);
-    return $this->db->get('programa')->row_array();
-}
-
-public function obtener_cuenta_contable($IDCuentaContable) {
-    $this->db->where('IDCuentaContable', $IDCuentaContable);
-    return $this->db->get('cuentacontable')->row_array();
-}
-
-public function obtener_presupuesto($IDCuentaContable) {
-    $this->db->where('Idcuentacontable', $IDCuentaContable);
-    return $this->db->get('presupuestos')->row_array();
-}
-
-public function obtener_suma_debe_cuenta($IDCuentaContable) {
-    $this->db->select_sum('Debe', 'total_debe');
-    $this->db->where('IDCuentaContable', $IDCuentaContable);
-    $result = $this->db->get('num_asi_deta')->row_array();
-    return $result['total_debe'];
-}
-
-
+	public function eliminar_asiento($id) {
+        $this->db->where('IDNum_Asi', $id);
+        return $this->db->delete('num_asi');
+    }
 	public function save_num_asi($data){
 		return $this->db->insert("num_asi",$data);
 	}
@@ -232,7 +196,7 @@ public function getUsuarioId($nombre){
 	}
 
 	public function getDiarios_obli() {
-		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
+		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as Codigocuentacontable ,cuentacontable.Descripcion_CC as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
@@ -248,46 +212,17 @@ public function getUsuarioId($nombre){
 		$query = $this->db->get_where('usuarios', array('id_user' => $id));
 		return $query->row();
    }
-   public function obtener_datos_asiento($numero_asiento = null) {
-    $this->db->select('
-        origen_de_financiamiento.nombre as nombre_origen,
-        fuente_de_financiamiento.nombre as nombre_fuente,
-        programa.nombre as nombre_programa,
-        num_asi.num_asi as numero_asiento,
-        num_asi_deta.Debe as debe_num_asi_deta,
-        cuentacontable.Codigo_CC,
-        cuentacontable.Descripcion_CC,
-        presupuestos.pre_ene,
-        presupuestos.pre_feb,
-        presupuestos.pre_mar,
-        presupuestos.pre_abr,
-        presupuestos.pre_may,
-        presupuestos.pre_jun,
-        presupuestos.pre_jul,
-        presupuestos.pre_ago,
-        presupuestos.pre_sep,
-        presupuestos.pre_oct,
-        presupuestos.pre_nov,
-        presupuestos.pre_dic,
-        SUM(num_asi_deta.Debe) as total_debe_cuenta,
-    ');
 
-    $this->db->from('num_asi_deta');
-    $this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
-    $this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
-    $this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
-    $this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
-    $this->db->join('presupuestos', 'cuentacontable.Idcuentacontable = presupuestos.Idcuentacontable');
-    $this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
-
-    if ($numero_asiento) {
-        $this->db->where('num_asi.num_asi', $numero_asiento);
-    }
-
-    $this->db->group_by('origen_de_financiamiento.nombre, fuente_de_financiamiento.nombre, programa.nombre, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, num_asi.num_asi');
-
-    return $this->db->get()->result_array();
-}
-
+//	public function getDiarios_obli() {
+//		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
+//		$this->db->from('num_asi_deta');
+//		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
+//		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
+//		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
+//	
+//		
+//		$query = $this->db->get();
+//		return $query->result();
+//	}
 	
 }
