@@ -190,18 +190,24 @@
                                     <div class="content4">
                                         <div class="content-container4">
                                             <div class="main-fields">
-                                                <div class="form-group">
-                                                    <label for="cuentacontable">Código y Descripción de Cuenta
-                                                        Contable:</label>
-                                                    <select class="form-control" id="cuentacontable"
-                                                        name="cuentacontable">
+                                            <div class="form-group">
+                                                <label for="cuentacontable">Código y Descripción de Cuenta Contable:</label>
+                                                <div class="input-group">
+                                                    <select class="form-control" id="cuentacontable" name="cuentacontable">
                                                         <?php foreach ($cuentacontable as $cc): ?>
                                                             <option value="<?php echo $cc->IDCuentaContable; ?>">
                                                                 <?php echo $cc->Codigo_CC . ' - ' . $cc->Descripcion_CC; ?>
                                                             </option>
                                                         <?php endforeach; ?>
                                                     </select>
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-sm btn-primary ms-2" id="openModalBtn">
+                                                            <i class="bi bi-search"></i> Busqueda Cuenta
+                                                        </button>
+                                                    </div>
                                                 </div>
+                                            </div>
+
                                                 <!-- Monto de Pago -->
                                                 <div class="form-group">
                                                     <label for="MontoPago">Monto de Pago:</label>
@@ -595,28 +601,7 @@ $conexion->close();
         </form>
 
         <thead>
-            <tr>
-                <th>#</th>
-                <th>RUC</th>
-                <th>Número</th>
-                <th>Contabilidad</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Observación</th>
-                <th>Fecha</th>
-                <th>Tesorería</th>
-                <th>Pedí Matrícula</th>
-                <th>Modalidad</th>
-                <th>Tipo de Presupuesto</th>
-                <th>Unidad Responsable</th>
-                <th>Proyecto</th>
-                <th>Estado</th>
-                <th>Nro. PAC</th>
-                <th>Nro. Expediente</th>
-                <th>Total</th>
-                <th>Pagado</th>
-                <th>Opciones</th>
-            </tr>
+            
         </thead>
         <tbody>
             <?php if (!empty($data)): ?>
@@ -817,6 +802,69 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Función para abrir el modal de búsqueda de cuenta
+    function openModalBusqueda() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal de búsqueda de cuenta
+    function closeModalBusqueda() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn.style.zIndex = 1;
+    }
+
+    // Evento al hacer clic en el botón de búsqueda para abrir el modal
+    const openModalBtn = document.getElementById("openModalBtn");
+    openModalBtn.addEventListener("click", () => {
+        openModalBusqueda();
+    });
+
+    // Evento al hacer clic en el botón de cerrar para cerrar el modal de búsqueda
+    const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+    closeModalBtn_3.addEventListener("click", () => {
+        closeModalBusqueda();
+    });
+
+    // Lógica para manejar la búsqueda y actualización de resultados
+    document.getElementById('formBusquedaCuenta').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Obtener el valor de búsqueda
+        var busquedaCuenta = document.getElementById('inputBusquedaCuenta').value;
+
+        // Realizar la lógica de búsqueda (puedes usar AJAX para obtener resultados del servidor)
+        // En este ejemplo, simplemente mostramos un mensaje
+        document.getElementById('tablaResultadosCuenta').innerHTML = '<p>Resultados para: ' + busquedaCuenta + '</p>';
+
+        // Puedes rellenar los resultados con datos obtenidos del servidor
+        // y mostrarlos en la #tablaResultadosCuenta
+    });
+</script>
+
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Agregar evento al botón "Cancelar"
@@ -835,6 +883,37 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         });
 
     </script>
+
+
+
+<script>
+    // Función para abrir el modal
+    function openModal_3() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'flex';
+        openModalBtn.style.zIndex = -1;
+    }
+
+    // Función para cerrar el modal
+    function closeModal_2() {
+        var modalContainer = document.getElementById('modalContainer_3');
+        modalContainer.style.display = 'none';
+        openModalBtn.style.zIndex = 1;
+    }
+ // Agregar evento al botón "Nuevo" para abrir el modal
+ const openModalBtn_3 = document.getElementById("openModalBtn");
+    openModalBtn_3.addEventListener("click", () => {
+        openModal_3();
+    });
+
+    // Agregar evento al botón de cerrar para cerrar el modal
+    const closeModalBtn_3 = document.getElementById("closeModalBtn_3");
+    closeModalBtn_3.addEventListener("click", () => {
+        closeModal_3();
+    });
+
+</script>
+
 <script>
     // Función para abrir el modal
     function openModal_2() {
@@ -846,7 +925,7 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     // Función para cerrar el modal
     function closeModal_2() {
         var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'none';
+        modalContainer.style.display = 'none';2
         openModalBtn.style.zIndex = 1;
     }
 

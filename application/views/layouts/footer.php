@@ -1,185 +1,41 @@
-<head>
-  <!-- ... otros elementos del head ... -->
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-</head>
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-  <!-- Vendor JS Files -->
-  <script src="<?php echo base_url();?>assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/echarts/echarts.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/quill/quill.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/tinymce/tinymce.min.js"></script>
-  <script src="<?php echo base_url();?>assets/vendor/php-email-form/validate.js"></script>
-  <!-- Template Main JS File -->
-  <script src="<?php echo base_url();?>assets/js/main.js"></script>
-    <!-- ./wrapper -->
-<!-- jQuery 3 -->
-<script src="<?php echo base_url();?>assets/template/jquery/jquery.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/jquery-print/jquery.print.js"></script>
-<!-- HighCharts -->
-<script src="<?php echo base_url();?>assets/template/highcharts/highcharts.js"></script>
-<script src="<?php echo base_url();?>assets/template/highcharts/exporting.js"></script>
-<script src="<?php echo base_url();?>assets/template/highcharts/export-data.js"></script>
-<!-- Bootstrap 3.3.7  -->
-<script src="<?php echo base_url();?>assets/template/bootstrap/js/bootstrap.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/jquery-ui/jquery-ui.js"></script>
-<!-- SlimScroll  -->
-<script src="<?php echo base_url();?>assets/template/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- DataTables  -->
-<script src="<?php echo base_url();?>assets/template/datatables.net/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-<!-- DataTables Export  -->
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/dataTables.buttons.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/buttons.flash.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/jszip.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/pdfmake.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/vfs_fonts.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/buttons.html5.min.js"></script>
-<script src="<?php echo base_url();?>assets/template/datatables-export/js/buttons.print.min.js"></script>
-<!-- FastClick  -->
-<script src="<?php echo base_url();?>assets/template/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App  -->
-<script src="<?php echo base_url();?>assets/template/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo base_url();?>assets/template/dist/js/demo.js"></script>
-<script src="<?php echo base_url();?>assets/js/modal_obli.js"></script>
-<script src="<?php echo base_url();?>assets/js/login.js"></script>
-
-
-<script>
-$(document).ready(function () {
-     var base_url = "<?php echo base_url();?>";
-    $(".btn-remove").on("click", function(e){
-        e.preventDefault();
-        var ruta = $(this).attr("href");
-        
-        $.ajax({
-            url: ruta,
-            type:"POST",
-            success:function(resp){
-                 window.location.href = base_url + resp;
-            }
-        });
-    });
-  
-    $(".btn-view-categorias").on("click", function(){
-        var id = $(this).val();
-        $.ajax({
-            url: base_url + "mantenimiento/categorias/view/" + id,
-            type:"POST",
-            success:function(resp){
-                $("#modal-default .modal-body").html(resp);
-                //alert(resp);
-            }
-
-        });
-
-    });
-
-     $(".btn-view-proveedor").on("click", function(){
-        var id = $(this).val();
-        $.ajax({
-            url: base_url + "mantenimiento/proveedores/view/" + id,
-            type:"POST",
-            success:function(resp){
-                $("#modal-default .modal-body").html(resp);
-                //alert(resp);
-            }
-
-        });
-
-    });
-
-         $(".btn-view-productos").on("click", function(){
-        var id = $(this).val();
-        $.ajax({
-            url: base_url + "mantenimiento/productos/view/" + id,
-            type:"POST",
-            success:function(resp){
-                $("#modal-default .modal-body").html(resp);
-                //alert(resp);
-            }
-
-        });
-
-    });
-
-
-     $('#tabla').DataTable({
-            "language": {
-                "lengthMenu": "Mostrar _MENU_ registros por pagina",
-                "zeroRecords": "No se encontraron resultados en su busqueda",
-                "searchPlaceholder": "Buscar registros",
-                "info": "Mostrando registros de _START_ al _END_ de un total de  _TOTAL_ registros",
-                "infoEmpty": "No existen registros",
-                "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "search": "Buscar:",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Último",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-            }
-        });
-	
-   	$('.sidebar-menu').tree();
-})
-
-<footer id="footer" class="footer">
-  <canvas id="ventasPorMesChart" width="400" height="200"></canvas>
-  <div class="credits">
+<!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <?php echo date("Y"); ?> Technalatus</a></span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Pepper Salt<i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
   </div>
-</footer><!-- End Footer -->
+  <!-- container-scroller -->
 
-<!-- Vendor JS Files -->
-<script src="<?php echo base_url();?>assets/vendor/chart.js/chart.min.js"></script>
-<!-- Template Main JS File -->
-<script src="<?php echo base_url();?>assets/js/main.js"></script>
-
-<footer id="footer" class="footer">
-  <div id="ventasPorMesChart" width="400" height="200"></div>
-  <div class="credits">
-  </div>
-</footer><!-- End Footer -->
-
-<!-- Vendor JS Files -->
-<script src="<?php echo base_url();?>assets/vendor/apexcharts/apexcharts.min.js"></script>
-<!-- Template Main JS File -->
-<script src="<?php echo base_url();?>assets/js/main.js"></script>
-
-<script>
-  $(document).ready(function() {
-    var calcularTotalVentasPorMes = <?php echo json_encode($totalVentaspormes); ?>;
-    var options = {
-      chart: {
-        type: 'bar',
-        height: 350
-      },
-      series: [{
-        name: 'Ventas por Mes',
-        data: Object.values(calcularTotalVentasPorMes)
-      }],
-      xaxis: {
-        categories: Object.keys(calcularTotalVentasPorMes)
-      }
-    };
-    var chart = new ApexCharts(document.querySelector('#ventasPorMesChart'), options);
-    chart.render();
-  });
-</script>
-
-
-
-
+  <!-- plugins:js -->
+  <script src="<?php echo base_url() ?>assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="<?php echo base_url() ?>assets/vendors/js/vendor.bundle.addons.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="<?php echo base_url() ?>assets/js/off-canvas.js"></script>
+  <script src="<?php echo base_url() ?>assets/js/misc.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="<?php echo base_url() ?>assets/js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+ <script src="<?php echo base_url() ?>assets/js/jquery.simplePagination.js"></script>
 </body>
+
 </html>
+
 
 <footer id="footer" class="footer">
     <div class="copyright">
-      <strong>Copyright &copy; 2023 - Practica Codeigniter.</strong>
+      <strong>Copyright &copy; 2023 - Codex Veritas.</strong>
     </div>
     <div class="credits">
       <b>Version</b> 0.1

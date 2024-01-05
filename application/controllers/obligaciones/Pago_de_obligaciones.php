@@ -10,6 +10,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Pago_obli_model");
+		$this->load->model("Diario_obli_model");
 		$this->load->model("Usuarios_model");
 		
 	}
@@ -78,71 +79,110 @@ class Pago_de_obligaciones extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-    public function store(){		
-		$nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+
+	
+
+	public function store() {
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$ruc_id_provee = $this->input->post("ruc");
 		$numero = $this->input->post("num_asi");
 		$id_num_asi = $this->input->post("IDNum_Asi");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
-        $telefono = $this->input->post("telefono");
+		$telefono = $this->input->post("telefono");
 		$observacion = $this->input->post("observacion");
 		$fecha = $this->input->post("fecha");
-		$debe = $this->input->post("Debe");
-		$haber = $this->input->post("Haber");
-        $tesoreria = $this->input->post("tesoreria");
+		$debe = floatval($this->input->post("Debe"));
+		$haber_2 = floatval($this->input->post("Haber_2"));
+		$tesoreria = $this->input->post("tesoreria");
 		$comprobante = $this->input->post("comprobante");
 		$cheque_id = $this->input->post("cheques_che_id");
 		$programa_id_pro = $this->input->post("id_pro");
 		$cuentacontable = $this->input->post("cuentacontable");
 		$fuente_de_financiamiento = $this->input->post("id_ff");
 		$origen_de_financiamiento = $this->input->post("id_of");
-		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
-		$MontoPago = $this->input->post("MontoPago");
-        $modalidad = $this->input->post("modalidad");
+		$MontoPago = floatval($this->input->post("MontoPago"));
+		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
 		$proyecto = $this->input->post("proyecto");
-		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
-		$pagado = $this->input->post("pagado");
-		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-		//$this->form_validation->set_rules("Debe_2", "debe_2", "required|is_unique[num_asi_deta.Debe]");
-		//$this->form_validation->set_rules("Haber_2", "haber_2", "required|is_unique[num_asi_deta.Haber]");
-		//$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
-		
+		$pagado = floatval($this->input->post("pagado"));
+		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
+		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
 	
-			if ($proveedor_id) {
-				$dataNum_Asi = array(
-					'FechaEmision' => $fecha,
-					'ped_mat' => $pedi_matricula,
-					'tipo_presu' => $tipo_presupuesto,
-					'unidad_resp' => $unidad_respon,
-					'num_asi' => $numero,
-					'proyecto' => $proyecto,
-					'nro_pac' => $nro_pac,
-					'nro_exp' => $nro_exp,
-					'MontoPagado' => $pagado,
-					'id_provee' => $proveedor_id,
-					'MontoTotal' => $total,
-					'id_user' => $usuario_id,
-					'estado' => $estado,
-					'id_uni_respon_usu'=>$id_uni_respon_usu,
+		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
+	
+		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
+	
+		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
+	
+		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
+		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
+		$op= $this->input->post("OP");
+		$this->form_validation->set_rules("Debe_2", "debe_2", "required");
+		$this->form_validation->set_rules("Haber_2", "haber_2", "required");
+		$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
+
+
+			
+		if ($proveedor_id && $this->form_validation->run() == TRUE) {
+			$dataNum_Asi = array(
+				'FechaEmision' => $fecha,
+				'ped_mat' => $pedi_matricula,
+				'tipo_presu' => $tipo_presupuesto,
+				'unidad_resp' => $unidad_respon,
+				'num_asi' => $numero,
+				'proyecto' => $proyecto,
+				'nro_pac' => $nro_pac,
+				'nro_exp' => $nro_exp,
+				'id_provee' => $proveedor_id,
+				'MontoPagado' => $nuevo_monto_pago,
+				'SumaMonto' => $suma_monto,
+				'MontoTotal' => $MontoTotal,
+				'op'=>$op,
+				'estado' => $estado,
+				'id_uni_respon_usu' => $id_uni_respon_usu,
+				'id_form' => "2",
+				'estado_registro' => "1",
+			);
+	
+				// Aquí deberías llamar a la función que obtiene $id_num_asi
+				$id_num_asi = $this->Pago_obli_model->getIdNumAsiByProveedor($proveedor_id);
+				
+				$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
+			
+			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
+	
+			if ($lastInsertedId) {
+				$dataDetaDebe = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId,
+					'MontoPago' => $haber_2,
+					'Debe' => $debe,
+					'numero' => $numero,
+					'comprobante' => $comprobante,
+					'id_of' => $origen_de_financiamiento,
+					'id_pro' => $programa_id_pro,
+					'id_ff' => $fuente_de_financiamiento,
+					'IDCuentaContable' => $cuentacontable,
+					'cheques_che_id' => $cheque_id,
+					'proveedores_id' => $proveedor_id,
+					'id_uni_respon_usu' => $id_uni_respon_usu,
+					'id_form' => "2",
 					'estado_registro' => "1",
 				);
-		
-				$lastInsertedId = $this->Pago_obli_model->save_num_asi($dataNum_Asi);
-		
-				if ($lastInsertedId) {
+	
+				if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
 					$dataDetaHaber = array(
-						'Num_Asi_IDNum_Asi' => $lastInsertedId, // Utiliza el ID recién insertado
-						'MontoPago' => $MontoPago,
-						'Debe' => $debe,
-						'Haber' => $haber,
+						'Num_Asi_IDNum_Asi' => $lastInsertedId,
+						'MontoPago' => $haber_2,
+						'Haber' => $haber_2,
+						'numero' => $numero,
 						'comprobante' => $comprobante,
 						'id_of' => $origen_de_financiamiento,
 						'id_pro' => $programa_id_pro,
@@ -150,89 +190,166 @@ class Pago_de_obligaciones extends CI_Controller {
 						'IDCuentaContable' => $cuentacontable,
 						'cheques_che_id' => $cheque_id,
 						'proveedores_id' => $proveedor_id,
-						'id_uni_respon_usu'=>$id_uni_respon_usu,
+						'id_uni_respon_usu' => $id_uni_respon_usu,
+						'id_form' => "2",
 						'estado_registro' => "1",
 					);
+	
+					$this->Diario_obli_model->saveHaber($dataDetaHaber);
+					$this->Diario_obli_model->updateMontoPagado($proveedor_id, $id_num_asi, $nuevo_monto_pago);
 		
-					if ($this->Pago_obli_model->save($dataDetaHaber)) {
-						redirect(base_url() . "obligaciones/Pago_de_obligaciones/add");
-					} else {
-						$this->session->set_flashdata("error", "No se pudo guardar la información en num_asi_deta");
-					}
+					return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
 				}
 			}
+		} else {
+			$this->add();
+		}
+	}
+	
+
+	
+
+
+
+	public function edit($id_uni_respon_usu){
 		
-		return redirect(base_url() . "obligaciones/Pago_de_obligaciones/add");
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-	} // fin del store
-
-
-
-
-	public function edit($id){
 		$data  = array(
-			'obligaciones' => $this->Pago_obli_model->obtener_asiento_por_id($id), 
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
+			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
+			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
+			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
+			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
+			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/pagoobli/pagobli_combined", $data);
-		$this->load->view("layouts/footer");
 	}
 
 
-
 	public function update(){
-		$idobli = $this->input->post("idobli");
-        $ruc = $this->input->post("ruc");
-		$numero = $this->input->post("numero");
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$ruc_id_provee = $this->input->post("ruc");
+		$numero = $this->input->post("num_asi");
+		$id_num_asi = $this->input->post("IDNum_Asi");
 		$contabilidad = $this->input->post("contabilidad");
 		$direccion = $this->input->post("direccion");
-        $telefono = $this->input->post("telefono");
+		$telefono = $this->input->post("telefono");
 		$observacion = $this->input->post("observacion");
 		$fecha = $this->input->post("fecha");
-        $tesoreria = $this->input->post("tesoreria");
+		$debe = floatval($this->input->post("Debe"));
+		$haber_2 = floatval($this->input->post("Haber_2"));
+		$tesoreria = $this->input->post("tesoreria");
+		$comprobante = $this->input->post("comprobante");
+		$cheque_id = $this->input->post("cheques_che_id");
+		$programa_id_pro = $this->input->post("id_pro");
+		$cuentacontable = $this->input->post("cuentacontable");
+		$fuente_de_financiamiento = $this->input->post("id_ff");
+		$origen_de_financiamiento = $this->input->post("id_of");
 		$pedi_matricula = $this->input->post("pedi_matricula");
-        $modalidad = $this->input->post("modalidad");
+		$MontoPago = floatval($this->input->post("MontoPago"));
+		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
 		$proyecto = $this->input->post("proyecto");
-		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
-		$pagado = $this->input->post("pagado");
-		$obliaactual = $this->Pago_obli_model->obtener_asiento_por_id($idobli);
+		$pagado = floatval($this->input->post("pagado"));
+		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
+		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
+	
+		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
+	
+		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
+	
+		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
+	
+		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
+		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
+		$op= $this->input->post("OP");
+		$this->form_validation->set_rules("Debe_2", "debe_2", "required");
+		$this->form_validation->set_rules("Haber_2", "haber_2", "required");
+		$this->form_validation->set_rules('Debe', 'Debe', 'matches[Haber_2]', array('matches' => 'El campo Debe debe ser igual al campo Haber_2.'));
 
 
-			$data  = array(
-                'ruc' => $ruc,
-				'numero' => $numero, 
-				'contabilidad' => $contabilidad,
-				'direccion' => $direccion,
-                'telefono' => $telefono,
-                'observacion' => $observacion,
-                'FechaEmision' => $fecha,
-                'tesoreria' => $tesoreria,
-                'pedi_matricula' => $pedi_matricula,
-                'modalidad' => $modalidad,
-                'tipo_presupuesto' => $tipo_presupuesto,
-                'unidad_respon' => $unidad_respon,
-                'proyecto' => $proyecto,
-                'estado' => $estado,
-                'nro_pac' => $nro_pac,
-                'nro_exp' => $nro_exp,
-                'total' => $total,
-                'pagado' => $pagado,
+			
+		if ($proveedor_id && $this->form_validation->run() == TRUE) {
+			$dataNum_Asi = array(
+				'FechaEmision' => $fecha,
+				'ped_mat' => $pedi_matricula,
+				'tipo_presu' => $tipo_presupuesto,
+				'unidad_resp' => $unidad_respon,
+				'num_asi' => $numero,
+				'proyecto' => $proyecto,
+				'nro_pac' => $nro_pac,
+				'nro_exp' => $nro_exp,
+				'id_provee' => $proveedor_id,
+				'MontoPagado' => $nuevo_monto_pago,
+				'SumaMonto' => $suma_monto,
+				'MontoTotal' => $MontoTotal,
+				'op'=>$op,
+				'estado' => $estado,
+				'id_uni_respon_usu' => $id_uni_respon_usu,
+				'id_form' => "2",
 				'estado_registro' => "1",
 			);
-
-			if ($this->Pago_obli_model->save_num_asiave($idobli,$data)) {
-				redirect(base_url()."obligaciones/Pago_de_obligaciones");
+	
+				// Aquí deberías llamar a la función que obtiene $id_num_asi
+				$id_num_asi = $this->Pago_obli_model->getIdNumAsiByProveedor($proveedor_id);
+				
+				$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
+			
+			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
+	
+			if ($lastInsertedId) {
+				$dataDetaDebe = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId,
+					'MontoPago' => $haber_2,
+					'Debe' => $debe,
+					'numero' => $numero,
+					'comprobante' => $comprobante,
+					'id_of' => $origen_de_financiamiento,
+					'id_pro' => $programa_id_pro,
+					'id_ff' => $fuente_de_financiamiento,
+					'IDCuentaContable' => $cuentacontable,
+					'cheques_che_id' => $cheque_id,
+					'proveedores_id' => $proveedor_id,
+					'id_uni_respon_usu' => $id_uni_respon_usu,
+					'id_form' => "2",
+					'estado_registro' => "1",
+				);
+	
+				if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+					$dataDetaHaber = array(
+						'Num_Asi_IDNum_Asi' => $lastInsertedId,
+						'MontoPago' => $haber_2,
+						'Haber' => $haber_2,
+						'numero' => $numero,
+						'comprobante' => $comprobante,
+						'id_of' => $origen_de_financiamiento,
+						'id_pro' => $programa_id_pro,
+						'id_ff' => $fuente_de_financiamiento,
+						'IDCuentaContable' => $cuentacontable,
+						'cheques_che_id' => $cheque_id,
+						'proveedores_id' => $proveedor_id,
+						'id_uni_respon_usu' => $id_uni_respon_usu,
+						'id_form' => "2",
+						'estado_registro' => "1",
+					);
+	
+					$this->Diario_obli_model->saveHaber($dataDetaHaber);
+					$this->Diario_obli_model->updateMontoPagado($proveedor_id, $id_num_asi, $nuevo_monto_pago);
+		
+					return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
+				}
 			}
-			else{
-				$this->session->set_flashdata("error","No se pudo guardar la informacion");
-				redirect(base_url()."obligaciones/Pago_de_obligaciones/add".$idobli);
-			}
+		} else {
+			$this->add();
+		}
 	}
  
 		

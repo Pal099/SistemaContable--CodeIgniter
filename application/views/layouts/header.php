@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sistema Contable</title>
+    <title>Codex Veritas</title>
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -25,9 +25,12 @@
     <link href="<?php echo base_url();?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <!-- Template Main CSS File -->
     <link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/header.css" rel="stylesheet">
+
 
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/template/bootstrap/css/bootstrap.min.css">
@@ -44,11 +47,12 @@
     <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/AdminLTE.min.css"> 
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load.  -->
     <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/skins/_all-skins.min.css">
-
     <link href="<?php echo base_url();?>assets/css/style_diario_obli.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/style_login.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/style_login2.css" rel="stylesheet">
     <link href="<?php echo base_url();?>assets/css/style_login3.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>assets/css/asiede.css" rel="stylesheet">
+
 
 
 </head>
@@ -60,7 +64,7 @@
     right: 0;
    
     color: white;
-    padding: 10px;
+    padding: 1px;
    
    
     font-family: 'Arial', sans-serif; /* Fuente */
@@ -164,17 +168,29 @@
 <header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">
     <div class="d-flex align-items-center justify-content-between header-center">
         <a href="<?php echo base_url();?>principal" class="logo d-flex align-items-center">
-            <span class="d-none d-lg-block header-title">Sistema Contable</span>
-    
-
+            <span class="d-none d-lg-block header-title">Codex Veritas</span>
         </a>
         
-        <i class="bi bi-list toggle-sidebar-btn"></i>
+        <i class="bi bi-distribute-vertical toggle-sidebar-btn"></i>
+
     </div><!-- End Logo -->  
+     <!-- Nuevo botón de alternar sidebar -->
+     <div class="toggle-sidebar-btn" onclick="toggleSidebar()">
+        <i class="bi bi-distribute-vertical"></i>
+    </div>
+
+    <script>
+    function toggleSidebar() {
+        var sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('active');
+    }
+</script>
+    <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center">
     <div class="user-info user-info-right">
     <span>Bienvenido: <?php echo $this->session->userdata('Nombre_usuario'); ?></span>
     <span>Unidad Académica: <?php echo $this->session->userdata('unidad_academica'); ?></span>
 </div>
-
-
+</ul>
+    </nav><!-- End Icons Navigation -->
 </header><!-- End Header -->
