@@ -684,8 +684,8 @@
                 // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
                 nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-                // Quitar el ID para evitar duplicados
-                nuevaFila.removeAttr('id');
+                // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                nuevaFila.find("[id]").removeAttr('id');
 
                 // Agregar una clase a todos los elementos de la fila clonada
                 nuevaFila.find("select, input").addClass("filaClonada");
