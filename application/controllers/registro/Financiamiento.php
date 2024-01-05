@@ -9,14 +9,30 @@ class Financiamiento extends CI_Controller {
 	//	$this->permisos= $this->backend_lib->control();
     $this->load->database();
 		$this->load->model("Registros_financieros_model");
+		$this->load->model("Usuarios_model");
 	}
 
+
+
+	
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()
 	{
+		//Con la libreria Session traemos los datos del usuario
+		//Obtenemos el nombre que nos va servir para obtener su id
+		$nombre=$this->session->userdata('Nombre_usuario'); 
+
+		//Con el método getUserIdByUserName en el modelo del usuario, nos devuelve el id
+		//id conseguido mediante el nombre del usuario
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		
+		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
+		//esa id es importante para hacer las relaciones y registros por usuario
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
 		$data  = array(
-			'fuentes' => $this->Registros_financieros_model->getFuentes(), 
+			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/aside");
@@ -32,7 +48,9 @@ class Financiamiento extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
     public function store(){
-
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$nombre = $this->input->post("nombre");
 		$codigo = $this->input->post("codigo");
 
@@ -43,7 +61,8 @@ class Financiamiento extends CI_Controller {
 			$data  = array(
 				'nombre' => $nombre, 
 				'codigo' => $codigo,
-				'estado' => "1"
+				'id_uni_respon_usu'=>$id_uni_respon_usu,
+				'estado' => "1",
 			);
 
             //----------------------Fuente--------------------------------------------------------

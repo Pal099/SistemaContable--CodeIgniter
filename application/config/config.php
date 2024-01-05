@@ -385,9 +385,9 @@ $config['sess_time_to_update'] = 300; // Tiempo para actualizar la sesión en se
 $config['sess_regenerate_destroy'] = TRUE; // Destruir la sesión anterior al regenerarla
 $config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
 $config['sess_driver'] = 'files'; // Usando el controlador de archivos predeterminado
 $config['sess_regenerate_destroy'] = FALSE;
+
 
 /*
 |--------------------------------------------------------------------------
