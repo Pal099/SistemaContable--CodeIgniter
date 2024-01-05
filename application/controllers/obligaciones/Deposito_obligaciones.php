@@ -40,7 +40,7 @@ class Deposito_obligaciones extends CI_Controller {
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/deposito/deposito_combined", $data);
         $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
@@ -78,7 +78,7 @@ class Deposito_obligaciones extends CI_Controller {
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/deposito/deposito_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -224,7 +224,7 @@ class Deposito_obligaciones extends CI_Controller {
 			'obligaciones' => $this->Diario_obli_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion/obliedit",$data);
 		$this->load->view("layouts/footer");
 	}

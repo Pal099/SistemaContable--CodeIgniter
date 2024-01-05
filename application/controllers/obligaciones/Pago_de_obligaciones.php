@@ -40,7 +40,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/pagoobli/pagobli_combined", $data);
         $this->load->view("layouts/footer");
 		
@@ -67,7 +67,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);// Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -228,7 +228,7 @@ class Pago_de_obligaciones extends CI_Controller {
 			'obligaciones' => $this->Pago_obli_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);
 		$this->load->view("layouts/footer");
 	}

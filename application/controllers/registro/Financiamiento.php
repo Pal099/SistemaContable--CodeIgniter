@@ -35,7 +35,7 @@ class Financiamiento extends CI_Controller {
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/fuente/listfuente",$data);
 		$this->load->view("layouts/footer");
 		
@@ -43,7 +43,7 @@ class Financiamiento extends CI_Controller {
     public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/fuente/addfuente");
 		$this->load->view("layouts/footer");
 	}
@@ -84,7 +84,7 @@ class Financiamiento extends CI_Controller {
 			'fuente' => $this->Registros_financieros_model->getFuente($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/fuente/editfuente",$data);
 		$this->load->view("layouts/footer");
 	}
