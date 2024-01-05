@@ -54,6 +54,12 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/Certific_disp_presu.php">
+                <i class="bi bi-bar-chart"></i><span>Certificado de Disponibilidad Presupuestaria</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
                 <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
