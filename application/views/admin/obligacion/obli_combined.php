@@ -44,7 +44,7 @@
                                 onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                 <i class="bi bi-file-pdf"></i> PDF
                             </button>
-                            <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
+                            <button type="button" class="btn btn-excel" onclick="window.open('<?php echo base_url(); ?>obligaciones/Excel_pago_obli_dep/resumenPorMeses')">
                                 <i class="bi bi-file-earmark-spreadsheet"></i> Excel
                             </button>
                         </div>
