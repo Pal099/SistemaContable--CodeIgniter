@@ -2,8 +2,6 @@
 <html lang="es">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilo de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
@@ -770,8 +768,6 @@
         }
     </script>
 
-    <!-- Script de bootstrap -->
-    <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de Popper para el toast -->

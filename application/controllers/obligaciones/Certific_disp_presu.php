@@ -48,7 +48,7 @@ class Certific_disp_presu extends CI_Controller {
 		//$data['cuentacontable'] = $this->Cdp_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/cdp/obli_combined", $data);
         $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
@@ -87,7 +87,7 @@ class Certific_disp_presu extends CI_Controller {
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/cdp/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -213,7 +213,7 @@ class Certific_disp_presu extends CI_Controller {
 			'obligaciones' => $this->Cdp_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/cdp/obliedit",$data);
 		$this->load->view("layouts/footer");
 	}

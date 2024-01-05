@@ -52,7 +52,7 @@
                                                         <th>Total Acreedor</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody class="table-group-divider">
+                                                <tbody>
                                                     <?php foreach ($cuentas as $cuenta) : ?>
                                                         <tr>
                                                             <td><?= $cuenta->Codigo_CC ?></td>

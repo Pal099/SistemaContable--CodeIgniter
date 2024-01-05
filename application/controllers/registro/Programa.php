@@ -36,7 +36,7 @@ class Programa extends CI_Controller {
 			'gastos' => $this->Programa_model->getProgramGastos($id_uni_respon_usu), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/progasto/listprogasto",$data);
 		$this->load->view("layouts/footer");
 
@@ -44,7 +44,7 @@ class Programa extends CI_Controller {
     public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/progasto/addprogasto");
 		$this->load->view("layouts/footer");
 	}
@@ -86,7 +86,7 @@ class Programa extends CI_Controller {
 			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/progasto/editprogasto",$data);
 		$this->load->view("layouts/footer");
 	}

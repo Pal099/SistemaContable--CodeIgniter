@@ -17,7 +17,7 @@ class Productos extends CI_Controller {
 			'productos' => $this->Productos_model->getProductos(), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/productos/list",$data);
 		$this->load->view("layouts/footer");
 
@@ -33,7 +33,7 @@ class Productos extends CI_Controller {
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/productos/add",$data);
 		$this->load->view("layouts/footer");
 
@@ -93,7 +93,7 @@ class Productos extends CI_Controller {
 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/productos/edit",$data);
 		$this->load->view("layouts/footer");
 	}

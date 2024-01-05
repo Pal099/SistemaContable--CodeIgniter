@@ -2,8 +2,6 @@
 <html lang="es">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
@@ -23,10 +21,10 @@
         <div class="container-fluid bg-white rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 mt-4">
                         <h1>Diario de Obligación</h1>
                     </div>
-                    <div class="col-md-6 mt-2 ">
+                    <div class="col-md-6 mt-4 ">
                         <div class="d-flex gap-2 justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
@@ -57,7 +55,7 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <div class="row">
+                                                <div class="row mt-4">
 
                                                     <?php
                                                     $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
@@ -191,7 +189,7 @@
                                 <!-- Primer asiento de la obligación  -->
                                 <div class="card">
                                     <div class="card-body">
-                                        <table class="table table-hover table-bordered table-sm rounded-3  ">
+                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4 ">
                                             <thead class="align-middle">
                                                 <tr>
                                                     <th class="columna-ancha" scope="col">Programa</th>
@@ -206,7 +204,7 @@
                                                     <th scope="col">Cheque</th>
                                                 </tr>
                                             </thead>
-                                            <tbody class="table-group-divider">
+                                            <tbody>
                                                 <tr class="align-items-center">
                                                     <td>
                                                         <div class="input-group input-group-sm ">
@@ -597,8 +595,6 @@
             });
         </script>
 
-        <!-- Script de bootstrap -->
-        <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 

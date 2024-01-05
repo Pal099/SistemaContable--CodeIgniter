@@ -19,7 +19,7 @@ class ProgramaIngreso extends CI_Controller {
 			'ingresos' => $this->ProgramIngreso_model->getProgramIngresos(), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proingreso/listproingreso",$data);
 		$this->load->view("layouts/footer");
 
@@ -27,7 +27,7 @@ class ProgramaIngreso extends CI_Controller {
     public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proingreso/addproingreso");
 		$this->load->view("layouts/footer");
 	}
@@ -65,7 +65,7 @@ class ProgramaIngreso extends CI_Controller {
 			'ingresos' => $this->ProgramIngreso_model->getProgramIngreso($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proingreso/editproingreso",$data);
 		$this->load->view("layouts/footer");
 	}
