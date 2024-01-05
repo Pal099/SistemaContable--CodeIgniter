@@ -32,6 +32,16 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuadroderesultados">
+                <i class="bi bi-graph-up"></i><span>Cuadro de Resultados</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Sys">
+                <i class="bi bi-graph-up"></i><span>Sumas y Saldos</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
