@@ -16,14 +16,14 @@
             </ol>
         </nav>
 
-        <div class="container-fluid bg-white rounded-3">
+        <div class="container-fluid bg-white border rounded-3">
             <!-- Encabezado con botones -->
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 mt-4">
                         <h1>Pago de Obligación</h1>
                     </div>
-                    <div class="col-md-6 mt-2 ">
+                    <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal" data-bs-target="#modalListaObligacion">
                                 <i class="bi bi-plus"></i>
@@ -51,9 +51,9 @@
                                 <div class="container-fluid mt-4">
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
-                                            <div class="card">
+                                            <div class="card border">
                                                 <div class="card-body">
-                                                    <div class="row g-3 align-items-center">
+                                                    <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
                                                         // Conexión a la base de datos (debes configurar tu conexión)
@@ -128,9 +128,9 @@
                                                 </div>
                                             </div>
                                             <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card">
+                                            <div class="card border">
                                                 <div class="card-body">
-                                                    <table class="table table-hover table-bordered table-sm rounded-3" id="miTabla">
+                                                    <table class="table table-hover table-bordered table-sm rounded-3 mt-4" id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>
                                                                 <th class="columna-ancha">Programa</th>
@@ -330,7 +330,7 @@
     </main>
 
     <!-- Modal Lista de Obligaciones-->
-    <div class="modal fade" data-bs-backdrop="false" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones" aria-hidden="true">
+    <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered lista-obligacion">
             <div class="modal-content">
                 <div class="modal-header">
@@ -617,7 +617,7 @@
         });
     </script>
 
-    <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">
@@ -649,7 +649,7 @@
     </div>
 
     <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-    <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">

@@ -18,7 +18,7 @@
         </nav>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="container-fluid bg-white rounded-3">
+        <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 mt-4">
@@ -53,7 +53,7 @@
                             <div class="container-fluid mt-4">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
-                                        <div class="card">
+                                        <div class="card border">
                                             <div class="card-body">
                                                 <div class="row mt-4">
 
@@ -187,7 +187,7 @@
                                 </div>
                                 <!-- Tabla -->
                                 <!-- Primer asiento de la obligación  -->
-                                <div class="card">
+                                <div class="card border">
                                     <div class="card-body">
                                         <table class="table table-hover table-bordered table-sm rounded-3 mt-4 ">
                                             <thead class="align-middle">
@@ -408,7 +408,7 @@
 
 
         <!-- Modal Proveedores con boostrap -->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -450,7 +450,7 @@
 
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -482,7 +482,7 @@
         </div>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
