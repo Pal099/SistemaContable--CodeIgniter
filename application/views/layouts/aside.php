@@ -27,14 +27,19 @@
                         <i class="bi  bi-books"></i><span>Depositos</span>
                      </a>
                 </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/LibroMayor">
+                         <i class="bi  bi-books"></i><span>Libro Mayor</span>
+                     </a>
+                 </li>
             </ul>
            
         </li><!-- Acá termina lo de Obligacion -->
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#components-nav2" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-book"></i><span>Balances</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="components-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li class="nav-item">
                     <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Balance_Gral">
                         <i class="bi bi-graph-up"></i><span>Balance General</span>
@@ -54,35 +59,36 @@
            
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-book"></i><span>Presupuesto</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
+                    <i class="bi bi-bar-chart"></i><span>Presupuesto</span>
+                </a>
+            </li>
             <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
-                <i class="bi bi-bar-chart"></i><span>Presupuesto</span>
-            </a>
-        </li>
+                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
+                    <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
+                </a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/Certific_disp_presu">
-                <i class="bi bi-bar-chart"></i><span>Certificado de Disponibilidad Presupuestaria</span>
-            </a>
-        </li>
-            </ul>
-           
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/LibroMayor">
-                <i class="bi  bi-books"></i><span>Libro Mayor</span>
-            </a>
-        </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/Certific_disp_presu">
+                    <i class="bi bi-bar-chart"></i><span>Certificado de Disponibilidad Presupuestaria</span>
+                </a>
+            </li>
+                </ul>
+            
+            </li>
+
  <!-- Obligacion -->
  <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-book"></i><span>Utilidades</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
                 <i class="bi bi-person"></i><span>Proveedor</span>
@@ -109,15 +115,15 @@
                 <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
             </a>
         </li>
-
-            </ul>
-           
-        </li><!-- Acá termina lo de Obligacion -->
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
         </li>
+            </ul>
+           
+        </li><!-- Acá termina lo de Obligacion -->
+
 
 
 
