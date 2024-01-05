@@ -14,18 +14,18 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Balance General</li>
+                <li class="breadcrumb-item">Saldo y Sumas</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 ">
-                        <h1>Balance General</h1>
+                        <h1>Saldo y Sumas</h1>
                     </div>
                     <div class="col-md-6 mt-2 ">
                         <div class="d-flex justify-content-md-end">
-                            <button type="button" class="btn btn-success" onclick="window.open('<?php echo base_url(); ?>mantenimiento/Balance_Gral/GenerarExcel')">
+                            <button type="button" class="btn btn-success" onclick="window.open('<?php echo base_url(); ?>mantenimiento/SyS/GenerarExcel')">
                                 <i class="bi bi-file-pdf"></i> Excel
                             </button>
                         </div>

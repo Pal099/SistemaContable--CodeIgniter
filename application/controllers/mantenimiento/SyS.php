@@ -1,5 +1,5 @@
 <?php
-class Balance_Gral extends CI_Controller {
+class SyS extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
@@ -22,7 +22,7 @@ class Balance_Gral extends CI_Controller {
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/balancegral/list", $data);
+        $this->load->view("admin/sys/list", $data);
         $this->load->view("layouts/footer");
     }
     public function GenerarExcel() {
@@ -32,7 +32,7 @@ class Balance_Gral extends CI_Controller {
             $cuentasProcesadas = array(); // Arreglo para evitar duplicados
             $this->calcularSumasCuentas($cuenta, $cuentasProcesadas);
         }
-			$this->load->view("admin/balancegral/generarexcel", $data);
+			$this->load->view("admin/sys/generarexcel", $data);
 
 	}
 

@@ -31,6 +31,11 @@
                 <i class="bi  bi-books"></i><span>Balance General</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/SyS">
+                <i class="bi  bi-books"></i><span>Saldo y Suma</span>
+            </a>
+        </li>
         </li>
        
         <li class="nav-item">
@@ -73,6 +78,13 @@
                 <i class="bi bi-person"></i><span>Cuenta Contable</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuadrodeResultados">
+                <i class="bi bi-person"></i><span>Cuadro de Resultados</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>registro/Financiamiento">
                 <i class="bi bi-cash-stack"></i><span>Fuente de financiamiento</span>

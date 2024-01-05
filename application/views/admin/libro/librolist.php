@@ -1,140 +1,91 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Libro Mayor</title>
-    <link href="<?php echo base_url(); ?>assets/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .header-color {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #e3e6f0;
-        }
-        .page-title {
-            padding: 20px 0;
-        }
-        /* Agrega aquí más estilos personalizados si es necesario */
-    </style>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+  <style>
+    /* Estilo para el thead de DataTables */
+    #example1 thead {
+      background-color: #e6f7fe; /* Cambia esto al color que desees */
+      color: white; /* Cambia esto al color del texto que desees */
+    }
+  </style>
 </head>
-<body>
+<main id="main" class="main">
+<!-- Content Wrapper. Contains page content -->
+<div class="pagetitle">
+      <h1>Cuentas</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
+          <li class="breadcrumb-item active">Libro Mayor</li>
+        </ol>
+      </nav>
+</div><!-- End Page Title -->
 
-<div class="container mt-5">
-    <div class="page-title text-center header-color">
-        <h1>Libro Mayor</h1>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb justify-content-center">
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Libro Mayor</li>
-            </ol>
-        </nav>
-    </div>
-
-    <section class="section mt-3">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 header-color">
-                <h6 class="m-0 font-weight-bold text-primary">Filtros de Búsqueda</h6>
-            </div>
-            <div class="card-body">
-                <form class="row g-3 mb-4" action="<?php echo base_url(); ?>LibroMayor/buscarCuenta" method="post">
-                    <div class="col-md-4">
-                        <label for="fechaInicio" class="form-label">Fecha de Operación Desde:</label>
-                        <input type="date" class="form-control" id="fechaInicio" name="fecha_inicio">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="fechaFin" class="form-label">Hasta:</label>
-                        <input type="date" class="form-control" id="fechaFin" name="fecha_fin">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="descripcionCuentaContable" class="form-label">Descripción de Cuenta Contable:</label>
-                        <input type="text" class="form-control" id="descripcionCuentaContable" name="descripcion_cuenta_contable" placeholder="Descripción de la cuenta">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="verDiario" class="form-label">Ver Diario:</label>
-                        <select class="form-select" id="verDiario" name="ver_diario">
-                            <option value="todos">Todos</option>
-                            <option value="libroDiarioBorrador">Libro diario borrador</option>
-                            <option value="ordenPago">Orden de pago</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="programa" class="form-label">Programa:</label>
-                        <select class="form-select" id="programa" name="programa">
-                            <option value="todos">Todos</option>
-                            <option value="seleccionar">Seleccionar</option>
-                            <!-- Añadir más opciones de programas aquí -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="origenFinanciamiento" class="form-label">Origen de Financiamiento:</label>
-                        <select class="form-select" id="origenFinanciamiento" name="origen_financiamiento">
-                            <option value="todos">Todos</option>
-                            <option value="seleccionar">Seleccionar</option>
-                            <!-- Añadir más opciones de origen de financiamiento aquí -->
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="fuenteFinanciamiento" class="form-label">Fuente de Financiamiento:</label>
-                        <select class="form-select" id="fuenteFinanciamiento" name="fuente_financiamiento">
-                            <option value="todos">Todos</option>
-                            <option value="seleccionar">Seleccionar</option>
-                            <!-- Añadir más opciones de fuente de financiamiento aquí -->
-                        </select>
-                    </div>
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary mt-3">Buscar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="card shadow mb-4">
-            <div class="card-header py-3 header-color">
-                <h6 class="m-0 font-weight-bold text-primary">Resultados</h6>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>N° Asiento</th>
-                                <th>N° OP</th>
-                                <th>Comprobante</th>
-                                <th>Descripción del Gasto</th>
-                                <th>Debe</th>
-                                <th>Haber</th>
-                                <th>Saldo</th>
-                                <th>Cuenta Contable</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (isset($entradas) && is_array($entradas)): ?>
-                                <?php foreach ($entradas as $entrada): ?>
-                                    <tr>
-                                        <td><?php echo $entrada['FechaEmision']; ?></td>
-                                        <td><?php echo $entrada['numero']; ?></td>
-                                        <td><?php echo $entrada['Num_Asi_IDNum_Asi']; ?></td>
-                                        <td><?php echo $entrada['comprobante']; ?></td>
-                                        <td><?php echo $entrada['Descripcion']; ?></td>
-                                        <td><?php echo $entrada['Debe']; ?></td>
-                                        <td><?php echo $entrada['Haber']; ?></td>
-                                        <td><?php // Calcular y mostrar el saldo ?></td>
-                                        <td><?php echo $entrada['Codigo_CC']; ?> - <?php echo $entrada['Descripcion_CC']; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
+<section class="section dashboard">
+    <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+            
+                    <div class="col-md-12">
+                        <table id="example1" class="table table-bordered table-hover">
+                            <thead>
                                 <tr>
-                                    <td colspan="9" class="text-center">No se encontraron registros.</td>
+                                    <th>Código cuenta contable</th>
+                                    <th>Descripción de la cuenta</th>
                                 </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php if(!empty($cuentas)):?>
+                                    <?php foreach($cuentas as $cuenta):?>
+                                        <tr>
+                                            <td><?php echo $cuenta->Codigo_CC;?></td>
+                                            <td><?php echo $cuenta->Descripcion_CC;?></td>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach;?>
+                                <?php endif;?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+            <!-- /.box-body -->
         </div>
+        <!-- /.box -->
     </section>
+    <!-- /.content -->
 </div>
+<!-- /.content-wrapper -->
+</main>
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Informacion de las cuentas</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
-<script src="<?php echo base_url(); ?>assets/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<script>
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
+</script>

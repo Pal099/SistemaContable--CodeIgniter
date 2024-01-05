@@ -3,49 +3,83 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LibroMayor extends CI_Controller {
 
-    public function __construct() {
+
+    public function __construct(){
         parent::__construct();
-        $this->load->model('LibroMayor_model');
+        $this->load->model("LibroMayor_model");
     }
 
-    public function index() {
-        $data['entradas'] = [];
-        $this->load->view('admin/libro/librolist'); // Asegúrate de tener esta vista creada
-    }
 
+ 
     
-
-    public function buscarCuenta() {
-        $descripcion_cuenta_contable = $this->input->post('descripcion_cuenta_contable');
-        $filtros = array(
-            'fecha_inicio' => $this->input->post('fecha_inicio'),
-            'fecha_fin' => $this->input->post('fecha_fin'),
-            'ver_diario' => $this->input->post('ver_diario'),
-            'programa' => $this->input->post('programa'),
-            'origen_financiamiento' => $this->input->post('origen_financiamiento'),
-            'fuente_financiamiento' => $this->input->post('fuente_financiamiento'),
-            'descripcion_cuenta_contable' => $descripcion_cuenta_contable,
+    public function index()
+    {
+        $data = array(
+            'cuentas' => $this->LibroMayor_model->getCuentas(), 
         );
-    
-        if ($descripcion_cuenta_contable) {
-            // Buscar por descripción de cuenta contable
-            $cuenta = $this->LibroMayor_model->buscarPorDescripcion($descripcion_cuenta_contable);
-            if ($cuenta) {
-                // Aplicar filtros adicionales y obtener entradas
-                $datos['entradas'] = $this->LibroMayor_model->obtenerEntradasConFiltros($filtros);
-            } else {
-                // Manejo de caso donde no se encuentra la cuenta
-                $datos['entradas'] = [];
-                // Aquí puedes agregar un mensaje de error si quieres
-            }
-        } else {
-            // Manejar el caso donde no se ingresó una descripción
-            $datos['entradas'] = [];
-            // Aquí puedes agregar un mensaje de error si quieres
-        }
-    
-        $this->load->view('admin/libro/librolist', $datos);
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/libro/librolist", $data);
+        $this->load->view("layouts/footer");
     }
-    
 
+   /* public function add(){
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/cuentas/add");
+        $this->load->view("layouts/footer");
+    }
+
+    public function store() { 
+        $cuentacod = $this->input->post("cuenta_codigo");
+        $descripcion_cuenta = $this->input->post("descripcion_cuenta");
+
+        $data = array(
+            'CodigoCuentaContable' => $cuentacod, 
+            'DescripcionCuentaContable' => $descripcion_cuenta,
+            'estado' => "1",
+        );
+
+        if ($this->Cuentas_model->save($data)) {
+            redirect(base_url()."mantenimiento/cuentas");
+        } else {
+            $this->session->set_flashdata("error", "No se pudo guardar la información");
+            redirect(base_url()."mantenimiento/cuentas/add");
+        }
+    }
+
+    public function edit($id){
+        $data  = array(
+            'cuenta' => $this->Cuentas_model->getCuenta($id), 
+        );
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/aside");
+        $this->load->view("admin/cuentas/edit", $data);
+        $this->load->view("layouts/footer");
+    }
+
+    public function update(){
+        $cuenta_codigo = $this->input->post("cuenta_codigo");
+        $descripcion_cuenta = $this->input->post("descripcion_cuenta");
+
+        $data = array(
+            'CodigoCuentaContable' => $cuenta_codigo, 
+            'DescripcionCuentaContable' => $descripcion_cuenta,
+            'estado' => "1",
+        );
+
+        if ($this->Cuentas_model->update($idCuentas, $data)) {
+            redirect(base_url()."mantenimiento/cuentas");
+        } else {
+            $this->session->set_flashdata("error", "No se pudo actualizar la información");
+            redirect(base_url()."mantenimiento/cuentas/edit/".$idCuentas);
+        }
+    }
+
+    public function view($id){
+        $data  = array(
+            'cuenta' => $this->Cuentas_model->getCuenta($id), 
+        );
+        $this->load->view("admin/cuentas/view", $data);
+    }*/
 }
