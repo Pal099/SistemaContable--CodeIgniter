@@ -22,6 +22,7 @@ class Proveedores extends MY_Controller {
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
 		
 		$data  = array(
 			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu  ),
@@ -52,6 +53,12 @@ class Proveedores extends MY_Controller {
 		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
 		$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
+		$this->form_validation->set_rules("razon_social","Razon Social","required|is_unique[proveedores.razon_social]");
+		$this->form_validation->set_rules("direccion","Direccion","required|is_unique[proveedores.direccion]");
+		$this->form_validation->set_rules("telefono","Telefono","required|is_unique[proveedores.telefono]");
+		$this->form_validation->set_rules("email","Email","required|is_unique[proveedores.email]");
+		$this->form_validation->set_rules("observacion","Observacion","required|is_unique[proveedores.observacion]");
+
 	
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(

@@ -236,6 +236,7 @@
                                                         <input type="text" class="form-control small border-0 bg-transparent" id="cheques_che_id" name="cheques_che_id">
                                                     </div>
                                                 </td>
+                                                
                                             </tr>
                                             <tr>
                                                 <!-- segundo asiento  -->
@@ -314,6 +315,41 @@
                                                         <input type="text" class="form-control border-0 bg-transparent" id="cheques_che_id_2" name="cheques_che_id_2">
                                                     </div>
                                                 </td>
+                                                <div class="row">
+                        <div class="col-md-12">
+                            <table id="example1" class="table table-hover table-bordered table-sm rounded-3">
+                                <thead>
+                                    <tr>
+                                        <th>id_num_asi</th>
+                                        <th>FechaEmision</th>
+                                        <th>num_asi</th>
+                                        <th>op</th>
+                                        <th>Estado</th>
+                                        <th>opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($asientos)) : ?>
+                                        <?php foreach ($asientos as $asien) : ?>
+                                            <tr>
+                                                <td><?php echo $asien->IDNum_Asi ?></td>
+                                                <td><?php echo $asien->FechaEmision ?></td>
+                                                <td><?php echo $asien->num_asi ?></td>
+                                                <td><?php echo $asien->op ?></td>
+                                                <td><?php echo $asien->estado ?></td>
+                                                
+                                            </tr>
+                                        <?php endforeach; ?>
+                                        <?php else : ?>
+                                            <p>No se encontraron datos.</p>
+                                            <?php endif; ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>       
+                </div>         
+        <!-- Botones -->
                                             </tr>
                                         </tbody>
                                     </table>
@@ -522,6 +558,7 @@
                 </table>
             </div>
         </div>
+        
         <div class="modal-container" id="modalContainer_4">
             <div class="modal-content">
 
@@ -552,12 +589,20 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            
+            
+            
+            
             </div>
+
+            
         </div>
 
 
+        
           <!-- Scripts para abrir el modal de Cuenta Contables -->
 
+          
 
         <script>
             // Función para abrir el modal de las cuentas contables
