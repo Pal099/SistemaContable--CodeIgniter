@@ -431,8 +431,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($asientos)): ?>
-                                        <?php foreach ($asientos as $asien): ?>
+                                    <?php if (!empty($asiento)): ?>
+                                        <?php foreach ($asiento as $asien): ?>
                                             <tr>
                                                 <td>
                                                     <?php echo $asien->IDNum_Asi ?>
@@ -723,7 +723,6 @@
                 ruc: $("#ruc").val(),
                 num_asi: $("#num_asi").val(),
                 detalles: $("#detalles").val(),
-                detalles: $("#detalles").val(),
                 contabilidad: $("#contabilidad").val(),
                 direccion: $("#direccion").val(),
                 telefono: $("#telefono").val(),
@@ -758,7 +757,6 @@
                     id_of: $(this).find("select[name='id_of_2']").val(),
                     IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
                     detalles: $(this).find("input[name='detalles_2']").val(),
-                    detalles: $(this).find("input[name='detalles_2']").val(),
                     comprobante: $(this).find("input[name='comprobante_2']").val(),
                     Debe: $(this).find("input[name='Debe_2']").val(),
                     Haber: $(this).find("input[name='Haber_2']").val(),
@@ -783,7 +781,6 @@
                 $.ajax({
                     url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
                     type: 'POST',
-                    data: { datos: datosCompletos },
                     data: { datos: datosCompletos },
                     //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                     success: function (response) {
