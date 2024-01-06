@@ -517,15 +517,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($asientos as $asiento => $asi): ?>
-                                <?php if (($asi->id_form == 1 && $asi->Debe > 0 && $asi->estado_registro == 1) && ($asi->pagado < $asi->total)): ?>
+                            <?php foreach ($asientos as $asientoN => $asi): ?>
+                                <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
                                     <tr class="list-item"
                                         onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
-                                    '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')"
-                                        data-bs-dismiss="modal">
+                                        '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')">
                                         <td>
-                                            <?= $asiento + 1 ?>
+                                            <?= $asientoN + 1 ?>
                                         </td>
                                         <td>
                                             <?= $asi->ruc_proveedor ?>
@@ -577,7 +576,6 @@
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 </div>
@@ -1049,7 +1047,25 @@
     <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
     <!-- Script de Popper para el toast -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+    <!-- Script de DataTable de vista  -->
+    <script>
+        $(document).ready(function () {
+            $('#vistaobli').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "search": "Busqueda de asientos:"
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -126,7 +126,7 @@ class Diario_obligaciones extends CI_Controller
 		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $datosFormulario['nro_exp'];
-		$pagado = $datosFormulario['$pagado'];
+		$pagado = $datosFormulario['pagado'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 
 

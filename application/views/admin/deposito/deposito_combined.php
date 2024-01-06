@@ -168,7 +168,7 @@
                                                                             <label for="pagado">Pagado:</label>
                                                                             <input type="text"
                                                                                 class="form-control w-100" id="pagado"
-                                                                                name="pagado">
+                                                                                name="pagado" value="<?= 0 ?>">
                                                                         </div>
                                                                         <div class="form-group col-md-1">
                                                                             <label for="op">N° Op</label>
