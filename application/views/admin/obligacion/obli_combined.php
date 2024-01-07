@@ -166,7 +166,7 @@
                                                                             <label for="pagado">Pagado:</label>
                                                                             <input type="text"
                                                                                 class="form-control w-100" id="pagado"
-                                                                                name="pagado">
+                                                                                name="pagado" value="<?= 0 ?>">
                                                                         </div>
                                                                         <div class="form-group col-md-1">
                                                                             <label for="op">N° Op</label>
@@ -595,8 +595,8 @@
                     // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
                     nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-                    // Quitar el ID para evitar duplicados
-                    nuevaFila.removeAttr('id');
+                    // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                    nuevaFila.find("[id]").removeAttr('id');
 
                     // Agregar una clase a todos los elementos de la fila clonada
                     nuevaFila.find("select, input").addClass("filaClonada");
@@ -680,14 +680,14 @@
                         Haber: $(this).find("input[name='Haber_2']").val(),
                         cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
                     };
-                    
+
                     // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
                     var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
                     sumahaber += valorClonado;
                     filas.push(fila);
                 });
 
-              
+
                 // Combinar datos del formulario principal y de las filas dinámicas
                 var datosCompletos = {
                     datosFormulario: datosFormulario,
@@ -956,7 +956,7 @@
                 document.getElementById('detalles_2').value = this.value;
             });
         </script>
-       <!-- <script>
+        <!-- <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
             document.getElementById('Debe').addEventListener('input', function () {
