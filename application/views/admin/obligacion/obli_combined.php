@@ -203,7 +203,7 @@
                                 <!-- Primer asiento de la obligación  -->
                                 <div class="card border">
                                     <div class="card-body">
-                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4 ">
+                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4 " id="miTabla">
                                             <thead class="align-middle">
                                                 <tr>
                                                     <th class="columna-ancha">Programa</th>
