@@ -3,10 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <!-- Estilos de DataTable de jquery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
 
 <body>
@@ -18,13 +16,13 @@
                 <li class="breadcrumb-item">Editar presupuesto</li>
             </ol>
         </nav>
-        <div class="container-fluid bg-white rounded-3">
+        <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 mt-4">
                         <h1>Editar presupuesto</h1>
                     </div>
-                    <div class="col-md-6 mt-2">
+                    <div class="col-md-6 mt-4">
                         <div class="d-flex justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch" id="camposOpcionalesSwitch">
@@ -35,16 +33,17 @@
                 </div>
             </div>
             <!-- fin del encabezado -->
+            <hr> <!-- barra separadora -->
             <section class="seccion_editar_presupuesto">
                 <div class="container-fluid">
                     <div class="row">
                         <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
-                            <div class="container-fluid mt-4">
+                            <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
-                                        <div class="card">
+                                        <div class="card border">
                                             <div class="card-body">
-                                                <div class="row g-3 align-items-center">
+                                                <div class="row g-3 align-items-center mt-2">
                                                     <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
                                                     <div class="form-group col-md-4">
                                                         <label for="Año">Año:</label>
@@ -200,6 +199,9 @@
                 camposMesesCollapse.toggle();
             });
         </script>
+
+        <!-- Script de DataTable de jquery -->
+        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     </main>
 </body>
 

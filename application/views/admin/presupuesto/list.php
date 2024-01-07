@@ -2,10 +2,9 @@
 <html lang="es">
 
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/presupuesto_lista.css">
+  <!-- Estilos de DataTable de jquery -->
+  <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
 </head>
 
 <body>
@@ -17,64 +16,78 @@
       </ol>
     </nav>
     <!-- Contenedor de los componentes -->
-    <div class="container-fluid bg-white rounded-3">
+    <div class="container-fluid bg-white border rounded-3">
       <!-- Encabezado -->
       <div class="pagetitle">
         <div class="container-fluid d-flex flex-row justify-content-between">
-          <div class="col-md-6 ">
+          <div class="col-md-6 mt-4">
             <h1>Listado de Presupuesto</h1>
           </div>
-          <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-2 ">
+          <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <a href="<?php echo base_url(); ?>mantenimiento/presupuesto/add" class="btn btn-primary"><span class="fa fa-plus"></span> </a>
+              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/add'">
+                <i class="bi bi-plus-circle"></i> Agregar Presupuesto
+              </button>
             </div>
           </div>
         </div>
       </div>
       <!-- Fin del Encabezado -->
+      <hr> <!-- barra separadora -->
       <section class="seccion_tabla">
         <div class="container-fluid">
-          <!-- Listado de los proveedores -->
-          <div class="col-12 pt-4 pb-4">
-            <table id="tabla" class="table table-hover table-bordered table-sm rounded-3">
-              <thead>
-                <tr>
-                  <th>Año</th>
-                  <th>Descripcion</th>
-                  <th>Total presupuestado</th>
-                  <th>Origen de financiamiento</th>
-                  <th>Fuente de financiamiento</th>
-                  <th>Programa</th>
-                  <th>Total modificado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
-                <?php foreach ($presupuestos as $presupuesto) : ?>
-                  <td><?php echo $presupuesto->Año; ?></td>
-                  <td><?php echo $presupuesto->Idcuentacontable; ?></td>
-                  <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
-                  <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
-                  <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
-                  <td><?php echo $presupuesto->programa; ?></td>
-                  <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
-                  <td>
-                    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                      <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
-                        <span class="fa fa-search"></span>
-                      </button>
-                      <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>'">
-                        <i class="bi bi-pencil-fill"></i>
-                      </button>
-                      <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
-                        <i class="bi bi-trash"></i>
-                      </button>
+          <div class="row">
+            <div class="container-fluid mt-2">
+              <div class="row justify-content-center">
+                <div class="col-md-12">
+                  <div class="card border">
+                    <div class="card-body mt-4">
+                      <div class="table-responsive">
+                        <table id="TablaPresupuesto" class="table table-hover table-sm rounded-3">
+                          <thead>
+                            <tr>
+                              <th>Año</th>
+                              <th>Descripcion</th>
+                              <th>Total presupuestado</th>
+                              <th>Origen de financiamiento</th>
+                              <th>Fuente de financiamiento</th>
+                              <th>Programa</th>
+                              <th>Total modificado</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
+                            <?php foreach ($presupuestos as $presupuesto) : ?>
+                              <td><?php echo $presupuesto->Año; ?></td>
+                              <td><?php echo $presupuesto->Idcuentacontable; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
+                              <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
+                              <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
+                              <td><?php echo $presupuesto->programa; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
+                              <td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                  <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
+                                    <span class="fa fa-search"></span>
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
+                              </tr>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                        </table>
+                      </div>
                     </div>
-                  </td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php endif; ?>
-            </table>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -82,7 +95,7 @@
   </main>
 
   <!-- script para ver los presupuestos modal -->
-  <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalPresupuesto" tabindex="-1" aria-labelledby="ModalVerPresupuesto" aria-hidden="true">
+  <div class="modal fade mi-modal" id="modalPresupuesto" tabindex="-1" aria-labelledby="ModalVerPresupuesto" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-extra-large">
       <div class="modal-content">
         <div class="modal-header">
@@ -90,29 +103,69 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div class="container-fluid">
-            <table class="table table-bordered table-hover" id="TablaPresupuestoModal">
-              <thead>
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-sm" id="TablaPresupuestoModal">
+              <tbody>
                 <tr>
                   <th>Año</th>
-                  <th>Total P.</th>
-                  <th>Total M.</th>
-                  <th>Enero</th>
-                  <th>Febrero</th>
-                  <th>Marzo</th>
-                  <th>Abril</th>
-                  <th>Mayo</th>
-                  <th>Junio</th>
-                  <th>Julio</th>
-                  <th>Agosto</th>
-                  <th>Septiembre</th>
-                  <th>Octubre</th>
-                  <th>Noviembre</th>
-                  <th>Diciembre</th>
+                  <td id="Año"></td>
                 </tr>
-              </thead>
-              <tbody>
-
+                <tr>
+                  <th>Total P.</th>
+                  <td id="TotalP"></td>
+                </tr>
+                <tr>
+                  <th>Total M.</th>
+                  <td id="TotalM"></td>
+                </tr>
+                <tr>
+                  <th>Enero</th>
+                  <td id="Enero"></td>
+                </tr>
+                <tr>
+                  <th>Febrero</th>
+                  <td id="Febrero"></td>
+                </tr>
+                <tr>
+                  <th>Marzo</th>
+                  <td id="Marzo"></td>
+                </tr>
+                <tr>
+                  <th>Abril</th>
+                  <td id="Abril"></td>
+                </tr>
+                <tr>
+                  <th>Mayo</th>
+                  <td id="Mayo"></td>
+                </tr>
+                <tr>
+                  <th>Junio</th>
+                  <td id="Junio"></td>
+                </tr>
+                <tr>
+                  <th>Julio</th>
+                  <td id="Julio"></td>
+                </tr>
+                <tr>
+                  <th>Agosto</th>
+                  <td id="Agosto"></td>
+                </tr>
+                <tr>
+                  <th>Septiembre</th>
+                  <td id="Septiembre"></td>
+                </tr>
+                <tr>
+                  <th>Octubre</th>
+                  <td id="Octubre"></td>
+                </tr>
+                <tr>
+                  <th>Noviembre</th>
+                  <td id="Noviembre"></td>
+                </tr>
+                <tr>
+                  <th>Diciembre</th>
+                  <td id="Diciembre"></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -120,6 +173,53 @@
       </div>
     </div>
   </div>
+
+
+
+  <!-- Script de la tabla de presupuesto -->
+  <script>
+    $(document).ready(function() {
+      var table1 = $('#TablaPresupuesto').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+          '<"row"<"col-sm-12"t>>' +
+          '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        lengthMenu: [
+          [10, 25, 50, -1],
+          ['10', '25', '50', 'Mostrar Todo']
+        ],
+        buttons: [{
+            extend: 'pageLength',
+            className: 'btn bg-primary border border-0'
+          },
+          {
+            extend: 'copy',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-copy"></i> Copiar',
+          },
+          {
+            extend: 'print',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-printer"></i> Imprimir',
+          },
+          {
+            extend: 'excel',
+            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'pdf',
+            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+            className: 'btn btn-danger',
+          }
+        ],
+        searching: true,
+        info: true,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        },
+      });
+    });
+  </script>
 
   <!-- Script para ver los detalles del presupuesto -->
   <script>
@@ -145,8 +245,7 @@
 
     // Función para mostrar los detalles del presupuesto
     function mostrarDetalles(presupuestoDetalle) {
-      // Limpia el cuerpo de la tabla
-      $('#TablaPresupuestoModal tbody').empty();
+
 
       // Formato de numeros en guaranies
       var formatoGuaranies = new Intl.NumberFormat('es-PY', {
@@ -155,32 +254,26 @@
       });
 
       // Formato de la fila para la tabla
-      var nuevaFila =
-        '<tr>' +
-        '<td>' + presupuestoDetalle.Año + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.TotalPresupuestado) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.TotalModificado) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_ene) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_feb) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_mar) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_abr) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_may) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_jun) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_jul) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_ago) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_sep) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_oct) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_nov) + '</td>' +
-        '<td>' + formatoGuaranies.format(presupuestoDetalle.pre_dic) + '</td>' +
-        '</tr>';
-
-      // Agregar la nueva fila al cuerpo de la tabla
-      $('#TablaPresupuestoModal tbody').append(nuevaFila);
+      $('#Año').text(presupuestoDetalle.Año);
+      $('#TotalP').text(formatoGuaranies.format(presupuestoDetalle.TotalPresupuestado));
+      $('#TotalM').text(formatoGuaranies.format(presupuestoDetalle.TotalModificado));
+      $('#Enero').text(formatoGuaranies.format(presupuestoDetalle.pre_ene)); 
+      $('#Febrero').text(formatoGuaranies.format(presupuestoDetalle.pre_feb)); 
+      $('#Marzo').text(formatoGuaranies.format(presupuestoDetalle.pre_mar)); 
+      $('#Abril').text(formatoGuaranies.format(presupuestoDetalle.pre_abr)); 
+      $('#Mayo').text(formatoGuaranies.format(presupuestoDetalle.pre_may)); 
+      $('#Junio').text(formatoGuaranies.format(presupuestoDetalle.pre_jun)); 
+      $('#Julio').text(formatoGuaranies.format(presupuestoDetalle.pre_jul)); 
+      $('#Agosto').text(formatoGuaranies.format(presupuestoDetalle.pre_ago)); 
+      $('#Septiembre').text(formatoGuaranies.format(presupuestoDetalle.pre_sep)); 
+      $('#Octubre').text(formatoGuaranies.format(presupuestoDetalle.pre_oct)); 
+      $('#Noviembre').text(formatoGuaranies.format(presupuestoDetalle.pre_nov)); 
+      $('#Diciembre').text(formatoGuaranies.format(presupuestoDetalle.pre_dic)); 
     }
   </script>
 
-  <!-- Script de bootstrap -->
-  <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
+  <!-- Script de DataTable de jquery -->
+  <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
 </html>

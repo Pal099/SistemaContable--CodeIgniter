@@ -4,6 +4,7 @@
 <head>
     <!-- Estilo de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
 </head>
 
@@ -45,15 +46,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> <!-- Final del encabezado -->
+            <hr> <!-- barra separadora -->
+            
             <section class="section dashboard">
                 <div class="container-fluid">
                     <div class="row">
                         <!-- Campos principales -->
                         <div class="row">
                             <form id="formularioPrincipal">
-                                <div class="container-fluid mt-4">
+                                <div class="container-fluid mt-2">
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
                                             <div class="card border">
@@ -993,36 +995,55 @@
 
 
 
-        function filterResults() {
-            var input, filter, table, tr, td1, td2, i, txtValue;
-            input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaCuentaCont2");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                if (td1 && td2) {
-                    // Combina los textos de ambas posiciones en una cadena
-                    txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                    // Busca en la cadena combinada
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        document.getElementById("searchInput_2").addEventListener("input", filterResults);
-
-
+       
 
     </script>
 
+<<<<<<< HEAD
+=======
+    <!-- Script encargado de las tabla de Lista de Obligacion -->
+    <script>
+        $(document).ready(function() {
+            $('#TablaListaObligacion').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
+
+    <!-- script de las tablas de cuentas contables -->
+    <script>
+        $(document).ready(function() {
+            var table1 = $('#TablaCuentaCont1').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+
+            var table2 = $('#TablaCuentaCont2').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
+        });
+    </script>
+>>>>>>> 38d5c994266fb461e82909b3ccf62189c9fd63ef
 
     <!-- script para las alertas -->
     <script>
