@@ -31,7 +31,7 @@
   
 
   <!-- jquery -->
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="<?php echo base_url(); ?>/assets/DataTables/jquery/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/jquery-ui/jquery-ui.css">
   <!-- popper -->
   <script src="https://unpkg.com/@popperjs/core@2"></script>

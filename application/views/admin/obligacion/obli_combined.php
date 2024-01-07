@@ -38,19 +38,19 @@
                                 <i class="bi bi-file-pdf"></i> PDF
                             </button>
                             <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
-                                <i class="bi bi-file-earmark-spreadsheet"></i> Excel
+                                <i class="bi bi-file-excel"></i> Excel
                             </button>
                         </div>
                     </div>
                 </div>
             </div><!-- End Page Title -->
-
+            <hr> <!-- barra separadora -->
             <section class="section dashboard">
                 <div class="container-fluid">
                     <!-- Campos principales -->
                     <div class="row">
                         <form action="<?php echo base_url(); ?>obligaciones/diario_obligaciones/store" method="POST">
-                            <div class="container-fluid mt-4">
+                            <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
                                         <div class="card border">
@@ -562,7 +562,7 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
             });
@@ -578,7 +578,7 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
 
@@ -589,7 +589,7 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
             });

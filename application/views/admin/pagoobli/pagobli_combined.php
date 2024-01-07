@@ -4,6 +4,7 @@
 <head>
     <!-- Estilo de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
 </head>
 
@@ -40,15 +41,16 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </div> <!-- Final del encabezado -->
+            <hr> <!-- barra separadora -->
+            
             <section class="section dashboard">
                 <div class="container-fluid">
                     <div class="row">
                         <!-- Campos principales -->
                         <div class="row">
                             <form id="formularioPrincipal">
-                                <div class="container-fluid mt-4">
+                                <div class="container-fluid mt-2">
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
                                             <div class="card border">
@@ -722,12 +724,12 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
                 }
             });
         });
     </script>
-    
+
     <!-- script de las tablas de cuentas contables -->
     <script>
         $(document).ready(function() {
@@ -738,7 +740,7 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
                 }
             });
 
