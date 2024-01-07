@@ -80,7 +80,7 @@ class Deposito_obligaciones extends CI_Controller
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
-			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientosD($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 
