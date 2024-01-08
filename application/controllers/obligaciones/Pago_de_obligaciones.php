@@ -104,7 +104,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
-		$MontoPago = floatval($this->input->post("MontoPago"));
+		$MontoPago = $datosFormulario['MontoPago'];
 		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -115,7 +115,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
-		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
+		$nuevo_monto_pago = $MontoPago;
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 	
 		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
@@ -159,7 +159,7 @@ class Pago_de_obligaciones extends CI_Controller {
 					
 					$dataDetaDebe = array(
 						'Num_Asi_IDNum_Asi' => $lastInsertedId,
-						'MontoPago' => $haber_2,
+						'MontoPago' => $MontoPago,
 						'Debe' => $debe,
 						'numero' => $numero,
 						'comprobante' => $comprobante,

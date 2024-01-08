@@ -48,7 +48,7 @@
                 </div>
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
-            
+
             <section class="section dashboard">
                 <div class="container-fluid">
                     <div class="row">
@@ -144,7 +144,9 @@
                                             <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
                                             <div class="card border">
                                                 <div class="card-body">
-                                                    <table class="table table-hover table-bordered table-sm rounded-3 mt-4" id="miTabla">
+                                                    <table
+                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                        id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>
                                                                 <th class="columna-ancha">Programa</th>
@@ -485,7 +487,8 @@
     </main>
 
     <!-- Modal Lista de Obligaciones-->
-    <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones" aria-hidden="true">
+    <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered lista-obligacion">
             <div class="modal-content">
                 <div class="modal-header">
@@ -520,7 +523,8 @@
                                     <tr class="list-item"
                                         onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')" data-bs-dismiss="modal">
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')"
+                                        data-bs-dismiss="modal">
                                         <td>
                                             <?= $asientoN + 1 ?>
                                         </td>
@@ -735,6 +739,7 @@
                 id_ff: $("#id_ff").val(),
                 id_of: $("#id_of").val(),
                 IDCuentaContable: $("#idcuentacontable").val(),
+                MontoPago: $("#MontoPago").val(),
                 comprobante: $("#comprobante").val(),
                 Debe: $("#Debe").val(),
                 Haber: $("#Haber").val(),
@@ -817,7 +822,8 @@
         });
     </script>
 
-    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">
@@ -858,7 +864,8 @@
     </div>
 
     <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">
@@ -968,15 +975,11 @@
             }
         });
 
-
-
-       
-
     </script>
 
     <!-- Script encargado de las tabla de Lista de Obligacion -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#TablaListaObligacion').DataTable({
                 paging: true,
                 pageLength: 10,
@@ -992,7 +995,7 @@
 
     <!-- script de las tablas de cuentas contables -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var table1 = $('#TablaCuentaCont1').DataTable({
                 paging: true,
                 pageLength: 10,
@@ -1028,6 +1031,13 @@
                 toastBootstrap.show()
             })
         }
+    </script>
+    
+    <script>
+        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+        document.getElementById('Debe').addEventListener('input', function () {
+            document.getElementById('MontoPago').value = this.value;
+        });
     </script>
 
     <!-- Script de DataTable de jquery -->

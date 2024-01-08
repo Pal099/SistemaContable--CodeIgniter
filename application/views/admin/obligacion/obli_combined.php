@@ -174,15 +174,6 @@
                                                                                 id="op" name="op"
                                                                                 value="<?= $op_actual ?>" readonly>
                                                                         </div>
-                                                                        <div class="input-group input-group-sm  "
-                                                                            hidden>
-                                                                            <label for="MontoPago">MontoPago</label>
-
-                                                                            <input type="hidden"
-                                                                                class="form-control border-0 bg-transparent"
-                                                                                id="MontoPago" name="MontoPago"
-                                                                                readonly>
-                                                                        </div>
 
                                                                     </div>
                                                                 </div>
@@ -874,8 +865,7 @@
             });
 
         </script>
-
-
+    
         <!-- Script para mostrar los campos opcionales -->
         <script>
             document.getElementById('camposOpcionalesSwitch').addEventListener('change', function () {
@@ -933,6 +923,13 @@
                         url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
+            });
+        </script>
+           
+        <script>
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('Debe').addEventListener('input', function () {
+                document.getElementById('MontoPago').value = this.value;
             });
         </script>
 
