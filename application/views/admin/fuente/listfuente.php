@@ -93,8 +93,3 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal --> 
-<script>
-    $(document).ready(function() {
-        $('#example1').DataTable();
-    });
-</script>

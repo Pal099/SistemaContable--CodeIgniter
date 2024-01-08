@@ -17,7 +17,7 @@ class Bancos extends CI_Controller {
 			'bancos' => $this->Bancos_model->getBancos(), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/bancos/list",$data);
 		$this->load->view("layouts/footer");
 
@@ -26,7 +26,7 @@ class Bancos extends CI_Controller {
 	public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/bancos/add");
 		$this->load->view("layouts/footer");
 	}
@@ -57,7 +57,7 @@ class Bancos extends CI_Controller {
 			'bancos' => $this->Bancos_model->getBanco($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/bancos/edit",$data);
 		$this->load->view("layouts/footer");
 	}

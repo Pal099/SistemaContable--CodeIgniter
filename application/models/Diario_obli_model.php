@@ -8,12 +8,31 @@ class Diario_obli_model extends CI_Model {
         $this->load->database();
     }
 	public function obtener_asientos() {
-        return $this->db->get('num_asi')->result_array();
+		return $this->db->get('num_asi')->result_array();
+
     }
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->get('num_asi')->row_array();
     }
+	public function GETasientos($id_uni_respon_usu) {
+		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+		$this->db->where('estado_registro', '1');
+		$this->db->where('id_form', '1');
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get('num_asi');
+		return $resultados->result();
+	}
+	public function GETasientosD($id_uni_respon_usu) {
+		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+		$this->db->where('estado_registro', '1');
+		$this->db->where('id_form', '3');
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get('num_asi');
+		return $resultados->result();
+	}
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }
@@ -25,11 +44,16 @@ class Diario_obli_model extends CI_Model {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
     }
-	public function save_num_asi($data){
-		$this->db->where('IDNum_Asi');
-		return $this->db->insert("num_asi",$data);
+	public function save_num_asi($data, $proveedor_id) {
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->insert("num_asi", $data);
+	
+		// Obtener el último ID insertado
+		$lastInsertedId = $this->db->insert_id();
+	
+		return $lastInsertedId;
 	}
-
+	
 
 
 	// num asi deta segundo
@@ -58,8 +82,31 @@ class Diario_obli_model extends CI_Model {
     }
 
 
-
 	//desde acá es código de palo
+	public function obtenerEstadoSegunSumaMonto($proveedor_id) {
+		// Consulta SQL preparada para obtener la información más reciente de la tabla num_asi para un proveedor específico
+		$consulta = "SELECT * FROM num_asi WHERE id_provee = ? ORDER BY FechaEmision DESC LIMIT 1";
+
+		// Ejecuta la consulta preparada
+		$resultado = $this->db->query($consulta, array($proveedor_id));
+
+		// Verifica si se obtuvieron resultados
+		if ($resultado->num_rows() > 0) {
+			$row = $resultado->row();
+
+			// Verifica la condición para determinar el estado y devuelve el número correspondiente
+			if ($row->SumaMonto != $row->MontoTotal) {
+				return 3; // Pendiente
+			} 
+			if ($row->SumaMonto == $row->MontoTotal) {
+				return 4; // Pagado
+			}
+		} else {
+			// En caso de no encontrar registros
+			return null;
+		}
+	}
+
 
 	public function getProveedorIdByRuc($ruc) {
 		$this->db->select('id'); 
@@ -88,6 +135,7 @@ class Diario_obli_model extends CI_Model {
 		}
 
 	}
+
 
 	public function getDiarios(){
 		$this->db->where("estado","1");
@@ -184,7 +232,7 @@ class Diario_obli_model extends CI_Model {
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
-	
+
 	public function getDiarios_obli() {
 		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');

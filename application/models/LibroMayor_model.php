@@ -3,33 +3,56 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LibroMayor_model extends CI_Model {
 
-	public function getCuentas_presu(){
-		$this->db->select("c.*, p.descripcion as descripcion");
-		$this->db->from("cuentacontable c");
-		$this->db->join("presupuestos p","c.IDCUENTACONTABLE = p.IDCUENTACONTABLE");
-		$this->db->where("c.estado", "1");
-		$resultados = $this->db->get("cuentacontable");
-		return $resultados->result();
-	}
+    public function __construct(){
+        parent::__construct();
+        $this->load->database();
+    }
 
-	public function getCuentas(){
-		$this->db->where("estado", "1");
-		$resultados = $this->db->get("cuentacontable");
-		return $resultados->result();
-	}
+    public function obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idCuentaContable = null, $terminoBusqueda = ''){
+        $this->db->select("
+            nad.IDNum_Asi_Deta,
+            nad.numero,
+            nad.IDCuentaContable,
+            nad.MontoPago,
+            nad.Debe,
+            nad.Haber,
+            nad.comprobante,
+            na.FechaEmision,
+            na.Num_Asi,
+            na.MontoTotal,
+            cc.Codigo_CC,
+            cc.Descripcion_CC
+        ");
+        $this->db->from('num_asi_deta nad');
+        $this->db->join('num_asi na', 'nad.Num_Asi_IDNum_Asi = na.IDNum_Asi', 'inner');
+        $this->db->join('cuentacontable cc', 'nad.IDCuentaContable = cc.IDCuentaContable', 'inner');
+        $this->db->where('na.FechaEmision >=', $fechaInicio);
+        $this->db->where('na.FechaEmision <=', $fechaFin);
 
-	public function save($data){
-		return $this->db->insert("cuentacontable",$data);
-	}
-	public function getCuenta($id){
-		$this->db->where("IDCUENTACONTABLE",$id);
-		$resultado = $this->db->get("cuentacontable");
-		return $resultado->row();
+        if ($idCuentaContable !== null) {
+            $this->db->where('nad.IDCuentaContable', $idCuentaContable);
+        }
 
-	}
+        if (!empty($terminoBusqueda)) {
+            $this->db->group_start();
+            $this->db->like('cc.Codigo_CC', $terminoBusqueda);
+            $this->db->or_like('cc.Descripcion_CC', $terminoBusqueda);
+            $this->db->group_end();
+        }
 
-	public function update($id,$data){
-		$this->db->where("IDCUENTACONTABLE",$id);
-		return $this->db->update("cuentacontable",$data);
-	}
+        $this->db->where('na.estado', 1); // Asumiendo que 1 representa 'activo'
+        $this->db->where('nad.estado_registro', 1); // Asumiendo que 1 representa 'activo'
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function obtenerEntradasPorCuentaContable($idCuentaContable) {
+        // Asumiendo que tienes una columna 'IDCuentaContable' en tu tabla 'num_asi_deta'
+        $this->db->where('IDCuentaContable', $idCuentaContable);
+        $query = $this->db->get('num_asi_deta');
+        return $query->result_array();
+    }
+    
+    // Otros métodos relacionados con el Libro Mayor podrían ir aquí
+
 }

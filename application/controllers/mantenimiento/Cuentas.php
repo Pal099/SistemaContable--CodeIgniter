@@ -18,14 +18,14 @@ class Cuentas extends CI_Controller {
             'cuentas' => $this->Cuentas_model->getCuentas(), 
         );
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/cuentas/list", $data);
         $this->load->view("layouts/footer");
     }
 
     public function add(){
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/cuentas/add");
         $this->load->view("layouts/footer");
     }
@@ -53,7 +53,7 @@ class Cuentas extends CI_Controller {
             'cuenta' => $this->Cuentas_model->getCuenta($id), 
         );
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/cuentas/edit", $data);
         $this->load->view("layouts/footer");
     }

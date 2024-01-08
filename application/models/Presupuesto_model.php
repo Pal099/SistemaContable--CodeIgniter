@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Presupuesto_model extends CI_Model {
 
@@ -37,20 +37,18 @@ public function getPresu($id_uni_respon_usu) {
 		return $this->db->insert("presupuestos",$data);
 	}
 
-	public function getPresupuesto($id)
-	{
-		$this->db->where("ID_Presupuesto", $id);
+	public function getPresupuesto($id){
+		$this->db->where("ID_Presupuesto",$id);
 		$resultado = $this->db->get("presupuestos");
 		return $resultado->row();
 
 	}
 
-	public function update($id, $data)
-	{
-		$this->db->where("id_presupuesto", $id);
-		return $this->db->update("presupuestos", $data);
+	public function update($id, $data){
+		$this->db->where("id_presupuesto",$id);
+		return $this->db->update("presupuestos",$data);
 	}
 
 
-
+	
 }

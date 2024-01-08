@@ -1,11 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class EjecucionP_model extends CI_Model
-{
+class EjecucionP_model extends CI_Model {
 
-	public function getEjecucionesP($id_uni_respon_usu)
-	{
+	public function getEjecucionesP($id_uni_respon_usu){
 		$this->db->select("ep.*, p.ID_presupuesto as presupuesto, cc.IDCuentaContable as cuentacontable");
 		$this->db->from("ejecucionpresupuestaria ep");
 		$this->db->join("presupuestos p", "ep.presupuesto_ID_Presupuesto = p.ID_presupuesto");
