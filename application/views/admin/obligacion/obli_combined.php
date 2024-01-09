@@ -124,7 +124,8 @@
 
                                                     <div class="form-group col-md-12">
                                                         <label for="concepto">Concepto:</label>
-                                                        <input type="text" class="form-control" id="concepto" name="concepto">
+                                                        <input type="text" class="form-control" id="concepto"
+                                                            name="concepto">
                                                     </div>
 
                                                     <!-- Campos Opcionales del formulario -->
@@ -191,9 +192,8 @@
                                 <!-- Primer asiento de la obligación  -->
                                 <div class="card border">
                                     <div class="card-body">
-                                            <table
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
-                                                        id="miTabla">
+                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                            id="miTabla">
 
                                             <thead class="align-middle">
                                                 <tr>
@@ -290,11 +290,16 @@
                                                     </td>
                                                     <td>
                                                         <div class="input-group input-group-sm">
-                                                            <?php if (isset($Debe)) : ?>
+                                                            <?php if (isset($Debe)): ?>
                                                                 <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
-                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" value="<?php echo $Debe_value; ?>" >
-                                                            <?php else : ?>
-                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Debe" name="Debe" oninput="formatNumber('Debe')" >
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Debe" name="Debe"
+                                                                    value="<?php echo $Debe_value; ?>">
+                                                            <?php else: ?>
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Debe" name="Debe" oninput="formatNumber('Debe')">
                                                             <?php endif; ?>
                                                         </div>
                                                     </td>
@@ -409,11 +414,17 @@
                                                     </td>
                                                     <td>
                                                         <div class="input-group input-group-sm">
-                                                            <?php if (isset($haber_2)) : ?>
+                                                            <?php if (isset($haber_2)): ?>
                                                                 <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
-                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Haber_2" name="Haber_2" value="<?php echo $haber_2_value; ?>" >
-                                                            <?php else : ?>
-                                                                <input type="text" class="form-control small border-0 bg-transparent" id="Haber_2" name="Haber_2" oninput="formatNumber('Haber_2')" >
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Haber_2" name="Haber_2"
+                                                                    value="<?php echo $haber_2_value; ?>">
+                                                            <?php else: ?>
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Haber_2" name="Haber_2"
+                                                                    oninput="formatNumber('Haber_2')">
                                                             <?php endif; ?>
                                                         </div>
                                                     </td>
@@ -443,7 +454,8 @@
                                             </tbody>
                                         </table>
                                         <div class="card-body">
-                                            <table id="miTabla2" class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                            <table id="miTabla2"
+                                                class="table table-hover table-bordered table-sm rounded-3 mt-4">
                                                 <thead>
                                                     <tr>
                                                         <th>Debe</th>
@@ -452,16 +464,16 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <tr >
-                                                            <td>
-                                                                <input type="number" id="DebeC" class="form-control">
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" id="HaberC" class="form-control">
-                                                            </td>
-                                                            <td id="diferencia">0</td>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" id="DebeC" class="form-control">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="HaberC" class="form-control">
+                                                        </td>
+                                                        <td id="diferencia">0</td>
 
-                                                        </tr>
+                                                    </tr>
                                                 </tbody>
                                             </table>
 
@@ -545,7 +557,8 @@
 
 
         <!-- Modal Proveedores con boostrap -->
-        <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
+            aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -755,7 +768,8 @@
         </script>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
-        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -795,7 +809,8 @@
         </div>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -893,7 +908,7 @@
             });
 
         </script>
-    
+
         <!-- Script para mostrar los campos opcionales -->
         <script>
             document.getElementById('camposOpcionalesSwitch').addEventListener('change', function () {
@@ -953,8 +968,8 @@
                 });
             });
         </script>
-           
-<!--         <script>
+
+        <!--         <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
             document.getElementById('Debe').addEventListener('input', function () {
                 document.getElementById('MontoPago').value = this.value;
@@ -967,20 +982,20 @@
                 document.getElementById('comprobante_2').value = this.value;
             });
         </script>
-        
+
         <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
             document.getElementById('detalles').addEventListener('input', function () {
                 document.getElementById('detalles_2').value = this.value;
             });
         </script>
-            <script>
+        <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
             document.getElementById('detalles').addEventListener('input', function () {
                 document.getElementById('detalles_2').value = this.value;
             });
         </script>
-        
+
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
         <!-- Script de DataTable de vista  -->
@@ -1000,17 +1015,17 @@
                 });
             });
         </script>
-         <script>
-        // Función para formatear números con separadores de miles y dos decimales
-                function formatNumber(inputId) {
+        <script>
+            // Función para formatear números con separadores de miles y dos decimales
+            function formatNumber(inputId) {
                 var input = document.getElementById(inputId);
                 var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
                 if (!isNaN(value)) {
                     input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
                 }
             }
-        </script> 
-<!--         <script>
+        </script>
+        <!--         <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
                 document.getElementById('Debe').addEventListener('input', function () {
@@ -1024,25 +1039,30 @@
                 var sumaDebe = 0;
                 var sumaHaber = 0;
 
-                $("#miTabla tbody tr").each(function() {
-                    // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-                    var valorDebe = $(this).find("input[name*='debe']").val().replace(/[^0-9.-]+/g,"");
-                    var valorHaber = $(this).find("input[name*='haber']").val().replace(/[^0-9.-]+/g,"");
 
+                $("#miTabla tbody tr").each(function () {
+                    // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+                    var valorDebe = $(this).find("input[name*='Debe']").val();
+                    var valorHaber = $(this).find("input[name*='Haber']").val();
+                    // Realizar reemplazo por separado
+                    valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+                    valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
                     // Convertir a número y sumar
                     sumaDebe += parseFloat(valorDebe) || 0;
                     sumaHaber += parseFloat(valorHaber) || 0;
                 });
 
                 // Actualizar los campos y la diferencia
-                $("#DebeC").val(sumaDebe.toFixed(2).replace('.', ','));
-                $("#HaberC").val(sumaHaber.toFixed(2).replace('.', ','));
+                $("#DebeC").val(sumaDebe.toFixed(2));
+                $("#HaberC").val(sumaHaber.toFixed(2));
                 var diferenciaTotal = sumaDebe - sumaHaber;
-                $("#diferencia").text(diferenciaTotal.toFixed(2).replace('.', ','));
+                $("#diferencia").text(diferenciaTotal.toFixed(2));
             }
 
             // Vincular eventos
-            $("#miTabla").on("input", "input[name*='debe'], input[name*='haber']", calcularTotalesYDiferencia);
+            $(document).ready(function () {
+                $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
+            });
 
         </script>
 
