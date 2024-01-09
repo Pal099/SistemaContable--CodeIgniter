@@ -84,9 +84,7 @@
                                                     $resultado = $conexion->query($consulta);
 
                                                     if ($resultado !== false && $resultado->num_rows > 0) {
-                                                        $op = $resultado->fetch_assoc();
-                                                        $op_actual = $op['op'];
-                                                        $op_actual = $op_actual + 1;
+                                                        $op_actual = 0;
                                                     } else {
                                                         $op_actual = 0;
                                                     }
