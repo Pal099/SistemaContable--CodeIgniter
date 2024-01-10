@@ -32,7 +32,7 @@ class Principal extends CI_Controller
 		);
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/principal", $data);
         $this->load->view("layouts/footer");
     }
@@ -50,7 +50,7 @@ class Principal extends CI_Controller
     public function add()
     {
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/categorias/add");
         $this->load->view("layouts/footer");
     }

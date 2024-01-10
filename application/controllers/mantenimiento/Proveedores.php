@@ -28,7 +28,7 @@ class Proveedores extends MY_Controller {
 			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu  ),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/list",$data);
 		$this->load->view("layouts/footer");
 
@@ -37,7 +37,7 @@ class Proveedores extends MY_Controller {
 	public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/add");
 		$this->load->view("layouts/footer");
 	}
@@ -90,7 +90,7 @@ class Proveedores extends MY_Controller {
 			'proveedor' => $this->Proveedores_model->getProveedor($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/edit",$data);
 		$this->load->view("layouts/footer");
 	}
