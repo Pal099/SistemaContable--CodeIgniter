@@ -40,7 +40,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/pagoobli/pagobli_combined", $data);
         $this->load->view("layouts/footer");
 		
@@ -52,7 +52,7 @@ class Pago_de_obligaciones extends CI_Controller {
 	}
 	
 	public function add(){
-
+		
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
@@ -64,11 +64,11 @@ class Pago_de_obligaciones extends CI_Controller {
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
-			'asiento' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);// Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -104,7 +104,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
-		$MontoPago = floatval($this->input->post("MontoPago"));
+		$MontoPago = $datosFormulario['MontoPago'];
 		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -115,7 +115,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
-		$nuevo_monto_pago = floatval($this->input->post('MontoPago'));
+		$nuevo_monto_pago = $MontoPago;
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 	
 		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
@@ -159,7 +159,7 @@ class Pago_de_obligaciones extends CI_Controller {
 					
 					$dataDetaDebe = array(
 						'Num_Asi_IDNum_Asi' => $lastInsertedId,
-						'MontoPago' => $haber_2,
+						'MontoPago' => $MontoPago,
 						'Debe' => $debe,
 						'numero' => $numero,
 						'comprobante' => $comprobante,
@@ -229,7 +229,7 @@ class Pago_de_obligaciones extends CI_Controller {
 			'obligaciones' => $this->Pago_obli_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);
 		$this->load->view("layouts/footer");
 	}

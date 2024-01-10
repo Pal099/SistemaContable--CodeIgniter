@@ -2,10 +2,9 @@
 <html lang="es">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <link href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilo de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
 </head>
 
@@ -20,14 +19,14 @@
             </ol>
         </nav>
 
-        <div class="container-fluid bg-white rounded-3">
+        <div class="container-fluid bg-white border rounded-3">
             <!-- Encabezado con botones -->
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 mt-4">
                         <h1>Pago de Obligación</h1>
                     </div>
-                    <div class="col-md-6 mt-2 ">
+                    <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
                                 data-bs-target="#modalListaObligacion">
@@ -47,7 +46,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> <!-- Final del encabezado -->
+            <hr> <!-- barra separadora -->
 
             <section class="section dashboard">
                 <div class="container-fluid">
@@ -55,12 +55,12 @@
                         <!-- Campos principales -->
                         <div class="row">
                             <form id="formularioPrincipal">
-                                <div class="container-fluid mt-4">
+                                <div class="container-fluid mt-2">
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
-                                            <div class="card">
+                                            <div class="card border">
                                                 <div class="card-body">
-                                                    <div class="row g-3 align-items-center">
+                                                    <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
                                                         // Conexión a la base de datos (debes configurar tu conexión)
@@ -142,9 +142,10 @@
                                                 </div>
                                             </div>
                                             <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card">
+                                            <div class="card border">
                                                 <div class="card-body">
-                                                    <table class="table table-hover table-bordered table-sm rounded-3"
+                                                    <table
+                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>
@@ -486,8 +487,8 @@
     </main>
 
     <!-- Modal Lista de Obligaciones-->
-    <div class="modal fade" data-bs-backdrop="false" id="modalListaObligacion" tabindex="-1"
-        aria-labelledby="ModalListaObligaciones" aria-hidden="true">
+    <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered lista-obligacion">
             <div class="modal-content">
                 <div class="modal-header">
@@ -517,15 +518,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($asientos as $asiento => $asi): ?>
-                                <?php if (($asi->id_form == 1 && $asi->Debe > 0 && $asi->estado_registro == 1) && ($asi->pagado < $asi->total)): ?>
+                            <?php foreach ($asientos as $asientoN => $asi): ?>
+                                <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
                                     <tr class="list-item"
                                         onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
-                                    '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
                                         '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')"
                                         data-bs-dismiss="modal">
                                         <td>
-                                            <?= $asiento + 1 ?>
+                                            <?= $asientoN + 1 ?>
                                         </td>
                                         <td>
                                             <?= $asi->ruc_proveedor ?>
@@ -577,7 +578,6 @@
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
-
                         </tbody>
                     </table>
                 </div>
@@ -684,8 +684,8 @@
                 // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
                 nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-                // Quitar el ID para evitar duplicados
-                nuevaFila.removeAttr('id');
+                // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                nuevaFila.find("[id]").removeAttr('id');
 
                 // Agregar una clase a todos los elementos de la fila clonada
                 nuevaFila.find("select, input").addClass("filaClonada");
@@ -739,6 +739,7 @@
                 id_ff: $("#id_ff").val(),
                 id_of: $("#id_of").val(),
                 IDCuentaContable: $("#idcuentacontable").val(),
+                MontoPago: $("#MontoPago").val(),
                 comprobante: $("#comprobante").val(),
                 Debe: $("#Debe").val(),
                 Haber: $("#Haber").val(),
@@ -821,8 +822,8 @@
         });
     </script>
 
-    <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1"
-        aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">
@@ -863,8 +864,8 @@
     </div>
 
     <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-    <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1"
-        aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">
@@ -925,31 +926,6 @@
 
         }
 
-        function filterResults() {
-            var input, filter, table, tr, td1, td2, i, txtValue;
-            input = document.getElementById("searchInput"); // Ajusta el ID según tu campo de búsqueda
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaCuentaCont1");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                if (td1 && td2) {
-                    // Combina los textos de ambas posiciones en una cadena
-                    txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                    // Busca en la cadena combinada
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        document.getElementById("searchInput").addEventListener("input", filterResults);
     </script>
 
 
@@ -999,38 +975,50 @@
             }
         });
 
-
-
-        function filterResults() {
-            var input, filter, table, tr, td1, td2, i, txtValue;
-            input = document.getElementById("searchInput_2"); // Ajusta el ID según tu campo de búsqueda
-            filter = input.value.toUpperCase();
-            table = document.getElementById("TablaCuentaCont2");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td1 = tr[i].getElementsByTagName("td")[1]; // Índice para la posición 1 (Código de Cuenta)
-                td2 = tr[i].getElementsByTagName("td")[2]; // Índice para la posición 2 (Descripción de Cuenta)
-
-                if (td1 && td2) {
-                    // Combina los textos de ambas posiciones en una cadena
-                    txtValue = (td1.textContent || td1.innerText) + ' ' + (td2.textContent || td2.innerText);
-
-                    // Busca en la cadena combinada
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        document.getElementById("searchInput_2").addEventListener("input", filterResults);
-
-
-
     </script>
 
+    <!-- Script encargado de las tabla de Lista de Obligacion -->
+    <script>
+        $(document).ready(function () {
+            $('#TablaListaObligacion').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+    </script>
+
+    <!-- script de las tablas de cuentas contables -->
+    <script>
+        $(document).ready(function () {
+            var table1 = $('#TablaCuentaCont1').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+
+            var table2 = $('#TablaCuentaCont2').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
+        });
+    </script>
 
     <!-- script para las alertas -->
     <script>
@@ -1044,12 +1032,37 @@
             })
         }
     </script>
+    
+    <script>
+        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+        document.getElementById('Debe').addEventListener('input', function () {
+            document.getElementById('MontoPago').value = this.value;
+        });
+    </script>
 
-    <!-- Script de bootstrap -->
-    <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de Popper para el toast -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+    <!-- Script de DataTable de vista  -->
+    <script>
+        $(document).ready(function () {
+            $('#vistaobli').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "search": "Busqueda de asientos:"
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

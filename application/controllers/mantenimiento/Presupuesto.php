@@ -44,7 +44,7 @@ class Presupuesto extends CI_Controller
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/presupuesto/list", $data);
 		$this->load->view("layouts/footer");
 	}
@@ -63,7 +63,7 @@ class Presupuesto extends CI_Controller
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/presupuesto/add", $data);
 		$this->load->view("layouts/footer");
 	}
@@ -169,7 +169,7 @@ class Presupuesto extends CI_Controller
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/presupuesto/edit", $data);
 		$this->load->view("layouts/footer");
 	}

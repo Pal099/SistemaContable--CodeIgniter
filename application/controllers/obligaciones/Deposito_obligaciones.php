@@ -42,17 +42,20 @@ class Deposito_obligaciones extends CI_Controller
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/deposito/deposito_combined", $data);
-		$this->load->view("layouts/footer");
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/sideBar");
+        $this->load->view("admin/deposito/deposito_combined", $data);
+        $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
-	}
+    }
 
 
-	public function pdfs()
-	{
+	public function pdfs(){
+		$this->load->view("layouts/header");
+		$this->load->view("layouts/sideBar");
+		$this->load->view("admin/deposito/deposito_combined", $data);
+		$this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
 	}
@@ -80,12 +83,12 @@ class Deposito_obligaciones extends CI_Controller
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
-			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientosD($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/deposito/deposito_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -244,8 +247,8 @@ class Deposito_obligaciones extends CI_Controller
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/deposito/deposito_combined", $data);
+		$this->load->view("layouts/sideBar");
+		$this->load->view("admin/obligacion/obliedit",$data);
 		$this->load->view("layouts/footer");
 	}
 
