@@ -2,8 +2,6 @@
 <html lang="es">
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/bootstrap5/css/bootstrap.min.css">
     <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
@@ -21,14 +19,14 @@
             </ol>
         </nav>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="container-fluid bg-white rounded-3">
+        <!-- Content Wrapper.  Contains page content -->
+        <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="col-md-6 mt-4">
                         <h1>Deposito Bancario</h1>
                     </div>
-                    <div class="col-md-6 mt-2 ">
+                    <div class="col-md-6 mt-4 ">
                         <div class="d-flex gap-2 justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch"
@@ -45,24 +43,24 @@
                                 <i class="bi bi-file-pdf"></i> PDF
                             </button>
                             <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
-                                <i class="bi bi-file-earmark-spreadsheet"></i> Excel
+                                <i class="bi bi-file-excel"></i> Excel
                             </button>
                         </div>
                     </div>
                 </div>
             </div><!-- End Page Title -->
-
+            <hr> <!-- barra separadora -->
             <section class="section dashboard">
                 <div class="container-fluid">
                     <!-- Campos principales -->
                     <div class="row">
                         <form id="formularioPrincipal">
-                            <div class="container-fluid mt-4">
+                            <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
-                                        <div class="card">
+                                        <div class="card border">
                                             <div class="card-body">
-                                                <div class="row">
+                                                <div class="row mt-4">
 
                                                     <?php
                                                     $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
@@ -86,9 +84,7 @@
                                                     $resultado = $conexion->query($consulta);
 
                                                     if ($resultado !== false && $resultado->num_rows > 0) {
-                                                        $op = $resultado->fetch_assoc();
-                                                        $op_actual = $op['op'];
-                                                        $op_actual = $op_actual + 1;
+                                                        $op_actual = 0;
                                                     } else {
                                                         $op_actual = 0;
                                                     }
@@ -168,7 +164,7 @@
                                                                             <label for="pagado">Pagado:</label>
                                                                             <input type="text"
                                                                                 class="form-control w-100" id="pagado"
-                                                                                name="pagado">
+                                                                                name="pagado" value="<?= 0 ?>">
                                                                         </div>
                                                                         <div class="form-group col-md-1">
                                                                             <label for="op">N° Op</label>
@@ -176,15 +172,7 @@
                                                                                 id="op" name="op"
                                                                                 value="<?= $op_actual ?>" readonly>
                                                                         </div>
-                                                                        <div class="input-group input-group-sm  "
-                                                                            hidden>
-                                                                            <label for="MontoPago">MontoPago</label>
-
-                                                                            <input type="hidden"
-                                                                                class="form-control border-0 bg-transparent"
-                                                                                id="MontoPago" name="MontoPago"
-                                                                                readonly>
-                                                                        </div>
+                                                                        
 
                                                                     </div>
                                                                 </div>
@@ -203,9 +191,10 @@
                                 </div>
                                 <!-- Tabla -->
                                 <!-- Primer asiento de la obligación  -->
-                                <div class="card">
+                                <div class="card border">
                                     <div class="card-body">
-                                        <table class="table table-hover table-bordered table-sm rounded-3" id="miTabla">
+                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4 " id="miTabla">
+
                                             <thead class="align-middle">
                                                 <tr>
                                                     <th class="columna-ancha">Programa</th>
@@ -222,7 +211,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
+                                                <tr class="align-items-center">
                                                     <td>
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent"
@@ -487,11 +476,11 @@
                                                                         <span class="fa fa-search"></span>
                                                                     </button>
                                                                     <button class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-pencil-fill"></i>
                                                                     </button>
                                                                     <button class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
                                                                 </div>
@@ -527,8 +516,7 @@
 
 
         <!-- Modal Proveedores con boostrap -->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalContainer_proveedores" tabindex="-1"
-            aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -598,8 +586,8 @@
                     // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
                     nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-                    // Quitar el ID para evitar duplicados
-                    nuevaFila.removeAttr('id');
+                    // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                    nuevaFila.find("[id]").removeAttr('id');
 
                     // Agregar una clase a todos los elementos de la fila clonada
                     nuevaFila.find("select, input").addClass("filaClonada");
@@ -738,8 +726,7 @@
         </script>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont1" tabindex="-1"
-            aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -779,8 +766,7 @@
         </div>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade mi-modal" data-bs-backdrop="false" id="modalCuentasCont2" tabindex="-1"
-            aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -907,7 +893,7 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
             });
@@ -923,7 +909,7 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
 
@@ -934,14 +920,11 @@
                     searching: true,
                     info: true,
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                     }
                 });
             });
         </script>
-
-        <!-- Script de bootstrap -->
-        <script src="<?php echo base_url(); ?>/assets/bootstrap5/js/bootstrap.min.js"></script>
 
         <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe

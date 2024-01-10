@@ -42,10 +42,10 @@ class Diario_obligaciones extends CI_Controller
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
-		$this->load->view("admin/obligacion/obli_combined", $data);
-		$this->load->view("layouts/footer");
+        $this->load->view("layouts/header");
+        $this->load->view("layouts/sideBar");
+        $this->load->view("admin/obligacion/obli_combined", $data);
+        $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
 	}
@@ -85,7 +85,7 @@ class Diario_obligaciones extends CI_Controller
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -126,7 +126,7 @@ class Diario_obligaciones extends CI_Controller
 		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $datosFormulario['nro_exp'];
-		$pagado = $datosFormulario['$pagado'];
+		$pagado = $datosFormulario['pagado'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 
 
@@ -244,7 +244,7 @@ class Diario_obligaciones extends CI_Controller
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion/obli_combined", $data);
 		$this->load->view("layouts/footer");
 	}

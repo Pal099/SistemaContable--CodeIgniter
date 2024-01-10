@@ -1,14 +1,17 @@
 .columna-ancha {
-  width: 8%;
+  width: 5%;
 }
 .columna-fuente {
-  width: 10%;
+  width: 5%;
+}
+.columna-hidden {
+  display: none;
 }
 .columna-origen {
-  width: 10%;
+  width: 5%;
 }
 .columna-ctncontable {
-  width: 25%;
+  width: 35%;
 }
 
 /* Css de las tablas y modales de cuentas contables */
