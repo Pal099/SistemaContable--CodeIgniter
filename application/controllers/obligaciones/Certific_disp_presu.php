@@ -15,37 +15,18 @@ class Certific_disp_presu extends CI_Controller {
 		$this->load->library('form_validation');
 
 	}
-	
-	
-	
-	
 	public function index() {
-		//Con la libreria Session traemos los datos del usuario
-		//Obtenemos el nombre que nos va servir para obtener su id
-		$nombre=$this->session->userdata('Nombre_usuario'); 
+        $numero_asiento = $this->input->get('numero_asiento');
+        $this->mostrar_vista($numero_asiento);
+    }
 
-		//Con el método getUserIdByUserName en el modelo del usuario, nos devuelve el id
-		//id conseguido mediante el nombre del usuario
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
-		
-		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
-		//esa id es importante para hacer las relaciones y registros por usuario
-		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-        $data  = array(
-			'asientos' => $this->Cdp_model->obtener_asientos(),
-			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),  // Obtener la lista de proveedores
-			'programa' => $this->Cdp_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Cdp_model->getFuentes($id_uni_respon_usu), 
-			'origen_de_financiamiento' => $this->Cdp_model->getOrigenes($id_uni_respon_usu),
-			'cuentacontable'=> $this->Cdp_model->getCuentasContables($id_uni_respon_usu),
-			'presupuestos'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
-        );
-		//$data['asientos'] = $this->Cdp_model->obtener_asientos();
-		//$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
-		//$data['programa'] = $this->Cdp_model->getProgramGastos($id_uni_respon_usu);
-		//$data['fuente_de_financiamiento'] = $this->Cdp_model->getFuentes($id_uni_respon_usu);  
-		//$data['origen_de_financiamiento'] = $this->Cdp_model->getOrigenes($id_uni_respon_usu);
-		//$data['cuentacontable'] = $this->Cdp_model->getCuentasContables($id_uni_respon_usu); 
+    public function busqueda_por_asiento() {
+        $numero_asiento = $this->input->get('numero_asiento');
+        $this->mostrar_vista($numero_asiento);
+    }
+
+    private function mostrar_vista($numero_asiento) {
+        $data['datos_vista'] = $this->Cdp_model->obtener_datos_asiento($numero_asiento);
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
