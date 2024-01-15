@@ -36,7 +36,7 @@ class Financiamiento extends CI_Controller {
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/fuente/listfuente",$data);
+		$this->load->view("admin/fuente/listfuente", $data);
 		$this->load->view("layouts/footer");
 		
 	}
@@ -79,13 +79,14 @@ class Financiamiento extends CI_Controller {
 			$this->add();  
 		}
 	}
-	public function edit($id){
+	public function edit($id_ff)
+	{
 		$data  = array(
-			'fuente' => $this->Registros_financieros_model->getFuente($id), 
+			'fuente' => $this->Registros_financieros_model->getFuente($id_ff), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/fuente/editfuente",$data);
+		$this->load->view("admin/fuente/editfuente", $data);
 		$this->load->view("layouts/footer");
 	}
     public function update(){
@@ -118,17 +119,23 @@ class Financiamiento extends CI_Controller {
 			$this->edit($idFuente);
 		}
 	}
-    public function view($id){
-		$data  = array(
-			'fuente' => $this->Registros_financieros_model->getFuente($id), 
-		);
-		$this->load->view("admin/fuente/viewfuente",$data);
+    public function view($id) {
+		$fuente = $this->Registros_financieros_model->getFuente($id);
+	
+		if ($fuente) {
+			$data['fuente'] = $fuente;
+			$this->load->view("admin/fuente/viewfuente", $data);
+		} else {
+			// Manejar el caso donde no se encuentra la fuente con el ID proporcionado
+			echo "Fuente no encontrada";
+		}
 	}
+	
     public function delete($id){
 		$data  = array(
 			'estado' => "0", 
 		);
 		$this->Registros_financieros_model->update($id,$data);
-		echo "registro/financiamiento";
+		redirect("registro/financiamiento");
 	}
 }
