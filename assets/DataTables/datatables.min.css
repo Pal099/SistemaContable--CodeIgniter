@@ -30,6 +30,9 @@ div.dt-autofill-handle {
 div.dtk-focus-alt div.dt-autofill-handle {
   background: #ff8b33;
 }
+.columna-hidden {
+  display: none;
+}
 
 div.dt-autofill-select {
   position: absolute;

@@ -16,10 +16,12 @@ class Diario_obli_model extends CI_Model {
         return $this->db->get('num_asi')->row_array();
     }
 	public function GETasientos($id_uni_respon_usu) {
-		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado_registro, id_provee, MontoTotal');
 		$this->db->where('estado_registro', '1');
 		$this->db->where('id_form', '1');
 		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('proveedores', 'num_asi.id_form = proveedores.id');
+
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 		$resultados = $this->db->get('num_asi');
 		return $resultados->result();
