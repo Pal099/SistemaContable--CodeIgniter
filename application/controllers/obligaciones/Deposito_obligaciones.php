@@ -50,12 +50,8 @@ class Deposito_obligaciones extends CI_Controller
 
     }
 
-
-	public function pdfs(){
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/deposito/deposito_combined", $data);
-		$this->load->view("layouts/footer");
+	public function pdfs()
+	{
 		$this->load->view("fpdf");
 
 	}
