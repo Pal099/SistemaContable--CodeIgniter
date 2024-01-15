@@ -1,67 +1,62 @@
-.notification {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #4CAF50; /* Color de fondo del cuadro */
-    color: white; /* Color del texto */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    width: 200px; /* Ancho del cuadro */
-    text-align: center; /* Alineación del texto */
-    z-index: 9999; /* Asegúrate de que esté en la parte superior */
+.columna-ancha {
+  width: 5%;
+}
+.columna-fuente {
+  width: 5%;
+}
+.columna-hidden {
+  display: none;
+}
+.columna-origen {
+  width: 5%;
+}
+.columna-ctncontable {
+  width: 35%;
 }
 
-.notification-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+/* Css de las tablas y modales de cuentas contables */
+.cuentas-contables {
+  max-width: 65%;
+}
+.cuentas-contables tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.cuentas-contables thead,
+.cuentas-contables tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
 }
 
-.icon img {
-    width: 64px; /* Tamaño de la imagen */
+/* Css de las tabla y modal de proveedor */
+.modal-presupuesto-large {
+  max-width: 90%;
 }
-
-.message {
-    margin-top: 10px;
+.modal-presupuesto-large tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
 }
-
-/* Estilo para el contenedor del modal */
-.modal-container {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 40%; /* Ajusta este valor según sea necesario */
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-    align-items: center;
-    justify-content: center;
+.modal-presupuesto-large thead,
+.modal-presupuesto-large tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
 }
 
 
-.modal-content {
-    /* Estilos para el contenido del modal de cuentas contables */
-    background-color: #fefefe;
-    border: 1px solid #888;
-    border-radius: 10px;
-    padding: 20px;
-    width: 65%; /* Ajusta el ancho del contenido del modal */
-    max-height: 80vh; /* Altura máxima del modal con capacidad de desplazamiento */
-    overflow-y: auto; /* Añadir desplazamiento vertical si el contenido es demasiado largo */
-    position: relative;
-    transform: translateY(-50%); /* Centrado vertical */
+.btn-pdf {
+  background-color: red;
+  color: white;
 }
 
-.close_3 {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    cursor: pointer;
+.btn-excel {
+  background-color: green;
+  color: white;
 }
+<<<<<<< HEAD
 
 /* Estilo para la tabla dentro del modal */
 #cuentasContablesTable {
@@ -320,3 +315,5 @@
           flex-wrap: wrap;
           gap: 10px;
       }
+=======
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9

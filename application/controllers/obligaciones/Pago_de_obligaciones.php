@@ -31,7 +31,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data['asientos'] = $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu);
+		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['Obli'] = $this->Pago_obli_model->getDiarios_obli(); 
@@ -40,7 +40,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables($id_uni_respon_usu); 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/pagoobli/pagobli_combined", $data);
         $this->load->view("layouts/footer");
 		
@@ -52,7 +52,7 @@ class Pago_de_obligaciones extends CI_Controller {
 	}
 	
 	public function add(){
-
+		
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
@@ -64,10 +64,11 @@ class Pago_de_obligaciones extends CI_Controller {
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
+			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);// Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
@@ -85,7 +86,10 @@ class Pago_de_obligaciones extends CI_Controller {
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
+<<<<<<< HEAD
 		$id_num_asi_deta = $this->input->post("IDNum_Asi_Deta");
+=======
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 		$contabilidad = $datosFormulario['contabilidad'];
 		$direccion = $datosFormulario['direccion'];
 		$telefono = $datosFormulario['telefono'];
@@ -101,11 +105,18 @@ class Pago_de_obligaciones extends CI_Controller {
 		$cuentacontable = $datosFormulario['IDCuentaContable'];
 		$fuente_de_financiamiento = $datosFormulario['id_ff'];
 		$origen_de_financiamiento = $datosFormulario['id_of'];
+<<<<<<< HEAD
 		$mp = $datosFormulario['mp'];
 
 		
 		//-----------------//---------------------------
 		$pedi_matricula = $this->input->post("pedi_matricula");
+=======
+		
+		//-----------------//---------------------------
+		$pedi_matricula = $this->input->post("pedi_matricula");
+		$MontoPago = $datosFormulario['MontoPago'];
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 		$modalidad = $this->input->post("modalidad");
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
@@ -116,7 +127,11 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
+<<<<<<< HEAD
 		
+=======
+		$nuevo_monto_pago = $MontoPago;
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 
 		$MontoPagado = $this->Pago_obli_model->obtenerDebeMasRecientePorIdProveedor($proveedor_id, $id_num_asi_deta);
@@ -143,7 +158,11 @@ class Pago_de_obligaciones extends CI_Controller {
 					'nro_pac' => $nro_pac,
 					'nro_exp' => $nro_exp,
 					'id_provee' => $proveedor_id,
+<<<<<<< HEAD
 					'MontoPagado' => $mp,
+=======
+					'MontoPagado' => $nuevo_monto_pago,
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 					'SumaMonto' => $suma_monto, 
 					'MontoTotal' => $MontoTotal,
 					'op' => $op,
@@ -163,7 +182,11 @@ class Pago_de_obligaciones extends CI_Controller {
 					
 					$dataDetaDebe = array(
 						'Num_Asi_IDNum_Asi' => $lastInsertedId,
+<<<<<<< HEAD
 						'MontoPago' => $haber_2,
+=======
+						'MontoPago' => $MontoPago,
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 						'Debe' => $debe,
 						'numero' => $numero,
 						'comprobante' => $comprobante,
@@ -233,7 +256,11 @@ class Pago_de_obligaciones extends CI_Controller {
 			'obligaciones' => $this->Pago_obli_model->obtener_asiento_por_id($id), 
 		);
 		$this->load->view("layouts/header");
+<<<<<<< HEAD
 		$this->load->view("layouts/aside");
+=======
+		$this->load->view("layouts/sideBar");
+>>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);
 		$this->load->view("layouts/footer");
 	}

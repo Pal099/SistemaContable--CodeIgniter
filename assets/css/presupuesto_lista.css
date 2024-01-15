@@ -1,0 +1,8 @@
+.modal-extra-large {
+  max-width: 90%;
+}
+
+
+#TablaPresupuestoModal tbody td {
+  display: block;
+}
