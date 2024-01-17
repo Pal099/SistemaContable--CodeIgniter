@@ -21,7 +21,7 @@ class CuadrodeResultados extends CI_Controller {
 
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/cuadroderesultados/list", $data);
         $this->load->view("layouts/footer");
     }

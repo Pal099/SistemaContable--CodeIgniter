@@ -13,9 +13,8 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a
-                        href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de Obligación</a>
-                </li>
+                <li class="breadcrumb-item">Movimientos</li>
+                <li class="breadcrumb-item">Diario de Obligación</li>
             </ol>
         </nav>
 
