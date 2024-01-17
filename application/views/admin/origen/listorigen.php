@@ -45,6 +45,7 @@
                 <tr>
                   <th>Código</th>
                   <th>Nombre</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,6 +58,18 @@
                       <td>
                         <?php echo $origen->nombre; ?>
                       </td>
+                      <td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                 
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>registro/origen/edit/<?php echo $origen->id_of; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>registro/origen/delete/<?php echo $origen->id_of; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
                     </tr>
                   <?php endforeach; ?>
                 <?php endif; ?>

@@ -28,7 +28,7 @@ class EjecucionP extends CI_Controller {
 
     // Cargar vistas con datos
     $this->load->view("layouts/header");
-    $this->load->view("layouts/aside");
+    $this->load->view("layouts/sideBar");
     $this->load->view("admin/ejecucion/list_eje", $data);
     $this->load->view("layouts/footer");
 }
@@ -40,7 +40,7 @@ class EjecucionP extends CI_Controller {
 
         // Cargar vistas con datos
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         // Asegúrate de crear la vista 'reporte_ejecucion_presupuestaria' en la carpeta correspondiente
         $this->load->view("admin/ejecucion/list_eje", $data);
         $this->load->view("layouts/footer");
