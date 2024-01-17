@@ -1,5 +1,5 @@
 <?php
-class CuadrodeResultados extends CI_Controller {
+class SyS extends CI_Controller {
     
     public function __construct() {
         parent::__construct();
@@ -22,7 +22,7 @@ class CuadrodeResultados extends CI_Controller {
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
-        $this->load->view("admin/cuadroderesultados/list", $data);
+        $this->load->view("admin/sys/list", $data);
         $this->load->view("layouts/footer");
     }
     public function GenerarExcel() {

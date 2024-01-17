@@ -5,11 +5,16 @@ class LibroMayor extends CI_Controller {
 
 
     public function __construct(){
-        parent::__construct();
-        $this->load->model('LibroMayor_model');
-        $this->load->model('CuentaContable_model'); // Asegúrate de cargar el modelo de Cuentas Contables
-        // Cargar cualquier otra librería, helper, o modelo necesario
-    }
+		parent::__construct();
+	//	$this->permisos= $this->backend_lib->control();
+		$this->load->model("Proveedores_model");
+		$this->load->model("ProgramGasto_model");
+		$this->load->model("Cdp_model");
+		$this->load->model("Usuarios_model");
+		$this->load->model("Presupuesto_model");
+		$this->load->library('form_validation');
+
+	}
 
     // Función para visualizar la página inicial del Libro Mayor con un formulario para seleccionar el rango de fechas
     public function index(){

@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-md-6 mt-2 ">
                         <div class="d-flex justify-content-md-end">
-                            <button type="button" class="btn btn-success" onclick="window.open('<?php echo base_url(); ?>mantenimiento/CuadrodeResultados/GenerarExcel')">
+                            <button type="button" class="btn btn-success" onclick="window.open('<?php echo base_url(); ?>mantenimiento/Balance_Gral/GenerarExcel')">
                                 <i class="bi bi-file-pdf"></i> Excel
                             </button>
                         </div>
