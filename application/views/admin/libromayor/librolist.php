@@ -6,6 +6,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
+                <li class="breadcrumb-item active">Movimientos</li>
                 <li class="breadcrumb-item active">Libro Mayor</li>
             </ol>
         </nav>

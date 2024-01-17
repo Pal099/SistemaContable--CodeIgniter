@@ -18,7 +18,7 @@ class LibroMayor extends CI_Controller {
     // Función para visualizar la página inicial del Libro Mayor con un formulario para seleccionar el rango de fechas
     public function index(){
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/libro/librolist'); // Cambiado de 'index' a 'librolist'
         $this->load->view('layouts/footer');
     }
@@ -42,7 +42,7 @@ class LibroMayor extends CI_Controller {
 
         // Cargar las vistas con los datos
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/libro/librolist', $data);
         $this->load->view('layouts/footer');
     }

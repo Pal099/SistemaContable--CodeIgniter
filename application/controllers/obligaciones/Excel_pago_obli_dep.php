@@ -29,7 +29,7 @@ class Excel_pago_obli_dep extends CI_Controller {
 			$data['datos'] = $this->Excel_pago_obli_dep_model->obtenerDatos($fechaInicio, $fechaFin);
 	
 			$this->load->view("layouts/header");
-			$this->load->view("layouts/aside");
+			$this->load->view("layouts/sideBar");
 			$this->load->view("admin/deposito/detalle", $data);
 			$this->load->view("layouts/footer");
 
@@ -50,7 +50,7 @@ class Excel_pago_obli_dep extends CI_Controller {
 		$data['resumenPorMeses'] = $this->Excel_pago_obli_dep_model->obtenerResumenPorMeses($mes);
 	
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion/detalle", $data);  
 		$this->load->view("layouts/footer");
 	}

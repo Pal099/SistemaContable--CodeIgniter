@@ -89,7 +89,7 @@
                         '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                     lengthMenu: [
                         [10, 25, 50, -1],
-                        ['10', '25', '50', 'Mostrar Todo']
+                        ['10', '25', '50', 'Todo']
                     ],
                     buttons: [{
                             extend: 'pageLength',
