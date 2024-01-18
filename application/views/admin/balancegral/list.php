@@ -3,6 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- jsPDF y Autotable para las datatable -->
+    <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
+    <!-- script para obtener el logo -->
+    <script>
+    var logoDataURL = '<?php echo site_url("dataTablePDF/ImageController/getimagedataurl"); ?>';
+    </script>
+    <script src="<?php echo base_url(); ?>/assets/js/obtener_logo.js"></script>
+
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- Estilos de DataTable button -->
@@ -120,65 +129,12 @@
                         className: 'btn btn-success',
                     },
                     {
-                        extend: 'pdfHtml5',
-                        text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+                        text: '<i class="bi bi-filetype-pdf"></i> PDF',
                         className: 'btn btn-danger',
-                        title: '',
-                        filename: 'Balance General',
-                        /* Acá comienza el script para agregar el membrete arriba de la table */
-                        customize: function(doc) {
-                            var dataURL = getImageDataURLSynchronously();
-
-                            doc.content.splice(0, 0, {
-                                image: dataURL,
-                                width: 80,
-                                margin: [30, 0, 0, 0], // Márgenes [izquierda, arriba, derecha, abajo]       
-                            }, {
-                                text: 'Universidad Nacional del Este',
-                                fontSize: 15,
-                                bold: true,
-                                alignment: 'center',
-                                margin: [0, 10, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
-                            }, {
-                                text: 'Campus Km 8 Acaray',
-                                fontSize: 8,
-                                bold: true,
-                                alignment: 'center',
-                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
-                            }, {
-                                text: 'Calle Universidad Nacional del Este y Rca. del Paraguay',
-                                fontSize: 8,
-                                bold: true,
-                                alignment: 'center',
-                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
-                            }, {
-                                text: 'Barrio San Juan Ciudad del Este Alto Parana',
-                                fontSize: 8,
-                                bold: true,
-                                alignment: 'center',
-                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
-                            });
-
-                            /* Está es la función que llama al controlador para poder transformar la imagen
-                            a bse64 */
-                            function getImageDataURLSynchronously() {
-                                var result;
-                                $.ajax({
-                                    url: '<?php echo site_url("dataTablePDF/ImageController/getimagedataurl"); ?>',
-                                    method: 'GET',
-                                    async: false,
-                                    success: function(dataURL) {
-                                        result = dataURL;
-                                    },
-                                    error: function(error) {
-                                        console.error('Error al cargar la imagen:',
-                                            error);
-                                    }
-                                });
-                                return result;
-                            }
+                        action: function(e, dt, node, config) {
+                            generarPDF();
                         }
-                    }
+                    },
                 ],
                 searching: true,
                 info: true,
@@ -187,6 +143,118 @@
                 },
             });
         });
+        </script>
+
+        <!-- Script del pdf -->
+        <script>
+        async function generarPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+            try {
+                const logoDataURL = await getImageDataURL(); //Funcion para obtener la imagen
+                doc.addImage(logoDataURL, 'PNG', 30, 14, 25,
+                    0); // Orden de coordenadas: izquierda, arriba, ancho, altura
+
+                // Varaibles para poder sacar la fecha
+                var fechaActual = new Date();
+                var dd = fechaActual.getDate();
+                var mm = fechaActual.getMonth() + 1;
+                var yyyy = fechaActual.getFullYear();
+
+                // Validación para los 2 dígitos en la fecha
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                // Concatenamos la fecha para el nombre del archivo
+                var nombreArchivo = 'Balance_General_' + dd + '-' + mm + '-' + yyyy + '.pdf';
+
+                // Acá agregamos la fecha en la esquina superior derecha del documento
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0); // Color del texto (negro)
+                doc.text('Fecha: ' + dd + '/' + mm + '/' + yyyy, doc.internal.pageSize.width - 15, 19, null, null,
+                    'right');
+                doc.text('Hora: ' + fechaActual.toLocaleTimeString(), doc.internal.pageSize.width - 15, 24, null,
+                    null, 'right');
+
+                //Titulo
+                doc.setFont("helvetica", "bold"); //Fuente
+                doc.setFontSize(15); //Tamaño
+                var text = 'Universidad Nacional del Este';
+                //Calculo para colocar el texto en el medio 
+                var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal
+                    .scaleFactor;
+                var marginLeft = (doc.internal.pageSize.width - textWidth) / 2;
+                doc.text(text, marginLeft, 20);
+
+                //Datos de la Universidad
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(10);
+                var lines = [
+                    'Campus Km 8 Acaray',
+                    'Calle Universidad Nacional del Este y Rca. del Paraguay',
+                    'Barrio San Juan Ciudad del Este Alto Parana'
+                ];
+
+                // Cordenadas de los textos junto con los calculos
+                var startY = 25; //Donde empieza
+                var lineHeight = 5; //Espacio entre lineas
+                lines.forEach(function(line) {
+                    var textWidth = doc.getStringUnitWidth(line) * doc.internal.getFontSize() / doc.internal
+                        .scaleFactor;
+                    var marginLeft = (doc.internal.pageSize.width - textWidth) / 2;
+
+                    doc.text(line, marginLeft, startY);
+                    startY += lineHeight;
+                });
+
+                var tableData = [];
+                <?php foreach ($cuentas as $cuenta) : ?>
+                tableData.push(['<?= $cuenta->Codigo_CC ?>', '<?= $cuenta->Descripcion_CC ?>',
+                    '<?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?>'
+                ]);
+                <?php if (isset($cuenta->cuentasHijas)) : ?>
+                <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
+                tableData.push(['<?= $cuentaHija->Codigo_CC ?>', '<?= $cuentaHija->Descripcion_CC ?>',
+                    '<?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuentaHija->TotalDeudor) ? number_format($cuentaHija->TotalDeudor, 0, ',', '.') : 0 ?>',
+                    '<?= isset($cuentaHija->TotalAcreedor) ? number_format($cuentaHija->TotalAcreedor, 0, ',', '.') : 0 ?>'
+                ]);
+                <?php endforeach; ?>
+                <?php endif; ?>
+                <?php endforeach; ?>
+
+                /* Acá comienza la configuracion de la tabla */
+                var headerStyles = {
+                    fillColor: '#020971',
+                    textColor: '#ffffff', // Color del texto del encabezado 
+                    fontStyle: 'bold' // negrita
+                };
+                doc.autoTable({
+                    head: [
+                        ['Número de Cuenta', 'Descripción de la Cuenta', 'Total Debe', 'Total Haber',
+                            'Total Deudor', 'Total Acreedor'
+                        ]
+                    ],
+                    body: tableData,
+                    startY: 40, //donde comienza la tabla
+                    headStyles: headerStyles // Estilos del header
+                });
+
+                // se guarda el archivo segun el nombre deseado del documento
+                doc.save(nombreArchivo);
+            } catch (error) {
+                console.error('Error al cargar la imagen:', error);
+            }
+        }
         </script>
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
