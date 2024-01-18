@@ -8,13 +8,19 @@ class Pdf_model extends CI_Model {
     }
 
     public function obtenerDatos() {
-        // Reemplaza 'nombre_de_la_tabla' con el nombre real de tu tabla en la base de datos
-        $this->db->select('numero, comprobante, Debe, Haber'); // Selecciona las columnas que deseas recuperar
-        $this->db->from('num_asi_deta'); // Nombre de la tabla
+        $this->db->select('numasi.FechaEmision as fecha,nd.numero, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle');
+        $this->db->from('num_asi_deta nd');
+        $this->db->join('proveedores p', 'p.id = nd.proveedores_id', 'left');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = nd.IDCuentaContable');
+        $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
+        $this->db->order_by('nd.IDNum_Asi_Deta', 'DESC'); // Ordena por el ID de forma descendente
+        $this->db->limit(1); // Limita a un solo registro
         $query = $this->db->get();
+        $result = $query->result_array(); // Make sure to use result_array() for an array result
 
+        return $result;
         if ($query->num_rows() > 0) {
-            return $query->result_array(); // Devuelve un arreglo de resultados
+            return $query->row_array(); // Devuelve un solo registro como un arreglo
         } else {
             return array(); // Si no hay resultados, devuelve un arreglo vacío
         }
