@@ -46,19 +46,20 @@
               </tr>
           </thead>
           <tbody>
-              <?php foreach($ejecucionpresupuestaria as $ep): ?>
-              <tr>
-                  <td><?php echo $ep->origen_de_financiamiento_id_of; ?></td>
-                  <td><?php echo $ep->fuente_de_financiamiento_id_ff; ?></td>
-                  <td><?php echo $ep->programa_id_pro; ?></td>
-                  <td><?php echo $ep->Idcuentacontable; ?></td>
-                  <td><?php echo $ep->TotalPresupuestado; ?></td>
-                  <td><?php echo $ep->TotalModificado; ?></td>
-                  <td><?php echo $ep->Obligado; ?></td>
-                  <td><?php echo $ep->Pagado; ?></td>
-              </tr>
-              <?php endforeach; ?>
-          </tbody>
+          <?php foreach($ejecucionpresupuestaria as $ep): ?>
+            <?php if ($ep->Obligado > 0 || $ep->Pagado > 0): ?>
+                <tr>
+                    <td><?php echo $ep->origen_de_financiamiento_id_of; ?></td>
+                    <td><?php echo $ep->fuente_de_financiamiento_id_ff; ?></td>
+                    <td><?php echo $ep->programa_id_pro; ?></td>
+                    <td><?php echo $ep->Idcuentacontable; ?></td>
+                    <td><?php echo $ep->TotalPresupuestado; ?></td>
+                    <td><?php echo $ep->TotalModificado; ?></td>
+                    <td><?php echo $ep->Obligado; ?></td>
+                    <td><?php echo $ep->Pagado; ?></td>
+                </tr>
+            <?php endif; ?>
+        <?php endforeach; ?>
       </table>
   </main>
 

@@ -1026,7 +1026,7 @@
             }
         }
         </script>
-        <!--         <script>
+                 <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
                 document.getElementById('Debe').addEventListener('input', function () {
@@ -1034,7 +1034,7 @@
                 document.getElementById('Haber').value = 0;
                 document.getElementById('Debe_2').value = 0;
             });
-        </script> -->
+        </script> 
         <script>
         function calcularTotalesYDiferencia() {
             var sumaDebe = 0;
