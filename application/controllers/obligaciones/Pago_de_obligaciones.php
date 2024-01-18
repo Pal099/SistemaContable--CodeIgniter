@@ -242,7 +242,7 @@ class Pago_de_obligaciones extends CI_Controller
 	
 		if ($informacion) {
 			// Imprimir los valores directamente
-			echo $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];
+			echo $informacion . ',' . $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];
 		} else {
 			echo 'No se pudo obtener la información.';
 		}

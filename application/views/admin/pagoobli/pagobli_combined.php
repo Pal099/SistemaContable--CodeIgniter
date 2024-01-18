@@ -134,9 +134,9 @@
                                                                 name="fecha" required>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <label for="observacion">Concepto:</label>
+                                                            <label for="concepto">Concepto:</label>
                                                             <input type="text" class="form-control w-100"
-                                                                id="observacion" name="observacion">
+                                                                id="concepto" name="concepto">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -660,7 +660,7 @@
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('fecha').value = fechaFormateada;
-            document.getElementById('observacion').value = concepto;
+            document.getElementById('concepto').value = concepto;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
             document.getElementById('id_ff').value = fuentes;
@@ -675,12 +675,12 @@
                     var valores = respuesta.split(',');
 
                     // Asignar los valores a los campos correspondientes
-                    $('#idcuentacontable').val(valores[0]);
-                    $('#codigo_cc').val(valores[1]);
-                    $('#descripcion_cc').val(valores[2]);
+                    $('#idcuentacontable').val(valores[1]);
+                    $('#codigo_cc').val(valores[2]);
+                    $('#descripcion_cc').val(valores[3]);
 
                     // Imprimir los valores en la consola para verificar
-                    console.log(valores[0], "+", valores[1], "+", valores[2]);
+                    console.log(valores[1], "+", valores[2], "+", valores[3]);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error en la solicitud AJAX');
@@ -689,6 +689,7 @@
                     console.log('Error:', error);
                 }
             });
+           
             document.getElementById('detalles').value = deta;
             document.getElementById('comprobante').value = comp;
             document.getElementById('cheques_che_id').value = cheq;
@@ -835,14 +836,14 @@
                 direccion: $("#direccion").val(),
                 telefono: $("#telefono").val(),
                 tesoreria: $("#tesoreria").val(),
-                observacion: $("#observacion").val(),
+                concepto: $("#concepto").val(),
                 fecha: $("#fecha").val(),
 
                 // Agrega más campos según sea necesario
                 id_pro: $("#id_pro").val(),
                 id_ff: $("#id_ff").val(),
                 id_of: $("#id_of").val(),
-                IDCuentaContable: $("#idcuentacontable").val(),
+                IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
                 MontoPago: $("#MontoPago").val(),
                 comprobante: $("#comprobante").val(),
                 Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
@@ -851,7 +852,7 @@
 
             };
 
-
+            console.log('Valor de IDCuentaContable:', datosFormulario.IDCuentaContable);
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
@@ -893,9 +894,6 @@
                     data: { datos: datosCompletos },
                     //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                     success: function (response) {
-                        alert(filas);
-                        alert(filas);
-                        console.log(response);
                         if (response.includes('Datos guardados exitosamente.')) {
                             alert('Datos guardados exitosamente.');
                             // ... (código adicional si es necesario)
