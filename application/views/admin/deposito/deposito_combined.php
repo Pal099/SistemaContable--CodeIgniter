@@ -54,7 +54,7 @@
                 <div class="container-fluid">
                     <!-- Campos principales -->
                     <div class="row">
-                        <form id="formularioPrincipal">
+                        <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';">
                             <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
@@ -123,9 +123,9 @@
                                                             </div> -->
 
                                                     <div class="form-group col-12">
-                                                        <label for="observacion">Concepto:</label>
-                                                        <input type="text" class="form-control w-100" id="observacion"
-                                                            name="observacion">
+                                                        <label for="concepto">Concepto:</label>
+                                                        <input type="text" class="form-control w-100" id="concepto"
+                                                            name="concepto">
                                                     </div>
 
                                                     <!-- Campos Opcionales del formulario -->
@@ -263,7 +263,8 @@
                                                                 data-bs-target="#modalCuentasCont1"
                                                                 style="height: 30px;"
                                                                 class="btn btn-sm btn-outline-primary"
-                                                                id="openModalBtn_3">
+                                                                id="openModalBtn_3"
+                                                                onclick="openModal(event)">
                                                                 <i class="bi bi-search"></i>
                                                             </button>
                                                         </div>
@@ -874,6 +875,16 @@
                 document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
             }
+
+            $(document).ready(function () {
+            // Agregar un controlador de eventos de clic al botón
+            $('#openModalBtn_3').on('click', function (event) {
+                // Detener la propagación del evento
+                event.stopPropagation();
+                event.preventDefault();
+                // Tu lógica para abrir el modal aquí si es necesario
+            });
+        }); 
         </script>
 
         <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->

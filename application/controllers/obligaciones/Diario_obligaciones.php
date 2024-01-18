@@ -104,7 +104,7 @@ class Diario_obligaciones extends CI_Controller
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
 		$contabilidad = $datosFormulario['contabilidad'];
-		$observacion = $datosFormulario['observacion'];
+		$concepto = $datosFormulario['concepto'];
 		$fecha = $datosFormulario['fecha'];
 		//-----------------//--------------------------- 1
 		$detalles = $datosFormulario['detalles'];
@@ -137,6 +137,7 @@ class Diario_obligaciones extends CI_Controller
 
 			$dataNum_Asi = array(
 				'FechaEmision' => $fecha,
+				'concepto' => $concepto,
 				'ped_mat' => $pedmat,
 				'tipo_presu' => $tipo_presupuesto,
 				'unidad_resp' => $unidad_respon,
