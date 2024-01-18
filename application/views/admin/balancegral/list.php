@@ -35,7 +35,8 @@
                                 <div class="col-md-12">
                                     <div class="card border">
                                         <div class="card-body mt-4">
-                                            <table class="table table-hover table-sm align-middle mt-4" id="TablaBalanceGeneral">
+                                            <table class="table table-hover table-sm align-middle mt-4"
+                                                id="TablaBalanceGeneral">
                                                 <thead>
                                                     <tr>
                                                         <th>Número de Cuenta</th>
@@ -48,26 +49,34 @@
                                                 </thead>
                                                 <tbody>
                                                     <?php foreach ($cuentas as $cuenta) : ?>
-                                                        <tr>
-                                                            <td><?= $cuenta->Codigo_CC ?></td>
-                                                            <td><?= $cuenta->Descripcion_CC ?></td>
-                                                            <td><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?></td>
-                                                            <td><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?></td>
-                                                            <td><?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?></td>
-                                                            <td><?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?></td>
-                                                        </tr>
-                                                        <?php if (isset($cuenta->cuentasHijas)) : ?>
-                                                            <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
-                                                                <tr>
-                                                                    <td><?= $cuentaHija->Codigo_CC ?></td>
-                                                                    <td><?= $cuentaHija->Descripcion_CC ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalDeudor) ? number_format($cuentaHija->TotalDeudor, 0, ',', '.') : 0 ?></td>
-                                                                    <td><?= isset($cuentaHija->TotalAcreedor) ? number_format($cuentaHija->TotalAcreedor, 0, ',', '.') : 0 ?></td>
-                                                                </tr>
-                                                            <?php endforeach; ?>
-                                                        <?php endif; ?>
+                                                    <tr>
+                                                        <td><?= $cuenta->Codigo_CC ?></td>
+                                                        <td><?= $cuenta->Descripcion_CC ?></td>
+                                                        <td><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php if (isset($cuenta->cuentasHijas)) : ?>
+                                                    <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
+                                                    <tr>
+                                                        <td><?= $cuentaHija->Codigo_CC ?></td>
+                                                        <td><?= $cuentaHija->Descripcion_CC ?></td>
+                                                        <td><?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuentaHija->TotalDeudor) ? number_format($cuentaHija->TotalDeudor, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                        <td><?= isset($cuentaHija->TotalAcreedor) ? number_format($cuentaHija->TotalAcreedor, 0, ',', '.') : 0 ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php endforeach; ?>
+                                                    <?php endif; ?>
                                                     <?php endforeach; ?>
                                                 </tbody>
                                             </table>
@@ -82,47 +91,102 @@
         </div>
         <!-- Script para las tabla de balance general -->
         <script>
-            $(document).ready(function() {
-                var table1 = $('#TablaBalanceGeneral').DataTable({
-                    dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
-                        '<"row"<"col-sm-12"t>>' +
-                        '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                    lengthMenu: [
-                        [10, 25, 50, -1],
-                        ['10', '25', '50', 'Todo']
-                    ],
-                    buttons: [{
-                            extend: 'pageLength',
-                            className: 'btn bg-primary border border-0',
-                        },
-                        {
-                            extend: 'copy',
-                            className: 'btn bg-primary border border-0',
-                            text: '<i class="bi bi-copy"></i> Copiar',
-                        },
-                        {
-                            extend: 'print',
-                            className: 'btn bg-primary border border-0',
-                            text: '<i class="bi bi-printer"></i> Imprimir',
-                        },
-                        {
-                            extend: 'excel',
-                            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
-                            className: 'btn btn-success',
-                        },
-                        {
-                            extend: 'pdf',
-                            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
-                            className: 'btn btn-danger',
-                        }
-                    ],
-                    searching: true,
-                    info: true,
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        $(document).ready(function() {
+            var table1 = $('#TablaBalanceGeneral').DataTable({
+                dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"t>>' +
+                    '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10', '25', '50', 'Todo']
+                ],
+                buttons: [{
+                        extend: 'pageLength',
+                        className: 'btn bg-primary border border-0',
                     },
-                });
+                    {
+                        extend: 'copy',
+                        className: 'btn bg-primary border border-0',
+                        text: '<i class="bi bi-copy"></i> Copiar',
+                    },
+                    {
+                        extend: 'print',
+                        className: 'btn bg-primary border border-0',
+                        text: '<i class="bi bi-printer"></i> Imprimir',
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+                        className: 'btn btn-success',
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+                        className: 'btn btn-danger',
+                        title: '',
+                        filename: 'Balance General',
+                        /* Acá comienza el script para agregar el membrete arriba de la table */
+                        customize: function(doc) {
+                            var dataURL = getImageDataURLSynchronously();
+
+                            doc.content.splice(0, 0, {
+                                image: dataURL,
+                                width: 80,
+                                margin: [30, 0, 0, 0], // Márgenes [izquierda, arriba, derecha, abajo]       
+                            }, {
+                                text: 'Universidad Nacional del Este',
+                                fontSize: 15,
+                                bold: true,
+                                alignment: 'center',
+                                margin: [0, 10, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
+                            }, {
+                                text: 'Campus Km 8 Acaray',
+                                fontSize: 8,
+                                bold: true,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
+                            }, {
+                                text: 'Calle Universidad Nacional del Este y Rca. del Paraguay',
+                                fontSize: 8,
+                                bold: true,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
+                            }, {
+                                text: 'Barrio San Juan Ciudad del Este Alto Parana',
+                                fontSize: 8,
+                                bold: true,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 4] // Márgenes [izquierda, arriba, derecha, abajo]
+                            });
+
+                            /* Está es la función que llama al controlador para poder transformar la imagen
+                            a bse64 */
+                            function getImageDataURLSynchronously() {
+                                var result;
+                                $.ajax({
+                                    url: '<?php echo site_url("dataTablePDF/ImageController/getimagedataurl"); ?>',
+                                    method: 'GET',
+                                    async: false,
+                                    success: function(dataURL) {
+                                        result = dataURL;
+                                    },
+                                    error: function(error) {
+                                        console.error('Error al cargar la imagen:',
+                                            error);
+                                    }
+                                });
+                                return result;
+                            }
+                        }
+                    }
+                ],
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                },
             });
+        });
         </script>
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
