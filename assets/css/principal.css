@@ -1,299 +1,298 @@
-    /* Estilo para la tarjeta de información del usuario */
-    .info-card {
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s ease-in-out;
-    }
-    
-    .info-card:hover {
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    }
-    
-    /* Estilo para el ícono del usuario */
-    .user-icon {
-        background-color: #3498db; /* Cambia el color de fondo según tu preferencia */
-        color: #ffffff;
-        font-size: 24px;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        transition: background-color 0.3s ease-in-out;
-    }
-    
-    .user-icon:hover {
-        background-color: #2980b9; /* Cambia el color de fondo al pasar el mouse */
-    }
-    
-    /* Estilo para la información del usuario */
-    .user-info {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    .user-name,
-    .user-unit {
-        font-size: 16px;
-        margin-bottom: 5px;
-    }
-    
-    .user-unit {
-        color: #7f8c8d; /* Cambia el color del texto de la unidad académica */
-    }
-    
-    
-    /* Agrega estos estilos a tu hoja de estilo CSS */
-    
-    /* Estilo para el título de la tarjeta */
-    .card-title {
-        font-size: 1.5rem; /* Tamaño de fuente más grande */
-        font-weight: bold; /* Texto en negrita */
-    }
-    
-    /* Estilo para el nombre del usuario */
-    .user-name {
-        font-size: 1.2rem; /* Tamaño de fuente más grande */
-        font-weight: bold; /* Texto en negrita */
-    }
-    
-    /* Estilo para el texto adicional (Unidad Académica) */
-    .user-info span {
-        display: block; /* Mostrar cada línea en un bloque */
-        margin-top: 0.5rem; /* Margen superior para separar las líneas */
-    }
-    
-    /* Estilo para el ícono de usuario */
-    .user-icon {
-        /* Puedes agregar estilos adicionales según tus preferencias */
-    }
-    
-    
-    
-    
-    
-    .section_our_solution .row {
-      align-items: center;
-    }
-    
-    .our_solution_category {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-    .our_solution_category .solution_cards_box {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .solution_cards_box .solution_card {
-      flex: 0 50%;
-      background: #fff;
-      box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
-        0 5px 15px 0 rgba(37, 44, 97, 0.15);
-      border-radius: 15px;
-      margin: 8px;
-      padding: 5px 20px;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      min-height: 265px;
-      transition: 0.7s;
-    }
-    
-    .solution_cards_box .solution_card:hover {
-      background: #309df0;
-      color: #fff;
-      transform: scale(1.1);
-      z-index: 9;
-    }
-    
-    .solution_cards_box .solution_card:hover::before {
-      background: rgb(85 108 214 / 10%);
-    }
-    
-    .solution_cards_box .solution_card:hover .solu_title h3,
-    .solution_cards_box .solution_card:hover .solu_description p {
-      color: #fff;
-    }
-    
-    .solution_cards_box .solution_card:before {
-      content: "";
-      position: absolute;
-      background: rgb(85 108 214 / 5%);
-      width: 170px;
-      height: 400px;
-      z-index: -1;
-      transform: rotate(42deg);
-      right: -56px;
-      top: -23px;
-      border-radius: 35px;
-    }
-    
-    .solution_cards_box .solution_card:hover .solu_description button {
-      background: #fff !important;
-      color: #309df0;
-    }
-    
-    .solution_card .so_top_icon {
-    }
-    
-    .solution_card .solu_title h3 {
-      color: #212121;
-      font-size: 1.3rem;
-      margin-top: 13px;
-      margin-bottom: 13px;
-    }
-    
-    .solution_card .solu_description p {
-      font-size: 15px;
-      margin-bottom: 15px;
-    }
-    
-    .solution_card .solu_description button {
-      border: 0;
-      border-radius: 15px;
-      background: linear-gradient(
-        140deg,
-        #42c3ca 0%,
-        #42c3ca 50%,
-        #42c3cac7 75%
-      ) !important;
-      color: #fff;
-      font-weight: 500;
-      font-size: 1rem;
-      padding: 5px 16px;
-    }
-    .card-body {
-      padding: 0 20px 20px 20px;
-    }
-    .solution_cards_box {
-      display: flex;
-      justify-content: flex-start; /* Alinea las tarjetas a la izquierda */
-      gap: 20px; /* Espaciado entre tarjetas */
-    }
-    
-    .our_solution_content h1 {
-      text-transform: capitalize;
-      margin-bottom: 1rem;
-      font-size: 2.5rem;
-    }
-    .our_solution_content p {
-    }
-    
-    .hover_color_bubble {
-      position: absolute;
-      background: rgb(54 81 207 / 15%);
-      width: 100rem;
-      height: 100rem;
-      left: 0;
-      right: 0;
-      z-index: -1;
-      top: 16rem;
-      border-radius: 50%;
-      transform: rotate(-36deg);
-      left: -18rem;
-      transition: 0.7s;
-    }
-    
-    .solution_cards_box .solution_card:hover .hover_color_bubble {
-      top: 0rem;
-    }
-    
-    .solution_cards_box .solution_card .so_top_icon {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #fff;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .solution_cards_box .solution_card .so_top_icon img {
-      width: 40px;
-      height: 50px;
-      object-fit: contain;
-    }
-    
-    /*start media query*/
-    @media screen and (min-width: 320px) {
-      .sol_card_top_3 {
-        position: relative;
-        top: 0;
-      }
-    
-      .our_solution_category {
-        width: 100%;
-        margin: 0 auto;
-      }
-    
-      .our_solution_category .solution_cards_box {
-        flex: auto;
-      }
-    }
-    @media only screen and (min-width: 768px) {
-      .our_solution_category .solution_cards_box {
-        flex: 1;
-      }
-    }
-    @media only screen and (min-width: 1024px) {
-      .sol_card_top_3 {
-        position: relative;
-        top: -3rem;
-      }
-      .our_solution_category {
-        width: 50%;
-        margin: 0 auto;
-      }
-    }
-    
-    
-    
-    /* Estilos para el ícono de usuario */
-    .so_top_icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: -15px; /* Ajusta la posición del ícono moviéndolo un poco a la izquierda */
-    }
-    
-    /* Estilos para el cuadro de la tarjeta */
-    .solution_card {
-      background: linear-gradient(to bottom, #4dc7f2, #007bff); /* Color de fondo celeste degradado a azul */
-      color: white; /* Texto blanco */
-      border-radius: 15px; /* Bordes redondeados */
-        padding: 0 20px 20px 20px;
-      
-      margin-bottom: 20px;
-      
-    }
-    
-    /* Estilos para el título de la tarjeta */
-    .solu_title {
-      margin-bottom: 15px;
-    }
-    
-    /* Estilos para el texto dentro de la tarjeta */
-    .solu_description {
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    
-    /* Estilos para el botón "Read More" */
-    .read_more_btn {
-      background-color: #ffffff; /* Fondo blanco para el botón */
-      color: #007bff; /* Texto azul */
-      border: 1px solid #007bff;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .read_more_btn:hover {
-      background-color: #007bff; /* Cambia el fondo a azul al pasar el mouse */
-      color: #ffffff; /* Cambia el texto a blanco al pasar el mouse */
-    }
-    
+ /* Estilo para la tarjeta de información del usuario */
+ .info-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.info-card:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el ícono del usuario */
+.user-icon {
+  background-color: #3498db; /* Cambia el color de fondo según tu preferencia */
+  color: #ffffff;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.user-icon:hover {
+  background-color: #2980b9; /* Cambia el color de fondo al pasar el mouse */
+}
+
+/* Estilo para la información del usuario */
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name,
+.user-unit {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.user-unit {
+  color: #7f8c8d; /* Cambia el color del texto de la unidad académica */
+}
+
+
+/* Agrega estos estilos a tu hoja de estilo CSS */
+
+/* Estilo para el título de la tarjeta */
+.card-title {
+  font-size: 1.5rem; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Texto en negrita */
+}
+
+/* Estilo para el nombre del usuario */
+.user-name {
+  font-size: 1.2rem; /* Tamaño de fuente más grande */
+  font-weight: bold; /* Texto en negrita */
+}
+
+/* Estilo para el texto adicional (Unidad Académica) */
+.user-info span {
+  display: block; /* Mostrar cada línea en un bloque */
+  margin-top: 0.5rem; /* Margen superior para separar las líneas */
+}
+
+/* Estilo para el ícono de usuario */
+.user-icon {
+  /* Puedes agregar estilos adicionales según tus preferencias */
+}
+
+
+
+
+
+.section_our_solution .row {
+align-items: center;
+}
+
+.our_solution_category {
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+}
+.our_solution_category .solution_cards_box {
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+.solution_cards_box .solution_card {
+flex: 0 50%;
+background: #fff;
+box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+  0 5px 15px 0 rgba(37, 44, 97, 0.15);
+border-radius: 15px;
+margin: 8px;
+padding: 5px 20px;
+position: relative;
+z-index: 1;
+overflow: hidden;
+min-height: 265px;
+transition: 0.7s;
+}
+
+.solution_cards_box .solution_card:hover {
+background: #309df0;
+color: #fff;
+transform: scale(1.1);
+z-index: 9;
+}
+
+.solution_cards_box .solution_card:hover::before {
+background: rgb(85 108 214 / 10%);
+}
+
+.solution_cards_box .solution_card:hover .solu_title h3,
+.solution_cards_box .solution_card:hover .solu_description p {
+color: #fff;
+}
+
+.solution_cards_box .solution_card:before {
+content: "";
+position: absolute;
+background: rgb(85 108 214 / 5%);
+width: 170px;
+height: 400px;
+z-index: -1;
+transform: rotate(42deg);
+right: -56px;
+top: -23px;
+border-radius: 35px;
+}
+
+.solution_cards_box .solution_card:hover .solu_description button {
+background: #fff !important;
+color: #309df0;
+}
+
+.solution_card .so_top_icon {
+}
+
+.solution_card .solu_title h3 {
+color: #212121;
+font-size: 1.3rem;
+margin-top: 13px;
+margin-bottom: 13px;
+}
+
+.solution_card .solu_description p {
+font-size: 15px;
+margin-bottom: 15px;
+}
+
+.solution_card .solu_description button {
+border: 0;
+border-radius: 15px;
+background: linear-gradient(
+  140deg,
+  #42c3ca 0%,
+  #42c3ca 50%,
+  #42c3cac7 75%
+) !important;
+color: #fff;
+font-weight: 500;
+font-size: 1rem;
+padding: 5px 16px;
+}
+.card-body {
+padding: 0 20px 20px 20px;
+}
+.solution_cards_box {
+display: flex;
+justify-content: flex-start; /* Alinea las tarjetas a la izquierda */
+gap: 20px; /* Espaciado entre tarjetas */
+}
+
+.our_solution_content h1 {
+text-transform: capitalize;
+margin-bottom: 1rem;
+font-size: 2.5rem;
+}
+.our_solution_content p {
+}
+
+.hover_color_bubble {
+position: absolute;
+background: rgb(54 81 207 / 15%);
+width: 100rem;
+height: 100rem;
+left: 0;
+right: 0;
+z-index: -1;
+top: 16rem;
+border-radius: 50%;
+transform: rotate(-36deg);
+left: -18rem;
+transition: 0.7s;
+}
+
+.solution_cards_box .solution_card:hover .hover_color_bubble {
+top: 0rem;
+}
+
+.solution_cards_box .solution_card .so_top_icon {
+width: 60px;
+height: 60px;
+border-radius: 50%;
+background: #fff;
+overflow: hidden;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.solution_cards_box .solution_card .so_top_icon img {
+width: 40px;
+height: 50px;
+object-fit: contain;
+}
+
+/*start media query*/
+@media screen and (min-width: 320px) {
+.sol_card_top_3 {
+  position: relative;
+  top: 0;
+}
+
+.our_solution_category {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.our_solution_category .solution_cards_box {
+  flex: auto;
+}
+}
+@media only screen and (min-width: 768px) {
+.our_solution_category .solution_cards_box {
+  flex: 1;
+}
+}
+@media only screen and (min-width: 1024px) {
+.sol_card_top_3 {
+  position: relative;
+  top: -3rem;
+}
+.our_solution_category {
+  width: 50%;
+  margin: 0 auto;
+}
+}
+
+
+
+/* Estilos para el ícono de usuario */
+.so_top_icon {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-left: -15px; /* Ajusta la posición del ícono moviéndolo un poco a la izquierda */
+}
+
+/* Estilos para el cuadro de la tarjeta */
+.solution_card {
+background: linear-gradient(to bottom, #4dc7f2, #007bff); /* Color de fondo celeste degradado a azul */
+color: white; /* Texto blanco */
+border-radius: 15px; /* Bordes redondeados */
+  padding: 0 20px 20px 20px;
+
+margin-bottom: 20px;
+
+}
+
+/* Estilos para el título de la tarjeta */
+.solu_title {
+margin-bottom: 15px;
+}
+
+/* Estilos para el texto dentro de la tarjeta */
+.solu_description {
+font-size: 16px;
+line-height: 1.5;
+}
+
+/* Estilos para el botón "Read More" */
+.read_more_btn {
+background-color: #ffffff; /* Fondo blanco para el botón */
+color: #007bff; /* Texto azul */
+border: 1px solid #007bff;
+padding: 8px 15px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s, color 0.3s;
+}
+
+.read_more_btn:hover {
+background-color: #007bff; /* Cambia el fondo a azul al pasar el mouse */
+color: #ffffff; /* Cambia el texto a blanco al pasar el mouse */
+}

@@ -9,36 +9,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<<<<<<< HEAD
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
- <!-- Vendor CSS Files -->
- <link href="<?php echo base_url();?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/quill/quill.snow.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-    <link href="<?php echo base_url();?>assets/vendor/simple-datatables/style.css" rel="stylesheet">
-<!-- Template Main CSS File -->
-<link href="<?php echo base_url();?>assets/css/style.css" rel="stylesheet">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/jquery-ui/jquery-ui.css"> 
-     <!-- Ionicons  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/Ionicons/css/ionicons.min.css">
-     <!-- DataTables  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <!-- DataTables Export-->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/datatables-export/css/buttons.dataTables.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/font-awesome/css/font-awesome.min.css">
-    <!-- Theme style  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/AdminLTE.min.css"> 
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load.  -->
-    <link rel="stylesheet" href="<?php echo base_url();?>assets/template/dist/css/skins/_all-skins.min.css">
-=======
   <!-- Favicons -->
   <link href="<?php echo base_url(); ?>assets/img/codex.png" rel="icon">
   <link href="<?php echo base_url(); ?>assets/img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -68,7 +38,6 @@
 
 
 
->>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9
 
   <!-- Ionicons  -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/template/Ionicons/css/ionicons.min.css">
@@ -129,39 +98,6 @@
             <hr class="dropdown-divider">
           </li>
 
-<<<<<<< HEAD
-    .modal-buttons button {
-      margin-left: 5px;
-    }
-    .logo img {
-    max-width: 100px; /* Ajusta el tamaño máximo del logo según tus necesidades */
-}
-  </style>
-<body>
-
-<header id="header" class="header fixed-top d-flex align-items-center blue-gradient-bg">
-    <div class="d-flex align-items-center justify-content-between header-center">
-        <a href="<?php echo base_url();?>principal" class="logo d-flex align-items-center">
-            <span class="d-none d-lg-block header-title">Codex Veritas</span>
-        </a>
-       
- 
-        <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div>
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-    <div class="user-info user-info-right">
-    <span>Bienvenido: <?php echo $this->session->userdata('Nombre_usuario'); ?></span>
-    <span>Unidad Académica: <?php echo $this->session->userdata('unidad_academica'); ?></span>
-</div>
-</ul>
-    </nav><!-- End Icons Navigation -->
-</header><!-- End Header -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-</body>
-</html>
-=======
           <li>
             <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
               <i class="bi bi-question-circle"></i>
@@ -185,4 +121,3 @@
   </nav><!-- End Icons Navigation -->
 
 </header><!-- End Header -->
->>>>>>> ff9781c115fa0635d9e7d3b7612acbe08b40a5f9

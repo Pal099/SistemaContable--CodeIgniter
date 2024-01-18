@@ -21,7 +21,7 @@ class Pdf extends CI_Controller {
         $this->load->model("Pdf_model"); // Load the model first
         $pdf = new FPDF();
         $datosProveedor = $this->Pdf_model->obtenerDatos();
-        $pdf->AddPage('P','A4',0);
+        $pdf->AddPage('P','legal',0);
        $pdf->SetFont('Arial','B',12);    
        $textypos = 5;
 
@@ -58,7 +58,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     //Rectangulo para Orden de Pago
     $pdf->setY(3);
     $pdf->setX(210);
-    $pdf->Rect(153,$pdf->GetY(), 51, 25);
+    $pdf->Rect(153,$pdf->GetY(), 57, 25);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
@@ -68,7 +68,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     //Rectangulo para Datos del Egreso
     $pdf->setY(33);
     $pdf->setX(90);
-    $pdf->Rect(110,$pdf->GetY(), 94, 33);
+    $pdf->Rect(110,$pdf->GetY(), 100, 33);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
@@ -77,7 +77,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     //Rectangulo para Documentos Adjuntos
     $pdf->setY(72);
     $pdf->setX(10);
-    $pdf->Rect(6,$pdf->GetY(), 198, 35);
+    $pdf->Rect(6,$pdf->GetY(), 204, 35);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
@@ -86,18 +86,25 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     //Rectangulo para Imputación Presupuestaria
     $pdf->setY(112);
     $pdf->setX(10);
-    $pdf->Rect(6,$pdf->GetY(), 198, 100);
+    $pdf->Rect(6,$pdf->GetY(), 204, 87);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
          //----------------//------------------------------------
 
-    //Rectangulo para Imputación Retencion aplicada
-    $pdf->setY(215);
+    //Rectangulo para Retencion aplicada
+    $pdf->setY(203);
     $pdf->setX(6);
-    $pdf->Rect(6,$pdf->GetY(), 198, 75);
+    $pdf->Rect(6,$pdf->GetY(), 204, 130);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
+
+
+
+
+
+
+    //---------------//-------------------------------//-----------------
 
        $datosProveedor = $this->Pdf_model->obtenerDatos();
 
@@ -530,13 +537,13 @@ $pdf->Cell(5, $textypos, "Concepto");
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
-$pdf->setX(168);
+$pdf->setX(173);
 $pdf->Cell(5, $textypos, "Importe del Egreso");
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(123);
 $pdf->setX(6);
-$pdf->Cell(5, $textypos, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+$pdf->Cell(5, $textypos, "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
 
 
@@ -544,8 +551,237 @@ $pdf->Cell(5, $textypos, "------------------------------------------------------
 
 
 
+//-------------------------------------- Retenciones aplicadas -----------------------------------//-----------------
+
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->setY(205);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Retenciones aplicadas");
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(215);
+$pdf->setX(33);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(215);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Retencion IVA: ");
 
 
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(223);
+$pdf->setX(38);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(223);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Retencion Renta: ");
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(231);
+$pdf->setX(42);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(231);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Ret. Ley 2051 0,4%: ");
+
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(239);
+$pdf->setX(46);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(239);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Retencion Jubilatorio: ");
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(215);
+$pdf->setX(98);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(215);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Anticipo: ");
+
+
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(223);
+$pdf->setX(108);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(223);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Fondo Reparo: ");
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(231);
+$pdf->setX(119);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(231);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Multa Incumplimiento: ");
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(239);
+$pdf->setX(105);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(239);
+$pdf->setX(80);
+$pdf->Cell(5, $textypos, "Otras Reten.: ");
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(215);
+$pdf->setX(173);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(215);
+$pdf->setX(150);
+$pdf->Cell(5, $textypos, "Total Gastos: ");
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(223);
+$pdf->setX(178);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(223);
+$pdf->setX(150);
+$pdf->Cell(5, $textypos, "Retenciones (-): ");
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(231);
+$pdf->setX(175);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(231);
+$pdf->setX(150);
+$pdf->Cell(5, $textypos, "Neto Pagado: ");
+
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(250);
+$pdf->setX(23);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(250);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Son Gs.: ");
+
+
+
+//-----------------------//-------------------------------------------------
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(260);
+$pdf->setX(26);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(260);
+$pdf->setX(7);
+$pdf->Cell(5, $textypos, "Concepto: ");
+
+
+
+
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->setY(275);
+$pdf->setX(60);
+$pdf->Cell(5, $textypos, "SE DISPONE EL PAGO DE LA SIGUIENTE OBLIGACION: ");
+
+
+
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 9);
+$pdf->setY(320);
+$pdf->setX(12);
+$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->setY(325);
+$pdf->setX(16);
+$pdf->Cell(5, $textypos, "Dir. Gral. de Admin. y Finanzas ");
+
+
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 9);
+$pdf->setY(320);
+$pdf->setX(150);
+$pdf->Cell(5, $textypos, "Prof. Dr. Julio Cesar Meaurio Leiva");
+
+//----------------------------//----------------------------------------
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->setY(325);
+$pdf->setX(170);
+$pdf->Cell(5, $textypos, "Vicerrector ");
+
+
+
+//------------------------//-----------------------------------------
+$nombreUsuario = $this->session->userdata('Nombre_usuario');
+
+$pdf->SetFont('Arial', 'B', 8);
+$pdf->setY(325);
+$pdf->setX(170);
+$pdf->Cell(5, $textypos, $nombreUsuario);
 
         $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );
    }
