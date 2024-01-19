@@ -32,16 +32,18 @@
       </div><!-- End Page Title -->
 
       <h2>Listado de Ejecuciones Presupuestarias</h2>
-      <table id="example1" class="table table-bordered">
+      <table id="TablaPresupuesto" class="table table-hover table-sm rounded-3">
           <thead>
               <tr>
-                  <th>Origen de Financiamiento</th>
-                  <th>Fuente de Financiamiento</th>
-                  <th>Programa</th>
+                  <th>OF</th>
+                  <th>FF</th>
+                  <th>PROG</th>
                   <th>Cuenta</th>
                   <th>Presupuesto Inicial</th>
-                  <th>Presupuesto Modificado</th>
+                  <th>Aumento/Disminución<br> Presupuestaria</th>
+                  <th>Presupuesto Vigente</th>
                   <th>Obligado</th>
+                  <th>SaldoPresupuestario</th>
                   <th>Pagado</th>
               </tr>
           </thead>
@@ -55,7 +57,9 @@
                     <td><?php echo $ep->Idcuentacontable; ?></td>
                     <td><?php echo $ep->TotalPresupuestado; ?></td>
                     <td><?php echo $ep->TotalModificado; ?></td>
+                    <td><?php echo $ep->Vigente; ?></td>
                     <td><?php echo $ep->Obligado; ?></td>
+                    <td><?php echo $ep->SaldoPresupuestario; ?></td>
                     <td><?php echo $ep->Pagado; ?></td>
                 </tr>
             <?php endif; ?>

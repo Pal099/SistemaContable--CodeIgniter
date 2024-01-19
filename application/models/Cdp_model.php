@@ -268,6 +268,9 @@ public function getUsuarioId($nombre){
         presupuestos.pre_oct,
         presupuestos.pre_nov,
         presupuestos.pre_dic,
+        (presupuestos.TotalPresupuestado + presupuestos.TotalModificado) as Vigente,
+        IFNULL(SUM(num_asi_deta.Debe), 0) as Obligado,
+        ((presupuestos.TotalPresupuestado + presupuestos.TotalModificado) - IFNULL(SUM(num_asi_deta.Debe), 0)) as SaldoPresupuestario,
         SUM(num_asi_deta.Debe) as total_debe_cuenta,
     ');
 

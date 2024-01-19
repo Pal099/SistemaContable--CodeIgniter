@@ -150,48 +150,69 @@
                                 <table id="tabla" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Origen de Financiamiento</th>
-                                            <th>Fuente de Financiamiento</th>
-                                            <th>Programa</th>
-                                            <th>Código de Cuenta</th>
-                                            <th>Descripción de Cuenta</th>
                                             <th>Numero de asiento</th>
+
+                                            <th>Programa</th>
+                                            <th>SubPrograma</th>
+                                            <th>Código de Cuenta</th>
+                                            <th>O.F.</th>
+                                            <th>F.F.</th>
+                                            <th>Descripción de Cuenta</th>
                                             <th>Presupuesto Vigente</th>
-                                            <th>CDP Anteriores</th>
-                                            <th>CDP Actual</th>
+                                            <th>Reserva Presupuestaria</th>
+
+                                            <th>Obligado Actual</th>
+                                            <th>Obligado Acumulado</th>
+
+                                            <th>Saldo Anterior</th>
                                             <th>Saldo Disponible</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php foreach ($datos_vista as $dato): ?>
                                             <tr>
-                                                <td>
-                                                    <?= $dato['nombre_origen'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $dato['nombre_fuente'] ?>
+                                                
+                                             <td>
+                                                    <?= $dato['numero_asiento'] ?>
                                                 </td>
                                                 <td>
                                                     <?= $dato['nombre_programa'] ?>
+                                                </td>
+                                                
+                                                <td>
+                                                    0
                                                 </td>
                                                 <td>
                                                     <?= $dato['Codigo_CC'] ?>
                                                 </td>
                                                 <td>
+                                                    <?= $dato['nombre_fuente'] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $dato['nombre_origen'] ?>
+                                                </td>
+
+                                                <td>
                                                     <?= $dato['Descripcion_CC'] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $dato['numero_asiento'] ?>
+                                                    <?= $dato['Vigente'] ?>
                                                 </td>
+                                                
                                                 <td>
-                                                    <?= $dato['pre_ene'] + $dato['pre_feb'] + $dato['pre_mar'] + $dato['pre_abr'] + $dato['pre_may'] + $dato['pre_jun'] + $dato['pre_jul'] + $dato['pre_ago'] + $dato['pre_sep'] + $dato['pre_oct'] + $dato['pre_nov'] + $dato['pre_dic'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $dato['total_debe_cuenta'] ?>
+                                                    0
                                                 </td>
                                                 <td>
                                                     <?= $dato['debe_num_asi_deta'] ?>
                                                 </td>
+                                                <td>
+                                                    <?= $dato['total_debe_cuenta'] ?>
+                                                </td>
+                                                
+                                                <td>
+                                                    <?= $dato['pre_ene'] + $dato['pre_feb'] + $dato['pre_mar'] + $dato['pre_abr'] + $dato['pre_may'] + $dato['pre_jun'] + $dato['pre_jul'] + $dato['pre_ago'] + $dato['pre_sep'] + $dato['pre_oct'] + $dato['pre_nov'] + $dato['pre_dic'] ?>
+                                                </td>
+
                                                 <td>
                                                     <?= $dato['pre_ene'] + $dato['pre_feb'] + $dato['pre_mar'] + $dato['pre_abr'] + $dato['pre_may'] + $dato['pre_jun'] + $dato['pre_jul'] + $dato['pre_ago'] + $dato['pre_sep'] + $dato['pre_oct'] + $dato['pre_nov'] + $dato['pre_dic'] - $dato['total_debe_cuenta'] ?>
                                                 </td>

@@ -4,29 +4,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class EjecucionP_model extends CI_Model {
 
 	public function getSumaDebePorCuenta() {
-		$this->db->select('
-        p.origen_de_financiamiento_id_of,
-        p.fuente_de_financiamiento_id_ff,
-        p.programa_id_pro,
-        p.Idcuentacontable,
-        p.Año,
-        p.TotalPresupuestado,
-        p.TotalModificado,
-        IFNULL(SUM(d.Debe), 0) as Obligado,
-        IFNULL(SUM(d.Haber), 0) as Pagado
-    ');
-    $this->db->from('presupuestos p'); // Asegúrate de que el nombre de la tabla sea correcto
-    $this->db->join('cuentacontable c', 'p.Idcuentacontable = c.IDCuentaContable');
-    $this->db->join('num_asi_deta d', 'c.IDCuentaContable = d.IDCuentaContable', 'left');
-    $this->db->group_by('p.Idcuentacontable, p.ID_Presupuesto');
-    $query = $this->db->get();
+                $this->db->select('
+                p.origen_de_financiamiento_id_of,
+                p.fuente_de_financiamiento_id_ff,
+                p.programa_id_pro,
+                p.Idcuentacontable,
+                p.Año,
+                p.TotalPresupuestado,
+                p.TotalModificado,
+                (p.TotalPresupuestado + p.TotalModificado) as Vigente,
+                IFNULL(SUM(d.Debe), 0) as Obligado,
+                ((p.TotalPresupuestado + p.TotalModificado) - IFNULL(SUM(d.Debe), 0)) as SaldoPresupuestario,
+                IFNULL(SUM(d.Haber), 0) as Pagado
+            ');
+            $this->db->from('presupuestos p'); // Asegúrate de que el nombre de la tabla sea correcto
+            $this->db->join('cuentacontable c', 'p.Idcuentacontable = c.IDCuentaContable');
+            $this->db->join('num_asi_deta d', 'c.IDCuentaContable = d.IDCuentaContable', 'left');
+            $this->db->group_by('p.Idcuentacontable, p.ID_Presupuesto');
+            $query = $this->db->get();
 
-    if ($query->num_rows() > 0) {
-        return $query->result();
-    } else {
-        return false;
+            if ($query->num_rows() > 0) {
+                return $query->result();
+            } else {
+                return false;
+            }
     }
-}
 
 	
 
