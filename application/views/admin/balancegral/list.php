@@ -11,7 +11,6 @@
     var logoDataURL = '<?php echo site_url("dataTablePDF/ImageController/getimagedataurl"); ?>';
     </script>
     <script src="<?php echo base_url(); ?>/assets/js/obtener_logo.js"></script>
-
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- Estilos de DataTable button -->
@@ -23,6 +22,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+                <li class="breadcrumb-item">Balances</li>
                 <li class="breadcrumb-item">Balance General</li>
             </ol>
         </nav>
@@ -212,44 +212,92 @@
                     startY += lineHeight;
                 });
 
-                var tableData = [];
-                <?php foreach ($cuentas as $cuenta) : ?>
-                tableData.push(['<?= $cuenta->Codigo_CC ?>', '<?= $cuenta->Descripcion_CC ?>',
-                    '<?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?>'
-                ]);
-                <?php if (isset($cuenta->cuentasHijas)) : ?>
-                <?php foreach ($cuenta->cuentasHijas as $cuentaHija) : ?>
-                tableData.push(['<?= $cuentaHija->Codigo_CC ?>', '<?= $cuentaHija->Descripcion_CC ?>',
-                    '<?= isset($cuentaHija->TotalDebe) ? number_format($cuentaHija->TotalDebe, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuentaHija->TotalHaber) ? number_format($cuentaHija->TotalHaber, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuentaHija->TotalDeudor) ? number_format($cuentaHija->TotalDeudor, 0, ',', '.') : 0 ?>',
-                    '<?= isset($cuentaHija->TotalAcreedor) ? number_format($cuentaHija->TotalAcreedor, 0, ',', '.') : 0 ?>'
-                ]);
-                <?php endforeach; ?>
-                <?php endif; ?>
-                <?php endforeach; ?>
+                // **--------Acá se procesa los datos de la tabla para poder agregar al documento--------**
+                var cuentas = <?php echo json_encode($cuentas); ?>;
 
-                /* Acá comienza la configuracion de la tabla */
+                // El array donde iran los datos
+                var tableData = [];
+
+                // Función para agregar datos al array tableData
+                function agregarDatosCuenta(cuenta) {
+                    var row = [];
+                    row.push(cuenta.Codigo_CC);
+                    row.push(cuenta.Descripcion_CC);
+                    row.push(cuenta.TotalDebe ? Number(cuenta.TotalDebe).toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : 0);
+                    row.push(cuenta.TotalHaber ? Number(cuenta.TotalHaber).toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : 0);
+                    row.push(cuenta.TotalDeudor ? Number(cuenta.TotalDeudor).toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : 0);
+                    row.push(cuenta.TotalAcreedor ? Number(cuenta.TotalAcreedor).toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : 0);
+                    tableData.push(row);
+                    if (cuenta.cuentasHijas) {
+                        cuenta.cuentasHijas.forEach(agregarDatosCuenta);
+                    }
+                }
+
+                // Se llama a la función agregarDatosCuenta para cada cuenta
+                cuentas.forEach(agregarDatosCuenta);
+
+                // **--------Acá termina de procesar los datos--------**
+
+                /* ---------------Acá Comienza el footer--------------- */
+                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+                var margin = 10;
+                var totalPagesExp;
+
+                // Define la función de pie de página
+                var pageFooter = function(pageNumber, pageCount) {
+                    var text = 'Página ' + pageNumber + ' de ' + pageCount;
+
+                    // Posiciona el texto en el centro del pie de página
+                    var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal
+                        .scaleFactor;
+                    var textHeight = doc.internal.getLineHeight();
+
+                    doc.text(text, (doc.internal.pageSize.width - textWidth) / 2, pageHeight - margin);
+                };
+                /* ---------------Acá termina el footer--------------- */
+
+                // Configuración de la tabla
                 var headerStyles = {
                     fillColor: '#020971',
-                    textColor: '#ffffff', // Color del texto del encabezado 
-                    fontStyle: 'bold' // negrita
+                    textColor: '#ffffff',
+                    fontStyle: 'bold'
                 };
-                doc.autoTable({
+                var bodyStyles = {
+                    cellPadding: 2,
+                    fontSize: 10
+                };
+                var options = {
                     head: [
                         ['Número de Cuenta', 'Descripción de la Cuenta', 'Total Debe', 'Total Haber',
                             'Total Deudor', 'Total Acreedor'
                         ]
                     ],
                     body: tableData,
-                    startY: 40, //donde comienza la tabla
-                    headStyles: headerStyles // Estilos del header
-                });
+                    startY: 40,
+                    headStyles: headerStyles,
+                    bodyStyles: bodyStyles,
+                    willDrawPage: function(data) {
+                        // Se llama a la función de pie de página antes de dibujar la página
+                        pageFooter(data.pageNumber, totalPagesExp || data.pageCount);
+                    }
+                };
 
-                // se guarda el archivo segun el nombre deseado del documento
+                // Crear la tabla
+                doc.autoTable(options);
+
+                // Se guarda el archivo segun el nombre deseado del documento
                 doc.save(nombreArchivo);
             } catch (error) {
                 console.error('Error al cargar la imagen:', error);
