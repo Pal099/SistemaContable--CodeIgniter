@@ -980,13 +980,12 @@
         });
         </script>
 
-        <!--         <script>
+        <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
             document.getElementById('Debe').addEventListener('input', function () {
                 document.getElementById('MontoPago').value = this.value;
             });
         </script>
- -->
         <script>
         // Agrega esta pequeña función de JavaScript para actualizar Comprobante al ingresar el Debe
         document.getElementById('comprobante').addEventListener('input', function() {
