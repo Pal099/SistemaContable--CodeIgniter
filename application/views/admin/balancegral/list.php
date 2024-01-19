@@ -154,8 +154,10 @@
             const doc = new jsPDF();
             try {
                 const logoDataURL = await getImageDataURL(); //Funcion para obtener la imagen
-                doc.addImage(logoDataURL, 'PNG', 30, 14, 25,
-                    0); // Orden de coordenadas: izquierda, arriba, ancho, altura
+                doc.addImage(logoDataURL, 'PNG', 30, 14, 25, 0); // Orden de coordenadas: izquierda, arriba, ancho, altura
+
+                //Variable para la cantidad de paginas del footer
+                var totalPagesExp = "{total_pages_count_string}";
 
                 // Varaibles para poder sacar la fecha
                 var fechaActual = new Date();
@@ -250,24 +252,6 @@
 
                 // **--------Acá termina de procesar los datos--------**
 
-                /* ---------------Acá Comienza el footer--------------- */
-                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-                var margin = 10;
-                var totalPagesExp;
-
-                // Define la función de pie de página
-                var pageFooter = function(pageNumber, pageCount) {
-                    var text = 'Página ' + pageNumber + ' de ' + pageCount;
-
-                    // Posiciona el texto en el centro del pie de página
-                    var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal
-                        .scaleFactor;
-                    var textHeight = doc.internal.getLineHeight();
-
-                    doc.text(text, (doc.internal.pageSize.width - textWidth) / 2, pageHeight - margin);
-                };
-                /* ---------------Acá termina el footer--------------- */
-
                 // Configuración de la tabla
                 var headerStyles = {
                     fillColor: '#020971',
@@ -288,14 +272,31 @@
                     startY: 40,
                     headStyles: headerStyles,
                     bodyStyles: bodyStyles,
-                    willDrawPage: function(data) {
-                        // Se llama a la función de pie de página antes de dibujar la página
-                        pageFooter(data.pageNumber, totalPagesExp || data.pageCount);
+                    //Este es el código del footer
+                    didDrawPage: function(data) {
+                        // Número de página, centrado
+                        var str = "Página " + doc.internal.getNumberOfPages()
+                        // Total de páginas número plugin sólo en nuevas páginas
+                        if (typeof doc.putTotalPages === 'function') {
+                            str = str + " de " + totalPagesExp;
+                        }
+                        doc.setFontSize(10);
+                        var pageSize = doc.internal.pageSize;
+                        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                        doc.text(str, data.settings.margin.left, pageHeight - 10);
+                    },
+                    margin: {
+                        top: 10
                     }
                 };
 
                 // Crear la tabla
                 doc.autoTable(options);
+
+                // Total de páginas, este es el plugin para calcular la totalidad de paginas
+                if (typeof doc.putTotalPages === 'function') {
+                    doc.putTotalPages(totalPagesExp);
+                }
 
                 // Se guarda el archivo segun el nombre deseado del documento
                 doc.save(nombreArchivo);

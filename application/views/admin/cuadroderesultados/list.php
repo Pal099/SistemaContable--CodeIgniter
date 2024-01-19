@@ -22,35 +22,29 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+                <li class="breadcrumb-item">Balances</li>
                 <li class="breadcrumb-item">Cuadro de Resultados</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 ">
+                    <div class="mt-4">
                         <h1>Cuadro de Resultados</h1>
-                    </div>
-                    <div class="col-md-6 mt-2 ">
-                        <div class="d-flex justify-content-md-end">
-                            <button type="button" class="btn btn-success"
-                                onclick="window.open('<?php echo base_url(); ?>mantenimiento/Balance_Gral/GenerarExcel')">
-                                <i class="bi bi-file-pdf"></i> Excel
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
             <!-- fin del encabezado -->
+            <hr> <!-- barra separadora -->
             <section class="seccion_balance_general">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="container-fluid mt-4">
+                        <div class="container-fluid mt-2">
                             <div class="row justify-content-center">
                                 <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <table class="table table-hover table-sm align-middle"
+                                    <div class="card border">
+                                        <div class="card-body mt-4">
+                                            <table class="table table-hover table-sm align-middle mt-4"
                                                 id="TablaCuadroResultado">
                                                 <thead>
                                                     <tr>
@@ -163,6 +157,9 @@
                 doc.addImage(logoDataURL, 'PNG', 30, 14, 25,
                     0); // Orden de coordenadas: izquierda, arriba, ancho, altura
 
+                //Variable para la cantidad de paginas del footer
+                var totalPagesExp = "{total_pages_count_string}";
+
                 // Varaibles para poder sacar la fecha
                 var fechaActual = new Date();
                 var dd = fechaActual.getDate();
@@ -255,26 +252,7 @@
 
                 // --------Acá termina de procesar los datos--------
 
-                /* ---------------Acá Comienza el footer--------------- */
-                var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
-                var margin = 10;
-                var totalPagesExp;
-
-                // Define la función de pie de página
-                var pageFooter = function(pageNumber, pageCount) {
-                    var text = 'Página ' + pageNumber + ' de ' + pageCount;
-
-                    // Posiciona el texto en el centro del pie de página
-                    var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal
-                        .scaleFactor;
-                    var textHeight = doc.internal.getLineHeight();
-
-                    doc.text(text, (doc.internal.pageSize.width - textWidth) / 2, pageHeight - margin);
-                };
-                /* ---------------Acá termina el footer--------------- */
-
                 /* Acá comienza la configuracion de la tabla */
-                // Configuración de la tabla
                 var headerStyles = {
                     fillColor: '#020971',
                     textColor: '#ffffff',
@@ -294,17 +272,31 @@
                     startY: 40,
                     headStyles: headerStyles,
                     bodyStyles: bodyStyles,
-                    willDrawPage: function(data) {
-                        // Llama a la función de pie de página antes de dibujar la página
-                        pageFooter(data.pageNumber, totalPagesExp || data.pageCount);
+                    //Este es el código del footer
+                    didDrawPage: function(data) {
+                        // Número de página, centrado
+                        var str = "Página " + doc.internal.getNumberOfPages()
+                        // Total de páginas número plugin sólo en nuevas páginas
+                        if (typeof doc.putTotalPages === 'function') {
+                            str = str + " de " + totalPagesExp;
+                        }
+                        doc.setFontSize(10);
+                        var pageSize = doc.internal.pageSize;
+                        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                        doc.text(str, data.settings.margin.left, pageHeight - 10);
+                    },
+                    margin: {
+                        top: 10
                     }
                 };
 
                 // Crear la tabla
                 doc.autoTable(options);
 
-                // Llama a la función de pie de página para la primera página
-
+                // Total de páginas, este es el plugin para calcular la totalidad de paginas
+                if (typeof doc.putTotalPages === 'function') {
+                    doc.putTotalPages(totalPagesExp);
+                }
 
                 // Se guarda el archivo segun el nombre deseado del documento
                 doc.save(nombreArchivo);
