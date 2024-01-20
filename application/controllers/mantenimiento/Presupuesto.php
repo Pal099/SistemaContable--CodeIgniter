@@ -251,7 +251,8 @@ class Presupuesto extends CI_Controller
 			'estado' => "0",
 		);
 		$this->Presupuesto_model->update($id, $data);
-		echo "mantenimiento/presupuesto";
+		redirect(base_url() . "mantenimiento/presupuesto");
+	
 	}
 
 	public function getPresupuestoDetalle($id) {

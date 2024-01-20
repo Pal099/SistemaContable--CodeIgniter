@@ -132,6 +132,6 @@ class Origen extends CI_Controller {
 			'estado' => "0", 
 		);
 		$this->Origen_model->update($id,$data);
-		$this->load->view("admin/origen/listorigen/");
+		redirect(base_url() . "registro/origen");
 	}
 }
