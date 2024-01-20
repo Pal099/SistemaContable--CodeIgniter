@@ -1,8 +1,6 @@
 <head>
   <!-- DataTables CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha384-o3O+/NvJROq4CK94LqT62USeM5dRrVo5n2t51vZafQgMOizMz5aQQVNi0HHca8w4" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha384-o3O+/NvJROq4CK94LqT62USeM5dRrVo5n2t51vZafQgMOizMz5aQQVNi0HHca8w4" crossorigin="anonymous">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -41,7 +39,7 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
@@ -60,15 +58,18 @@
                       <td>
                         <?php echo $fuente->nombre; ?>
                       </td>
-                      <td>
-    <a href="<?php echo base_url(); ?>registro/financiamiento/edit/<?php echo isset($fuente->id_ff) ? $fuente->id_ff : ''; ?>" class="btn btn-warning btn-xs">
-    <i class="fa fa-edit"></i> Editar
-</a>
-
-    <a href="#" data-href="<?php echo base_url(); ?>registro/financiamiento/<?php echo isset($fuente->id_ff) ? $fuente->id_ff : ''; ?>" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#confirm-delete">
-        <i class="fa fa-trash"></i> Eliminar
-    </a>
-</td>
+<td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                 
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>registro/financiamiento/edit/<?php echo  $fuente->id_ff; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>registro/financiamiento/<?php echo $fuente->id_ff; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
 
 
                     </tr>

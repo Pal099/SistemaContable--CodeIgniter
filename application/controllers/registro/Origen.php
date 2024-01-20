@@ -89,6 +89,7 @@ class Origen extends CI_Controller {
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/origen/editorigen",$data);
 		$this->load->view("layouts/footer");
+		$this->load->view("admin/origen/listorigen/",$data);
 	}
     public function update(){
 		$idOrigen = $this->input->post("idOrigen");
@@ -110,7 +111,7 @@ class Origen extends CI_Controller {
 				'codigo' => $codigo,
 			);
 	
-			if ($this->Origen_model->updateOrigen($idOrigen, $data)) {
+			if ($this->Origen_model->update($idOrigen, $data)) {
 				redirect(base_url()."registro/origen");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo actualizar la informacion");
@@ -124,13 +125,13 @@ class Origen extends CI_Controller {
 		$data  = array(
 			'origenes' => $this->Origen_model->getOrigen($id), 
 		);
-		$this->load->view("admin/origen/vieworigen",$data);
+		$this->load->view("admin/origen/listorigen/",$data);
 	}
     public function delete($id){
 		$data  = array(
 			'estado' => "0", 
 		);
-		$this->Origen_model->updateOrigen($id,$data);
-		echo "registro/origen";
+		$this->Origen_model->update($id,$data);
+		$this->load->view("admin/origen/listorigen/");
 	}
 }
