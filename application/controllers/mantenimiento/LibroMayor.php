@@ -23,12 +23,13 @@ class LibroMayor extends CI_Controller {
         $nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-
+        
         $data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu); // Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
         $this->load->view('admin/libro/librolist'); // Cambiado de 'index' a 'librolist'
