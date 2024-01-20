@@ -589,7 +589,7 @@
                                             <?= $asi->numero ?>
                                         </td>
                                         <td>
-                                            <?= date('Y-m-d H:i', strtotime($asi->fecha)) ?>
+                                            <?= $asi->fecha ?>
                                         </td>
                                         <td hidden>
                                             <?= $asi->concepto ?>
@@ -645,42 +645,38 @@
         function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta,) {
 
             var descripcionConPrefijo = 'A.P. ' + descrip;
+            //var descripcionConPrefijo2 = 'A.P.' + descrip;
             var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
+            //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
 
-            // Convertir la cadena de fecha a un objeto Date
-            var fechaObj = new Date(fechas);
-            // Obtener la fecha y hora en formato localizado
-            var año = fechaObj.getFullYear();
-            var mes = (fechaObj.getMonth() + 1).toString().padStart(2, '0');
-            var dia = fechaObj.getDate().toString().padStart(2, '0');
-            var horas = fechaObj.getHours().toString().padStart(2, '0');
-            var minutos = fechaObj.getMinutes().toString().padStart(2, '0');
-            var fechaFormateada = año + '-' + mes + '-' + dia + ' ' + horas + ':' + minutos;
-            // Actualizar los campos de texto en la vista principal
+            
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
-            document.getElementById('fecha').value = fechaFormateada;
+            document.getElementById('fecha').value = fechas;
             document.getElementById('concepto').value = concepto;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
+            //Prueba '&descripcion2=' + descripcionCodificada2
             $.ajax({
                 type: 'GET',
-                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada,
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada ,
                 data: { descripcionConPrefijo },
                 success: function (respuesta) {
                     // Dividir la cadena de respuesta en un array usando la coma como separador
                     var valores = respuesta.split(',');
-
+                    
                     // Asignar los valores a los campos correspondientes
                     $('#idcuentacontable').val(valores[1]);
                     $('#codigo_cc').val(valores[2]);
                     $('#descripcion_cc').val(valores[3]);
 
                     // Imprimir los valores en la consola para verificar
+                    
                     console.log(valores[1], "+", valores[2], "+", valores[3]);
+                   
                 },
                 error: function (xhr, status, error) {
                     console.error('Error en la solicitud AJAX');
@@ -722,9 +718,7 @@
             const dia = fecha.getDate().toString().padStart(2, '0');
             const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
             const año = fecha.getFullYear();
-            const horas = fecha.getHours().toString().padStart(2, '0');
-            const minutos = fecha.getMinutes().toString().padStart(2, '0');
-            return `${año}-${mes}-${dia}T${horas}:${minutos}`;
+            return `${año}-${mes}-${dia}`;
         }
 
         // Preestablecer el campo de fecha con la fecha y hora actual

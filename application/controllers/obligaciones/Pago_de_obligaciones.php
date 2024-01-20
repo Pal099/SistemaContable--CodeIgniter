@@ -233,13 +233,19 @@ class Pago_de_obligaciones extends CI_Controller
 	{
 		// Obtener la descripción desde la URL
 		$descripcionConPrefijo = urldecode($_GET['descripcion']);
-	
+		//$descripcionConPrefijo2 = urldecode($_GET['descripcion2']);
 		// Utilizar la descripción completa con el prefijo "A.P."
-		$descripcionn = $descripcionConPrefijo;
-	
+		$descripcion = $descripcionConPrefijo;
+		//$descripcion2 = $descripcionConPrefijo2;
+
 		// Aquí deberías utilizar tu lógica para obtener información basada en la descripción desde la base de datos
-		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcionn);
-	
+		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion);
+
+		/*if (is_null($informacion['IDCuentaContable'])) {
+			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
+		}^*/
+		
+
 		if ($informacion) {
 			// Imprimir los valores directamente
 			echo $informacion . ',' . $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];
