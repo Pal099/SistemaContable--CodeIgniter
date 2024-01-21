@@ -26,24 +26,26 @@
                         <h1>Diario de Obligación</h1>
                     </div>
                     <div class="col-md-6 mt-4 ">
-                        <div class="d-flex gap-2 justify-content-md-end">
-                            <div class="form-check form-switch mt-2 " style="font-size: 17px;">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <div class="form-check form-switch mt-2">
                                 <input class="form-check-input" type="checkbox" role="switch"
                                     id="camposOpcionalesSwitch">
-                                <label class="form-check-label" for="camposOpcionalesSwitch">Campos Opcionales</label>
+                                <label class="form-check-label" for="camposOpcionalesSwitch">Campos
+                                    Opcionales</label>
                             </div>
-                            <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                data-bs-target="#modalContainer_proveedores">
-                                <i class="bi bi-plus"></i>
-                            </button>
-
-                            <button type="button" class="btn btn-pdf"
-                                onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
-                                <i class="bi bi-file-pdf"></i> PDF
-                            </button>
-                            <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
-                                <i class="bi bi-file-excel"></i> Excel
-                            </button>
+                            <div class="btn-group " role="group">
+                                <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                    data-bs-target="#modalContainer_proveedores">
+                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Generar PDF"
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-success" title="Generar EXCEL" id="openModalBtn">
+                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,8 +61,9 @@
                                     <div class="col-md-12">
                                         <div class="card border">
                                             <div class="card-body">
-                                                <div class="row mt-4">
-
+                                                <h4 class="mt-4">Obligación</h4>
+                                                <hr><!-- Separador -->
+                                                <div class="row row g-3 align-items-center mt-2">
                                                     <?php
                                                     $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
                                                     if ($conexion->connect_error) {
@@ -171,372 +174,383 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                    id="miTabla">
+
+                                                    <thead class="align-middle">
+                                                        <tr>
+                                                            <th class="columna-ancha">Prog</th>
+                                                            <th class="columna-fuente">F.F.</th>
+                                                            <th class="columna-origen">O.F.</th>
+                                                            <th class="columna-ctncontable">Cuenta Contable</th>
+                                                            <th>Comprobante</th>
+                                                            <th>Detalles</th>
+                                                            <th class="columna-hidden">Monto de Pago</th>
+                                                            <th>Debe</th>
+                                                            <th>Haber</th>
+                                                            <th class="columna-hidden">Cheque</th>
+                                                            <th>Nuevo</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="align-items-center">
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_pro" name="id_pro">
+                                                                        <?php foreach ($programa as $prog): ?>
+                                                                        <option value="<?php echo $prog->id_pro; ?>">
+                                                                            <?php echo $prog->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_ff" name="id_ff" required>
+                                                                        <?php foreach ($fuente_de_financiamiento as $ff): ?>
+                                                                        <option value="<?php echo $ff->id_ff; ?>">
+                                                                            <?php echo $ff->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_of" name="id_of" required>
+                                                                        <?php foreach ($origen_de_financiamiento as $of): ?>
+                                                                        <option value="<?php echo $of->id_of; ?>">
+                                                                            <?php echo $of->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <input type="hidden" class="form-control"
+                                                                        id="idcuentacontable" name="idcuentacontable">
+                                                                    <input style="width: 40%; font-size: small;"
+                                                                        type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="codigo_cc" name="codigo_cc" required>
+                                                                    <input style="font-size: small;" type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="descripcion_cc" name="descripcion_cc">
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCuentasCont1"
+                                                                        class="btn btn-sm btn-outline-primary"
+                                                                        id="openModalBtn_3">
+                                                                        <i class="bi bi-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="comprobante" name="comprobante">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="detalles" name="detalles" required>
+                                                                </div>
+                                                            </td>
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="MontoPago" name="MontoPago" readonly>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <?php if (isset($Debe)): ?>
+                                                                    <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="Debe" name="Debe"
+                                                                        value="<?php echo $Debe_value; ?>">
+                                                                    <?php else: ?>
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="Debe" name="Debe"
+                                                                        oninput="formatNumber('Debe')">
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="Haber" name="Haber" required>
+                                                                </div>
+                                                            </td>
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="cheques_che_id" name="cheques_che_id">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-primary border-0 agregarFila">
+                                                                        <i class="bi bi-plus-square"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="filaBase" class="filaBase">
+                                                            <!-- segundo asiento  -->
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_pro_2" name="id_pro_2" required>
+                                                                        <?php foreach ($programa as $prog): ?>
+                                                                        <option value="<?php echo $prog->id_pro; ?>">
+                                                                            <?php echo $prog->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_ff_2" name="id_ff_2" required>
+                                                                        <?php foreach ($fuente_de_financiamiento as $ff): ?>
+                                                                        <option value="<?php echo $ff->id_ff; ?>">
+                                                                            <?php echo $ff->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_of_2" name="id_of_2" required>
+                                                                        <?php foreach ($origen_de_financiamiento as $of): ?>
+                                                                        <option value="<?php echo $of->id_of; ?>">
+                                                                            <?php echo $of->codigo; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <input type="hidden"
+                                                                        class="form-control border-0 bg-transparent idcuentacontable_2"
+                                                                        id="idcuentacontable_2"
+                                                                        name="idcuentacontable_2">
+                                                                    <input style="font-size: small; width: 40%"
+                                                                        type="text"
+                                                                        class="form-control border-0 bg-transparent codigo_cc_2"
+                                                                        id="codigo_cc_2" name="codigo_cc_2" required>
+                                                                    <input style="font-size: small;" type="text"
+                                                                        class="form-control border-0 bg-transparent descripcion_cc_2"
+                                                                        id="descripcion_cc_2" name="descripcion_cc_2">
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCuentasCont2"
+                                                                        class="btn btn-sm btn-outline-primary openModalBtn_4"
+                                                                        id="botonBuscar2">
+                                                                        <i class="bi bi-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="comprobante_2" name="comprobante_2">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="detalles_2" name="detalles_2">
+                                                                </div>
+                                                            </td>
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="MontoPago_2" name="MontoPago_2" readonly>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="Debe_2" name="Debe_2" required>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <?php if (isset($haber_2)): ?>
+                                                                    <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                        id="Haber_2" name="Haber_2"
+                                                                        value="<?php echo $haber_2_value; ?>">
+                                                                    <?php else: ?>
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent formatoNumero"
+                                                                        id="Haber_2" name="Haber_2"
+                                                                        oninput="formatNumber('Haber_2')">
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                            </td>
+
+                                                            </td>
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="cheques_che_id_2" name="cheques_che_id_2">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-primary border-0 agregarFila">
+                                                                        <i class="bi bi-plus-square"></i>
+                                                                    </button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-danger border-0 eliminarFila"
+                                                                        hidden>
+                                                                        <i class="bi bi-trash3"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table id="miTabla2"
+                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Debe</th>
+                                                            <th>Haber</th>
+                                                            <th>Diferencia</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" id="DebeC" class="form-control">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="HaberC" class="form-control">
+                                                            </td>
+                                                            <td id="diferencia">0</td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <!-- Botones guardar y cancelar -->
+                                                <div class="container-fluid mt-4 mb-3">
+                                                    <div class="col-md-12 d-flex flex-row justify-content-center">
+                                                        <button style="margin-right: 8px;" type="submit"
+                                                            class="btn btn-success btn-primary"><span
+                                                                class="fa fa-save"></span>Guardar</button>
+                                                        <button class="btn btn-danger ml-3"
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                                            <i class="fa fa-remove"></i> Cancelar
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- Tabla -->
-                                <!-- Primer asiento de la obligación  -->
-                                <div class="card border">
-                                    <div class="card-body">
-                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
-                                            id="miTabla">
+                                        <div class="card border">
+                                            <div class="card-body">
+                                                <h4 class="mt-4">Asientos</h4>
+                                                <hr><!-- Separador -->
+                                                <table id="vistaobli"
+                                                    class="table table-hover table-bordered table-sm rounded-3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Numero</th>
+                                                            <th>Fecha de Emisión</th>
+                                                            <th>Proveedor</th>
+                                                            <th>Monto</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php if (!empty($asientos)): ?>
+                                                        <?php foreach ($asientos as $asien): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $asien->num_asi ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->FechaEmision ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->id_provee ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->MontoTotal ?>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalPresupuesto"
+                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-warning btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-remove btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
 
-                                            <thead class="align-middle">
-                                                <tr>
-                                                    <th class="columna-ancha">Prog</th>
-                                                    <th class="columna-fuente">F.F.</th>
-                                                    <th class="columna-origen">O.F.</th>
-                                                    <th class="columna-ctncontable">Cuenta Contable</th>
-                                                    <th>Comprobante</th>
-                                                    <th>Detalles</th>
-                                                    <th class="columna-hidden">Monto de Pago</th>
-                                                    <th>Debe</th>
-                                                    <th>Haber</th>
-                                                    <th class="columna-hidden">Cheque</th>
-                                                    <th>Nuevo</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="align-items-center">
-                                                    <td>
-                                                        <div class="input-group input-group-sm ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_pro" name="id_pro">
-                                                                <?php foreach ($programa as $prog): ?>
-                                                                <option value="<?php echo $prog->id_pro; ?>">
-                                                                    <?php echo $prog->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_ff" name="id_ff" required>
-                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                    <?php echo $ff->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_of" name="id_of" required>
-                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                    <?php echo $of->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <input type="hidden" class="form-control"
-                                                                id="idcuentacontable" name="idcuentacontable">
-                                                            <input style="width: 40%; font-size: small;" type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="codigo_cc" name="codigo_cc" required>
-                                                            <input style="font-size: small;" type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="descripcion_cc" name="descripcion_cc">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#modalCuentasCont1"
-                                                                class="btn btn-sm btn-outline-primary"
-                                                                id="openModalBtn_3">
-                                                                <i class="bi bi-search"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm align-items-center  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="comprobante" name="comprobante">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="detalles" name="detalles" required>
-                                                        </div>
-                                                    </td>
-                                                    <td class="columna-hidden">
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="MontoPago" name="MontoPago" readonly>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <?php if (isset($Debe)): ?>
-                                                            <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="Debe" name="Debe"
-                                                                value="<?php echo $Debe_value; ?>">
-                                                            <?php else: ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="Debe" name="Debe" oninput="formatNumber('Debe')">
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="Haber" name="Haber" required>
-                                                        </div>
-                                                    </td>
-                                                    <td class="columna-hidden">
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="cheques_che_id" name="cheques_che_id">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-outline-primary border-0 agregarFila">
-                                                                <i class="bi bi-plus-square"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr id="filaBase" class="filaBase">
-                                                    <!-- segundo asiento  -->
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_pro_2" name="id_pro_2" required>
-                                                                <?php foreach ($programa as $prog): ?>
-                                                                <option value="<?php echo $prog->id_pro; ?>">
-                                                                    <?php echo $prog->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_ff_2" name="id_ff_2" required>
-                                                                <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                    <?php echo $ff->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <select class="form-control border-0 bg-transparent"
-                                                                id="id_of_2" name="id_of_2" required>
-                                                                <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                    <?php echo $of->codigo; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <input type="hidden"
-                                                                class="form-control border-0 bg-transparent idcuentacontable_2"
-                                                                id="idcuentacontable_2" name="idcuentacontable_2">
-                                                            <input style="font-size: small; width: 40%" type="text"
-                                                                class="form-control border-0 bg-transparent codigo_cc_2"
-                                                                id="codigo_cc_2" name="codigo_cc_2" required>
-                                                            <input style="font-size: small;" type="text"
-                                                                class="form-control border-0 bg-transparent descripcion_cc_2"
-                                                                id="descripcion_cc_2" name="descripcion_cc_2">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#modalCuentasCont2"
-                                                                class="btn btn-sm btn-outline-primary openModalBtn_4"
-                                                                id="botonBuscar2">
-                                                                <i class="bi bi-search"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="comprobante_2" name="comprobante_2">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="detalles_2" name="detalles_2">
-                                                        </div>
-                                                    </td>
-                                                    <td class="columna-hidden">
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="MontoPago_2" name="MontoPago_2" readonly>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent" id="Debe_2"
-                                                                name="Debe_2" required>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group input-group-sm">
-                                                            <?php if (isset($haber_2)): ?>
-                                                            <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent form formatoNumero"
-                                                                id="Haber_2" name="Haber_2"
-                                                                value="<?php echo $haber_2_value; ?>">
-                                                            <?php else: ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent formatoNumero"
-                                                                id="Haber_2" name="Haber_2"
-                                                                oninput="formatNumber('Haber_2')">
-                                                            <?php endif; ?>
-                                                        </div>
-                                                    </td>
-
-                                                    </td>
-                                                    <td class="columna-hidden">
-                                                        <div class="input-group input-group-sm  ">
-                                                            <input type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="cheques_che_id_2" name="cheques_che_id_2">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-outline-primary border-0 agregarFila">
-                                                                <i class="bi bi-plus-square"></i>
-                                                            </button>
-                                                            <button type="button"
-                                                                class="btn btn-outline-danger border-0 eliminarFila"
-                                                                hidden>
-                                                                <i class="bi bi-trash3"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table id="miTabla2"
-                                            class="table table-hover table-bordered table-sm rounded-3 mt-4">
-                                            <thead>
-                                                <tr>
-                                                    <th>Debe</th>
-                                                    <th>Haber</th>
-                                                    <th>Diferencia</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input type="text" id="DebeC" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" id="HaberC" class="form-control">
-                                                    </td>
-                                                    <td id="diferencia">0</td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <!-- Tabla de Num_asi -->
-                                        <h4>Asientos</h4>
-                                        <hr><!-- Separador -->
-                                        <table id="vistaobli"
-                                            class="table table-hover table-bordered table-sm rounded-3">
-                                            <thead>
-                                                <tr>
-                                                    <th>Numero</th>
-                                                    <th>Fecha de Emisión</th>
-                                                    <th>Proveedor</th>
-                                                    <th>Monto</th>
-                                                    <th>Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php if (!empty($asientos)): ?>
-                                                <?php foreach ($asientos as $asien): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $asien->num_asi ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->FechaEmision ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->id_provee ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->MontoTotal ?>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalPresupuesto"
-                                                                value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-pencil-fill"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-remove btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-
-                                                </tr>
-                                                <?php endforeach; ?>
-                                                <?php else: ?>
-                                                <p>No se encontraron datos.</p>
-                                                <?php endif; ?>
-                                            </tbody>
-                                        </table>
-                                        <!-- Botones guardar y cancelar -->
-                                        <div class="container-fluid mt-4 mb-3">
-                                            <div class="col-md-12 d-flex flex-row justify-content-center">
-                                                <button style="margin-right: 8px;" type="submit"
-                                                    class="btn btn-success btn-primary"><span
-                                                        class="fa fa-save"></span>Guardar</button>
-                                                <button class="btn btn-danger ml-3"
-                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
-                                                    <i class="fa fa-remove"></i> Cancelar
-                                                </button>
+                                                        </tr>
+                                                        <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                        <p>No se encontraron datos.</p>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
+
                                     </div>
+
+
                                 </div>
                             </div>
-
-                        </form>
                     </div>
+
+                    </form>
                 </div>
-            </section>
+        </div>
+        </section>
         </div>
         <!-- Botones -->
 

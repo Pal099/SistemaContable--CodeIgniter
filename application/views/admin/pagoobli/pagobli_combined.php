@@ -27,23 +27,26 @@
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                data-bs-target="#modalListaObligacion">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                <i class="fa fa-edit ms-2"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                <i class="bi bi-file-pdf"></i> PDF
-                            </button>
-                            <button class="btn btn-danger ml-3 " title="Eliminar">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                    data-bs-target="#modalListaObligacion">
+                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-warning" title="Editar"
+                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
+                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Generar PDF"
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
+                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
@@ -492,7 +495,7 @@
                                                                         </button>
                                                                         <button class="btn btn-warning btn-sm"
                                                                             onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                            <i class='bx bx-edit'></i>
                                                                         </button>
                                                                         <button class="btn btn-danger btn-remove btn-sm"
                                                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
