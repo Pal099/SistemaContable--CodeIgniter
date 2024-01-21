@@ -315,6 +315,7 @@
                     cellPadding: 2,
                     fontSize: 9 //tamaño de las letras de la tabla
                 };
+
                 var options = {
                     head: [
                         ['Número de Cuenta', 'Descripción de la Cuenta', 'Total Debe', 'Total Haber',
@@ -347,6 +348,18 @@
                             doc.setFont('helvetica', 'bold');
                         } else {
                             doc.setFont('helvetica', 'normal');
+                        }
+                        //Acá se dibuja la linea divisoria para el totalizador
+                        if (data.row.index === tableData.length - 2) {
+                            //variables para el calculo de la linea
+                            var xPosStart = data.cell.x;
+                            var xPosEnd = xPosStart + data.cell.width;
+                            var yPos = data.cell.y;
+
+                            //Configuracion de la linea
+                            doc.setLineWidth(1);//grosor
+                            doc.setDrawColor(0, 0, 0);//color
+                            doc.line(xPosStart, yPos, xPosEnd, yPos);
                         }
                     }
                 };
