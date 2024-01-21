@@ -881,7 +881,7 @@
 
             var diferenciaActualizada = parseFloat($("#diferencia").text());
 
-            if (diferenciaActualizada < 0.0001) {
+            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
                     url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
                     type: 'POST',
