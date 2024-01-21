@@ -13,8 +13,9 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Deposito Bancario</li>
+                <li class="breadcrumb-item"><a
+                        href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">Deposito Bancario</a>
+                </li>
             </ol>
         </nav>
 
@@ -217,9 +218,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_pro" name="id_pro">
                                                                 <?php foreach ($programa as $prog): ?>
-                                                                <option value="<?php echo $prog->id_pro; ?>">
-                                                                    <?php echo $prog->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $prog->id_pro; ?>">
+                                                                        <?php echo $prog->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -229,9 +230,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_ff" name="id_ff">
                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                    <?php echo $ff->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $ff->id_ff; ?>">
+                                                                        <?php echo $ff->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -241,9 +242,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_of" name="id_of">
                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                    <?php echo $of->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $of->id_of; ?>">
+                                                                        <?php echo $of->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -292,15 +293,15 @@
                                                     <td>
                                                         <div class="input-group input-group-sm">
                                                             <?php if (isset($Debe)): ?>
-                                                            <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="Debe" name="Debe"
-                                                                value="<?php echo $Debe_value; ?>">
+                                                                <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Debe" name="Debe"
+                                                                    value="<?php echo $Debe_value; ?>">
                                                             <?php else: ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent"
-                                                                id="Debe" name="Debe" oninput="formatNumber('Debe')">
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent"
+                                                                    id="Debe" name="Debe" oninput="formatNumber('Debe')">
                                                             <?php endif; ?>
                                                         </div>
                                                     </td>
@@ -334,9 +335,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_pro_2" name="id_pro_2" required>
                                                                 <?php foreach ($programa as $prog): ?>
-                                                                <option value="<?php echo $prog->id_pro; ?>">
-                                                                    <?php echo $prog->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $prog->id_pro; ?>">
+                                                                        <?php echo $prog->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -346,9 +347,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_ff_2" name="id_ff_2" required>
                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                    <?php echo $ff->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $ff->id_ff; ?>">
+                                                                        <?php echo $ff->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -358,9 +359,9 @@
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_of_2" name="id_of_2" required>
                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                    <?php echo $of->codigo; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $of->id_of; ?>">
+                                                                        <?php echo $of->codigo; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                         </div>
@@ -416,16 +417,16 @@
                                                     <td>
                                                         <div class="input-group input-group-sm">
                                                             <?php if (isset($haber_2)): ?>
-                                                            <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent form formatoNumero"
-                                                                id="Haber_2" name="Haber_2"
-                                                                value="<?php echo $haber_2_value; ?>">
+                                                                <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                    id="Haber_2" name="Haber_2"
+                                                                    value="<?php echo $haber_2_value; ?>">
                                                             <?php else: ?>
-                                                            <input type="text"
-                                                                class="form-control small border-0 bg-transparent formatoNumero"
-                                                                id="Haber_2" name="Haber_2"
-                                                                oninput="formatNumber('Haber_2')">
+                                                                <input type="text"
+                                                                    class="form-control small border-0 bg-transparent formatoNumero"
+                                                                    id="Haber_2" name="Haber_2"
+                                                                    oninput="formatNumber('Haber_2')">
                                                             <?php endif; ?>
                                                         </div>
                                                     </td>
@@ -452,28 +453,31 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                        <table id="miTabla2"
-                                            class="table table-hover table-bordered table-sm rounded-3 mt-4">
-                                            <thead>
-                                                <tr>
-                                                    <th>Debe</th>
-                                                    <th>Haber</th>
-                                                    <th>Diferencia</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <input type="text" id="DebeC" class="form-control">
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" id="HaberC" class="form-control">
-                                                    </td>
-                                                    <td id="diferencia">0</td>
+                                        <div class="card-body">
+                                            <table id="miTabla2"
+                                                class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Debe</th>
+                                                        <th>Haber</th>
+                                                        <th>Diferencia</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input type="text" id="DebeC" class="form-control">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" id="HaberC" class="form-control">
+                                                        </td>
+                                                        <td id="diferencia">0</td>
 
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
                                         <div class="container-fluid mt-4 mb-3">
                                             <div class="col-md-12 d-flex flex-row justify-content-center">
                                                 <button style="margin-right: 8px;" type="submit"
@@ -500,47 +504,47 @@
                                             </thead>
                                             <tbody>
                                                 <?php if (!empty($asientos)): ?>
-                                                <?php foreach ($asientos as $asien): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?php echo $asien->IDNum_Asi ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->FechaEmision ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->num_asi ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->op ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $asien->estado ?>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalPresupuesto"
-                                                                value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url() ?>obligaciones/deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-pencil-fill"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-remove btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
+                                                    <?php foreach ($asientos as $asien): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $asien->IDNum_Asi ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->FechaEmision ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->num_asi ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->op ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->estado ?>
+                                                            </td>
+                                                            <td>
+                                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalPresupuesto"
+                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button class="btn btn-warning btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-danger btn-remove btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
 
-                                                </tr>
-                                                <?php endforeach; ?>
+                                                        </tr>
+                                                    <?php endforeach; ?>
                                                 <?php else: ?>
-                                                <p>No se encontraron datos.</p>
+                                                    <p>No se encontraron datos.</p>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>
@@ -580,31 +584,31 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($proveedores as $index => $proveedor): ?>
-                                <tr class="list-item"
-                                    onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $index + 1 ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->ruc ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->razon_social ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->direccion ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->telefono ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->email ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->observacion ?>
-                                    </td>
-                                </tr>
+                                    <tr class="list-item"
+                                        onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
+                                        data-bs-dismiss="modal">
+                                        <td>
+                                            <?= $index + 1 ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->ruc ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->razon_social ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->direccion ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->telefono ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->email ?>
+                                        </td>
+                                        <td>
+                                            <?= $proveedor->observacion ?>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -615,170 +619,168 @@
         </div>
         <!-- Script para agregar nuevas filas a la tabla -->
         <script>
-        $(document).ready(function() {
+            $(document).ready(function () {
 
-            function formatNumber(campo) {
-                var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-                if (!isNaN(value)) {
-                    campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+                function formatNumber(campo) {
+                    var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+                    if (!isNaN(value)) {
+                        campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+                    }
                 }
-            }
-            // Agregar fila
-            $(document).on("click", ".agregarFila", function(e) {
-                e.preventDefault();
+                // Agregar fila
+                $(document).on("click", ".agregarFila", function (e) {
+                    e.preventDefault();
 
-                // Clonar la fila base
-                var nuevaFila = $("#filaBase").clone();
+                    // Clonar la fila base
+                    var nuevaFila = $("#filaBase").clone();
 
-                // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-                nuevaFila.find(".eliminarFila").removeAttr('hidden');
+                    // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+                    nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-                // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-                nuevaFila.find("[id]").removeAttr('id');
+                    // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                    nuevaFila.find("[id]").removeAttr('id');
 
-                // Agregar una clase a todos los elementos de la fila clonada
-                nuevaFila.find("select, input").addClass("filaClonada");
+                    // Agregar una clase a todos los elementos de la fila clonada
+                    nuevaFila.find("select, input").addClass("filaClonada");
 
-                // Limpiar los valores de los campos en la  nueva fila
-                nuevaFila.find("select, input").val("");
+                    // Limpiar los valores de los campos en la  nueva fila
+                    nuevaFila.find("select, input").val("");
 
-                nuevaFila.find(".formatoNumero").each(function() {
-                    // Obtener el campo actual
-                    var campo = $(this);
+                    nuevaFila.find(".formatoNumero").each(function () {
+                        // Obtener el campo actual
+                        var campo = $(this);
 
-                    // Asociar la función formatNumber al evento oninput
-                    campo.on('input', function() {
-                        formatNumber(campo);
+                        // Asociar la función formatNumber al evento oninput
+                        campo.on('input', function () {
+                            formatNumber(campo);
+                        });
                     });
+
+                    // Mostrar la nueva fila
+                    nuevaFila.show();
+
+                    // Agregar la nueva fila al cuerpo de la tabla
+                    $("#miTabla tbody").append(nuevaFila);
                 });
 
-                // Mostrar la nueva fila
-                nuevaFila.show();
-
-                // Agregar la nueva fila al cuerpo de la tabla
-                $("#miTabla tbody").append(nuevaFila);
-            });
 
 
+                // Eliminar fila
+                $("#miTabla").on("click", ".eliminarFila", function (e) {
+                    e.preventDefault();
 
-            // Eliminar fila
-            $("#miTabla").on("click", ".eliminarFila", function(e) {
-                e.preventDefault();
+                    $(this).closest("tr").remove();
 
-                $(this).closest("tr").remove();
+                });
 
             });
-
-        });
         </script>
         <!-- Envio de formulario principal -->
         <script>
-        $("#formularioPrincipal").on("submit", function() {
-
-            //datos que no son de la tabla dinamica
-            var datosFormulario = {
-
-                op: $("#op").val(),
-                ruc: $("#ruc").val(),
-                num_asi: $("#num_asi").val(),
-                contabilidad: $("#razon_social").val(),
-                concepto: $("#concepto").val(),
-                fecha: $("#fecha").val(),
-                pedmat: $("#pedi_matricula").val(),
-                modalidad: $("#modalidad").val(),
-                tipo_presu: $("#tipo_presupuesto").val(),
-                nro_exp: $("#nro_exp").val(),
-                total: $("#total").val(),
-                pagado: $("#pagado").val(),
-                MontoPago: $("#MontoPago").val(),
-                //MontoPago2: $("#MontoPago_2").val(),
-                // Agrega más campos según sea necesario
-                id_pro: $("#id_pro").val(),
-                id_ff: $("#id_ff").val(),
-                id_of: $("#id_of").val(),
-                IDCuentaContable: $("#idcuentacontable").val(),
-                comprobante: $("#comprobante").val(),
-                Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-                Haber: $("#Haber").val(),
-                cheques_che_id: $("#cheques_che_id").val(),
-                detalles: $("#detalles").val(),
-
-            };
 
 
-            // variable para saber si el debe es igual a haber
-            let sumahaber = 0;
+            $("#formularioPrincipal").on("submit", function () {
 
-            var filas = [];
+                //datos que no son de la tabla dinamica
+                var datosFormulario = {
 
+                    op: $("#op").val(),
+                    ruc: $("#ruc").val(),
+                    num_asi: $("#num_asi").val(),
+                    contabilidad: $("#razon_social").val(),
+                    concepto: $("#concepto").val(),
+                    fecha: $("#fecha").val(),
+                    pedmat: $("#pedi_matricula").val(),
+                    modalidad: $("#modalidad").val(),
+                    tipo_presu: $("#tipo_presupuesto").val(),
+                    nro_exp: $("#nro_exp").val(),
+                    total: $("#total").val(),
+                    pagado: $("#pagado").val(),
+                    MontoPago: $("#MontoPago").val(),
+                    //MontoPago2: $("#MontoPago_2").val(),
+                    // Agrega más campos según sea necesario
+                    id_pro: $("#id_pro").val(),
+                    id_ff: $("#id_ff").val(),
+                    id_of: $("#id_of").val(),
+                    IDCuentaContable: $("#idcuentacontable").val(),
+                    comprobante: $("#comprobante").val(),
+                    Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+                    Haber: $("#Haber").val(),
+                    cheques_che_id: $("#cheques_che_id").val(),
+                    detalles: $("#detalles").val(),
 
-            $("#miTabla tbody tr:gt(0)").each(function() {
-
-                var fila = {
-                    id_pro: $(this).find("select[name='id_pro_2']").val(),
-                    id_ff: $(this).find("select[name='id_ff_2']").val(),
-                    id_of: $(this).find("select[name='id_of_2']").val(),
-                    IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                    detalles: $(this).find("input[name='detalles_2']").val(),
-                    comprobante: $(this).find("input[name='comprobante_2']").val(),
-                    Debe: $(this).find("input[name='Debe_2']").val(),
-                    Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
                 };
 
 
-                filas.push(fila);
-            });
+                // variable para saber si el debe es igual a haber
+                let sumahaber = 0;
+
+                var filas = [];
 
 
-            // Combinar datos del formulario principal y de las filas dinámicas
-            var datosCompletos = {
-                datosFormulario: datosFormulario,
-                filas: filas,
-            };
+                $("#miTabla tbody tr:gt(0)").each(function () {
 
-            var diferenciaActualizada = parseFloat($("#diferencia").text());
+                    var fila = {
+                        id_pro: $(this).find("select[name='id_pro_2']").val(),
+                        id_ff: $(this).find("select[name='id_ff_2']").val(),
+                        id_of: $(this).find("select[name='id_of_2']").val(),
+                        IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                        detalles: $(this).find("input[name='detalles_2']").val(),
+                        comprobante: $(this).find("input[name='comprobante_2']").val(),
+                        Debe: $(this).find("input[name='Debe_2']").val(),
+                        Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                        cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                    };
 
-            if (diferenciaActualizada < 0.0001) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/deposito_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: {
-                        datos: datosCompletos
-                    },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function(response) {
-                        console.log(response);
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            console.log(response);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-
-                        console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                        console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                    }
+                    
+                    filas.push(fila);
                 });
-            } else {
-                alert('El debe y el haber son diferentes');
-                return false;
-            }
 
 
-        });
+                // Combinar datos del formulario principal y de las filas dinámicas
+                var datosCompletos = {
+                    datosFormulario: datosFormulario,
+                    filas: filas,
+                };
+
+                var diferenciaActualizada = parseFloat($("#diferencia").text());
+
+                if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+                    $.ajax({
+                        url: '<?php echo base_url("obligaciones/deposito_obligaciones/store"); ?>',
+                        type: 'POST',
+                        data: { datos: datosCompletos },
+                        //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                        success: function (response) {
+                            console.log(response);
+                            if (response.includes('Datos guardados exitosamente.')) {
+                                alert('Datos guardados exitosamente.');
+                                // ... (código adicional si es necesario)
+                            } else {
+                                alert('Error al guardar los datos: ' + response);
+                                console.log(response);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+                        }
+                    });
+                } else {
+                    alert('El debe y el haber son diferentes');
+                    return false;
+                }
+
+
+            });
         </script>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 1-->
@@ -801,19 +803,19 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $dato->IDCuentaContable ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Codigo_CC ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
-                                </tr>
+                                    <tr class="list-item"
+                                        onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                        data-bs-dismiss="modal">
+                                        <td>
+                                            <?= $dato->IDCuentaContable ?>
+                                        </td>
+                                        <td>
+                                            <?= $dato->Codigo_CC ?>
+                                        </td>
+                                        <td>
+                                            <?= $dato->Descripcion_CC ?>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -843,19 +845,19 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $dato->IDCuentaContable ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Codigo_CC ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
-                                </tr>
+                                    <tr class="list-item"
+                                        onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                        data-bs-dismiss="modal">
+                                        <td>
+                                            <?= $dato->IDCuentaContable ?>
+                                        </td>
+                                        <td>
+                                            <?= $dato->Codigo_CC ?>
+                                        </td>
+                                        <td>
+                                            <?= $dato->Descripcion_CC ?>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -866,12 +868,11 @@
 
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
-        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Actualizar los campos de texto en la vista principal con los valores seleccionados
-            document.getElementById('idcuentacontable').value = IDCuentaContable;
-            document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-            document.getElementById('descripcion_cc').value =
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+            function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+                // Actualizar los campos de texto en la vista principal con los valores seleccionados
+                document.getElementById('idcuentacontable').value = IDCuentaContable;
+                document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+                document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
             }
 
@@ -888,171 +889,171 @@
 
         <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
         <script>
-        var currentRow = null;
 
-        // Función para abrir el modal de las cuentas contables
-        function openModal_4(currentRowParam) {
+            var currentRow = null;
 
-            var modalContainer = document.getElementById('modalCuentasCont2');
+            // Función para abrir el modal de las cuentas contables
+            function openModal_4(currentRowParam) {
 
-            currentRow = currentRowParam; // Almacenar la fila actual
+                var modalContainer = document.getElementById('modalCuentasCont2');
 
-        }
+                currentRow = currentRowParam; // Almacenar la fila actual
 
-
-        // Función para seleccionar la cuenta contable
-        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Verificar si currentRow está definido y no es null
-            if (currentRow) {
-                // Utilizar currentRow para actualizar los campos
-                currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-                currentRow.find('.codigo_cc_2').val(Codigo_CC);
-                currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-
-            } else {
-                console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
             }
-        }
 
-        // Abrir modal en fila dinamica
-        const openModalBtn_4 = document.getElementById("openModalBtn_4");
-        // Actualiza la función de clic para pasar la fila actual al abrir el modal
-        document.getElementById("miTabla").addEventListener("click", function(event) {
 
-            // Encuentra la fila desde la cual se abrió el modal
-            var row = $(event.target).closest('tr');
-            if (
-                (event.target && event.target.className.includes("openModalBtn_4")) ||
-                (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                    "openModalBtn_4"))
-            ) {
-                event.stopPropagation();
-                event.preventDefault();
-                openModal_4(row);
+            // Función para seleccionar la cuenta contable
+            function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+                // Verificar si currentRow está definido y no es null
+                if (currentRow) {
+                    // Utilizar currentRow para actualizar los campos
+                    currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+                    currentRow.find('.codigo_cc_2').val(Codigo_CC);
+                    currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+                } else {
+                    console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+                }
             }
-        });
+
+            // Abrir modal en fila dinamica
+            const openModalBtn_4 = document.getElementById("openModalBtn_4");
+            // Actualiza la función de clic para pasar la fila actual al abrir el modal
+            document.getElementById("miTabla").addEventListener("click", function (event) {
+
+                // Encuentra la fila desde la cual se abrió el modal
+                var row = $(event.target).closest('tr');
+                if (
+                    (event.target && event.target.className.includes("openModalBtn_4")) ||
+                    (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
+                ) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    openModal_4(row);
+                }
+            });
+
         </script>
 
 
         <!-- Script para mostrar los campos opcionales -->
         <script>
-        document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
-            var camposOpcionalesCollapse = new bootstrap.Collapse(document.getElementById(
-                'camposOpcionalesCollapse'));
-            camposOpcionalesCollapse.toggle();
-        });
+            document.getElementById('camposOpcionalesSwitch').addEventListener('change', function () {
+                var camposOpcionalesCollapse = new bootstrap.Collapse(document.getElementById('camposOpcionalesCollapse'));
+                camposOpcionalesCollapse.toggle();
+            });
         </script>
 
         <!-- Seleccionar un Proveedor -->
         <script>
-        function selectProveedor(ruc, razonSocial) {
-            document.getElementById('ruc').value = ruc;
-            document.getElementById('razon_social').value = razonSocial;
-            //document.getElementById('direccion').value = direccion;
-        }
+            function selectProveedor(ruc, razonSocial) {
+                document.getElementById('ruc').value = ruc;
+                document.getElementById('razon_social').value = razonSocial;
+                //document.getElementById('direccion').value = direccion;
+            }
         </script>
 
         <!-- Script encargado de las tablas de proveedores -->
         <script>
-        $(document).ready(function() {
-            $('#TablaProveedores').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
+            $(document).ready(function () {
+                $('#TablaProveedores').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
             });
-        });
         </script>
 
         <!-- Script para las tablas de lo modales de cuentas contables -->
         <script>
-        $(document).ready(function() {
-            var table1 = $('#TablaCuentaCont1').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
-            });
+            $(document).ready(function () {
+                var table1 = $('#TablaCuentaCont1').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
 
-            var table2 = $('#TablaCuentaCont2').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
+                var table2 = $('#TablaCuentaCont2').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
             });
-        });
         </script>
 
         <script>
-        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-        document.getElementById('comprobante').addEventListener('input', function() {
-            document.getElementById('comprobante_2').value = this.value;
-        });
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('comprobante').addEventListener('input', function () {
+                document.getElementById('comprobante_2').value = this.value;
+            });
         </script>
         <script>
-        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-        document.getElementById('cheques_che_id').addEventListener('input', function() {
-            document.getElementById('cheques_che_id_2').value = this.value;
-        });
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('cheques_che_id').addEventListener('input', function () {
+                document.getElementById('cheques_che_id_2').value = this.value;
+            });
         </script>
         <script>
-        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-        document.getElementById('detalles').addEventListener('input', function() {
-            document.getElementById('detalles_2').value = this.value;
-        });
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('detalles').addEventListener('input', function () {
+                document.getElementById('detalles_2').value = this.value;
+            });
         </script>
         <script>
-        // Función para formatear números con separadores de miles y dos decimales
-        function formatNumber(inputId) {
-            var input = document.getElementById(inputId);
-            var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-            if (!isNaN(value)) {
-                input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+            // Función para formatear números con separadores de miles y dos decimales
+            function formatNumber(inputId) {
+                var input = document.getElementById(inputId);
+                var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+                if (!isNaN(value)) {
+                    input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+                }
             }
-        }
         </script>
         <script>
-        function calcularTotalesYDiferencia() {
-            var sumaDebe = 0;
-            var sumaHaber = 0;
+            function calcularTotalesYDiferencia() {
+                var sumaDebe = 0;
+                var sumaHaber = 0;
 
 
-            $("#miTabla tbody tr").each(function() {
-                // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-                var valorDebe = $(this).find("input[name*='Debe']").val();
-                var valorHaber = $(this).find("input[name*='Haber']").val();
-                // Realizar reemplazo por separado
-                valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
-                valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
-                // Convertir a número y sumar
-                sumaDebe += parseFloat(valorDebe) || 0;
-                sumaHaber += parseFloat(valorHaber) || 0;
+                $("#miTabla tbody tr").each(function () {
+                    // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+                    var valorDebe = $(this).find("input[name*='Debe']").val();
+                    var valorHaber = $(this).find("input[name*='Haber']").val();
+                    // Realizar reemplazo por separado
+                    valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+                    valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+                    // Convertir a número y sumar
+                    sumaDebe += parseFloat(valorDebe) || 0;
+                    sumaHaber += parseFloat(valorHaber) || 0;
+                });
+
+                // Actualizar los campos y la diferencia
+                $("#DebeC").val(sumaDebe.toFixed(2));
+                $("#HaberC").val(sumaHaber.toFixed(2));
+                var diferenciaTotal = sumaDebe - sumaHaber;
+                $("#diferencia").text(diferenciaTotal.toFixed(2));
+            }
+
+            // Vincular eventos
+            $(document).ready(function () {
+                $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
             });
 
-            // Actualizar los campos y la diferencia
-            $("#DebeC").val(sumaDebe.toFixed(2));
-            $("#HaberC").val(sumaHaber.toFixed(2));
-            var diferenciaTotal = sumaDebe - sumaHaber;
-            $("#diferencia").text(diferenciaTotal.toFixed(2));
-        }
-
-        // Vincular eventos
-        $(document).ready(function() {
-            $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']",
-            calcularTotalesYDiferencia);
-        });
         </script>
         <!-- <script>
             // Este script escucha los cambios en el campo 'debe'
@@ -1067,20 +1068,20 @@
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
         <!-- Script de DataTable de vista  -->
         <script>
-        $(document).ready(function() {
-            $('#vistaobli').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "language": {
-                    "search": "Busqueda de asientos:"
-                }
+            $(document).ready(function () {
+                $('#vistaobli').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "language": {
+                        "search": "Busqueda de asientos:"
+                    }
+                });
             });
-        });
         </script>
 
     </main>
