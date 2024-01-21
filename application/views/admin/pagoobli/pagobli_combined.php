@@ -62,6 +62,8 @@
                                         <div class="col-md-12">
                                             <div class="card border">
                                                 <div class="card-body">
+                                                    <h4 class="mt-4">Obligación</h4>
+                                                    <hr><!-- Separador -->
                                                     <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
@@ -141,11 +143,6 @@
                                                                 id="observacion" name="observacion">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -448,8 +445,25 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <!-- Botones guardar y cancelar -->
+                                                    <div class="container-fluid mt-3 mb-3">
+                                                        <div class="col-md-12 d-flex flex-row justify-content-center">
+                                                            <button style="margin-right: 8px;" type="submit"
+                                                                class="btn btn-success" id="guardarFilas"><span
+                                                                    class="fa fa-save"></span>Guardar</button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
+                                                                <span class="fa fa-remove"></span> Cancelar
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
+                                            <div class="card border">
+                                                <div class="card-body">
                                                     <!-- Tabla de Num_asi -->
-                                                    <h4>Asientos</h4>
+                                                    <h4 class="mt-4">Asientos</h4>
                                                     <hr><!-- Separador -->
                                                     </hr>
                                                     <table id="vistapago"
@@ -510,18 +524,6 @@
                                                             <?php endif; ?>
                                                         </tbody>
                                                     </table>
-                                                    <!-- Botones guardar y cancelar -->
-                                                    <div class="container-fluid mt-3 mb-3">
-                                                        <div class="col-md-12 d-flex flex-row justify-content-center">
-                                                            <button style="margin-right: 8px;" type="submit"
-                                                                class="btn btn-success" id="guardarFilas"><span
-                                                                    class="fa fa-save"></span>Guardar</button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
-                                                                <span class="fa fa-remove"></span> Cancelar
-                                                            </button>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

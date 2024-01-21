@@ -313,7 +313,7 @@
                 };
                 var bodyStyles = {
                     cellPadding: 2,
-                    fontSize: 10
+                    fontSize: 9 //tamaño de las letras de la tabla
                 };
                 var options = {
                     head: [
