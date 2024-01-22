@@ -556,7 +556,8 @@
                                 <th>Nro. asiento</th>
                                 <th>Fecha</th>
                                 <th>M. Pagado</th>
-                                <th>M. de Pago</th>
+                                <th>M. Total</th>
+                                <th>Suma del Pago</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
@@ -565,19 +566,83 @@
                                 <th>Origen</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
-                                <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
+                    <?php
+                        $registros_por_proveedor = array();
+
+                        foreach ($asientos as $asi) {
+                            $clave_proveedor = $asi->provee;
+
+                            $resta_montos = $asi->total - $asi->suma_monto;
+
+                            // Evalúa diferentes casos usando un switch
+                            switch (true) {
+                                case $asi->suma_monto == $asi->total && $resta_montos == 0:
+                                    break;
+
+                                case $asi->suma_monto < $asi->total && $resta_montos != 0 && $asi->id_form == 1:
+                                        agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+
+                                        break;
+
+                                        case $asi->suma_monto == 0 && $asi->total !=0 && $resta_montos != 0 && $asi->id_form == 1:
+                                            agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+                            
+                                            break;
+                            }
+                        }
+
+                        function agregarRegistroProveedor(&$registros, $clave, $asi) {
+                            // Lógica adicional para verificar si el registro está pagado
+                            $resta_montos = $asi->total - $asi->suma_monto;
+                        
+                            // Verificar si SumaMonto y MontoTotal son iguales, y la resta es igual a 0
+                            if ($asi->suma_monto == $asi->total && $resta_montos == 0 && $asi->id_form==1) {
+                                // No agregar el registro si está pagado
+                                return;
+                            }
+                            // Verifica si ya existe un registro para este proveedor
+                            if (!isset($registros[$clave])) {
+                                $registros[$clave] = $asi;
+                            } 
+                        }
+                        ?>
+
                         <tbody>
-                            <?php foreach ($asientos as $asientoN => $asi): ?>
-                            <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
+                        <?php foreach ($registros_por_proveedor as $asi): ?>
+        <?php
+        // Agrega un bloque adicional para manejar la lógica de estados e Id_form
+        $estado_texto = '';
+
+        // Utilizamos un switch para manejar la lógica de estados
+        switch ($asi->estado) {
+            case 3:
+                // Caso 1: Estado 3 (pendiente)
+                $estado_texto = 'Pendiente';
+                break;
+
+            case 4:
+                // Caso 2: Estado 4 (pagado)
+                // Puedes agregar más lógica según tus requerimientos
+                // También puedes añadir condiciones adicionales para casos específicos
+                $estado_texto = 'Pagado';
+                break;
+
+            // Puedes agregar más casos según tus requerimientos
+
+            default:
+                // En caso de que el estado no coincida con ningún caso
+                $estado_texto = 'Pendiente';
+        }
+        ?>
                             <tr class="list-item"
-                                onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                                onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>')"
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasideta ?>', '<?= $asi->total ?>')"
                                 data-bs-dismiss="modal">
                                 <td>
-                                    <?= $asientoN + 1 ?>
+                                    <?= $asi->id_numasideta ?>
                                 </td>
                                 <td>
                                     <?= $asi->ruc_proveedor ?>
@@ -595,11 +660,10 @@
                                     <?= $asi->pagado ?>
                                 </td>
                                 <td>
-                                    <?= $asi->MontoPago ?>
+                                    <?= $asi->total ?>
                                 </td>
-                                <td hidden>
-                                    <?= $asi->Debe ?>
-                                </td>
+                                <td><?= $asi->suma_monto ?></td>
+
                                 <td hidden>
                                     <?= $asi->Haber ?>
                                 </td>
@@ -627,7 +691,7 @@
                                     <?= $asi->cheques_che_id ?>
                                 </td>
                             </tr>
-                            <?php endif; ?>
+
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -639,9 +703,10 @@
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
     // Función para seleccionar un asi
-    function selectAsi(ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta,
-        comp, cheq, idcuenta) {
+    function selectAsi(numero,ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta,
+        comp, cheq, idcuenta, numes) {
         // Actualizar los campos de texto en la vista principal
+        document.getElementById('num_asi').value = numero;
         document.getElementById('ruc').value = ruc;
         document.getElementById('contabilidad').value = razonSocial;
         document.getElementById('fecha').value = fechas;
@@ -656,6 +721,7 @@
         document.getElementById('comprobante').value = comp;
         document.getElementById('cheques_che_id').value = cheq;
         document.getElementById('idcuentacontable').value = idcuenta;
+
     }
     </script>
     <!-- Script de la tabla Asientos  -->
@@ -1175,6 +1241,10 @@
         });
     });
     </script>
+
+
+
+
 </body>
 
 </html>

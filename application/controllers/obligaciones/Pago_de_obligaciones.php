@@ -34,7 +34,7 @@ class Pago_de_obligaciones extends CI_Controller {
 		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu);// Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu);
-		$data['Obli'] = $this->Pago_obli_model->getDiarios_obli($id_uni_respon_usu); 
+		$data['Obli'] = $this->Pago_obli_model->getDiarios_obli(); 
 		$data['fuente_de_financiamiento'] = $this->Pago_obli_model->getFuentes($id_uni_respon_usu);  
 		$data['origen_de_financiamiento'] = $this->Pago_obli_model->getOrigenes($id_uni_respon_usu);
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables($id_uni_respon_usu); 
@@ -64,7 +64,7 @@ class Pago_de_obligaciones extends CI_Controller {
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
-			'asiento' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
+			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
@@ -115,19 +115,14 @@ class Pago_de_obligaciones extends CI_Controller {
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
-
 		$nuevo_monto_pago = $MontoPago;
-
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
-
-		$MontoPagado = $this->Pago_obli_model->obtenerDebeMasRecientePorIdProveedor($proveedor_id, $id_num_asi_deta);
-
+	
 		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
 	
 		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
 	
 		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
-
 		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 		
 			
@@ -146,7 +141,6 @@ class Pago_de_obligaciones extends CI_Controller {
 					'id_provee' => $proveedor_id,
 					'MontoPagado' => $nuevo_monto_pago,
 					'SumaMonto' => $suma_monto, 
-					'concepto' => $observacion,
 					'MontoTotal' => $MontoTotal,
 					'op' => $op,
 					'estado' => $estado,

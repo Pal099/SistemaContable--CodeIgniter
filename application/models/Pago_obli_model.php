@@ -2,32 +2,44 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pago_obli_model extends CI_Model
-{
-	public function __construct() {
-        $this->load->database();
-    }
-	public function obtener_asientos($id_uni_respon_usu) {
-		$this->db->select('num_asi_deta.*, num_asi_deta.MontoPago as pago, programa.nombre as nombre_programa, num_asi.op as op, num_asi.SumaMonto as suma_monto, num_asi.num_asi as nume, num_asi.concepto as concepto, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee, num_asi.MontoPagado as pagado, num_asi.estado as estado, num_asi.op as op, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor, num_asi.IDNum_Asi as idnumasi,
-		 fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo, cuentacontable.Descripcion_CC as descrip ');
-		$this->db->from('num_asi_deta');
-		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
-		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
-		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
-		$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
-		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
-		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
-		$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('num_asi.MontoPagado <= num_asi.MontoTotal');
-		$this->db->where('num_asi_deta.estado_registro', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		
-		$resultados = $this->db->get();
-		return $resultados->result();    
+{public function __construct() {
+	$this->load->database();
+}
+public function obtener_asientos($id_uni_respon_usu) {
+	$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa, num_asi.op as op, num_asi.SumaMonto as suma_monto,num_asi.Montototal as total,
+	 	num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee,
+		num_asi.MontoPagado as pagado, num_asi.op as op, proveedores.ruc as ruc_proveedor,proveedores.direccion as direccion_proveedor, proveedores.razon_social as razso_proveedor,
+	 	fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
+		cuentacontable.Descripcion_CC as descrip, num_asi_deta.IDNum_Asi_Deta as id_numasideta');
+	$this->db->from('num_asi_deta');
+	$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
+	$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
+	$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
+	$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
+	$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
+	$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
+	$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+	$this->db->where('num_asi.MontoPagado <= num_asi.MontoTotal');
+	$this->db->where('num_asi_deta.estado_registro', '1');
+	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+	//$this->db->limit(1);  // Agrega esta línea para limitar a un solo registro
 	
-	}
-	public function guardarNuevoRegistro() {
-        // Conexión a la base de datos (asegúrate de tenerla configurada)
-        $this->load->database();
+	$resultados = $this->db->get();
+	return $resultados->result();    
+}
+
+public function GETasientos($id_uni_respon_usu) {
+	$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+	$this->db->where('estado_registro', '1');
+	$this->db->where('id_form', '2');
+	$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+	$resultados = $this->db->get('num_asi');
+	return $resultados->result();
+}
+public function guardarNuevoRegistro() {
+	// Conexión a la base de datos (asegúrate de tenerla configurada)
+	$this->load->database();
 
 	// Obtener el número de operación actual (max + 1)
 	$this->db->select_max('op');
@@ -79,52 +91,52 @@ public function obtenerIdFormIdProveedor($id_proveedor)
 
 
 
-	public function getOpAnterior($proveedor_id) {
-		$this->db->select('op');
-		$this->db->where('id_provee', $proveedor_id);
-		$query = $this->db->get('num_asi');
-	
-		if ($query->num_rows() > 0) {
-			$result = $query->row();
-			return $result->op;
-		} else {
-			return 0; // Retorna 0 si no hay registros anteriores para ese proveedor
-		}
+public function getOpAnterior($proveedor_id) {
+	$this->db->select('op');
+	$this->db->where('id_provee', $proveedor_id);
+	$query = $this->db->get('num_asi');
+
+	if ($query->num_rows() > 0) {
+		$result = $query->row();
+		return $result->op;
+	} else {
+		return 0; // Retorna 0 si no hay registros anteriores para ese proveedor
 	}
-	public function getMontoTotalByProveedorId($proveedor_id) {
-		// Supongamos que tienes una tabla llamada 'diario_obligaciones' con un campo 'MontoTotal'
-		$this->db->select('MontoTotal');
-		$this->db->from('num_asi');
-		$this->db->where('id_provee', $proveedor_id);
-		$this->db->order_by('FechaEmision', 'DESC'); // Ordenar por tiempo o ID en orden descendente
-		$this->db->limit(1); // Obtener solo el resultado superior
-		$query = $this->db->get();
-	
-		if ($query->num_rows() > 0) {
-			$row = $query->row();
-			return $row->MontoTotal;
-		}
-	
-		return 0; // o el valor predeterminado que desees si no se encuentra ninguna entrada para el proveedor
+}
+public function getMontoTotalByProveedorId($proveedor_id) {
+	// Supongamos que tienes una tabla llamada 'diario_obligaciones' con un campo 'MontoTotal'
+	$this->db->select('MontoTotal');
+	$this->db->from('num_asi');
+	$this->db->where('id_provee', $proveedor_id);
+	$this->db->order_by('FechaEmision', 'DESC'); // Ordenar por tiempo o ID en orden descendente
+	$this->db->limit(1); // Obtener solo el resultado superior
+	$query = $this->db->get();
+
+	if ($query->num_rows() > 0) {
+		$row = $query->row();
+		return $row->MontoTotal;
 	}
-	
-	public function obtener_asiento_por_id($id) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->get('num_asi')->row_array();
-    }
-    public function insertar_asiento($data) {
-        return $this->db->insert('num_asi', $data);
-    }
-	public function actualizar_asiento($id, $data) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->update('num_asi', $data);
-    }
-	public function eliminar_asiento($id) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->delete('num_asi');
-    }
-	
-	
+
+	return 0; // o el valor predeterminado que desees si no se encuentra ninguna entrada para el proveedor
+}
+
+public function obtener_asiento_por_id($id) {
+	$this->db->where('IDNum_Asi', $id);
+	return $this->db->get('num_asi')->row_array();
+}
+public function insertar_asiento($data) {
+	return $this->db->insert('num_asi', $data);
+}
+public function actualizar_asiento($id, $data) {
+	$this->db->where('IDNum_Asi', $id);
+	return $this->db->update('num_asi', $data);
+}
+public function eliminar_asiento($id) {
+	$this->db->where('IDNum_Asi', $id);
+	return $this->db->delete('num_asi');
+}
+
+
 
 
 
@@ -239,7 +251,7 @@ public function getOrigenes($id_uni_respon_usu) {
 	return $resultados->result();
 }
 
-public function getCuentasContables($id_uni_respon_usu){
+public function getCuentasContables(){
 	$this->db->select('cuentacontable.*');
 	$this->db->from('cuentacontable');
 	$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
@@ -274,14 +286,14 @@ public function getCuentaContable() {
 
 public function getDiarios_obli($id_uni_respon_usu)
 {
-	$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa, num_asi.FechaEmision as fecha, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
+	$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa,num_asi.FechaEmision as fecha, proveedores.ruc as ruc_proveedor, proveedores.razon_social as razso_proveedor, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
 	$this->db->from('num_asi_deta');
+	$this->db->join('uni_respon_usu', 'programa.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 	$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
 	$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
 	$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
 	$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
 	$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
-	$this->db->join('uni_respon_usu', 'uni_respon_usu.id_uni_respon_usu = programa.id_uni_respon_usu');
 
 	$query = $this->db->get();
 	if (!$query) {

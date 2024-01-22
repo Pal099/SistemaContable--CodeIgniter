@@ -53,7 +53,7 @@ class Login extends CI_Controller {
 				else
 				{
 					$this->session->set_flashdata('error','Las credenciales no son correctas');
-					redirect(base_url('login/index'));
+					redirect(base_url('/'));
 				}
 
 
@@ -74,6 +74,6 @@ class Login extends CI_Controller {
 	{
 		session_unset();
 		session_destroy();
-		redirect(base_url('login/index'));
+		redirect(base_url('/'));
 	}
 }
