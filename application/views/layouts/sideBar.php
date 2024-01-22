@@ -80,24 +80,18 @@
                         <i class="bi bi-circle"></i><span>Certificado de Disponibilidad Presupuestaria</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/EjecucionPC">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Ejecución de Plan de Caja</span>
+                    </a>
+                </li>
             </ul>
 
         </li>
 
         <!-- Utilidades -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/EjecucionPC">
-                <i class="bi bi-bar-chart"></i>
-                <span>Ejecución de Plan de Caja</span>
-            </a>
-        </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/EjecucionPC">
-                <i class="bi bi-bar-chart"></i>
-                <span>Ejecución de Plan de Caja</span>
-            </a>
-        </li>
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/proveedores">
