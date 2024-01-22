@@ -12,6 +12,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+        <li class="breadcrumb-item">Presupuesto</li>
         <li class="breadcrumb-item active">Listado Presupuesto</li>
       </ol>
     </nav>
@@ -70,7 +71,7 @@
                                   <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
                                   <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
