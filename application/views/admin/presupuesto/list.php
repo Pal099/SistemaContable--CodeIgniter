@@ -48,11 +48,11 @@
                             <tr>
                               <th>Año</th>
                               <th>Descripcion</th>
-                              <th>Total presupuestado</th>
                               <th>Origen de financiamiento</th>
                               <th>Fuente de financiamiento</th>
                               <th>Programa</th>
-                              <th>Total modificado</th>
+                              <th>Presup. Inicial</th>
+                              <th>Modific. Presupuestaria</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
@@ -60,10 +60,10 @@
                             <?php foreach ($presupuestos as $presupuesto) : ?>
                               <td><?php echo $presupuesto->Año; ?></td>
                               <td><?php echo $presupuesto->Idcuentacontable; ?></td>
-                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
                               <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
                               <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
                               <td><?php echo $presupuesto->programa; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
                               <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
                               <td>
                                 <div class="d-grid gap-1 d-md-flex justify-content-md-center">

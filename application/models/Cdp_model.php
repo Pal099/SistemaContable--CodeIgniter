@@ -254,7 +254,7 @@ public function getUsuarioId($nombre){
         programa.nombre as nombre_programa,
         num_asi.num_asi as numero_asiento,
         num_asi_deta.Debe as debe_num_asi_deta,
-        cuentacontable.Codigo_CC,
+        cuentacontable.Codigo_CC as codigo,
         cuentacontable.Descripcion_CC,
         presupuestos.pre_ene,
         presupuestos.pre_feb,
@@ -268,7 +268,20 @@ public function getUsuarioId($nombre){
         presupuestos.pre_oct,
         presupuestos.pre_nov,
         presupuestos.pre_dic,
+        (presupuestos.TotalPresupuestado + presupuestos.TotalModificado) as Vigente,
+        IFNULL(SUM(num_asi_deta.Debe), 0) as Obligado,
+        ((presupuestos.TotalPresupuestado + presupuestos.TotalModificado) - IFNULL(SUM(num_asi_deta.Debe), 0)) as SaldoPresupuestario,
         SUM(num_asi_deta.Debe) as total_debe_cuenta,
+        COALESCE(
+            SUM(num_asi_deta.Debe) OVER (
+                PARTITION BY 
+                    cuentacontable.Codigo_CC, 
+                    programa.codigo, 
+                    fuente_de_financiamiento.codigo, 
+                    origen_de_financiamiento.codigo
+                ORDER BY num_asi.num_asi ASC 
+                ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
+            ), 0) as acumulado_anterior
     ');
 
     $this->db->from('num_asi_deta');
@@ -288,5 +301,78 @@ public function getUsuarioId($nombre){
     return $this->db->get()->result_array();
 }
 
+
+public function obtener_datos_asiento_por_busqueda($numero_asiento = null) {
+    $this->db->select('
+        origen_de_financiamiento.nombre as nombre_origen,
+        fuente_de_financiamiento.nombre as nombre_fuente,
+        programa.nombre as nombre_programa,
+        num_asi.num_asi as numero_asiento,
+        num_asi_deta.Debe as debe_num_asi_deta,
+        cuentacontable.Codigo_CC as codigo,
+        cuentacontable.Descripcion_CC,
+        presupuestos.pre_ene,
+        presupuestos.pre_feb,
+        presupuestos.pre_mar,
+        presupuestos.pre_abr,
+        presupuestos.pre_may,
+        presupuestos.pre_jun,
+        presupuestos.pre_jul,
+        presupuestos.pre_ago,
+        presupuestos.pre_sep,
+        presupuestos.pre_oct,
+        presupuestos.pre_nov,
+        presupuestos.pre_dic,
+        (presupuestos.TotalPresupuestado + presupuestos.TotalModificado) as Vigente,
+        IFNULL(SUM(num_asi_deta.Debe), 0) as Obligado,
+        ((presupuestos.TotalPresupuestado + presupuestos.TotalModificado) - IFNULL(SUM(num_asi_deta.Debe), 0)) as SaldoPresupuestario,
+        SUM(num_asi_deta.Debe) as total_debe_cuenta
+    ');
+
+    // Agregar la columna de acumulado_anterior directamente a la consulta
+    $this->db->select('COALESCE(SUM(num_asi_deta.Debe) OVER (
+        PARTITION BY 
+            cuentacontable.Codigo_CC, 
+            programa.codigo, 
+            fuente_de_financiamiento.codigo, 
+            origen_de_financiamiento.codigo
+        ORDER BY num_asi.num_asi ASC 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
+    ), 0) as acumulado_anterior');
+
+    $this->db->from('num_asi_deta');
+    $this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
+    $this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
+    $this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
+    $this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
+    $this->db->join('presupuestos', 'cuentacontable.Idcuentacontable = presupuestos.Idcuentacontable');
+    $this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
+
+    if ($numero_asiento) {
+        $this->db->where('num_asi.num_asi', $numero_asiento);
+    }
+
+    $this->db->group_by('origen_de_financiamiento.nombre, fuente_de_financiamiento.nombre, programa.nombre, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, num_asi.num_asi');
+
+    // Obtener los resultados
+    $resultados = $this->db->get()->result_array();
+
+    // Inicializar un array para almacenar los acumulados anteriores
+    $acumuladosAnteriores = array();
+
+    // Iterar sobre los resultados y almacenar los acumulados anteriores
+    foreach ($resultados as $row) {
+        $acumuladoAnterior = $row['acumulado_anterior'];
+        $acumuladosAnteriores[$row['numero_asiento']] = $acumuladoAnterior;
+    }
+
+    // Agregar el array de acumulados anteriores a los resultados
+    foreach ($resultados as &$row) {
+        $numeroAsiento = $row['numero_asiento'];
+        $row['acumulado_anterior'] = isset($acumuladosAnteriores[$numeroAsiento]) ? $acumuladosAnteriores[$numeroAsiento] : 0;
+    }
+
+    return $resultados;
+}
 	
 }

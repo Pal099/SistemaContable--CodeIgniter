@@ -60,9 +60,27 @@
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="TotalPresupuestado">Total Presupuestado:</label>
-                                                        <input type="number" class="form-control" id="TotalPresupuestado" name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>">
+                                                    <label for="TotalPresupuestado">Total Presupuestado:</label>
+                                                    <div class="input-group input-group-sm">
+                                                        <?php if (isset($presupuesto->TotalPresupuestado)): ?>
+                                                            <?php $totalPresupuestado_value = number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
+                                                            <input type="text"
+                                                                class="form-control small border-3 bg-transparent"
+                                                                id="TotalPresupuestado"
+                                                                name="TotalPresupuestado"
+                                                                value="<?php echo $totalPresupuestado_value; ?>"
+                                                                oninput="formatNumber('TotalPresupuestado', this)">
+                                                        <?php else: ?>
+                                                            <input type="number"
+                                                                class="form-control small border-3 bg-transparent"
+                                                                id="TotalPresupuestado"
+                                                                name="TotalPresupuestado"
+                                                                oninput="formatNumber('TotalPresupuestado', this)">
+                                                        <?php endif; ?>
                                                     </div>
+                                                </div>
+
+
                                                     <div class="form-group col-md-4">
                                                         <label for="origen_de_financiamiento_id_of">Origen de Financiamiento:</label>
                                                         <select name="origen_de_financiamiento_id_of" id="origen_de_financiamiento_id_of" class="form-control" required>
@@ -202,6 +220,14 @@
 
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+
+
+        <script>
+    function formatNumber(id, input) {
+        var value = input.value.replace(/\D/g, '');
+        input.value = Intl.NumberFormat('es-ES').format(value);
+    }
+</script>
     </main>
 </body>
 

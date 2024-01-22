@@ -124,6 +124,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                         <li class="breadcrumb-item active">Listado de Certificado de Disponibilidad de Presupuesto </li>
+                        
                     </ol>
                 </nav>
             </div>
@@ -139,62 +140,94 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-12">
-                                <form method="GET"
-                                    action="<?php echo base_url(); ?>obligaciones/Certific_disp_presu/busqueda_por_asiento"
-                                    ?>
-                                    <label for="numero_asiento">Buscar por Número de Asiento:</label>
-                                    <input type="text" name="numero_asiento" id="numero_asiento" />
-                                    <button type="submit">Buscar</button>
-                                </form>
+                            <form method="GET" action="<?php echo base_url(); ?>obligaciones/Certific_disp_presu/busqueda_por_asiento">
+                                <label for="numero_asiento">Buscar por Número de Asiento:</label>
+                                <input type="text" name="numero_asiento" id="numero_asiento" />
+                                <button type="submit">Buscar</button>
+                            </form>
+
+                            <?php
+                            // Verificar si se ha enviado el formulario y si hay un número de asiento en la URL
+                            if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['numero_asiento'])) {
+                                $numero_asiento = $_GET['numero_asiento'];
+                                echo '<a href="' . base_url('Pdf_cdp/generarPDF_cdp/' . $numero_asiento) . '">Generar PDF</a>';
+                            }
+                            ?>
+
+
+
 
                                 <table id="tabla" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Origen de Financiamiento</th>
-                                            <th>Fuente de Financiamiento</th>
-                                            <th>Programa</th>
-                                            <th>Código de Cuenta</th>
-                                            <th>Descripción de Cuenta</th>
                                             <th>Numero de asiento</th>
+
+                                            <th>Programa</th>
+                                            <th>SubPrograma</th>
+                                            <th>Código de Cuenta</th>
+                                            <th>O.F.</th>
+                                            <th>F.F.</th>
+                                            <th>Descripción de Cuenta</th>
                                             <th>Presupuesto Vigente</th>
-                                            <th>CDP Anteriores</th>
-                                            <th>CDP Actual</th>
+                                            <th>Reserva Presupuestaria</th>
+
+                                            <th>Obligado Actual</th>
+                                            <th>Obligado Acumulado Anterior</th>
                                             <th>Saldo Disponible</th>
                                         </tr>
                                     </thead>
+                                    
                                     <tbody>
-                                        <?php foreach ($datos_vista as $dato): ?>
+                                        
+                                        <?php foreach ($datos_vista as $dato): $acumuladoAnterior = 0;
+                                                    ?>
                                             <tr>
+                                                
+                                             <td>
+                                                    <?= $dato['numero_asiento'] ?>
+                                                </td>
                                                 <td>
-                                                    <?= $dato['nombre_origen'] ?>
+                                                    <?= $dato['nombre_programa'] ?>
+                                                </td>
+                                                
+                                                <td>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <?= $dato['codigo'] ?>
                                                 </td>
                                                 <td>
                                                     <?= $dato['nombre_fuente'] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $dato['nombre_programa'] ?>
+                                                    <?= $dato['nombre_origen'] ?>
                                                 </td>
-                                                <td>
-                                                    <?= $dato['Codigo_CC'] ?>
-                                                </td>
+
                                                 <td>
                                                     <?= $dato['Descripcion_CC'] ?>
                                                 </td>
                                                 <td>
-                                                    <?= $dato['numero_asiento'] ?>
+                                                <?= number_format($dato['Vigente'], 0, '.', ',') ?>
+                                                    
+                                                </td>
+                                                
+                                                <td>
+                                                    
                                                 </td>
                                                 <td>
-                                                    <?= $dato['pre_ene'] + $dato['pre_feb'] + $dato['pre_mar'] + $dato['pre_abr'] + $dato['pre_may'] + $dato['pre_jun'] + $dato['pre_jul'] + $dato['pre_ago'] + $dato['pre_sep'] + $dato['pre_oct'] + $dato['pre_nov'] + $dato['pre_dic'] ?>
+                                                <?= isset($dato['total_debe_cuenta']) ? number_format($dato['total_debe_cuenta'], 0, '.', ',') : 0 ?>
                                                 </td>
                                                 <td>
-                                                    <?= $dato['total_debe_cuenta'] ?>
+                                                    
+                                                <?= number_format($dato['acumulado_anterior'], 0, '.', ',') ?>
+                                                    
                                                 </td>
+                                                
+
                                                 <td>
-                                                    <?= $dato['debe_num_asi_deta'] ?>
-                                                </td>
-                                                <td>
-                                                    <?= $dato['pre_ene'] + $dato['pre_feb'] + $dato['pre_mar'] + $dato['pre_abr'] + $dato['pre_may'] + $dato['pre_jun'] + $dato['pre_jul'] + $dato['pre_ago'] + $dato['pre_sep'] + $dato['pre_oct'] + $dato['pre_nov'] + $dato['pre_dic'] - $dato['total_debe_cuenta'] ?>
-                                                </td>
+                                                <?= number_format($dato['Vigente'] - (isset($dato['total_debe_cuenta']) ? $dato['total_debe_cuenta'] : 0) - $dato['acumulado_anterior'], 0, '.', ',') ?>
+
+                                            </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>

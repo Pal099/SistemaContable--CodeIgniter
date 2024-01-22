@@ -48,14 +48,14 @@
           <tbody>
               <?php foreach($ejecucionpresupuestaria as $ep): ?>
               <tr>
-                  <td><?php echo $ep->origen_de_financiamiento_id_of; ?></td>
-                  <td><?php echo $ep->fuente_de_financiamiento_id_ff; ?></td>
-                  <td><?php echo $ep->programa_id_pro; ?></td>
-                  <td><?php echo $ep->Idcuentacontable; ?></td>
-                  <td><?php echo $ep->TotalPresupuestado; ?></td>
-                  <td><?php echo $ep->TotalModificado; ?></td>
-                  <td><?php echo $ep->Obligado; ?></td>
-                  <td><?php echo $ep->Pagado; ?></td>
+                  <td><?php echo $ep->codigo_of; ?></td>
+                  <td><?php echo $ep->codigo_ff; ?></td>
+                  <td><?php echo $ep->codigo_prog; ?></td>
+                  <td><?php echo $ep->codigo_cc; ?></td>
+                  <td><?php echo number_format($ep->TotalPresupuestado, 0, ',', '.'); ?></td>
+                  <td><?php echo number_format($ep->TotalModificado, 0, ',', '.'); ?></td>
+                  <td><?php echo number_format($ep->Obligado, 0, ',', '.'); ?></td>
+                  <td><?php echo number_format($ep->Pagado, 0, ',', '.'); ?></td>
               </tr>
               <?php endforeach; ?>
           </tbody>

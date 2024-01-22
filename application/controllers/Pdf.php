@@ -95,7 +95,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
     //Rectangulo para Retencion aplicada
     $pdf->setY(203);
     $pdf->setX(6);
-    $pdf->Rect(6,$pdf->GetY(), 204, 130);
+    $pdf->Rect(6,$pdf->GetY(), 204, 127);
     $pdf->SetFont('Arial', 'B', 12);
     $pdf->Ln();
 
@@ -778,9 +778,15 @@ $pdf->Cell(5, $textypos, "Vicerrector ");
 //------------------------//-----------------------------------------
 $nombreUsuario = $this->session->userdata('Nombre_usuario');
 
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->setY(325);
-$pdf->setX(170);
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->setY(330);
+$pdf->setX(187);
+$pdf->Cell(5, $textypos, "Usuario: ");
+
+
+$pdf->SetFont('Arial', 'B', 7);
+$pdf->setY(330);
+$pdf->setX(198);
 $pdf->Cell(5, $textypos, $nombreUsuario);
 
         $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );

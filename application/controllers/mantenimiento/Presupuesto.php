@@ -39,7 +39,7 @@ class Presupuesto extends CI_Controller
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
-			'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
+			/*'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),*/
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 
@@ -55,7 +55,7 @@ class Presupuesto extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
-			'presupuesto' => $this->Presupuesto_model->getPresupuestos($id_uni_respon_usu),
+			//'presupuesto' => $this->Presupuesto_model->getPresupuestos($id_uni_respon_usu),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
