@@ -28,10 +28,11 @@ class LibroMayor extends CI_Controller {
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+        $data['cuentacontable'] = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
 
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
-        $this->load->view('admin/libro/librolist'); // Cambiado de 'index' a 'librolist'
+        $this->load->view('admin/libro/librolist', $data); // Cambiado de 'index' a 'librolist'
         $this->load->view('layouts/footer');
     }
 
