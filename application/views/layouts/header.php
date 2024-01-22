@@ -50,12 +50,12 @@
 
 </head>
 
-<header id="header" class="header fixed-top d-flex align-items-center">
+<header id="header" class="header fixed-top d-flex align-items-center" style="background-color:#020971;">
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?php echo base_url(); ?>principal" class="logo d-flex align-items-center">
       <img src="<?php echo base_url(); ?>assets/img/codex.png">
-      <span class="d-none d-lg-block">CodexVerita</span>
+      <span class="d-none d-lg-block" style="color: #fff">CodexVeritas</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
   </div><!-- End Logo -->
@@ -66,7 +66,7 @@
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="<?php echo base_url(); ?>assets/img/codex.png" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+          <span class="d-none d-md-block dropdown-toggle ps-2" style="color: #fff;">K. Anderson</span>
         </a><!-- End Profile Iamge Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
