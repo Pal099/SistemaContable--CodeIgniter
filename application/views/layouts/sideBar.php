@@ -51,6 +51,13 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/EjecucionPC">
+                <i class="bi bi-bar-chart"></i>
+                <span>Ejecución de Plan de Caja</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/proveedores">
                 <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
