@@ -133,7 +133,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($entradas as $dato): ?>
+                                <?php foreach ($cuentascontables as $dato): ?>
                                 <tr class="list-item"
                                     onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
                                     data-bs-dismiss="modal">
