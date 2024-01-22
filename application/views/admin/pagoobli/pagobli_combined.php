@@ -28,23 +28,26 @@
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                data-bs-target="#modalListaObligacion">
-                                <i class="bi bi-plus"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                <i class="fa fa-edit ms-2"></i>
-                            </button>
-                            <button type="button" class="btn btn-primary"
-                                onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                <i class="bi bi-file-pdf"></i> PDF
-                            </button>
-                            <button class="btn btn-danger ml-3 " title="Eliminar">
-                                <i class="bi bi-trash"></i> Eliminar
-                            </button>
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                    data-bs-target="#modalListaObligacion">
+                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-warning" title="Editar"
+                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
+                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger" title="Generar PDF"
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
+                                </button>
+                                <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
+                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
@@ -60,6 +63,8 @@
                                         <div class="col-md-12">
                                             <div class="card border">
                                                 <div class="card-body">
+                                                    <h4 class="mt-4">Obligación</h4>
+                                                    <hr><!-- Separador -->
                                                     <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
@@ -139,11 +144,6 @@
                                                                 id="concepto" name="concepto">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -446,24 +446,30 @@
                                                                     </td>
                                                                     <td id="diferencia">0</td>
 
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- Botones guardar y cancelar -->
                                                     <div class="container-fluid mt-3 mb-3">
                                                         <div class="col-md-12 d-flex flex-row justify-content-center">
                                                             <button style="margin-right: 8px;" type="submit"
                                                                 class="btn btn-success" id="guardarFilas"><span
                                                                     class="fa fa-save"></span>Guardar</button>
-
-
                                                             <button type="button" class="btn btn-danger"
                                                                 onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
                                                                 <span class="fa fa-remove"></span> Cancelar
                                                             </button>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
+                                            <div class="card border">
+                                                <div class="card-body">
                                                     <!-- Tabla de Num_asi -->
+                                                    <h4 class="mt-4">Asientos</h4>
+                                                    <hr><!-- Separador -->
+                                                    </hr>
                                                     <table id="vistapago"
                                                         class="table table-hover table-bordered table-sm rounded-3">
                                                         <thead>
@@ -478,46 +484,45 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php if (!empty($asiento)): ?>
-                                                                <?php foreach ($asiento as $asien): ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php echo $asien->IDNum_Asi ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->FechaEmision ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->num_asi ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->op ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->estado ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div
-                                                                                class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#modalPresupuesto"
-                                                                                    value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                                    <span class="fa fa-search"></span>
-                                                                                </button>
-                                                                                <button class="btn btn-warning btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-pencil-fill"></i>
-                                                                                </button>
-                                                                                <button class="btn btn-danger btn-remove btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-
-                                                                    </tr>
-                                                                <?php endforeach; ?>
+                                                            <?php foreach ($asiento as $asien): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $asien->IDNum_Asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->FechaEmision ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->num_asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->op ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->estado ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class='bx bx-edit'></i>
+                                                                        </button>
+                                                                        <button class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
                                                             <?php else: ?>
                                                                 <p>No se encontraron datos.</p>
                                                             <?php endif; ?>

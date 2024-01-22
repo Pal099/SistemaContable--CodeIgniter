@@ -1,3 +1,4 @@
+
 .columna-ancha {
   width: 5%;
 }
@@ -47,12 +48,3 @@
 }
 
 
-.btn-pdf {
-  background-color: red;
-  color: white;
-}
-
-.btn-excel {
-  background-color: green;
-  color: white;
-}

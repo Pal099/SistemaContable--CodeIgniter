@@ -174,7 +174,7 @@
                     mm = '0' + mm;
                 }
                 // Concatenamos la fecha para el nombre del archivo
-                var nombreArchivo = 'Cuadro_Resultado_' + dd + '-' + mm + '-' + yyyy + '.pdf';
+                var nombreArchivo = 'Cuadro_de_Resultados_' + dd + '-' + mm + '-' + yyyy + '.pdf';
 
                 // Acá agregamos la fecha en la esquina superior derecha del documento
                 doc.setFontSize(9);
@@ -214,45 +214,98 @@
                     doc.text(line, marginLeft, startY);
                     startY += lineHeight;
                 });
-                // --------Acá se procesa los datos de la tabla para poder agregar al documento--------
+
+                // **--------Acá se procesa los datos de la tabla para poder agregar al documento--------**
                 var cuentas = <?php echo json_encode($cuentas); ?>;
 
-                // Inicializa el array tableData
+                // El array donde iran los datos
                 var tableData = [];
 
-                // Función para agregar datos al array tableData
+                // Función para agregar datos al array tableData junto con las variables para el total
+                var totalDebe = 0;
+                var totalHaber = 0;
+                var totalDeudor = 0;
+                var totalAcreedor = 0;
+
                 function agregarDatosCuenta(cuenta) {
                     var row = [];
                     row.push(cuenta.Codigo_CC);
                     row.push(cuenta.Descripcion_CC);
-                    row.push(cuenta.TotalDebe ? Number(cuenta.TotalDebe).toLocaleString('es-PY', {
+                    var debe = cuenta.TotalDebe ? Number(cuenta.TotalDebe) : 0;
+                    var haber = cuenta.TotalHaber ? Number(cuenta.TotalHaber) : 0;
+                    var deudor = cuenta.TotalDeudor ? Number(cuenta.TotalDeudor) : 0;
+                    var acreedor = cuenta.TotalAcreedor ? Number(cuenta.TotalAcreedor) : 0;
+                    row.push(debe.toLocaleString('es-PY', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
-                    }) : 0);
-                    row.push(cuenta.TotalHaber ? Number(cuenta.TotalHaber).toLocaleString('es-PY', {
+                    }));
+                    row.push(haber.toLocaleString('es-PY', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
-                    }) : 0);
-                    row.push(cuenta.TotalDeudor ? Number(cuenta.TotalDeudor).toLocaleString('es-PY', {
+                    }));
+                    row.push(deudor.toLocaleString('es-PY', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
-                    }) : 0);
-                    row.push(cuenta.TotalAcreedor ? Number(cuenta.TotalAcreedor).toLocaleString('es-PY', {
+                    }));
+                    row.push(acreedor.toLocaleString('es-PY', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
-                    }) : 0);
+                    }));
                     tableData.push(row);
                     if (cuenta.cuentasHijas) {
                         cuenta.cuentasHijas.forEach(agregarDatosCuenta);
                     }
+                    totalDebe += debe;
+                    totalHaber += haber;
+                    totalDeudor += deudor;
+                    totalAcreedor += acreedor;
                 }
 
-                // Llama a la función agregarDatosCuenta para cada cuenta
                 cuentas.forEach(agregarDatosCuenta);
 
-                // --------Acá termina de procesar los datos--------
+                //Fila donde se agrega los resutlados finales
+                //Suma
+                tableData.push([
+                    '',
+                    'Suma:',
+                    totalDebe.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalHaber.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalDeudor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalAcreedor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    })
+                ]);
+                //Resta
+                var diferenciaDebeHaber = totalDebe - totalHaber;
+                var diferenciaDeudorAcreedor = totalDeudor - totalAcreedor;
+                tableData.push([
+                    '',
+                    'Diferencia:',
+                    diferenciaDebeHaber.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    '',
+                    diferenciaDeudorAcreedor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    ''
+                ]);
 
-                /* Acá comienza la configuracion de la tabla */
+                // **--------Acá termina de procesar los datos--------**
+
+                // Configuración de la tabla
                 var headerStyles = {
                     fillColor: '#020971',
                     textColor: '#ffffff',
@@ -260,8 +313,9 @@
                 };
                 var bodyStyles = {
                     cellPadding: 2,
-                    fontSize: 10
+                    fontSize: 9 //tamaño de las letras de la tabla
                 };
+
                 var options = {
                     head: [
                         ['Número de Cuenta', 'Descripción de la Cuenta', 'Total Debe', 'Total Haber',
@@ -287,6 +341,26 @@
                     },
                     margin: {
                         top: 10
+                    },
+                    willDrawCell: function(data) {
+                        // Calculo para saber si son las 2 ultimas filas, entonces ponemos en negrita
+                        if (data.row.index >= tableData.length - 2) {
+                            doc.setFont('helvetica', 'bold');
+                        } else {
+                            doc.setFont('helvetica', 'normal');
+                        }
+                        //Acá se dibuja la linea divisoria para el totalizador
+                        if (data.row.index === tableData.length - 2) {
+                            //variables para el calculo de la linea
+                            var xPosStart = data.cell.x;
+                            var xPosEnd = xPosStart + data.cell.width;
+                            var yPos = data.cell.y;
+
+                            //Configuracion de la linea
+                            doc.setLineWidth(1); //grosor
+                            doc.setDrawColor(0, 0, 0); //color
+                            doc.line(xPosStart, yPos, xPosEnd, yPos);
+                        }
                     }
                 };
 
