@@ -30,10 +30,8 @@ class Certific_disp_presu extends CI_Controller {
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
-        $this->load->view("admin/cdp/obli_combined", $data);
+        $this->load->view("admin/cdp/list", $data);
         $this->load->view("layouts/footer");
-		$this->load->view("fpdf");
-
     }
 
 

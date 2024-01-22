@@ -902,7 +902,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="searchInput" placeholder="Buscar por código o descripción...">
                     <table class="table table-hover table-sm" id="TablaCuentaCont1">
                         <thead>
                             <tr>
@@ -944,7 +943,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="searchInput_2" placeholder="Buscar por código o descripción...">
                     <table class="table table-hover table-sm" id="TablaCuentaCont2">
                         <thead>
                             <tr>
@@ -989,13 +987,12 @@
 
     <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
     <script>
-    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    function selectCC(IDCuentaContable, codigoCC, descripcionCC) {
         // Actualizar los campos de texto en la vista principal con los valores seleccionados
         document.getElementById('idcuentacontable').value = IDCuentaContable;
         document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
         document.getElementById('descripcion_cc').value =
             Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
-
     }
     </script>
 
@@ -1027,9 +1024,6 @@
             console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
         }
     }
-
-    // Abrir modal en fila dinamica
-    const openModalBtn_4 = document.getElementById("openModalBtn_4");
     // Actualiza la función de clic para pasar la fila actual al abrir el modal
     document.getElementById("miTabla").addEventListener("click", function(event) {
 
@@ -1155,8 +1149,6 @@
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de Popper para el toast -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <!-- Script de DataTable de jquery -->
-    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de DataTable de vista  -->
     <script>
     $(document).ready(function() {
