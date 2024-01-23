@@ -5,7 +5,7 @@ class Pdf extends CI_Controller {
 
     public function index()
     {
-        $this->load->model("Pdf_model"); // Load the model first
+        $this->load->model("Pdf_model"); // Load the model firsta
         $datos['titulo'] = 'Reporte de Obligaciones';
         $datos['ultimosDatos'] = $this->Pdf_model->obtenerDatos();
         $this->load->view('layouts/header');
