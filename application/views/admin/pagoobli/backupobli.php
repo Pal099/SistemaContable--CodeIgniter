@@ -778,7 +778,7 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
 
         <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
                   '<?= $asi->pagado ?>','<?= $asi->pago ?>','<?= $asi->pagado ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>','<?= $asi->suma_monto ?>'
-                  ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                  ,'<?= $asi->telefono ?>','<?= $asi->detalle?>','<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
             <td><?= $asi->ruc_proveedor ?></td>
             <td><?= $asi->razso_proveedor ?></td>
             <td><?= $asi->numero ?></td>
@@ -794,6 +794,7 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
             <td><?= $asi->nombre_origen ?></td>
             <td><?= $asi->suma_monto ?></td>
             <td><?= $estado_texto ?></td> <!-- Mostrar el estado en una nueva columna -->
+
         </tr>
     <?php endforeach; ?>
 </tbody>
@@ -925,13 +926,12 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     // Función para cerrar el modal
     function closeModal_2() {
         var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'none';2
+        modalContainer.style.display = 'none';
         openModalBtn.style.zIndex = 1;
     }
 
-    function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, montoPagado, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+    function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, montoPagado, debes, habers, fuentes, programas, origens, cuentas, telefono, detalle, descrip, codigoDescrip) {
     // Actualizar los campos de texto en la vista principal
-    console.log(fuentes, programas, origens);
     document.getElementById('ruc').value = ruc;
     document.getElementById('contabilidad').value = razonSocial;
     document.getElementById('tesoreria').value = razonSocial;
@@ -945,7 +945,10 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     document.getElementById('id_pro').value = programas;
     document.getElementById('id_of').value = origens;
     document.getElementById('cuentacontable').value = cuentas;
+    document.getElementById('telefono').value = telefono;
+    document.getElementById('observacion').value = detalle; // Añadir línea para el teléfono
     document.getElementById('cuentacontable').value = descrip;
+
 
     closeModal_2(); // Cierra el modal después de seleccionar un proveedor
 }
@@ -1032,6 +1035,14 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         });
     </script>
 
+<script>
+    var deseaGenerarPDF = confirm("¿Desea generar un PDF con el último registro ingresado?");
+
+    if (deseaGenerarPDF) {
+        // Redirigir a la vista del PDF o hacer la acción necesaria para generar el PDF
+        window.open("<?php echo base_url('obligaciones/Pago_de_obligaciones/pdfs'); ?>", "_blank");
+    }
+</script>
 
 </body>
 

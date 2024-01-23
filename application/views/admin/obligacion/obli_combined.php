@@ -34,19 +34,18 @@
                                 <label class="form-check-label" for="camposOpcionalesSwitch">Campos
                                     Opcionales</label>
                             </div>
-                            <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                    data-bs-target="#modalContainer_proveedores">
-                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
-                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-success" title="Generar EXCEL" id="openModalBtn">
-                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
-                                </button>
-                            </div>
+                            <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                data-bs-target="#modalContainer_proveedores">
+                                <i class="bi bi-plus"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-pdf"
+                                onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                                <i class="bi bi-file-pdf"></i> PDF
+                            </button>
+                            <button type="button" class="btn btn-excel" title="Ec" id="openModalBtn">
+                                <i class="bi bi-file-excel"></i> Excel
+                            </button>
                         </div>
                     </div>
                 </div>
