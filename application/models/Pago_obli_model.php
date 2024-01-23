@@ -10,7 +10,7 @@ public function obtener_asientos($id_uni_respon_usu) {
 	 	num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee,
 		num_asi.MontoPagado as pagado, num_asi.op as op, proveedores.ruc as ruc_proveedor,proveedores.direccion as direccion_proveedor, proveedores.razon_social as razso_proveedor,
 	 	fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
-		cuentacontable.Descripcion_CC as descrip ');
+		cuentacontable.Descripcion_CC as descrip, num_asi_deta.IDNum_Asi_Deta as id_numasideta');
 	$this->db->from('num_asi_deta');
 	$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
 	$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
@@ -22,11 +22,12 @@ public function obtener_asientos($id_uni_respon_usu) {
 	$this->db->where('num_asi.MontoPagado <= num_asi.MontoTotal');
 	$this->db->where('num_asi_deta.estado_registro', '1');
 	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+	//$this->db->limit(1);  // Agrega esta línea para limitar a un solo registro
 	
 	$resultados = $this->db->get();
 	return $resultados->result();    
-
 }
+
 public function GETasientos($id_uni_respon_usu) {
 	$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.estado_registro, p.razon_social, na.MontoTotal');
 	$this->db->from('num_asi na');

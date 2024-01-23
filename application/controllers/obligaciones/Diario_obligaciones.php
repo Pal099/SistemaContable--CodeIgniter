@@ -305,6 +305,7 @@ class Diario_obligaciones extends CI_Controller
 			redirect(base_url() . "obligaciones/diario_obligaciones/add" . $idobli);
 		}
 	}
+	
 
 
 
