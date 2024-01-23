@@ -91,7 +91,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$op = $datosFormulario['op'];
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
-		$id_num_asi = $this->input->post("IDNum_Asi");
+		$id_num_asi = $datosFormulario['idnumasi'];
 		$contabilidad = $datosFormulario['contabilidad'];
 		$direccion = $datosFormulario['direccion'];
 		$telefono = $datosFormulario['telefono'];
@@ -158,7 +158,7 @@ class Pago_de_obligaciones extends CI_Controller
 			// Aquí deberías llamar a la función que obtiene $id_num_asi
 			$id_num_asi = $this->Pago_obli_model->getIdNumAsiByProveedor($proveedor_id);
 
-			$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
+			$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id);
 
 			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 

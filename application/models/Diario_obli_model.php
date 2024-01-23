@@ -300,10 +300,9 @@ class Diario_obli_model extends CI_Model {
 	}
 
 
-	public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id,$numero) {
+	public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id) {
 		$this->db->where('IDNum_Asi', $id_num_asi);
 		$this->db->where('id_form', '1');
-		$this->db->where('num_asi', $numero);
 		$this->db->where('id_provee', $proveedor_id);
 		$this->db->update('num_asi', array('SumaMonto' => $suma_monto, 'MontoPagado' =>$suma_monto));
 		return $this->db->affected_rows() > 0;

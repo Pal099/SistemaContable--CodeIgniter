@@ -111,6 +111,11 @@
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
                                                         </div>
+                                                        <div class="form-group col-md-2 columna-hidden">
+                                                            <input type="text" class="form-control w-100" id="num_asio"
+                                                                name="num_asio" 
+                                                                readonly>
+                                                        </div>
                                                         <div class="form-group col-md-2">
                                                             <label for="num_asi">N° asiento:</label>
                                                             <input type="text" class="form-control w-100" id="num_asi"
@@ -566,15 +571,16 @@
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
+                                <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
                                 <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
                                     <tr class="list-item"
-                                        onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->MontoPago ?>',
+                                        onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>')"
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
                                         data-bs-dismiss="modal">
                                         <td>
                                             <?= $asientoN + 1 ?>
@@ -598,7 +604,7 @@
                                             <?= $asi->pagado ?>
                                         </td>
                                         <td>
-                                            <?= $asi->MontoPago ?>
+                                            <?= $asi->total ?>
                                         </td>
                                         <td hidden>
                                             <?= $asi->Debe ?>
@@ -629,6 +635,9 @@
                                         <td hidden>
                                             <?= $asi->cheques_che_id ?>
                                         </td>
+                                        <td hidden>
+                                            <?= $asi->id_numasi ?>
+                                        </td>
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -642,13 +651,13 @@
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta,) {
+        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta,numasio,pagado) {
 
             var descripcionConPrefijo = 'A.P. ' + descrip;
             //var descripcionConPrefijo2 = 'A.P.' + descrip;
             var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
             //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
-
+            
             
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
@@ -689,6 +698,8 @@
             document.getElementById('detalles').value = deta;
             document.getElementById('comprobante').value = comp;
             document.getElementById('cheques_che_id').value = cheq;
+            document.getElementById('num_asio').value = numasio;
+            document.getElementById('MontoPago_2').value = pagado;
         }
 
     </script>
@@ -832,17 +843,19 @@
                 tesoreria: $("#tesoreria").val(),
                 concepto: $("#concepto").val(),
                 fecha: $("#fecha").val(),
+                idnumasi: $("#num_asio").val(),
 
                 // Agrega más campos según sea necesario
                 id_pro: $("#id_pro").val(),
                 id_ff: $("#id_ff").val(),
                 id_of: $("#id_of").val(),
                 IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-                MontoPago: $("#MontoPago").val(),
+                MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
                 comprobante: $("#comprobante").val(),
                 Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
+                
 
             };
 
@@ -880,7 +893,7 @@
             };
 
             var diferenciaActualizada = parseFloat($("#diferencia").text());
-
+            
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
                     url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',

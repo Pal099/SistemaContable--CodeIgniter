@@ -19,7 +19,7 @@ public function obtener_asientos($id_uni_respon_usu) {
 	$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
 	$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
 	$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-	$this->db->where('num_asi.MontoPagado <= num_asi.MontoTotal');
+	$this->db->where('num_asi.MontoPagado < num_asi.MontoTotal');
 	$this->db->where('num_asi_deta.estado_registro', '1');
 	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 	
