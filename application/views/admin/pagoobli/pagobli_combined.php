@@ -111,7 +111,7 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                        <div class="form-group col-md-1 columna-hidden">
+                                                        <div class="form-group col-md-2">
                                                             <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
@@ -128,12 +128,12 @@
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label for="contabilidad">Nombre y Apellido:</label>
                                                             <input type="text" class="form-control w-100"
                                                                 id="contabilidad" name="contabilidad">
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label for="fecha">Fecha:</label>
                                                             <input type="datetime-local" class="form-control" id="fecha"
                                                                 name="fecha" required>
@@ -216,7 +216,7 @@
                                                                             type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="descripcion_cc" name="descripcion_cc">
-                                                                        <button data-bs-toggle="modal"
+                                                                        <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary"
@@ -345,7 +345,7 @@
                                                                             class="form-control border-0 bg-transparent descripcion_cc_2"
                                                                             id="descripcion_cc_2"
                                                                             name="descripcion_cc_2">
-                                                                        <button data-bs-toggle="modal"
+                                                                        <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont2"
                                                                             style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary openModalBtn_4"
@@ -424,27 +424,25 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <div class="card-body">
-                                                        <table id="miTabla2"
-                                                            class="table table-hover table-bordered table-sm rounded-3 mt-4">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>Debe</th>
-                                                                    <th>Haber</th>
-                                                                    <th>Diferencia</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <input type="text" id="DebeC"
-                                                                            class="form-control">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input type="text" id="HaberC"
-                                                                            class="form-control">
-                                                                    </td>
-                                                                    <td id="diferencia">0</td>
+                                                    <!-- Tabla del debe, haber y Diferencia -->
+                                                    <table id="miTabla2"
+                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Debe</th>
+                                                                <th>Haber</th>
+                                                                <th>Diferencia</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="DebeC" class="form-control border-0 bg-transparent">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="HaberC" class="form-control border-0 bg-transparent">
+                                                                </td>
+                                                                <td id="diferencia">0</td>
 
                                                             </tr>
                                                         </tbody>
@@ -511,11 +509,11 @@
                                                                             value="<?php echo $asien->IDNum_Asi; ?>">
                                                                             <span class="fa fa-search"></span>
                                                                         </button>
-                                                                        <button class="btn btn-warning btn-sm"
+                                                                        <button type="button" class="btn btn-warning btn-sm"
                                                                             onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class='bx bx-edit'></i>
                                                                         </button>
-                                                                        <button class="btn btn-danger btn-remove btn-sm"
+                                                                        <button type="button" class="btn btn-danger btn-remove btn-sm"
                                                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>

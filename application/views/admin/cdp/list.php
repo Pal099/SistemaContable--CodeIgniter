@@ -46,7 +46,7 @@
                                                 echo '<a href="' . base_url('Pdf_cdp/generarPDF_cdp/' . $numero_asiento) . '">Generar PDF</a>';
                                             }
                                             ?>
-                                            <table id="TablaCDP" class="table table-bordered table-hover">
+                                            <table id="TablaCDP" class="table table-hover table-sm rounded-3">
                                                 <thead>
                                                     <tr>
                                                         <th>Origen de Financiamiento</th>
