@@ -276,7 +276,7 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php if (isset($Debe)): ?>
-                                                                    <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                    <?php $debe_value = number_format($Debe, 2, '.', '.'); ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
                                                                         id="Debe" name="Debe"
@@ -404,7 +404,7 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php if (isset($haber_2)): ?>
-                                                                    <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                    <?php $haber_2_value = number_format($haber_2, 2, '.', '.'); ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent form formatoNumero"
                                                                         id="Haber_2" name="Haber_2"
@@ -505,10 +505,10 @@
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
                                                             <td>
-                                                                <?php echo $asien->id_provee ?>
+                                                                <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>
-                                                                <?php echo $asien->MontoTotal ?>
+                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
                                                             </td>
                                                             <td>
                                                                 <div
@@ -1047,7 +1047,7 @@
                 }
             }
         </script>
-        <!--         <script>
+         <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
                 document.getElementById('Debe').addEventListener('input', function () {
@@ -1055,7 +1055,7 @@
                 document.getElementById('Haber').value = 0;
                 document.getElementById('Debe_2').value = 0;
             });
-        </script> -->
+        </script>
         <script>
             function calcularTotalesYDiferencia() {
                 var sumaDebe = 0;
@@ -1074,17 +1074,23 @@
                     sumaHaber += parseFloat(valorHaber) || 0;
                 });
 
-                // Actualizar los campos y la diferencia
-                $("#DebeC").val(sumaDebe.toFixed(2));
-                $("#HaberC").val(sumaHaber.toFixed(2));
-                var diferenciaTotal = sumaDebe - sumaHaber;
-                $("#diferencia").text(diferenciaTotal.toFixed(2));
-            }
+                            // Formatear como número con separadores de miles
+                    $("#DebeC").val(formatearNumero(sumaDebe));
+                    $("#HaberC").val(formatearNumero(sumaHaber));
+                    var diferenciaTotal = sumaDebe - sumaHaber;
+                    $("#diferencia").text(formatearNumero(diferenciaTotal));
+                }
 
-            // Vincular eventos
-            $(document).ready(function () {
-                $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
-            });
+                function formatearNumero(numero) {
+                    // Asegurarse de que el número es un tipo flotante
+                    numero = parseFloat(numero);
+                    // Convertir a texto y añadir separadores de miles
+                    return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                $(document).ready(function () {
+                    $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+                });
 
         </script>
 

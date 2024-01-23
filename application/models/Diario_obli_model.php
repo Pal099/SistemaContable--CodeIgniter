@@ -16,16 +16,18 @@ class Diario_obli_model extends CI_Model {
         return $this->db->get('num_asi')->row_array();
     }
 	public function GETasientos($id_uni_respon_usu) {
-		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado_registro, id_provee, MontoTotal');
-		$this->db->where('estado_registro', '1');
-		$this->db->where('id_form', '1');
-		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->join('proveedores', 'num_asi.id_form = proveedores.id');
-
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		$resultados = $this->db->get('num_asi');
+		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.estado_registro, p.razon_social, na.MontoTotal');
+		$this->db->from('num_asi na');
+		$this->db->join('uni_respon_usu uru', 'na.id_uni_respon_usu = uru.id_uni_respon_usu');
+		$this->db->join('proveedores p', 'na.id_provee = p.id'); // Corregido para unir con la tabla de proveedores correctamente
+		$this->db->where('na.estado_registro', '1');
+		$this->db->where('na.id_form', '1');
+		$this->db->where('uru.id_uni_respon_usu', $id_uni_respon_usu);
+	
+		$resultados = $this->db->get();
 		return $resultados->result();
 	}
+	
 	public function GETasientosD($id_uni_respon_usu) {
 		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
 		$this->db->where('estado_registro', '1');

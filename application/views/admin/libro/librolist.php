@@ -1,5 +1,8 @@
 <!-- librolist.php en application/views/admin/libro/ -->
-
+<head>
+    <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+</head>
 <main id="main" class="main">
     <nav>
         <ol class="breadcrumb">
@@ -20,7 +23,7 @@
         <hr> <!-- barra separadora -->
         <div class="container-fluid">
             <!-- Campos principales -->
-            <div class="row">
+            <div class="seccion_tabla">
                 <div class="container-fluid mt-2">
                     <div class="row justify-content-center">
                         <div class="col-md-12">
@@ -28,46 +31,99 @@
                                 <div class="card-body">
                                     <form class="row g-3 mb-4 mt-2"
                                         action="<?php echo base_url();?>mantenimiento/LibroMayor/mostrarLibroMayor" method="post">
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-3">
-                                                    <label for="fechaInicio" class="form-label">Fecha de Operación
-                                                        Desde:</label>
-                                                    <input type="date" class="form-control" id="fechaInicio"
-                                                        name="fecha_inicio">
-                                                </div>
-                                                <div class="col-md-3">
-                                                    <label for="fechaFin" class="form-label">Hasta:</label>
-                                                    <input type="date" class="form-control" id="fechaFin"
-                                                        name="fecha_fin">
-                                                </div>
-                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <input type="hidden" class="form-control"
-                                                                id="idcuentacontable" name="idcuentacontable">
-                                                            <input style="width: 40%; font-size: small;" type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="codigo_cc" name="codigo_cc" required>
-                                                            <input style="font-size: small;" type="text"
-                                                                class="form-control border-0 bg-transparent"
-                                                                id="descripcion_cc" name="descripcion_cc">
-                                                            <button data-bs-toggle="modal"
-                                                                data-bs-target="#modalCuentasCont1"
-                                                                class="btn btn-sm btn-outline-primary"
-                                                                id="openModalBtn_3"
-                                                                onclick="openModal(event)">
-                                                                <i class="bi bi-search"></i>
-                                                    </button>
-                                                </div>
+                                        <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                    id="miTabla">
 
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                        </div>
+                                                    <thead class="align-middle">
+                                                        <tr>
+                                                            <th class="columna-ancha">Diario:</th>
+
+                                                            <th class="columna-ancha">Prog</th>
+                                                            <th class="columna-fuente">F.F.</th>
+                                                            <th class="columna-origen">O.F.</th>
+                                                            <th class="columna-ctncontable">Cuenta Contable</th>
+                                                            <th class="columna-ancha">Generar Mayor</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="align-items-center">
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <select class="form-control border-0 bg-transparent" id="id_form" name="id_form" required>
+                                                                        <option value="1">Obligación</option>
+                                                                        <option value="2">Pago</option>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent "
+                                                                        id="id_pro" name="id_pro">
+                                                                        <?php foreach ($programa as $prog): ?>
+                                                                        <option value="<?php echo $prog->id_pro; ?>">
+                                                                            <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_ff" name="id_ff" required>
+                                                                        <?php foreach ($fuente_de_financiamiento as $ff): ?>
+                                                                        <option value="<?php echo $ff->id_ff; ?>">
+                                                                            <?php echo $ff->codigo . ' - ' . $ff->nombre ; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm ">
+                                                                    <select class="form-control border-0 bg-transparent"
+                                                                        id="id_of" name="id_of" required>
+                                                                        <?php foreach ($origen_de_financiamiento as $of): ?>
+                                                                        <option value="<?php echo $of->id_of; ?>">
+                                                                            <?php echo $of->codigo . ' - ' . $of->nombre ; ?>
+                                                                        </option>
+                                                                        <?php endforeach; ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <input type="hidden" class="form-control"
+                                                                        id="idcuentacontable" name="idcuentacontable">
+                                                                    <input style="width: 40%; font-size: small;"
+                                                                        type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="codigo_cc" name="codigo_cc" required>
+                                                                    <input style="font-size: small;" type="text"
+                                                                        class="form-control border-0 bg-transparent"
+                                                                        id="descripcion_cc" name="descripcion_cc">
+                                                                    <button type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCuentasCont1"
+                                                                        class="btn btn-sm btn-outline-primary"
+                                                                        id="openModalBtn_3">
+                                                                        <i class="bi bi-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                            <div class="col-md-3 ">
+                                                                <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                            </div>
+                                                            </td>
+
+                                      
                                     </form>
-                                    
+
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
+
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -176,5 +232,30 @@
                 // Tu lógica para abrir el modal aquí si es necesario
             });
         }); 
+        </script>
+        <script>
+            $(document).ready(function () {
+                var table1 = $('#TablaCuentaCont1').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
+
+                var table2 = $('#TablaCuentaCont2').DataTable({
+                    paging: true,
+                    pageLength: 10,
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
+            });
         </script>
 </main>

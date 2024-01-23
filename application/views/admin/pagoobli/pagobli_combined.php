@@ -476,7 +476,7 @@
                                                                 <th>Fecha de Emisión</th>
                                                                 <th>num_asi</th>
                                                                 <th>op</th>
-                                                                <th>Estado</th>
+                                                                <th>Proveedor</th>
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
@@ -497,7 +497,7 @@
                                                                     <?php echo $asien->op ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php echo $asien->estado ?>
+                                                                    <?php echo $asien->razon_social ?>
                                                                 </td>
                                                                 <td>
                                                                     <div
@@ -1092,38 +1092,58 @@
             }
         }
     </script>
-
-    <script>
-        function calcularTotalesYDiferencia() {
-            var sumaDebe = 0;
-            var sumaHaber = 0;
-
-
-            $("#miTabla tbody tr").each(function () {
-                // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-                var valorDebe = $(this).find("input[name*='Debe']").val();
-                var valorHaber = $(this).find("input[name*='Haber']").val();
-                // Realizar reemplazo por separado
-                valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
-                valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
-                // Convertir a número y sumar
-                sumaDebe += parseFloat(valorDebe) || 0;
-                sumaHaber += parseFloat(valorHaber) || 0;
+         <script>
+            // Este script escucha los cambios en el campo 'debe'
+            // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
+                document.getElementById('Debe').addEventListener('input', function () {
+                document.getElementById('Haber').value = 0;
             });
+        </script>
+         <script>
+            // Este script escucha los cambios en el campo 'debe'
+            // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
+                document.getElementById('Haber_2').addEventListener('input', function () {
+                document.getElementById('Debe_2').value = 0;
+            });
+        </script>
+<script>
+            function calcularTotalesYDiferencia() {
+                var sumaDebe = 0;
+                var sumaHaber = 0;
 
-            // Actualizar los campos y la diferencia
-            $("#DebeC").val(sumaDebe.toFixed(2));
-            $("#HaberC").val(sumaHaber.toFixed(2));
-            var diferenciaTotal = sumaDebe - sumaHaber;
-            $("#diferencia").text(diferenciaTotal.toFixed(2));
-        }
 
-        // Vincular eventos
-        $(document).ready(function () {
-            $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
-        });
+                $("#miTabla tbody tr").each(function () {
+                    // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+                    var valorDebe = $(this).find("input[name*='Debe']").val();
+                    var valorHaber = $(this).find("input[name*='Haber']").val();
+                    // Realizar reemplazo por separado
+                    valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+                    valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+                    // Convertir a número y sumar
+                    sumaDebe += parseFloat(valorDebe) || 0;
+                    sumaHaber += parseFloat(valorHaber) || 0;
+                });
 
-    </script>
+                            // Formatear como número con separadores de miles
+                    $("#DebeC").val(formatearNumero(sumaDebe));
+                    $("#HaberC").val(formatearNumero(sumaHaber));
+                    var diferenciaTotal = sumaDebe - sumaHaber;
+                    $("#diferencia").text(formatearNumero(diferenciaTotal));
+                }
+
+                function formatearNumero(numero) {
+                    // Asegurarse de que el número es un tipo flotante
+                    numero = parseFloat(numero);
+                    // Convertir a texto y añadir separadores de miles
+                    return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                }
+
+                $(document).ready(function () {
+                    $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+                });
+
+        </script>
+
     <!-- Script encargado de las tabla de Lista de Obligacion -->
     <script>
         $(document).ready(function () {
