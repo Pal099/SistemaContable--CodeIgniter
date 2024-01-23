@@ -853,36 +853,36 @@
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
-            var filas = [];
+        var filas = [];
 
 
             $("#miTabla tbody tr:gt(0)").each(function () {
 
-                var fila = {
-                    id_pro: $(this).find("select[name='id_pro_2']").val(),
-                    id_ff: $(this).find("select[name='id_ff_2']").val(),
-                    id_of: $(this).find("select[name='id_of_2']").val(),
-                    IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                    detalles: $(this).find("input[name='detalles_2']").val(),
-                    comprobante: $(this).find("input[name='comprobante_2']").val(),
-                    Debe: $(this).find("input[name='Debe_2']").val(),
-                    Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                };
-                // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
-                var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
-                sumahaber += valorClonado;
-                filas.push(fila);
-            });
-
-
-            // Combinar datos del formulario principal y de las filas dinámicas
-            var datosCompletos = {
-                datosFormulario: datosFormulario,
-                filas: filas,
+            var fila = {
+                id_pro: $(this).find("select[name='id_pro_2']").val(),
+                id_ff: $(this).find("select[name='id_ff_2']").val(),
+                id_of: $(this).find("select[name='id_of_2']").val(),
+                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                detalles: $(this).find("input[name='detalles_2']").val(),
+                comprobante: $(this).find("input[name='comprobante_2']").val(),
+                Debe: $(this).find("input[name='Debe_2']").val(),
+                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
             };
+            // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
+            var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
+            sumahaber += valorClonado;
+            filas.push(fila);
+        });
 
-            var diferenciaActualizada = parseFloat($("#diferencia").text());
+
+        // Combinar datos del formulario principal y de las filas dinámicas
+        var datosCompletos = {
+            datosFormulario: datosFormulario,
+            filas: filas,
+        };
+
+        var diferenciaActualizada = parseFloat($("#diferencia").text());
 
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({

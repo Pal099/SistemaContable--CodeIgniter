@@ -129,6 +129,6 @@ class Financiamiento extends CI_Controller {
 			'estado' => "0", 
 		);
 		$this->Registros_financieros_model->update($id,$data);
-		echo "registro/financiamiento";
+		redirect(base_url() . "registro/financiamiento");
 	}
 }

@@ -3,6 +3,8 @@
 class Balance_Gral_model extends CI_Model
 {
     public function obtenerDatosCuentas() {
+        $this->db->like('Codigo_CC', '2', 'after'); // Solo cuentas que comienzan con 2
+        $this->db->or_like('Codigo_CC', '4', 'after'); // Solo cuentas que comienzan con 4
         $query = $this->db->get('cuentacontable');
         return $query->result();
     }

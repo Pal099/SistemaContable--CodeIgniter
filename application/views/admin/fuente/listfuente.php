@@ -39,7 +39,7 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
@@ -57,6 +57,20 @@
                       <td>
                         <?php echo $fuente->nombre; ?>
                       </td>
+<td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                 
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>registro/financiamiento/edit/<?php echo  $fuente->id_ff; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>registro/financiamiento/<?php echo $fuente->id_ff; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
+
+
                     </tr>
                   <?php endforeach; ?>
                 <?php endif; ?>
