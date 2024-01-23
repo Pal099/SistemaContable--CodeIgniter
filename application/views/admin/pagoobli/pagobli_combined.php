@@ -113,8 +113,7 @@
                                                         </div>
                                                         <div class="form-group col-md-2 columna-hidden">
                                                             <input type="text" class="form-control w-100" id="num_asio"
-                                                                name="num_asio" 
-                                                                readonly>
+                                                                name="num_asio" readonly>
                                                         </div>
                                                         <div class="form-group col-md-2">
                                                             <label for="num_asi">N° asiento:</label>
@@ -140,8 +139,8 @@
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label for="concepto">Concepto:</label>
-                                                            <input type="text" class="form-control w-100"
-                                                                id="concepto" name="concepto">
+                                                            <input type="text" class="form-control w-100" id="concepto"
+                                                                name="concepto">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -225,8 +224,7 @@
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary"
-                                                                            id="openModalBtn_3"
-                                                                            onclick="openModal(event)">
+                                                                            id="openModalBtn_3">
 
                                                                             <i class="bi bi-search"></i>
                                                                         </button>
@@ -252,6 +250,13 @@
                                                                         <input type="text"
                                                                             class="form-control small border-0 bg-transparent"
                                                                             id="MontoPago" name="MontoPago" readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="MontoTotal" name="MontoTotal" readonly>
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -651,41 +656,42 @@
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta,numasio,pagado) {
+        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta, numasio, pagado) {
 
             var descripcionConPrefijo = 'A.P. ' + descrip;
             //var descripcionConPrefijo2 = 'A.P.' + descrip;
             var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
             //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
-            
-            
+
+
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('fecha').value = fechas;
             document.getElementById('concepto').value = concepto;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
+            document.getElementById('MontoTotal').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
             //Prueba '&descripcion2=' + descripcionCodificada2
             $.ajax({
                 type: 'GET',
-                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada ,
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada,
                 data: { descripcionConPrefijo },
                 success: function (respuesta) {
                     // Dividir la cadena de respuesta en un array usando la coma como separador
                     var valores = respuesta.split(',');
-                    
+
                     // Asignar los valores a los campos correspondientes
                     $('#idcuentacontable').val(valores[1]);
                     $('#codigo_cc').val(valores[2]);
                     $('#descripcion_cc').val(valores[3]);
 
                     // Imprimir los valores en la consola para verificar
-                    
-                    console.log(valores[1], "+", valores[2], "+", valores[3]);
+
                    
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Error en la solicitud AJAX');
@@ -694,7 +700,7 @@
                     console.log('Error:', error);
                 }
             });
-           
+
             document.getElementById('detalles').value = deta;
             document.getElementById('comprobante').value = comp;
             document.getElementById('cheques_che_id').value = cheq;
@@ -855,11 +861,11 @@
                 Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
-                
+
 
             };
 
-            console.log('Valor de IDCuentaContable:', datosFormulario.IDCuentaContable);
+           
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
@@ -893,39 +899,52 @@
             };
 
             var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
+            var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
+            var Suma = debe + Totalpagado;
+            var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+           
             
-            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: { datos: datosCompletos },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function (response) {
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            // ... (código adicional si es necesario)
+            if (Suma <= total) {
+                
+                if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+                    $.ajax({
+                        url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+                        type: 'POST',
+                        data: { datos: datosCompletos },
+                        //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                        success: function (response) {
+                            if (response.includes('Datos guardados exitosamente.')) {
+                                alert('Datos guardados exitosamente.');
+                                // ... (código adicional si es necesario)
+                            } else {
+                                alert('Error al guardar los datos: ' + response);
+                                // ... (código adicional si es necesario)
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
                         }
-                    },
-                    error: function (xhr, status, error) {
-
-                        console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                        console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                    }
-                });
+                    });
+                } else {
+                    alert('El debe y el haber son diferentes');
+                    return false;
+                }
             } else {
-                alert('El debe y el haber son diferentes');
+                alert('El Monto Pagado es mayor al Total a Pagar');
                 return false;
             }
+
+
             e.stopPropagation();
 
         });
@@ -1069,7 +1088,7 @@
                 currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
                 currentRow.find('.codigo_cc_2').val(Codigo_CC);
                 currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-                closeModal_4();
+                
             } else {
                 console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
             }
