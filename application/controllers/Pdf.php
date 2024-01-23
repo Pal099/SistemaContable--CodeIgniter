@@ -278,17 +278,26 @@ $pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(55);
 $pdf->setX(111);
-$pdf->Cell(5, $textypos, "Importe Cheque(s):"); //Titulo
+$pdf->Cell(5, $textypos, "Importe Cheque(s):"); //Cheque
+
+
 //-----------Para el menos retención-------------------
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->setY(55);
 $pdf->setX(177);
 $pdf->Cell(5, $textypos, "(Menos Retencion)"); //Titulo
-//----------------//------------------------------------
+
+//El valor del haber
+$montopagado = $datosProveedor[0]['montopagado'];
+
+// Calcula el IVA (10%)
+$iva = $montopagado * 0.4;
+
 $pdf->SetFont('Arial', '', 10   );  // Sin negrita para los datos de la base de datos
 $pdf->setY(55);
 $pdf->setX(145);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, number_format($iva, 0));
+
 
 //----------------//-------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -491,54 +500,114 @@ $pdf->SetFont('Arial', 'B', 13);
 $pdf->setY(113);
 $pdf->setX(80);
 $pdf->Cell(5, $textypos, "Imputacion Presupuestaria");
-//----------------------------//-------
+
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(7);
 $pdf->Cell(5, $textypos, "Periodo");
 
+$pdf->SetFont('Arial', '', 10);
+$pdf->setY(126);
+$pdf->setX(9);
+$pdf->Cell(5, $textypos, "2024");
+
+//-----------------//----------------------------------------------------
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(28);
 $pdf->Cell(5, $textypos, "Tipo");
+
+
+if (isset($datosProveedor['tipo'])) {
+$pdf->SetFont('Arial', '', 10);  // tipo
+$texto = $datosProveedor['tipo'];
+$pdf->setY(140);
+$pdf->setX(28);
+$pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+}
+//------------------------//-------------------------------------------------
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(43);
 $pdf->Cell(5, $textypos, "Programa");
 
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(48);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['codigo_pro']);
+
+//------------------------//------------------------------------------
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(65);
 $pdf->Cell(5, $textypos, "Sub. Pro");
 
+//----------------------//----------------------------------------
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(86);
 $pdf->Cell(5, $textypos, "Rubro");
 
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(88);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['id_cc']);
+
+//--------------------------//---------------------------------
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(104);
 $pdf->Cell(5, $textypos, "Org.");
+
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(105);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['codigo_of']);
+
+//-----------------------------//---------------------------------
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(118);
 $pdf->Cell(5, $textypos, "Dpto.");
 
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(120);
+$pdf->Cell(5, $textypos, '10');
+
+//----------------------------//---------------
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(134);
 $pdf->Cell(5, $textypos, "Concepto");
 
+
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(132);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+//------------------------//----------------------
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(120);
 $pdf->setX(173);
 $pdf->Cell(5, $textypos, "Importe del Egreso");
+
+$mpago=$datosProveedor[0]['montopagado'];
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(126);
+$pdf->setX(187);
+$pdf->Cell(5, $textypos, number_format($mpago,0));
+
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(123);
@@ -654,12 +723,20 @@ $pdf->setX(80);
 $pdf->Cell(5, $textypos, "Multa Incumplimiento: ");
 
 
-
 //-----------------------//-------------------------------------------------
+// Obtén el valor del haber
+$montopagado = $datosProveedor[0]['montopagado'];
+
+// Calcula el IVA (10%)
+$iva = $montopagado * 0.4;
+
+// Suma el IVA al haber para obtener el total con IVA
+$totalSinIva = $montopagado - $iva;
+
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(239);
 $pdf->setX(105);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, number_format($totalSinIva, 0));
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(239);
@@ -669,10 +746,11 @@ $pdf->Cell(5, $textypos, "Otras Reten.: ");
 
 
 //-----------------------//-------------------------------------------------
+$mpagos=$datosProveedor[0]['montopagado'];
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(215);
-$pdf->setX(173);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->setX(175);
+$pdf->Cell(5, $textypos, number_format($mpagos,0));
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(215);
@@ -682,10 +760,19 @@ $pdf->Cell(5, $textypos, "Total Gastos: ");
 
 
 //-----------------------//-------------------------------------------------
+// Obtén el valor del haber
+$montopagado = $datosProveedor[0]['montopagado'];
+
+// Calcula el IVA (10%)
+$iva = $montopagado * 0.4;
+
+// Suma el IVA al haber para obtener el total con IVA
+$totalSinIva = $montopagado - $iva;
+
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(223);
 $pdf->setX(178);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, number_format($totalSinIva, 0));
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(223);
@@ -699,7 +786,7 @@ $pdf->Cell(5, $textypos, "Retenciones (-): ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(231);
 $pdf->setX(175);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, number_format($iva, 0));
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(231);
@@ -708,32 +795,86 @@ $pdf->Cell(5, $textypos, "Neto Pagado: ");
 
 
 
-
-//-----------------------//-------------------------------------------------
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(250);
-$pdf->setX(23);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
 //----------------------------//----------------------------------------
+
+function convertirNumeroPalabras($numero) {
+    $unidades = ['Cero', 'Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve'];
+    $decenas = ['', '', 'Veinte', 'Treinta', 'Cuarenta', 'Cincuenta', 'Sesenta', 'Setenta', 'Ochenta', 'Noventa'];
+    $centenas = ['', 'Cien', 'Doscientos', 'Trescientos', 'Cuatrocientos', 'Quinientos', 'Seiscientos', 'Setecientos', 'Ochocientos', 'Novecientos'];
+
+    $palabras = '';
+
+    $millones = floor($numero / 1000000);
+    $numero %= 1000000;
+    $miles = floor($numero / 1000);
+    $numero %= 1000;
+    $centenas_miles = floor($numero / 100);
+    $numero %= 100;
+    $decenas_miles = floor($numero / 10);
+    $unidades_miles = $numero % 10;
+
+    if ($millones > 0) {
+        if ($millones == 1) {
+            $palabras .= 'Un Millon ';
+        } else {
+            $palabras .= convertirNumeroPalabras($millones) . ' Millones ';
+        }
+    }
+
+    if ($miles > 0) {
+        $palabras .= convertirNumeroPalabras($miles) . ' Mil ';
+    }
+
+    if ($centenas_miles > 0) {
+        $palabras .= $centenas[$centenas_miles] . ' ';
+    }
+
+    if ($decenas_miles > 0 || $unidades_miles > 0) {
+        if ($decenas_miles == 1) {
+            $palabras .= 'Diez ';
+        } elseif ($decenas_miles > 1) {
+            $palabras .= $decenas[$decenas_miles];
+        }
+
+        if ($decenas_miles != 1 && $unidades_miles > 0) {
+            $palabras .= ' y ';
+        }
+
+        if ($unidades_miles > 0) {
+            $palabras .= $unidades[$unidades_miles] . ' ';
+        }
+    }
+
+    return trim($palabras);
+}
+
+
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(250);
 $pdf->setX(7);
 $pdf->Cell(5, $textypos, "Son Gs.: ");
 
+$pdf->SetFont('Arial', '', 10);
+$pdf->setY(250);
+$pdf->setX(23);
+
+$montopagado = $datosProveedor[0]['montopagado'];
+$haberEnPalabras = convertirNumeroPalabras($montopagado);
+
+$pdf->Cell(5, $textypos, $haberEnPalabras);
 
 
-//-----------------------//-------------------------------------------------
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(260);
-$pdf->setX(26);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(260);
 $pdf->setX(7);
 $pdf->Cell(5, $textypos, "Concepto: ");
 
-
+$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
+$pdf->setY(260);
+$pdf->setX(27);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
 
 
 
@@ -788,6 +929,11 @@ $pdf->SetFont('Arial', 'B', 7);
 $pdf->setY(330);
 $pdf->setX(198);
 $pdf->Cell(5, $textypos, $nombreUsuario);
+
+
+
+
+//-------------------------------------//-----------------------------------------
 
         $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );
    }

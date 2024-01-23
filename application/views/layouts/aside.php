@@ -69,7 +69,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
+                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionPc">
                     <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
                 </a>
             </li>

@@ -12,6 +12,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+        <li class="breadcrumb-item">Presupuesto</li>
         <li class="breadcrumb-item active">Listado Presupuesto</li>
       </ol>
     </nav>
@@ -48,11 +49,11 @@
                             <tr>
                               <th>Año</th>
                               <th>Descripcion</th>
+                              <th>Total presupuestado</th>
                               <th>Origen de financiamiento</th>
                               <th>Fuente de financiamiento</th>
                               <th>Programa</th>
-                              <th>Presup. Inicial</th>
-                              <th>Modific. Presupuestaria</th>
+                              <th>Total modificado</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
@@ -60,17 +61,17 @@
                             <?php foreach ($presupuestos as $presupuesto) : ?>
                               <td><?php echo $presupuesto->Año; ?></td>
                               <td><?php echo $presupuesto->Idcuentacontable; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
                               <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
                               <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
                               <td><?php echo $presupuesto->programa; ?></td>
-                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
                               <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
                               <td>
                                 <div class="d-grid gap-1 d-md-flex justify-content-md-center">
                                   <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
                                   <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
