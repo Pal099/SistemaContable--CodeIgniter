@@ -1,13 +1,3 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-</head>
-<body>
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
@@ -27,7 +17,6 @@
         <div class="row">
         <div class="col-md-6">
             <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/add" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Agregar Cuenta Contable</a>
-            <a href="<?php echo base_url(); ?>mantenimiento/CuentaContable/index2" class="btn btn-primary btn-flat"><span class="fa fa-plus"></span> Generar Reportes</a>
         </div>
         <div class="col-md-6">
             <!-- Filtro por Tipo -->
@@ -88,9 +77,6 @@
   </section>
   <!-- /.content -->
 </main>
-</body>
-
-</html>
 
 <script>
     function confirmDelete(id) {

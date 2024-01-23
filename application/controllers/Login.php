@@ -27,18 +27,23 @@ class Login extends CI_Controller {
 				$id_user=$this->session->userdata('id_user');
 				$encrypPassword = sha1($password);
 				$this->load->model('Usuarios_model');
-				$status = $this->Usuarios_model->checkUser($username,$encrypPassword,$unidad_academica,$id_user);
+				$nombre_unidad_academica = $this->Usuarios_model->getNombreUnidadAcademica($unidad_academica);
+
+				$status = $this->Usuarios_model->checkUser($username,$encrypPassword,$unidad_academica,$id_user,$nombre_unidad_academica);
 				if($status!=false)
 				{
+
 					$data = array(
 						'Nombre_usuario'=>$status->Nombre_usuario,
 						'contraseña'=>$status->contraseña,
 						'id_unidad' =>$status->id_unidad,
 						'id_user'=>$status->id_user,
+						'unidad' => $status->unidad, // Añadir el nombre de la unidad académica
 					);
 					$this->session->set_userdata('Nombre_usuario', $username);
               		$this->session->set_userdata('unidad_academica', $unidad_academica);
 					$this->session->set_userdata('id_user',$id_user);
+					$this->session->set_userdata('unidad', $nombre_unidad_academica); // Agregar el nombre de la unidad académica a la sesión
 
 					$this->session->set_userdata('LoginSession',$data);
 					redirect(base_url('principal'));
