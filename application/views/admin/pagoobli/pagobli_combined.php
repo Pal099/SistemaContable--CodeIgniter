@@ -110,7 +110,7 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                        <div class="form-group col-md-1 columna-hidden">
+                                                        <div class="form-group col-md-2">
                                                             <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
@@ -127,12 +127,12 @@
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label for="contabilidad">Nombre y Apellido:</label>
                                                             <input type="text" class="form-control w-100"
                                                                 id="contabilidad" name="contabilidad">
                                                         </div>
-                                                        <div class="form-group col-md-4">
+                                                        <div class="form-group col-md-3">
                                                             <label for="fecha">Fecha:</label>
                                                             <input type="datetime-local" class="form-control" id="fecha"
                                                                 name="fecha" required>
