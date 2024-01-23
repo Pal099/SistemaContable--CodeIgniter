@@ -242,7 +242,7 @@
                                                                     <input style="font-size: small;" type="text"
                                                                         class="form-control border-0 bg-transparent"
                                                                         id="descripcion_cc" name="descripcion_cc">
-                                                                    <button data-bs-toggle="modal"
+                                                                    <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont1"
                                                                         class="btn btn-sm btn-outline-primary"
                                                                         id="openModalBtn_3">
@@ -364,7 +364,7 @@
                                                                     <input style="font-size: small;" type="text"
                                                                         class="form-control border-0 bg-transparent descripcion_cc_2"
                                                                         id="descripcion_cc_2" name="descripcion_cc_2">
-                                                                    <button data-bs-toggle="modal"
+                                                                    <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont2"
                                                                         class="btn btn-sm btn-outline-primary openModalBtn_4"
                                                                         id="botonBuscar2">
@@ -454,10 +454,10 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" id="DebeC" class="form-control">
+                                                                <input type="text" id="DebeC" class="form-control border-0 bg-transparent">
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="HaberC" class="form-control">
+                                                                <input type="text" id="HaberC" class="form-control border-0 bg-transparent">
                                                             </td>
                                                             <td id="diferencia">0</td>
 
@@ -470,7 +470,7 @@
                                                         <button style="margin-right: 8px;" type="submit"
                                                             class="btn btn-success btn-primary"><span
                                                                 class="fa fa-save"></span>Guardar</button>
-                                                        <button class="btn btn-danger ml-3"
+                                                        <button type="button" class="btn btn-danger ml-3"
                                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
                                                             <i class="fa fa-remove"></i> Cancelar
                                                         </button>
@@ -519,11 +519,11 @@
                                                                         value="<?php echo $asien->IDNum_Asi; ?>">
                                                                         <span class="fa fa-search"></span>
                                                                     </button>
-                                                                    <button class="btn btn-warning btn-sm"
+                                                                    <button type="button" class="btn btn-warning btn-sm"
                                                                         onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-pencil-fill"></i>
                                                                     </button>
-                                                                    <button class="btn btn-danger btn-remove btn-sm"
+                                                                    <button type="button" class="btn btn-danger btn-remove btn-sm"
                                                                         onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
