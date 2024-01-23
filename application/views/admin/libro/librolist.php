@@ -27,7 +27,7 @@
                             <div class="card border">
                                 <div class="card-body">
                                     <form class="row g-3 mb-4 mt-2"
-                                        action="<?php echo base_url();?>LibroMayor/mostrarLibroMayor" method="post">
+                                        action="<?php echo base_url();?>mantenimiento/LibroMayor/mostrarLibroMayor" method="post">
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -61,8 +61,11 @@
 
                                             </div>
                                         </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-primary">Enviar</button>
+                                        </div>
                                     </form>
-
+                                    
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
                                         <table class="table table-bordered">

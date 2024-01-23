@@ -7,6 +7,7 @@ class LibroMayor_model extends CI_Model {
         parent::__construct();
         // Cargar la base de datos si no se ha cargado automáticamente
         $this->load->database();
+
     }
 
     public function obtenerEntradasLibroMayor($fechaInicio = null, $fechaFin = null, $idcuentacontable = null){

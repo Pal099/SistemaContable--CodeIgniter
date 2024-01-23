@@ -13,6 +13,8 @@ class LibroMayor extends CI_Controller {
 		$this->load->model("Presupuesto_model");
         $this->load->model("Diario_obli_model");
         $this->load->model("Usuarios_model");
+        $this->load->model("LibroMayor_model");
+
 		$this->load->library('form_validation');
 
 	}
