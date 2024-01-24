@@ -84,7 +84,15 @@
                         }
                         ?>
                 </td>
-                    <td><?php echo $ep->Idcuentacontable; ?></td>
+                <td>
+                    <?php
+                    if (isset($cuentas[$ep->Idcuentacontable]) && $cuentas[$ep->Idcuentacontable] !== null) {
+                        echo $cuentas[$ep->Idcuentacontable]->Descripcion_CC;
+                    } else {
+                        echo 'Código no disponible';
+                    }
+                    ?>
+                </td>
                     <td><?php echo $ep->TotalPresupuestado; ?></td>
                     <td><?php echo $ep->TotalModificado; ?></td>
                     <td><?php echo $ep->Vigente; ?></td>
