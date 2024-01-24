@@ -49,7 +49,7 @@
                             <tr>
                               <th>Año</th>
                               <th>Descripcion</th>
-                              <th>Total presupuestado</th>
+                              <th>Presupuesto Inicial</th>
                               <th>Origen de financiamiento</th>
                               <th>Fuente de financiamiento</th>
                               <th>Programa</th>
