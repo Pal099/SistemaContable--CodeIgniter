@@ -13,8 +13,9 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Pago de Obligaciones</li>
+                <li class="breadcrumb-item"><a
+                        href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">Pago de Obligaciones</a>
+                </li>
             </ol>
         </nav>
 
@@ -27,51 +28,27 @@
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                    data-bs-target="#modalListaObligacion">
-                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-warning" title="Editar"
-                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
-                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
-                                </button>
-                            </div>
+                            <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                data-bs-target="#modalListaObligacion">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
+                                <i class="fa fa-edit ms-2"></i>
+                            </button>
+                            <button type="button" class="btn btn-primary"
+                                onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                <i class="bi bi-file-pdf"></i> PDF
+                            </button>
+                            <button class="btn btn-danger ml-3 " title="Eliminar">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
                         </div>
                     </div>
-
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                    data-bs-target="#modalListaObligacion">
-                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-warning" title="Editar"
-                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
-                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
-                                </button>
-                                <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
-                                    <i class="bi bi-file-excel" style="font-size: 20px;"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
 
-           
             <section class="section dashboard">
                 <div class="container-fluid">
                     <div class="row">
@@ -83,8 +60,6 @@
                                         <div class="col-md-12">
                                             <div class="card border">
                                                 <div class="card-body">
-                                                    <h4 class="mt-4">Obligación</h4>
-                                                    <hr><!-- Separador -->
                                                     <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
@@ -131,7 +106,7 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                        <div class="form-group col-md-2">
+                                                        <div class="form-group col-md-1 columna-hidden">
                                                             <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
@@ -152,12 +127,12 @@
                                                             <input type="text" class="form-control" id="ruc" name="ruc">
                                                             <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                         </div>
-                                                        <div class="form-group col-md-3">
+                                                        <div class="form-group col-md-4">
                                                             <label for="contabilidad">Nombre y Apellido:</label>
                                                             <input type="text" class="form-control w-100"
                                                                 id="contabilidad" name="contabilidad">
                                                         </div>
-                                                        <div class="form-group col-md-3">
+                                                        <div class="form-group col-md-4">
                                                             <label for="fecha">Fecha:</label>
                                                             <input type="datetime-local" class="form-control" id="fecha"
                                                                 name="fecha" required>
@@ -168,6 +143,11 @@
                                                                 name="concepto">
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
+                                            <div class="card border">
+                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -240,7 +220,7 @@
                                                                             type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="descripcion_cc" name="descripcion_cc">
-                                                                        <button type="button" data-bs-toggle="modal"
+                                                                        <button data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary"
@@ -375,7 +355,7 @@
                                                                             class="form-control border-0 bg-transparent descripcion_cc_2"
                                                                             id="descripcion_cc_2"
                                                                             name="descripcion_cc_2">
-                                                                        <button type="button" data-bs-toggle="modal"
+                                                                        <button data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont2"
                                                                             style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary openModalBtn_4"
@@ -454,50 +434,46 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <!-- Tabla del debe, haber y Diferencia -->
-                                                    <table id="miTabla2"
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Debe</th>
-                                                                <th>Haber</th>
-                                                                <th>Diferencia</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="text" id="DebeC" class="form-control border-0 bg-transparent">
-                                                                </td>
-                                                                <td>
-                                                                    <input type="text" id="HaberC" class="form-control border-0 bg-transparent">
-                                                                </td>
-                                                                <td id="diferencia">0</td>
+                                                    <div class="card-body">
+                                                        <table id="miTabla2"
+                                                            class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Debe</th>
+                                                                    <th>Haber</th>
+                                                                    <th>Diferencia</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type="text" id="DebeC"
+                                                                            class="form-control">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" id="HaberC"
+                                                                            class="form-control">
+                                                                    </td>
+                                                                    <td id="diferencia">0</td>
 
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <!-- Botones guardar y cancelar -->
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                     <div class="container-fluid mt-3 mb-3">
                                                         <div class="col-md-12 d-flex flex-row justify-content-center">
                                                             <button style="margin-right: 8px;" type="submit"
                                                                 class="btn btn-success" id="guardarFilas"><span
                                                                     class="fa fa-save"></span>Guardar</button>
+
+
                                                             <button type="button" class="btn btn-danger"
                                                                 onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
                                                                 <span class="fa fa-remove"></span> Cancelar
                                                             </button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <!-- Tabla de Num_asi -->
-                                                    <h4 class="mt-4">Asientos</h4>
-                                                    <hr><!-- Separador -->
-                                                    </hr>
                                                     <table id="vistapago"
                                                         class="table table-hover table-bordered table-sm rounded-3">
                                                         <thead>
@@ -506,51 +482,52 @@
                                                                 <th>Fecha de Emisión</th>
                                                                 <th>num_asi</th>
                                                                 <th>op</th>
-                                                                <th>Proveedor</th>
+                                                                <th>Estado</th>
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <?php if (!empty($asiento)): ?>
-                                                            <?php foreach ($asiento as $asien): ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php echo $asien->IDNum_Asi ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->FechaEmision ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->num_asi ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->op ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->razon_social ?>
-                                                                </td>
-                                                                <td>
-                                                                    <div
-                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#modalPresupuesto"
-                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                            <span class="fa fa-search"></span>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-warning btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class='bx bx-edit'></i>
-                                                                        </button>
-                                                                        <button type="button" class="btn btn-danger btn-remove btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; ?>
+                                                                <?php foreach ($asiento as $asien): ?>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <?php echo $asien->IDNum_Asi ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $asien->FechaEmision ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $asien->num_asi ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $asien->op ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php echo $asien->estado_registro ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div
+                                                                                class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                                <button type="button"
+                                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#modalPresupuesto"
+                                                                                    value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                                    <span class="fa fa-search"></span>
+                                                                                </button>
+                                                                                <button class="btn btn-warning btn-sm"
+                                                                                    onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                                    <i class="bi bi-pencil-fill"></i>
+                                                                                </button>
+                                                                                <button class="btn btn-danger btn-remove btn-sm"
+                                                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                                    <i class="bi bi-trash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                <?php endforeach; ?>
                                                             <?php else: ?>
                                                                 <p>No se encontraron datos.</p>
                                                             <?php endif; ?>
@@ -569,7 +546,6 @@
         </div>
     </main>
 
-    <!-- Modal Lista de Obligaciones-->
     <!-- Modal Lista de Obligaciones-->
     <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
         aria-hidden="true">
@@ -675,7 +651,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
@@ -733,23 +709,22 @@
         }
 
     </script>
-    <!-- Script de la tabla Asientos  -->
+    <!-- Script de DataTable de vista  -->
     <script>
-    $(document).ready(function() {
-        $('#vistapago').DataTable({
-            paging: true,
-            lengthMenu: [
-                [5, 15, 25, -1],
-                ['5', '15', '25', 'Todo']
-            ],
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
+        $(document).ready(function () {
+            $('#vistapago').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "search": "Busqueda de asientos:"
+                }
+            });
         });
-    });
     </script>
 
     <!-- script para las fechas -->
@@ -770,36 +745,36 @@
 
     <!-- funcion para mostrar el toast -->
     <script>
-    function showToast(message, bgColor, makeTextWhite) {
-        // Seleccionar el toast
-        var toastElement = document.getElementById('toastErrorFila');
+        function showToast(message, bgColor, makeTextWhite) {
+            // Seleccionar el toast
+            var toastElement = document.getElementById('toastErrorFila');
 
-        // Animacion para el toast
-        toastElement.setAttribute('data-mdb-animation-init', '');
-        toastElement.setAttribute('data-mdb-animation-reset', 'true');
-        toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
+            // Animacion para el toast
+            toastElement.setAttribute('data-mdb-animation-init', '');
+            toastElement.setAttribute('data-mdb-animation-reset', 'true');
+            toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
 
-        // Actualizar el mensaje y el color de fondo del toast
-        var toastBody = toastElement.querySelector('.toast-body');
-        toastBody.innerText = message;
-        toastElement.classList.add(bgColor);
+            // Actualizar el mensaje y el color de fondo del toast
+            var toastBody = toastElement.querySelector('.toast-body');
+            toastBody.innerText = message;
+            toastElement.classList.add(bgColor);
 
-        // Hacer el texto del cuerpo blanco si es necesario
-        if (makeTextWhite) {
-            toastBody.classList.add('text-white');
+            // Hacer el texto del cuerpo blanco si es necesario
+            if (makeTextWhite) {
+                toastBody.classList.add('text-white');
+            }
+
+            // Mostrar el toast
+            var toast = new bootstrap.Toast(toastElement, {
+                animation: true
+            });
+            toast.show();
         }
-
-        // Mostrar el toast
-        var toast = new bootstrap.Toast(toastElement, {
-            animation: true
-        });
-        toast.show();
-    }
     </script>
 
     <!-- Script para agregar nuevas filas a la tabla -->
     <script>
-    $(document).ready(function() {
+        $(document).ready(function () {
 
             function formatNumber(campo) {
                 var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
@@ -808,21 +783,21 @@
                 }
             }
 
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function(e) {
-            e.preventDefault();
+            // Agregar fila
+            $(document).on("click", ".agregarFila", function (e) {
+                e.preventDefault();
 
-            // Clonar la fila base
-            var nuevaFila = $("#filaBase").clone();
+                // Clonar la fila base
+                var nuevaFila = $("#filaBase").clone();
 
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+                // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+                nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
+                // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+                nuevaFila.find("[id]").removeAttr('id');
 
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
+                // Agregar una clase a todos los elementos de la fila clonada
+                nuevaFila.find("select, input").addClass("filaClonada");
 
                 // Limpiar los valores de los campos en la  nueva fila
                 nuevaFila.find("select, input").val("");
@@ -837,8 +812,8 @@
                     });
                 });
 
-            // Mostrar la nueva fila
-            nuevaFila.show();
+                // Mostrar la nueva fila
+                nuevaFila.show();
 
                 // Agregar la nueva fila al cuerpo de la tabla
                 $("#miTabla tbody").append(nuevaFila);
@@ -848,11 +823,11 @@
             $("#miTabla").on("click", ".eliminarFila", function (e) {
                 e.preventDefault();
 
-            $(this).closest("tr").remove();
+                $(this).closest("tr").remove();
+
+            });
 
         });
-
-    });
     </script>
     <!-- Envio de formulario principal -->
     <script>
@@ -894,34 +869,34 @@
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
-        var filas = [];
+            var filas = [];
 
 
             $("#miTabla tbody tr:gt(0)").each(function () {
 
-            var fila = {
-                id_pro: $(this).find("select[name='id_pro_2']").val(),
-                id_ff: $(this).find("select[name='id_ff_2']").val(),
-                id_of: $(this).find("select[name='id_of_2']").val(),
-                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                detalles: $(this).find("input[name='detalles_2']").val(),
-                comprobante: $(this).find("input[name='comprobante_2']").val(),
-                Debe: $(this).find("input[name='Debe_2']").val(),
-                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                var fila = {
+                    id_pro: $(this).find("select[name='id_pro_2']").val(),
+                    id_ff: $(this).find("select[name='id_ff_2']").val(),
+                    id_of: $(this).find("select[name='id_of_2']").val(),
+                    IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                    detalles: $(this).find("input[name='detalles_2']").val(),
+                    comprobante: $(this).find("input[name='comprobante_2']").val(),
+                    Debe: $(this).find("input[name='Debe_2']").val(),
+                    Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                };
+                // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
+                var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
+                sumahaber += valorClonado;
+                filas.push(fila);
+            });
+
+
+            // Combinar datos del formulario principal y de las filas dinámicas
+            var datosCompletos = {
+                datosFormulario: datosFormulario,
+                filas: filas,
             };
-            // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
-            var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
-            sumahaber += valorClonado;
-            filas.push(fila);
-        });
-
-
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
-            datosFormulario: datosFormulario,
-            filas: filas,
-        };
 
             var diferenciaActualizada = parseFloat($("#diferencia").text());
             var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
@@ -984,6 +959,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <table class="table table-hover table-sm" id="TablaCuentaCont1">
                         <thead>
                             <tr>
@@ -994,19 +970,19 @@
                         </thead>
                         <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td>
+                                        <?= $dato->IDCuentaContable ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Codigo_CC ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -1025,6 +1001,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+
                     <table class="table table-hover table-sm" id="TablaCuentaCont2">
                         <thead>
                             <tr>
@@ -1035,19 +1012,19 @@
                         </thead>
                         <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td>
+                                        <?= $dato->IDCuentaContable ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Codigo_CC ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -1069,12 +1046,11 @@
 
     <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
     <script>
-    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Actualizar los campos de texto en la vista principal con los valores seleccionados
-        document.getElementById('idcuentacontable').value = IDCuentaContable;
-        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-        document.getElementById('descripcion_cc').value =
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Actualizar los campos de texto en la vista principal con los valores seleccionados
+            document.getElementById('idcuentacontable').value = IDCuentaContable;
+            document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+            document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
         }
         $(document).ready(function () {
@@ -1091,14 +1067,15 @@
 
     <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
     <script>
-    var currentRow = null;
 
-    // Función para abrir el modal de las cuentas contables
-    function openModal_4(currentRowParam) {
+        var currentRow = null;
 
-        var modalContainer = document.getElementById('modalCuentasCont2');
+        // Función para abrir el modal de las cuentas contables
+        function openModal_4(currentRowParam) {
 
-        currentRow = currentRowParam; // Almacenar la fila actual
+            var modalContainer = document.getElementById('modalCuentasCont2');
+
+            currentRow = currentRowParam; // Almacenar la fila actual
 
         }
 
@@ -1117,34 +1094,23 @@
             }
         }
 
-    // Abrir modal en fila dinamica
-    const openModalBtn_4 = document.getElementById("openModalBtn_4");
-    // Actualiza la función de clic para pasar la fila actual al abrir el modal
-    document.getElementById("miTabla").addEventListener("click", function(event) {
+        // Abrir modal en fila dinamica
+        const openModalBtn_4 = document.getElementById("openModalBtn_4");
+        // Actualiza la función de clic para pasar la fila actual al abrir el modal
+        document.getElementById("miTabla").addEventListener("click", function (event) {
 
-        // Encuentra la fila desde la cual se abrió el modal
-        var row = $(event.target).closest('tr');
-        if (
-            (event.target && event.target.className.includes("openModalBtn_4")) ||
-            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                "openModalBtn_4"))
-        ) {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal_4(row);
-        }
-    });
-    </script>
+            // Encuentra la fila desde la cual se abrió el modal
+            var row = $(event.target).closest('tr');
+            if (
+                (event.target && event.target.className.includes("openModalBtn_4")) ||
+                (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
+            ) {
+                event.stopPropagation();
+                event.preventDefault();
+                openModal_4(row);
+            }
+        });
 
-    <script>
-    // Función para formatear números con separadores de miles y dos decimales
-    function formatNumber(inputId) {
-        var input = document.getElementById(inputId);
-        var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-        if (!isNaN(value)) {
-            input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
-        }
-    }
     </script>
 
     <script>
@@ -1157,142 +1123,123 @@
             }
         }
     </script>
-         <script>
-            // Este script escucha los cambios en el campo 'debe'
-            // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
-                document.getElementById('Debe').addEventListener('input', function () {
-                document.getElementById('Haber').value = 0;
+
+    <script>
+        function calcularTotalesYDiferencia() {
+            var sumaDebe = 0;
+            var sumaHaber = 0;
+
+
+            $("#miTabla tbody tr").each(function () {
+                // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+                var valorDebe = $(this).find("input[name*='Debe']").val();
+                var valorHaber = $(this).find("input[name*='Haber']").val();
+                // Realizar reemplazo por separado
+                valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+                valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+                // Convertir a número y sumar
+                sumaDebe += parseFloat(valorDebe) || 0;
+                sumaHaber += parseFloat(valorHaber) || 0;
             });
-        </script>
-         <script>
-            // Este script escucha los cambios en el campo 'debe'
-            // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
-                document.getElementById('Haber_2').addEventListener('input', function () {
-                document.getElementById('Debe_2').value = 0;
-            });
-        </script>
-<script>
-            function calcularTotalesYDiferencia() {
-                var sumaDebe = 0;
-                var sumaHaber = 0;
 
+            // Actualizar los campos y la diferencia
+            $("#DebeC").val(sumaDebe.toFixed(2));
+            $("#HaberC").val(sumaHaber.toFixed(2));
+            var diferenciaTotal = sumaDebe - sumaHaber;
+            $("#diferencia").text(diferenciaTotal.toFixed(2));
+        }
 
-                $("#miTabla tbody tr").each(function () {
-                    // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-                    var valorDebe = $(this).find("input[name*='Debe']").val();
-                    var valorHaber = $(this).find("input[name*='Haber']").val();
-                    // Realizar reemplazo por separado
-                    valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
-                    valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
-                    // Convertir a número y sumar
-                    sumaDebe += parseFloat(valorDebe) || 0;
-                    sumaHaber += parseFloat(valorHaber) || 0;
-                });
+        // Vincular eventos
+        $(document).ready(function () {
+            $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
+        });
 
-                            // Formatear como número con separadores de miles
-                    $("#DebeC").val(formatearNumero(sumaDebe));
-                    $("#HaberC").val(formatearNumero(sumaHaber));
-                    var diferenciaTotal = sumaDebe - sumaHaber;
-                    $("#diferencia").text(formatearNumero(diferenciaTotal));
-                }
-
-                function formatearNumero(numero) {
-                    // Asegurarse de que el número es un tipo flotante
-                    numero = parseFloat(numero);
-                    // Convertir a texto y añadir separadores de miles
-                    return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                }
-
-                $(document).ready(function () {
-                    $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
-                });
-
-        </script>
-
+    </script>
     <!-- Script encargado de las tabla de Lista de Obligacion -->
     <script>
-    $(document).ready(function() {
-        $('#TablaListaObligacion').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-            }
+        $(document).ready(function () {
+            $('#TablaListaObligacion').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
         });
-    });
     </script>
 
     <!-- script de las tablas de cuentas contables -->
     <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont1').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-            }
-        });
+        $(document).ready(function () {
+            var table1 = $('#TablaCuentaCont1').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
 
-        var table2 = $('#TablaCuentaCont2').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            }
+            var table2 = $('#TablaCuentaCont2').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+                }
+            });
         });
-    });
     </script>
 
     <!-- script para las alertas -->
     <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastLiveExample = document.getElementById('liveToast')
 
-    if (toastTrigger) {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-        toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
-        })
-    }
+        if (toastTrigger) {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+            toastTrigger.addEventListener('click', () => {
+                toastBootstrap.show()
+            })
+        }
     </script>
 
     <script>
-    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-    document.getElementById('Debe').addEventListener('input', function() {
-        document.getElementById('MontoPago').value = this.value;
-    });
+        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+        document.getElementById('Debe').addEventListener('input', function () {
+            document.getElementById('MontoPago').value = this.value;
+        });
     </script>
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de Popper para el toast -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
     <!-- Script de DataTable de vista  -->
     <script>
-    $(document).ready(function() {
-        $('#vistaobli').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "language": {
-                "search": "Busqueda de asientos:",
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
+        $(document).ready(function () {
+            $('#vistaobli').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "language": {
+                    "search": "Busqueda de asientos:"
+                }
+            });
         });
-    });
     </script>
 </body>
 
