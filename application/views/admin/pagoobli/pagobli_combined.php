@@ -477,65 +477,64 @@
                                                     <h4 class="mt-4">Asientos</h4>
                                                     <hr><!-- Separador -->
                                                     <table id="vistapago"
-                                                        class="table table-hover table-bordered table-sm rounded-3">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>id_num_asi</th>
-                                                                <th>Fecha de Emisión</th>
-                                                                <th>num_asi</th>
-                                                                <th>op</th>
-                                                                <th>Estado</th>
-                                                                <th>Acciones</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php if (!empty($asiento)): ?>
-                                                            <?php foreach ($asiento as $asien): ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php echo $asien->IDNum_Asi ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->FechaEmision ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->num_asi ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->op ?>
-                                                                </td>
-                                                                <td>
-                                                                    <?php echo $asien->estado_registro ?>
-                                                                </td>
-                                                                <td>
-                                                                    <div
-                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                        <button type="button"
-                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#modalPresupuesto"
-                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                            <span class="fa fa-search"></span>
-                                                                        </button>
-                                                                        <button type="button"
-                                                                            class="btn btn-warning btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class="bi bi-pencil-fill"></i>
-                                                                        </button>
-                                                                        <button type="button"
-                                                                            class="btn btn-danger btn-remove btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </button>
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                            <?php endforeach; ?>
-                                                            <?php else: ?>
-                                                            <p>No se encontraron datos.</p>
-                                                            <?php endif; ?>
-                                                        </tbody>
-                                                    </table>
+                                                    class="table table-hover table-bordered table-sm rounded-3">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>N° asiento</th>
+                                                            <th>N° OP</th>
+                                                            <th>Fecha de Emisión</th>
+                                                            <th>Proveedor</th>
+                                                            <th>Monto Total</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <?php if (!empty($asiento)): ?>
+                                                        <?php foreach ($asiento as $asien): ?>
+                                                        <tr>
+                                                            <td>
+                                                                <?php echo $asien->num_asi ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->op ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->FechaEmision ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo $asien->razon_social ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalPresupuesto"
+                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                        <span class="fa fa-search"></span>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-pencil-fill"></i>
+                                                                    </button>
+                                                                    <button type="button"
+                                                                        class="btn btn-danger btn-remove btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php endforeach; ?>
+                                                        <?php else: ?>
+                                                        <p>No se encontraron datos.</p>
+                                                        <?php endif; ?>
+                                                    </tbody>
+                                                </table>
                                                 </div>
                                             </div>
                                         </div>
