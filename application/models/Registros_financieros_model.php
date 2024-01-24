@@ -19,17 +19,14 @@ class Registros_financieros_model extends CI_Model {
 		return $this->db->insert('fuente_de_financiamiento', $data);
 	}
 
-	public function getFuente($id) {
-        $this->db->where("id_ff", $id); // Cambié "codigo" a "id_ff"
-        $resultado = $this->db->get("fuente_de_financiamiento");
-
-        // Verificar si se encontró la fuente antes de devolver el resultado
-        return $resultado->num_rows() > 0 ? $resultado->row() : null;
-    }
-	
+	public function getFuente($id){
+		$this->db->where("id", $id);
+		$resultado = $this->db->get("fuente_de_financiamiento");
+		return $resultado->row();
+	}
 
 	public function update($id, $data){
-		$this->db->where("id_ff", $id);
+		$this->db->where("id", $id);
 		return $this->db->update("fuente_de_financiamiento", $data);
 	}
 }

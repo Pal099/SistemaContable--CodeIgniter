@@ -45,7 +45,6 @@
                 <tr>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  
                 </tr>
               </thead>
               <tbody>
@@ -107,37 +106,4 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-
-<!-- Modal para confirmar eliminación -->
-<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Confirmar Eliminación</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar este registro?</p>
-            </div>
-            <div class="modal-footer">
-   <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-   <button type="button" class="btn btn-danger" id="btn-confirm-delete">Eliminar</button>
-</div>
-
-        </div>
-    </div>
-</div>
-
-<script>
-    $(document).ready(function () {
-   $('#confirm-delete').on('show.bs.modal', function (e) {
-      var href = $(e.relatedTarget).data('href');
-      $('#btn-confirm-delete').on('click', function () {
-         window.location.href = href; // Redirigir a la URL de eliminación
-      });
-   });
-});
-
-</script>
-
 <!-- /.modal --> 

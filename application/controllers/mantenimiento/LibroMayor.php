@@ -3,7 +3,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LibroMayor extends CI_Controller {
 
-
     public function __construct(){
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
@@ -12,15 +11,30 @@ class LibroMayor extends CI_Controller {
 		$this->load->model("Cdp_model");
 		$this->load->model("Usuarios_model");
 		$this->load->model("Presupuesto_model");
+        $this->load->model("Diario_obli_model");
+        $this->load->model("Usuarios_model");
+        $this->load->model("LibroMayor_model");
+
 		$this->load->library('form_validation');
 
 	}
 
     // Función para visualizar la página inicial del Libro Mayor con un formulario para seleccionar el rango de fechas
     public function index(){
+        $nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+        
+        $data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu); // Obtener la lista de asientos
+		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
+		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
+		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
+		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+        $data['cuentacontable'] = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
+
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
-        $this->load->view('admin/libro/librolist'); // Cambiado de 'index' a 'librolist'
+        $this->load->view('admin/libro/librolist', $data); // Cambiado de 'index' a 'librolist'
         $this->load->view('layouts/footer');
     }
 
@@ -28,17 +42,17 @@ class LibroMayor extends CI_Controller {
     public function mostrarLibroMayor(){
         $fechaInicio = $this->input->post('fecha_inicio');
         $fechaFin = $this->input->post('fecha_fin');
-        $idCuentaContable = $this->input->post('cuenta_contable'); // Asegúrate de que este campo existe en tu formulario
+        $idcuentacontable = $this->input->post('idcuentacontable'); // Asegúrate de que este campo existe en tu formulario
 
         // Obtener los datos del modelo
-        $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idCuentaContable);
+        $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idcuentacontable);
 
         // Preparar los datos para la vista
         $data = array(
             'entradas' => $entradasLibroMayor,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
-            'idCuentaContable' => $idCuentaContable
+            'idcuentacontable' => $idcuentacontable
         );
 
         // Cargar las vistas con los datos

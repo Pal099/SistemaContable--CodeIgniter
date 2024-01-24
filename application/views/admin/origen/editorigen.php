@@ -29,7 +29,7 @@
                         <?php endif;?>
 
                         <form action="<?php echo base_url();?>registro/origen/update" method="POST">
-                            <input type="hidden" value="<?php echo $origen->id_of;?>" name="idOrigen">
+                            <input type="hidden" value="<?php echo $origen->id;?>" name="idOrigen">
 
                             <div class="form-group">
                                 <label for="nombre">Nombre:</label>

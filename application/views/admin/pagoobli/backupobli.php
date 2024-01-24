@@ -8,8 +8,6 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="<?php echo base_url();?>assets/css/style_pago_obli.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 
     <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
@@ -583,7 +581,7 @@ $conexion->close();
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-flat" id="btnGuardar" onclick="showNotification()"><span
+                            <button type="submit" class="btn btn-success btn-flat" onclick="showNotification()"><span
                                     class="fa fa-save"></span>Guardar</button>
                             <div class="notification" id="notification">
                                 <div class="icon">
@@ -780,7 +778,7 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
 
         <tr class="list-item" onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->numero ?>', '<?= $asi->fecha ?>',
                   '<?= $asi->pagado ?>','<?= $asi->pago ?>','<?= $asi->pagado ?>','<?= $asi->Debe ?>', '<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>','<?= $asi->suma_monto ?>'
-                  ,'<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
+                  ,'<?= $asi->telefono ?>','<?= $asi->detalle?>','<?= $asi->IDCuentaContable ?>',  <?= $asi->IDCuentaContable ?>)">
             <td><?= $asi->ruc_proveedor ?></td>
             <td><?= $asi->razso_proveedor ?></td>
             <td><?= $asi->numero ?></td>
@@ -796,6 +794,7 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
             <td><?= $asi->nombre_origen ?></td>
             <td><?= $asi->suma_monto ?></td>
             <td><?= $estado_texto ?></td> <!-- Mostrar el estado en una nueva columna -->
+
         </tr>
     <?php endforeach; ?>
 </tbody>
@@ -927,13 +926,12 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     // Función para cerrar el modal
     function closeModal_2() {
         var modalContainer = document.getElementById('modalContainer_2');
-        modalContainer.style.display = 'none';2
+        modalContainer.style.display = 'none';
         openModalBtn.style.zIndex = 1;
     }
 
-    function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, montoPagado, debes, habers, fuentes, programas, origens, cuentas, descrip, codigoDescrip) {
+    function selectAsi(ruc, razonSocial, numeros, fechas, montos, pagado, montoPagado, debes, habers, fuentes, programas, origens, cuentas, telefono, detalle, descrip, codigoDescrip) {
     // Actualizar los campos de texto en la vista principal
-    console.log(fuentes, programas, origens);
     document.getElementById('ruc').value = ruc;
     document.getElementById('contabilidad').value = razonSocial;
     document.getElementById('tesoreria').value = razonSocial;
@@ -947,7 +945,10 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
     document.getElementById('id_pro').value = programas;
     document.getElementById('id_of').value = origens;
     document.getElementById('cuentacontable').value = cuentas;
+    document.getElementById('telefono').value = telefono;
+    document.getElementById('observacion').value = detalle; // Añadir línea para el teléfono
     document.getElementById('cuentacontable').value = descrip;
+
 
     closeModal_2(); // Cierra el modal después de seleccionar un proveedor
 }
@@ -964,17 +965,6 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         closeModal_2();
     });
 </script>
-
-<script>
-    $(document).ready(function() {
-        // Agrega un manejador de eventos al botón de guardar
-        $('#btnGuardar').click(function() {
-            // Muestra el modal automáticamente
-            $('#myModal').modal('show');
-        });
-    });
-</script>
-
     <script>
         // Manejar la visibilidad de los campos opcionales
         const optionalFieldsSwitch = document.getElementById("optionalFieldsSwitch");
@@ -1045,6 +1035,14 @@ function agregarRegistroProveedor(&$registros, $clave, $asi) {
         });
     </script>
 
+<script>
+    var deseaGenerarPDF = confirm("¿Desea generar un PDF con el último registro ingresado?");
+
+    if (deseaGenerarPDF) {
+        // Redirigir a la vista del PDF o hacer la acción necesaria para generar el PDF
+        window.open("<?php echo base_url('obligaciones/Pago_de_obligaciones/pdfs'); ?>", "_blank");
+    }
+</script>
 
 </body>
 

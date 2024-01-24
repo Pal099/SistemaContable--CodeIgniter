@@ -24,22 +24,6 @@ class CuentaContable extends CI_Controller {
         $this->load->view('admin/CuentaContable/list', $data);
         $this->load->view('layouts/footer');
     }
-    public function index2($vista = 1) {
-        $nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
-		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-        $data = array(
-            'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
-        );
-        $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
-        if ($vista == 1) {
-        $this->load->view('admin/CuentaContable/detalle', $data);
-        } else{
-        $this->load->view('admin/CuentaContable/generarexcel', $data);
-        }
-        $this->load->view('layouts/footer');
-    }
 
     public function add() {
         $tipo = $this->input->get('tipo');  // Obtener el tipo seleccionado desde la URL
@@ -217,14 +201,6 @@ class CuentaContable extends CI_Controller {
         }
     }
     
-    // En tu modelo CuentaContable_model.php
-
-public function buscarPorDescripcion($descripcion){
-    $this->db->like('Descripcion_CC', $descripcion); // Busca cuentas que coincidan con la descripción
-    $query = $this->db->get('cuentacontable'); // Asume que 'cuentacontable' es el nombre de tu tabla de cuentas contables
-    return $query->result_array(); // Devuelve los resultados
-}
-
 }
        
 ?>

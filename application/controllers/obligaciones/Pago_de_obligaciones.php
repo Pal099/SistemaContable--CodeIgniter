@@ -91,7 +91,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$op = $datosFormulario['op'];
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
-		$id_num_asi = $this->input->post("IDNum_Asi");
+		$id_num_asi = $datosFormulario['idnumasi'];
 		$contabilidad = $datosFormulario['contabilidad'];
 		$direccion = $datosFormulario['direccion'];
 		$telefono = $datosFormulario['telefono'];
@@ -121,7 +121,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$total = $this->input->post("total");
 		$pagado = floatval($this->input->post("pagado"));
 		$monto_pagado_acumulado = floatval($this->input->post('monto_pagado_acumulado'));
-		$nuevo_monto_pago = $MontoPago;
+		$nuevo_monto_pago = $debe;
 		$proveedor_id = $this->Pago_obli_model->getProveedorIdByRuc($ruc_id_provee);
 
 		$MontoTotal = floatval($this->Pago_obli_model->getMontoTotalByProveedorId($proveedor_id));
@@ -155,10 +155,9 @@ class Pago_de_obligaciones extends CI_Controller
 				'id_form' => "2",
 				'estado_registro' => "1",
 			);
-			// Aquí deberías llamar a la función que obtiene $id_num_asi
-			$id_num_asi = $this->Pago_obli_model->getIdNumAsiByProveedor($proveedor_id);
+			
 
-			$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id, $numero);
+			$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id);
 
 			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 
@@ -233,13 +232,19 @@ class Pago_de_obligaciones extends CI_Controller
 	{
 		// Obtener la descripción desde la URL
 		$descripcionConPrefijo = urldecode($_GET['descripcion']);
-	
+		//$descripcionConPrefijo2 = urldecode($_GET['descripcion2']);
 		// Utilizar la descripción completa con el prefijo "A.P."
-		$descripcionn = $descripcionConPrefijo;
-	
+		$descripcion = $descripcionConPrefijo;
+		//$descripcion2 = $descripcionConPrefijo2;
+
 		// Aquí deberías utilizar tu lógica para obtener información basada en la descripción desde la base de datos
-		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcionn);
-	
+		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion);
+
+		/*if (is_null($informacion['IDCuentaContable'])) {
+			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
+		}^*/
+		
+
 		if ($informacion) {
 			// Imprimir los valores directamente
 			echo $informacion . ',' . $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];

@@ -39,10 +39,9 @@ class Presupuesto extends CI_Controller
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
-			/*'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),*/
+			//'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
-
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -56,7 +55,7 @@ class Presupuesto extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
-			'presupuesto' => $this->Presupuesto_model->getPresupuestos($id_uni_respon_usu),
+			'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
@@ -185,6 +184,7 @@ class Presupuesto extends CI_Controller
 		$programa_id_pro = $this->input->post("programa_id_pro");
 		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
 		$TotalModificado = $this->input->post("TotalModificado");
+		$Idcuentacontable = $this->input->post("Idcuentacontable");
 		$pre_ene = $this->input->post("pre_ene");
 		$pre_feb = $this->input->post("pre_feb");
 		$pre_mar = $this->input->post("pre_mar");
@@ -208,6 +208,7 @@ class Presupuesto extends CI_Controller
 			'programa_id_pro' => $programa_id_pro,
 			'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
 			'TotalModificado' => $TotalModificado,
+			'Idcuentacontable' => $Idcuentacontable,
 			'pre_ene' => $pre_ene,
 			'pre_feb' => $pre_feb,
 			'pre_mar' => $pre_mar,
@@ -260,4 +261,3 @@ class Presupuesto extends CI_Controller
 		echo json_encode($presupuestoDetalle);
 	}
 }
-

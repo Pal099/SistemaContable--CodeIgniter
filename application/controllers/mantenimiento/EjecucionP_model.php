@@ -43,6 +43,10 @@ class EjecucionP_model extends CI_Model {
 
 	}
 
+	public function getEjecucionesP($id){
+
+	}
+
 	public function update($id, $data){
 		$this->db->where("ID_EjecucionPresupuestaria",$id);
 		return $this->db->update("ejecucionpresupuestaria",$data);

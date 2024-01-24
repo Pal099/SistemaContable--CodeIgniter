@@ -19,13 +19,13 @@ class Origen_model extends CI_Model {
 	}
 
 	public function getOrigen($id){
-		$this->db->where("id_of", $id);
+		$this->db->where("id", $id);
 		$resultado = $this->db->get("origen_de_financiamiento");
 		return $resultado->row();
 	}
 
 	public function update($id, $data){
-		$this->db->where("id_of", $id);
+		$this->db->where("id", $id);
 		return $this->db->update("origen_de_financiamiento", $data);
 	}
 }

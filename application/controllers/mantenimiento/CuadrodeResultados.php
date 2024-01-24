@@ -8,15 +8,16 @@ class CuadrodeResultados extends CI_Controller {
     }
 
     public function index() {
-        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas345(); // Utiliza la nueva función
+        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas();
         $data['cuentas'] = array();
-    
+
         foreach ($cuentasOriginales as $cuenta) {
             $cuentasProcesadas = array();
             if ($this->calcularSumasCuentas($cuenta, $cuentasProcesadas)) {
                 $data['cuentas'][] = $cuenta;
             }
         }
+    
 
 
         $this->load->view("layouts/header");
@@ -31,7 +32,7 @@ class CuadrodeResultados extends CI_Controller {
             $cuentasProcesadas = array(); // Arreglo para evitar duplicados
             $this->calcularSumasCuentas($cuenta, $cuentasProcesadas);
         }
-			$this->load->view("admin/cuadroderesultados/generarexcel", $data);
+			$this->load->view("admin/balancegral/generarexcel", $data);
 
 	}
 

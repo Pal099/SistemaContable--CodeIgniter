@@ -202,7 +202,7 @@
 
     // Define la función para cerrar la sesión
     function logout() {
-        window.location.href = '<?php echo base_url("login"); ?>';
+        window.location.href = '<?php echo base_url("login/index"); ?>';
     }
 
     // Resetea el temporizador si el usuario realiza una acción

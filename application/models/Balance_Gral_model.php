@@ -31,14 +31,6 @@ class Balance_Gral_model extends CI_Model
         }
         return null;
     }
-    public function obtenerDatosCuentas345() {
-        $this->db->like('Codigo_CC', '3', 'after'); // Solo cuentas que comienzan con 3
-        $this->db->or_like('Codigo_CC', '5', 'after'); // Solo cuentas que comienzan con 5
-        $query = $this->db->get('cuentacontable');
-        return $query->result();
-    }
-    
-
     
     public function obtenerCuentasHijas($idCuentaPadre) {
         $this->db->where('padre_id', $idCuentaPadre);
