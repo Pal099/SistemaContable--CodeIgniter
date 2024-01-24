@@ -268,7 +268,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 	public function testearDatos() {
-		$IDNum_Asi = 39; 
+		$IDNum_Asi = 13; 
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
 		// Se Imprime los datos para revisar su estructura
 		echo '<pre>';
