@@ -49,21 +49,34 @@
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Observación</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if(!empty($proveedores)):?>
-                                    <?php foreach($proveedores as $proveedor):?>
-                                        <tr>
-                                            <td><?php echo $proveedor->ruc;?></td>
-                                            <td><?php echo $proveedor->razon_social;?></td>
-                                            <td><?php echo $proveedor->direccion;?></td>
-                                            <td><?php echo $proveedor->telefono;?></td>
-                                            <td><?php echo $proveedor->email;?></td>
-                                            <td><?php echo $proveedor->observacion;?></td>
-                                        </tr>
-                                    <?php endforeach;?>
-                                <?php endif;?>
+                            <?php if (!empty($proveedores)): ?>
+    <?php foreach ($proveedores as $proveedor): ?>
+        <tr>
+            <td><?php echo $proveedor->ruc; ?></td>
+            <td><?php echo $proveedor->razon_social; ?></td>
+            <td><?php echo $proveedor->direccion; ?></td>
+            <td><?php echo $proveedor->telefono; ?></td>
+            <td><?php echo $proveedor->email; ?></td>
+            <td><?php echo $proveedor->observacion; ?></td>
+
+            <td>
+                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                    <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/proveedores/edit/<?php echo $proveedor->id; ?>'">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/proveedores/delete/<?php echo $proveedor->id; ?>'">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+<?php endif; ?>
+
                             </tbody>
                         </table>
                     </div>

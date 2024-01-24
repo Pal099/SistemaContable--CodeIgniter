@@ -149,6 +149,6 @@ class Proveedores extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Proveedores_model->update($id,$data);
-		echo "mantenimiento/proveedores";
+		redirect(base_url() . "mantenimiento/proveedores");
 	}
 }
