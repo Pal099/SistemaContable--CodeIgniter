@@ -690,7 +690,7 @@
 
                     // Imprimir los valores en la consola para verificar
 
-                   
+
 
                 },
                 error: function (xhr, status, error) {
@@ -865,7 +865,7 @@
 
             };
 
-           
+
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
@@ -903,10 +903,10 @@
             var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
             var Suma = debe + Totalpagado;
             var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
-           
-            
+
+
             if (Suma <= total) {
-                
+
                 if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                     $.ajax({
                         url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
@@ -1088,7 +1088,7 @@
                 currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
                 currentRow.find('.codigo_cc_2').val(Codigo_CC);
                 currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-                
+
             } else {
                 console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
             }
