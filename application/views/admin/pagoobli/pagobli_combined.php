@@ -71,6 +71,7 @@
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
 
+           
             <section class="section dashboard">
                 <div class="container-fluid">
                     <div class="row">
@@ -82,8 +83,6 @@
                                         <div class="col-md-12">
                                             <div class="card border">
                                                 <div class="card-body">
-                                                    <h4 class="mt-4">Obligación</h4>
-                                                    <hr><!-- Separador -->
                                                     <h4 class="mt-4">Obligación</h4>
                                                     <hr><!-- Separador -->
                                                     <div class="row g-3 align-items-center mt-2">
@@ -195,10 +194,10 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_pro" name="id_pro">
                                                                             <?php foreach ($programa as $prog): ?>
-                                                                            <option
-                                                                                value="<?php echo $prog->id_pro; ?>">
-                                                                                <?php echo $prog->codigo; ?>
-                                                                            </option>
+                                                                                <option
+                                                                                    value="<?php echo $prog->id_pro; ?>">
+                                                                                    <?php echo $prog->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -209,9 +208,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_ff" name="id_ff">
                                                                             <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                            <option value="<?php echo $ff->id_ff; ?>">
-                                                                                <?php echo $ff->codigo; ?>
-                                                                            </option>
+                                                                                <option value="<?php echo $ff->id_ff; ?>">
+                                                                                    <?php echo $ff->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -222,28 +221,28 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_of" name="id_of">
                                                                             <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                            <option value="<?php echo $of->id_of; ?>">
-                                                                                <?php echo $of->codigo; ?>
-                                                                            </option>
+                                                                                <option value="<?php echo $of->id_of; ?>">
+                                                                                    <?php echo $of->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <div
-                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <div class="input-group input-group-sm">
                                                                         <input type="hidden" class="form-control"
                                                                             id="idcuentacontable"
                                                                             name="idcuentacontable">
-                                                                        <input style="width: 40%; font-size: small;"
-                                                                            type="text"
+                                                                        <input style="font-size: smaller;" type="text"
                                                                             class="form-control border-0 bg-transparent"
-                                                                            id="codigo_cc" name="codigo_cc" required>
-                                                                        <input style="font-size: small;" type="text"
+                                                                            id="codigo_cc" name="codigo_cc">
+                                                                        <input style="width: 60%; font-size: smaller;"
+                                                                            type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="descripcion_cc" name="descripcion_cc">
                                                                         <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
+                                                                            style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary"
                                                                             id="openModalBtn_3">
 
@@ -328,10 +327,10 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_pro_2" name="id_pro_2" required>
                                                                             <?php foreach ($programa as $prog): ?>
-                                                                            <option
-                                                                                value="<?php echo $prog->id_pro; ?>">
-                                                                                <?php echo $prog->codigo; ?>
-                                                                            </option>
+                                                                                <option
+                                                                                    value="<?php echo $prog->id_pro; ?>">
+                                                                                    <?php echo $prog->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -342,9 +341,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_ff_2" name="id_ff_2" required>
                                                                             <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                            <option value="<?php echo $ff->id_ff; ?>">
-                                                                                <?php echo $ff->codigo; ?>
-                                                                            </option>
+                                                                                <option value="<?php echo $ff->id_ff; ?>">
+                                                                                    <?php echo $ff->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -355,31 +354,30 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_of_2" name="id_of_2" required>
                                                                             <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                            <option value="<?php echo $of->id_of; ?>">
-                                                                                <?php echo $of->codigo; ?>
-                                                                            </option>
+                                                                                <option value="<?php echo $of->id_of; ?>">
+                                                                                    <?php echo $of->codigo; ?>
+                                                                                </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
                                                                 </td>
                                                                 <td>
-                                                                    <div
-                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <div class="input-group input-group-sm">
                                                                         <input type="hidden"
                                                                             class="form-control border-0 bg-transparent idcuentacontable_2"
                                                                             id="idcuentacontable_2"
                                                                             name="idcuentacontable_2">
-                                                                        <input style="font-size: small; width: 40%"
-                                                                            type="text"
+                                                                        <input style="font-size: smaller;" type="text"
                                                                             class="form-control border-0 bg-transparent codigo_cc_2"
-                                                                            id="codigo_cc_2" name="codigo_cc_2"
-                                                                            required>
-                                                                        <input style="font-size: small;" type="text"
+                                                                            id="codigo_cc_2" name="codigo_cc_2">
+                                                                        <input style="width: 60%; font-size: smaller;"
+                                                                            type="text"
                                                                             class="form-control border-0 bg-transparent descripcion_cc_2"
                                                                             id="descripcion_cc_2"
                                                                             name="descripcion_cc_2">
                                                                         <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont2"
+                                                                            style="height: 30px;"
                                                                             class="btn btn-sm btn-outline-primary openModalBtn_4"
                                                                             id="botonBuscar2">
                                                                             <i class="bi bi-search"></i>
@@ -572,6 +570,7 @@
     </main>
 
     <!-- Modal Lista de Obligaciones-->
+    <!-- Modal Lista de Obligaciones-->
     <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered lista-obligacion">
@@ -591,8 +590,7 @@
                                 <th>Fecha</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th>M. Pagado</th>
-                                <th>M. Total</th>
-                                <th>Suma del Pago</th>
+                                <th>M. de Pago</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
@@ -605,47 +603,6 @@
                                 <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
-                    <?php
-                        $registros_por_proveedor = array();
-
-                        foreach ($asientos as $asi) {
-                            $clave_proveedor = $asi->provee;
-
-                            $resta_montos = $asi->total - $asi->suma_monto;
-
-                            // Evalúa diferentes casos usando un switch
-                            switch (true) {
-                                case $asi->suma_monto == $asi->total && $resta_montos == 0:
-                                    break;
-
-                                case $asi->suma_monto < $asi->total && $resta_montos != 0 && $asi->id_form == 1:
-                                        agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
-
-                                        break;
-
-                                        case $asi->suma_monto == 0 && $asi->total !=0 && $resta_montos != 0 && $asi->id_form == 1:
-                                            agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
-                            
-                                            break;
-                            }
-                        }
-
-                        function agregarRegistroProveedor(&$registros, $clave, $asi) {
-                            // Lógica adicional para verificar si el registro está pagado
-                            $resta_montos = $asi->total - $asi->suma_monto;
-                        
-                            // Verificar si SumaMonto y MontoTotal son iguales, y la resta es igual a 0
-                            if ($asi->suma_monto == $asi->total && $resta_montos == 0 && $asi->id_form==1) {
-                                // No agregar el registro si está pagado
-                                return;
-                            }
-                            // Verifica si ya existe un registro para este proveedor
-                            if (!isset($registros[$clave])) {
-                                $registros[$clave] = $asi;
-                            } 
-                        }
-                        ?>
-
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
                                 <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
@@ -718,7 +675,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
@@ -899,10 +856,12 @@
     </script>
     <!-- Envio de formulario principal -->
     <script>
-    $("#formularioPrincipal").on("submit", function(e) {
 
-        //datos que no son de la tabla dinamica
-        var datosFormulario = {
+
+        $("#formularioPrincipal").on("submit", function (e) {
+
+            //datos que no son de la tabla dinamica
+            var datosFormulario = {
 
 
                 op: $("#op").val(),
@@ -936,7 +895,6 @@
             let sumahaber = 0;
 
         var filas = [];
-        var filas = [];
 
 
             $("#miTabla tbody tr:gt(0)").each(function () {
@@ -957,29 +915,8 @@
             sumahaber += valorClonado;
             filas.push(fila);
         });
-            var fila = {
-                id_pro: $(this).find("select[name='id_pro_2']").val(),
-                id_ff: $(this).find("select[name='id_ff_2']").val(),
-                id_of: $(this).find("select[name='id_of_2']").val(),
-                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                detalles: $(this).find("input[name='detalles_2']").val(),
-                comprobante: $(this).find("input[name='comprobante_2']").val(),
-                Debe: $(this).find("input[name='Debe_2']").val(),
-                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-            };
-            // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
-            var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
-            sumahaber += valorClonado;
-            filas.push(fila);
-        });
 
 
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
-            datosFormulario: datosFormulario,
-            filas: filas,
-        };
         // Combinar datos del formulario principal y de las filas dinámicas
         var datosCompletos = {
             datosFormulario: datosFormulario,
@@ -1035,7 +972,7 @@
 
             e.stopPropagation();
 
-    });
+        });
     </script>
 
     <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"

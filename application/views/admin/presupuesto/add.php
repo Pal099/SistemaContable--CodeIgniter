@@ -57,27 +57,14 @@
                                                             placeholder="Ej. 2023" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="TotalPresupuestado">Total Presupuestado:</label>
+                                                        <label for="TotalPresupuestado">Presupuesto Inicial:</label>
                                                         <input type="number" class="form-control"
                                                             id="TotalPresupuestado" name="TotalPresupuestado" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="TotalModificado">Total Modificado:</label>
+                                                        <label for="TotalModificado">Presupuesto Modificado:</label>
                                                         <input type="number" class="form-control" id="TotalModificado"
                                                             name="TotalModificado" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="origen_de_financiamiento_id_of">Origen de
-                                                            Financiamiento:</label>
-                                                        <select name="origen_de_financiamiento_id_of"
-                                                            id="origen_de_financiamiento_id_of" class="form-control"
-                                                            required>
-                                                            <?php foreach ($origen as $o) : ?>
-                                                            <option value="<?php echo $o->id_of ?>">
-                                                                <?php echo $o->nombre; ?>
-                                                            </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fuente_de_financiamiento_id_ff">Fuente de
@@ -87,18 +74,32 @@
                                                             required>
                                                             <?php foreach ($registros_financieros as $fuente) : ?>
                                                             <option value="<?php echo $fuente->id_ff ?>">
-                                                                <?php echo $fuente->nombre; ?>
+                                                                <?php echo $fuente->codigo . ' - ' . $fuente->nombre ; ?>
                                                             </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="origen_de_financiamiento_id_of">Origen de
+                                                            Financiamiento:</label>
+                                                        <select name="origen_de_financiamiento_id_of"
+                                                            id="origen_de_financiamiento_id_of" class="form-control"
+                                                            required>
+                                                            <?php foreach ($origen as $o) : ?>
+                                                            <option value="<?php echo $o->id_of ?>">
+                                                                <?php echo $o->codigo . ' - ' . $o->nombre ; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    
                                                     <div class="form-group col-md-4">
                                                         <label for="programa_id_pro">Programa:</label>
                                                         <select name="programa_id_pro" id="programa_id_pro"
                                                             class="form-control" required>
                                                             <?php foreach ($programa as $prog) : ?>
                                                             <option value="<?php echo $prog->id_pro ?>">
-                                                                <?php echo $prog->nombre; ?>
+                                                                <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
                                                             </option>
                                                             <?php endforeach; ?>
                                                         </select>
