@@ -503,7 +503,7 @@
                                                                             <?php echo $asien->op ?>
                                                                         </td>
                                                                         <td>
-                                                                            <?php echo $asien->estado ?>
+                                                                            <?php echo $asien->estado_registro ?>
                                                                         </td>
                                                                         <td>
                                                                             <div
