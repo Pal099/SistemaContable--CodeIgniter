@@ -231,26 +231,50 @@ class Diario_obligaciones extends CI_Controller
 
 	public function edit($id)
 	{
-
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+	
+		// Obtener datos de las tablas requeridas para los datos
+		$asiento = $this->Diario_obli_model->GetAsientoEditar($id);
+		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
+		$programas = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
+		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
+		$origen_de_financiamiento = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+		$cuentacontables = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
+	
+		// Buscamos los datos corresponiendentes de las tablas para facilidad de su manejo
+		$proveedorEncontrado = null;
+		foreach ($proveedores as $proveedor) {
+			if ($proveedor->id == $asiento[0]['datosFijos']['id_provee']) {
+				$proveedorEncontrado = $proveedor;
+				break;
+			}
+		}
 
+		// Agregar datos al array $data
 		$data = array(
-			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
-			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
-			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
-			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'asiento' => $asiento,
+			'proveedor' => $proveedorEncontrado, 
+			'programa' => $programas,
+			'fuente_de_financiamiento' => $fuente_de_financiamiento,
+			'origen_de_financiamiento' => $origen_de_financiamiento,
+			'cuentacontable' => $cuentacontables,
 		);
+	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/obligacion/obli_combined", $data);
+		$this->load->view("admin/obligacion/obliedit", $data);
 		$this->load->view("layouts/footer");
 	}
-
-
+	public function testearDatos() {
+		$IDNum_Asi = 39; 
+		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
+		// Se Imprime los datos para revisar su estructura
+		echo '<pre>';
+		print_r($datos);
+		echo '</pre>';
+	}
 
 	public function update()
 	{
