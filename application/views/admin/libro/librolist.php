@@ -55,6 +55,7 @@
                                                         <div class="input-group input-group-sm">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_form" name="id_form" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <option value="1">Obligación</option>
                                                                 <option value="2">Pago</option>
                                                             </select>
@@ -64,6 +65,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent "
                                                                 id="id_pro" name="id_pro">
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($programa as $prog): ?>
                                                                 <option value="<?php echo $prog->id_pro; ?>">
                                                                     <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
@@ -76,6 +78,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_ff" name="id_ff" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
                                                                 <option value="<?php echo $ff->id_ff; ?>">
                                                                     <?php echo $ff->codigo . ' - ' . $ff->nombre ; ?>
@@ -88,6 +91,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_of" name="id_of" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                 <option value="<?php echo $of->id_of; ?>">
                                                                     <?php echo $of->codigo . ' - ' . $of->nombre ; ?>
@@ -152,9 +156,9 @@
                                                     <td><?php echo $entrada['Descripcion']; ?></td>
                                                     <td><?php echo $entrada['Debe']; ?></td>
                                                     <td><?php echo $entrada['Haber']; ?></td>
-                                                    <td><?php // Calcular y mostrar el saldo ?></td>
+                                                    <td><?php echo $entrada['Saldo']; ?></td>
                                                     <td><?php echo $entrada['Codigo_CC']; ?> -
-                                                        <?php echo $entrada['Descripcion_CC']; ?>
+                                                    <?php echo $entrada['Descripcion_CC']; ?>
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>
