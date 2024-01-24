@@ -137,7 +137,10 @@
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
                                                         </div>
-                                                        <div class="form-group col-md-2">
+                                                        <div class="form-group col-md-2 columna-hidden">
+                                                            <input type="text" class="form-control w-100" id="num_asio"
+                                                                name="num_asio" readonly>
+                                                        </div>
                                                         <div class="form-group col-md-2">
                                                             <label for="num_asi">N° asiento:</label>
                                                             <input type="text" class="form-control w-100" id="num_asi"
@@ -162,8 +165,8 @@
                                                         </div>
                                                         <div class="form-group col-md-12">
                                                             <label for="concepto">Concepto:</label>
-                                                            <input type="text" class="form-control w-100"
-                                                                id="concepto" name="concepto">
+                                                            <input type="text" class="form-control w-100" id="concepto"
+                                                                name="concepto">
                                                         </div>
                                                     </div>
                                                     <table
@@ -242,8 +245,7 @@
                                                                         <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             class="btn btn-sm btn-outline-primary"
-                                                                            id="openModalBtn_3"
-                                                                            onclick="openModal(event)">
+                                                                            id="openModalBtn_3">
 
                                                                             <i class="bi bi-search"></i>
                                                                         </button>
@@ -269,6 +271,13 @@
                                                                         <input type="text"
                                                                             class="form-control small border-0 bg-transparent"
                                                                             id="MontoPago" name="MontoPago" readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="MontoTotal" name="MontoTotal" readonly>
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -592,6 +601,8 @@
                                 <th>Origen</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
+                                <th hidden></th> <!-- Columna oculta -->
+                                <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
                     <?php
@@ -636,88 +647,71 @@
                         ?>
 
                         <tbody>
-                        <?php foreach ($registros_por_proveedor as $asi): ?>
-        <?php
-        // Agrega un bloque adicional para manejar la lógica de estados e Id_form
-        $estado_texto = '';
-
-        // Utilizamos un switch para manejar la lógica de estados
-        switch ($asi->estado) {
-            case 3:
-                // Caso 1: Estado 3 (pendiente)
-                $estado_texto = 'Pendiente';
-                break;
-
-            case 4:
-                // Caso 2: Estado 4 (pagado)
-                // Puedes agregar más lógica según tus requerimientos
-                // También puedes añadir condiciones adicionales para casos específicos
-                $estado_texto = 'Pagado';
-                break;
-
-            // Puedes agregar más casos según tus requerimientos
-
-            default:
-                // En caso de que el estado no coincida con ningún caso
-                $estado_texto = 'Pendiente';
-        }
-        ?>
-                            <tr class="list-item"
-                                onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                            <?php foreach ($asientos as $asientoN => $asi): ?>
+                                <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
+                                    <tr class="list-item"
+                                        onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasideta ?>', '<?= $asi->total ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $asi->id_numasideta ?>
-                                </td>
-                                <td>
-                                    <?= $asi->ruc_proveedor ?>
-                                </td>
-                                <td>
-                                    <?= $asi->razso_proveedor ?>
-                                </td>
-                                <td>
-                                    <?= $asi->numero ?>
-                                </td>
-                                <td>
-                                    <?= $asi->fecha ?>
-                                </td>
-                                <td>
-                                    <?= $asi->pagado ?>
-                                </td>
-                                <td>
-                                    <?= $asi->total ?>
-                                </td>
-                                <td><?= $asi->suma_monto ?></td>
-
-                                <td hidden>
-                                    <?= $asi->Haber ?>
-                                </td>
-                                <td hidden>
-                                    <?= $asi->IDCuentaContable ?> -
-                                    <?= $asi->codigo ?> -
-                                    <?= $asi->descrip ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_fuente ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_programa ?>
-                                </td>
-                                <td>
-                                    <?= $asi->nombre_origen ?>
-                                </td>
-                                <td hidden>
-                                    <?= $asi->detalles ?>
-                                </td>
-                                <td hidden>
-                                    <?= $asi->comprobante ?>
-                                </td>
-                                <td hidden>
-                                    <?= $asi->cheques_che_id ?>
-                                </td>
-                            </tr>
-
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
+                                        data-bs-dismiss="modal">
+                                        <td>
+                                            <?= $asientoN + 1 ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->ruc_proveedor ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->razso_proveedor ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->numero ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->fecha ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->concepto ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->pagado ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->total ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->Debe ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->Haber ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->idcuenta ?> -
+                                            <?= $asi->codigo ?> -
+                                            <?= $asi->descrip ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->nombre_fuente ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->nombre_programa ?>
+                                        </td>
+                                        <td>
+                                            <?= $asi->nombre_origen ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->detalles ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->comprobante ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->cheques_che_id ?>
+                                        </td>
+                                        <td hidden>
+                                            <?= $asi->id_numasi ?>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -729,41 +723,42 @@
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
         // Función para seleccionar un asi
-        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta,) {
+        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip, deta, comp, cheq, idcuenta, numasio, pagado) {
 
             var descripcionConPrefijo = 'A.P. ' + descrip;
             //var descripcionConPrefijo2 = 'A.P.' + descrip;
             var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
             //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
 
-            
+
             document.getElementById('ruc').value = ruc;
             document.getElementById('contabilidad').value = razonSocial;
             document.getElementById('fecha').value = fechas;
             document.getElementById('concepto').value = concepto;
             document.getElementById('Debe').value = debes;
             document.getElementById('MontoPago').value = montos;
+            document.getElementById('MontoTotal').value = montos;
             document.getElementById('id_ff').value = fuentes;
             document.getElementById('id_pro').value = programas;
             document.getElementById('id_of').value = origens;
             //Prueba '&descripcion2=' + descripcionCodificada2
             $.ajax({
                 type: 'GET',
-                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada ,
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' + descripcionCodificada,
                 data: { descripcionConPrefijo },
                 success: function (respuesta) {
                     // Dividir la cadena de respuesta en un array usando la coma como separador
                     var valores = respuesta.split(',');
-                    
+
                     // Asignar los valores a los campos correspondientes
                     $('#idcuentacontable').val(valores[1]);
                     $('#codigo_cc').val(valores[2]);
                     $('#descripcion_cc').val(valores[3]);
 
                     // Imprimir los valores en la consola para verificar
-                    
-                    console.log(valores[1], "+", valores[2], "+", valores[3]);
+
                    
+
                 },
                 error: function (xhr, status, error) {
                     console.error('Error en la solicitud AJAX');
@@ -772,10 +767,12 @@
                     console.log('Error:', error);
                 }
             });
-           
+
             document.getElementById('detalles').value = deta;
             document.getElementById('comprobante').value = comp;
             document.getElementById('cheques_che_id').value = cheq;
+            document.getElementById('num_asio').value = numasio;
+            document.getElementById('MontoPago_2').value = pagado;
         }
 
     </script>
@@ -918,21 +915,23 @@
                 tesoreria: $("#tesoreria").val(),
                 concepto: $("#concepto").val(),
                 fecha: $("#fecha").val(),
+                idnumasi: $("#num_asio").val(),
 
                 // Agrega más campos según sea necesario
                 id_pro: $("#id_pro").val(),
                 id_ff: $("#id_ff").val(),
                 id_of: $("#id_of").val(),
                 IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-                MontoPago: $("#MontoPago").val(),
+                MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
                 comprobante: $("#comprobante").val(),
                 Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
 
-        };
 
-            console.log('Valor de IDCuentaContable:', datosFormulario.IDCuentaContable);
+            };
+
+           
             // variable para saber si el debe es igual a haber
             let sumahaber = 0;
 
@@ -987,43 +986,53 @@
             filas: filas,
         };
 
-        var diferenciaActualizada = parseFloat($("#diferencia").text());
-        var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
+            var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
+            var Suma = debe + Totalpagado;
+            var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+           
+            
+            if (Suma <= total) {
+                
+                if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+                    $.ajax({
+                        url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+                        type: 'POST',
+                        data: { datos: datosCompletos },
+                        //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                        success: function (response) {
+                            if (response.includes('Datos guardados exitosamente.')) {
+                                alert('Datos guardados exitosamente.');
+                                // ... (código adicional si es necesario)
+                            } else {
+                                alert('Error al guardar los datos: ' + response);
+                                // ... (código adicional si es necesario)
+                            }
+                        },
+                        error: function (xhr, status, error) {
 
-            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: { datos: datosCompletos },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function (response) {
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            // ... (código adicional si es necesario)
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                            console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                            console.log(datosCompletos);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+
                         }
-                    },
-                    error: function (xhr, status, error) {
-
-                    console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                    console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                    }
-                });
+                    });
+                } else {
+                    alert('El debe y el haber son diferentes');
+                    return false;
+                }
             } else {
-                alert('El debe y el haber son diferentes');
+                alert('El Monto Pagado es mayor al Total a Pagar');
                 return false;
             }
+
+
             e.stopPropagation();
 
     });
@@ -1157,19 +1166,19 @@
         }
 
 
-    // Función para seleccionar la cuenta contable
-    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-            currentRow.find('.codigo_cc_2').val(Codigo_CC);
-            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-            closeModal_4();
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+        // Función para seleccionar la cuenta contable
+        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Verificar si currentRow está definido y no es null
+            if (currentRow) {
+                // Utilizar currentRow para actualizar los campos
+                currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+                currentRow.find('.codigo_cc_2').val(Codigo_CC);
+                currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+                
+            } else {
+                console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+            }
         }
-    }
 
     // Abrir modal en fila dinamica
     const openModalBtn_4 = document.getElementById("openModalBtn_4");
