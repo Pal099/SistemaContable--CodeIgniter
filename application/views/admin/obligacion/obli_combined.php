@@ -478,6 +478,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Tabla de los asientos -->
                                         <div class="card border">
                                             <div class="card-body">
                                                 <h4 class="mt-4">Asientos</h4>
@@ -486,10 +487,10 @@
                                                     class="table table-hover table-bordered table-sm rounded-3">
                                                     <thead>
                                                         <tr>
-                                                            <th>Numero</th>
+                                                            <th>N° asiento</th>
                                                             <th>Fecha de Emisión</th>
                                                             <th>Proveedor</th>
-                                                            <th>Monto</th>
+                                                            <th>Monto Total</th>
                                                             <th>Acciones</th>
                                                         </tr>
                                                     </thead>
@@ -529,7 +530,6 @@
                                                                     </button>
                                                                 </div>
                                                             </td>
-
                                                         </tr>
                                                         <?php endforeach; ?>
                                                         <?php else: ?>
@@ -539,22 +539,16 @@
                                                 </table>
                                             </div>
                                         </div>
-
                                     </div>
-
-
                                 </div>
                             </div>
                     </div>
-
                     </form>
                 </div>
         </div>
         </section>
         </div>
-        <!-- Botones -->
-
-
+        
         <!-- Modal Proveedores con boostrap -->
         <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
             aria-labelledby="ModalCuentasContables" aria-hidden="true">
