@@ -47,7 +47,7 @@
                         <table id="TablaPresupuesto" class="table table-hover table-sm rounded-3">
                           <thead>
                             <tr>
-                              <th>Año</th>
+                              <th>Fecha</th>
                               <th>Descripcion</th>
                               <th>Presupuesto Inicial</th>
                               <th>Origen de financiamiento</th>

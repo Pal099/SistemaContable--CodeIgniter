@@ -54,8 +54,8 @@
                                                         value="<?php echo $presupuesto->ID_Presupuesto; ?>"
                                                         name="ID_Presupuesto">
                                                     <div class="form-group col-md-4">
-                                                        <label for="Año">Año:</label>
-                                                        <input type="number" class="form-control" id="Año" name="Año"
+                                                        <label for="Año">Fecha:</label>
+                                                        <input type="date" class="form-control" id="Año" name="Año"
                                                             value="<?php echo $presupuesto->Año ?>">
                                                     </div>
                                                     <div class="form-group col-md-4">

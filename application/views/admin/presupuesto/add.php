@@ -52,9 +52,9 @@
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
                                                     <div class="form-group col-md-4">
-                                                        <label for="Año">Año:</label>
-                                                        <input type="number" class="form-control" id="Año" name="Año"
-                                                            placeholder="Ej. 2023" required>
+                                                        <label for="Año">Fecha:</label>
+                                                        <input type="date" class="form-control" id="Año" name="Año"
+                                                            placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalPresupuestado">Presupuesto Inicial:</label>
