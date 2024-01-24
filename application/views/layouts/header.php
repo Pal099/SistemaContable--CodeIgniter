@@ -51,12 +51,11 @@
 </head>
 
 <header id="header" class="header fixed-top d-flex align-items-center" style="background-color:#020971;">
-<header id="header" class="header fixed-top d-flex align-items-center" style="background-color:#020971;">
+
 
   <div class="d-flex align-items-center justify-content-between">
     <a href="<?php echo base_url(); ?>principal" class="logo d-flex align-items-center">
       <img src="<?php echo base_url(); ?>assets/img/codex.png">
-      <span class="d-none d-lg-block" style="color: #fff">CodexVeritas</span>
       <span class="d-none d-lg-block" style="color: #fff">CodexVeritas</span>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i>
