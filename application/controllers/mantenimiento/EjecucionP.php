@@ -42,7 +42,8 @@ class EjecucionP extends CI_Controller
             'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta(),
             'fuente' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
-			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu)
+			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
+            'cuentas' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu)
         );
         //var_dump($data['programa']);
 
