@@ -46,14 +46,3 @@
   width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
   table-layout: fixed; /* Distribuye uniformemente las celdas */
 }
-
-
-.btn-pdf {
-  background-color: red;
-  color: white;
-}
-
-.btn-excel {
-  background-color: green;
-  color: white;
-}

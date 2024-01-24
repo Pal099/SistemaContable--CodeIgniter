@@ -484,15 +484,14 @@
                                             <div class="card-body">
                                                 <h4 class="mt-4">Asientos</h4>
                                                 <hr><!-- Separador -->
-                                                <table id="vistaobli"
+                                                                                                <table id="vistaobli"
                                                     class="table table-hover table-bordered table-sm rounded-3">
                                                     <thead>
                                                         <tr>
-                                                            <th>#</th>
-                                                            <th>Fecha de Emisión</th>
                                                             <th>N° asiento</th>
-                                                            <th>OP</th>
-                                                            <th>Estado</th>
+                                                            <th>Fecha de Emisión</th>
+                                                            <th>Proveedor</th>
+                                                            <th>Monto Total</th>
                                                             <th>Acciones</th>
                                                         </tr>
                                                     </thead>
@@ -501,19 +500,16 @@
                                                         <?php foreach ($asientos as $asien): ?>
                                                         <tr>
                                                             <td>
-                                                                <?php echo $asien->IDNum_Asi ?>
+                                                                <?php echo $asien->num_asi ?>
                                                             </td>
                                                             <td>
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
                                                             <td>
-                                                                <?php echo $asien->num_asi ?>
+                                                                <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>
-                                                                <?php echo $asien->op ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->estado ?>
+                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
                                                             </td>
                                                             <td>
                                                                 <div
@@ -525,17 +521,17 @@
                                                                         value="<?php echo $asien->IDNum_Asi; ?>">
                                                                         <span class="fa fa-search"></span>
                                                                     </button>
-                                                                    <button class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                    <button type="button" class="btn btn-warning btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-pencil-fill"></i>
                                                                     </button>
-                                                                    <button class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                    <button type="button"
+                                                                        class="btn btn-danger btn-remove btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
                                                                 </div>
                                                             </td>
-
                                                         </tr>
                                                         <?php endforeach; ?>
                                                         <?php else: ?>
