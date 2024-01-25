@@ -283,7 +283,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 	public function testearDatos() {
-		$IDNum_Asi = 13; 
+		$IDNum_Asi = 16; 
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable(1);
 

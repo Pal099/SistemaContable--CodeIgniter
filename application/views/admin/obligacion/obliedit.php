@@ -59,7 +59,7 @@
                                                         <label for="razon_social">Nombre y Apellido:</label>
                                                         <input type="text" class="form-control w-100" id="razon_social"
                                                             name="razon_social"
-                                                            value="<?php echo $proveedor->razon_social ?>" required>
+                                                            value="<?php echo $proveedor->razon_social ?>" readonly>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
@@ -107,13 +107,7 @@
                                                                     name="total"
                                                                     value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>">
                                                             </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="pagado">Pagado:</label>
-                                                                <input type="text" class="form-control w-100"
-                                                                    id="pagado" name="pagado"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['MontoPagado']; ?>">
-                                                            </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group col-md-4">
                                                                 <label for="op">N° Op</label>
                                                                 <input type="text" class="form-control" id="op"
                                                                     name="op"
@@ -238,22 +232,17 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php 
-                                                                    // Se define $Debe_value como una cadena vacía por defecto
-                                                                    $Debe_value = '';
-
-                                                                    if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
-                                                                        $Debe = $asiento[0]['camposDinamicos'][0]->Debe;
-                                                                        // Cambia el valor de $Debe_value si $Debe está establecido
-                                                                        $Debe_value = number_format($Debe, 2, ',', '.'); 
-                                                                    }
-                                                                    ?>
+                                                                        // Se define $Debe_value como una cadena vacía por defecto
+                                                                        $Debe_value = '';
+                                                                        if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
+                                                                            $Debe = $asiento[0]['camposDinamicos'][0]->Debe;
+                                                                            $Debe_value = number_format($Debe, 0, ',', '.'); 
+                                                                        }
+                                                                        ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
                                                                         id="Debe" name="Debe"
-                                                                        value="<?php echo $Debe_value; ?>">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Debe" name="Debe"
+                                                                        value="<?php echo isset($Debe_value) ? $Debe_value : ''; ?>"
                                                                         oninput="formatNumber('Debe')">
                                                                 </div>
                                                             </td>
@@ -261,7 +250,7 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
-                                                                        id="Haber" name="Haber" required>
+                                                                        id="Haber" name="HaberFila1" required>
                                                                 </div>
                                                             </td>
                                                             <td class="columna-hidden">
@@ -385,7 +374,7 @@
                                                                     $haber_2_value = '';
                                                                     if (isset($asiento[0]['camposDinamicos'][1]->Haber)) {
                                                                         $haber_2 = $asiento[0]['camposDinamicos'][1]->Haber;
-                                                                        $haber_2_value = number_format($haber_2, 2, ',', '.'); 
+                                                                        $haber_2_value = number_format($haber_2, 0, ',', '.'); 
                                                                     }
                                                                     ?>
                                                                     <input type="text"
@@ -395,7 +384,6 @@
                                                                         oninput="formatNumber('Haber_2')">
                                                                 </div>
                                                             </td>
-
                                                             </td>
                                                             <td class="columna-hidden">
                                                                 <div class="input-group input-group-sm  ">
@@ -452,14 +440,14 @@
                                                                 <div
                                                                     class="d-grid gap-1 d-md-flex justify-content-md-center">
                                                                     <input type="hidden"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico idcuentacontable_edi"
                                                                         name="IDCuentaContable">
                                                                     <input style="font-size: small; width: 40%"
                                                                         type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico codigoCC_edi"
                                                                         name="Codigo_CC" required>
                                                                     <input style="font-size: small;" type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico descripCC_edi"
                                                                         name="Descripcion_CC">
                                                                     <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont2"
@@ -499,8 +487,8 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <input type="text"
-                                                                        class="form-control small border-0 bg-transparent campoDinamico formatoNumero"
-                                                                        name="Haber" oninput="formatNumber('Haber')">
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Haber">
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -533,7 +521,7 @@
                                             class="btn btn-success btn-primary"><span
                                                 class="fa fa-save"></span>Guardar</button>
                                         <button type="button" class="btn btn-danger ml-3"
-                                            onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
                                             <i class="fa fa-remove"></i> Cancelar
                                         </button>
                                     </div>
@@ -718,25 +706,10 @@
         currentRow = currentRowParam; // Almacenar la fila actual
     }
 
-    // Función para seleccionar la cuenta contable
-    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-            currentRow.find('.codigo_cc_2').val(Codigo_CC);
-            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-        }
-    }
-
     // Abrir modal en fila dinamica
     const openModalBtn_4 = document.getElementById("openModalBtn_4");
     // Actualiza la función de clic para pasar la fila actual al abrir el modal
     document.getElementById("miTabla").addEventListener("click", function(event) {
-
         // Encuentra la fila desde la cual se abrió el modal
         var row = $(event.target).closest('tr');
         if (
@@ -749,6 +722,24 @@
             openModal_4(row);
         }
     });
+
+    // Función para seleccionar la cuenta contable
+    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        // Verificar si currentRow está definido y no es null
+        if (currentRow) {
+            // Utilizar currentRow para actualizar los campos
+            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+            currentRow.find('.codigo_cc_2').val(Codigo_CC);
+            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+            // Está parte corresponde a los campos que se traen desde el array
+            currentRow.find('.idcuentacontable_edi').val(IDCuentaContable);
+            currentRow.find('.codigoCC_edi').val(Codigo_CC);
+            currentRow.find('.descripCC_edi').val(Descripcion_CC);
+        } else {
+            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+        }
+    }
     </script>
 
 
@@ -788,9 +779,11 @@
                 campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
             }
         }
+        //Acá se formatea los campos Dinamicos del haber cuando el usuario ingresa algo
+
         //Este Script se encarga de crear las opciones del select para los campos que se clonan
         function crearOpciones(datos, select, valorSeleccionado, campoValor, campoTexto) {
-            // Vacía el select antes de agregar nuevas opciones
+            // Se vacía el select antes de agregar nuevas opciones
             select.empty();
 
             // Recorre los datos y crea una opción para cada elemento
@@ -810,7 +803,6 @@
             var programa = <?php echo json_encode($programa); ?>;
             var fuenteF = <?php echo json_encode($fuente_de_financiamiento); ?>;
             var origenF = <?php echo json_encode($origen_de_financiamiento); ?>;
-            console.log('programa: ', programa);
 
             // Clonar la fila de edicion
             var nuevaFila = $("#filaEdicion").clone();
@@ -830,6 +822,14 @@
                 var nombreCampo = campo.attr('name');
                 if (datos[nombreCampo]) {
                     campo.val(datos[nombreCampo]);
+
+                    // Aplicar la función formatNumber solo al campo "Haber"
+                    if (nombreCampo === 'Haber' || nombreCampo === 'Debe') {
+                        formatNumber(campo);
+                        campo.on('input', function() {
+                            formatNumber(campo);
+                        });
+                    }
                 }
             });
 
@@ -837,13 +837,10 @@
             nuevaFila.find("select.campoDinamico").each(function() {
                 var select = $(this);
                 var nombreCampo = select.attr('name');
-                console.log('Nombre del Campo:', nombreCampo);
 
                 if (datos[nombreCampo]) {
-                    console.log('Nombre del Campo:', nombreCampo, 'valores actuales de los campos:',
-                        datos[nombreCampo]);
 
-                    // Selecciona el conjunto de datos adecuado según el nombre del campo
+                    // Seleccionamos el conjunto de datos adecuado según el nombre del campo
                     var conjuntoDatos = [];
                     switch (nombreCampo) {
                         case 'id_pro':
@@ -862,7 +859,7 @@
                             campoTexto = 'codigo';
                             break;
                         default:
-                            // Manejar otro caso si es necesario
+                            // Acá se puede manejar de otra forma en caso que no sea ninguno de los otro id
                     }
 
                     // Llama a la función crearOpciones para generar las opciones del nuevo select
@@ -878,10 +875,8 @@
 
         var camposDinamicos =
             <?php echo json_encode($asiento[0]['camposDinamicos']); ?>; // datos de los asientos
-        // si camposDInamicos es mayor a 2 objetos entonces así itera para poder agregar los datos
+        // si camposDInamicos es mayor a 2 objetos entonces se puede iterar para poder agregar los datos de forma dinamica
         if (camposDinamicos.length > 2) {
-            console.log('Tamaño del array: ', camposDinamicos.length);
-            console.log('Valor del array en posicion 1: ', camposDinamicos[1]);
             for (var i = 2; i < camposDinamicos.length; i++) {
                 // Crear una nueva fila basada en los datos del objeto actual
                 var nuevaFila = crearFila(camposDinamicos[i]);
@@ -929,6 +924,17 @@
         });
 
     });
+    </script>
+
+    <!-- Función para formatear números con separadores de miles y dos decimales -->
+    <script>
+    function formatNumber(inputId) {
+        var input = document.getElementById(inputId);
+        var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+        }
+    }
     </script>
 
     <!-- Script de DataTable de jquery -->
