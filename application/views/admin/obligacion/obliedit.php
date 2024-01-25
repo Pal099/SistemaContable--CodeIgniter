@@ -147,8 +147,11 @@
                                                                 <div class="input-group input-group-sm ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_pro" name="id_pro">
-                                                                        <?php foreach ($programa as $prog): ?>
-                                                                        <option value="<?php echo $prog->id_pro; ?>">
+                                                                        <!-- En este ciclo se busca el id del programa en el array que se envia en la primera posicion, 
+                                                                        una vez encuentra ese id en el ciclo lo selecciona y lo muestra en el select -->
+                                                                        <?php foreach ($programa as $prog) : ?>
+                                                                        <option value="<?php echo $prog->id_pro ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
                                                                             <?php echo $prog->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -159,8 +162,9 @@
                                                                 <div class="input-group input-group-sm ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_ff" name="id_ff" required>
-                                                                        <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                        <option value="<?php echo $ff->id_ff; ?>">
+                                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                        <option value="<?php echo $ff->id_ff ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
                                                                             <?php echo $ff->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -171,8 +175,9 @@
                                                                 <div class="input-group input-group-sm ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_of" name="id_of" required>
-                                                                        <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                        <option value="<?php echo $of->id_of; ?>">
+                                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                        <option value="<?php echo $of->id_of ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_of == $of->id_of) ? 'selected' : ''; ?>>
                                                                             <?php echo $of->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -183,14 +188,18 @@
                                                                 <div
                                                                     class="d-grid gap-1 d-md-flex justify-content-md-center">
                                                                     <input type="hidden" class="form-control"
-                                                                        id="idcuentacontable" name="idcuentacontable">
+                                                                        id="idcuentacontable" name="idcuentacontable"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->IDCuentaContable ?>">
                                                                     <input style="width: 40%; font-size: small;"
                                                                         type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="codigo_cc" name="codigo_cc" required>
+                                                                        id="codigo_cc" name="codigo_cc"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Codigo_CC ?>"
+                                                                        required>
                                                                     <input style="font-size: small;" type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="descripcion_cc" name="descripcion_cc">
+                                                                        id="descripcion_cc" name="descripcion_cc"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Descripcion_CC ?>">
                                                                     <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont1"
                                                                         class="btn btn-sm btn-outline-primary"
@@ -204,37 +213,48 @@
                                                                     class="input-group input-group-sm align-items-center  ">
                                                                     <input type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="comprobante" name="comprobante">
+                                                                        id="comprobante" name="comprobante"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Comprobante ?>">
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="detalles" name="detalles" required>
+                                                                        id="detalles" name="detalles"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->detalles ?>"
+                                                                        required>
                                                                 </div>
                                                             </td>
                                                             <td class="columna-hidden">
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
-                                                                        id="MontoPago" name="MontoPago" readonly>
+                                                                        id="MontoPago" name="MontoPago"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['MontoPagado'] ?>"
+                                                                        readonly>
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm">
-                                                                    <?php if (isset($Debe)): ?>
-                                                                    <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                    <?php 
+                                                                    // Se define $Debe_value como una cadena vacía por defecto
+                                                                    $Debe_value = '';
+
+                                                                    if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
+                                                                        $Debe = $asiento[0]['camposDinamicos'][0]->Debe;
+                                                                        // Cambia el valor de $Debe_value si $Debe está establecido
+                                                                        $Debe_value = number_format($Debe, 2, ',', '.'); 
+                                                                    }
+                                                                    ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
                                                                         id="Debe" name="Debe"
                                                                         value="<?php echo $Debe_value; ?>">
-                                                                    <?php else: ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
                                                                         id="Debe" name="Debe"
                                                                         oninput="formatNumber('Debe')">
-                                                                    <?php endif; ?>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -267,8 +287,9 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_pro_2" name="id_pro_2" required>
-                                                                        <?php foreach ($programa as $prog): ?>
-                                                                        <option value="<?php echo $prog->id_pro; ?>">
+                                                                        <?php foreach ($programa as $prog) : ?>
+                                                                        <option value="<?php echo $prog->id_pro ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
                                                                             <?php echo $prog->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -279,8 +300,9 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_ff_2" name="id_ff_2" required>
-                                                                        <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                        <option value="<?php echo $ff->id_ff; ?>">
+                                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                        <option value="<?php echo $ff->id_ff ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
                                                                             <?php echo $ff->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -291,8 +313,9 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_of_2" name="id_of_2" required>
-                                                                        <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                        <option value="<?php echo $of->id_of; ?>">
+                                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                        <option value="<?php echo $of->id_of ?>"
+                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_of == $of->id_of) ? 'selected' : ''; ?>>
                                                                             <?php echo $of->codigo; ?>
                                                                         </option>
                                                                         <?php endforeach; ?>
@@ -305,14 +328,18 @@
                                                                     <input type="hidden"
                                                                         class="form-control border-0 bg-transparent idcuentacontable_2"
                                                                         id="idcuentacontable_2"
-                                                                        name="idcuentacontable_2">
+                                                                        name="idcuentacontable_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->IDCuentaContable ?>">
                                                                     <input style="font-size: small; width: 40%"
                                                                         type="text"
                                                                         class="form-control border-0 bg-transparent codigo_cc_2"
-                                                                        id="codigo_cc_2" name="codigo_cc_2" required>
+                                                                        id="codigo_cc_2" name="codigo_cc_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Codigo_CC ?>"
+                                                                        required>
                                                                     <input style="font-size: small;" type="text"
                                                                         class="form-control border-0 bg-transparent descripcion_cc_2"
-                                                                        id="descripcion_cc_2" name="descripcion_cc_2">
+                                                                        id="descripcion_cc_2" name="descripcion_cc_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Descripcion_CC ?>">
                                                                     <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont2"
                                                                         class="btn btn-sm btn-outline-primary openModalBtn_4"
@@ -325,14 +352,16 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="comprobante_2" name="comprobante_2">
+                                                                        id="comprobante_2" name="comprobante_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Comprobante ?>">
                                                                 </div>
                                                             </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control border-0 bg-transparent"
-                                                                        id="detalles_2" name="detalles_2">
+                                                                        id="detalles_2" name="detalles_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->detalles ?>">
                                                                 </div>
                                                             </td>
                                                             <td class="columna-hidden">
@@ -351,18 +380,19 @@
                                                             </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm">
-                                                                    <?php if (isset($haber_2)): ?>
-                                                                    <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                    <?php 
+                                                                    // Se define $haber_2_value como una cadena vacía por defecto
+                                                                    $haber_2_value = '';
+                                                                    if (isset($asiento[0]['camposDinamicos'][1]->Haber)) {
+                                                                        $haber_2 = $asiento[0]['camposDinamicos'][1]->Haber;
+                                                                        $haber_2_value = number_format($haber_2, 2, ',', '.'); 
+                                                                    }
+                                                                    ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent form formatoNumero"
                                                                         id="Haber_2" name="Haber_2"
-                                                                        value="<?php echo $haber_2_value; ?>">
-                                                                    <?php else: ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent formatoNumero"
-                                                                        id="Haber_2" name="Haber_2"
+                                                                        value="<?php echo isset($haber_2_value) ? $haber_2_value : ''; ?>"
                                                                         oninput="formatNumber('Haber_2')">
-                                                                    <?php endif; ?>
                                                                 </div>
                                                             </td>
 
@@ -389,6 +419,106 @@
                                                                 </div>
                                                             </td>
                                                         </tr>
+                                                        <!-- Fila destinada a la edicion -->
+                                                        <tr id="filaEdicion" style="display: none;">
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <select
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="id_pro" required>
+                                                                        <!-- Opciones generadas dinámicamente -->
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <select
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="id_ff" required>
+                                                                        <!-- Opciones generadas dinámicamente -->
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <select
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="id_of" required>
+                                                                        <!-- Opciones generadas dinámicamente -->
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <input type="hidden"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="IDCuentaContable">
+                                                                    <input style="font-size: small; width: 40%"
+                                                                        type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Codigo_CC" required>
+                                                                    <input style="font-size: small;" type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Descripcion_CC">
+                                                                    <button type="button" data-bs-toggle="modal"
+                                                                        data-bs-target="#modalCuentasCont2"
+                                                                        class="btn btn-sm btn-outline-primary openModalBtn_4">
+                                                                        <i class="bi bi-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Comprobante">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="detalles">
+                                                                </div>
+                                                            </td>
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="MontoPago" readonly>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text"
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Debe" required>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-sm">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent campoDinamico formatoNumero"
+                                                                        name="Haber" oninput="formatNumber('Haber')">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-primary border-0 agregarFila">
+                                                                        <i class="bi bi-plus-square"></i>
+                                                                    </button>
+                                                                    <button type="button"
+                                                                        class="btn btn-outline-danger border-0 eliminarFila"
+                                                                        hidden>
+                                                                        <i class="bi bi-trash3"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <!-- acá termina la fila de edicion -->
                                                     </tbody>
                                                 </table>
                                                 <!-- Acá termina la tabla -->
@@ -415,8 +545,66 @@
         </div>
     </main>
 
-    <!-- Modal de las cuentas Contables -->
-    <div class="modal fade mi-modal" id="modalCuentasCont" tabindex="-1" aria-labelledby="ModalCuentasContables"
+    <!-- Modal Proveedores con boostrap -->
+    <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
+        aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lista de Proveedores</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table id="TablaProveedores" class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Ruc</th>
+                                <th>Razón Social</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Email</th>
+                                <th>Observación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($proveedores as $index => $proveedor): ?>
+                            <tr class="list-item"
+                                onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $index + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->ruc ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->razon_social ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->direccion ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->telefono ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->email ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->observacion ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal con Bootstrap Cuentas Contables numero 1-->
+    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
@@ -425,7 +613,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-hover table-sm" id="TablaCuentaCont">
+                    <table class="table table-hover table-sm" id="TablaCuentaCont1">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -456,27 +644,129 @@
         </div>
     </div>
 
-    <!-- Script para seleccionar la cuenta contable -->
-    <script>
-    function selectCC(IDCuentaContable) {
-        // Actualizar el valor del select con los valores seleccionados
-        var selectElement = document.getElementById('Idcuentacontable');
-        selectElement.value = IDCuentaContable;
-    }
-    </script>
+    <!-- Modal con Bootstrap Cuentas Contables numero 2-->
+    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered cuentas-contables">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-    <!-- Script para mostrar los campos de los meses -->
+                    <table class="table table-hover table-sm" id="TablaCuentaCont2">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código de Cuenta</th>
+                                <th>Descripción de Cuenta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($cuentacontable as $dato): ?>
+                            <tr class="list-item"
+                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $dato->IDCuentaContable ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Codigo_CC ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Descripcion_CC ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
     <script>
-    document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
-        var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
-        camposMesesCollapse.toggle();
+    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        // Actualizar los campos de texto en la vista principal con los valores seleccionados
+        document.getElementById('idcuentacontable').value = IDCuentaContable;
+        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+        document.getElementById('descripcion_cc').value =
+            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+
+    }
+
+    $(document).ready(function() {
+        // Agregar un controlador de eventos de clic al botón
+        $('#openModalBtn_3').on('click', function(event) {
+            // Detener la propagación del evento
+            event.stopPropagation();
+            event.preventDefault();
+            // Tu lógica para abrir el modal aquí si es necesario
+        });
     });
     </script>
 
-    <!-- Script para la tabla de cuentas contables -->
+    <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
+    <script>
+    var currentRow = null;
+
+    // Función para abrir el modal de las cuentas contables
+    function openModal_4(currentRowParam) {
+        var modalContainer = document.getElementById('modalCuentasCont2');
+        currentRow = currentRowParam; // Almacenar la fila actual
+    }
+
+    // Función para seleccionar la cuenta contable
+    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        // Verificar si currentRow está definido y no es null
+        if (currentRow) {
+            // Utilizar currentRow para actualizar los campos
+            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+            currentRow.find('.codigo_cc_2').val(Codigo_CC);
+            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+        } else {
+            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+        }
+    }
+
+    // Abrir modal en fila dinamica
+    const openModalBtn_4 = document.getElementById("openModalBtn_4");
+    // Actualiza la función de clic para pasar la fila actual al abrir el modal
+    document.getElementById("miTabla").addEventListener("click", function(event) {
+
+        // Encuentra la fila desde la cual se abrió el modal
+        var row = $(event.target).closest('tr');
+        if (
+            (event.target && event.target.className.includes("openModalBtn_4")) ||
+            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
+                "openModalBtn_4"))
+        ) {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal_4(row);
+        }
+    });
+    </script>
+
+
+    <!-- Script para las tablas de lo modales de cuentas contables -->
     <script>
     $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont').DataTable({
+        var table1 = $('#TablaCuentaCont1').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
+        });
+
+        var table2 = $('#TablaCuentaCont2').DataTable({
             paging: true,
             pageLength: 10,
             lengthChange: true,
@@ -492,19 +782,38 @@
     <!-- Script para agregar nuevas filas a la tabla -->
     <script>
     $(document).ready(function() {
-
         function formatNumber(campo) {
             var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
             if (!isNaN(value)) {
                 campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
             }
         }
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function(e) {
-            e.preventDefault();
+        //Este Script se encarga de crear las opciones del select para los campos que se clonan
+        function crearOpciones(datos, select, valorSeleccionado, campoValor, campoTexto) {
+            // Vacía el select antes de agregar nuevas opciones
+            select.empty();
 
-            // Clonar la fila base
-            var nuevaFila = $("#filaBase").clone();
+            // Recorre los datos y crea una opción para cada elemento
+            for (var i = 0; i < datos.length; i++) {
+                var opcion = $('<option>');
+                opcion.val(datos[i][campoValor]);
+                opcion.text(datos[i][campoTexto]);
+                select.append(opcion);
+            }
+
+            // Selecciona automáticamente la opción correspondiente al valor proporcionado
+            select.val(valorSeleccionado);
+        }
+        //Script para crear filas en base al array de editar
+        function crearFila(datos) {
+            //Variables para pasar los datos al select
+            var programa = <?php echo json_encode($programa); ?>;
+            var fuenteF = <?php echo json_encode($fuente_de_financiamiento); ?>;
+            var origenF = <?php echo json_encode($origen_de_financiamiento); ?>;
+            console.log('programa: ', programa);
+
+            // Clonar la fila de edicion
+            var nuevaFila = $("#filaEdicion").clone();
 
             // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
             nuevaFila.find(".eliminarFila").removeAttr('hidden');
@@ -513,8 +822,86 @@
             nuevaFila.find("[id]").removeAttr('id');
 
             // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
+            nuevaFila.find("select, input").addClass("campoDinamico");
 
+            // Asignar los valores de los campos en la nueva fila basándote en los datos
+            nuevaFila.find(".campoDinamico").each(function() {
+                var campo = $(this);
+                var nombreCampo = campo.attr('name');
+                if (datos[nombreCampo]) {
+                    campo.val(datos[nombreCampo]);
+                }
+            });
+
+            // Asignar los valores de los selectores en la nueva fila basándote en los datos
+            nuevaFila.find("select.campoDinamico").each(function() {
+                var select = $(this);
+                var nombreCampo = select.attr('name');
+                console.log('Nombre del Campo:', nombreCampo);
+
+                if (datos[nombreCampo]) {
+                    console.log('Nombre del Campo:', nombreCampo, 'valores actuales de los campos:',
+                        datos[nombreCampo]);
+
+                    // Selecciona el conjunto de datos adecuado según el nombre del campo
+                    var conjuntoDatos = [];
+                    switch (nombreCampo) {
+                        case 'id_pro':
+                            conjuntoDatos = programa;
+                            campoValor = 'id_pro';
+                            campoTexto = 'codigo';
+                            break;
+                        case 'id_ff':
+                            conjuntoDatos = fuenteF;
+                            campoValor = 'id_ff';
+                            campoTexto = 'codigo';
+                            break;
+                        case 'id_of':
+                            conjuntoDatos = origenF;
+                            campoValor = 'id_of';
+                            campoTexto = 'codigo';
+                            break;
+                        default:
+                            // Manejar otro caso si es necesario
+                    }
+
+                    // Llama a la función crearOpciones para generar las opciones del nuevo select
+                    crearOpciones(conjuntoDatos, select, datos[nombreCampo], campoValor, campoTexto);
+                }
+            });
+
+            // Mostrar la nueva fila
+            nuevaFila.show();
+            return nuevaFila;
+        }
+        //-----Acá termina la funcion de crear filas de editar-----
+
+        var camposDinamicos =
+            <?php echo json_encode($asiento[0]['camposDinamicos']); ?>; // datos de los asientos
+        // si camposDInamicos es mayor a 2 objetos entonces así itera para poder agregar los datos
+        if (camposDinamicos.length > 2) {
+            console.log('Tamaño del array: ', camposDinamicos.length);
+            console.log('Valor del array en posicion 1: ', camposDinamicos[1]);
+            for (var i = 2; i < camposDinamicos.length; i++) {
+                // Crear una nueva fila basada en los datos del objeto actual
+                var nuevaFila = crearFila(camposDinamicos[i]);
+
+                // Agregar la nueva fila al cuerpo de la tabla
+                $("#miTabla tbody").append(nuevaFila);
+            }
+        }
+
+        // Agregar fila
+        $(document).on("click", ".agregarFila", function(e) {
+            e.preventDefault();
+            // Clonar la fila base
+            var nuevaFila = $("#filaBase").clone();
+            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+            nuevaFila.find("[id]").removeAttr('id');
+            // Agregar una clase a todos los elementos de la fila clonada
+            nuevaFila.find("select, input").addClass("filaClonada");
             // Limpiar los valores de los campos en la  nueva fila
             nuevaFila.find("select, input").val("");
 
@@ -535,54 +922,12 @@
             $("#miTabla tbody").append(nuevaFila);
         });
 
-
-
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function(e) {
             e.preventDefault();
-
             $(this).closest("tr").remove();
-
         });
 
-    });
-    </script>
-
-    <!-- Script para agregar los enviados a la tabla -->
-    <script>
-    $(document).ready(function() {
-        // Tu array de datos dinámicos
-        var camposDinamicos = <?php echo json_encode($asiento[0]['camposDinamicos']); ?>;
-        var programa = <?php echo json_encode($programa); ?>; // Asegúrate de tener el array de programas en tu backend
-
-        // Obtén la referencia a la tabla
-        var tabla = $('#miTabla tbody');
-
-        // Itera sobre el array y agrega filas a la tabla
-        camposDinamicos.forEach(function(campo) {
-            // Clona la fila base y la muestra
-            var nuevaFila = tabla.find('.filaBase').clone().removeClass('filaBase').show();
-
-            // Asigna los valores del campo a las celdas de la nueva fila
-            nuevaFila.find('[name="id_pro"]').val(campo.id_pro);
-            // Aquí debes reemplazar '[name="id_pro"]' con el selector adecuado para el campo 'id_pro'
-
-            // Agrega opciones al select de id_pro
-            var selectIdPro = nuevaFila.find('[name="id_pro"]');
-            programa.forEach(function(prog) {
-                var selected = prog.id_pro == campo.id_pro ? 'selected' : '';
-                selectIdPro.append('<option value="' + prog.id_pro + '" ' + selected + '>' +
-                    prog.codigo + '</option>');
-            });
-
-            // Asigna otros valores a otras celdas...
-            nuevaFila.find('[name="comprobante"]').val(campo.Comprobante);
-            nuevaFila.find('[name="detalles"]').val(campo.detalles);
-            // ...
-
-            // Agrega la nueva fila a la tabla
-            tabla.append(nuevaFila);
-        });
     });
     </script>
 
