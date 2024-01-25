@@ -252,6 +252,21 @@ class Diario_obligaciones extends CI_Controller
 			}
 		}
 
+		// Buscamos los datos corresponiendentes de las cuentas y los insertamos en el array 'camposDinamicos' para su uso
+		// Recorremos cada campo dinamico para obtener su IdCuentaContable
+		foreach ($asiento[0]['camposDinamicos'] as $campoDinamico) {
+			// Recorremos cada cuenta contable para encontrar nuestra cuenta objetivo
+			foreach ($cuentacontables as $cuenta) {
+				// Si el ID de la cuenta contable coincide con el ID del campo dinamico
+				if ($cuenta->IDCuentaContable == $campoDinamico->IDCuentaContable) {
+					// Entonces agreamos los datos necesarios a nuestro array de 'camposDinamicos'
+					$campoDinamico->Codigo_CC = $cuenta->Codigo_CC;
+					$campoDinamico->Descripcion_CC = $cuenta->Descripcion_CC;
+					break;
+				}
+			}
+		}
+
 		// Agregar datos al array $data
 		$data = array(
 			'asiento' => $asiento,
@@ -270,6 +285,20 @@ class Diario_obligaciones extends CI_Controller
 	public function testearDatos() {
 		$IDNum_Asi = 13; 
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
+		$cuentacontables = $this->Diario_obli_model->getCuentaContable(1);
+
+		foreach ($datos[0]['camposDinamicos'] as $campoDinamico) {
+			// Recorrer cada cuenta contable
+			foreach ($cuentacontables as $cuenta) {
+				// Si el ID de la cuenta contable coincide con el ID del campo dinamico
+				if ($cuenta->IDCuentaContable == $campoDinamico->IDCuentaContable) {
+					// Agregar los datos de la cuenta contable al campo dinamico
+					$campoDinamico->Codigo_CC = $cuenta->Codigo_CC;
+					$campoDinamico->Descripcion_CC = $cuenta->Descripcion_CC;
+					break;
+				}
+			}
+		}
 		// Se Imprime los datos para revisar su estructura
 		echo '<pre>';
 		print_r($datos);
