@@ -131,7 +131,7 @@
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
 
-                                        <table class="table table-bordered">
+                                        <table class="table table-bordered" id="TablaPresupuesto">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -299,5 +299,50 @@
     });
     </script>
     <!-- Script de DataTable de jquery -->
+    <!-- Script de la tabla de presupuesto -->
+  <script>
+    $(document).ready(function() {
+      var table1 = $('#TablaPresupuesto').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+          '<"row"<"col-sm-12"t>>' +
+          '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        lengthMenu: [
+          [10, 25, 50, -1],
+          ['10', '25', '50', 'Mostrar Todo']
+        ],
+        buttons: [{
+            extend: 'pageLength',
+            className: 'btn bg-primary border border-0'
+          },
+          {
+            extend: 'copy',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-copy"></i> Copiar',
+          },
+          {
+            extend: 'print',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-printer"></i> Imprimir',
+          },
+          {
+            extend: 'excel',
+            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'pdf',
+            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+            className: 'btn btn-danger',
+          }
+        ],
+        searching: true,
+        info: true,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        },
+      });
+    });
+  </script>
+  
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </main>
