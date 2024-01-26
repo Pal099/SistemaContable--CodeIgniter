@@ -676,6 +676,7 @@
 
         });
         </script>
+
         <!-- Envio de formulario principal -->
         <script>
         $("#formularioPrincipal").on("submit", function() {
@@ -1028,6 +1029,7 @@
 
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+
         <!-- Script de DataTable de vista  -->
         <script>
         $(document).ready(function() {
@@ -1037,6 +1039,7 @@
                 lengthChange: true,
                 searching: true,
                 info: true,
+                order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                 }
@@ -1054,6 +1057,7 @@
             }
         }
         </script>
+
         <script>
         // Este script escucha los cambios en el campo 'debe'
         // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
@@ -1063,6 +1067,7 @@
             document.getElementById('Debe_2').value = 0;
         });
         </script>
+
         <script>
         function calcularTotalesYDiferencia() {
             var sumaDebe = 0;
