@@ -49,6 +49,12 @@ class Presupuesto extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
+	public function pdfs()
+	{
+		$this->load->view("fpdf_presu");
+
+	}
+
 	public function add()
 	{
 		$nombre = $this->session->userdata('Nombre_usuario');

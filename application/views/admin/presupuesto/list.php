@@ -29,6 +29,10 @@
               <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/add'">
                 <i class="bi bi-plus-circle"></i> Agregar Presupuesto
               </button>
+              <button type="button" class="btn btn-danger" title="Generar PDF"
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
+                                </button>
             </div>
           </div>
         </div>
