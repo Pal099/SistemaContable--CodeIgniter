@@ -44,7 +44,7 @@ class Diario_obli_model extends CI_Model {
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }
-	public function actualizar_asiento($id, $data) {
+	public function actualizar_num_asi($id, $data) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->update('num_asi', $data);
     }
@@ -63,7 +63,7 @@ class Diario_obli_model extends CI_Model {
 	}
 	//Funcion para obtener los asientos para su futura edicion
 	public function GetAsientoEditar($IDNum_Asi) {
-		$this->db->select('num_asi.FechaEmision, num_asi.num_asi, num_asi.op, num_asi.SumaMonto, num_asi.MontoTotal, 
+		$this->db->select('num_asi.IDNum_Asi, num_asi.FechaEmision, num_asi.num_asi, num_asi.op, num_asi.SumaMonto, num_asi.MontoTotal, 
 		num_asi.id_provee, num_asi.concepto, num_asi.ped_mat, num_asi.modalidad, num_asi.tipo_presu, num_asi.nro_exp, 
 		num_asi.MontoTotal, num_asi.MontoPagado, num_asi_deta.IDCuentaContable, num_asi_deta.MontoPago, num_asi_deta.Debe, 
 		num_asi_deta.Haber, num_asi_deta.Comprobante, num_asi_deta.detalles, num_asi_deta.id_of, num_asi_deta.id_pro, 
@@ -87,6 +87,7 @@ class Diario_obli_model extends CI_Model {
 			if (!array_key_exists($claveUnica, $agrupados)) {
 				$agrupados[$claveUnica] = [
 					'datosFijos' => [
+						'IDNum_Asi' => $objeto->IDNum_Asi,
 						'FechaEmision' => $objeto->FechaEmision,
 						'num_asi' => $objeto->num_asi,
 						'id_provee' => $objeto->id_provee,
@@ -125,6 +126,11 @@ class Diario_obli_model extends CI_Model {
 		$arrayFinal = array_values($agrupados);
 
 		return $arrayFinal;
+	}
+
+	public function update_numAsiDeta_debe($Num_Asi_IDNum_Asi, $data){
+		$this->db->where('Num_Asi_IDNum_Asi', $Num_Asi_IDNum_Asi);
+        return $this->db->update('num_asi_deta', $data);
 	}
 
 
