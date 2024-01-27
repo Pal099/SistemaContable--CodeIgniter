@@ -127,7 +127,11 @@
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
 
+<<<<<<< HEAD
                                         <table class="table table-bordered">
+=======
+                                        <table class="table table-bordered" id="TablaLibMay">
+>>>>>>> 79f8643 (A)
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -139,9 +143,10 @@
                                                     <th>Haber</th>
                                                     <th>Saldo</th>
                                                     <th>Cuenta Contable</th>
+                                                    <th>Descripcion</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <twbody>
                                                 <?php if(!empty($entradas)): ?>
                                                 <?php foreach ($entradas as $entrada): ?>
                                                 <tr>
@@ -152,15 +157,21 @@
                                                     <td><?php echo $entrada['Descripcion']; ?></td>
                                                     <td><?php echo $entrada['Debe']; ?></td>
                                                     <td><?php echo $entrada['Haber']; ?></td>
+<<<<<<< HEAD
                                                     <td><?php // Calcular y mostrar el saldo ?></td>
                                                     <td><?php echo $entrada['Codigo_CC']; ?> -
                                                         <?php echo $entrada['Descripcion_CC']; ?>
                                                     </td>
+=======
+                                                    <td><?php echo $entrada['Saldo']; ?></td>
+                                                    <td><?php echo $entrada['Codigo_CC']; ?> </td>
+                                                    <td><?php echo $entrada['Descripcion_CC']; ?></td>
+>>>>>>> 79f8643 (A)
                                                 </tr>
                                                 <?php endforeach; ?>
                                                 <?php else: ?>
                                                 <tr>
-                                                    <td colspan="9" class="text-center">No se encontraron registros.
+                                                    <td colspan="10 " class="text-center">No se encontraron registros.
                                                     </td>
                                                 </tr>
                                                 <?php endif; ?>
@@ -238,7 +249,7 @@
     </script>
     <script>
     $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont1').DataTable({
+        var table1 = $('#TablaLibMay').DataTable({
             paging: true,
             pageLength: 10,
             lengthChange: true,
@@ -251,5 +262,10 @@
     });
     </script>
     <!-- Script de DataTable de jquery -->
+<<<<<<< HEAD
+=======
+  
+  
+>>>>>>> 79f8643 (A)
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </main>
