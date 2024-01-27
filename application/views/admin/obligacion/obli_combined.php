@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
@@ -454,14 +454,17 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-debe">
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-haber">
                                                             </td>
-                                                            <td id="diferencia">0</td>
-
+                                                            <td>
+                                                                <input type="text" id="diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia"
+                                                                    value=0 >
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -733,7 +736,7 @@
                 filas: filas,
             };
 
-            var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var diferenciaActualizada = parseFloat($("#diferencia").val());
 
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
@@ -1029,7 +1032,9 @@
                 lengthChange: true,
                 searching: true,
                 info: true,
-                order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
+                order: [
+                    [0, 'desc']
+                ], // Ordena la primera columna en orden descendiente
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                 }
@@ -1080,7 +1085,7 @@
             $("#DebeC").val(formatearNumero(sumaDebe));
             $("#HaberC").val(formatearNumero(sumaHaber));
             var diferenciaTotal = sumaDebe - sumaHaber;
-            $("#diferencia").text(formatearNumero(diferenciaTotal));
+            $("#diferencia").val(formatearNumero(diferenciaTotal));
         }
 
         function formatearNumero(numero) {

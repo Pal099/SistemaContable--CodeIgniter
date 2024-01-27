@@ -3,10 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
+    <!-- estilos del css -->
+    <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-    <!-- estilos del css -->
-    <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -537,7 +538,7 @@
 
                                                 <!-- Tabla del debe y haber diferencia -->
                                                 <table id="miTabla2"
-                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -549,14 +550,19 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-debe"
+                                                                    readonly>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-haber"
+                                                                    readonly>
                                                             </td>
-                                                            <td id="diferencia">0</td>
-
+                                                            <td>
+                                                                <input type="text" id="diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia"
+                                                                    value=0 readonly>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -568,7 +574,7 @@
                                 <div class="container-fluid mt-3 mb-3">
                                     <div class="col-md-12 d-flex flex-row justify-content-center">
                                         <button style="margin-right: 8px;" type="submit"
-                                            class="btn btn-success btn-primary"><span
+                                            class="btn btn-success "><span
                                                 class="fa fa-save"></span>Guardar</button>
                                         <button type="button" class="btn btn-danger ml-3"
                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
@@ -1081,7 +1087,7 @@
             filas: filas,
         };
 
-        var diferenciaActualizada = parseFloat($("#diferencia").text());
+        var diferenciaActualizada = parseFloat($("#diferencia").val());
 
         if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
             $.ajax({
@@ -1151,7 +1157,7 @@
         $("#DebeC").val(formatearNumero(sumaDebe));
         $("#HaberC").val(formatearNumero(sumaHaber));
         var diferenciaTotal = sumaDebe - sumaHaber;
-        $("#diferencia").text(formatearNumero(diferenciaTotal));
+        $("#diferencia").val(formatearNumero(diferenciaTotal));
     }
 
     function formatearNumero(numero) {

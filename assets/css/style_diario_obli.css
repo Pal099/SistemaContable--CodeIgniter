@@ -14,6 +14,29 @@
 .columna-ctncontable {
   width: 35%;
 }
+.celda-debe{
+  background-color: #e9eaff !important;
+}
+.celda-haber{
+  background-color: #e9eaff!important;
+}
+.celda-diferencia {
+  background-color: #f7f6e2 !important;
+}
+
+.btn-primario {
+  background-color: #0411d1 !important;
+  color: white;
+  transition: background-color 0.3s ease; /* Agrega transición para un cambio suave */
+}
+
+.btn-primario:hover {
+  background-color: #030b9e !important; /* Color más oscuro cuando se hace hover */
+}
+.btn-secundario{
+  background-color: #eeecc4 !important;
+}
+
 
 /* Css de las tablas y modales de cuentas contables */
 .cuentas-contables {
