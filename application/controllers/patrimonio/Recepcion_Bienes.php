@@ -11,6 +11,7 @@ class Recepcion_Bienes extends MY_Controller {
 		$this->load->library('session');
 		$this->load->model("Usuarios_model");
 		$this->load->model("Proveedores_model");
+		$this->load->model("Unidad_academica_model");
 		$this->load->model("Comprobante_Gasto_model");
 	}
 
@@ -36,10 +37,18 @@ class Recepcion_Bienes extends MY_Controller {
 	}
 
 	public function add(){
-
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$data  = array(
+			'bienes' => $this->Recepcion_Bienes_model->getRecepcionesBienes($id_uni_respon_usu),
+			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
+			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/recepcionbienes/add");
+		$this->load->view("admin/recepcionbienes/add", $data);
 		$this->load->view("layouts/footer");
 	}
 
@@ -53,14 +62,13 @@ class Recepcion_Bienes extends MY_Controller {
 		$id_proveedor = $this->input->post("id_proveedor");
 		$monto = $this->input->post("monto");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("nro", "Nro", "required|is_unique[recepcion_bienes.nro]");
-		$this->form_validation->set_rules("fecha","Fecha","required|is_unique[recepcion_bienes.fecha]");
-		$this->form_validation->set_rules("plazo","Plazo","required|is_unique[recepcion_bienes.plazo]");
-		$this->form_validation->set_rules("id_proveedor","Proveedor","required|is_unique[recepcion_bienes.id_proveedor]");
-		$this->form_validation->set_rules("monto","Monto","required|is_unique[recepcion_bienes.monto]");
-		$this->form_validation->set_rules("observacion","Observacion","required|is_unique[recepcion_bienes.observacion]");
-
-	
+		$this->form_validation->set_rules("nro", "Nro", "required[recepcion_bienes.nro]");
+		
+		$this->form_validation->set_rules("plazo","Plazo","required[recepcion_bienes.plazo]");
+		$this->form_validation->set_rules("id_proveedor","Proveedor","required[recepcion_bienes.id_proveedor]");
+		$this->form_validation->set_rules("monto","Monto","required[recepcion_bienes.monto]");
+		$this->form_validation->set_rules("observacion","Observacion","required[recepcion_bienes.observacion]");
+		
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'nro' => $nro,
@@ -75,10 +83,10 @@ class Recepcion_Bienes extends MY_Controller {
 			);
 	
 			if ($this->Recepcion_Bienes_model->save($data)) {
-				redirect(base_url() . "patrimonio/recepcionbienes");
+				redirect(base_url() . "patrimonio/recepcion_bienes");
 			} else {
 				$this->session->set_flashdata("error", "No se pudo guardar la información");
-				redirect(base_url() . "patrimonio/recepcionbienes/add");
+				redirect(base_url() . "patrimonio/recepcion_bienes/add");
 			}
 		} else {
 			$this->add();
