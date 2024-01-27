@@ -59,7 +59,7 @@
                                                         <label for="razon_social">Nombre y Apellido:</label>
                                                         <input type="text" class="form-control w-100" id="razon_social"
                                                             name="razon_social"
-                                                            value="<?php echo $proveedor->razon_social ?>" required>
+                                                            value="<?php echo $proveedor->razon_social ?>" readonly>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
@@ -107,13 +107,7 @@
                                                                     name="total"
                                                                     value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>">
                                                             </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="pagado">Pagado:</label>
-                                                                <input type="text" class="form-control w-100"
-                                                                    id="pagado" name="pagado"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['MontoPagado']; ?>">
-                                                            </div>
-                                                            <div class="form-group col-md-12">
+                                                            <div class="form-group col-md-4">
                                                                 <label for="op">N° Op</label>
                                                                 <input type="text" class="form-control" id="op"
                                                                     name="op"
@@ -128,6 +122,7 @@
                                                     id="miTabla">
                                                     <thead class="align-middle">
                                                         <tr>
+                                                            <th class="columna-hidden">IDNum_Asi_Deta</th>
                                                             <th class="columna-ancha">Prog</th>
                                                             <th class="columna-fuente">F.F.</th>
                                                             <th class="columna-origen">O.F.</th>
@@ -143,6 +138,14 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr class="align-items-center">
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="IDNum_Asi_Deta" name="IDNum_Asi_Deta"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->IDNum_Asi_Deta ?>">
+                                                                </div>
+                                                            </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm ">
                                                                     <select class="form-control border-0 bg-transparent"
@@ -238,22 +241,17 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php 
-                                                                    // Se define $Debe_value como una cadena vacía por defecto
-                                                                    $Debe_value = '';
-
-                                                                    if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
-                                                                        $Debe = $asiento[0]['camposDinamicos'][0]->Debe;
-                                                                        // Cambia el valor de $Debe_value si $Debe está establecido
-                                                                        $Debe_value = number_format($Debe, 2, ',', '.'); 
-                                                                    }
-                                                                    ?>
+                                                                        // Se define $Debe_value como una cadena vacía por defecto
+                                                                        $Debe_value = '';
+                                                                        if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
+                                                                            $Debe = $asiento[0]['camposDinamicos'][0]->Debe;
+                                                                            $Debe_value = number_format($Debe, 0, ',', ',');
+                                                                        }
+                                                                        ?>
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
                                                                         id="Debe" name="Debe"
-                                                                        value="<?php echo $Debe_value; ?>">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Debe" name="Debe"
+                                                                        value="<?php echo isset($Debe_value) ? $Debe_value : ''; ?>"
                                                                         oninput="formatNumber('Debe')">
                                                                 </div>
                                                             </td>
@@ -261,7 +259,7 @@
                                                                 <div class="input-group input-group-sm  ">
                                                                     <input type="text"
                                                                         class="form-control small border-0 bg-transparent"
-                                                                        id="Haber" name="Haber" required>
+                                                                        id="Haber" name="HaberFila1" required>
                                                                 </div>
                                                             </td>
                                                             <td class="columna-hidden">
@@ -283,6 +281,14 @@
                                                         </tr>
                                                         <tr id="filaBase" class="filaBase">
                                                             <!-- segundo asiento  -->
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        id="IDNum_Asi_Deta_2" name="IDNum_Asi_Deta_2"
+                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->IDNum_Asi_Deta ?>">
+                                                                </div>
+                                                            </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm  ">
                                                                     <select class="form-control border-0 bg-transparent"
@@ -385,7 +391,7 @@
                                                                     $haber_2_value = '';
                                                                     if (isset($asiento[0]['camposDinamicos'][1]->Haber)) {
                                                                         $haber_2 = $asiento[0]['camposDinamicos'][1]->Haber;
-                                                                        $haber_2_value = number_format($haber_2, 2, ',', '.'); 
+                                                                        $haber_2_value = number_format($haber_2, 0, ',', ','); 
                                                                     }
                                                                     ?>
                                                                     <input type="text"
@@ -395,7 +401,6 @@
                                                                         oninput="formatNumber('Haber_2')">
                                                                 </div>
                                                             </td>
-
                                                             </td>
                                                             <td class="columna-hidden">
                                                                 <div class="input-group input-group-sm  ">
@@ -421,6 +426,13 @@
                                                         </tr>
                                                         <!-- Fila destinada a la edicion -->
                                                         <tr id="filaEdicion" style="display: none;">
+                                                            <td class="columna-hidden">
+                                                                <div class="input-group input-group-sm  ">
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent"
+                                                                        name="IDNum_Asi_Deta">
+                                                                </div>
+                                                            </td>
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <select
@@ -452,14 +464,14 @@
                                                                 <div
                                                                     class="d-grid gap-1 d-md-flex justify-content-md-center">
                                                                     <input type="hidden"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico idcuentacontable_edi"
                                                                         name="IDCuentaContable">
                                                                     <input style="font-size: small; width: 40%"
                                                                         type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico codigoCC_edi"
                                                                         name="Codigo_CC" required>
                                                                     <input style="font-size: small;" type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        class="form-control border-0 bg-transparent campoDinamico descripCC_edi"
                                                                         name="Descripcion_CC">
                                                                     <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont2"
@@ -499,8 +511,8 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <input type="text"
-                                                                        class="form-control small border-0 bg-transparent campoDinamico formatoNumero"
-                                                                        name="Haber" oninput="formatNumber('Haber')">
+                                                                        class="form-control border-0 bg-transparent campoDinamico"
+                                                                        name="Haber">
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -522,6 +534,32 @@
                                                     </tbody>
                                                 </table>
                                                 <!-- Acá termina la tabla -->
+
+                                                <!-- Tabla del debe y haber diferencia -->
+                                                <table id="miTabla2"
+                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Debe</th>
+                                                            <th>Haber</th>
+                                                            <th>Diferencia</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" id="DebeC"
+                                                                    class="form-control border-0 bg-transparent">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="HaberC"
+                                                                    class="form-control border-0 bg-transparent">
+                                                            </td>
+                                                            <td id="diferencia">0</td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -533,7 +571,7 @@
                                             class="btn btn-success btn-primary"><span
                                                 class="fa fa-save"></span>Guardar</button>
                                         <button type="button" class="btn btn-danger ml-3"
-                                            onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
                                             <i class="fa fa-remove"></i> Cancelar
                                         </button>
                                     </div>
@@ -718,25 +756,10 @@
         currentRow = currentRowParam; // Almacenar la fila actual
     }
 
-    // Función para seleccionar la cuenta contable
-    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-            currentRow.find('.codigo_cc_2').val(Codigo_CC);
-            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-        }
-    }
-
     // Abrir modal en fila dinamica
     const openModalBtn_4 = document.getElementById("openModalBtn_4");
     // Actualiza la función de clic para pasar la fila actual al abrir el modal
     document.getElementById("miTabla").addEventListener("click", function(event) {
-
         // Encuentra la fila desde la cual se abrió el modal
         var row = $(event.target).closest('tr');
         if (
@@ -749,6 +772,24 @@
             openModal_4(row);
         }
     });
+
+    // Función para seleccionar la cuenta contable
+    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        // Verificar si currentRow está definido y no es null
+        if (currentRow) {
+            // Utilizar currentRow para actualizar los campos
+            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+            currentRow.find('.codigo_cc_2').val(Codigo_CC);
+            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+            // Está parte corresponde a los campos que se traen desde el array
+            currentRow.find('.idcuentacontable_edi').val(IDCuentaContable);
+            currentRow.find('.codigoCC_edi').val(Codigo_CC);
+            currentRow.find('.descripCC_edi').val(Descripcion_CC);
+        } else {
+            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+        }
+    }
     </script>
 
 
@@ -788,9 +829,11 @@
                 campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
             }
         }
+        //Acá se formatea los campos Dinamicos del haber cuando el usuario ingresa algo
+
         //Este Script se encarga de crear las opciones del select para los campos que se clonan
         function crearOpciones(datos, select, valorSeleccionado, campoValor, campoTexto) {
-            // Vacía el select antes de agregar nuevas opciones
+            // Se vacía el select antes de agregar nuevas opciones
             select.empty();
 
             // Recorre los datos y crea una opción para cada elemento
@@ -810,7 +853,6 @@
             var programa = <?php echo json_encode($programa); ?>;
             var fuenteF = <?php echo json_encode($fuente_de_financiamiento); ?>;
             var origenF = <?php echo json_encode($origen_de_financiamiento); ?>;
-            console.log('programa: ', programa);
 
             // Clonar la fila de edicion
             var nuevaFila = $("#filaEdicion").clone();
@@ -830,6 +872,14 @@
                 var nombreCampo = campo.attr('name');
                 if (datos[nombreCampo]) {
                     campo.val(datos[nombreCampo]);
+
+                    // Aplicar la función formatNumber solo al campo "Haber"
+                    if (nombreCampo === 'Haber' || nombreCampo === 'Debe') {
+                        formatNumber(campo);
+                        campo.on('input', function() {
+                            formatNumber(campo);
+                        });
+                    }
                 }
             });
 
@@ -837,13 +887,10 @@
             nuevaFila.find("select.campoDinamico").each(function() {
                 var select = $(this);
                 var nombreCampo = select.attr('name');
-                console.log('Nombre del Campo:', nombreCampo);
 
                 if (datos[nombreCampo]) {
-                    console.log('Nombre del Campo:', nombreCampo, 'valores actuales de los campos:',
-                        datos[nombreCampo]);
 
-                    // Selecciona el conjunto de datos adecuado según el nombre del campo
+                    // Seleccionamos el conjunto de datos adecuado según el nombre del campo
                     var conjuntoDatos = [];
                     switch (nombreCampo) {
                         case 'id_pro':
@@ -862,7 +909,7 @@
                             campoTexto = 'codigo';
                             break;
                         default:
-                            // Manejar otro caso si es necesario
+                            // Acá se puede manejar de otra forma en caso que no sea ninguno de los otro id
                     }
 
                     // Llama a la función crearOpciones para generar las opciones del nuevo select
@@ -878,10 +925,8 @@
 
         var camposDinamicos =
             <?php echo json_encode($asiento[0]['camposDinamicos']); ?>; // datos de los asientos
-        // si camposDInamicos es mayor a 2 objetos entonces así itera para poder agregar los datos
+        // si camposDinamicos es mayor a 2 objetos entonces se puede iterar para poder agregar los datos de forma dinamica
         if (camposDinamicos.length > 2) {
-            console.log('Tamaño del array: ', camposDinamicos.length);
-            console.log('Valor del array en posicion 1: ', camposDinamicos[1]);
             for (var i = 2; i < camposDinamicos.length; i++) {
                 // Crear una nueva fila basada en los datos del objeto actual
                 var nuevaFila = crearFila(camposDinamicos[i]);
@@ -896,6 +941,8 @@
             e.preventDefault();
             // Clonar la fila base
             var nuevaFila = $("#filaBase").clone();
+            //eliminamos está fila ya que para cada fila unica debe de tener un unico identificador en la base de datos
+            nuevaFila.find("#IDNum_Asi_Deta_2").remove();
             // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
             nuevaFila.find(".eliminarFila").removeAttr('hidden');
             // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
@@ -928,6 +975,195 @@
             $(this).closest("tr").remove();
         });
 
+    });
+    </script>
+
+    <!-- Función para formatear números con separadores de miles y dos decimales -->
+    <script>
+    function formatNumber(inputId) {
+        var input = document.getElementById(inputId);
+        var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+        }
+    }
+    </script>
+
+    <!-- Envio de formulario principal -->
+    <script>
+    $("#formularioPrincipal").on("submit", function() {
+
+        //datos que no son de la tabla dinamica
+        var datosFormulario = {
+            IDNum_Asi: <?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>,
+            IDNum_Asi_Deta: $("#IDNum_Asi_Deta").val(),
+            op: $("#op").val(),
+            ruc: $("#ruc").val(),
+            num_asi: $("#num_asi").val(),
+            contabilidad: $("#razon_social").val(),
+            concepto: $("#concepto").val(),
+            fecha: $("#fecha").val(),
+            pedmat: $("#pedi_matricula").val(),
+            modalidad: $("#modalidad").val(),
+            tipo_presu: $("#tipo_presupuesto").val(),
+            nro_exp: $("#nro_exp").val(),
+            total: $("#total").val(),
+            MontoPago: $("#MontoPago").val(),
+            id_pro: $("#id_pro").val(),
+            id_ff: $("#id_ff").val(),
+            id_of: $("#id_of").val(),
+            IDCuentaContable: $("#idcuentacontable").val(),
+            comprobante: $("#comprobante").val(),
+            Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+            Haber: $("#Haber").val(),
+            cheques_che_id: $("#cheques_che_id").val(),
+            detalles: $("#detalles").val(),
+
+        };
+
+
+        // variable para saber si el debe es igual a haber
+        let sumahaber = 0;
+
+        var filas = [];
+
+        $("#miTabla tbody tr:gt(0)").each(function() {
+            // Obtenemos el valor de IDNum_Asi_Deta para su verificacion
+            var IDNum_Asi_Deta = $(this).find("select[name='IDNum_Asi_Deta_2']").val();
+
+            // Comprobamos si IDNum_Asi_Deta es null si es true entonces el usuario agrego una nueva fila a la tabla de edicion
+            var Asi_Deta_NULL = (IDNum_Asi_Deta === null);
+
+            // Crea la fila
+            var fila = {
+                IDNum_Asi_Deta: IDNum_Asi_Deta,
+                id_pro: $(this).find("select[name='id_pro_2']").val(),
+                id_ff: $(this).find("select[name='id_ff_2']").val(),
+                id_of: $(this).find("select[name='id_of_2']").val(),
+                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                detalles: $(this).find("input[name='detalles_2']").val(),
+                comprobante: $(this).find("input[name='comprobante_2']").val(),
+                Debe: $(this).find("input[name='Debe_2']").val(),
+                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                Asi_Deta_NULL: Asi_Deta_NULL // Agrega la variable booleana a la fila
+            };
+        });
+
+        //Comprobamos que nuestro array sea mayor a 2 así no enviamos datos null al pedo
+        var camposDinamicos =
+            <?php echo json_encode($asiento[0]['camposDinamicos']); ?>; // datos de los asientos
+        // si camposDinamicos es mayor a 2 objetos entonces agregamos los datos para enviar
+        if (camposDinamicos.length > 2) {
+            $("#filaEdicion").each(function() {
+                // Datos de la fila dinamica
+                var fila = {
+                    IDNum_Asi_Deta: $(this).find("select[name='IDNum_Asi_Deta']").val(),
+                    id_pro: $(this).find("select[name='id_pro']").val(),
+                    id_ff: $(this).find("select[name='id_ff']").val(),
+                    id_of: $(this).find("select[name='id_of']").val(),
+                    IDCuentaContable: $(this).find("input[name='IDCuentaContable']").val(),
+                    detalles: $(this).find("input[name='detalles']").val(),
+                    comprobante: $(this).find("input[name='Comprobante']").val(),
+                    Debe: $(this).find("input[name='Debe']").val(),
+                    Haber: $(this).find("input[name='Haber']").val().replace(/[^\d.-]/g, ''),
+                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                };
+
+                // Agrega la fila al array de filas
+                filas.push(fila);
+            });
+        }
+
+        // Combinar datos del formulario principal y de las filas dinámicas
+        var datosCompletos = {
+            datosFormulario: datosFormulario,
+            filas: filas,
+        };
+
+        var diferenciaActualizada = parseFloat($("#diferencia").text());
+
+        if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                success: function(response) {
+                    console.log(response);
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                        // ... (código adicional si es necesario)
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        console.log(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+                }
+            });
+        } else {
+            alert('El debe y el haber son diferentes');
+            return false;
+        }
+
+
+    });
+    </script>
+
+    <!-- Calcula la diferencia de los debes y haberes este script -->
+    <script>
+    function calcularTotalesYDiferencia() {
+        var sumaDebe = 0;
+        var sumaHaber = 0;
+
+
+        $("#miTabla tbody tr").each(function() {
+            // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+            var valorDebe = $(this).find("input[name*='Debe']").val();
+            var valorHaber = $(this).find("input[name*='Haber']").val();
+
+            console.log('Valor haber normal: ', valorHaber);
+
+            // Realizar reemplazo por separado
+            valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+            valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+            // Convertir a número y sumar
+            sumaDebe += parseFloat(valorDebe) || 0;
+            sumaHaber += parseFloat(valorHaber) || 0;
+        });
+
+        // Formatear como número con separadores de miles
+        $("#DebeC").val(formatearNumero(sumaDebe));
+        $("#HaberC").val(formatearNumero(sumaHaber));
+        var diferenciaTotal = sumaDebe - sumaHaber;
+        $("#diferencia").text(formatearNumero(diferenciaTotal));
+    }
+
+    function formatearNumero(numero) {
+        // Asegurarse de que el número es un tipo flotante
+        numero = parseFloat(numero);
+        // Convertir a texto y añadir separadores de miles
+        return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    $(document).ready(function() {
+        $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+        calcularTotalesYDiferencia();
     });
     </script>
 

@@ -283,7 +283,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 	public function testearDatos() {
-		$IDNum_Asi = 13; 
+		$IDNum_Asi = 16; 
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable(1);
 
@@ -307,56 +307,120 @@ class Diario_obligaciones extends CI_Controller
 
 	public function update()
 	{
-		$idobli = $this->input->post("idobli");
-		$ruc = $this->input->post("ruc");
-		$numero = $this->input->post("numero");
-		$contabilidad = $this->input->post("contabilidad");
-		$direccion = $this->input->post("direccion");
-		$telefono = $this->input->post("telefono");
-		$observacion = $this->input->post("observacion");
-		$fecha = $this->input->post("fecha");
-		$tesoreria = $this->input->post("tesoreria");
-		$pedi_matricula = $this->input->post("pedi_matricula");
-		$modalidad = $this->input->post("modalidad");
-		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
-		$unidad_respon = $this->input->post("unidad_respon");
-		$proyecto = $this->input->post("proyecto");
-		$estado = $this->input->post("estado");
-		$nro_pac = $this->input->post("nro_pac");
-		$nro_exp = $this->input->post("nro_exp");
-		$total = $this->input->post("total");
-		$pagado = $this->input->post("pagado");
-		$obliaactual = $this->diario_obligacion_model->obtener_asiento_por_id($idobli);
+		header('Access-Control-Allow-Origin: *');
+		$datosCompletos = $this->input->post('datos');
+		$datosFormulario = $datosCompletos['datosFormulario'];
+		var_dump($datosFormulario);
+
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$IDNum_Asi = datosFormulario['IDNum_Asi'];
+		$ruc_id_provee = $datosFormulario['ruc'];
+		$numero = $datosFormulario['num_asi'];
+		$contabilidad = $datosFormulario['contabilidad'];
+		$concepto = $datosFormulario['concepto'];
+		$fecha = $datosFormulario['fecha'];
+		//-----------------//--------------------------- 1
+		$detalles = $datosFormulario['detalles'];
+		$debe = floatval($datosFormulario['Debe']);
+		$haber_2 = floatval($datosFormulario['Haber']);
+		$comprobante = $datosFormulario['comprobante'];
+		$cheque_id = $datosFormulario['cheques_che_id'];
+		$programa_id_pro = $datosFormulario['id_pro'];
+		$cuentacontable = $datosFormulario['IDCuentaContable'];
+		$fuente_de_financiamiento = $datosFormulario['id_ff'];
+		$origen_de_financiamiento = $datosFormulario['id_of'];
+		//-----------------//---------------------------
+		$pedmat = $datosFormulario['pedmat'];
+		$MontoPago = $datosFormulario['MontoPago'];
+		$modalidad = $datosFormulario['modalidad'];
+		$tipo_presupuesto = $datosFormulario['tipo_presu'];
+		$nro_exp = $datosFormulario['nro_exp'];
+		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 
 
-		$data = array(
-			'ruc' => $ruc,
-			'numero' => $numero,
-			'contabilidad' => $contabilidad,
-			'direccion' => $direccion,
-			'telefono' => $telefono,
-			'observacion' => $observacion,
-			'FechaEmision' => $fecha,
-			'tesoreria' => $tesoreria,
-			'pedi_matricula' => $pedi_matricula,
-			'modalidad' => $modalidad,
-			'tipo_presupuesto' => $tipo_presupuesto,
-			'unidad_respon' => $unidad_respon,
-			'proyecto' => $proyecto,
-			'estado' => $estado,
-			'nro_pac' => $nro_pac,
-			'nro_exp' => $nro_exp,
-			'total' => $total,
-			'pagado' => $pagado,
-			'estado_registro' => "1",
-		);
+		$op = $datosFormulario['op'];
 
-		if ($this->Diario_obli_model->save_num_asiave($idobli, $data)) {
-			redirect(base_url() . "obligaciones/diario_obligaciones");
-		} else {
-			$this->session->set_flashdata("error", "No se pudo guardar la informacion");
-			redirect(base_url() . "obligaciones/diario_obligaciones/add" . $idobli);
-		}
+
+		if ($proveedor_id) {
+
+			$dataNum_Asi = array(
+				'FechaEmision' => $fecha,
+				'concepto' => $concepto,
+				'ped_mat' => $pedmat,
+				'tipo_presu' => $tipo_presupuesto,
+				'num_asi' => $numero,
+				'nro_exp' => $nro_exp,
+				'id_provee' => $proveedor_id,
+				'MontoTotal' => $debe,
+				'modalidad' => $modalidad,
+				'estado' => $estado,
+				'op' => $op,
+			);
+
+			$this->Diario_obli_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
+
+			if ($lastInsertedId) {
+				$dataDetaDebe = array(
+					'Num_Asi_IDNum_Asi' => $lastInsertedId, // Utiliza el ID recién insertado
+					'MontoPago' => $MontoPago,
+					'Debe' => $debe,
+					'numero' => $numero,
+					'comprobante' => $comprobante,
+					'detalles' => $detalles,
+					'id_of' => $origen_de_financiamiento,
+					'id_pro' => $programa_id_pro,
+					'id_ff' => $fuente_de_financiamiento,
+					'IDCuentaContable' => $cuentacontable,
+					'cheques_che_id' => $cheque_id,
+					'proveedores_id' => $proveedor_id,
+					'id_uni_respon_usu' => $id_uni_respon_usu,
+					'id_form' => "1",
+					'estado_registro' => "1",
+				);
+
+				if ($this->input->is_ajax_request()) {
+
+					$datosFormulario = $datosCompletos['filas'];
+						$filas = $datosCompletos['filas'];
+						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+							foreach ($filas as $fila) {
+								// Ejemplo de cómo podrías procesar una fila
+								$dataDetaHaber = array(
+								'Num_Asi_IDNum_Asi' => $lastInsertedId,
+								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
+								'Haber' => $fila['Haber'],
+								'detalles' => $fila['detalles'],
+								'numero' => $numero,
+								'comprobante' => $fila['comprobante'],
+								'id_of' => $fila['id_of'],	
+								'id_pro' => $fila['id_pro'],
+								'id_ff' => $fila['id_ff'],
+								'IDCuentaContable' => $fila['IDCuentaContable'],
+								'cheques_che_id' => $fila['cheques_che_id'],
+								'proveedores_id' => $proveedor_id,
+								'id_uni_respon_usu' => $id_uni_respon_usu,
+								'id_form' => "1",
+								'estado_registro' => "1",
+							);
+								
+							$this->Diario_obli_model->saveHaber($dataDetaHaber);
+							
+								
+						}
+
+					}
+
+					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+				} else {
+					// Esta lógica se ejecutará si la solicitud no es AJAX
+					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
+					echo 'Esta no es una solicitud AJAX';
+				}
+
+			}
+		} 
 	}
 	
 

@@ -723,6 +723,7 @@
             lengthChange: true,
             searching: true,
             info: true,
+            order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             }
