@@ -12,11 +12,3 @@
 <p><strong>Unidad responsable:</strong> <?php echo $obligaciones->unidad_respon; ?></p>
 <p><strong>Proyecto:</strong> <?php echo $obligaciones->contabilidad; ?></p>
 <p><strong>Estado:</strong> <?php echo $obligaciones->contabilidad; ?></p>
-<p><strong>id_num_asi</strong> <?php echo $asientos->IDNum_Asi; ?></p>
-<p><strong>FechaEmision</strong> <?php echo $asientos->FechaEmision; ?></p>
-<p><strong>num_asi</strong> <?php echo $asientos->num_asi; ?></p>
-<p><strong>op</strong> <?php echo $asientos->op; ?></p>
-<p><strong>Estado</strong> <?php echo $asientos->estado; ?></p>
-
-
-

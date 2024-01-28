@@ -33,26 +33,36 @@
                                 <input type="text" class="form-control" id="ruc" name="ruc">
                                 <?php echo form_error("ruc","<span class='help-block'>","</span>");?>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group <?php echo form_error('razon_social') == true ? 'has-error':''?>">
                                 <label for="razon_social">Razon social:</label>
-                                <input type="text" class="form-control" id="razon_social" name="razon social">
+                                <input type="text" class="form-control" id="razon_social" name="razon_social">
+                                <?php echo form_error("razon_social","<span class='help-block'>","</span>");?>
+
                             </div>
                              
-                              <div class="form-group">
+                            <div class="form-group <?php echo form_error('direccion') == true ? 'has-error':''?>">
                                 <label for="direccion">Dirección:</label>
                                 <input type="text" class="form-control" id="direccion" name="direccion">
+                                <?php echo form_error("direccion","<span class='help-block'>","</span>");?>
+
                             </div>
-                              <div class="form-group">
+                            <div class="form-group <?php echo form_error('telefono') == true ? 'has-error':''?>">
                                 <label for="telefono">Teléfono:</label>
                                 <input type="text" class="form-control" id="telefono" name="telefono">
+                                <?php echo form_error("telefono","<span class='help-block'>","</span>");?>
+
                             </div>
-                              <div class="form-group">
+                            <div class="form-group <?php echo form_error('email') == true ? 'has-error':''?>">
                                 <label for="email">Email:</label>
                                 <input type="text" class="form-control" id="email" name="email">
+                                <?php echo form_error("email","<span class='help-block'>","</span>");?>
+
                             </div>
-                              <div class="form-group">
+                            <div class="form-group <?php echo form_error('observacion') == true ? 'has-error':''?>">
                                 <label for="observacion">Observación:</label>
                                 <input type="text" class="form-control" id="observacion" name="observacion">
+                                <?php echo form_error("observacion","<span class='help-block'>","</span>");?>
+
                             </div>
                             <div class="form-group">
                                <div class="col-md-6">

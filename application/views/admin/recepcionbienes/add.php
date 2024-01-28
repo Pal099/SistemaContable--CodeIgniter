@@ -47,23 +47,24 @@
                     <div class="card border">
                       <div class="card-body">
                         <div class="row g-3 align-items-center mt-2">
-                          <div class="col-md-12">
-                            <div class="form-group col-md-2">
-                              <label for="nro">Nro. de Orden:</label>
-                              <input type="number" class="form-control" id="nro" name="nro" value="" required>
-                            </div>
-                            <div class="form-group col-md-4">
-                              <label for="id_unidad">Unidad:</label>
-                              <select name="id_unidad" id="id_unidad" class="form-control" required>
-                                <?php foreach ($unidad as $uni): ?>
-                                  <option value="<?php echo $uni->id_unidad ?>">
-                                    <?php echo $uni->unidad . ' - ' . $uni->id_unidad; ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </select>
-                            </div>
-                            <div class="input-group">
-                              <label for="id_unidad">Proveedor:</label>
+
+                          <div class="form-group col-md-2">
+                            <label for="nro">Nro. de Orden:</label>
+                            <input type="number" class="form-control" id="nro" name="nro" value="" required>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="id_unidad">Unidad:</label>
+                            <select name="id_unidad" id="id_unidad" class="form-control" required>
+                              <?php foreach ($unidad as $uni): ?>
+                                <option value="<?php echo $uni->id_unidad ?>">
+                                  <?php echo $uni->unidad . ' - ' . $uni->id_unidad; ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                          </div>
+                          <div class="form-group col-md-4">
+                            <label for="id_proveedor">Proveedor:</label>
+                            <div style="display: flex; align-items: center;">
                               <select name="id_proveedor" id="id_proveedor" class="form-control" required>
                                 <option selected disabled>Seleccione un Proveedor...</option>
                                 <?php foreach ($proveedores as $prov): ?>
@@ -74,10 +75,11 @@
                               </select>
                               <button type="button" data-bs-toggle="modal" data-bs-target="#modalProveedores"
                                 class="btn btn-primary">
-                                <i class="bi bi-search"> Buscar</i>
+                                <i class="bi bi-search"> </i>
                               </button>
                             </div>
                           </div>
+
                           <div class="form-group col-md-4">
                             <label for="fecha">Fecha</label>
                             <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Ej. YYYY/MM/DD"
@@ -300,7 +302,7 @@
                     <?= $comp->fecha ?>
                   </td>
                   <td>
-                    <?= $comp->Proveedor ?>
+                    <?= $comp->idproveedor ?>
                   </td>
                   <td>
                     <?= $comp->monto ?>

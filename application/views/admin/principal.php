@@ -2,6 +2,7 @@
 <!-- =============================================== -->
 <main id="main" class="main">
 
+
     <div class="pagetitle">
       <h1>Informe Gerencial</h1>
       <nav>
@@ -10,10 +11,9 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-TY5PzaujIkqz2e3qtS6P5vZl+6ZQxHUnU8ToCTQDtvh9aIquVdkiM0e+nJSLZzUK" crossorigin="anonymous">
 
-    <section class="section dashboard">
-      <div class="row">
+  <section class="section dashboard">
+    <div class="row">
 
         <!-- Left side columns -->
         <div class="col-lg-8">
@@ -23,7 +23,6 @@
 
 
 <br><br><br><br><br>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <div class="section_our_solution">
   <div class="row">
@@ -103,3 +102,4 @@
 
     </section>
 </main>
+

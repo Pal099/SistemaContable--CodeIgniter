@@ -23,14 +23,14 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Balances</li>
-                <li class="breadcrumb-item">Balance General</li>
+                <li class="breadcrumb-item">Sumas y Saldos</li>
             </ol>
         </nav>
-        <div class="container-fluid bg-white border rounded-3">
+        <div class="container-fluid bg-white rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="mt-4">
-                        <h1>Balance General</h1>
+                        <h1>Sumas y Saldos</h1>
                     </div>
                 </div>
             </div>
@@ -39,13 +39,13 @@
             <section class="seccion_balance_general">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="container-fluid mt-2">
+                        <div class="container-fluid mt-4">
                             <div class="row justify-content-center">
                                 <div class="col-md-12">
                                     <div class="card border">
                                         <div class="card-body mt-4">
-                                            <table class="table table-hover table-sm align-middle mt-4"
-                                                id="TablaBalanceGeneral">
+                                            <table class="table table-hover table-sm align-middle"
+                                                id="TablaSaldosSumas">
                                                 <thead>
                                                     <tr>
                                                         <th>Número de Cuenta</th>
@@ -56,7 +56,7 @@
                                                         <th>Total Acreedor</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody class="table-group-divider">
                                                     <?php foreach ($cuentas as $cuenta) : ?>
                                                     <tr>
                                                         <td><?= $cuenta->Codigo_CC ?></td>
@@ -101,7 +101,7 @@
         <!-- Script para las tabla de balance general -->
         <script>
         $(document).ready(function() {
-            var table1 = $('#TablaBalanceGeneral').DataTable({
+            var table1 = $('#TablaSaldosSumas').DataTable({
                 dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
                     '<"row"<"col-sm-12"t>>' +
                     '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -174,7 +174,7 @@
                     mm = '0' + mm;
                 }
                 // Concatenamos la fecha para el nombre del archivo
-                var nombreArchivo = 'Balance_General_' + dd + '-' + mm + '-' + yyyy + '.pdf';
+                var nombreArchivo = 'Sumas_y_Saldos_' + dd + '-' + mm + '-' + yyyy + '.pdf';
 
                 // Acá agregamos la fecha en la esquina superior derecha del documento
                 doc.setFontSize(9);
@@ -357,8 +357,8 @@
                             var yPos = data.cell.y;
 
                             //Configuracion de la linea
-                            doc.setLineWidth(1);//grosor
-                            doc.setDrawColor(0, 0, 0);//color
+                            doc.setLineWidth(1); //grosor
+                            doc.setDrawColor(0, 0, 0); //color
                             doc.line(xPosStart, yPos, xPosEnd, yPos);
                         }
                     }
@@ -389,7 +389,6 @@
         <script src="<?php echo base_url(); ?>/assets/DataTables/jszip/dist/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-
     </main>
 </body>
 

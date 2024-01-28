@@ -1,30 +1,11 @@
-<head>
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-
-  <!-- jQuery -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- DataTables JavaScript -->
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-
-  <style>
-    /* Estilo para el thead de DataTables */
-    #example1 thead {
-      background-color: #e6f7fe; /* Cambia esto al color que desees */
-      color: white; /* Cambia esto al color del texto que desees */
-    }
-  </style>
-</head>
-
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
-    <h1>Programas</h1>
+    <h1>Programa de ingresos</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-        <li class="breadcrumb-item active">Listado de los Programas</li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+        <li class="breadcrumb-item active">Listado de los Programas de ingresos</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -35,8 +16,8 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="col-md-12">
-            <a href="<?php echo base_url(); ?>registro/programa/add" class="btn btn-primary btn-flat"><span
-                class="fa fa-plus"></span> Agregar Programa</a>
+            <a href="<?php echo base_url(); ?>registro/programaingreso/add" class="btn btn-primary btn-flat"><span
+                class="fa fa-plus"></span> Agregar Programa de ingresos</a>
           </div>
         </div>
         <hr>
@@ -45,19 +26,37 @@
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
+                  <th>opciones</th>
                 </tr>
               </thead>
               <tbody>
-                <?php if (!empty($gastos)): ?>
-                  <?php foreach ($gastos as $gasto): ?>
+                <?php if (!empty($ingresos)): ?>
+                  <?php foreach ($ingresos as $ingreso): ?>
                     <tr>
                       <td>
-                        <?php echo $gasto->codigo; ?>
+                        <?php echo $ingreso->id; ?>
                       </td>
                       <td>
-                        <?php echo $gasto->nombre; ?>
+                        <?php echo $ingreso->nombre; ?>
+                      </td>
+                      <td>
+                        <?php echo $ingreso->codigo; ?>
+                      </td>
+                      <td>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-info btn-view-programaingreso" data-toggle="modal"
+                            data-target="#modal-default" value="<?php echo $ingreso->id; ?>">
+                            <span class="fa fa-search"></span>
+                          </button>
+                          <a href="<?php echo base_url() ?>registro/programaingreso/edit/<?php echo $ingreso->id; ?>"
+                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+
+                          <a href="<?php echo base_url(); ?>registro/programaingreso/delete/<?php echo $ingreso->id; ?>"
+                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
+                        </div>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -81,7 +80,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Informacion de los Programas</h4>
+        <h4 class="modal-title">Informacion de los Programas de ingresos</h4>
       </div>
       <div class="modal-body">
 
@@ -95,8 +94,3 @@
   <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-<script>
-    $(document).ready(function() {
-        $('#example1').DataTable();
-    });
-</script>
