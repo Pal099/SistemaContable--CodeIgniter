@@ -94,8 +94,8 @@
 
 
         <li class="nav-item">
-            
-             <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+
+            <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-cash-stack"></i><span>Utilidades</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -132,24 +132,24 @@
             </ul>
         </li><!-- Acá termina lo de Utilidades -->
         <li class="nav-item">
-            
-            <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse" href="#">
-               <i class="bi bi-basket2"></i><span>Patrimonio/Suministro</span><i class="bi bi-chevron-down ms-auto"></i>
-           </a>
-           <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-           <li class="nav-item">
-                   <a href="<?php echo base_url(); ?>patrimonio/comprobante_gasto">
-                       <i class="bi bi-circle"></i><span>Comprobante de Gastos</span>
-                   </a>
-               </li> 
-               <li class="nav-item">
-                   <a href="<?php echo base_url(); ?>patrimonio/recepcion_bienes">
-                       <i class="bi bi-circle"></i><span>Recepcion de Bienes</span>
-                   </a>
-               </li>
-           </ul>
-       </li>
 
+            <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-basket2"></i><span>Patrimonio/Suministro</span><i
+                    class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>patrimonio/comprobante_gasto">
+                        <i class="bi bi-circle"></i><span>Comprobante de Gastos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>patrimonio/recepcion_bienes">
+                        <i class="bi bi-circle"></i><span>Recepcion de Bienes</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
