@@ -176,7 +176,7 @@
                                     <td>
                                       <div class="input-group input-group-sm align-items-center  ">
                                         <input type="text" class="form-control border-0 bg-transparent" id="monto"
-                                          name="monto" >
+                                          name="monto">
                                       </div>
                                     </td>
                                     <td>
@@ -260,7 +260,7 @@
 
   <script>
     function selectProveedor(razonSocial) {
-      document.getElementById('idproveedor').value = razonSocial;
+      document.getElementById('#id_proveedor').value = razonSocial;
 
     }
   </script>
@@ -298,6 +298,9 @@
                   </td>
                   <td>
                     <?= $comp->fecha ?>
+                  </td>
+                  <td>
+                    <?= $comp->Proveedor ?>
                   </td>
                   <td>
                     <?= $comp->monto ?>
