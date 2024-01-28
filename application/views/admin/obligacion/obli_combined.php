@@ -481,7 +481,7 @@
                                                             class="btn btn-success btn-primary"><span
                                                                 class="fa fa-save"></span>Guardar</button>
                                                         <button type="button" class="btn btn-danger ml-3"
-                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
                                                             <i class="fa fa-remove"></i> Cancelar
                                                         </button>
                                                     </div>
