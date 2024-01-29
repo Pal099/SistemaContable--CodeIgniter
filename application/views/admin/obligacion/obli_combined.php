@@ -442,7 +442,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -454,16 +454,16 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent celda-debe">
+                                                                    class="form-control border-0 bg-transparent celda-debe" disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent celda-haber">
+                                                                    class="form-control border-0 bg-transparent celda-haber" disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="diferencia"
                                                                     class="form-control border-0 bg-transparent celda-diferencia"
-                                                                    value=0 >
+                                                                    value=0 disabled>
                                                             </td>
                                                         </tr>
                                                     </tbody>

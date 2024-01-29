@@ -44,10 +44,7 @@ class Diario_obli_model extends CI_Model {
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }
-	public function actualizar_num_asi($id, $data) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->update('num_asi', $data);
-    }
+
 	public function eliminar_asiento($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
@@ -128,8 +125,13 @@ class Diario_obli_model extends CI_Model {
 		return $arrayFinal;
 	}
 
-	public function update_numAsiDeta_debe($Num_Asi_IDNum_Asi, $data){
-		$this->db->where('Num_Asi_IDNum_Asi', $Num_Asi_IDNum_Asi);
+	public function actualizar_num_asi($id, $data) {
+        $this->db->where('IDNum_Asi', $id);
+        return $this->db->update('num_asi', $data);
+    }
+
+	public function update_num_asi_deta($IDNum_Asi_Deta, $data){
+		$this->db->where('IDNum_Asi_Deta', $IDNum_Asi_Deta);
         return $this->db->update('num_asi_deta', $data);
 	}
 
