@@ -393,10 +393,19 @@
                                                                 </div>
                                                             </td>
                                                             <td>
-                                                                <div class="input-group input-group-sm  ">
+                                                                <div class="input-group input-group-sm">
+                                                                    <?php if (isset($debe_2)): ?>
+                                                                    <?php $debe_2_value = number_format($debe_2, 2, '.', '.'); ?>
                                                                     <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="Debe_2" name="Debe_2" required>
+                                                                        class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                        id="Debe_2" name="Debe_2"
+                                                                        value="<?php echo $haber_2_value; ?>">
+                                                                    <?php else: ?>
+                                                                    <input type="text"
+                                                                        class="form-control small border-0 bg-transparent formatoNumero"
+                                                                        id="Debe_2" name="Debe_2"
+                                                                        oninput="formatNumber('Debe_2')">
+                                                                    <?php endif; ?>
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -720,7 +729,7 @@
                     IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
                     detalles: $(this).find("input[name='detalles_2']").val(),
                     comprobante: $(this).find("input[name='comprobante_2']").val(),
-                    Debe: $(this).find("input[name='Debe_2']").val(),
+                    Debe: $(this).find("input[name='Debe_2']").val().replace(/[^\d.-]/g, ''),
                     Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
                     cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
                 };

@@ -127,11 +127,7 @@
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
 
-<<<<<<< HEAD
-                                        <table class="table table-bordered">
-=======
                                         <table class="table table-bordered" id="TablaLibMay">
->>>>>>> 79f8643 (A)
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -143,7 +139,6 @@
                                                     <th>Haber</th>
                                                     <th>Saldo</th>
                                                     <th>Cuenta Contable</th>
-                                                    <th>Descripcion</th>
                                                 </tr>
                                             </thead>
                                             <twbody>
@@ -157,16 +152,10 @@
                                                     <td><?php echo $entrada['Descripcion']; ?></td>
                                                     <td><?php echo $entrada['Debe']; ?></td>
                                                     <td><?php echo $entrada['Haber']; ?></td>
-<<<<<<< HEAD
-                                                    <td><?php // Calcular y mostrar el saldo ?></td>
+                                                    <td><?php echo $entrada['Saldo']; ?></td>
                                                     <td><?php echo $entrada['Codigo_CC']; ?> -
                                                         <?php echo $entrada['Descripcion_CC']; ?>
                                                     </td>
-=======
-                                                    <td><?php echo $entrada['Saldo']; ?></td>
-                                                    <td><?php echo $entrada['Codigo_CC']; ?> </td>
-                                                    <td><?php echo $entrada['Descripcion_CC']; ?></td>
->>>>>>> 79f8643 (A)
                                                 </tr>
                                                 <?php endforeach; ?>
                                                 <?php else: ?>
@@ -262,10 +251,249 @@
     });
     </script>
     <!-- Script de DataTable de jquery -->
-<<<<<<< HEAD
-=======
-  
-  
->>>>>>> 79f8643 (A)
-    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+            <!-- Script del pdf -->
+            <script>
+                async function generarPDF() {
+            const {
+                jsPDF
+            } = window.jspdf;
+            const doc = new jsPDF();
+            try {
+                const logoDataURL = await getImageDataURL(); //Funcion para obtener la imagen
+                doc.addImage(logoDataURL, 'PNG', 30, 14, 25,
+                    0); // Orden de coordenadas: izquierda, arriba, ancho, altura
+
+                //Variable para la cantidad de paginas del footer
+                var totalPagesExp = "{total_pages_count_string}";
+
+                // Varaibles para poder sacar la fecha
+                var fechaActual = new Date();
+                var dd = fechaActual.getDate();
+                var mm = fechaActual.getMonth() + 1;
+                var yyyy = fechaActual.getFullYear();
+
+                // Validación para los 2 dígitos en la fecha
+                if (dd < 10) {
+                    dd = '0' + dd;
+                }
+                if (mm < 10) {
+                    mm = '0' + mm;
+                }
+                // Concatenamos la fecha para el nombre del archivo
+                var nombreArchivo = 'Libro_Mayor_' + dd + '-' + mm + '-' + yyyy + '.pdf';
+
+                // Acá agregamos la fecha en la esquina superior derecha del documento
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0); // Color del texto (negro)
+                doc.text('Fecha: ' + dd + '/' + mm + '/' + yyyy, doc.internal.pageSize.width - 15, 19, null, null,
+                    'right');
+                doc.text('Hora: ' + fechaActual.toLocaleTimeString(), doc.internal.pageSize.width - 15, 24, null,
+                    null, 'right');
+
+                //Titulo
+                doc.setFont("helvetica", "bold"); //Fuente
+                doc.setFontSize(15); //Tamaño
+                var text = 'Universidad Nacional del Este';
+                //Calculo para colocar el texto en el medio 
+                var textWidth = doc.getStringUnitWidth(text) * doc.internal.getFontSize() / doc.internal
+                    .scaleFactor;
+                var marginLeft = (doc.internal.pageSize.width - textWidth) / 2;
+                doc.text(text, marginLeft, 20);
+
+                //Datos de la Universidad
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(10);
+                var lines = [
+                    'Campus Km 8 Acaray',
+                    'Calle Universidad Nacional del Este y Rca. del Paraguay',
+                    'Barrio San Juan Ciudad del Este Alto Parana'
+                ];
+
+                // Cordenadas de los textos junto con los calculos
+                var startY = 25; //Donde empieza
+                var lineHeight = 5; //Espacio entre lineas
+                lines.forEach(function(line) {
+                    var textWidth = doc.getStringUnitWidth(line) * doc.internal.getFontSize() / doc.internal
+                        .scaleFactor;
+                    var marginLeft = (doc.internal.pageSize.width - textWidth) / 2;
+
+                    doc.text(line, marginLeft, startY);
+                    startY += lineHeight;
+                });
+
+                // **--------Acá se procesa los datos de la tabla para poder agregar al documento--------**
+                var cuentas = <?php echo json_encode($cuentas); ?>;
+
+                // El array donde iran los datos
+                var tableData = [];
+
+                // Función para agregar datos al array tableData junto con las variables para el total
+                var totalDebe = 0;
+                var totalHaber = 0;
+                var totalDeudor = 0;
+                var totalAcreedor = 0;
+
+                function agregarDatosCuenta(cuenta) {
+                    var row = [];
+                    row.push(cuenta.Codigo_CC);
+                    row.push(cuenta.Descripcion_CC);
+                    var debe = cuenta.TotalDebe ? Number(cuenta.TotalDebe) : 0;
+                    var haber = cuenta.TotalHaber ? Number(cuenta.TotalHaber) : 0;
+                    var deudor = cuenta.TotalDeudor ? Number(cuenta.TotalDeudor) : 0;
+                    var acreedor = cuenta.TotalAcreedor ? Number(cuenta.TotalAcreedor) : 0;
+                    row.push(debe.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }));
+                    row.push(haber.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }));
+                    row.push(deudor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }));
+                    row.push(acreedor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }));
+                    tableData.push(row);
+                    if (cuenta.cuentasHijas) {
+                        cuenta.cuentasHijas.forEach(agregarDatosCuenta);
+                    }
+                    totalDebe += debe;
+                    totalHaber += haber;
+                    totalDeudor += deudor;
+                    totalAcreedor += acreedor;
+                }
+
+                cuentas.forEach(agregarDatosCuenta);
+
+                //Fila donde se agrega los resutlados finales
+                //Suma
+                tableData.push([
+                    '',
+                    'Suma:',
+                    totalDebe.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalHaber.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalDeudor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    totalAcreedor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    })
+                ]);
+                //Resta
+                var diferenciaDebeHaber = totalDebe - totalHaber;
+                var diferenciaDeudorAcreedor = totalDeudor - totalAcreedor;
+                tableData.push([
+                    '',
+                    'Diferencia:',
+                    diferenciaDebeHaber.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    '',
+                    diferenciaDeudorAcreedor.toLocaleString('es-PY', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }),
+                    ''
+                ]);
+
+                // **--------Acá termina de procesar los datos--------**
+
+                // Configuración de la tabla
+                var headerStyles = {
+                    fillColor: '#020971',
+                    textColor: '#ffffff',
+                    fontStyle: 'bold'
+                };
+                var bodyStyles = {
+                    cellPadding: 2,
+                    fontSize: 9 //tamaño de las letras de la tabla
+                };
+
+                var options = {
+                    head: [
+                        ['Número de Cuenta', 'Descripción de la Cuenta', 'Total Debe', 'Total Haber',
+                            'Total Deudor', 'Total Acreedor'
+                        ]
+                    ],
+                    body: tableData,
+                    startY: 40,
+                    headStyles: headerStyles,
+                    bodyStyles: bodyStyles,
+                    //Este es el código del footer
+                    didDrawPage: function(data) {
+                        // Número de página, centrado
+                        var str = "Página " + doc.internal.getNumberOfPages()
+                        // Total de páginas número plugin sólo en nuevas páginas
+                        if (typeof doc.putTotalPages === 'function') {
+                            str = str + " de " + totalPagesExp;
+                        }
+                        doc.setFontSize(10);
+                        var pageSize = doc.internal.pageSize;
+                        var pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+                        doc.text(str, data.settings.margin.left, pageHeight - 10);
+                    },
+                    margin: {
+                        top: 10
+                    },
+                    willDrawCell: function(data) {
+                        // Calculo para saber si son las 2 ultimas filas, entonces ponemos en negrita
+                        if (data.row.index >= tableData.length - 2) {
+                            doc.setFont('helvetica', 'bold');
+                        } else {
+                            doc.setFont('helvetica', 'normal');
+                        }
+                        //Acá se dibuja la linea divisoria para el totalizador
+                        if (data.row.index === tableData.length - 2) {
+                            //variables para el calculo de la linea
+                            var xPosStart = data.cell.x;
+                            var xPosEnd = xPosStart + data.cell.width;
+                            var yPos = data.cell.y;
+
+                            //Configuracion de la linea
+                            doc.setLineWidth(1);//grosor
+                            doc.setDrawColor(0, 0, 0);//color
+                            doc.line(xPosStart, yPos, xPosEnd, yPos);
+                        }
+                    }
+                };
+
+                // Crear la tabla
+                doc.autoTable(options);
+
+                // Total de páginas, este es el plugin para calcular la totalidad de paginas
+                if (typeof doc.putTotalPages === 'function') {
+                    doc.putTotalPages(totalPagesExp);
+                }
+
+                // Se guarda el archivo segun el nombre deseado del documento
+                doc.save(nombreArchivo);
+            } catch (error) {
+                console.error('Error al cargar la imagen:', error);
+            }
+        }
+        </script>
+        <!-- Script de DataTable de jquery -->
+        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+        <!-- Script de DataTable button -->
+        <script src="<?php echo base_url(); ?>/assets/DataTables/Buttons/js/dataTables.buttons.min.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/DataTables/Buttons/js/buttons.bootstrap5.min.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/DataTables/Buttons/js/buttons.html5.min.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/DataTables/Buttons/js/buttons.print.min.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/DataTables/jszip/dist/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </main>

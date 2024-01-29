@@ -188,6 +188,7 @@ class Diario_obligaciones extends CI_Controller
 								'Num_Asi_IDNum_Asi' => $lastInsertedId,
 								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
 								'Haber' => $fila['Haber'],
+								'Debe' => $fila['Debe'],
 								'detalles' => $fila['detalles'],
 								'numero' => $numero,
 								'comprobante' => $fila['comprobante'],
