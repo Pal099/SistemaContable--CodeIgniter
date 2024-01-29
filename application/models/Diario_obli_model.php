@@ -125,6 +125,7 @@ class Diario_obli_model extends CI_Model {
 		return $arrayFinal;
 	}
 
+	//----------Funciones nuevas del editar----------
 	public function actualizar_num_asi($id, $data) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->update('num_asi', $data);
@@ -135,6 +136,11 @@ class Diario_obli_model extends CI_Model {
         return $this->db->update('num_asi_deta', $data);
 	}
 
+	public function update_num_asi_deta_fila_nueva($data) {
+        return $this->db->insert('num_asi_deta', $data);
+    }
+
+	//----------Acá terminan las funciones nuevas del editar----------
 
 	// num asi deta segundo
 	public function obtener_detalles_por_asiento($idAsiento) {

@@ -1,6 +1,4 @@
 <?php
-
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Diario_obligaciones extends CI_Controller
@@ -275,6 +273,7 @@ class Diario_obligaciones extends CI_Controller
 			'fuente_de_financiamiento' => $fuente_de_financiamiento,
 			'origen_de_financiamiento' => $origen_de_financiamiento,
 			'cuentacontable' => $cuentacontables,
+			'proveedoresALL' => $proveedores,
 		);
 	
 		$this->load->view("layouts/header");
@@ -283,7 +282,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 	public function testearDatos() {
-		$IDNum_Asi = 20; 
+		$IDNum_Asi = 18; 
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable(1);
 
@@ -316,6 +315,7 @@ class Diario_obligaciones extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$IDNum_Asi = $datosFormulario['IDNum_Asi'];
+		$num_asi = $datosFormulario['num_asi'];
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$contabilidad = $datosFormulario['contabilidad'];
@@ -367,8 +367,25 @@ class Diario_obligaciones extends CI_Controller
 						foreach ($filas as $fila) {
 							/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
 							debemos de agregarlo como un registro nuevo */
-							if ($fila['Asi_Deta_NULL'] === true) {
-								//funcion insertar datos
+							if (!isset($fila['IDNum_Asi_Deta'])) {
+								$Num_Asi_IDNum_Asi = $IDNum_Asi;
+								$dataInsertar = array(
+									'MontoPago' => $fila['Haber'],
+									'Debe' => $fila['Debe'],
+									'Haber' => $fila['Haber'],
+									'detalles' => $fila['detalles'],
+									'numero' => $numero,
+									'Comprobante' => $fila['Comprobante'],
+									'id_of' => $fila['id_of'],	
+									'id_pro' => $fila['id_pro'],
+									'id_ff' => $fila['id_ff'],
+									'IDCuentaContable' => $fila['IDCuentaContable'],
+									'cheques_che_id' => $fila['cheques_che_id'],
+									'proveedores_id' => $proveedor_id,
+									'numero' => $num_asi,
+									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
+								);
+								$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
 							}else{
 								//Obtenemos el valor del id para poder actualizar los datos
 								$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
@@ -379,21 +396,19 @@ class Diario_obligaciones extends CI_Controller
 									'Haber' => $fila['Haber'],
 									'detalles' => $fila['detalles'],
 									'numero' => $numero,
-									'comprobante' => $fila['comprobante'],
+									'Comprobante' => $fila['Comprobante'],
 									'id_of' => $fila['id_of'],	
 									'id_pro' => $fila['id_pro'],
 									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentacontable'],
+									'IDCuentaContable' => $fila['IDCuentaContable'],
 									'cheques_che_id' => $fila['cheques_che_id'],
 									'proveedores_id' => $proveedor_id,
-								);
-									
+								);	
 								$this->Diario_obli_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
 							}
 	
 						}
-
-					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+						exit();
 				} else {
 					// Esta lógica se ejecutará si la solicitud no es AJAX
 					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
