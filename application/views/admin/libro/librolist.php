@@ -131,7 +131,7 @@
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
 
-                                        <table class="table table-bordered" id="TablaPresupuesto">
+                                        <table class="table table-bordered" id="TablaLibMay">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -143,9 +143,10 @@
                                                     <th>Haber</th>
                                                     <th>Saldo</th>
                                                     <th>Cuenta Contable</th>
+                                                    <th>Descripcion</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <twbody>
                                                 <?php if(!empty($entradas)): ?>
                                                 <?php foreach ($entradas as $entrada): ?>
                                                 <tr>
@@ -157,14 +158,13 @@
                                                     <td><?php echo $entrada['Debe']; ?></td>
                                                     <td><?php echo $entrada['Haber']; ?></td>
                                                     <td><?php echo $entrada['Saldo']; ?></td>
-                                                    <td><?php echo $entrada['Codigo_CC']; ?> -
-                                                    <?php echo $entrada['Descripcion_CC']; ?>
-                                                    </td>
+                                                    <td><?php echo $entrada['Codigo_CC']; ?> </td>
+                                                    <td><?php echo $entrada['Descripcion_CC']; ?></td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                                 <?php else: ?>
                                                 <tr>
-                                                    <td colspan="9" class="text-center">No se encontraron registros.
+                                                    <td colspan="10 " class="text-center">No se encontraron registros.
                                                     </td>
                                                 </tr>
                                                 <?php endif; ?>
@@ -286,7 +286,7 @@
   </script>
     <script>
     $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont1').DataTable({
+        var table1 = $('#TablaLibMay').DataTable({
             paging: true,
             pageLength: 10,
             lengthChange: true,
