@@ -28,220 +28,235 @@
                     <div class="col-md-6 mt-4">
                         <h1>Editar Obligación</h1>
                     </div>
+                    <div class="col-md-6 mt-4 ">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-4">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                    data-bs-target="#modal_proveedores">
+                                    <i class="bi bi-plus-circle"></i> Nuevo Proveedor
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- fin del encabezado -->
-            <hr> <!-- barra separadora -->
-            <section class="seccion_editar_obligacion">
-                <div class="container-fluid">
-                    <div class="row">
-                        <form action="<?php echo base_url(); ?>obligaciones/Diario_obligaciones/update" method="POST">
-                            <div class="container-fluid mt-2">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-12">
-                                        <div class="card border">
-                                            <div class="card-body">
-                                                <div class="row g-3 align-items-center mt-2">
-                                                    <div class="form-group col-md-2">
-                                                        <label for="num_asi">N° asiento:</label>
-                                                        <input type="text" class="form-control" id="num_asi"
-                                                            name="num_asi"
-                                                            value="<?php echo $asiento[0]['datosFijos']['num_asi']; ?>"
-                                                            readonly>
-                                                    </div>
-                                                    <div
-                                                        class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                        <label for="ruc">Ruc:</label>
-                                                        <input type="text" class="form-control" id="ruc" name="ruc"
-                                                            value="<?php echo $proveedor->ruc ?>" readonly>
-                                                        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="razon_social">Nombre y Apellido:</label>
-                                                        <input type="text" class="form-control w-100" id="razon_social"
-                                                            name="razon_social"
-                                                            value="<?php echo $proveedor->razon_social ?>" readonly>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="fecha">Fecha:</label>
-                                                        <input type="date" class="form-control" id="fecha" name="fecha"
-                                                            value="<?php echo date('Y-m-d', strtotime($asiento[0]['datosFijos']['FechaEmision'])); ?>"
-                                                            required>
-                                                    </div>
-                                                    <div class="form-group col-md-12">
-                                                        <label for="concepto">Concepto:</label>
-                                                        <input type="text" class="form-control" id="concepto"
-                                                            name="concepto"
-                                                            value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>">
-                                                    </div>
-                                                    <!-- Campos Opcionales del formulario -->
-                                                    <div class="form-group">
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="pedi_matricula">Ped. Mat:</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="pedi_matricula" name="pedi_matricula"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['ped_mat']; ?>">
-                                                            </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="modalidad">Modalidad:</label>
-                                                                <input type="text" class="form-control" id="modalidad"
-                                                                    name="modalidad"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['modalidad']; ?>">
-                                                            </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="tipo_presupuesto">Tipo de
-                                                                    Presupuesto:</label>
-                                                                <input type="text" class="form-control w-100"
-                                                                    id="tipo_presupuesto" name="tipo_presupuesto"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['tipo_presu']; ?>">
-                                                            </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="nro_exp">Nro. Exp:</label>
-                                                                <input type="text" class="form-control" id="nro_exp"
-                                                                    name="nro_exp"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['nro_exp']; ?>">
-                                                            </div>
-                                                            <div class="col-md-4 mb-2">
-                                                                <label for="total">Total:</label>
-                                                                <input type="text" class="form-control w-100" id="total"
-                                                                    name="total"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>">
-                                                            </div>
-                                                            <div class="form-group col-md-4">
-                                                                <label for="op">N° Op</label>
-                                                                <input type="text" class="form-control" id="op"
-                                                                    name="op"
-                                                                    value="<?php echo $asiento[0]['datosFijos']['op']; ?>"
-                                                                    readonly>
+                <!-- fin del encabezado -->
+                <hr> <!-- barra separadora -->
+                <section class="seccion_editar_obligacion">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';">
+                                <div class="container-fluid mt-2">
+                                    <div class="row justify-content-center">
+                                        <div class="col-md-12">
+                                            <div class="card border">
+                                                <div class="card-body">
+                                                    <div class="row g-3 align-items-center mt-2">
+                                                        <div class="form-group col-md-2">
+                                                            <label for="num_asi">N° asiento:</label>
+                                                            <input type="text" class="form-control" id="num_asi"
+                                                                name="num_asi"
+                                                                value="<?php echo $asiento[0]['datosFijos']['num_asi']; ?>"
+                                                                readonly>
+                                                        </div>
+                                                        <div
+                                                            class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                            <label for="ruc">Ruc:</label>
+                                                            <input type="text" class="form-control" id="ruc" name="ruc"
+                                                                value="<?php echo $proveedor->ruc ?>" readonly>
+                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="razon_social">Nombre y Apellido:</label>
+                                                            <input type="text" class="form-control w-100"
+                                                                id="razon_social" name="razon_social"
+                                                                value="<?php echo $proveedor->razon_social ?>" readonly>
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            <label for="fecha">Fecha:</label>
+                                                            <input type="date" class="form-control" id="fecha"
+                                                                name="fecha"
+                                                                value="<?php echo date('Y-m-d', strtotime($asiento[0]['datosFijos']['FechaEmision'])); ?>"
+                                                                required>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label for="concepto">Concepto:</label>
+                                                            <input type="text" class="form-control" id="concepto"
+                                                                name="concepto"
+                                                                value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>">
+                                                        </div>
+                                                        <!-- Campos Opcionales del formulario -->
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label for="pedi_matricula">Ped. Mat:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="pedi_matricula" name="pedi_matricula"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['ped_mat']; ?>">
+                                                                </div>
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label for="modalidad">Modalidad:</label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="modalidad" name="modalidad"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['modalidad']; ?>">
+                                                                </div>
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label for="tipo_presupuesto">Tipo de
+                                                                        Presupuesto:</label>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        id="tipo_presupuesto" name="tipo_presupuesto"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['tipo_presu']; ?>">
+                                                                </div>
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label for="nro_exp">Nro. Exp:</label>
+                                                                    <input type="text" class="form-control" id="nro_exp"
+                                                                        name="nro_exp"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['nro_exp']; ?>">
+                                                                </div>
+                                                                <div class="col-md-4 mb-2">
+                                                                    <label for="total">Total:</label>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        id="total" name="total"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>">
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="op">N° OP</label>
+                                                                    <input type="text" class="form-control" id="op"
+                                                                        name="op"
+                                                                        value="<?php echo $asiento[0]['datosFijos']['op']; ?>"
+                                                                        readonly>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <!-- Aca comienza la tabla -->
-                                                <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
-                                                    id="miTabla">
-                                                    <thead class="align-middle">
-                                                        <tr>
-                                                            <th class="columna-hidden">IDNum_Asi_Deta</th>
-                                                            <th class="columna-ancha">Prog</th>
-                                                            <th class="columna-fuente">F.F.</th>
-                                                            <th class="columna-origen">O.F.</th>
-                                                            <th class="columna-ctncontable">Cuenta Contable</th>
-                                                            <th>Comprobante</th>
-                                                            <th>Detalles</th>
-                                                            <th class="columna-hidden">Monto de Pago</th>
-                                                            <th>Debe</th>
-                                                            <th>Haber</th>
-                                                            <th class="columna-hidden">Cheque</th>
-                                                            <th>Nuevo</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr class="align-items-center">
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="IDNum_Asi_Deta" name="IDNum_Asi_Deta"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->IDNum_Asi_Deta ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_pro" name="id_pro">
-                                                                        <!-- En este ciclo se busca el id del programa en el array que se envia en la primera posicion, 
+                                                    <!-- Aca comienza la tabla -->
+                                                    <table
+                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                        id="miTabla">
+                                                        <thead class="align-middle">
+                                                            <tr>
+                                                                <th class="columna-hidden">IDNum_Asi_Deta</th>
+                                                                <th class="columna-ancha">Prog</th>
+                                                                <th class="columna-fuente">F.F.</th>
+                                                                <th class="columna-origen">O.F.</th>
+                                                                <th class="columna-ctncontable">Cuenta Contable</th>
+                                                                <th>Comprobante</th>
+                                                                <th>Detalles</th>
+                                                                <th class="columna-hidden">Monto de Pago</th>
+                                                                <th>Debe</th>
+                                                                <th>Haber</th>
+                                                                <th class="columna-hidden">Cheque</th>
+                                                                <th>Nuevo</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="PrimeraFila" class="PrimeraFila">
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="IDNum_Asi_Deta" name="IDNum_Asi_Deta"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->IDNum_Asi_Deta ?>">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_pro" name="id_pro">
+                                                                            <!-- En este ciclo se busca el id del programa en el array que se envia en la primera posicion, 
                                                                         una vez encuentra ese id en el ciclo lo selecciona y lo muestra en el select -->
-                                                                        <?php foreach ($programa as $prog) : ?>
-                                                                        <option value="<?php echo $prog->id_pro ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
-                                                                            <?php echo $prog->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_ff" name="id_ff" required>
-                                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                        <option value="<?php echo $ff->id_ff ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
-                                                                            <?php echo $ff->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_of" name="id_of" required>
-                                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                        <option value="<?php echo $of->id_of ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][0]->id_of == $of->id_of) ? 'selected' : ''; ?>>
-                                                                            <?php echo $of->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <input type="hidden" class="form-control"
-                                                                        id="idcuentacontable" name="idcuentacontable"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->IDCuentaContable ?>">
-                                                                    <input style="width: 40%; font-size: small;"
-                                                                        type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="codigo_cc" name="codigo_cc"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Codigo_CC ?>"
-                                                                        required>
-                                                                    <input style="font-size: small;" type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="descripcion_cc" name="descripcion_cc"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Descripcion_CC ?>">
-                                                                    <button type="button" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalCuentasCont1"
-                                                                        class="btn btn-sm btn-outline-primary"
-                                                                        id="openModalBtn_3">
-                                                                        <i class="bi bi-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="comprobante" name="comprobante"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->Comprobante ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="detalles" name="detalles"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][0]->detalles ?>"
-                                                                        required>
-                                                                </div>
-                                                            </td>
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="MontoPago" name="MontoPago"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['MontoPagado'] ?>"
-                                                                        readonly>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <?php 
+                                                                            <?php foreach ($programa as $prog) : ?>
+                                                                            <option value="<?php echo $prog->id_pro ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][0]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_ff" name="id_ff" required>
+                                                                            <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                            <option value="<?php echo $ff->id_ff ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][0]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_of" name="id_of" required>
+                                                                            <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                            <option value="<?php echo $of->id_of ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][0]->id_of == $of->id_of) ? 'selected' : ''; ?>>
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <input type="hidden" class="form-control"
+                                                                            id="idcuentacontable"
+                                                                            name="IDCuentaContable"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->IDCuentaContable ?>">
+                                                                        <input style="width: 40%; font-size: small;"
+                                                                            type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="codigo_cc" name="codigo_cc"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Codigo_CC ?>"
+                                                                            required>
+                                                                        <input style="font-size: small;" type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="descripcion_cc" name="descripcion_cc"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Descripcion_CC ?>">
+                                                                        <button type="button" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCuentasCont1"
+                                                                            class="btn btn-sm btn-outline-primary"
+                                                                            id="openModalBtn_3">
+                                                                            <i class="bi bi-search"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="input-group input-group-sm align-items-center  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="comprobante" name="Comprobante"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Comprobante ?>">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="detalles" name="detalles"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->detalles ?>"
+                                                                            required>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="MontoPago" name="MontoPago"
+                                                                            value="<?php echo $asiento[0]['datosFijos']['MontoPagado'] ?>"
+                                                                            readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <?php 
                                                                         // Se define $Debe_value como una cadena vacía por defecto
                                                                         $Debe_value = '';
                                                                         if (isset($asiento[0]['camposDinamicos'][0]->Debe)) {
@@ -249,145 +264,168 @@
                                                                             $Debe_value = number_format($Debe, 0, ',', ',');
                                                                         }
                                                                         ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Debe" name="Debe"
-                                                                        value="<?php echo isset($Debe_value) ? $Debe_value : ''; ?>"
-                                                                        oninput="formatNumber('Debe')">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Haber" name="HaberFila1" required>
-                                                                </div>
-                                                            </td>
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="cheques_che_id" name="cheques_che_id">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-primary border-0 agregarFila">
-                                                                        <i class="bi bi-plus-square"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <tr id="filaBase" class="filaBase">
-                                                            <!-- segundo asiento  -->
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="IDNum_Asi_Deta_2" name="IDNum_Asi_Deta_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->IDNum_Asi_Deta ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_pro_2" name="id_pro_2" required>
-                                                                        <?php foreach ($programa as $prog) : ?>
-                                                                        <option value="<?php echo $prog->id_pro ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
-                                                                            <?php echo $prog->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_ff_2" name="id_ff_2" required>
-                                                                        <?php foreach ($fuente_de_financiamiento as $ff) : ?>
-                                                                        <option value="<?php echo $ff->id_ff ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
-                                                                            <?php echo $ff->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <select class="form-control border-0 bg-transparent"
-                                                                        id="id_of_2" name="id_of_2" required>
-                                                                        <?php foreach ($origen_de_financiamiento as $of) : ?>
-                                                                        <option value="<?php echo $of->id_of ?>"
-                                                                            <?php echo ($asiento[0]['camposDinamicos'][1]->id_of == $of->id_of) ? 'selected' : ''; ?>>
-                                                                            <?php echo $of->codigo; ?>
-                                                                        </option>
-                                                                        <?php endforeach; ?>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <input type="hidden"
-                                                                        class="form-control border-0 bg-transparent idcuentacontable_2"
-                                                                        id="idcuentacontable_2"
-                                                                        name="idcuentacontable_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->IDCuentaContable ?>">
-                                                                    <input style="font-size: small; width: 40%"
-                                                                        type="text"
-                                                                        class="form-control border-0 bg-transparent codigo_cc_2"
-                                                                        id="codigo_cc_2" name="codigo_cc_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Codigo_CC ?>"
-                                                                        required>
-                                                                    <input style="font-size: small;" type="text"
-                                                                        class="form-control border-0 bg-transparent descripcion_cc_2"
-                                                                        id="descripcion_cc_2" name="descripcion_cc_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Descripcion_CC ?>">
-                                                                    <button type="button" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalCuentasCont2"
-                                                                        class="btn btn-sm btn-outline-primary openModalBtn_4"
-                                                                        id="botonBuscar2">
-                                                                        <i class="bi bi-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="comprobante_2" name="comprobante_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->Comprobante ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="detalles_2" name="detalles_2"
-                                                                        value="<?php echo $asiento[0]['camposDinamicos'][1]->detalles ?>">
-                                                                </div>
-                                                            </td>
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="MontoPago_2" name="MontoPago_2" readonly>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="Debe_2" name="Debe_2" required>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <?php 
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Debe" name="Debe"
+                                                                            value="<?php echo isset($Debe_value) ? $Debe_value : ''; ?>"
+                                                                            oninput="formatNumber('Debe')">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <?php 
+                                                                        // Se define $Debe_value como una cadena vacía por defecto
+                                                                        $Haber_value = '';
+                                                                        if (isset($asiento[0]['camposDinamicos'][0]->Haber)) {
+                                                                            $Haber = $asiento[0]['camposDinamicos'][0]->Haber;
+                                                                            $Haber_value = number_format($Haber, 0, ',', ',');
+                                                                        }
+                                                                        ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Haber" name="Haber"
+                                                                            value="<?php echo isset($Haber_value) ? $Haber_value : ''; ?>"
+                                                                            oninput="formatNumber('Haber')" required>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="cheques_che_id" name="cheques_che_id">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-primary border-0 agregarFila">
+                                                                            <i class="bi bi-plus-square"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr id="filaBase" class="filaBase">
+                                                                <!-- segundo asiento  -->
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="IDNum_Asi_Deta_2" name="IDNum_Asi_Deta"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->IDNum_Asi_Deta ?>">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_pro_2" name="id_pro" required>
+                                                                            <?php foreach ($programa as $prog) : ?>
+                                                                            <option value="<?php echo $prog->id_pro ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][1]->id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_ff_2" name="id_ff" required>
+                                                                            <?php foreach ($fuente_de_financiamiento as $ff) : ?>
+                                                                            <option value="<?php echo $ff->id_ff ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][1]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="id_of_2" name="id_of" required>
+                                                                            <?php foreach ($origen_de_financiamiento as $of) : ?>
+                                                                            <option value="<?php echo $of->id_of ?>"
+                                                                                <?php echo ($asiento[0]['camposDinamicos'][1]->id_of == $of->id_of) ? 'selected' : ''; ?>>
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <input type="hidden"
+                                                                            class="form-control border-0 bg-transparent idcuentacontable_2"
+                                                                            id="idcuentacontable_2"
+                                                                            name="IDCuentaContable"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->IDCuentaContable ?>">
+                                                                        <input style="font-size: small; width: 40%"
+                                                                            type="text"
+                                                                            class="form-control border-0 bg-transparent codigo_cc_2"
+                                                                            id="codigo_cc_2" name="Codigo_cc"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->Codigo_CC ?>"
+                                                                            required>
+                                                                        <input style="font-size: small;" type="text"
+                                                                            class="form-control border-0 bg-transparent descripcion_cc_2"
+                                                                            id="descripcion_cc_2" name="Descripcion_cc"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->Descripcion_CC ?>">
+                                                                        <button type="button" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCuentasCont2"
+                                                                            class="btn btn-sm btn-outline-primary openModalBtn_4"
+                                                                            id="botonBuscar2">
+                                                                            <i class="bi bi-search"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="comprobante_2" name="Comprobante"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->Comprobante ?>">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="detalles_2" name="detalles"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][1]->detalles ?>">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="MontoPago_2" name="MontoPago" readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <?php 
+                                                                    // Se define $haber_2_value como una cadena vacía por defecto
+                                                                    $Debe_2_value = '';
+                                                                    if (isset($asiento[0]['camposDinamicos'][1]->Debe)) {
+                                                                        $Debe_2 = $asiento[0]['camposDinamicos'][1]->Debe;
+                                                                        $Debe_2_value = number_format($Debe_2, 0, ',', ','); 
+                                                                    }
+                                                                    ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                            id="Debe_2" name="Debe"
+                                                                            value="<?php echo isset($Debe_2_value) ? $Debe_2_value : ''; ?>"
+                                                                            oninput="formatNumber('Debe_2')">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <?php 
                                                                     // Se define $haber_2_value como una cadena vacía por defecto
                                                                     $haber_2_value = '';
                                                                     if (isset($asiento[0]['camposDinamicos'][1]->Haber)) {
@@ -395,203 +433,206 @@
                                                                         $haber_2_value = number_format($haber_2, 0, ',', ','); 
                                                                     }
                                                                     ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent form formatoNumero"
-                                                                        id="Haber_2" name="Haber_2"
-                                                                        value="<?php echo isset($haber_2_value) ? $haber_2_value : ''; ?>"
-                                                                        oninput="formatNumber('Haber_2')">
-                                                                </div>
-                                                            </td>
-                                                            </td>
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent"
-                                                                        id="cheques_che_id_2" name="cheques_che_id_2">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-primary border-0 agregarFila">
-                                                                        <i class="bi bi-plus-square"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-danger border-0 eliminarFila"
-                                                                        hidden>
-                                                                        <i class="bi bi-trash3"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <!-- Fila destinada a la edicion -->
-                                                        <tr id="filaEdicion" style="display: none;">
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm  ">
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        name="IDNum_Asi_Deta">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <select
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="id_pro" required>
-                                                                        <!-- Opciones generadas dinámicamente -->
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <select
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="id_ff" required>
-                                                                        <!-- Opciones generadas dinámicamente -->
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <select
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="id_of" required>
-                                                                        <!-- Opciones generadas dinámicamente -->
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <input type="hidden"
-                                                                        class="form-control border-0 bg-transparent campoDinamico idcuentacontable_edi"
-                                                                        name="IDCuentaContable">
-                                                                    <input style="font-size: small; width: 40%"
-                                                                        type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico codigoCC_edi"
-                                                                        name="Codigo_CC" required>
-                                                                    <input style="font-size: small;" type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico descripCC_edi"
-                                                                        name="Descripcion_CC">
-                                                                    <button type="button" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalCuentasCont2"
-                                                                        class="btn btn-sm btn-outline-primary openModalBtn_4">
-                                                                        <i class="bi bi-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="Comprobante">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="detalles">
-                                                                </div>
-                                                            </td>
-                                                            <td class="columna-hidden">
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="MontoPago" readonly>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="Debe" required>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-sm">
-                                                                    <input type="text"
-                                                                        class="form-control border-0 bg-transparent campoDinamico"
-                                                                        name="Haber">
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-primary border-0 agregarFila">
-                                                                        <i class="bi bi-plus-square"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-outline-danger border-0 eliminarFila"
-                                                                        hidden>
-                                                                        <i class="bi bi-trash3"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <!-- acá termina la fila de edicion -->
-                                                    </tbody>
-                                                </table>
-                                                <!-- Acá termina la tabla -->
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                            id="Haber_2" name="Haber"
+                                                                            value="<?php echo isset($haber_2_value) ? $haber_2_value : ''; ?>"
+                                                                            oninput="formatNumber('Haber_2')">
+                                                                    </div>
+                                                                </td>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent"
+                                                                            id="cheques_che_id_2" name="cheques_che_id">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-primary border-0 agregarFila">
+                                                                            <i class="bi bi-plus-square"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger border-0 eliminarFila"
+                                                                            hidden>
+                                                                            <i class="bi bi-trash3"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- Fila destinada a la edicion -->
+                                                            <tr id="filaEdicion" hidden>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm  ">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            name="IDNum_Asi_Deta">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            id="id_pro_din" name="id_pro">
+                                                                            <!-- Opciones generadas dinámicamente -->
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="id_ff">
+                                                                            <!-- Opciones generadas dinámicamente -->
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <select
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="id_of">
+                                                                            <!-- Opciones generadas dinámicamente -->
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <input type="hidden"
+                                                                            class="form-control border-0 bg-transparent campoDinamico idcuentacontable_edi"
+                                                                            name="IDCuentaContable">
+                                                                        <input style="font-size: small; width: 40%"
+                                                                            type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico codigoCC_edi"
+                                                                            name="Codigo_CC">
+                                                                        <input style="font-size: small;" type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico descripCC_edi"
+                                                                            name="Descripcion_CC">
+                                                                        <button type="button" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCuentasCont2"
+                                                                            class="btn btn-sm btn-outline-primary openModalBtn_4">
+                                                                            <i class="bi bi-search"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="Comprobante">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="detalles">
+                                                                    </div>
+                                                                </td>
+                                                                <td class="columna-hidden">
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="MontoPago" readonly>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="Debe">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-sm">
+                                                                        <input type="text"
+                                                                            class="form-control border-0 bg-transparent campoDinamico"
+                                                                            name="Haber">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-primary border-0 agregarFila">
+                                                                            <i class="bi bi-plus-square"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-outline-danger border-0 eliminarFila"
+                                                                            hidden>
+                                                                            <i class="bi bi-trash3"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- acá termina la fila de edicion -->
+                                                        </tbody>
+                                                    </table>
+                                                    <!-- Acá termina la tabla -->
 
-                                                <!-- Tabla del debe y haber diferencia -->
-                                                <table id="miTabla2"
-                                                    class="table table-bordered table-sm rounded-3 mt-4">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Debe</th>
-                                                            <th>Haber</th>
-                                                            <th>Diferencia</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent celda-debe"
-                                                                    readonly>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent celda-haber"
-                                                                    readonly>
-                                                            </td>
-                                                            <td>
-                                                                <input type="text" id="diferencia"
-                                                                    class="form-control border-0 bg-transparent celda-diferencia"
-                                                                    value=0 readonly>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                    <!-- Tabla del debe y haber diferencia -->
+                                                    <table id="miTabla2"
+                                                        class="table table-bordered table-sm rounded-3 mt-4 text-center">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Debe</th>
+                                                                <th>Haber</th>
+                                                                <th>Diferencia</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="DebeC"
+                                                                        class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                        disabled>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="HaberC"
+                                                                        class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                        disabled>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="diferencia"
+                                                                        class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                        value=0 disabled>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- Botones guardar y cancelar -->
-                                <div class="container-fluid mt-3 mb-3">
-                                    <div class="col-md-12 d-flex flex-row justify-content-center">
-                                        <button style="margin-right: 8px;" type="submit"
-                                            class="btn btn-success "><span
-                                                class="fa fa-save"></span>Guardar</button>
-                                        <button type="button" class="btn btn-danger ml-3"
-                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
-                                            <i class="fa fa-remove"></i> Cancelar
-                                        </button>
+                                    <!-- Botones guardar y cancelar -->
+                                    <div class="container-fluid mt-3 mb-3">
+                                        <div class="col-md-12 d-flex flex-row justify-content-center">
+                                            <button style="margin-right: 8px;" type="submit"
+                                                class="btn btn-success "><span
+                                                    class="fa fa-save"></span>Guardar</button>
+                                            <button type="button" class="btn btn-primary ml-3" onclick=verDatos()>
+                                                <i class="fa fa-remove"></i> mirar datos
+                                            </button>
+                                            <button type="button" class="btn btn-danger ml-3"
+                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
+                                                <i class="fa fa-remove"></i> Cancelar
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
     </main>
 
     <!-- Modal Proveedores con boostrap -->
-    <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
-        aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal fade mi-modal" id="modal_proveedores" tabindex="-1" aria-labelledby="ModalProveedores"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
             <div class="modal-content">
                 <div class="modal-header">
@@ -612,7 +653,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($proveedores as $index => $proveedor): ?>
+                            <?php foreach ($proveedoresALL as $index => $proveedor): ?>
                             <tr class="list-item"
                                 onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
                                 data-bs-dismiss="modal">
@@ -798,6 +839,31 @@
     }
     </script>
 
+    <!-- Seleccionar un Proveedor -->
+    <script>
+    function selectProveedor(ruc, razonSocial) {
+        document.getElementById('ruc').value = ruc;
+        document.getElementById('razon_social').value = razonSocial;
+        //document.getElementById('direccion').value = direccion;
+    }
+    </script>
+
+    <!-- Script encargado de las tablas de proveedores -->
+    <script>
+    $(document).ready(function() {
+        $('#TablaProveedores').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
+        });
+    });
+    </script>
+
 
     <!-- Script para las tablas de lo modales de cuentas contables -->
     <script>
@@ -865,6 +931,7 @@
 
             // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
             nuevaFila.find(".eliminarFila").removeAttr('hidden');
+            nuevaFila.removeAttr('hidden');
 
             // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
             nuevaFila.find("[id]").removeAttr('id');
@@ -995,14 +1062,11 @@
     }
     </script>
 
-    <!-- Envio de formulario principal -->
     <script>
-    $("#formularioPrincipal").on("submit", function() {
-
+    function verDatos() {
         //datos que no son de la tabla dinamica
         var datosFormulario = {
-            IDNum_Asi: <?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>,
-            IDNum_Asi_Deta: $("#IDNum_Asi_Deta").val(),
+            IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
             op: $("#op").val(),
             ruc: $("#ruc").val(),
             num_asi: $("#num_asi").val(),
@@ -1014,72 +1078,95 @@
             tipo_presu: $("#tipo_presupuesto").val(),
             nro_exp: $("#nro_exp").val(),
             total: $("#total").val(),
-            MontoPago: $("#MontoPago").val(),
-            id_pro: $("#id_pro").val(),
-            id_ff: $("#id_ff").val(),
-            id_of: $("#id_of").val(),
-            IDCuentaContable: $("#idcuentacontable").val(),
-            comprobante: $("#comprobante").val(),
-            Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-            Haber: $("#Haber").val(),
-            cheques_che_id: $("#cheques_che_id").val(),
-            detalles: $("#detalles").val(),
-
         };
 
+        var filas = [];
+        $("#miTabla tbody tr:visible").each(function() {
+            var fila = {};
+
+            // Itera sobre los elementos de entrada en la fila
+            $(this).find('input, select').each(function() {
+                var nombreCampo = $(this).attr('name');
+                var valorCampo = $(this).val();
+
+                if (nombreCampo === 'Debe' || nombreCampo === 'Haber') {
+                    valorCampo = valorCampo.replace(/[^\d.-]/g, '');
+                }
+                fila[nombreCampo] = valorCampo;
+            });
+            fila['Asi_Deta_NULL'] = !('IDNum_Asi_Deta' in fila);
+            filas.push(fila);
+        });
+
+
+        // Combinar datos del formulario principal y de las filas dinámicas
+        var datosCompletos = {
+            datosFormulario: datosFormulario,
+            filas: filas,
+        };
+        console.log('Datos de filas: ', JSON.stringify(filas, null, 2));
+        console.log('Datos Formulario: ', JSON.stringify(datosFormulario, null, 2));
+
+    }
+    </script>
+
+    <!-- Envio de formulario principal -->
+    <script>
+    $("#formularioPrincipal").on("submit", function() {
+
+        //validacion de los campos dianmicos para evitar conflictos a la hora de enviar el form
+        if ($("#filaEdicion").is(":visible")) {
+            var id_pro = $("select[name='id_pro']").val();
+            var id_ff = $("select[name='id_ff']").val();
+            var id_of = $("select[name='id_of']").val();
+            var Debe = $("select[name='Debe']").val();
+            var Codigo_CC = $("select[name='Codigo_CC']").val();
+
+            // Lógica de validación
+            if (id_pro === "" || id_ff === "" || id_of === "" || Debe === "" || Codigo_CC === "") {
+                alert("Por favor, complete todos los campos obligatorios.");
+                e.preventDefault(); // Detener el envío del formulario si no pasa la validación
+            }
+        }
+
+        //datos que no son de la tabla dinamica
+        var datosFormulario = {
+            IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
+            op: $("#op").val(),
+            ruc: $("#ruc").val(),
+            num_asi: $("#num_asi").val(),
+            contabilidad: $("#razon_social").val(),
+            concepto: $("#concepto").val(),
+            fecha: $("#fecha").val(),
+            pedmat: $("#pedi_matricula").val(),
+            modalidad: $("#modalidad").val(),
+            tipo_presu: $("#tipo_presupuesto").val(),
+            nro_exp: $("#nro_exp").val(),
+            total: $("#total").val(),
+        };
 
         // variable para saber si el debe es igual a haber
         let sumahaber = 0;
 
         var filas = [];
 
-        $("#miTabla tbody tr:gt(0)").each(function() {
-            // Obtenemos el valor de IDNum_Asi_Deta para su verificacion
-            var IDNum_Asi_Deta = $(this).find("select[name='IDNum_Asi_Deta_2']").val();
+        $("#miTabla tbody tr:visible").each(function() {
+            var fila = {};
 
-            // Comprobamos si IDNum_Asi_Deta es null si es true entonces el usuario agrego una nueva fila a la tabla de edicion
-            var Asi_Deta_NULL = (IDNum_Asi_Deta === null);
+            // Itera sobre los elementos de entrada en la fila
+            $(this).find('input, select').each(function() {
+                var nombreCampo = $(this).attr('name');
+                var valorCampo = $(this).val();
 
-            // Crea la fila
-            var fila = {
-                IDNum_Asi_Deta: IDNum_Asi_Deta,
-                id_pro: $(this).find("select[name='id_pro_2']").val(),
-                id_ff: $(this).find("select[name='id_ff_2']").val(),
-                id_of: $(this).find("select[name='id_of_2']").val(),
-                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                detalles: $(this).find("input[name='detalles_2']").val(),
-                comprobante: $(this).find("input[name='comprobante_2']").val(),
-                Debe: $(this).find("input[name='Debe_2']").val(),
-                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                Asi_Deta_NULL: Asi_Deta_NULL // Agrega la variable booleana a la fila
-            };
+                if (nombreCampo === 'Debe' || nombreCampo === 'Haber') {
+                    valorCampo = valorCampo.replace(/[^\d.-]/g, '');
+                }
+                fila[nombreCampo] = valorCampo;
+            });
+            fila['Asi_Deta_NULL'] = !('IDNum_Asi_Deta' in fila);
+            filas.push(fila);
         });
 
-        //Comprobamos que nuestro array sea mayor a 2 así no enviamos datos null al pedo
-        var camposDinamicos =
-            <?php echo json_encode($asiento[0]['camposDinamicos']); ?>; // datos de los asientos
-        // si camposDinamicos es mayor a 2 objetos entonces agregamos los datos para enviar
-        if (camposDinamicos.length > 2) {
-            $("#filaEdicion").each(function() {
-                // Datos de la fila dinamica
-                var fila = {
-                    IDNum_Asi_Deta: $(this).find("select[name='IDNum_Asi_Deta']").val(),
-                    id_pro: $(this).find("select[name='id_pro']").val(),
-                    id_ff: $(this).find("select[name='id_ff']").val(),
-                    id_of: $(this).find("select[name='id_of']").val(),
-                    IDCuentaContable: $(this).find("input[name='IDCuentaContable']").val(),
-                    detalles: $(this).find("input[name='detalles']").val(),
-                    comprobante: $(this).find("input[name='Comprobante']").val(),
-                    Debe: $(this).find("input[name='Debe']").val(),
-                    Haber: $(this).find("input[name='Haber']").val().replace(/[^\d.-]/g, ''),
-                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                };
-
-                // Agrega la fila al array de filas
-                filas.push(fila);
-            });
-        }
 
         // Combinar datos del formulario principal y de las filas dinámicas
         var datosCompletos = {
@@ -1087,24 +1174,24 @@
             filas: filas,
         };
 
+        console.log('Todos los datos: ', datosCompletos);
+
         var diferenciaActualizada = parseFloat($("#diferencia").val());
 
         if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
             $.ajax({
-                url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
+                url: '<?php echo base_url("obligaciones/Diario_obligaciones/update"); ?>',
                 type: 'POST',
                 data: {
                     datos: datosCompletos
                 },
-                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
                 success: function(response) {
                     console.log(response);
-                    if (response.includes('Datos guardados exitosamente.')) {
-                        alert('Datos guardados exitosamente.');
-                        // ... (código adicional si es necesario)
+                    if (response.success) {
+                        alert(response.message);
+                        window.location.href = response.redirect_url;
                     } else {
-                        alert('Error al guardar los datos: ' + response);
-                        console.log(response);
+                        window.location.href ='<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
                     }
                 },
                 error: function(xhr, status, error) {
@@ -1142,8 +1229,6 @@
             // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
             var valorDebe = $(this).find("input[name*='Debe']").val();
             var valorHaber = $(this).find("input[name*='Haber']").val();
-
-            console.log('Valor haber normal: ', valorHaber);
 
             // Realizar reemplazo por separado
             valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
