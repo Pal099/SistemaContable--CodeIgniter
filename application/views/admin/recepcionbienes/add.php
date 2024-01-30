@@ -2,11 +2,9 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
+  <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
   <!-- Estilos de DataTable de jquery -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-  <!-- estilos del css -->
-  <link href="<?php echo base_url(); ?>/assets/css/style_presupuesto.css" rel="stylesheet">
 
 </head>
 
@@ -73,7 +71,7 @@
                                   </option>
                                 <?php endforeach; ?>
                               </select>
-                              <button type="button" data-bs-toggle="modal" data-bs-target="#modalProveedores"
+                              <button type="button" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores"
                                 class="btn btn-primary">
                                 <i class="bi bi-search"> </i>
                               </button>
@@ -214,169 +212,190 @@
       </section>
     </div>
 
+    <!-- Modal Proveedores con boostrap -->
+    <!-- Modal Proveedores con boostrap -->
+    <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
+      aria-labelledby="ModalCuentasContables" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Lista de Proveedores</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table id="TablaProveedores" class="table table-hover table-sm">
+              <thead>
+                <tr>
+                  <th class="columna-hidden"></th>
+                  <th>#</th>
+                  <th>Ruc</th>
+                  <th>Razón Social</th>
+                  <th>Dirección</th>
+                  <th>Teléfono</th>
+                  <th>Email</th>
+                  <th>Observación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($proveedores as $index => $proveedor): ?>
+                  <tr class="list-item"
+                    onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->razon_social ?>')"
+                    data-bs-dismiss="modal">
+                    <td class="columna-hidden">
+                      <?= $proveedor->id ?>
+                    </td>
+                    <td>
+                      <?= $index + 1 ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->ruc ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->razon_social ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->direccion ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->telefono ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->email ?>
+                    </td>
+                    <td>
+                      <?= $proveedor->observacion ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectProveedor(razonSocial) {
+        document.getElementById('#id_proveedor').value = razonSocial;
+
+      }
+    </script>
+
+    <div class="modal fade mi-modal" id="modalComprobantes" tabindex="-1" aria-labelledby="modalListComprobantes"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Lista de Comrpobantes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <table id="TablaComprobantes" class="table table-hover table-sm">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Proveedor</th>
+                  <th>Monto</th>
+                  <th>Obs.</th>
+                  <th class="columna-hidden">ff</th>
+                  <th class="columna-hidden">str</th>
+                  <th class="columna-hidden">op</th>
+                  <th class="columna-hidden">obl</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($comprobantes as $index => $comp): ?>
+                  <tr class="list-item"
+                    onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>')"
+                    data-bs-dismiss="modal">
+                    <td>
+                      <?= $comp->IDComprobanteGasto ?>
+                    </td>
+                    <td>
+                      <?= $comp->fecha ?>
+                    </td>
+                    <td>
+                      <?= $comp->idproveedor ?>
+                    </td>
+                    <td>
+                      <?= $comp->monto ?>
+                    </td>
+                    <td>
+                      <?= $comp->concepto ?>
+                    </td>
+                    <td class="columna-hidden">
+                      <?= $comp->id_ff ?>
+                    </td>
+                    <td class="columna-hidden">
+                      <?= $comp->obl ?>
+                    </td>
+                    <td class="columna-hidden">
+                      <?= $comp->str ?>
+                    </td>
+                    <td class="columna-hidden">
+                      <?= $comp->op ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function selectComp(IDComprobanteGasto, fecha, concepto, monto, obl, str, op) {
+        document.getElementById('idcomprobante').value = IDComprobanteGasto;
+        document.getElementById('fechaT').value = fecha;
+        document.getElementById('concepto').value = concepto;
+        document.getElementById('monto').value = monto;
+        document.getElementById('obl').value = obl;
+        document.getElementById('str').value = str;
+        document.getElementById('op').value = op;
+
+      }
+    </script>
+
+    <!-- Script encargado de las tablas de proveedores -->
+    <script>
+      $(document).ready(function () {
+        $('#TablaProveedores').DataTable({
+          paging: true,
+          pageLength: 10,
+          lengthChange: true,
+          searching: true,
+          info: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+          }
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('#TablaComprobantes').DataTable({
+          paging: true,
+          pageLength: 10,
+          lengthChange: true,
+          searching: true,
+          info: true,
+          language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+          }
+        });
+      });
+    </script>
+
+
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+
   </main>
-  <div class="modal fade mi-modal" id="modalProveedores" tabindex="-1" aria-labelledby="modalListProveedores"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Lista de Proveedores</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <table id="TablaProveedores" class="table table-hover table-sm">
-            <thead>
-              <tr>
-                <th class="columna-hidden">ID</th>
-                <th>#</th>
-                <th>Ruc</th>
-                <th>Razón Social</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($proveedores as $index => $proveedor): ?>
-                <tr class="list-item"
-                  onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->razon_social ?>')"
-                  data-bs-dismiss="modal">
-                  <td class="columna-hidden">
-                    <?= $proveedor->id ?>
-                  </td>
-                  <td>
-                    <?= $index + 1 ?>
-                  </td>
-                  <td>
-                    <?= $proveedor->ruc ?>
-                  </td>
-                  <td>
-                    <?= $proveedor->razon_social ?>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
 
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function selectProveedor(razonSocial) {
-      document.getElementById('#id_proveedor').value = razonSocial;
-
-    }
-  </script>
-
-  <div class="modal fade mi-modal" id="modalComprobantes" tabindex="-1" aria-labelledby="modalListComprobantes"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Lista de Comrpobantes</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <table id="TablaComprobantes" class="table table-hover table-sm">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Proveedor</th>
-                <th>Monto</th>
-                <th>Obs.</th>
-                <th class="columna-hidden">ff</th>
-                <th class="columna-hidden">str</th>
-                <th class="columna-hidden">op</th>
-                <th class="columna-hidden">obl</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php foreach ($comprobantes as $index => $comp): ?>
-                <tr class="list-item"
-                  onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>')"
-                  data-bs-dismiss="modal">
-                  <td>
-                    <?= $comp->IDComprobanteGasto ?>
-                  </td>
-                  <td>
-                    <?= $comp->fecha ?>
-                  </td>
-                  <td>
-                    <?= $comp->idproveedor ?>
-                  </td>
-                  <td>
-                    <?= $comp->monto ?>
-                  </td>
-                  <td>
-                    <?= $comp->concepto ?>
-                  </td>
-                  <td class="columna-hidden">
-                    <?= $comp->id_ff ?>
-                  </td>
-                  <td class="columna-hidden">
-                    <?= $comp->obl ?>
-                  </td>
-                  <td class="columna-hidden">
-                    <?= $comp->str ?>
-                  </td>
-                  <td class="columna-hidden">
-                    <?= $comp->op ?>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function selectComp(IDComprobanteGasto, fecha, concepto, monto, obl, str, op) {
-      document.getElementById('idcomprobante').value = IDComprobanteGasto;
-      document.getElementById('fechaT').value = fecha;
-      document.getElementById('concepto').value = concepto;
-      document.getElementById('monto').value = monto;
-      document.getElementById('obl').value = obl;
-      document.getElementById('str').value = str;
-      document.getElementById('op').value = op;
-
-    }
-  </script>
-
-  <script>
-    $(document).ready(function () {
-      $('#TablaProveedores').DataTable({
-        paging: true,
-        pageLength: 10,
-        lengthChange: true,
-        searching: true,
-        info: true,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-        }
-      });
-    });
-  </script>
-
-  <script>
-    $(document).ready(function () {
-      $('#TablaComprobantes').DataTable({
-        paging: true,
-        pageLength: 10,
-        lengthChange: true,
-        searching: true,
-        info: true,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-        }
-      });
-    });
-  </script>
-
-
-  <!-- Script de DataTable de jquery -->
-  <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
 </html>
