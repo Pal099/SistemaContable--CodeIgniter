@@ -55,6 +55,7 @@
                                                         <div class="input-group input-group-sm">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_form" name="id_form" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <option value="1">Obligación</option>
                                                                 <option value="2">Pago</option>
                                                             </select>
@@ -64,6 +65,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent "
                                                                 id="id_pro" name="id_pro">
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($programa as $prog): ?>
                                                                 <option value="<?php echo $prog->id_pro; ?>">
                                                                     <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
@@ -76,6 +78,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_ff" name="id_ff" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($fuente_de_financiamiento as $ff): ?>
                                                                 <option value="<?php echo $ff->id_ff; ?>">
                                                                     <?php echo $ff->codigo . ' - ' . $ff->nombre ; ?>
@@ -88,6 +91,7 @@
                                                         <div class="input-group input-group-sm ">
                                                             <select class="form-control border-0 bg-transparent"
                                                                 id="id_of" name="id_of" required>
+                                                                <option value="-1">Sin Filtro</option>
                                                                 <?php foreach ($origen_de_financiamiento as $of): ?>
                                                                 <option value="<?php echo $of->id_of; ?>">
                                                                     <?php echo $of->codigo . ' - ' . $of->nombre ; ?>
@@ -127,7 +131,7 @@
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
 
-                                        <table class="table table-bordered" id="TablaLibMay">
+                                        <table class="table table-bordered" id="TablaPresupuesto">
                                             <thead>
                                                 <tr>
                                                     <th>Fecha</th>
@@ -141,7 +145,7 @@
                                                     <th>Cuenta Contable</th>
                                                 </tr>
                                             </thead>
-                                            <twbody>
+                                            <tbody>
                                                 <?php if(!empty($entradas)): ?>
                                                 <?php foreach ($entradas as $entrada): ?>
                                                 <tr>
@@ -154,13 +158,13 @@
                                                     <td><?php echo $entrada['Haber']; ?></td>
                                                     <td><?php echo $entrada['Saldo']; ?></td>
                                                     <td><?php echo $entrada['Codigo_CC']; ?> -
-                                                        <?php echo $entrada['Descripcion_CC']; ?>
+                                                    <?php echo $entrada['Descripcion_CC']; ?>
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                                 <?php else: ?>
                                                 <tr>
-                                                    <td colspan="10 " class="text-center">No se encontraron registros.
+                                                    <td colspan="9" class="text-center">No se encontraron registros.
                                                     </td>
                                                 </tr>
                                                 <?php endif; ?>
@@ -236,24 +240,11 @@
         });
     });
     </script>
-    <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaLibMay').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
-        });
-    });
-    </script>
-    <!-- Script de DataTable de jquery -->
-            <!-- Script del pdf -->
-            <script>
-                async function generarPDF() {
+
+  
+        <!-- Script del pdf -->
+        <script>
+        async function generarPDF() {
             const {
                 jsPDF
             } = window.jspdf;
@@ -280,7 +271,7 @@
                     mm = '0' + mm;
                 }
                 // Concatenamos la fecha para el nombre del archivo
-                var nombreArchivo = 'Libro_Mayor_' + dd + '-' + mm + '-' + yyyy + '.pdf';
+                var nombreArchivo = 'Balance_General_' + dd + '-' + mm + '-' + yyyy + '.pdf';
 
                 // Acá agregamos la fecha en la esquina superior derecha del documento
                 doc.setFontSize(9);
@@ -485,6 +476,115 @@
             }
         }
         </script>
+            <!-- Script de la tabla de presupuesto -->
+  <script>
+    $(document).ready(function() {
+      var table1 = $('#TablaPresupuesto').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+          '<"row"<"col-sm-12"t>>' +
+          '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        lengthMenu: [
+          [10, 25, 50, -1],
+          ['10', '25', '50', 'Mostrar Todo']
+        ],
+        buttons: [{
+            extend: 'pageLength',
+            className: 'btn bg-primary border border-0'
+          },
+          {
+            extend: 'copy',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-copy"></i> Copiar',
+          },
+          {
+            extend: 'print',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-printer"></i> Imprimir',
+          },
+          {
+            extend: 'excel',
+            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'pdf',
+            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+            className: 'btn btn-danger',
+                        action: function(e, dt, node, config) {
+                            generarPDF();
+                        }
+          }
+        ],
+        searching: true,
+        info: true,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        },
+      });
+    });
+  </script>
+    <script>
+    $(document).ready(function() {
+        var table1 = $('#TablaCuentaCont1').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
+        });
+    });
+    </script>
+    <!-- Script de DataTable de jquery -->
+    <!-- Script de la tabla de presupuesto -->
+  <script>
+    $(document).ready(function() {
+      var table1 = $('#TablaPresupuesto').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+          '<"row"<"col-sm-12"t>>' +
+          '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+        lengthMenu: [
+          [10, 25, 50, -1],
+          ['10', '25', '50', 'Mostrar Todo']
+        ],
+        buttons: [{
+            extend: 'pageLength',
+            className: 'btn bg-primary border border-0'
+          },
+          {
+            extend: 'copy',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-copy"></i> Copiar',
+          },
+          {
+            extend: 'print',
+            className: 'btn bg-primary border border-0',
+            text: '<i class="bi bi-printer"></i> Imprimir',
+          },
+          {
+            extend: 'excel',
+            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+            className: 'btn btn-success',
+          },
+          {
+            extend: 'pdf',
+            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+            className: 'btn btn-danger',
+                        action: function(e, dt, node, config) {
+                            generarPDF();
+                        }
+          }
+        ],
+        searching: true,
+        info: true,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        },
+      });
+    });
+  </script>
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
         <!-- Script de DataTable button -->
@@ -495,5 +595,4 @@
         <script src="<?php echo base_url(); ?>/assets/DataTables/jszip/dist/jszip.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-        <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </main>
