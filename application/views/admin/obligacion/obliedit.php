@@ -946,7 +946,7 @@
                 if (datos[nombreCampo]) {
                     campo.val(datos[nombreCampo]);
 
-                    // Aplicar la función formatNumber solo al campo "Haber"
+                    // Aplicar la función formatNumber al campo "Haber" y "Debe"
                     if (nombreCampo === 'Haber' || nombreCampo === 'Debe') {
                         formatNumber(campo);
                         campo.on('input', function() {
@@ -1041,11 +1041,27 @@
             // Agregar la nueva fila al cuerpo de la tabla
             $("#miTabla tbody").append(nuevaFila);
         });
+        //array declarado de forma global para poder acceder después en el envio de formulario
+        window.idNumAsiDetaEliminados = [];
 
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function(e) {
             e.preventDefault();
+
+            // Obtener el valor de IDNum_Asi_Deta antes de eliminar la fila
+            var idNumAsiDeta = $(this).closest("tr").find("input[name='IDNum_Asi_Deta']").val();
+
+            if (idNumAsiDeta) {
+                // Guardar el IDNum_Asi_Deta en el array global
+                window.idNumAsiDetaEliminados.push(idNumAsiDeta);
+            }
+
+            // Eliminar la fila
             $(this).closest("tr").remove();
+
+            // Mostrar en consola los IDNum_Asi_Deta eliminados hasta ahora
+            console.log("IDNum_Asi_Deta eliminados: ", window.idNumAsiDetaEliminados);
+            calcularTotalesYDiferencia();
         });
 
     });
@@ -1103,10 +1119,10 @@
         var datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
+            filasEliminadas: window.idNumAsiDetaEliminados,
         };
-        console.log('Datos de filas: ', JSON.stringify(filas, null, 2));
-        console.log('Datos Formulario: ', JSON.stringify(datosFormulario, null, 2));
 
+        console.log('Filas eliminadas: ', JSON.stringify(datosCompletos, null, 2));
     }
     </script>
 
@@ -1172,6 +1188,7 @@
         var datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
+            filasEliminadas: window.idNumAsiDetaEliminados,
         };
 
         console.log('Todos los datos: ', datosCompletos);
@@ -1191,7 +1208,8 @@
                         alert(response.message);
                         window.location.href = response.redirect_url;
                     } else {
-                        window.location.href ='<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
+                        window.location.href =
+                            '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
                     }
                 },
                 error: function(xhr, status, error) {
