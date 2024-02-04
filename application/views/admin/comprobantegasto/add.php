@@ -159,8 +159,10 @@
                                                             <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Bien/Servicio"required>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-primary" onclick="buscarRubros()">
-                                                                <i class="bi bi-search"></i> Buscar
+                                                        <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalBienes"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar</i>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -291,17 +293,37 @@
                             <th>Precio Ref</th>
                         </tr>
                     </thead>
-                    <tbody id="rubrosTabla">
-                        <tr>
-                            <td>1</td>
-                            <td>ABC123</td>
-                            <td>124</td>
-                            <td>Descripción 1</td>
-                            <td>Cat001</td>
-                            <td>Descripción de Catálogo 1</td>
-                            <td>$100.00</td>
-                        </tr>
-
+                    <tbody>
+                        <?php foreach ($bienes_servicios as $index => $bienes): ?>
+                            <tr class="list-item"
+                            onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>')"
+                            data-bs-dismiss="modal">
+                                <td class="columna-hidden">
+                                   <?= $bienes->IDbienservicio ?>
+                                </td>
+                                <td>
+                                    <?= $index +1 ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->codigo ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->rubro ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->descripcion ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->codcatalogo ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->descripcioncatalogo ?>
+                                </td>
+                                <td>
+                                    <?= $bienes->precioref ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -374,18 +396,7 @@ function buscarRubros() {
 
     // Ejemplo de cómo podrías llenar la tabla con datos estáticos:
     var rubrosTabla = document.getElementById('rubrosTabla');
-    rubrosTabla.innerHTML = `
-        <tr>
-            <td>1</td>
-            <td>ABC123</td>
-            <td>124</td>
-            <td>Descripción 1</td>
-            <td>Cat001</td>
-            <td>Descripción de Catálogo 1</td>
-            <td>$100.00</td>
-        </tr>
-
-    `;
+   
 
     // Mostrar el modal de Bienes/Servicios
     var modalBienes = new bootstrap.Modal(document.getElementById('modalBienes'));
@@ -410,6 +421,12 @@ function buscarRubros() {
 
         <script>
         function selectProveedor(razonSocial) {
+            document.getElementById('idproveedor').value = razonSocial;
+
+        }
+        </script>
+                <script>
+        function selectBien(razonSocial) {
             document.getElementById('idproveedor').value = razonSocial;
 
         }

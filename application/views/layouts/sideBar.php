@@ -147,6 +147,11 @@
                        <i class="bi bi-circle"></i><span>Recepcion de Bienes</span>
                    </a>
                </li>
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/bienes_servicios">
+                       <i class="bi bi-circle"></i><span>Bienes y/o servicios</span>
+                   </a>
+               </li>
            </ul>
        </li>
 
