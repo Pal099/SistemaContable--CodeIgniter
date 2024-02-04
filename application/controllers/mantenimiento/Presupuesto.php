@@ -49,7 +49,7 @@ class Presupuesto extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
-	public function pdfs()
+	public function pdfs_presu()
 	{
 		$this->load->view("fpdf_presu");
 

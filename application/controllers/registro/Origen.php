@@ -12,10 +12,6 @@ class Origen extends CI_Controller {
 		$this->load->model("Usuarios_model");
 	}
 
-	protected function middleware()
-    {
-        return ['Sesion'];
-    }
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()
@@ -36,15 +32,12 @@ class Origen extends CI_Controller {
 			'origenes' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 		);
 	
-		if (empty($data['origenes'])) {
-			// Manejar el caso donde no hay datos
-			echo "No hay datos para mostrar.";
-		} else {
+		
 			$this->load->view("layouts/header");
 			$this->load->view("layouts/sideBar");
 			$this->load->view("admin/origen/listorigen", $data);
 			$this->load->view("layouts/footer");
-		}
+		
 	}
 		
     public function add(){
