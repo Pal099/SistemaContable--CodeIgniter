@@ -614,9 +614,6 @@
                                             <button style="margin-right: 8px;" type="submit"
                                                 class="btn btn-success "><span
                                                     class="fa fa-save"></span>Guardar</button>
-                                            <button type="button" class="btn btn-primary ml-3" onclick=verDatos()>
-                                                <i class="fa fa-remove"></i> mirar datos
-                                            </button>
                                             <button type="button" class="btn btn-danger ml-3"
                                                 onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
                                                 <i class="fa fa-remove"></i> Cancelar
@@ -1078,6 +1075,7 @@
     }
     </script>
 
+    <!-- Esta funcion simplemente sirve para el desarrolador -->
     <script>
     function verDatos() {
         //datos que no son de la tabla dinamica
