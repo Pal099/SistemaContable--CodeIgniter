@@ -144,6 +144,11 @@
             </ul>
         </li>
 
+        <li class="nav-item">
+            <a href="<?php echo base_url(); ?>funcionario/funcionario">
+                <i class="bi bi-circle"></i><span>Funcionario</span>
+            </a>
+        </li>
 
 
         <li class="nav-item">

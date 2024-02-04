@@ -13,6 +13,7 @@ class Recepcion_Bienes extends MY_Controller {
 		$this->load->model("Proveedores_model");
 		$this->load->model("Unidad_academica_model");
 		$this->load->model("Comprobante_Gasto_model");
+		$this->load->model("Funcionarios_model");
 	}
 
 	
@@ -45,6 +46,8 @@ class Recepcion_Bienes extends MY_Controller {
 			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu),
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+			'funcionarios' => $this->Funcionarios_model->getFuncionarios($id_uni_respon_usu),
+			'dependencia' => $this->Funcionarios_model->getDependencias(),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -59,15 +62,18 @@ class Recepcion_Bienes extends MY_Controller {
 		$nro = $this->input->post("nro");
 		$fecha = $this->input->post("fecha");
 		$plazo = $this->input->post("plazo");
-		$id_proveedor = $this->input->post("id_proveedor");
+		$id_proveedor = $this->input->post("id_Proveedor");
 		$monto = $this->input->post("monto");
 		$observacion = $this->input->post("observacion");
+		$unidad = $this->input->post("id_Unidad");
+		$depedencia = $this->input->post("id_Dependencia");
+		$funcionario = $this->input->post("Funcionario");
+
+
 		$this->form_validation->set_rules("nro", "Nro", "required[recepcion_bienes.nro]");
-		
-		$this->form_validation->set_rules("plazo","Plazo","required[recepcion_bienes.plazo]");
-		$this->form_validation->set_rules("id_proveedor","Proveedor","required[recepcion_bienes.id_proveedor]");
+
 		$this->form_validation->set_rules("monto","Monto","required[recepcion_bienes.monto]");
-		$this->form_validation->set_rules("observacion","Observacion","required[recepcion_bienes.observacion]");
+		
 		
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
