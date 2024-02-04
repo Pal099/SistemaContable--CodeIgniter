@@ -9,6 +9,7 @@ class Principal extends CI_Controller
         //	$this->permisos= $this->backend_lib->control();
         $this->load->model("Presupuesto_model");
         $this->load->model('Usuarios_model');   
+        $this->load->model('Principal_model');   
         $this->load->model('CuentaContable_model');
     }
 
@@ -29,13 +30,18 @@ class Principal extends CI_Controller
 		$data  = array(
 			'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
+            'count_obligados_mes' => $this->Principal_model->getCountObligadosMes($id_uni_respon_usu),
 		);
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
         $this->load->view("admin/principal", $data);
         $this->load->view("layouts/footer");
+
+
     }
+
+
 
 
 

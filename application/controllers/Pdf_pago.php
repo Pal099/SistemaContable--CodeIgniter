@@ -1,26 +1,26 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pdf extends CI_Controller {
+class Pdf_pago extends CI_Controller {
 
     public function index()
     {
         $this->load->model("Pdf_model"); // Load the model firsta
         $datos['titulo'] = 'Reporte de Obligaciones';
-        $datos['ultimosDatos'] = $this->Pdf_model->obtenerDatos();
+        $datos['ultimosDatos'] = $this->Pdf_model->obtenerDatos_pago();
         $this->load->view('layouts/header');
         $this->load->view('fpdf', $datos);
         
         //$this->load->view('layouts/footer');
     }
 
-    public function generarPDFS()
+    public function pdf_pago_obli()
     {
         require_once APPPATH . 'third_party/fpdf/fpdf.php';
     
         $this->load->model("Pdf_model"); // Load the model first
         $pdf = new FPDF();
-        $datosProveedor = $this->Pdf_model->obtenerDatos();
+        $datosProveedor = $this->Pdf_model->obtenerDatos_pago();
         $pdf->AddPage('P','legal',0);
        $pdf->SetFont('Arial','B',12);    
        $textypos = 5;
@@ -106,7 +106,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
 
     //---------------//-------------------------------//-----------------
 
-       $datosProveedor = $this->Pdf_model->obtenerDatos();
+       $datosProveedor = $this->Pdf_model->obtenerDatos_pago();
 
        // Verifica si hay datos en el array antes de intentar acceder a ellos
        if (!empty($datosProveedor)) {
@@ -125,7 +125,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(40);
            $pdf->setX(31);
-           $pdf->Cell(5, $textypos, $datosProveedor[0]['proveedor']);  // Nombre del proveedor
+           $pdf->Cell(5, $textypos, $datosProveedor['proveedor']);  // Nombre del proveedor
            //------------------//----------------------------------------
 
            $pdf->SetFont('Arial', 'B', 10);
@@ -137,7 +137,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(45);
            $pdf->setX(16);
-           $pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+           $pdf->Cell(5, $textypos, $datosProveedor['ruc']);
            //----------------------//-----------------------------------
 
            $pdf->SetFont('Arial', 'B', 10);
@@ -148,7 +148,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(50);
            $pdf->setX(26);
-           $pdf->Cell(5, $textypos, $datosProveedor[0]['direccion']);     // Direccion del proveedor
+           $pdf->Cell(5, $textypos, $datosProveedor['direccion']);     // Direccion del proveedor
            //----------------------//----------------------------
 
            $pdf->SetFont('Arial', 'B', 10);
@@ -160,7 +160,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(55);
            $pdf->setX(25);
-           $pdf->Cell(5, $textypos, $datosProveedor[0]['telef']);         // Telefono del proveedor
+           $pdf->Cell(5, $textypos, $datosProveedor['telef']);         // Telefono del proveedor
           
            //--------------------//------------------------------------
            $pdf->SetFont('Arial', 'B', 10);
@@ -171,7 +171,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', '', 10);
            $pdf->setY(60);
            $pdf->setX(19);
-           $pdf->Cell(5, $textypos, $datosProveedor[0]['email']);
+           $pdf->Cell(5, $textypos, $datosProveedor['email']);
        } else {
            // Manejo de la situación donde no hay datos del proveedor
            // Puedes agregar un mensaje o realizar alguna acción específica
@@ -197,7 +197,7 @@ $pdf->Cell(5, $textypos, "Orden de Pago Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(5);
 $pdf->setX(188);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['orden_de_pago']);
+$pdf->Cell(5, $textypos, $datosProveedor['orden_de_pago']);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(11);
@@ -207,7 +207,7 @@ $pdf->Cell(5, $textypos, "Fecha de emision:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(16);
 $pdf->setX(153);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['fecha']);
+$pdf->Cell(5, $textypos, $datosProveedor['fecha']);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(22);
@@ -217,7 +217,7 @@ $pdf->Cell(5, $textypos, "RUC:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(22);
 $pdf->setX(163);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(45);
@@ -246,10 +246,15 @@ $pdf->setY(40);
 $pdf->setX(111);
 $pdf->Cell(5, $textypos, "Banco/Egreso:"); //Titulo
 //----------------//------------------------------------
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(40);
-$pdf->setX(137);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+if (isset($datosProveedor['Descripcion'])) {
+    $pdf->SetFont('Arial', '', 10);  // tipo
+    $texto = $datosProveedor['Descripcion'];
+    $pdf->setY(38);
+    $pdf->setX(137);
+    $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+    }
+
 
 //----------------//-------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -257,10 +262,15 @@ $pdf->setY(45);
 $pdf->setX(111);
 $pdf->Cell(5, $textypos, "Cta Cte Nro:"); //Titulo
 //----------------//------------------------------------
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(45);
-$pdf->setX(133);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+if (isset($datosProveedor['Descripcion'])) {
+    $pdf->SetFont('Arial', '', 10);  // tipo
+    $texto = $datosProveedor['Descripcion'];
+    $pdf->setY(43);
+    $pdf->setX(133);
+    $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+    }
+
 
 
 //----------------//-------------------------------------
@@ -269,10 +279,15 @@ $pdf->setY(50);
 $pdf->setX(111);
 $pdf->Cell(5, $textypos, "Cheque(s)/OT:"); //Titulo
 //----------------//------------------------------------
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(50);
-$pdf->setX(136);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+
+if (isset($datosProveedor['Descripcion'])) {
+    $pdf->SetFont('Arial', '', 10);  // tipo
+    $texto = $datosProveedor['Descripcion'];
+    $pdf->setY(48);
+    $pdf->setX(136);
+    $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+    }
+
 
 //----------------//-------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -288,7 +303,7 @@ $pdf->setX(177);
 $pdf->Cell(5, $textypos, "(Menos Retencion)"); //Titulo
 
 //El valor del haber
-$montopagado = $datosProveedor[0]['montopagado'];
+$montopagado = $datosProveedor['montopagado'];
 
 // Calcula el IVA (10%)
 $iva = $montopagado * 0.4;
@@ -308,7 +323,7 @@ $pdf->Cell(5, $textypos, "Cuenta Proveedor:"); //Titulo
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(60);
 $pdf->setX(144);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 
 
@@ -332,7 +347,7 @@ $pdf->Cell(5, $textypos, "Observacion:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(80);
 $pdf->setX(30);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(85);
@@ -342,7 +357,7 @@ $pdf->Cell(5, $textypos, "Datos del comprobante Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(85);
 $pdf->setX(56);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['comprobante']);
+$pdf->Cell(5, $textypos, $datosProveedor['comprobante']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -353,7 +368,7 @@ $pdf->Cell(5, $textypos, "Datos de la recepcion Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(90);
 $pdf->setX(53);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -364,7 +379,7 @@ $pdf->Cell(5, $textypos, "Datos de la obligacion Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(95);
 $pdf->setX(54);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -375,7 +390,7 @@ $pdf->Cell(5, $textypos, "Datos de UOC:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(100);
 $pdf->setX(33);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -386,7 +401,7 @@ $pdf->Cell(5, $textypos, "Tipo:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(80);
 $pdf->setX(105);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -397,7 +412,7 @@ $pdf->Cell(5, $textypos, "Fecha:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(85);
 $pdf->setX(108);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['fecha']);
+$pdf->Cell(5, $textypos, $datosProveedor['fecha']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -408,7 +423,7 @@ $pdf->Cell(5, $textypos, "OBL Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(90);
 $pdf->setX(112);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -419,7 +434,7 @@ $pdf->Cell(5, $textypos, "Contrato:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(95);
 $pdf->setX(112);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -430,7 +445,7 @@ $pdf->Cell(5, $textypos, "Egreso Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(100);
 $pdf->setX(116);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 
 //Tercera columna de datos adjuntos
@@ -444,7 +459,7 @@ $pdf->Cell(5, $textypos, "Fecha:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(80);
 $pdf->setX(162);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['fecha']);
+$pdf->Cell(5, $textypos, $datosProveedor['fecha']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -455,7 +470,7 @@ $pdf->Cell(5, $textypos, "Nota remision Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(85);
 $pdf->setX(183);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -466,7 +481,7 @@ $pdf->Cell(5, $textypos, "OT Nro:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(90);
 $pdf->setX(165);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -477,7 +492,7 @@ $pdf->Cell(5, $textypos, "Monto Adjunto:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(95);
 $pdf->setX(177);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -488,7 +503,7 @@ $pdf->Cell(5, $textypos, "Pago Acumulado:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(100);
 $pdf->setX(182);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor['ruc']);
 
 
 
@@ -523,8 +538,8 @@ $pdf->Cell(5, $textypos, "Tipo");
 if (isset($datosProveedor['tipo'])) {
 $pdf->SetFont('Arial', '', 10);  // tipo
 $texto = $datosProveedor['tipo'];
-$pdf->setY(140);
-$pdf->setX(28);
+$pdf->setY(123);
+$pdf->setX(25);
 $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
 }
 //------------------------//-------------------------------------------------
@@ -537,7 +552,7 @@ $pdf->Cell(5, $textypos, "Programa");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(126);
 $pdf->setX(48);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['codigo_pro']);
+$pdf->Cell(5, $textypos, $datosProveedor['codigo_pro']);
 
 //------------------------//------------------------------------------
 
@@ -553,10 +568,13 @@ $pdf->setY(120);
 $pdf->setX(86);
 $pdf->Cell(5, $textypos, "Rubro");
 
+//Calculo para el objeto del gasto
+
+
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(126);
 $pdf->setX(88);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['id_cc']);
+$pdf->Cell(5, $textypos, $datosProveedor['id_cc']);
 
 //--------------------------//---------------------------------
 
@@ -568,7 +586,7 @@ $pdf->Cell(5, $textypos, "Org.");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(126);
 $pdf->setX(105);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['codigo_of']);
+$pdf->Cell(5, $textypos, $datosProveedor['codigo_of']);
 
 //-----------------------------//---------------------------------
 
@@ -590,10 +608,13 @@ $pdf->setX(134);
 $pdf->Cell(5, $textypos, "Concepto");
 
 
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(126);
-$pdf->setX(132);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+if (isset($datosProveedor['Descripcion'])) {
+    $pdf->SetFont('Arial', '', 10);  // tipo
+    $texto = $datosProveedor['Descripcion'];
+    $pdf->setY(123);
+    $pdf->setX(130);
+    $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+    }
 
 //------------------------//----------------------
 
@@ -602,7 +623,7 @@ $pdf->setY(120);
 $pdf->setX(173);
 $pdf->Cell(5, $textypos, "Importe del Egreso");
 
-$mpago=$datosProveedor[0]['montopagado'];
+$mpago=$datosProveedor['montopagado'];
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(126);
 $pdf->setX(187);
@@ -630,7 +651,7 @@ $pdf->Cell(5, $textypos, "Retenciones aplicadas");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(215);
 $pdf->setX(33);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(215);
@@ -643,7 +664,7 @@ $pdf->Cell(5, $textypos, "Retencion IVA: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(223);
 $pdf->setX(38);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(223);
@@ -656,7 +677,7 @@ $pdf->Cell(5, $textypos, "Retencion Renta: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(231);
 $pdf->setX(42);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(231);
@@ -671,7 +692,7 @@ $pdf->Cell(5, $textypos, "Ret. Ley 2051 0,4%: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(239);
 $pdf->setX(46);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(239);
@@ -685,7 +706,7 @@ $pdf->Cell(5, $textypos, "Retencion Jubilatorio: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(215);
 $pdf->setX(98);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(215);
@@ -701,7 +722,7 @@ $pdf->Cell(5, $textypos, "Anticipo: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(223);
 $pdf->setX(108);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(223);
@@ -715,7 +736,7 @@ $pdf->Cell(5, $textypos, "Fondo Reparo: ");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(231);
 $pdf->setX(119);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['detalle']);
+$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(231);
@@ -725,7 +746,7 @@ $pdf->Cell(5, $textypos, "Multa Incumplimiento: ");
 
 //-----------------------//-------------------------------------------------
 // Obtén el valor del haber
-$montopagado = $datosProveedor[0]['montopagado'];
+$montopagado = $datosProveedor['montopagado'];
 
 // Calcula el IVA (10%)
 $iva = $montopagado * 0.4;
@@ -746,7 +767,7 @@ $pdf->Cell(5, $textypos, "Otras Reten.: ");
 
 
 //-----------------------//-------------------------------------------------
-$mpagos=$datosProveedor[0]['montopagado'];
+$mpagos=$datosProveedor['montopagado'];
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(215);
 $pdf->setX(175);
@@ -761,7 +782,7 @@ $pdf->Cell(5, $textypos, "Total Gastos: ");
 
 //-----------------------//-------------------------------------------------
 // Obtén el valor del haber
-$montopagado = $datosProveedor[0]['montopagado'];
+$montopagado = $datosProveedor['montopagado'];
 
 // Calcula el IVA (10%)
 $iva = $montopagado * 0.4;
@@ -797,6 +818,7 @@ $pdf->Cell(5, $textypos, "Neto Pagado: ");
 
 //----------------------------//----------------------------------------
 
+//Convierte los numeros del pago realizado a palabras
 function convertirNumeroPalabras($numero) {
     $unidades = ['Cero', 'Uno', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve'];
     $decenas = ['', '', 'Veinte', 'Treinta', 'Cuarenta', 'Cincuenta', 'Sesenta', 'Setenta', 'Ochenta', 'Noventa'];
@@ -836,9 +858,7 @@ function convertirNumeroPalabras($numero) {
             $palabras .= $decenas[$decenas_miles];
         }
 
-        if ($decenas_miles != 1 && $unidades_miles > 0) {
-            $palabras .= ' y ';
-        }
+        
 
         if ($unidades_miles > 0) {
             $palabras .= $unidades[$unidades_miles] . ' ';
@@ -858,7 +878,7 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->setY(250);
 $pdf->setX(23);
 
-$montopagado = $datosProveedor[0]['montopagado'];
+$montopagado = $datosProveedor['montopagado'];
 $haberEnPalabras = convertirNumeroPalabras($montopagado);
 
 $pdf->Cell(5, $textypos, $haberEnPalabras);
@@ -871,10 +891,14 @@ $pdf->setY(260);
 $pdf->setX(7);
 $pdf->Cell(5, $textypos, "Concepto: ");
 
-$pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
-$pdf->setY(260);
-$pdf->setX(27);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['Descripcion']);
+if (isset($datosProveedor['Descripcion'])) {
+    $pdf->SetFont('Arial', '', 10);  // tipo
+    $texto = $datosProveedor['Descripcion'];
+    $pdf->setY(258);
+    $pdf->setX(27);
+    $pdf->MultiCell(0, 10, utf8_decode($texto), 0, 'J'); // 'J' para justificar
+    }
+
 
 
 
@@ -888,32 +912,67 @@ $pdf->Cell(5, $textypos, "SE DISPONE EL PAGO DE LA SIGUIENTE OBLIGACION: ");
 
 
 //----------------------------//----------------------------------------
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->setY(320);
-$pdf->setX(12);
-$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+
+$nombreUnidad = $this->session->userdata('unidad');
+
+// Condición para Derecho
+
+if($nombreUnidad=='Derecho'){
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->setY(320);
+    $pdf->setX(12);
+    //$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+    $pdf->Cell(5, $textypos, "Derecho 1");
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->setY(325);
+    $pdf->setX(16);
+    $pdf->Cell(5, $textypos, "Esto es una prueba de derecho ");
+    
+    
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->setY(320);
+    $pdf->setX(150);
+    $pdf->Cell(5, $textypos, "Derecho 2");
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->setY(325);
+    $pdf->setX(170);
+    $pdf->Cell(5, $textypos, "Misma Prueba ");
 
 
-//----------------------------//----------------------------------------
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->setY(325);
-$pdf->setX(16);
-$pdf->Cell(5, $textypos, "Dir. Gral. de Admin. y Finanzas ");
-
-
-
-//----------------------------//----------------------------------------
-$pdf->SetFont('Arial', 'B', 9);
-$pdf->setY(320);
-$pdf->setX(150);
-$pdf->Cell(5, $textypos, "Prof. Dr. Julio Cesar Meaurio Leiva");
-
-//----------------------------//----------------------------------------
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->setY(325);
-$pdf->setX(170);
-$pdf->Cell(5, $textypos, "Vicerrector ");
-
+}elseif($nombreUnidad=='Politecnica'){
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->setY(320);
+    $pdf->setX(12);
+    //$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+    $pdf->Cell(5, $textypos, "Poli 1");
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->setY(325);
+    $pdf->setX(16);
+    $pdf->Cell(5, $textypos, "Esto es una prueba de la Poli ");
+    
+    
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 9);
+    $pdf->setY(320);
+    $pdf->setX(150);
+    $pdf->Cell(5, $textypos, "Poli 2");
+    
+    //----------------------------//----------------------------------------
+    $pdf->SetFont('Arial', 'B', 8);
+    $pdf->setY(325);
+    $pdf->setX(170);
+    $pdf->Cell(5, $textypos, "Misma Prueba ");
+    
+}
 
 
 //------------------------//-----------------------------------------
@@ -935,7 +994,7 @@ $pdf->Cell(5, $textypos, $nombreUsuario);
 
 //-------------------------------------//-----------------------------------------
 
-        $pdf->Output('Reporte Obligacion.pdf' , 'I' );
+        $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );
    }
 
 
