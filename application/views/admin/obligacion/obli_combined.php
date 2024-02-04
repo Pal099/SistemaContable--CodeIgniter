@@ -442,7 +442,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -454,15 +454,17 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent celda-debe" disabled>
+                                                                    class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                    disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent celda-haber" disabled>
+                                                                    class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                    disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="diferencia"
-                                                                    class="form-control border-0 bg-transparent celda-diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
                                                                     value=0 disabled>
                                                             </td>
                                                         </tr>
