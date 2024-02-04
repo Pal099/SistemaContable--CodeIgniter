@@ -335,13 +335,22 @@ class Diario_obligaciones extends CI_Controller
 		//-----------------//---------------------------
 		$pedmat = $datosFormulario['pedmat'];
 		$MontoPago = $datosFormulario['MontoPago'];
-		$MontoTotal= $datosFormulario['total'];
 		$modalidad = $datosFormulario['modalidad'];
 		$tipo_presupuesto = $datosFormulario['tipo_presu'];
 		$nro_exp = $datosFormulario['nro_exp'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-
-
+		//-----------------//---------------------------
+		//Calculamos el monto de los debes para asignarlo a MontoTotal:
+		$MontoTotal = 0;
+		$filasMonto = $datosCompletos['filas'];
+		foreach ($filasMonto as $fila) {
+			// Asegúrate de que el valor no esté vacío antes de sumarlo
+			if (!empty($fila['Debe'])) {
+				$debe = $fila['Debe']; // Remueve las comas si están presentes
+				$MontoTotal += floatval($debe);
+			}
+		}
+		//-----------------//---------------------------
 		$op = $datosFormulario['op'];
 
 		//Funcion de eliminacion logica
