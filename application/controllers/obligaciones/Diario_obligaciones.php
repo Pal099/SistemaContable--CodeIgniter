@@ -344,9 +344,8 @@ class Diario_obligaciones extends CI_Controller
 		$MontoTotal = 0;
 		$filasMonto = $datosCompletos['filas'];
 		foreach ($filasMonto as $fila) {
-			// Asegúrate de que el valor no esté vacío antes de sumarlo
 			if (!empty($fila['Debe'])) {
-				$debe = $fila['Debe']; // Remueve las comas si están presentes
+				$debe = $fila['Debe']; 
 				$MontoTotal += floatval($debe);
 			}
 		}
