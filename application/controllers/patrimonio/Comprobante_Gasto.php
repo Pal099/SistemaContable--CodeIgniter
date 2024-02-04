@@ -8,6 +8,7 @@ class Comprobante_Gasto extends MY_Controller {
 		parent::__construct();
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Comprobante_Gasto_model");
+		$this->load->model("Bienes_Servicios_model");
 		$this->load->library('session');
 		$this->load->model("Usuarios_model");
 		$this->load->model("Proveedores_model");
@@ -27,6 +28,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+			
 		);
 		//var_dump($data['proveedores']);
 		$this->load->view("layouts/header");
@@ -54,6 +56,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -71,6 +74,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -96,20 +100,7 @@ class Comprobante_Gasto extends MY_Controller {
 		
 		
 		$concepto = $this->input->post("concepto");
-		$this->form_validation->set_rules("id_unidad", "Actividad", "required|is_unique[recepcion_bienes.id_unidad]");
-		$this->form_validation->set_rules("fecha","fecha","required|is_unique[recepcion_bienes.fecha]");
-		$this->form_validation->set_rules("idproveedor","Proveedor","required|is_unique[recepcion_bienes.idproveedor]");
-		$this->form_validation->set_rules("monto","monto","required|is_unique[recepcion_bienes.monto]");
-		$this->form_validation->set_rules("concepto","concepto","required|is_unique[recepcion_bienes.concepto]");
-		$this->form_validation->set_rules("aprobado","aprobado","required|is_unique[recepcion_bienes.aprobado]");
-		$this->form_validation->set_rules("id_ff","id_ff","required|is_unique[recepcion_bienes.id_ff]");
-		$this->form_validation->set_rules("obl","obl","required|is_unique[recepcion_bienes.obl]");
-		$this->form_validation->set_rules("str","str","required|is_unique[recepcion_bienes.str]");
-		$this->form_validation->set_rules("op","op","required|is_unique[recepcion_bienes.op]");
 
-
-	
-		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'id_unidad' => $id_unidad,
 				'fecha' => $fecha,
@@ -132,9 +123,6 @@ class Comprobante_Gasto extends MY_Controller {
 				$this->session->set_flashdata("error", "No se pudo guardar la información");
 				redirect(base_url() . "patrimonio/comprobantegasto/add");
 			}
-		} else {
-			$this->add();
-		}
 	}
 	
 
@@ -164,10 +152,6 @@ class Comprobante_Gasto extends MY_Controller {
 
 		$comprobanteactual = $this->Comprobante_Gasto_model->getComprobanteGasto($IDComprobanteGasto);
 
-
-		
-		
-		if ($this->form_validation->run()==TRUE) {
 			$data = array(
 				'id_unidad' => $id_unidad, 
 				'fecha' => $fecha,
@@ -188,9 +172,6 @@ class Comprobante_Gasto extends MY_Controller {
 				$this->session->set_flashdata("error","No se pudo actualizar la informacion");
 				redirect(base_url()."patrimonio/comprobantegasto/edit/".$IDComprobanteGasto);
 			}
-		}else{
-			$this->edit($IDComprobanteGasto);
-		}
 		
 	}
 	
@@ -206,7 +187,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Comprobante_Gasto_model->update($id,$data);
-		echo "patrimonio/comprobantegasto";
+		redirect(base_url() . "patrimonio/bienes_servicios");
 	}
 	public function getComprobanteDetalle($id) {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
