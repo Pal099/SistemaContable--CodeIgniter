@@ -39,18 +39,30 @@
 
                                             <thead class="align-middle">
                                                 <tr>
+                                                    <th class="columna-ancha">Desde Fecha:</th>
+                                                    <th class="columna-ancha">Hasta Fecha:</th>
                                                     <th class="columna-ancha">Diario:</th>
-
                                                     <th class="columna-ancha">Prog</th>
                                                     <th class="columna-fuente">F.F.</th>
                                                     <th class="columna-origen">O.F.</th>
                                                     <th class="columna-ctncontable">Cuenta Contable</th>
                                                     <th class="columna-ancha">Generar Mayor</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr class="align-items-center">
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <label for="fecha_inicio">Fecha:</label>
+                                                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <label for="fecha_fin">Fecha:</label>
+                                                            <input type="date" class="form-control" id="fecha_fin" name="fecha_fin">
+                                                        </div>
+                                                    </td>
                                                     <td>
                                                         <div class="input-group input-group-sm">
                                                             <select class="form-control border-0 bg-transparent"
@@ -124,13 +136,10 @@
                                                                 class="btn btn-primary">Aceptar</button>
                                                         </div>
                                                     </td>
-
-
                                     </form>
 
                                     <!-- Tabla de Resultados -->
                                     <div class="table-responsive">
-
                                         <table class="table table-bordered" id="TablaPresupuesto">
                                             <thead>
                                                 <tr>
@@ -157,8 +166,7 @@
                                                     <td><?php echo $entrada['Debe']; ?></td>
                                                     <td><?php echo $entrada['Haber']; ?></td>
                                                     <td><?php echo $entrada['Saldo']; ?></td>
-                                                    <td><?php echo $entrada['Codigo_CC']; ?> -
-                                                    <?php echo $entrada['Descripcion_CC']; ?>
+                                                    <td><?php echo $entrada['Codigo_CC']; ?> - <?php echo $entrada['Descripcion_CC']; ?>
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>
@@ -221,27 +229,23 @@
         </div>
     </div>
     <script>
-    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Actualizar los campos de texto en la vista principal con los valores seleccionados
-        document.getElementById('idcuentacontable').value = IDCuentaContable;
-        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-        document.getElementById('descripcion_cc').value =
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
-
-    }
-
-    $(document).ready(function() {
-        // Agregar un controlador de eventos de clic al botón
-        $('#openModalBtn_3').on('click', function(event) {
-            // Detener la propagación del evento
-            event.stopPropagation();
-            event.preventDefault();
-            // Tu lógica para abrir el modal aquí si es necesario
+        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Actualizar los campos de texto en la vista principal con los valores seleccionados
+            document.getElementById('idcuentacontable').value = IDCuentaContable;
+            document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+            document.getElementById('descripcion_cc').value =
+                Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+            }
+            $(document).ready(function() {
+            // Agregar un controlador de eventos de clic al botón
+                $('#openModalBtn_3').on('click', function(event) {
+                    // Detener la propagación del evento
+                    event.stopPropagation();
+                    event.preventDefault();
+                    // Tu lógica para abrir el modal aquí si es necesario
+                });
         });
-    });
     </script>
-
-  
         <!-- Script del pdf -->
         <script>
         async function generarPDF() {
