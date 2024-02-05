@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link href="<?php echo base_url(); ?>assets/css/style_cuadro_resultados.css" rel="stylesheet" type="text/css">
     <!-- jsPDF y Autotable para las datatable -->
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
@@ -326,6 +327,20 @@
                     startY: 40,
                     headStyles: headerStyles,
                     bodyStyles: bodyStyles,
+                    columnStyles: {
+                        2: {
+                            halign: 'right'
+                        }, // Columna "Total Debe"
+                        3: {
+                            halign: 'right'
+                        }, // Columna "Total Haber"
+                        4: {
+                            halign: 'right'
+                        }, // Columna "Total Deudor"
+                        5: {
+                            halign: 'right'
+                        } // Columna "Total Acreedor"
+                    },
                     //Este es el código del footer
                     didDrawPage: function(data) {
                         // Número de página, centrado

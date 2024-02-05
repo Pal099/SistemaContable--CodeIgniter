@@ -510,7 +510,7 @@
                                                             <td>
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
-                                                            <td>
+                                                            <td class="texto-izquierda">
                                                                 <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>

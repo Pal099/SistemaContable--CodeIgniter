@@ -413,6 +413,10 @@
                 row.push(entrada.FechaEmision);
                 row.push(entrada.numero);
                 row.push(entrada.Num_Asi_IDNum_Asi);
+                var CuentaContable = entrada.Codigo_CC + "-" + entrada.Descripcion_CC;
+                row.push(CuentaContable);
+                row.push(entrada.Descripcion);
+                row.push(entrada.comprobante);
                 var debe = Number(entrada.Debe);
                 var haber = Number(entrada.Haber);
                 var saldo = entrada.Saldo;
@@ -428,15 +432,10 @@
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
                 }));
-                var CuentaContable = entrada.Codigo_CC + "-" + entrada.Descripcion_CC;
-                row.push(CuentaContable);
-                row.push(entrada.Descripcion);
-                row.push(entrada.comprobante);
                 tableData.push(row);
             }
 
             entradas.forEach(agregarDatosMayor);
-            console.log('Datos del pdf: ', tableData);
 
             // **--------Acá termina de procesar los datos--------**
 
@@ -448,15 +447,14 @@
                 fontStyle: 'bold'
             };
             var bodyStyles = {
-                halign: 'center',
                 cellPadding: 1,
                 fontSize: 8, //tamaño de las letras de la tabla
             };
 
             var options = {
                 head: [
-                    ['Fecha', 'N° Asiento', 'N° OP',
-                        'Debe', 'Haber', 'Saldo', 'Cuenta Contable', 'Descripción', 'Comprobante'
+                    ['Fecha', 'N° Asiento', 'N° OP', 'Cuenta Contable', 'Descripción', 'Comprobante',
+                        'Debe', 'Haber', 'Saldo'
                     ]
                 ],
                 body: tableData,
@@ -464,13 +462,22 @@
                 headStyles: headerStyles,
                 bodyStyles: bodyStyles,
                 columnStyles: {
-                    3: {
+                    0: {
+                        halign: 'center'
+                    }, //Fecha
+                    1: {
+                        halign: 'center'
+                    }, //N° Asiento
+                    2: {
+                        halign: 'center'
+                    }, //N° OP
+                    6: {
                         halign: 'right'
                     }, // Columna "Debe"
-                    4: {
+                    7: {
                         halign: 'right'
                     }, // Columna "Haber"
-                    5: {
+                    8: {
                         halign: 'right'
                     } // Columna "Saldo"
                 },
