@@ -413,10 +413,8 @@
                 row.push(entrada.FechaEmision);
                 row.push(entrada.numero);
                 row.push(entrada.Num_Asi_IDNum_Asi);
-                row.push(entrada.comprobante);
-                row.push(entrada.Descripcion);
-                var debe = entrada.Debe;
-                var haber = entrada.Haber;
+                var debe = Number(entrada.Debe);
+                var haber = Number(entrada.Haber);
                 var saldo = entrada.Saldo;
                 row.push(debe.toLocaleString('es-PY', {
                     minimumFractionDigits: 0,
@@ -432,6 +430,8 @@
                 }));
                 var CuentaContable = entrada.Codigo_CC + "-" + entrada.Descripcion_CC;
                 row.push(CuentaContable);
+                row.push(entrada.Descripcion);
+                row.push(entrada.comprobante);
                 tableData.push(row);
             }
 
@@ -442,25 +442,38 @@
 
             // Configuración de la tabla
             var headerStyles = {
+                halign: 'center',
                 fillColor: '#020971',
                 textColor: '#ffffff',
                 fontStyle: 'bold'
             };
             var bodyStyles = {
-                cellPadding: 2,
-                fontSize: 9 //tamaño de las letras de la tabla
+                halign: 'center',
+                cellPadding: 1,
+                fontSize: 8, //tamaño de las letras de la tabla
             };
 
             var options = {
                 head: [
-                    ['Fecha', 'N° Asiento', 'N° OP', 'Comprobante',
-                        'Descripción del gasto', 'Debe', 'Haber', 'Saldo', 'Cuenta Contable'
+                    ['Fecha', 'N° Asiento', 'N° OP',
+                        'Debe', 'Haber', 'Saldo', 'Cuenta Contable', 'Descripción', 'Comprobante'
                     ]
                 ],
                 body: tableData,
                 startY: 40,
                 headStyles: headerStyles,
                 bodyStyles: bodyStyles,
+                columnStyles: {
+                    3: {
+                        halign: 'right'
+                    }, // Columna "Debe"
+                    4: {
+                        halign: 'right'
+                    }, // Columna "Haber"
+                    5: {
+                        halign: 'right'
+                    } // Columna "Saldo"
+                },
                 //Este es el código del footer
                 didDrawPage: function(data) {
                     // Número de página, centrado
