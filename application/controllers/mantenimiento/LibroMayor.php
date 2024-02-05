@@ -44,6 +44,9 @@ class LibroMayor extends CI_Controller {
         $fechaFin = $this->input->post('fecha_fin');
         $idcuentacontable = $this->input->post('idcuentacontable'); // Asegúrate de que este campo existe en tu formulario
 
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         // Obtener los datos del modelo
         $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idcuentacontable);
 
@@ -52,7 +55,9 @@ class LibroMayor extends CI_Controller {
             'entradas' => $entradasLibroMayor,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
-            'idcuentacontable' => $idcuentacontable
+            'idcuentacontable' => $idcuentacontable,
+            'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu)
+
         );
 
         // Cargar las vistas con los datos
