@@ -256,12 +256,56 @@ class Pago_de_obligaciones extends CI_Controller
 
 	public function edit($id)
 	{
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+	
+		// Obtener datos de las tablas requeridas para los datos
+		$asiento = $this->Diario_obli_model->GetAsientoEditar($id);
+		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
+		$programas = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
+		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
+		$origen_de_financiamiento = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+		$cuentacontables = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
+	
+		// Buscamos los datos corresponiendentes de las tablas para facilidad de su manejo
+		$proveedorEncontrado = null;
+		foreach ($proveedores as $proveedor) {
+			if ($proveedor->id == $asiento[0]['datosFijos']['id_provee']) {
+				$proveedorEncontrado = $proveedor;
+				break;
+			}
+		}
+
+		// Buscamos los datos corresponiendentes de las cuentas y los insertamos en el array 'camposDinamicos' para su uso
+		// Recorremos cada campo dinamico para obtener su IdCuentaContable
+		foreach ($asiento[0]['camposDinamicos'] as $campoDinamico) {
+			// Recorremos cada cuenta contable para encontrar nuestra cuenta objetivo
+			foreach ($cuentacontables as $cuenta) {
+				// Si el ID de la cuenta contable coincide con el ID del campo dinamico
+				if ($cuenta->IDCuentaContable == $campoDinamico->IDCuentaContable) {
+					// Entonces agreamos los datos necesarios a nuestro array de 'camposDinamicos'
+					$campoDinamico->Codigo_CC = $cuenta->Codigo_CC;
+					$campoDinamico->Descripcion_CC = $cuenta->Descripcion_CC;
+					break;
+				}
+			}
+		}
+
+		// Agregar datos al array $data
 		$data = array(
-			'obligaciones' => $this->Pago_obli_model->obtener_asiento_por_id($id),
+			'asiento' => $asiento,
+			'proveedor' => $proveedorEncontrado, 
+			'programa' => $programas,
+			'fuente_de_financiamiento' => $fuente_de_financiamiento,
+			'origen_de_financiamiento' => $origen_de_financiamiento,
+			'cuentacontable' => $cuentacontables,
+			'proveedoresALL' => $proveedores,
 		);
+	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/pagoobli/pagobli_combined", $data);
+		$this->load->view("admin/pagoobli/pagobliedit", $data);
 		$this->load->view("layouts/footer");
 	}
 
