@@ -94,8 +94,9 @@
 
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/proveedores">
-                <i class="bi bi-person"></i><span>Proveedor</span>
+            
+             <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-cash-stack"></i><span>Utilidades</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li class="nav-item">

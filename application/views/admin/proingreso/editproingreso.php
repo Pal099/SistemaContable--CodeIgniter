@@ -1,14 +1,15 @@
+
 <main id="main" class="main">
 
   <div class="pagetitle">
       <h1>
-        Origen de financiamiento
-        <small>Editar Origen</small>
+       Programa de Ingresos
+        <small>Editar Programa</small>
         </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/origen">Origen de financiamiento</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/programaingreso">Programa de Ingresos</a></li>
         <li class="breadcrumb-item active">Editar</li>
       </ol>
     </nav>
@@ -25,33 +26,41 @@
                             <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
+                                
                              </div>
                         <?php endif;?>
 
-                        <form action="<?php echo base_url();?>registro/origen/update" method="POST">
-                            <input type="hidden" value="<?php echo $origen->id;?>" name="idOrigen">
+                        <form action="<?php echo base_url();?>registro/programaingreso/update" method="POST">
+                            <input type="hidden" value="<?php echo $ingresos->id;?>" name="idProIngreso">
 
                             <div class="form-group">
+
                                 <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $origen->nombre?>">
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $ingresos->nombre?>">
+                          
                             </div>
 
                             <div class="form-group <?php echo form_error('codigo') == true ? 'has-error': '';?>">
-                                <label for="codigo">Codigo:</label>
-                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $origen->codigo?>">
-                                <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
-                            </div>
 
+                                <label for="codigo">Codigo:</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $ingresos->codigo?>">
+                                <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
+
+                            </div>
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
-                                    </div> 
-                                    <div class="col-md-6">
-                                        <a href="<?php echo base_url(); ?>registro/origen" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                                    </div>
+
+                                 <div class="col-md-6">
+                                    <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                </div> 
+
+                                <div class="col-md-6">
+                            
+                                <a href="<?php echo base_url(); ?>registro/programaingreso" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                            
                                 </div>
                             </div>
+
+
                         </form>
                     </div>
                 </div>
