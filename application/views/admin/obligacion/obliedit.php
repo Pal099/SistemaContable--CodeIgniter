@@ -1056,8 +1056,6 @@
             // Eliminar la fila
             $(this).closest("tr").remove();
 
-            // Mostrar en consola los IDNum_Asi_Deta eliminados hasta ahora
-            console.log("IDNum_Asi_Deta eliminados: ", window.idNumAsiDetaEliminados);
             calcularTotalesYDiferencia();
         });
 
