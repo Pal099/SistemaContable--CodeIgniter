@@ -18,6 +18,11 @@
                     </a>
                 </li>
                 <li>
+                    <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones_cc/add">
+                        <i class="bi bi-circle"></i><span>Diario de Obligación CC</span>
+                    </a>
+                </li>
+                <li>
                     <a href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">
                         <i class="bi bi-circle"></i><span>Pago de obligaciones</span>
                     </a>

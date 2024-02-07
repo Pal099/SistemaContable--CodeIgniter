@@ -300,6 +300,18 @@ public function getUsuarioId($nombre){
         return $resultados->result();
     }
 
+	public function getPresupuesto(){
+        $this->db->select('presupuestos.*, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
+		cuentacontable.Descripcion_CC as descrip,');
+		$this->db->from('presupuestos');
+		$this->db->join('uni_respon_usu', 'presupuestos.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->where('presupuestos.estado', '1');
+		$this->db->where('presupuestos.TotalPresupuestado > 0' );
+		//$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        $resultados = $this->db->get();
+        return $resultados->result();
+    }
 
 	
 
