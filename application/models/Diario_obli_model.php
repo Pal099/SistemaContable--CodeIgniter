@@ -69,6 +69,7 @@ class Diario_obli_model extends CI_Model {
 		$this->db->join('num_asi_deta', 'num_asi.IdNum_Asi = num_asi_deta.Num_Asi_IDNum_Asi ');
 		$this->db->where('num_asi.IDNUM_Asi', $IDNum_Asi);
 		$this->db->where('num_asi.estado_registro', 1); // Condicion para saber si se borro el registro o no
+		$this->db->where('num_asi_deta.estado_registro', 1); // Condicion para saber si se borro el registro o no
 	
 		$query = $this->db->get();
 		//Guardamos el resultado de la busqueda en un array
@@ -139,6 +140,12 @@ class Diario_obli_model extends CI_Model {
 	public function update_num_asi_deta_fila_nueva($data) {
         return $this->db->insert('num_asi_deta', $data);
     }
+
+	public function borrado_logico($IDNum_Asi_Deta){
+		$data = array('estado_registro' => 0);
+		$this->db->where('IDNum_Asi_Deta', $IDNum_Asi_Deta);
+		return $this->db->update('num_asi_deta', $data);
+	}
 
 	//----------Acá terminan las funciones nuevas del editar----------
 

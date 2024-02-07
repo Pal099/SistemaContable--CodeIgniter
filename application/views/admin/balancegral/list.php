@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link href="<?php echo base_url(); ?>assets/css/style_balance.css" rel="stylesheet" type="text/css">
     <!-- jsPDF y Autotable para las datatable -->
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
@@ -61,13 +62,13 @@
                                                     <tr>
                                                         <td><?= $cuenta->Codigo_CC ?></td>
                                                         <td><?= $cuenta->Descripcion_CC ?></td>
-                                                        <td><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?>
+                                                        <td ><?= isset($cuenta->TotalDebe) ? number_format($cuenta->TotalDebe, 0, ',', '.') : 0 ?>
                                                         </td>
-                                                        <td><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?>
+                                                        <td ><?= isset($cuenta->TotalHaber) ? number_format($cuenta->TotalHaber, 0, ',', '.') : 0 ?>
                                                         </td>
-                                                        <td><?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?>
+                                                        <td ><?= isset($cuenta->TotalDeudor) ? number_format($cuenta->TotalDeudor, 0, ',', '.') : 0 ?>
                                                         </td>
-                                                        <td><?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?>
+                                                        <td ><?= isset($cuenta->TotalAcreedor) ? number_format($cuenta->TotalAcreedor, 0, ',', '.') : 0 ?>
                                                         </td>
                                                     </tr>
                                                     <?php if (isset($cuenta->cuentasHijas)) : ?>
@@ -326,6 +327,20 @@
                     startY: 40,
                     headStyles: headerStyles,
                     bodyStyles: bodyStyles,
+                    columnStyles: {
+                        2: {
+                            halign: 'right'
+                        }, // Columna "Total Debe"
+                        3: {
+                            halign: 'right'
+                        }, // Columna "Total Haber"
+                        4: {
+                            halign: 'right'
+                        }, // Columna "Total Deudor"
+                        5: {
+                            halign: 'right'
+                        } // Columna "Total Acreedor"
+                    },
                     //Este es el código del footer
                     didDrawPage: function(data) {
                         // Número de página, centrado
@@ -357,8 +372,8 @@
                             var yPos = data.cell.y;
 
                             //Configuracion de la linea
-                            doc.setLineWidth(1);//grosor
-                            doc.setDrawColor(0, 0, 0);//color
+                            doc.setLineWidth(1); //grosor
+                            doc.setDrawColor(0, 0, 0); //color
                             doc.line(xPosStart, yPos, xPosEnd, yPos);
                         }
                     }

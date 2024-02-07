@@ -1,0 +1,7 @@
+#TablaSaldosSumas th, #TablaSaldosSumas td {
+    text-align: center;
+  }
+  
+  #TablaSaldosSumas td:nth-child(1), #TablaSaldosSumas td:nth-child(2) {
+    text-align: left;
+}

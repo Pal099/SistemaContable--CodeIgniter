@@ -310,6 +310,7 @@ class Diario_obligaciones extends CI_Controller
 		header('Access-Control-Allow-Origin: *');
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
+		$filasEliminadas = $datosCompletos['filasEliminadas'];
 		var_dump($datosFormulario);
 
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -335,15 +336,31 @@ class Diario_obligaciones extends CI_Controller
 		//-----------------//---------------------------
 		$pedmat = $datosFormulario['pedmat'];
 		$MontoPago = $datosFormulario['MontoPago'];
-		$MontoTotal= $datosFormulario['total'];
 		$modalidad = $datosFormulario['modalidad'];
 		$tipo_presupuesto = $datosFormulario['tipo_presu'];
 		$nro_exp = $datosFormulario['nro_exp'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-
-
+		//-----------------//---------------------------
+		//Calculamos el monto de los debes para asignarlo a MontoTotal:
+		$MontoTotal = 0;
+		$filasMonto = $datosCompletos['filas'];
+		foreach ($filasMonto as $fila) {
+			if (!empty($fila['Debe'])) {
+				$debe = $fila['Debe']; 
+				$MontoTotal += floatval($debe);
+			}
+		}
+		//-----------------//---------------------------
 		$op = $datosFormulario['op'];
 
+		//Funcion de eliminacion logica
+		if ($filasEliminadas){
+			//Se elimina solo si el usuario le dio al boton borrar y guardar
+			foreach ($filasEliminadas as $idNumAsiDeta) {
+				// Se realiza la operación de borrado lógico para cada IDNum_Asi_Deta
+				$this->Diario_obli_model->borrado_logico($idNumAsiDeta);
+			}
+		}
 
 		if ($proveedor_id) {
 
@@ -385,6 +402,7 @@ class Diario_obligaciones extends CI_Controller
 									'proveedores_id' => $proveedor_id,
 									'numero' => $num_asi,
 									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
+									'estado_registro' => 1,
 								);
 								$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
 							}else{
