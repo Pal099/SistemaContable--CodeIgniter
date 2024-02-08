@@ -28,6 +28,26 @@ class Pdf_model extends CI_Model {
         }
     }
 
+    public function obtenerDatos_pago() {
+        $this->db->select('numasi.FechaEmision as fecha,nd.numero, numasi.op as op, of.codigo as codigo_of, nd.Haber as haber, nd.detalles as detalle, pr.codigo as codigo_pro, numasi.MontoPagado as montopagado, cc.IDCuentaContable as id_cc, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle, cc.tipo as tipo, cc.Codigo_CC as codi_cc');
+        $this->db->from('num_asi_deta nd');
+        $this->db->join('proveedores p', 'p.id = nd.proveedores_id', 'left');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = nd.IDCuentaContable');
+        $this->db->join('programa pr', 'pr.id_pro = nd.id_pro');
+        $this->db->join('origen_de_financiamiento of', 'of.id_of = nd.id_of');
+        $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
+        $this->db->order_by('numasi.op', 'DESC'); // Ordena por el ID de forma descendente
+        $this->db->limit(1); // Limita a un solo registro
+        $query = $this->db->get();
+        $result = $query->result_array(); // Make sure to use result_array() for an array result
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Devuelve un solo registro como un arreglo
+        } else {
+            return array(); // Si no hay resultados, devuelve un arreglo vacío
+        }
+    }
+
 
 
 
@@ -84,6 +104,21 @@ class Pdf_model extends CI_Model {
         } else {
             return array();
         }
+    }
+    
+
+    public function getPresu() {
+        $this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.codigo as ff, of.codigo as of, pr.nombre as prog, c.tipo as tipo, c.Codigo_CC as codi_cc, pre.TotalPresupuestado as presu_monto');
+        $this->db->from('presupuestos pre');
+        $this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff");
+        $this->db->join("origen_de_financiamiento of", "pre.origen_de_financiamiento_id_of = of.id_of");
+        $this->db->join("programa pr", "pre.programa_id_pro = pr.id_pro");
+        $this->db->join("cuentacontable c", "pre.Idcuentacontable = c.IDCuentaContable");
+        $this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+        $this->db->where('pre.estado', '1');
+        
+        $resultado = $this->db->get();
+        return $resultado->result();  // Cambiando de 'result()' a 'row()'
     }
     
     

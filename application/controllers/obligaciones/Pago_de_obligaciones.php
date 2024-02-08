@@ -49,9 +49,9 @@ class Pago_de_obligaciones extends CI_Controller
 
 	}
 
-	public function pdfs()
+	public function pdfs_pago()
 	{
-		$this->load->view("fpdf");
+		$this->load->view("fpdf_pago");
 
 	}
 
