@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Diario_obligaciones extends CI_Controller
+class Diario_obligaciones_cc extends CI_Controller
 {
 
 	//private $permisos;
@@ -42,7 +42,7 @@ class Diario_obligaciones extends CI_Controller
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
-        $this->load->view("admin/obligacion/obli_combined", $data);
+        $this->load->view("admin/obligacion_cc/obli_combined", $data);
         $this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
@@ -80,11 +80,12 @@ class Diario_obligaciones extends CI_Controller
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
 			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'presu' => $this->Diario_obli_model->getPresupuesto($id_uni_respon_usu),
 		);
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
+		$this->load->view("admin/obligacion_cc/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
 
@@ -208,7 +209,7 @@ class Diario_obligaciones extends CI_Controller
 
 					}
 
-					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+					return redirect(base_url() . "obligaciones/diario_obligaciones_cc/add");
 				} else {
 					// Esta lógica se ejecutará si la solicitud no es AJAX
 					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
@@ -279,7 +280,7 @@ class Diario_obligaciones extends CI_Controller
 	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/obligacion/obliedit", $data);
+		$this->load->view("admin/obligacion_cc/obliedit", $data);
 		$this->load->view("layouts/footer");
 	}
 	public function testearDatos() {
@@ -310,7 +311,6 @@ class Diario_obligaciones extends CI_Controller
 		header('Access-Control-Allow-Origin: *');
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
-		$filasEliminadas = $datosCompletos['filasEliminadas'];
 		var_dump($datosFormulario);
 
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -336,31 +336,15 @@ class Diario_obligaciones extends CI_Controller
 		//-----------------//---------------------------
 		$pedmat = $datosFormulario['pedmat'];
 		$MontoPago = $datosFormulario['MontoPago'];
+		$MontoTotal= $datosFormulario['total'];
 		$modalidad = $datosFormulario['modalidad'];
 		$tipo_presupuesto = $datosFormulario['tipo_presu'];
 		$nro_exp = $datosFormulario['nro_exp'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-		//-----------------//---------------------------
-		//Calculamos el monto de los debes para asignarlo a MontoTotal:
-		$MontoTotal = 0;
-		$filasMonto = $datosCompletos['filas'];
-		foreach ($filasMonto as $fila) {
-			if (!empty($fila['Debe'])) {
-				$debe = $fila['Debe']; 
-				$MontoTotal += floatval($debe);
-			}
-		}
-		//-----------------//---------------------------
+
+
 		$op = $datosFormulario['op'];
 
-		//Funcion de eliminacion logica
-		if ($filasEliminadas){
-			//Se elimina solo si el usuario le dio al boton borrar y guardar
-			foreach ($filasEliminadas as $idNumAsiDeta) {
-				// Se realiza la operación de borrado lógico para cada IDNum_Asi_Deta
-				$this->Diario_obli_model->borrado_logico($idNumAsiDeta);
-			}
-		}
 
 		if ($proveedor_id) {
 
@@ -402,7 +386,6 @@ class Diario_obligaciones extends CI_Controller
 									'proveedores_id' => $proveedor_id,
 									'numero' => $num_asi,
 									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
-									'estado_registro' => 1,
 								);
 								$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
 							}else{
@@ -447,7 +430,7 @@ class Diario_obligaciones extends CI_Controller
 		$data = array(
 			'obligaciones' => $this->Diario_obli_model->getDiario($id),
 		);
-		$this->load->view("admin/obligacion/obliview", $data);
+		$this->load->view("admin/obligacion_cc/obliview", $data);
 	}
 
 	public function delete($id)
@@ -456,6 +439,6 @@ class Diario_obligaciones extends CI_Controller
 			'estado_bd' => "0",
 		);
 		$this->Diario_obli_model->update($id, $data);
-		echo "obligaciones/diario_obligaciones";
+		echo "obligaciones/diario_obligaciones_cc";
 	}
 }

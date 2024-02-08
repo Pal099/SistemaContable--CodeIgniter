@@ -39,7 +39,7 @@
                                     <i class="bi bi-plus" style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones_cc/pdfs')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-success" title="Generar EXCEL" id="openModalBtn">
@@ -451,7 +451,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-bordered table-sm rounded-3 mt-4 text-center">
+                                                    class="table table-bordered table-sm rounded-3 mt-4">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -463,17 +463,15 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
-                                                                    disabled>
+                                                                    class="form-control border-0 bg-transparent celda-debe" disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
-                                                                    disabled>
+                                                                    class="form-control border-0 bg-transparent celda-haber" disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="diferencia"
-                                                                    class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia"
                                                                     value=0 disabled>
                                                             </td>
                                                         </tr>
@@ -486,7 +484,7 @@
                                                             class="btn btn-success btn-primary"><span
                                                                 class="fa fa-save"></span>Guardar</button>
                                                         <button type="button" class="btn btn-danger ml-3"
-                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones_cc'">
                                                             <i class="fa fa-remove"></i> Cancelar
                                                         </button>
                                                     </div>
@@ -519,7 +517,7 @@
                                                             <td>
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
-                                                            <td class="texto-izquierda">
+                                                            <td>
                                                                 <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>
@@ -536,12 +534,12 @@
                                                                         <span class="fa fa-search"></span>
                                                                     </button>
                                                                     <button type="button" class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones_cc/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-pencil-fill"></i>
                                                                     </button>
                                                                     <button type="button"
                                                                         class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones_cc/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
                                                                 </div>
@@ -751,7 +749,7 @@
 
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
-                    url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
+                    url: '<?php echo base_url("obligaciones/diario_obligaciones_cc/store"); ?>',
                     type: 'POST',
                     data: {
                         datos: datosCompletos
@@ -807,21 +805,33 @@
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
+                                    <th class=""></th>
+                                    <th class=""></th>
+                                    <th class=""></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
+                                <?php foreach ($presu as $dato): ?>
                                 <tr class="list-item"
-                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    onclick="selectCC(<?= $dato->idcuenta ?>,'<?= $dato->codigo ?>', '<?= $dato->descrip ?>', '<?= $dato->programa_id_pro ?>', '<?= $dato->fuente_de_financiamiento_id_ff ?>', '<?= $dato->origen_de_financiamiento_id_of ?>')"
                                     data-bs-dismiss="modal">
                                     <td>
-                                        <?= $dato->IDCuentaContable ?>
+                                        <?= $dato->idcuenta ?>
                                     </td>
                                     <td>
-                                        <?= $dato->Codigo_CC ?>
+                                        <?= $dato->codigo ?>
                                     </td>
                                     <td>
-                                        <?= $dato->Descripcion_CC ?>
+                                        <?= $dato->descrip ?>
+                                    </td>
+                                    <td class="">
+                                        <?= $dato->programa_id_pro ?>
+                                    </td>
+                                    <td class="">
+                                        <?= $dato->fuente_de_financiamiento_id_ff ?>
+                                    </td>
+                                    <td class="">
+                                        <?= $dato->origen_de_financiamiento_id_of ?>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -876,12 +886,14 @@
 
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
-        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC, pro, off, ff) {
             // Actualizar los campos de texto en la vista principal con los valores seleccionados
             document.getElementById('idcuentacontable').value = IDCuentaContable;
             document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-            document.getElementById('descripcion_cc').value =
-                Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+            document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+            document.getElementById('id_pro').value = pro; // Asume que tienes un campo con id 'descripcion_cc'
+            document.getElementById('id_ff').value = ff; // Asume que tienes un campo con id 'descripcion_cc'
+            document.getElementById('id_of').value = off; // Asume que tienes un campo con id 'descripcion_cc'
 
         }
 

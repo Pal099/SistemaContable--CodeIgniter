@@ -69,6 +69,7 @@ class Diario_obli_model extends CI_Model {
 		$this->db->join('num_asi_deta', 'num_asi.IdNum_Asi = num_asi_deta.Num_Asi_IDNum_Asi ');
 		$this->db->where('num_asi.IDNUM_Asi', $IDNum_Asi);
 		$this->db->where('num_asi.estado_registro', 1); // Condicion para saber si se borro el registro o no
+		$this->db->where('num_asi_deta.estado_registro', 1); // Condicion para saber si se borro el registro o no
 	
 		$query = $this->db->get();
 		//Guardamos el resultado de la busqueda en un array
@@ -139,6 +140,12 @@ class Diario_obli_model extends CI_Model {
 	public function update_num_asi_deta_fila_nueva($data) {
         return $this->db->insert('num_asi_deta', $data);
     }
+
+	public function borrado_logico($IDNum_Asi_Deta){
+		$data = array('estado_registro' => 0);
+		$this->db->where('IDNum_Asi_Deta', $IDNum_Asi_Deta);
+		return $this->db->update('num_asi_deta', $data);
+	}
 
 	//----------Acá terminan las funciones nuevas del editar----------
 
@@ -300,6 +307,18 @@ public function getUsuarioId($nombre){
         return $resultados->result();
     }
 
+	public function getPresupuesto(){
+        $this->db->select('presupuestos.*, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
+		cuentacontable.Descripcion_CC as descrip,');
+		$this->db->from('presupuestos');
+		$this->db->join('uni_respon_usu', 'presupuestos.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->where('presupuestos.estado', '1');
+		$this->db->where('presupuestos.TotalPresupuestado > 0' );
+		//$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        $resultados = $this->db->get();
+        return $resultados->result();
+    }
 
 	
 

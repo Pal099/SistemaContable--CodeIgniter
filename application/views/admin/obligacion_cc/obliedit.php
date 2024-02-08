@@ -17,16 +17,26 @@
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
                 <li class="breadcrumb-item"><a
-                        href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">Pago
-                        de Obligaciones</a></li>
-                <li class="breadcrumb-item">Edición del Pago de Obligación</li>
+                        href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de
+                        Obligación</a></li>
+                <li class="breadcrumb-item">Edición de Obligación</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 mt-4">
-                        <h1>Editar Pago</h1>
+                        <h1>Editar Obligación</h1>
+                    </div>
+                    <div class="col-md-6 mt-4 ">
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-4">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
+                                    data-bs-target="#modal_proveedores">
+                                    <i class="bi bi-plus-circle"></i> Nuevo Proveedor
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- fin del encabezado -->
@@ -72,8 +82,7 @@
                                                             <label for="concepto">Concepto:</label>
                                                             <input type="text" class="form-control" id="concepto"
                                                                 name="concepto"
-                                                                value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>"
-                                                                readonly>
+                                                                value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>">
                                                         </div>
                                                         <!-- Campos Opcionales del formulario -->
                                                         <div class="form-group">
@@ -82,37 +91,32 @@
                                                                     <label for="pedi_matricula">Ped. Mat:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="pedi_matricula" name="pedi_matricula"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['ped_mat']; ?>"
-                                                                        readonly>
+                                                                        value="<?php echo $asiento[0]['datosFijos']['ped_mat']; ?>">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label for="modalidad">Modalidad:</label>
                                                                     <input type="text" class="form-control"
                                                                         id="modalidad" name="modalidad"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['modalidad']; ?>"
-                                                                        readonly>
+                                                                        value="<?php echo $asiento[0]['datosFijos']['modalidad']; ?>">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label for="tipo_presupuesto">Tipo de
                                                                         Presupuesto:</label>
                                                                     <input type="text" class="form-control w-100"
                                                                         id="tipo_presupuesto" name="tipo_presupuesto"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['tipo_presu']; ?>"
-                                                                        readonly>
+                                                                        value="<?php echo $asiento[0]['datosFijos']['tipo_presu']; ?>">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label for="nro_exp">Nro. Exp:</label>
                                                                     <input type="text" class="form-control" id="nro_exp"
                                                                         name="nro_exp"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['nro_exp']; ?>"
-                                                                        readonly>
+                                                                        value="<?php echo $asiento[0]['datosFijos']['nro_exp']; ?>">
                                                                 </div>
                                                                 <div class="col-md-4 mb-2">
                                                                     <label for="total">Total:</label>
                                                                     <input type="text" class="form-control w-100"
                                                                         id="total" name="total"
-                                                                        value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>"
-                                                                        readonly>
+                                                                        value="<?php echo $asiento[0]['datosFijos']['MontoTotal']; ?>">
                                                                 </div>
                                                                 <div class="form-group col-md-4">
                                                                     <label for="op">N° OP</label>
@@ -174,7 +178,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select
                                                                             class="form-control border-0 bg-transparent"
-                                                                            id="id_ff" name="id_ff" disabled>
+                                                                            id="id_ff" name="id_ff" required>
                                                                             <?php foreach ($fuente_de_financiamiento as $ff) : ?>
                                                                             <option value="<?php echo $ff->id_ff ?>"
                                                                                 <?php echo ($asiento[0]['camposDinamicos'][0]->id_ff == $ff->id_ff) ? 'selected' : ''; ?>>
@@ -182,9 +186,6 @@
                                                                             </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
-                                                                        <!-- Campo para el valor ya que el select está deshabilitado -->
-                                                                        <input type="hidden" name="id_ff"
-                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->id_ff; ?>" />
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -213,16 +214,15 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="codigo_cc" name="codigo_cc"
                                                                             value="<?php echo $asiento[0]['camposDinamicos'][0]->Codigo_CC ?>"
-                                                                            readonly>
+                                                                            required>
                                                                         <input style="font-size: small;" type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="descripcion_cc" name="descripcion_cc"
-                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Descripcion_CC ?>"
-                                                                            readonly>
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Descripcion_CC ?>">
                                                                         <button type="button" data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             class="btn btn-sm btn-outline-primary"
-                                                                            id="openModalBtn_3" disabled>
+                                                                            id="openModalBtn_3">
                                                                             <i class="bi bi-search"></i>
                                                                         </button>
                                                                     </div>
@@ -233,8 +233,7 @@
                                                                         <input type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="comprobante" name="Comprobante"
-                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Comprobante ?>"
-                                                                            readonly>
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->Comprobante ?>">
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -243,7 +242,7 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="detalles" name="detalles"
                                                                             value="<?php echo $asiento[0]['camposDinamicos'][0]->detalles ?>"
-                                                                            readonly>
+                                                                            required>
                                                                     </div>
                                                                 </td>
                                                                 <td class="columna-hidden">
@@ -613,7 +612,10 @@
                                     <div class="container-fluid mt-3 mb-3">
                                         <div class="col-md-12 d-flex flex-row justify-content-center">
                                             <button style="margin-right: 8px;" type="submit"
-                                                class="btn btn-success "><span class="fa fa-save"></span>Guardar
+                                                class="btn btn-success "><span
+                                                    class="fa fa-save"></span>Guardar</button>
+                                            <button type="button" class="btn btn-primary ml-3" onclick=verDatos()>
+                                                <i class="fa fa-remove"></i> mirar datos
                                             </button>
                                             <button type="button" class="btn btn-danger ml-3"
                                                 onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
@@ -944,7 +946,7 @@
                 if (datos[nombreCampo]) {
                     campo.val(datos[nombreCampo]);
 
-                    // Aplicar la función formatNumber al campo "Haber" y "Debe"
+                    // Aplicar la función formatNumber solo al campo "Haber"
                     if (nombreCampo === 'Haber' || nombreCampo === 'Debe') {
                         formatNumber(campo);
                         campo.on('input', function() {
@@ -1039,25 +1041,11 @@
             // Agregar la nueva fila al cuerpo de la tabla
             $("#miTabla tbody").append(nuevaFila);
         });
-        //array declarado de forma global para poder acceder después en el envio de formulario
-        window.idNumAsiDetaEliminados = [];
 
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function(e) {
             e.preventDefault();
-
-            // Obtener el valor de IDNum_Asi_Deta antes de eliminar la fila
-            var idNumAsiDeta = $(this).closest("tr").find("input[name='IDNum_Asi_Deta']").val();
-
-            if (idNumAsiDeta) {
-                // Guardar el IDNum_Asi_Deta en el array global
-                window.idNumAsiDetaEliminados.push(idNumAsiDeta);
-            }
-
-            // Eliminar la fila
             $(this).closest("tr").remove();
-
-            calcularTotalesYDiferencia();
         });
 
     });
@@ -1074,7 +1062,6 @@
     }
     </script>
 
-    <!-- Esta funcion simplemente sirve para el desarrolador -->
     <script>
     function verDatos() {
         //datos que no son de la tabla dinamica
@@ -1116,10 +1103,10 @@
         var datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
-            filasEliminadas: window.idNumAsiDetaEliminados,
         };
+        console.log('Datos de filas: ', JSON.stringify(filas, null, 2));
+        console.log('Datos Formulario: ', JSON.stringify(datosFormulario, null, 2));
 
-        console.log('Filas eliminadas: ', JSON.stringify(datosCompletos, null, 2));
     }
     </script>
 
@@ -1185,7 +1172,6 @@
         var datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
-            filasEliminadas: window.idNumAsiDetaEliminados,
         };
 
         console.log('Todos los datos: ', datosCompletos);
@@ -1205,8 +1191,7 @@
                         alert(response.message);
                         window.location.href = response.redirect_url;
                     } else {
-                        window.location.href =
-                            '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
+                        window.location.href ='<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
                     }
                 },
                 error: function(xhr, status, error) {
@@ -1270,12 +1255,6 @@
     $(document).ready(function() {
         $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
         calcularTotalesYDiferencia();
-    });
-    </script>
-
-    <script>
-    $('#id_ff').on('change', function() {
-        $(this).prop('selectedIndex', $(this)[0].selectedIndex);
     });
     </script>
 

@@ -32,10 +32,6 @@
                                     data-bs-target="#modalListaObligacion">
                                     <i class="bi bi-plus" style="font-size: 20px;"></i>
                                 </button>
-                                <button type="button" class="btn btn-warning" title="Editar"
-                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
-                                </button>
                                 <button type="button" class="btn btn-danger" title="Generar PDF"
                                     onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs_pago')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
@@ -144,11 +140,6 @@
                                                                 name="concepto">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -436,7 +427,7 @@
                                                         </tbody>
                                                     </table>
                                                     <table id="miTabla2"
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                        class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                         <thead>
                                                             <tr>
                                                                 <th>Debe</th>
@@ -448,14 +439,19 @@
                                                             <tr>
                                                                 <td>
                                                                     <input type="text" id="DebeC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                        class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                        disabled>
                                                                 </td>
                                                                 <td>
                                                                     <input type="text" id="HaberC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                        class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                        disabled>
                                                                 </td>
-                                                                <td id="diferencia">0</td>
-                                                            </tr>
+                                                                <td>
+                                                                    <input type="text" id="diferencia"
+                                                                        class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                        value=0 disabled>
+                                                                </td>
                                                         </tbody>
                                                     </table>
                                                     <div class="container-fluid mt-3 mb-3">
@@ -471,70 +467,72 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- Tabla de los asientos -->
                                             <div class="card border">
                                                 <div class="card-body">
                                                     <h4 class="mt-4">Asientos</h4>
                                                     <hr><!-- Separador -->
                                                     <table id="vistapago"
-                                                    class="table table-hover table-bordered table-sm rounded-3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>N° asiento</th>
-                                                            <th>N° OP</th>
-                                                            <th>Fecha de Emisión</th>
-                                                            <th>Proveedor</th>
-                                                            <th>Monto Total</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php if (!empty($asiento)): ?>
-                                                        <?php foreach ($asiento as $asien): ?>
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo $asien->num_asi ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->op ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->FechaEmision ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->razon_social ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalPresupuesto"
-                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                        <span class="fa fa-search"></span>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-pencil-fill"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                        <p>No se encontraron datos.</p>
-                                                        <?php endif; ?>
-                                                    </tbody>
-                                                </table>
+                                                        class="table table-hover table-bordered table-sm rounded-3">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>N° asiento</th>
+                                                                <th>N° OP</th>
+                                                                <th>Fecha de Emisión</th>
+                                                                <th>Proveedor</th>
+                                                                <th>Monto Total</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php if (!empty($asiento)): ?>
+                                                            <?php foreach ($asiento as $asien): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $asien->num_asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->op ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->FechaEmision ?>
+                                                                </td>
+                                                                <td class="texto-izquierda">
+                                                                    <?php echo $asien->razon_social ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
+                                                            <?php else: ?>
+                                                            <p>No se encontraron datos.</p>
+                                                            <?php endif; ?>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -723,7 +721,9 @@
             lengthChange: true,
             searching: true,
             info: true,
-            order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
+            order: [
+                [0, 'desc']
+            ], // Ordena la primera columna en orden descendiente
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             }
@@ -1148,18 +1148,25 @@
             sumaHaber += parseFloat(valorHaber) || 0;
         });
 
-        // Actualizar los campos y la diferencia
-        $("#DebeC").val(sumaDebe.toFixed(2));
-        $("#HaberC").val(sumaHaber.toFixed(2));
+        // Formatear como número con separadores de miles
+        $("#DebeC").val(formatearNumero(sumaDebe));
+        $("#HaberC").val(formatearNumero(sumaHaber));
         var diferenciaTotal = sumaDebe - sumaHaber;
-        $("#diferencia").text(diferenciaTotal.toFixed(2));
+        $("#diferencia").val(formatearNumero(diferenciaTotal));
     }
 
-    // Vincular eventos
+    function formatearNumero(numero) {
+        // Asegurarse de que el número es un tipo flotante
+        numero = parseFloat(numero);
+        // Convertir a texto y añadir separadores de miles
+        return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     $(document).ready(function() {
-        $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
+        $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
     });
     </script>
+
     <!-- Script encargado de las tabla de Lista de Obligacion -->
     <script>
     $(document).ready(function() {
