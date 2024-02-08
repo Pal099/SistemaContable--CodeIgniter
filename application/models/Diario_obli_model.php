@@ -307,18 +307,49 @@ public function getUsuarioId($nombre){
         return $resultados->result();
     }
 
-	public function getPresupuesto(){
-        $this->db->select('presupuestos.*, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
+	public function getPresupuesto()
+	{
+		$this->db->select('presupuestos.*, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
 		cuentacontable.Descripcion_CC as descrip,');
 		$this->db->from('presupuestos');
 		$this->db->join('uni_respon_usu', 'presupuestos.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.IDCuentaContable');
 		$this->db->where('presupuestos.estado', '1');
-		$this->db->where('presupuestos.TotalPresupuestado > 0' );
+		$this->db->where('(pre_ene > 0 OR pre_feb > 0 OR pre_mar > 0 OR pre_abr > 0 OR pre_may > 0 OR pre_jun > 0 OR pre_jul > 0 OR pre_ago > 0 OR pre_sep > 0 OR pre_oct > 0 OR pre_nov > 0 OR pre_dic > 0)');
 		//$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-        $resultados = $this->db->get();
-        return $resultados->result();
-    }
+		$resultados = $this->db->get();
+		return $resultados->result();
+	}
+
+	public function getPresupuestoMes() {
+		$this->db->select('pre_ene, pre_feb, pre_mar, pre_abr, pre_may, pre_jun, pre_jul, pre_ago, pre_sep, pre_oct, pre_nov, pre_dic, ID_Presupuesto');
+		$this->db->from('presupuestos');
+		$this->db->where('estado', '1');
+		$this->db->where('(pre_ene > 0 OR pre_feb > 0 OR pre_mar > 0 OR pre_abr > 0 OR pre_may > 0 OR pre_jun > 0 OR pre_jul > 0 OR pre_ago > 0 OR pre_sep > 0 OR pre_oct > 0 OR pre_nov > 0 OR pre_dic > 0)');
+		$resultados = $this->db->get()->result();
+	
+		// Retornar solo los valores de los meses que cumplen con la condición
+		$meses = array();
+		foreach ($resultados as $fila) {
+			$mes = array(
+				'pre_ene' => $fila->pre_ene,
+				'pre_feb' => $fila->pre_feb,
+				'pre_mar' => $fila->pre_mar,
+				'pre_abr' => $fila->pre_abr,
+				'pre_may' => $fila->pre_may,
+				'pre_jun' => $fila->pre_jun,
+				'pre_jul' => $fila->pre_jul,
+				'pre_ago' => $fila->pre_ago,
+				'pre_sep' => $fila->pre_sep,
+				'pre_oct' => $fila->pre_oct,
+				'pre_nov' => $fila->pre_nov,
+				'pre_dic' => $fila->pre_dic
+			);
+			$meses[] = $mes;
+		}
+	
+		return $meses;
+	}
 
 	
 
@@ -370,7 +401,7 @@ public function getMontoPagadoPorIdNumAsi($proveedor_id, $idNumAsi) {
 public function guardar_monto_pago($idNumAsi, $nuevoMontoPago) {
 	// Actualiza el campo MontoPagado en la fila correspondiente
 	$this->db->where('IDNum_Asi', $idNumAsi);
-	$this->db->update('num_asi', ['MontoPagado' => $nuevoMontoPagado]);
+	$this->db->update('num_asi', ['MontoPagado' => $nuevoMontoPago]);
 }
 
 // En tu modelo Diario_obli_model
