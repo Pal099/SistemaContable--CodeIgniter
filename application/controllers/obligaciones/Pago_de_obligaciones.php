@@ -49,11 +49,14 @@ class Pago_de_obligaciones extends CI_Controller
 
 	}
 
-	public function pdfs_pago()
+	public function pdfs_pago() //Para el ultimo obligado
 	{
 		$this->load->view("fpdf_pago");
 
 	}
+
+	
+	
 
 	public function add()
 	{
@@ -76,6 +79,18 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
+	}
+
+	public function pdfs_pago_num_asi($numero_asiento) //Por numero de asiento
+	{
+		// Puedes usar $numero_asiento en tu lógica de la vista
+		$data['numero_asiento'] = $numero_asiento;
+
+		 // Puedes imprimir o hacer algo con el número de asiento para verificar si está pasando correctamente
+		 echo "Número de Asiento: " . $numero_asiento;
+
+	
+		$this->load->view("Pdf_pago_num_asi/pdf_pago_obli_num_asi", $data);
 	}
 
 	public function store()

@@ -523,9 +523,14 @@
                                                                     </button>
                                                                     <button type="button"
                                                                         class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" target="_blank" onclick="window.location.href='<?php echo base_url('obligaciones/Pago_obligaciones/pdfs_pago_num_asi/' . $asien->IDNum_Asi); ?>'">
+                                                                        <i class="bi bi-filetype-pdf"></i>
+                                                                    </button>
+
+
                                                                 </div>
                                                             </td>
                                                         </tr>
