@@ -675,7 +675,7 @@
         document.getElementById('id_ff').value = fuentes;
         document.getElementById('id_pro').value = programas;
         document.getElementById('id_of').value = origens;
-        //Prueba '&descripcion2=' + descripcionCodificada2
+        
         $.ajax({
             type: 'GET',
             url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +

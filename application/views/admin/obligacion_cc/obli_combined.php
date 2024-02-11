@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Diario de Obligación</li>
+                <li class="breadcrumb-item">Diario de Obligación CC</li>
             </ol>
         </nav>
 
@@ -23,7 +23,7 @@
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 mt-4">
-                        <h1>Diario de Obligación</h1>
+                        <h1>Diario de Obligación CC</h1>
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -169,6 +169,14 @@
                                                                     <label for="op">N° Op</label>
                                                                     <input type="text" class="form-control" id="op"
                                                                         name="op" value="<?= $op_actual ?>" readonly>
+                                                                </div>
+                                                                <div class="form-group col-md-12">
+                                                                    <input type="text" class="form-control"
+                                                                        id="id_presu" name="id_presu" value="" hidden>
+                                                                    <input type="text" class="form-control"
+                                                                        id="id_presuE" name="id_presuE" value="" hidden>
+                                                                    <input type="text" class="form-control"
+                                                                        id="valormes" name="valormes" value="" hidden>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -683,23 +691,10 @@
 
         <!-- Envio de formulario principal -->
         <script>
-            let mes;
-            let prosu = = $('#miInput').val();
-            
+
             $("#formularioPrincipal").on("submit", function () {
 
-                $.ajax({
-                    url: 'models/Diario_obli_model/getPresupuestoMes', // Ruta a tu script PHP que obtiene los datos de la base de datos
-                    type: 'GET',
-                    success: function (data) {
-                        // La solicitud AJAX tuvo éxito
-                        mes = data;
-                    },
-                    error: function (xhr, status, error) {
-                        // La solicitud AJAX falló
-                        reject('Error en la solicitud AJAX: ' + status + ', ' + error); // Rechaza la promesa con un mensaje de error
-                    }
-                });
+
 
                 //datos que no son de la tabla dinamica
                 var datosFormulario = {
@@ -763,43 +758,51 @@
                     filas: filas,
                 };
 
+                var valorDebe = $('#Debe').val().replace(/[^\d.-]/g, '');
+                let presu = $('#valormes').val();
                 var diferenciaActualizada = parseFloat($("#diferencia").val());
 
-                if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                    $.ajax({
-                        url: '<?php echo base_url("obligaciones/diario_obligaciones_cc/store"); ?>',
-                        type: 'POST',
-                        data: {
-                            datos: datosCompletos
-                        },
-                        //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                        success: function (response) {
-                            console.log(response);
-                            if (response.includes('Datos guardados exitosamente.')) {
-                                alert('Datos guardados exitosamente.');
-                                // ... (código adicional si es necesario)
-                            } else {
-                                alert('Error al guardar los datos: ' + response);
+                if (presu >= valorDebe) {
+                    if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+                        $.ajax({
+                            url: '<?php echo base_url("obligaciones/diario_obligaciones_cc/store"); ?>',
+                            type: 'POST',
+                            data: {
+                                datos: datosCompletos
+                            },
+                            //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                            success: function (response) {
                                 console.log(response);
+                                if (response.includes('Datos guardados exitosamente.')) {
+                                    alert('Datos guardados exitosamente.');
+                                    // ... (código adicional si es necesario)
+                                } else {
+                                    alert('Error al guardar los datos: ' + response);
+                                    console.log(response);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+
+                                console.log(xhr
+                                    .responseText); // Agrega esta línea para ver la respuesta del servidor
+                                console.log(datosCompletos);
+                                alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                                console.log(xhr
+                                    .responseText); // Agrega esta línea para ver la respuesta del servidor
+                                console.log(datosCompletos);
+                                alert("Error en la solicitud AJAX: " + status + " - " + error);
+
                             }
-                        },
-                        error: function (xhr, status, error) {
-
-                            console.log(xhr
-                                .responseText); // Agrega esta línea para ver la respuesta del servidor
-                            console.log(datosCompletos);
-                            alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                            console.log(xhr
-                                .responseText); // Agrega esta línea para ver la respuesta del servidor
-                            console.log(datosCompletos);
-                            alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                        }
-                    });
-                } else {
-                    alert('El debe y el haber son diferentes');
+                        });
+                    } else {
+                        alert('El debe y el haber son diferentes');
+                        return false;
+                    }
+                }
+                else {
+                    alert('No hay suficiente presupuesto');
                     return false;
                 }
 
@@ -826,12 +829,13 @@
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($presu as $dato): ?>
                                     <tr class="list-item"
-                                        onclick="selectCC(<?= $dato->idcuenta ?>,'<?= $dato->codigo ?>', '<?= $dato->descrip ?>', '<?= $dato->programa_id_pro ?>', '<?= $dato->fuente_de_financiamiento_id_ff ?>', '<?= $dato->origen_de_financiamiento_id_of ?>')"
+                                        onclick="selectCC(<?= $dato->idcuenta ?>,'<?= $dato->codigo ?>', '<?= $dato->descrip ?>','<?= $dato->ID_Presupuesto ?>', '<?= $dato->programa_id_pro ?>', '<?= $dato->fuente_de_financiamiento_id_ff ?>', '<?= $dato->origen_de_financiamiento_id_of ?>')"
                                         data-bs-dismiss="modal">
                                         <td>
                                             <?= $dato->idcuenta ?>
@@ -841,6 +845,9 @@
                                         </td>
                                         <td>
                                             <?= $dato->descrip ?>
+                                        </td>
+                                        <td>
+                                            <?= $dato->ID_Presupuesto ?>
                                         </td>
                                         <td>
                                             <?= $dato->programa_id_pro ?>
@@ -904,15 +911,47 @@
 
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
-            function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC, pro, off, ff) {
+            function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC, presu, pro, off, ff) {
                 // Actualizar los campos de texto en la vista principal con los valores seleccionados
                 document.getElementById('idcuentacontable').value = IDCuentaContable;
                 document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
                 document.getElementById('descripcion_cc').value = Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+                document.getElementById('id_presu').value = presu;
                 document.getElementById('id_pro').value = pro; // Asume que tienes un campo con id 'descripcion_cc'
                 document.getElementById('id_ff').value = ff; // Asume que tienes un campo con id 'descripcion_cc'
                 document.getElementById('id_of').value = off; // Asume que tienes un campo con id 'descripcion_cc'
 
+
+                var presup = presu;
+
+                var presupCodificada = encodeURIComponent(presup);
+                //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
+
+                $.ajax({
+                    url: '<?php echo base_url("obligaciones/Diario_obligaciones_cc/Ejecucion"); ?>?presu=' +
+                        presupCodificada, // Ruta a tu script PHP que obtiene los datos de la base de datos
+                    type: 'GET',
+                    success: function (data) {
+                        // La solicitud AJAX tuvo éxito
+                        var valores = data.split(',');
+
+                        for (var i = 0; i < valores.length; i++) {
+                            var campo_valor = valores[i].split(':');
+                            var campo = campo_valor[0];
+                            var valor = campo_valor[1];
+
+                            // Asignar el valor al campo correspondiente
+                            $('#id_presuE').val(campo);
+                            $('#valormes').val(valor);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error en la solicitud AJAX');
+                        console.log('XHR:', xhr);
+                        console.log('Status:', status);
+                        console.log('Error:', error);
+                    }
+                });
             }
 
             $(document).ready(function () {

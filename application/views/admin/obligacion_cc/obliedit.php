@@ -17,16 +17,16 @@
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
                 <li class="breadcrumb-item"><a
-                        href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de
-                        Obligación</a></li>
-                <li class="breadcrumb-item">Edición de Obligación</li>
+                        href="<?php echo base_url(); ?>obligaciones/diario_obligaciones_cc/add">Diario de
+                        Obligación CC</a></li>
+                <li class="breadcrumb-item">Edición de Obligación CC</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 mt-4">
-                        <h1>Editar Obligación</h1>
+                        <h1>Editar Obligación CC</h1>
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-4">

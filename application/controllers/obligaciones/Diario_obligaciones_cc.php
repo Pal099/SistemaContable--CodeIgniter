@@ -40,10 +40,10 @@ class Diario_obligaciones_cc extends CI_Controller
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
-        $this->load->view("layouts/header");
-        $this->load->view("layouts/sideBar");
-        $this->load->view("admin/obligacion_cc/obli_combined", $data);
-        $this->load->view("layouts/footer");
+		$this->load->view("layouts/header");
+		$this->load->view("layouts/sideBar");
+		$this->load->view("admin/obligacion_cc/obli_combined", $data);
+		$this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
 	}
@@ -179,11 +179,11 @@ class Diario_obligaciones_cc extends CI_Controller
 				if ($this->input->is_ajax_request()) {
 
 					$datosFormulario = $datosCompletos['filas'];
-						$filas = $datosCompletos['filas'];
-						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
-							foreach ($filas as $fila) {
-								// Ejemplo de cómo podrías procesar una fila
-								$dataDetaHaber = array(
+					$filas = $datosCompletos['filas'];
+					if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+						foreach ($filas as $fila) {
+							// Ejemplo de cómo podrías procesar una fila
+							$dataDetaHaber = array(
 								'Num_Asi_IDNum_Asi' => $lastInsertedId,
 								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
 								'Haber' => $fila['Haber'],
@@ -191,7 +191,7 @@ class Diario_obligaciones_cc extends CI_Controller
 								'detalles' => $fila['detalles'],
 								'numero' => $numero,
 								'comprobante' => $fila['comprobante'],
-								'id_of' => $fila['id_of'],	
+								'id_of' => $fila['id_of'],
 								'id_pro' => $fila['id_pro'],
 								'id_ff' => $fila['id_ff'],
 								'IDCuentaContable' => $fila['IDCuentaContable'],
@@ -201,10 +201,10 @@ class Diario_obligaciones_cc extends CI_Controller
 								'id_form' => "1",
 								'estado_registro' => "1",
 							);
-								
+
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
-							
-								
+
+
 						}
 
 					}
@@ -217,7 +217,7 @@ class Diario_obligaciones_cc extends CI_Controller
 				}
 
 			}
-		} 
+		}
 
 	} // fin del store
 
@@ -228,13 +228,52 @@ class Diario_obligaciones_cc extends CI_Controller
 		$this->mostrar_vista($numero_cuenta, $desc_cuenta);
 	}
 
+	public function Ejecucion()
+	{
+		// Obtener el presupuesto del mes desde el modelo
+
+
+		$presup = urldecode($_GET['presu']);
+
+		$resultado = $this->Diario_obli_model->getPresupuestoMes();
+
+		// Filtrar los resultados según el valor de $presup
+		$valores_mayores_cero = array();
+
+		// Iterar sobre los resultados y guardar los valores mayores que 0
+		foreach ($resultado as $fila) {
+			// Verificar si el ID_Presupuesto coincide con $presup
+			if ($fila->ID_Presupuesto == $presup) {
+				foreach ($fila as $campo => $valor) {
+					// Verificar si el valor es mayor que 0
+					if ($valor > 0) {
+						// Almacenar el valor en el array asociativo
+						$valores_mayores_cero[$campo] = $valor;
+					}
+				}
+			}
+		}
+
+		foreach ($valores_mayores_cero as $campo => $valor) {
+			// Concatenar los valores separados por coma
+			$valores_string .= $presup . ':' . $valor . ',';
+		}
+		
+		// Eliminar la última coma
+		$valores_string = rtrim($valores_string, ',');
+		
+		// Enviar la cadena de valores
+		echo $valores_string;
+	
+
+	}
 
 	public function edit($id)
 	{
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-	
+
 		// Obtener datos de las tablas requeridas para los datos
 		$asiento = $this->Diario_obli_model->GetAsientoEditar($id);
 		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
@@ -242,7 +281,7 @@ class Diario_obligaciones_cc extends CI_Controller
 		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$origen_de_financiamiento = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
-	
+
 		// Buscamos los datos corresponiendentes de las tablas para facilidad de su manejo
 		$proveedorEncontrado = null;
 		foreach ($proveedores as $proveedor) {
@@ -270,21 +309,22 @@ class Diario_obligaciones_cc extends CI_Controller
 		// Agregar datos al array $data
 		$data = array(
 			'asiento' => $asiento,
-			'proveedor' => $proveedorEncontrado, 
+			'proveedor' => $proveedorEncontrado,
 			'programa' => $programas,
 			'fuente_de_financiamiento' => $fuente_de_financiamiento,
 			'origen_de_financiamiento' => $origen_de_financiamiento,
 			'cuentacontable' => $cuentacontables,
 			'proveedoresALL' => $proveedores,
 		);
-	
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion_cc/obliedit", $data);
 		$this->load->view("layouts/footer");
 	}
-	public function testearDatos() {
-		$IDNum_Asi = 18; 
+	public function testearDatos()
+	{
+		$IDNum_Asi = 18;
 		$datos = $this->Diario_obli_model->GetAsientoEditar($IDNum_Asi);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable(1);
 
@@ -336,7 +376,7 @@ class Diario_obligaciones_cc extends CI_Controller
 		//-----------------//---------------------------
 		$pedmat = $datosFormulario['pedmat'];
 		$MontoPago = $datosFormulario['MontoPago'];
-		$MontoTotal= $datosFormulario['total'];
+		$MontoTotal = $datosFormulario['total'];
 		$modalidad = $datosFormulario['modalidad'];
 		$tipo_presupuesto = $datosFormulario['tipo_presu'];
 		$nro_exp = $datosFormulario['nro_exp'];
@@ -364,61 +404,61 @@ class Diario_obligaciones_cc extends CI_Controller
 			$this->Diario_obli_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
 
 			//Acá el codigo para actualizar num_asi_deta
-				if ($this->input->is_ajax_request()) {
-						$filas = $datosCompletos['filas'];
-						foreach ($filas as $fila) {
-							/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
-							debemos de agregarlo como un registro nuevo */
-							if (!isset($fila['IDNum_Asi_Deta'])) {
-								$Num_Asi_IDNum_Asi = $IDNum_Asi;
-								$dataInsertar = array(
-									'MontoPago' => $fila['Haber'],
-									'Debe' => $fila['Debe'],
-									'Haber' => $fila['Haber'],
-									'detalles' => $fila['detalles'],
-									'numero' => $numero,
-									'Comprobante' => $fila['Comprobante'],
-									'id_of' => $fila['id_of'],	
-									'id_pro' => $fila['id_pro'],
-									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentaContable'],
-									'cheques_che_id' => $fila['cheques_che_id'],
-									'proveedores_id' => $proveedor_id,
-									'numero' => $num_asi,
-									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
-								);
-								$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
-							}else{
-								//Obtenemos el valor del id para poder actualizar los datos
-								$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
-								//Creamos el array de los datos que se actualizaran
-								$dataActualizar = array(
-									'MontoPago' => $fila['Haber'],
-									'Debe' => $fila['Debe'],
-									'Haber' => $fila['Haber'],
-									'detalles' => $fila['detalles'],
-									'numero' => $numero,
-									'Comprobante' => $fila['Comprobante'],
-									'id_of' => $fila['id_of'],	
-									'id_pro' => $fila['id_pro'],
-									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentaContable'],
-									'cheques_che_id' => $fila['cheques_che_id'],
-									'proveedores_id' => $proveedor_id,
-								);	
-								$this->Diario_obli_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
-							}
-	
-						}
-						exit();
-				} else {
-					// Esta lógica se ejecutará si la solicitud no es AJAX
-					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
-					echo 'Esta no es una solicitud AJAX';
-				}		
-		} 
+			if ($this->input->is_ajax_request()) {
+				$filas = $datosCompletos['filas'];
+				foreach ($filas as $fila) {
+					/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
+																																				  debemos de agregarlo como un registro nuevo */
+					if (!isset($fila['IDNum_Asi_Deta'])) {
+						$Num_Asi_IDNum_Asi = $IDNum_Asi;
+						$dataInsertar = array(
+							'MontoPago' => $fila['Haber'],
+							'Debe' => $fila['Debe'],
+							'Haber' => $fila['Haber'],
+							'detalles' => $fila['detalles'],
+							'numero' => $numero,
+							'Comprobante' => $fila['Comprobante'],
+							'id_of' => $fila['id_of'],
+							'id_pro' => $fila['id_pro'],
+							'id_ff' => $fila['id_ff'],
+							'IDCuentaContable' => $fila['IDCuentaContable'],
+							'cheques_che_id' => $fila['cheques_che_id'],
+							'proveedores_id' => $proveedor_id,
+							'numero' => $num_asi,
+							'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
+						);
+						$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
+					} else {
+						//Obtenemos el valor del id para poder actualizar los datos
+						$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
+						//Creamos el array de los datos que se actualizaran
+						$dataActualizar = array(
+							'MontoPago' => $fila['Haber'],
+							'Debe' => $fila['Debe'],
+							'Haber' => $fila['Haber'],
+							'detalles' => $fila['detalles'],
+							'numero' => $numero,
+							'Comprobante' => $fila['Comprobante'],
+							'id_of' => $fila['id_of'],
+							'id_pro' => $fila['id_pro'],
+							'id_ff' => $fila['id_ff'],
+							'IDCuentaContable' => $fila['IDCuentaContable'],
+							'cheques_che_id' => $fila['cheques_che_id'],
+							'proveedores_id' => $proveedor_id,
+						);
+						$this->Diario_obli_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
+					}
+
+				}
+				exit();
+			} else {
+				// Esta lógica se ejecutará si la solicitud no es AJAX
+				// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
+				echo 'Esta no es una solicitud AJAX';
+			}
+		}
 	}
-	
+
 
 
 
