@@ -19,7 +19,7 @@
                 <li class="breadcrumb-item"><a
                         href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">Pago
                         de Obligaciones</a></li>
-                <li class="breadcrumb-item">Edición del Pago de Obligación</li>
+                <li class="breadcrumb-item active">Edición del Pago de Obligación</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">

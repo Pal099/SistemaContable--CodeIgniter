@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Pago de Obligaciones</li>
+                <li class="breadcrumb-item active">Pago de Obligaciones</li>
             </ol>
         </nav>
 

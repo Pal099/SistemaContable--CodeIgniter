@@ -318,6 +318,7 @@
         });
     });
     </script>
+
     <script>
     $(document).ready(function() {
         var table1 = $('#TablaCuentaCont1').DataTable({
