@@ -14,6 +14,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->model("Pago_obli_model");
 		$this->load->model("Diario_obli_model");
 		$this->load->model("Usuarios_model");
+		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 		$this->load->library('form_validation');
 
 	}
@@ -234,7 +235,7 @@ class Diario_obligaciones extends CI_Controller
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 	
 		// Obtener datos de las tablas requeridas para los datos
-		$asiento = $this->Diario_obli_model->GetAsientoEditar($id);
+		$asiento = $this->Editar_Movimientos_model->GetAsientoEditar($id);
 		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
 		$programas = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
@@ -357,7 +358,7 @@ class Diario_obligaciones extends CI_Controller
 			//Se elimina solo si el usuario le dio al boton borrar y guardar
 			foreach ($filasEliminadas as $idNumAsiDeta) {
 				// Se realiza la operación de borrado lógico para cada IDNum_Asi_Deta
-				$this->Diario_obli_model->borrado_logico($idNumAsiDeta);
+				$this->Editar_Movimientos_model->borrado_logico($idNumAsiDeta);
 			}
 		}
 
@@ -376,7 +377,7 @@ class Diario_obligaciones extends CI_Controller
 				'op' => $op,
 			);
 			//Se actualiza num_asi
-			$this->Diario_obli_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
+			$this->Editar_Movimientos_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
 
 			//Acá el codigo para actualizar num_asi_deta
 				if ($this->input->is_ajax_request()) {
@@ -403,7 +404,7 @@ class Diario_obligaciones extends CI_Controller
 									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
 									'estado_registro' => 1,
 								);
-								$this->Diario_obli_model->update_num_asi_deta_fila_nueva($dataInsertar);
+								$this->Editar_Movimientos_model->update_num_asi_deta_fila_nueva($dataInsertar);
 							}else{
 								//Obtenemos el valor del id para poder actualizar los datos
 								$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
@@ -422,7 +423,7 @@ class Diario_obligaciones extends CI_Controller
 									'cheques_che_id' => $fila['cheques_che_id'],
 									'proveedores_id' => $proveedor_id,
 								);	
-								$this->Diario_obli_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
+								$this->Editar_Movimientos_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
 							}
 	
 						}

@@ -487,7 +487,7 @@
                                         <!-- Tabla de los asientos -->
                                         <div class="card border">
                                             <div class="card-body">
-                                                <h4 class="mt-4">Asientos</h4>
+                                                <h4 class="mt-4">Asientos Obligados</h4>
                                                 <hr><!-- Separador -->
                                                 <table id="vistaobli"
                                                     class="table table-hover table-bordered table-sm rounded-3">

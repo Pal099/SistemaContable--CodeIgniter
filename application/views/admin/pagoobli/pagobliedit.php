@@ -158,7 +158,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select
                                                                             class="form-control border-0 bg-transparent"
-                                                                            id="id_pro" name="id_pro">
+                                                                            id="id_pro" name="id_pro" disabled>
                                                                             <!-- En este ciclo se busca el id del programa en el array que se envia en la primera posicion, 
                                                                         una vez encuentra ese id en el ciclo lo selecciona y lo muestra en el select -->
                                                                             <?php foreach ($programa as $prog) : ?>
@@ -168,6 +168,9 @@
                                                                             </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
+                                                                        <!-- Campo para el valor ya que el select está deshabilitado -->
+                                                                        <input type="hidden" name="id_pro"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->id_pro; ?>" />
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -191,7 +194,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <select
                                                                             class="form-control border-0 bg-transparent"
-                                                                            id="id_of" name="id_of" required>
+                                                                            id="id_of" name="id_of" disabled>
                                                                             <?php foreach ($origen_de_financiamiento as $of) : ?>
                                                                             <option value="<?php echo $of->id_of ?>"
                                                                                 <?php echo ($asiento[0]['camposDinamicos'][0]->id_of == $of->id_of) ? 'selected' : ''; ?>>
@@ -199,6 +202,9 @@
                                                                             </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
+                                                                        <!-- Campo para el valor ya que el select está deshabilitado -->
+                                                                        <input type="hidden" name="id_of"
+                                                                            value="<?php echo $asiento[0]['camposDinamicos'][0]->id_of; ?>" />
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -616,7 +622,7 @@
                                                 class="btn btn-success "><span class="fa fa-save"></span>Guardar
                                             </button>
                                             <button type="button" class="btn btn-danger ml-3"
-                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
+                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add'">
                                                 <i class="fa fa-remove"></i> Cancelar
                                             </button>
                                         </div>
@@ -1119,7 +1125,7 @@
             filasEliminadas: window.idNumAsiDetaEliminados,
         };
 
-        console.log('Filas eliminadas: ', JSON.stringify(datosCompletos, null, 2));
+        console.log('Todos los datos: ', JSON.stringify(datosCompletos, null, 2));
     }
     </script>
 
@@ -1194,7 +1200,7 @@
 
         if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
             $.ajax({
-                url: '<?php echo base_url("obligaciones/Diario_obligaciones/update"); ?>',
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/update"); ?>',
                 type: 'POST',
                 data: {
                     datos: datosCompletos
@@ -1206,7 +1212,7 @@
                         window.location.href = response.redirect_url;
                     } else {
                         window.location.href =
-                            '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>'
+                            '<?php echo base_url("obligaciones/pago_de_obligaciones/add"); ?>'
                     }
                 },
                 error: function(xhr, status, error) {

@@ -471,7 +471,7 @@
                                             <!-- Tabla de los asientos -->
                                             <div class="card border">
                                                 <div class="card-body">
-                                                    <h4 class="mt-4">Asientos</h4>
+                                                    <h4 class="mt-4">Asientos Pagados</h4>
                                                     <hr><!-- Separador -->
                                                     <table id="vistapago"
                                                         class="table table-hover table-bordered table-sm rounded-3">
