@@ -78,6 +78,14 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
+	public function pdfs_pago_num_asi($numero_asiento) //Por numero de asiento
+	{
+		// Puedes usar $numero_asiento en tu lógica de la vista
+		$data['numero_asiento'] = $numero_asiento;
+	
+		$this->load->view("Pdf_pago_num_asi/pdf_pago_obli_num_asi", $data);
+	}
+
 	public function store()
 	{
 		header('Access-Control-Allow-Origin: *');
