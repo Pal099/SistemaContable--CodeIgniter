@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pdf_pago_num_asi extends CI_Controller {
 
-    public function index()
+    public function index($numero_asiento)
     {
         $this->load->model("Pdf_model"); // Load the model firsta
         $datos['titulo'] = 'Reporte de Obligaciones';

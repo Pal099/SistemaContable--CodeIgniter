@@ -85,10 +85,6 @@ class Pago_de_obligaciones extends CI_Controller
 	{
 		// Puedes usar $numero_asiento en tu lógica de la vista
 		$data['numero_asiento'] = $numero_asiento;
-
-		 // Puedes imprimir o hacer algo con el número de asiento para verificar si está pasando correctamente
-		 echo "Número de Asiento: " . $numero_asiento;
-
 	
 		$this->load->view("Pdf_pago_num_asi/pdf_pago_obli_num_asi", $data);
 	}

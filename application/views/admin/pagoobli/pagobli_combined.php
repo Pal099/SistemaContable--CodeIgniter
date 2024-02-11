@@ -526,9 +526,16 @@
                                                                         onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
-                                                                    <button type="button" class="btn btn-primary btn-sm" target="_blank" onclick="window.location.href='<?php echo base_url('obligaciones/Pago_obligaciones/pdfs_pago_num_asi/' . $asien->IDNum_Asi); ?>'">
+                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
                                                                         <i class="bi bi-filetype-pdf"></i>
                                                                     </button>
+
+                                                                    <script>
+                                                                        function generarPDF(numeroAsiento) {
+                                                                            // Redirige a la URL con el número de asiento
+                                                                            window.location.href = "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" + numeroAsiento;
+                                                                        }
+                                                                    </script>
 
 
                                                                 </div>

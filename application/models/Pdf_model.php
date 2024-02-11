@@ -56,7 +56,7 @@ class Pdf_model extends CI_Model {
         $this->db->join('programa pr', 'pr.id_pro = nd.id_pro');
         $this->db->join('origen_de_financiamiento of', 'of.id_of = nd.id_of');
         $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
-        $this->db->where('numasi', $numero_asiento);
+        $this->db->where('num_asi', $numero_asiento);
         $this->db->order_by('numasi.op', 'DESC'); // Ordena por el ID de forma descendente
         $this->db->limit(1); // Limita a un solo registro
         $query = $this->db->get();
