@@ -68,6 +68,7 @@ class Recepcion_Bienes extends MY_Controller {
 		$unidad = $this->input->post("id_Unidad");
 		$depedencia = $this->input->post("id_Dependencia");
 		$funcionario = $this->input->post("Funcionario");
+		$id_comprobante = $this->input->post("idcomprobante");
 
 
 		$this->form_validation->set_rules("nro", "Nro", "required[recepcion_bienes.nro]");
@@ -159,7 +160,7 @@ class Recepcion_Bienes extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Recepcion_Bienes_model->update($id,$data);
-		echo "patrimonio/recepcionbienes";
+		redirect(base_url() . "patrimonio/recepcion_bienes");
 	}
 	public function getBienDetalle($id) {
 		$BienDetalle = $this->Recepcion_Bienes_model->getRecepcionBien($id);

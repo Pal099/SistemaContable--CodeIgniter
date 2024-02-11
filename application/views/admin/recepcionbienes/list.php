@@ -68,10 +68,10 @@
                                   <button type="button" class="btn btn-primary btn-view-bienes btn-sm" data-bs-toggle="modal" data-bs-target="#modalBienes" value="<?php echo $bien->IDRecepcionBienes; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>suministro/recepcion_bienes/edit/<?php echo $bien->IDRecepcionBienes;?>'">
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/recepcion_bienes/edit/<?php echo $bien->IDRecepcionBienes;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>suministro/recepcion_bienes/delete/<?php echo$bien->IDRecepcionBienes; ?>'">
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes/delete/<?php echo$bien->IDRecepcionBienes; ?>'">
                                     <i class="bi bi-trash"></i>
                                   </button>
                                 </div>
