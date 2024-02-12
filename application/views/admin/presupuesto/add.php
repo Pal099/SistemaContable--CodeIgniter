@@ -51,6 +51,9 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
+                                                    <p class="titulo-body fw-semibold">Información general del
+                                                        presupuesto</p>
+                                                    <hr>
                                                     <div class="form-group col-md-4">
                                                         <label for="Año">Fecha:</label>
                                                         <input type="date" class="form-control" id="Año" name="Año"
@@ -92,7 +95,7 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="form-group col-md-4">
                                                         <label for="programa_id_pro">Programa:</label>
                                                         <select name="programa_id_pro" id="programa_id_pro"

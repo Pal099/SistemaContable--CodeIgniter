@@ -115,7 +115,7 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="datetime-local" class="form-control" id="fecha"
+                                                        <input type="date" class="form-control" id="fecha"
                                                             name="fecha" required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
@@ -158,7 +158,7 @@
                                                                 <div class="col-md-4">
                                                                     <label for="total">Total:</label>
                                                                     <input type="text" class="form-control w-100"
-                                                                        id="total" name="total">
+                                                                        id="total" name="total" readonly>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="pagado">Pagado:</label>

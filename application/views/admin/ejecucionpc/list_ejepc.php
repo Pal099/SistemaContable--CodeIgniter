@@ -3,8 +3,8 @@
 
 <head>
     <!-- Estilos de DataTable de jquery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style_ejecu_pre.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
 </head>
 
 <body>
@@ -41,11 +41,11 @@
                                 <div class="col-md-12">
                                     <div class="card border">
                                         <div class="card-body mt-4">
-                                            <h4 class="mt-2">Listado de las Ejecuciones Presupuestarias</h4>
+                                            <h5 class="mt-2">Listado de las Ejecuciones Presupuestarias</h5>
                                             <hr><!-- Separador -->
                                             <div class="table-responsive">
                                                 <table id="TablaEjecucionPre"
-                                                    class="table table-bordered table-sm rounded-3">
+                                                    class="table table-sm rounded-3">
                                                     <thead>
                                                         <tr>
                                                             <th>O.F</th>
@@ -53,10 +53,10 @@
                                                             <th>PROG.</th>
                                                             <th>Cuenta</th>
                                                             <th>Presupuesto Inicial</th>
-                                                            <th>Aumento/Disminución<br> Presupuestaria</th>
+                                                            <th>Aumento/Disminución Presupuestaria</th>
                                                             <th>Presupuesto Vigente</th>
                                                             <th>Obligado</th>
-                                                            <th>SaldoPresupuestario</th>
+                                                            <th>Saldo Presupuestario</th>
                                                             <th>Pagado</th>
                                                         </tr>
                                                     </thead>
@@ -68,12 +68,18 @@
                                                             <td><?php echo $ep->fuente_de_financiamiento_id_ff; ?></td>
                                                             <td><?php echo $ep->programa_id_pro; ?></td>
                                                             <td><?php echo $ep->Idcuentacontable; ?></td>
-                                                            <td><?php echo $ep->TotalPresupuestado; ?></td>
-                                                            <td><?php echo $ep->TotalModificado; ?></td>
-                                                            <td><?php echo $ep->Vigente; ?></td>
-                                                            <td><?php echo $ep->Obligado; ?></td>
-                                                            <td><?php echo $ep->SaldoPresupuestario; ?></td>
-                                                            <td><?php echo $ep->Pagado; ?></td>
+                                                            <td><?php echo number_format($ep->TotalPresupuestado, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td><?php echo number_format($ep->TotalModificado, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td><?php echo number_format($ep->Vigente, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td><?php echo number_format($ep->Obligado, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td><?php echo number_format($ep->SaldoPresupuestario, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td><?php echo number_format($ep->Pagado, 0, '.', '.'); ?>
+                                                            </td>
                                                         </tr>
                                                         <?php endif; ?>
                                                         <?php endforeach; ?>
