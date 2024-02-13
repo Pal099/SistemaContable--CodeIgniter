@@ -41,11 +41,10 @@
                                 <div class="col-md-12">
                                     <div class="card border">
                                         <div class="card-body mt-4">
-                                            <h5 class="mt-2">Listado de las Ejecuciones Presupuestarias</h5>
-                                            <hr><!-- Separador -->
+                                            <p class="titulo-body fw-semibold">Listado de las Ejecuciones Presupuestarias</p>
+                                            <hr>
                                             <div class="table-responsive">
-                                                <table id="TablaEjecucionPre"
-                                                    class="table table-sm rounded-3">
+                                                <table id="TablaEjecucionPre" class="table table-sm rounded-3">
                                                     <thead>
                                                         <tr>
                                                             <th>O.F</th>
