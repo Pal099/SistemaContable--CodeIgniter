@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Diario de Obligación</li>
+                <li class="breadcrumb-item active">Diario de Obligación</li>
             </ol>
         </nav>
 
@@ -115,7 +115,7 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="datetime-local" class="form-control" id="fecha"
+                                                        <input type="date" class="form-control" id="fecha"
                                                             name="fecha" required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
@@ -158,7 +158,7 @@
                                                                 <div class="col-md-4">
                                                                     <label for="total">Total:</label>
                                                                     <input type="text" class="form-control w-100"
-                                                                        id="total" name="total">
+                                                                        id="total" name="total" readonly>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="pagado">Pagado:</label>
@@ -451,7 +451,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -463,14 +463,19 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                    disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                    disabled>
                                                             </td>
-                                                            <td id="diferencia">0</td>
-
+                                                            <td>
+                                                                <input type="text" id="diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                    value=0 disabled>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -491,7 +496,7 @@
                                         <!-- Tabla de los asientos -->
                                         <div class="card border">
                                             <div class="card-body">
-                                                <h4 class="mt-4">Asientos</h4>
+                                                <h4 class="mt-4">Asientos Obligados</h4>
                                                 <hr><!-- Separador -->
                                                 <table id="vistaobli"
                                                     class="table table-hover table-bordered table-sm rounded-3">
@@ -514,7 +519,7 @@
                                                             <td>
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
-                                                            <td>
+                                                            <td class="texto-izquierda">
                                                                 <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>
@@ -742,7 +747,7 @@
                 filas: filas,
             };
 
-            var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var diferenciaActualizada = parseFloat($("#diferencia").val());
 
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
@@ -1038,7 +1043,9 @@
                 lengthChange: true,
                 searching: true,
                 info: true,
-                order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
+                order: [
+                    [0, 'desc']
+                ], // Ordena la primera columna en orden descendiente
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                 }
@@ -1088,8 +1095,8 @@
             // Formatear como número con separadores de miles
             $("#DebeC").val(formatearNumero(sumaDebe));
             $("#HaberC").val(formatearNumero(sumaHaber));
-            var dife    enciaTotal = sumaDebe - sumaHaber;
-            $("#diferencia").text(formatearNumero(diferenciaTotal));
+            var diferenciaTotal = sumaDebe - sumaHaber;
+            $("#diferencia").val(formatearNumero(diferenciaTotal));
         }
 
         function formatearNumero(numero) {
