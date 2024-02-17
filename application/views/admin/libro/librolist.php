@@ -332,54 +332,6 @@
         });
     });
     </script>
-    <!-- Script de DataTable de jquery -->
-    <!-- Script de la tabla de presupuesto -->
-  <script>
-    $(document).ready(function() {
-      var table1 = $('#TablaPresupuesto').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
-          '<"row"<"col-sm-12"t>>' +
-          '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-        lengthMenu: [
-          [10, 25, 50, -1],
-          ['10', '25', '50', 'Mostrar Todo']
-        ],
-        buttons: [{
-            extend: 'pageLength',
-            className: 'btn bg-primary border border-0'
-          },
-          {
-            extend: 'copy',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-copy"></i> Copiar',
-          },
-          {
-            extend: 'print',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-printer"></i> Imprimir',
-          },
-          {
-            extend: 'excel',
-            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
-            className: 'btn btn-success',
-          },
-          {
-            extend: 'pdf',
-            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
-            className: 'btn btn-danger',
-                        action: function(e, dt, node, config) {
-                            generarPDF();
-                        }
-          }
-        ],
-        searching: true,
-        info: true,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-        },
-      });
-    });
-    </script>
     <!-- Script del pdf -->
     <script>
     async function generarPDF() {
@@ -461,10 +413,6 @@
                 row.push(entrada.FechaEmision);
                 row.push(entrada.numero);
                 row.push(entrada.Num_Asi_IDNum_Asi);
-                var CuentaContable = entrada.Codigo_CC + "-" + entrada.Descripcion_CC;
-                row.push(CuentaContable);
-                row.push(entrada.Descripcion);
-                row.push(entrada.comprobante);
                 var debe = Number(entrada.Debe);
                 var haber = Number(entrada.Haber);
                 var saldo = entrada.Saldo;
@@ -480,10 +428,15 @@
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
                 }));
+                var CuentaContable = entrada.Codigo_CC + "-" + entrada.Descripcion_CC;
+                row.push(CuentaContable);
+                row.push(entrada.Descripcion);
+                row.push(entrada.comprobante);
                 tableData.push(row);
             }
 
             entradas.forEach(agregarDatosMayor);
+            console.log('Datos del pdf: ', tableData);
 
             // **--------Acá termina de procesar los datos--------**
 
@@ -495,14 +448,15 @@
                 fontStyle: 'bold'
             };
             var bodyStyles = {
+                halign: 'center',
                 cellPadding: 1,
                 fontSize: 8, //tamaño de las letras de la tabla
             };
 
             var options = {
                 head: [
-                    ['Fecha', 'N° Asiento', 'N° OP', 'Cuenta Contable', 'Descripción', 'Comprobante',
-                        'Debe', 'Haber', 'Saldo'
+                    ['Fecha', 'N° Asiento', 'N° OP',
+                        'Debe', 'Haber', 'Saldo', 'Cuenta Contable', 'Descripción', 'Comprobante'
                     ]
                 ],
                 body: tableData,
@@ -510,22 +464,13 @@
                 headStyles: headerStyles,
                 bodyStyles: bodyStyles,
                 columnStyles: {
-                    0: {
-                        halign: 'center'
-                    }, //Fecha
-                    1: {
-                        halign: 'center'
-                    }, //N° Asiento
-                    2: {
-                        halign: 'center'
-                    }, //N° OP
-                    6: {
+                    3: {
                         halign: 'right'
                     }, // Columna "Debe"
-                    7: {
+                    4: {
                         halign: 'right'
                     }, // Columna "Haber"
-                    8: {
+                    5: {
                         halign: 'right'
                     } // Columna "Saldo"
                 },
