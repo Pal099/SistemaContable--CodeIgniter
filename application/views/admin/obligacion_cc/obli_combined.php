@@ -693,9 +693,11 @@
         <script>
 
             $("#formularioPrincipal").on("submit", function () {
-
-
-
+                //trae el valor del campo debe y el valordelmes
+                var valorDebe = $('#Debe').val().replace(/[^\d.-]/g, '');
+                var presu = $('#valormes').val();
+                nuevopresu = presu - valorDebe;
+        
                 //datos que no son de la tabla dinamica
                 var datosFormulario = {
 
@@ -723,7 +725,8 @@
                     Haber: $("#Haber").val(),
                     cheques_che_id: $("#cheques_che_id").val(),
                     detalles: $("#detalles").val(),
-
+                    presu: $("#id_presuE").val(),
+                    nuevopresu: nuevopresu,
                 };
 
 
@@ -731,7 +734,6 @@
                 let sumahaber = 0;
 
                 var filas = [];
-
 
                 $("#miTabla tbody tr:gt(0)").each(function () {
 
@@ -758,11 +760,11 @@
                     filas: filas,
                 };
 
-                var valorDebe = $('#Debe').val().replace(/[^\d.-]/g, '');
-                let presu = $('#valormes').val();
+               
                 var diferenciaActualizada = parseFloat($("#diferencia").val());
 
-                if (presu >= valorDebe) {
+                //con esto vemos si el presupuesto es mayor al debe o igual al mismo
+                if (nuevopresu >= 0) {
                     if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                         $.ajax({
                             url: '<?php echo base_url("obligaciones/diario_obligaciones_cc/store"); ?>',
@@ -927,6 +929,8 @@
                 var presupCodificada = encodeURIComponent(presup);
                 //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
 
+                //trae los datos del idpresupuesto y el presupuesto de ese mes teniendo como referencia que solo
+                //un campo mes va a tener valor
                 $.ajax({
                     url: '<?php echo base_url("obligaciones/Diario_obligaciones_cc/Ejecucion"); ?>?presu=' +
                         presupCodificada, // Ruta a tu script PHP que obtiene los datos de la base de datos
@@ -943,6 +947,7 @@
                             // Asignar el valor al campo correspondiente
                             $('#id_presuE').val(campo);
                             $('#valormes').val(valor);
+
                         }
                     },
                     error: function (xhr, status, error) {

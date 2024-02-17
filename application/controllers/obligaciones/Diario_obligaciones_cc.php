@@ -94,7 +94,7 @@ class Diario_obligaciones_cc extends CI_Controller
 		header('Access-Control-Allow-Origin: *');
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
-		var_dump($datosFormulario);
+		
 
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
@@ -127,7 +127,12 @@ class Diario_obligaciones_cc extends CI_Controller
 		$nro_exp = $datosFormulario['nro_exp'];
 		$pagado = $datosFormulario['pagado'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
-
+		$id_presu = $datosFormulario['presu'];
+		$valpresu = $datosFormulario['nuevopresu'];
+		//se trae el valor del mes en la fecha que se esta haciendo la obligacion
+		//para saber en que campo de la bd hacer el cambio
+		//esto teninedo en mente que no se van a hacer obligaciones de otros meses durante el mes
+		$mes = date("m", strtotime($fecha));
 
 		$op = $datosFormulario['op'];
 
@@ -155,6 +160,7 @@ class Diario_obligaciones_cc extends CI_Controller
 				'estado_registro' => "1",
 			);
 
+			$this->Diario_obli_model->updatepresu($id_presu,$valpresu,$mes);
 			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 
 			if ($lastInsertedId) {

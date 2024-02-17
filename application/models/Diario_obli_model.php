@@ -464,6 +464,52 @@ class Diario_obli_model extends CI_Model
 		return $this->db->affected_rows() > 0;
 	}
 
+	//update en presupuesto a corde del valor restante luego de la obligacion
+	public function updatepresu($id_presu, $valpresu, $mes)
+	{
+		$this->db->where('ID_Presupuesto', $id_presu);
+		$this->db->where('estado', '1');
+		switch ($mes) {
+			case '01':
+				$this->db->update('presupuestos', array('pre_ene' => $valpresu));
+				break;
+			case '02':
+				$this->db->update('presupuestos', array('pre_feb' => $valpresu));
+				break;
+			case '03':
+				$this->db->update('presupuestos', array('pre_mar' => $valpresu));
+				break;
+			case '04':
+				$this->db->update('presupuestos', array('pre_abr' => $valpresu));
+				break;
+			case '05':
+				$this->db->update('presupuestos', array('pre_may' => $valpresu));
+				break;
+			case '06':
+				$this->db->update('presupuestos', array('pre_jun' => $valpresu));
+				break;
+			case '07':
+				$this->db->update('presupuestos', array('pre_jul' => $valpresu));
+				break;
+			case '08':
+				$this->db->update('presupuestos', array('pre_ago' => $valpresu));
+				break;
+			case '09':
+				$this->db->update('presupuestos', array('pre_sep' => $valpresu));
+				break;
+			case '10':
+				$this->db->update('presupuestos', array('pre_oct' => $valpresu));
+				break;
+			case '11':
+				$this->db->update('presupuestos', array('pre_nov' => $valpresu));
+				break;
+			case '12':
+				$this->db->update('presupuestos', array('pre_dic' => $valpresu));
+				break;
+		}
+		return $this->db->affected_rows() > 0;
+	}
+
 	public function updateEstadoSuma($idNum_Asi, $num_asi, $suma_monto, $proveedor_id, $nuevo_monto_pagado)
 	{
 		$this->db->where('IDNum_Asi', $idNum_Asi);
