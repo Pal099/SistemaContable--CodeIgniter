@@ -310,7 +310,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
-
+ 
 	public function update()
 	{
 		header('Access-Control-Allow-Origin: *');
