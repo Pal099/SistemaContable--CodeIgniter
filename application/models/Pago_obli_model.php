@@ -287,6 +287,7 @@ public function getCuentaContable() {
 
 public function getCuentaContableN($descripcion) {
     $this->db->where('Descripcion_CC', $descripcion);
+	$this->db->like('tipo', 'SubCuenta');
     $resultados = $this->db->get('cuentacontable')->row_array();
     return $resultados;
 }

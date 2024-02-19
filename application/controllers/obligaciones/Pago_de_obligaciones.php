@@ -247,7 +247,7 @@ class Pago_de_obligaciones extends CI_Controller
 
 		// Aquí deberías utilizar tu lógica para obtener información basada en la descripción desde la base de datos
 		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion);
-
+	
 		/*if (is_null($informacion['IDCuentaContable'])) {
 			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
 		}^*/
