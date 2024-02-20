@@ -1,4 +1,3 @@
-
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -26,7 +25,6 @@
                             <div class="alert alert-danger alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
-                                
                              </div>
                         <?php endif;?>
 
@@ -34,33 +32,26 @@
                             <input type="hidden" value="<?php echo $origen->id;?>" name="idOrigen">
 
                             <div class="form-group">
-
                                 <label for="nombre">Nombre:</label>
                                 <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $origen->nombre?>">
-                          
                             </div>
 
                             <div class="form-group <?php echo form_error('codigo') == true ? 'has-error': '';?>">
-
                                 <label for="codigo">Codigo:</label>
                                 <input type="text" class="form-control" id="codigo" name="codigo" value="<?php echo $origen->codigo?>">
                                 <?php echo form_error("codigo","<span class='help-block'>","</span>");?>
-
                             </div>
+
                             <div class="form-group">
-
-                                 <div class="col-md-6">
-                                    <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
-                                </div> 
-
-                                <div class="col-md-6">
-                            
-                                <a href="<?php echo base_url(); ?>registro/origen" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
-                            
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <a href="<?php echo base_url(); ?>registro/origen" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                    </div>
                                 </div>
                             </div>
-
-
                         </form>
                     </div>
                 </div>

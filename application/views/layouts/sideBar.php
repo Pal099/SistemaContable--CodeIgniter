@@ -94,8 +94,8 @@
 
 
         <li class="nav-item">
-            
-             <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+
+            <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-cash-stack"></i><span>Utilidades</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
@@ -149,12 +149,11 @@
                </li>
                <li class="nav-item">
                    <a href="<?php echo base_url(); ?>patrimonio/bienes_servicios">
-                       <i class="bi bi-circle"></i><span>Bienes y/o servicios</span>
+                       <i class="bi bi-circle"></i><span>Bienes y/o Servicios</span>
                    </a>
                </li>
            </ul>
        </li>
-
         <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
                 <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>

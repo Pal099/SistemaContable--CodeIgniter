@@ -26,7 +26,7 @@
           </div>
           <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>suministro/recepcion_bienes/add'">
+              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes/add'">
                 <i class="bi bi-plus-circle"></i> Agregar Recepcion de Bienes
               </button>
             </div>
