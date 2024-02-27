@@ -51,29 +51,29 @@ public function obtenerEntradasLibroMayor($fechaInicio = null, $fechaFin = null,
 
     $query = $this->db->get();
 
-if ($query->num_rows() > 0) {
-    $resultados = $query->result_array();
-    $saldo = 0; // Inicializar saldo fuera del bucle
+    if ($query->num_rows() > 0) {
+        $resultados = $query->result_array();
+        $saldo = 0; // Inicializar saldo fuera del bucle
 
-    foreach ($resultados as &$resultado) {
-        // Determinar el tipo de cuenta basado en el inicio del Codigo_CC
-        if (strpos($resultado['Codigo_CC'], "2") === 0 || strpos($resultado['Codigo_CC'], "3") === 0) {
-            // Para cuentas que empiezan con "2" o "3"
-            $saldo += ($resultado['Debe'] - $resultado['Haber']); // Actualiza el saldo
-        } elseif (strpos($resultado['Codigo_CC'], "4") === 0 || strpos($resultado['Codigo_CC'], "8") === 0) {
-            // Para cuentas que empiezan con "4" o "8"
-            $saldo += ($resultado['Haber'] - $resultado['Debe']); // Actualiza el saldo
+        foreach ($resultados as &$resultado) {
+            // Determinar el tipo de cuenta basado en el inicio del Codigo_CC
+            if (strpos($resultado['Codigo_CC'], "2") === 0 || strpos($resultado['Codigo_CC'], "3") === 0) {
+                // Para cuentas que empiezan con "2" o "3"
+                $saldo += ($resultado['Debe'] - $resultado['Haber']); // Actualiza el saldo
+            } elseif (strpos($resultado['Codigo_CC'], "4") === 0 || strpos($resultado['Codigo_CC'], "8") === 0) {
+                // Para cuentas que empiezan con "4" o "8"
+                $saldo += ($resultado['Haber'] - $resultado['Debe']); // Actualiza el saldo
+            }
+            // Agregar el saldo calculado al array del resultado
+            $resultado['Saldo'] = $saldo;
         }
-        // Agregar el saldo calculado al array del resultado
-        $resultado['Saldo'] = $saldo;
+
+        return $resultados;
+    } else {
+        return null;
     }
 
-    return $resultados;
-} else {
-    return null;
-}
-
-}
+    }
 
 
     // Aquí puedes agregar otros métodos que necesites para tu modelo

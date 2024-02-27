@@ -116,7 +116,7 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="datetime-local" class="form-control" id="fecha"
+                                                        <input type="date" class="form-control" id="fecha"
                                                             name="fecha" required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
