@@ -697,7 +697,7 @@
                 var valorDebe = $('#Debe').val().replace(/[^\d.-]/g, '');
                 var presu = $('#valormes').val();
                 nuevopresu = presu - valorDebe;
-        
+
                 //datos que no son de la tabla dinamica
                 var datosFormulario = {
 
@@ -760,7 +760,7 @@
                     filas: filas,
                 };
 
-               
+
                 var diferenciaActualizada = parseFloat($("#diferencia").val());
 
                 //con esto vemos si el presupuesto es mayor al debe o igual al mismo
@@ -826,12 +826,13 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th ></th>
                                     <th>Código de Cuenta</th>
+                                    <th ></th>
                                     <th>Descripción de Cuenta</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th ></th>
+                                    <th>Presupuesto</th>
+                                    <th ></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -849,15 +850,60 @@
                                             <?= $dato->descrip ?>
                                         </td>
                                         <td>
+                                            <?php
+                                            $mes = date('n'); // Obtener el número del mes actual
+                                            switch ($mes) {
+                                                case 1:
+                                                    echo $dato->pre_ene;
+                                                    break;
+                                                case 2:
+                                                    echo $dato->pre_feb;
+                                                    break;
+                                                case 3:
+                                                    echo $dato->pre_mar;
+                                                    break;
+                                                case 4:
+                                                    echo $dato->pre_abr;
+                                                    break;
+                                                case 5:
+                                                    echo $dato->pre_may;
+                                                    break;
+                                                case 6:
+                                                    echo $dato->pre_jun;
+                                                    break;
+                                                case 7:
+                                                    echo $dato->pre_jul;
+                                                    break;
+                                                case 8:
+                                                    echo $dato->pre_ago;
+                                                    break;
+                                                case 9:
+                                                    echo $dato->pre_sep;
+                                                    break;
+                                                case 10:
+                                                    echo $dato->pre_oct;
+                                                    break;
+                                                case 11:
+                                                    echo $dato->pre_nov;
+                                                    break;
+                                                case 12:
+                                                    echo $dato->pre_dic;
+                                                    break;
+                                                default:
+                                                    echo "No disponible para este mes";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td hidden>
                                             <?= $dato->ID_Presupuesto ?>
                                         </td>
-                                        <td>
+                                        <td hidden>
                                             <?= $dato->programa_id_pro ?>
                                         </td>
-                                        <td>
+                                        <td hidden>
                                             <?= $dato->fuente_de_financiamiento_id_ff ?>
                                         </td>
-                                        <td>
+                                        <td hidden>
                                             <?= $dato->origen_de_financiamiento_id_of ?>
                                         </td>
                                     </tr>
