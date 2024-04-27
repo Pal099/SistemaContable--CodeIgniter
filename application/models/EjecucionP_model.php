@@ -36,7 +36,7 @@ class EjecucionP_model extends CI_Model {
 		return $this->db->insert("ejecucionpresupuestaria",$data);
 	}
 
-	public function getEjecucionP($id){
+	public function getEjecucionesP($id){
 		$this->db->where("ID_EjecucionPresupuestaria",$id);
 		$resultado = $this->db->get("ejecucionpresupuestaria");
 		return $resultado->row();
