@@ -8,9 +8,9 @@ class CuadrodeResultados extends CI_Controller {
     }
 
     public function index() {
-        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas();
+        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas345(); // Utiliza la nueva función
         $data['cuentas'] = array();
-
+    
         foreach ($cuentasOriginales as $cuenta) {
             $cuentasProcesadas = array();
             if ($this->calcularSumasCuentas($cuenta, $cuentasProcesadas)) {
@@ -18,7 +18,6 @@ class CuadrodeResultados extends CI_Controller {
             }
         }
     
-
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");

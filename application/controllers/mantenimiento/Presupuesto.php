@@ -47,6 +47,7 @@ class Presupuesto extends CI_Controller {
 			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/presupuesto/list", $data);
@@ -185,6 +186,7 @@ class Presupuesto extends CI_Controller {
 	}
 
 	public function view($id){
+		
 		$data = array(
 			'presupuestos' => $this->Presupuesto_model->getPresupuesto($id),
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),

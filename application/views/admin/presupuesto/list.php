@@ -62,7 +62,7 @@
                                                     <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
                                                     <?php foreach ($presupuestos as $presupuesto) : ?>
                                                     <td><?php echo $presupuesto->Año; ?></td>
-                                                    <td><?php echo $presupuesto->Idcuentacontable; ?></td>
+                                                    <td><?php echo $presupuesto->descripcion; ?></td>
                                                     <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
                                                     </td>
                                                     <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>

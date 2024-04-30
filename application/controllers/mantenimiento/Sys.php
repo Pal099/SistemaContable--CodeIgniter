@@ -8,7 +8,7 @@ class SyS extends CI_Controller {
     }
 
     public function index() {
-        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas();
+        $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentass();
         $data['cuentas'] = array();
 
         foreach ($cuentasOriginales as $cuenta) {
@@ -26,7 +26,7 @@ class SyS extends CI_Controller {
         $this->load->view("layouts/footer");
     }
     public function GenerarExcel() {
-        $data['cuentas'] = $this->Balance_Gral_model->obtenerDatosCuentas();
+        $data['cuentas'] = $this->Balance_Gral_model->obtenerDatosCuentass();
         
         foreach ($data['cuentas'] as &$cuenta) {
             $cuentasProcesadas = array(); // Arreglo para evitar duplicados

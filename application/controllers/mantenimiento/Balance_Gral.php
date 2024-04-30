@@ -8,6 +8,7 @@ class Balance_Gral extends CI_Controller {
     }
 
     public function index() {
+        
         $cuentasOriginales = $this->Balance_Gral_model->obtenerDatosCuentas();
         $data['cuentas'] = array();
 
