@@ -50,47 +50,51 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Fecha</th>
-                                                            <th>Descripcion</th>
-                                                            <th>Presupuesto Inicial</th>
                                                             <th>Origen de financiamiento</th>
                                                             <th>Fuente de financiamiento</th>
                                                             <th>Programa</th>
-                                                            <th>Total modificado</th>
+                                                            <th>Descripción</th>
+                                                            <th>Presupuesto Inicial</th>
+                                                            <th>Presupuesto Modificado</th>
                                                             <th>Acciones</th>
                                                         </tr>
                                                     </thead>
-                                                    <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
-                                                    <?php foreach ($presupuestos as $presupuesto) : ?>
-                                                    <td><?php echo $presupuesto->Año; ?></td>
-                                                    <td><?php echo $presupuesto->descripcion; ?></td>
-                                                    <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
-                                                    </td>
-                                                    <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
-                                                    <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
-                                                    <td><?php echo $presupuesto->programa; ?></td>
-                                                    <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalPresupuesto"
-                                                                value="<?php echo $presupuesto->ID_Presupuesto; ?>">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
-                                                                <i class="bi bi-pencil-fill"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-remove btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    </tr>
-                                                    <?php endforeach; ?>
+
+                                                    <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)): ?>
+                                                        <?php foreach ($presupuestos as $presupuesto): ?>
+                                                            <tr>
+                                                                <td><?php echo $presupuesto->Año; ?></td>
+                                                                <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
+                                                                <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
+                                                                <td><?php echo $presupuesto->programa; ?></td>
+                                                                <td><?php echo $presupuesto->descripcion; ?></td>
+                                                                <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
+                                                                </td>
+                                                                <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $presupuesto->ID_Presupuesto; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                        </button>
+                                                                        <button class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; ?>
+
                                                     <?php endif; ?>
                                                 </table>
                                             </div>
@@ -194,16 +198,16 @@
 
     <!-- Script de la tabla de presupuesto -->
     <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaPresupuesto').DataTable({
-            dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
-                '<"row"<"col-sm-12"t>>' +
-                '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            lengthMenu: [
-                [10, 25, 50, -1],
-                ['10', '25', '50', 'Mostrar Todo']
-            ],
-            buttons: [{
+        $(document).ready(function () {
+            var table1 = $('#TablaPresupuesto').DataTable({
+                dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"t>>' +
+                    '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10', '25', '50', 'Mostrar Todo']
+                ],
+                buttons: [{
                     extend: 'pageLength',
                     className: 'btn bg-primary border border-0'
                 },
@@ -227,78 +231,78 @@
                     text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
                     className: 'btn btn-danger',
                 }
-            ],
-            searching: true,
-            info: true,
-            order: [
-                [0, 'desc']
-            ], // Ordena la primera columna en orden descendiente
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            },
+                ],
+                searching: true,
+                info: true,
+                order: [
+                    [0, 'desc']
+                ], // Ordena la primera columna en orden descendiente
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                },
+            });
         });
-    });
     </script>
 
     <!-- Script para ver los detalles del presupuesto -->
     <script>
-    $('.btn-view-presupuesto').on('click', function() {
-        // Obtiene el ID del presupuesto desde el valor del botón
-        var presupuestoId = $(this).val();
-        console.log("Presupuesto ID:", presupuestoId);
+        $('.btn-view-presupuesto').on('click', function () {
+            // Obtiene el ID del presupuesto desde el valor del botón
+            var presupuestoId = $(this).val();
+            console.log("Presupuesto ID:", presupuestoId);
 
-        // Se Realiza una solicitud AJAX para obtener los detalles del presupuesto
-        $.ajax({
-            type: 'GET',
-            url: 'presupuesto/getPresupuestoDetalle/' + presupuestoId,
-            success: function(response) {
-                // Se maneja las respuesta acá luego se llama a la funcion de mostrarDetalles si todo es correcto
-                var presupuestoDetalle = JSON.parse(response);
-                mostrarDetalles(presupuestoDetalle);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error en la solicitud AJAX:", status, error);
-            }
+            // Se Realiza una solicitud AJAX para obtener los detalles del presupuesto
+            $.ajax({
+                type: 'GET',
+                url: 'presupuesto/getPresupuestoDetalle/' + presupuestoId,
+                success: function (response) {
+                    // Se maneja las respuesta acá luego se llama a la funcion de mostrarDetalles si todo es correcto
+                    var presupuestoDetalle = JSON.parse(response);
+                    mostrarDetalles(presupuestoDetalle);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error en la solicitud AJAX:", status, error);
+                }
+            });
         });
-    });
 
-    // Función para mostrar los detalles del presupuesto
-    function mostrarDetalles(presupuestoDetalle) {
+        // Función para mostrar los detalles del presupuesto
+        function mostrarDetalles(presupuestoDetalle) {
 
 
-        // Formato de numeros en guaranies
-        var formatoGuaranies = new Intl.NumberFormat('es-PY', {
-            style: 'currency',
-            currency: 'PYG'
-        });
-        //Acá se consigue la cuenta contable asociada al presupuesto
-        var cuentacontable = <?php echo json_encode($cuentacontable); ?>;
-        let descripcionCuentaContable = '';
-        for (let i = 0; i < cuentacontable.length; i++) {
-            if (presupuestoDetalle.Idcuentacontable == cuentacontable[i].IDCuentaContable) {
-                descripcionCuentaContable = cuentacontable[i].Descripcion_CC;
-                break;
+            // Formato de numeros en guaranies
+            var formatoGuaranies = new Intl.NumberFormat('es-PY', {
+                style: 'currency',
+                currency: 'PYG'
+            });
+            //Acá se consigue la cuenta contable asociada al presupuesto
+            var cuentacontable = <?php echo json_encode($cuentacontable); ?>;
+            let descripcionCuentaContable = '';
+            for (let i = 0; i < cuentacontable.length; i++) {
+                if (presupuestoDetalle.Idcuentacontable == cuentacontable[i].IDCuentaContable) {
+                    descripcionCuentaContable = cuentacontable[i].Descripcion_CC;
+                    break;
+                }
             }
+
+            // Formato de la fila para la tabla
+            $('#CuentaCont').text(descripcionCuentaContable);
+            $('#Año').text(presupuestoDetalle.Año);
+            $('#TotalP').text(formatoGuaranies.format(presupuestoDetalle.TotalPresupuestado));
+            $('#TotalM').text(formatoGuaranies.format(presupuestoDetalle.TotalModificado));
+            $('#Enero').text(formatoGuaranies.format(presupuestoDetalle.pre_ene));
+            $('#Febrero').text(formatoGuaranies.format(presupuestoDetalle.pre_feb));
+            $('#Marzo').text(formatoGuaranies.format(presupuestoDetalle.pre_mar));
+            $('#Abril').text(formatoGuaranies.format(presupuestoDetalle.pre_abr));
+            $('#Mayo').text(formatoGuaranies.format(presupuestoDetalle.pre_may));
+            $('#Junio').text(formatoGuaranies.format(presupuestoDetalle.pre_jun));
+            $('#Julio').text(formatoGuaranies.format(presupuestoDetalle.pre_jul));
+            $('#Agosto').text(formatoGuaranies.format(presupuestoDetalle.pre_ago));
+            $('#Septiembre').text(formatoGuaranies.format(presupuestoDetalle.pre_sep));
+            $('#Octubre').text(formatoGuaranies.format(presupuestoDetalle.pre_oct));
+            $('#Noviembre').text(formatoGuaranies.format(presupuestoDetalle.pre_nov));
+            $('#Diciembre').text(formatoGuaranies.format(presupuestoDetalle.pre_dic));
         }
-
-        // Formato de la fila para la tabla
-        $('#CuentaCont').text(descripcionCuentaContable);
-        $('#Año').text(presupuestoDetalle.Año);
-        $('#TotalP').text(formatoGuaranies.format(presupuestoDetalle.TotalPresupuestado));
-        $('#TotalM').text(formatoGuaranies.format(presupuestoDetalle.TotalModificado));
-        $('#Enero').text(formatoGuaranies.format(presupuestoDetalle.pre_ene));
-        $('#Febrero').text(formatoGuaranies.format(presupuestoDetalle.pre_feb));
-        $('#Marzo').text(formatoGuaranies.format(presupuestoDetalle.pre_mar));
-        $('#Abril').text(formatoGuaranies.format(presupuestoDetalle.pre_abr));
-        $('#Mayo').text(formatoGuaranies.format(presupuestoDetalle.pre_may));
-        $('#Junio').text(formatoGuaranies.format(presupuestoDetalle.pre_jun));
-        $('#Julio').text(formatoGuaranies.format(presupuestoDetalle.pre_jul));
-        $('#Agosto').text(formatoGuaranies.format(presupuestoDetalle.pre_ago));
-        $('#Septiembre').text(formatoGuaranies.format(presupuestoDetalle.pre_sep));
-        $('#Octubre').text(formatoGuaranies.format(presupuestoDetalle.pre_oct));
-        $('#Noviembre').text(formatoGuaranies.format(presupuestoDetalle.pre_nov));
-        $('#Diciembre').text(formatoGuaranies.format(presupuestoDetalle.pre_dic));
-    }
     </script>
 
     <!-- Script de DataTable de jquery -->
