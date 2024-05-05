@@ -11,7 +11,8 @@ class Presupuesto extends CI_Controller {
 	$this->load->model("Presupuesto_model");
 	$this->load->model("Registros_financieros_model");
 	$this->load->model("Origen_model");
-	$this->load->model('Programa_model');
+	$this->load->model('Programa_model'); 
+	$this->load->model('ProgramGasto_model'); 
 	$this->load->model('Cuentas_model');
 	$this->load->model('CuentaContable_model');
 	$this->load->model('Usuarios_model');
@@ -115,12 +116,15 @@ class Presupuesto extends CI_Controller {
 	}
 	
 	public function edit($id){
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
 			'presupuesto' => $this->Presupuesto_model->getPresupuesto($id),
-			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
-			'origen' => $this->Origen_model->getOrigenes(),
-			'programa' => $this->ProgramGasto_model->getProgramGastos(),
-			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables(),
+			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
+			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu), // Aquí pasamos el argumento esperado
+			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
+			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -130,7 +134,7 @@ class Presupuesto extends CI_Controller {
 
 	public function update(){
 		$id = $this->input->post("ID_Presupuesto");
-		$anio = $this->input->post("Año");
+		$año = $this->input->post("Año");
 		//$descripcion = $this->input->post("Descripcion");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
 		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
@@ -154,7 +158,7 @@ class Presupuesto extends CI_Controller {
 		$presupuestoactual = $this->Presupuesto_model->getPresupuesto($id);
 		$data = array(
 			'ID_Presupuesto' => $id,
-			'Anio' => $anio,
+			'Año' => $año,
 			//'Descripcion' => $descripcion,
 			'TotalPresupuestado' => $totalpresupuestado,
 			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
