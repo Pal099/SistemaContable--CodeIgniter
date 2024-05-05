@@ -38,8 +38,10 @@ class Diario_obligaciones extends CI_Controller
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
+
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
@@ -75,13 +77,15 @@ class Diario_obligaciones extends CI_Controller
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
 		$data = array(
-			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
 			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'niveles' => $this->Diario_obli_model->getNiveles(),
 		);
+		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -99,6 +103,10 @@ class Diario_obligaciones extends CI_Controller
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		
+		//Funcion que obtiene el str aumentado en 1
+		$str = $this->Diario_obli_model->getSTRaumentado($id_user);
+
 		$ruc_id_provee = $datosFormulario['ruc'];
 		$numero = $datosFormulario['num_asi'];
 		$id_num_asi = $this->input->post("IDNum_Asi");
@@ -127,6 +135,7 @@ class Diario_obligaciones extends CI_Controller
 		$nro_exp = $datosFormulario['nro_exp'];
 		$pagado = $datosFormulario['pagado'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
+		$niveles = $datosFormulario['niveles'];
 
 
 		$op = $datosFormulario['op'];
@@ -153,7 +162,14 @@ class Diario_obligaciones extends CI_Controller
 				'id_uni_respon_usu' => $id_uni_respon_usu,
 				'id_form' => "1",
 				'estado_registro' => "1",
+				'id_usuario_numasi' => $id_user,
 			);
+			//Acá se verifica si el usuario selecciono algún nivel o no, si no se selecciono nada no inserta nada.
+			//También si selecciono un nivel dentro del select quiere decir que se activo el switch entonces se debe de aumentar el str
+			if (!empty($niveles)) {
+				$dataNum_Asi['id_nivel_str'] = $niveles;
+				$dataNum_Asi['str'] = $str; // Acá trae el ultimo str aumentado en 1
+			}
 
 			$lastInsertedId = $this->Diario_obli_model->save_num_asi($dataNum_Asi, $proveedor_id);
 
