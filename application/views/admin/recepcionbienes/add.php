@@ -298,6 +298,7 @@
               <thead>
                 <tr>
                   <th class="columna-hidden"></th>
+                  <th class="columna-hidden"></th>
                   <th>#</th>
                   <th>Unidad</th>
                 </tr>
@@ -513,8 +514,7 @@
 
 
 
-    <!-- Script de DataTable de jquery -->
-    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+   
 
     <!-- Script encargado de las tablas de proveedores -->
     <script>

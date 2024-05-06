@@ -12,15 +12,15 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-        <li class="breadcrumb-item">Comprobante de Gastos</li>
-        <li class="breadcrumb-item active">Listado de Comprobante de Gastos</li>
+        <li class="breadcrumb-item">Pedido de Materiales</li>
+        <li class="breadcrumb-item active">Listado de Pedido de Materiales</li>
       </ol>
     </nav>
     <div class="container mt-4">
-      <form action="<?php echo base_url('patrimonio/comprobante_gasto/filtrar'); ?>" method="post" class="form-inline">
+      <form action="<?php echo base_url('patrimonio/pedido_material/filtrar'); ?>" method="post" class="form-inline">
         <div class="row g-3 align-items-center">
           <div class="col-md-3">
-            <label for="actividad" class="form-label">Actividad:</label>
+          <label for="actividad" class="form-label">Actividad:</label>
             <select class="form-select" id="actividad" name="actividad">
             <option value="">Ninguno</option>
               <?php foreach ($unidad as $uni) : ?>
@@ -30,18 +30,18 @@
           </div>
 
           <div class="col-md-3">
-            <label for="fuente" class="form-label">Fuente:</label>
-            <select class="form-select" id="fuente" name="fuente">
+            <label for="pedido" class="form-label">Nro de Pedido:</label>
+            <select class="form-select" id="pedido" name="pedido">
             <option value="">Ninguno</option>
-              <?php foreach ($fuentes as $fuente) : ?>
-                <option value="<?php echo $fuente->id_ff; ?>"><?php echo $fuente->codigo; ?></option>
+              <?php foreach ($pedidos as $pedido) : ?>
+                <option value="<?php echo $pedido->idpedido; ?>"><?php echo $pedido->idpedido; ?></option>
               <?php endforeach; ?>
             </select>
           </div>
 
           <div class="col-md-3">
-            <label for="periodo" class="form-label">Periodo:</label>
-            <select class="form-select" id="periodo" name="periodo">
+            <label for="anio" class="form-label">Periodo:</label>
+            <select class="form-select" id="anio" name="anio">
               <option value="">Ninguno</option>
               <option value="2020">2020</option>
               <option value="2021">2021</option>
@@ -82,12 +82,12 @@
       <div class="pagetitle">
         <div class="container-fluid d-flex flex-row justify-content-between">
           <div class="col-md-6 mt-4">
-            <h1>Listado de Comprobante de Gastos</h1>
+            <h1>Listado de Pedido de Materiales</h1>
           </div>
           <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/add'">
-                <i class="bi bi-plus-circle"></i> Agregar Comprobante de Gastos
+              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/pedido_material/add'">
+                <i class="bi bi-plus-circle"></i> Agregar Pedido de Materiales
               </button>
             </div>
           </div>
@@ -104,71 +104,40 @@
                   <div class="card border">
                     <div class="card-body mt-4">
                       <div class="table-responsive">
-                        <table id="TablaComprobanteGasto" class="table table-hover table-sm rounded-3">
+                        <table id="TablaPedidoMaterial" class="table table-hover table-sm rounded-3">
                           <thead>
                             <tr>
                               <th>ID</th>
+                              <th>Nro de Pedido</th>
                               <th>Actividad</th>
                               <th>Fecha</th>
-                              <th>Proveedor</th>
-                              <th>Monto</th>
-                              <th>concepto</th>
-                              <th>Aprobado</th>
-                              <th>F.F</th>
-                              <th>OBL</th>
-                              <th>STR</th>
-                              <th>O.P.</th>
+                              <th>precio unit</th>
+                              <th>cantidad</th>
+                              <th>iva</th>
+                              <th>exenta</th>
+                              <th>gravada</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
-                            <?php foreach ($comprobantes as $comp) : ?>
-                              <td><?php echo $comp->IDComprobanteGasto; ?></td>
-                              <td><?php echo $comp->id_unidad; ?></td>
-                              <td><?php echo $comp->fecha; ?></td>
-                              <td>
-                                <?php
-                                $proveedorEncontrado = array_filter($proveedores, function ($proveedor) use ($comp) {
-                                    return $proveedor->id == $comp->idproveedor;
-                                });
-
-                                if (!empty($proveedorEncontrado)) {
-                                    $primerProveedorEncontrado = reset($proveedorEncontrado);
-                                    echo $primerProveedorEncontrado->razon_social;
-                                } else {
-                                    echo "Proveedor no encontrado";
-                                }
-                                ?>
-                            </td>
-                              <td><?php echo $comp->monto; ?></td>
-                              <td><?php echo $comp->concepto; ?></td>
-                              <td><?php echo $comp->aprobado; ?></td>
-                              <td>
-                                  <?php
-                                  $fuenteEncontrada = array_filter($fuentes, function ($fuente) use ($comp) {
-                                      return $fuente->id_ff == $comp->id_ff;
-                                  });
-
-                                  if (!empty($fuenteEncontrada)) {
-                                      $primeraFuenteEncontrada = reset($fuenteEncontrada);
-                                      echo $primeraFuenteEncontrada->codigo;
-                                  } else {
-                                      echo "Fuente no encontrada";
-                                  }
-                                  ?>
-                              </td>
-
-                              <td><?php echo $comp->obl; ?></td>
-                              <td><?php echo $comp->str; ?></td>
-                              <td><?php echo $comp->op; ?></td>
+                            <?php foreach ($pedidos as $ped) : ?>
+                              <td><?php echo $ped->IDPedidoMaterial; ?></td>
+                              <td><?php echo $ped->idpedido; ?></td>
+                              <td><?php echo $ped->id_unidad; ?></td>
+                              <td><?php echo $ped->fecha; ?></td>
+                              <td><?php echo $ped->preciounit; ?></td>
+                              <td><?php echo $ped->cantidad; ?></td>
+                              <td><?php echo $ped->iva; ?></td>
+                              <td><?php echo $ped->exenta; ?></td>
+                              <td><?php echo $ped->gravada; ?></td>
                               <td>
                                 <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                  <button type="button" class="btn btn-primary btn-view-comprobante btn-sm" data-bs-toggle="modal" data-bs-target="#modalComprobantes" value="<?php echo $comp->IDComprobanteGasto; ?>">
+                                  <button type="button" class="btn btn-primary btn-view-pedido btn-sm" data-bs-toggle="modal" data-bs-target="#modalPedidos" value="<?php echo $ped->IDPedidoMaterial; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto;?>'">
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/pedido_material/edit/<?php echo $ped->IDPedidoMaterial;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo$comp->IDComprobanteGasto; ?>'">
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/pedido_material/delete/<?php echo$ped->IDPedidoMaterial; ?>'">
                                     <i class="bi bi-trash"></i>
                                   </button>
                                 </div>
@@ -189,16 +158,16 @@
   </main>
 
   <!-- script para ver los presupuestos modal -->
-  <div class="modal fade mi-modal" id="modalComprobantes" tabindex="-1" aria-labelledby="modalVerComprobante" aria-hidden="true">
+  <div class="modal fade mi-modal" id="modalPedidos" tabindex="-1" aria-labelledby="modalVerPedido" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-extra-large">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Detalles del Comprobante de Gastos</h5>
+          <h5 class="modal-title">Detalles del Pedido de Materiales</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="table-responsive">
-            <table class="table table-bordered table-hover table-sm" id="TablaComprobanteGastoModal">
+            <table class="table table-bordered table-hover table-sm" id="TablaPedidoMaterialModal">
               <tbody>
                   <th>ID</th>
                   <td id="id"></td>
@@ -212,36 +181,12 @@
                   <td id="fecha"></td>
                 </tr>
                 <tr>
-                  <th>Proveedor</th>
-                  <td id="proveedor"></td>
-                </tr>
-                <tr>
                   <th>Monto</th>
                   <td id="monto"></td>
                 </tr>
                 <tr>
                   <th>Concepto</th>
                   <td id="concepto"></td>
-                </tr>
-                <tr>
-                  <th>Aprobado</th>
-                  <td id="aprobado"></td>
-                </tr>
-                <tr>
-                  <th>F.F.</th>
-                  <td id="ff"></td>
-                </tr>
-                <tr>
-                  <th>OBL</th>
-                  <td id="obl"></td>
-                </tr>
-                <tr>
-                  <th>STR</th>
-                  <td id="str"></td>
-                </tr>
-                <tr>
-                  <th>O.P.</th>
-                  <td id="op"></td>
                 </tr>
               </tbody>
             </table>
@@ -256,7 +201,7 @@
   <!-- Script de la tabla de presupuesto -->
   <script>
     $(document).ready(function() {
-      var table1 = $('#TablaComprobanteGasto').DataTable({
+      var table1 = $('#TablaPedidoMaterial').DataTable({
         dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
           '<"row"<"col-sm-12"t>>' +
           '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -300,18 +245,18 @@
 
   <!-- Script para ver los detalles del presupuesto -->
   <script>
-    $('.btn-view-comprobante').on('click', function() {
+    $('.btn-view-pedido').on('click', function() {
 
-      var comprobanteId = $(this).val();
-      console.log("Comprobante ID:", comprobanteId);
+      var pedidoId = $(this).val();
+      console.log("Pedido ID:", pedidoId);
 
       $.ajax({
         type: 'GET',
-        url: 'comprobante_gasto/getComprobanteDetalle/' + comprobanteId,
+        url: 'pedido_material/getPedidoDetalle/' + pedidoId,
         success: function(response) {
           // Se maneja las respuesta acá luego se llama a la funcion de mostrarDetalles si todo es correcto
-          var comprobanteDetalle = JSON.parse(response);
-          mostrarDetalles(comprobanteDetalle);
+          var pedidoDetalle = JSON.parse(response);
+          mostrarDetalles(pedidoDetalle);
         },
         error: function(xhr, status, error) {
           console.error("Error en la solicitud AJAX:", status, error);
@@ -320,7 +265,7 @@
     });
 
     // Función para mostrar los detalles del presupuesto
-    function mostrarDetalles(comprobanteDetalle) {
+    function mostrarDetalles(pedidoDetalle) {
 
 
       // Formato de numeros en guaranies
@@ -330,17 +275,11 @@
       });
 
       // Formato de la fila para la tabla
-      $('#id').text(comprobanteDetalle.IDComprobanteGasto);
-      $('#actividad').text(comprobanteDetalle.actividad);
-      $('#fecha').text(comprobanteDetalle.fecha);
-      $('#proveedor').text(comprobanteDetalle.idproveedor); 
-      $('#monto').text(formatoGuaranies.format(comprobanteDetalle.monto)); 
-      $('#aprobado').text(comprobanteDetalle.aprobado);
-      $('#concepto').text(comprobanteDetalle.concepto); 
-      $('#ff').text(comprobanteDetalle.id_ff); 
-      $('#obl').text(comprobanteDetalle.obl); 
-      $('#str').text(comprobanteDetalle.str); 
-      $('#op').text(comprobanteDetalle.op); 
+      $('#id').text(pedidoDetalle.IDPedidoMaterial);
+      $('#actividad').text(pedidoDetalle.id_unidad);
+      $('#fecha').text(pedidoDetalle.fecha);
+      $('#monto').text(formatoGuaranies.format(pedidoDetalle.monto)); 
+      $('#concepto').text(pedidoDetalle.concepto); 
     }
   </script>
 
