@@ -42,11 +42,6 @@
                                     <i class="bi bi-plus-circle"></i> Nuevo Proveedor
                                 </button>
                             </div>
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-primary" onclick="verEstadoSwitch()" title="Nuevo" id="estadoswitch">
-                                    <i class="bi bi-plus-circle"></i> estado del switch
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1344,12 +1339,6 @@
     });
     </script>
 
-    <script>
-    function verEstadoSwitch() {
-        var strSwitchEstado = $('#strSwitch').is(':disabled') ? 'on' : 'off';
-        console.log('El switch está deshabilitado: ', strSwitchEstado);
-    }
-    </script>
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
