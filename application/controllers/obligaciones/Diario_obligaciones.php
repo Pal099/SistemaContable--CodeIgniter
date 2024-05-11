@@ -257,6 +257,8 @@ class Diario_obligaciones extends CI_Controller
 		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$origen_de_financiamiento = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
+		$niveles = $this->Diario_obli_model->getNiveles();
+		
 	
 		// Buscamos los datos corresponiendentes de las tablas para facilidad de su manejo
 		$proveedorEncontrado = null;
@@ -264,6 +266,25 @@ class Diario_obligaciones extends CI_Controller
 			if ($proveedor->id == $asiento[0]['datosFijos']['id_provee']) {
 				$proveedorEncontrado = $proveedor;
 				break;
+			}
+		}	
+
+		// Variable booleana que almacena si existe un valor en el campo str
+		$strBoolean = false;
+		$nivelEncontrado = null;
+		
+		// Verificamos si el campo str tiene datos en algún elemento del array $asiento
+		foreach ($asiento as $elemento) {
+			if (!empty($elemento['datosFijos']['str'])) {
+				$strBoolean = true;
+				//Acá buscamos el nivel al cual pertenece ese str ya que si es un str entonces tiene un nivel
+				foreach ($niveles as $nivel) {
+					if ($nivel->id_nivel == $asiento[0]['datosFijos']['id_nivel_str']) {
+						$nivelEncontrado = $nivel;
+						break;
+					}
+				}	
+				break; // Si se encuentra al menos un valor en el campo str, no necesitamos seguir buscando
 			}
 		}
 
@@ -291,7 +312,12 @@ class Diario_obligaciones extends CI_Controller
 			'origen_de_financiamiento' => $origen_de_financiamiento,
 			'cuentacontable' => $cuentacontables,
 			'proveedoresALL' => $proveedores,
+			'strBoolean' => $strBoolean,
+			'niveles' => $niveles,
+			'nivel_str'=> $nivelEncontrado,
+			
 		);
+		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 	
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -332,6 +358,9 @@ class Diario_obligaciones extends CI_Controller
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
+		$id_nivel_str = $datosFormulario['nivel'];
+
 		$IDNum_Asi = $datosFormulario['IDNum_Asi'];
 		$num_asi = $datosFormulario['num_asi'];
 		$ruc_id_provee = $datosFormulario['ruc'];
@@ -339,7 +368,7 @@ class Diario_obligaciones extends CI_Controller
 		$contabilidad = $datosFormulario['contabilidad'];
 		$concepto = $datosFormulario['concepto'];
 		$fecha = $datosFormulario['fecha'];
-		//-----------------//--------------------------- 1
+		//-----------------//--------------------------- 
 		$detalles = $datosFormulario['detalles'];
 		$debe = floatval($datosFormulario['Debe']);
 		$haber_2 = floatval($datosFormulario['Haber']);
@@ -357,6 +386,7 @@ class Diario_obligaciones extends CI_Controller
 		$nro_exp = $datosFormulario['nro_exp'];
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 		//-----------------//---------------------------
+		
 		//Calculamos el monto de los debes para asignarlo a MontoTotal:
 		$MontoTotal = 0;
 		$filasMonto = $datosCompletos['filas'];
@@ -392,6 +422,23 @@ class Diario_obligaciones extends CI_Controller
 				'modalidad' => $modalidad,
 				'op' => $op,
 			);
+
+			//Acá se verifica si el usuario selecciono algún nivel o no, si no se selecciono nada no inserta nada.
+			//También si selecciono un nivel dentro del select quiere decir que se activo el switch entonces se debe de aumentar el str
+			
+			//Obtenemos el estado del switch
+			$switchEstado = $datosFormulario['strSwitch'];
+			// Verifica si el usuario seleccionó algún nivel y si el switch estaba desactivado
+			//si estaba desactivado entonces verndra como "on" y no se aumentara nada
+			if (!empty($id_nivel_str) && $switchEstado == 'on') {
+				$dataNum_Asi['id_nivel_str'] = $id_nivel_str;
+				// Si el switch está desactivado, no se incrementa el número
+				$dataNum_Asi['str'] = $this->Diario_obli_model->ultimoSTR($id_user);
+			} elseif (!empty($id_nivel_str)) {
+				// Si el switch está off quiere decir que el usuario puede modificar el estado, entonces se incrementa el número
+				$dataNum_Asi['id_nivel_str'] = $id_nivel_str;
+				$dataNum_Asi['str'] = $this->Diario_obli_model->getSTRaumentado($id_user);
+			}
 			//Se actualiza num_asi
 			$this->Editar_Movimientos_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
 
