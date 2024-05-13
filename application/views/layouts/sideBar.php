@@ -125,8 +125,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url(); ?>mantenimiento/cuentas">
+                    <a href="<?php echo base_url(); ?>mantenimiento/cuvdsvasdentas">
                         <i class="bi bi-circle"></i><span>Cuentas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>mantenimiento/cuentavzdvss">
+                        <i class="bi bi-circle"></i><span>Niveles</span>
                     </a>
                 </li>
             </ul>
@@ -268,6 +273,11 @@
                 <li class="nav-item">
                     <a href="<?php echo base_url(); ?>mantenimiento/cuentas">
                         <i class="bi bi-circle"></i><span>Cuentas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>mantenimiento/niveles">
+                        <i class="bi bi-circle"></i><span>Niveles</span>
                     </a>
                 </li>
             </ul>

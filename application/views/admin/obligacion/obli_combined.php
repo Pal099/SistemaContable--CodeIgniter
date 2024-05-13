@@ -33,6 +33,10 @@
                                 <label class="form-check-label" for="camposOpcionalesSwitch">Campos
                                     Opcionales</label>
                             </div>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="strSwitch">
+                                <label class="form-check-label" for="strSwitch">STR</label>
+                            </div>
                             <div class="btn-group " role="group">
                                 <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
                                     data-bs-target="#modalContainer_proveedores">
@@ -115,8 +119,8 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="date" class="form-control" id="fecha"
-                                                            name="fecha" required>
+                                                        <input type="date" class="form-control" id="fecha" name="fecha"
+                                                            required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
                                                     <!--     <div class="form-group col-md-4">
@@ -128,6 +132,42 @@
                                                         <label for="concepto">Concepto:</label>
                                                         <input type="text" class="form-control" id="concepto"
                                                             name="concepto">
+                                                    </div>
+
+                                                    <!-- Campo del STR -->
+                                                    <div class="collapse mt-4" id="strCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <!-- Contador del STR -->
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="str">STR:</label>
+                                                                    <input type="text" class="form-control" id="str"
+                                                                        name="str" value="<?= $ultimo_str ?>" readonly>
+                                                                </div>
+                                                                <!-- Select de los niveles -->
+                                                                <div class="col-md-8">
+                                                                    <label for="niveles">Niveles:</label>
+                                                                    <div class="input-group">
+                                                                        <select name="niveles" id="niveles"
+                                                                            class="form-control" required>
+                                                                            <option selected disabled>Seleccione un
+                                                                                nivel...</option>
+                                                                            <?php foreach ($niveles as $nv) : ?>
+                                                                            <option
+                                                                                value="<?php echo $nv->id_nivel ?>">
+                                                                                <?php echo $nv->nombre_nivel; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                        <button type="button" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCuentasCont"
+                                                                            class="btn btn-primary">
+                                                                            <i class="bi bi-search"> Buscar</i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <!-- Campos Opcionales del formulario -->
@@ -712,7 +752,7 @@
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
                 detalles: $("#detalles").val(),
-
+                niveles: ($("#niveles").val() !== null) ? $("#niveles").val() : ""//Si no se selecciono un nivel simplemente envia vacio
             };
 
 
@@ -949,6 +989,15 @@
             var camposOpcionalesCollapse = new bootstrap.Collapse(document.getElementById(
                 'camposOpcionalesCollapse'));
             camposOpcionalesCollapse.toggle();
+        });
+        </script>
+
+        <!-- Script para mostrar el campo de STR -->
+        <script>
+        document.getElementById('strSwitch').addEventListener('change', function() {
+            var strCollapse = new bootstrap.Collapse(document.getElementById(
+                'strCollapse'));
+            strCollapse.toggle();
         });
         </script>
 

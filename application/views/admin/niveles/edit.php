@@ -1,0 +1,43 @@
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Niveles
+            <small>Editar</small>
+        </h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url();?>mantenimiento/niveles">Niveles</a></li>
+                <li class="breadcrumb-item active">Editar</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+    <section class="section dashboard">
+        <div class="row">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php if($this->session->flashdata("error")):?>
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                    <p><i class="icon fa fa-ban"></i><?php echo $this->session->flashdata("error"); ?></p>
+                                </div>
+                            <?php endif;?>
+                            <form action="<?php echo base_url();?>mantenimiento/niveles/update" method="POST">
+                                <input type="hidden" value="<?php echo $nivel->id_nivel;?>" name="id_nivel">
+                                <div class="form-group <?php echo form_error('nombre_nivel') == true ? 'has-error':''?>">
+                                    <label for="nombre_nivel">Nombre del nivel:</label>
+                                    <input type="text" class="form-control" id="nombre_nivel" name="nombre_nivel" value="<?php echo $nivel->nombre_nivel?>">
+                                </div>
+                                <div class="form-group">
+                                   <button type="submit" class="btn btn-success btn-flat"><span class="fa fa-save"></span>Guardar</button>
+                                   <a href="<?php echo base_url(); ?>mantenimiento/niveles" class="btn btn-danger"><span class="fa fa-remove"></span>Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

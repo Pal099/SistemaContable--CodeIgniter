@@ -120,6 +120,11 @@
                 <i class="bi bi-newspaper"></i><span>Cuentas</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
+                <i class="bi bi-newspaper"></i><span>Niveles</span>
+            </a>
+        </li>
             </ul>
            
         </li><!-- Acá termina lo de Obligacion -->
