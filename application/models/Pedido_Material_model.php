@@ -56,4 +56,43 @@ class Pedido_Material_model extends CI_Model {
     $query = $this->db->get();
     return $query->result();
 }
+public function savePedidoYItems($id_pedido, $items) {
+    // Iniciar una transacción
+    $this->db->trans_start();
+
+    // Insertar datos del pedido
+    foreach ($items as $item) {
+        $data_pedido = array(
+            'IDPedidoMaterial' => $id_pedido,
+            'id_unidad' => $item['id_unidad'],
+            'fecha' => $item['fecha'],
+            'rubro' => $item['rubro'],
+            'descripcion' => $item['descripcion'],
+            'preciounit' => $item['preciounit'],
+            'cantidad' => $item['cantidad'],
+            'iva' => $item['iva'],
+            'porcentaje_iva' => $item['porcentaje_iva'],
+            'exenta' => $item['exenta'],
+            'gravada' => $item['gravada'],
+            'id_uni_respon_usu' => $item['id_uni_respon_usu'],
+            'estado' => 1 // Suponiendo que 1 representa el estado activo
+        );
+        $this->db->insert('pedido_material', $data_pedido);
+    }
+
+    // Finalizar la transacción
+    $this->db->trans_complete();
+
+    // Verificar si la transacción fue exitosa
+    if ($this->db->trans_status() === FALSE) {
+        // Si la transacción falla, revertir y devolver falso
+        $this->db->trans_rollback();
+        return FALSE;
+    } else {
+        // Si la transacción tiene éxito, confirmar y devolver verdadero
+        $this->db->trans_commit();
+        return TRUE;
+    }
+}
+
 }
