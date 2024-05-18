@@ -2,19 +2,20 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
+
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-    <!-- estilos del css -->
-    <link href="<?php echo base_url(); ?>/assets/css/style_presupuesto.css" rel="stylesheet">
+
 </head>
+
 
 <body>
     <main id="main" class="content">
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Pedido de Materiales</li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/pedido_material">Pedido de
+                        Materiales</a></li>
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/presupuesto">Listado
                         Presupuesto</a></li>
                 <li class="breadcrumb-item">Agregar Pedido de Materiales</li>
@@ -41,79 +42,62 @@
             <section class="seccion_agregar_presupuesto">
                 <div class="container-fluid">
                     <div class="row">
-                        <form action="<?php echo base_url(); ?>patrimonio/pedido_material/store" method="POST">
+                        <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';">
                             <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
+                                                    <?php
+                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
+
+                                                    if ($conexion->connect_error) {
+                                                        die("Error de conexión: " . $conexion->connect_error);
+                                                    }
+
+                                                    // Consulta para obtener el máximo idcomprobante
+                                                    $sql = "SELECT MAX(IDPedidoMaterial) AS maxPedido FROM pedido_material";
+                                                    $resultado = $conexion->query($sql);
+
+                                                    // Verificar si la consulta fue exitosa
+                                                    if ($resultado) {
+                                                        $fila = $resultado->fetch_assoc();
+                                                        $maxPedido = $fila['maxPedido'];
+                                                    } else {
+                                                        die("Error en la consulta: " . $conexion->error);
+                                                    }
+
+                                                    // Calcular el siguiente número de comprobante
+                                                    $nextPedido = $maxPedido + 1;
+
+                                                    // Cerrar la conexión a la base de datos
+                                                    $conexion->close();
+                                                    ?>
 
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
-                                                        <select name="id_unidad"
-                                                            id="id_unidad" class="form-control"
+                                                        <select name="id_unidad" id="id_unidad" class="form-control"
                                                             required>
-                                                            <?php foreach ($unidad as $uni) : ?>
-                                                            <option value="<?php echo $uni->id_unidad ?>">
-                                                                <?php echo $uni->unidad . ' - ' . $uni->id_unidad ; ?>
-                                                            </option>
+                                                            <?php foreach ($unidad as $uni): ?>
+                                                                <option value="<?php echo $uni->id_unidad ?>">
+                                                                    <?php echo $uni->unidad . ' - ' . $uni->id_unidad; ?>
+                                                                </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <?php
-                                                            $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
 
-                                                            if ($conexion->connect_error) {
-                                                                die("Error de conexión: " . $conexion->connect_error);
-                                                            }
-                                                            
-                                                            // Consulta para obtener el máximo idcomprobante
-                                                            $sql = "SELECT MAX(IDPedidoMaterial) AS maxPedido FROM pedido_material";
-                                                            $resultado = $conexion->query($sql);
-                                                            
-                                                            // Verificar si la consulta fue exitosa
-                                                            if ($resultado) {
-                                                                $fila = $resultado->fetch_assoc();
-                                                                $maxPedido = $fila['maxPedido'];
-                                                            } else {
-                                                                die("Error en la consulta: " . $conexion->error);
-                                                            }
-                                                            
-                                                            // Calcular el siguiente número de comprobante
-                                                            $nextPedido = $maxPedido + 1;
-                                                            
-                                                            // Cerrar la conexión a la base de datos
-                                                            $conexion->close();
-                                                            ?>
                                                     <div class="form-group col-md-4">
                                                         <label for="IDPedidoMaterial">Nro. de Pedido:</label>
-                                                        <input type="number" class="form-control" id="IDPedidoMaterial" name="IDPedidoMaterial" value="<?php echo $nextPedido; ?>" required readonly>
+                                                        <input type="number" class="form-control" id="IDPedidoMaterial"
+                                                            name="IDPedidoMaterial" value="<?php echo $nextPedido; ?>"
+                                                            readonly>
                                                     </div>
-
-                                                    <div class="col-md-12">
-                                                        <div class="form-group input-group">
-                                                            <label for="codigo">Bien/Servicio:</label>
-                                                            <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Bien/Servicio" required>
-                                                            <button type="button" data-bs-toggle="modal" data-bs-target="#modalBienes"
-                                                                class="btn btn-primary">
-                                                                <i class="bi bi-search"> Buscar </i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha</label>
                                                         <input type="date" class="form-control" id="fecha" name="fecha"
                                                             placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
-                                                    <div class="col-md-12 text-md-end">
-                                                        <button type="button" id="actualizarTablaBoton" 
-                                                            class="btn btn-primary">
-                                                            <i class="bi bi-plus"> Agregar Item </i>
-                                                        </button>
-                                                    </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -129,7 +113,7 @@
                                                     <div class="card border">
                                                         <div class="card-body mt-4">
                                                             <div class="table-responsive">
-                                                                <table class="table table-bordered" id="tablaItems">
+                                                                <table class="table table-bordered" id="tablaP">
                                                                     <thead>
                                                                         <tr>
                                                                             <th>Item</th>
@@ -144,9 +128,147 @@
                                                                             <th>Exenta</th>
                                                                             <th>Gravada</th>
                                                                             <th>Seleccionar Bien</th>
+                                                                            <th>Acciones</th>
                                                                         </tr>
                                                                     </thead>
-                                                                    <tbody id="tbodyItems"></tbody>
+                                                                    <tbody>
+                                                                        <tr id="filaB" class="filaB">
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent index"
+                                                                                        id="item" name="item" value="1"
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="number"
+                                                                                        class="form-control border-0 bg-transparent npedido"
+                                                                                        id="npedido" name="npedido"
+                                                                                        value="<?php echo $nextPedido; ?>"
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent actividad"
+                                                                                        id="actividad" name="actividad"
+                                                                                        value="1" readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td hidden>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center">
+                                                                                    <input type="number"
+                                                                                        class="form-control border-0 bg-transparent IDbienservicio"
+                                                                                        id="idbien" name="idbien"
+                                                                                        value="" readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent rubro"
+                                                                                        id="rubro" name="rubro" value=""
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent descripcion"
+                                                                                        id="descrip" name="descrip"
+                                                                                        value="" readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent puni"
+                                                                                        id="puni" name="precioref"
+                                                                                        value="">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="number"
+                                                                                        class="form-control border-0 bg-transparent cantidad"
+                                                                                        id="cantidad" name="cantidad"
+                                                                                        value="">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-check">
+                                                                                    <input type="checkbox"
+                                                                                        class="form-check-input iva iva-checkbox"
+                                                                                        id="iva" name="iva" value="">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="number"
+                                                                                        class="form-control border-0 bg-transparent piva"
+                                                                                        id="piva" name="piva" value=""
+                                                                                        readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent exenta"
+                                                                                        id="exenta" name="exenta"
+                                                                                        value="" readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <input type="text"
+                                                                                        class="form-control border-0 bg-transparent gravada"
+                                                                                        id="gravada" name="gravada"
+                                                                                        value="" readonly>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="input-group input-group-sm align-items-center  ">
+                                                                                    <button type="button"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#modalBienes"
+                                                                                        class="btn btn-primary openModalBtn_4">
+                                                                                        <i class="bi bi-search">
+                                                                                        </i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-primary border-0 agregarFila">
+                                                                                        <i
+                                                                                            class="bi bi-plus-square"></i>
+                                                                                    </button>
+                                                                                    <button type="button"
+                                                                                        class="btn btn-outline-danger border-0 eliminarFila"
+                                                                                        hidden>
+                                                                                        <i class="bi bi-trash3"></i>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
                                                                 </table>
                                                             </div>
                                                         </div>
@@ -164,7 +286,7 @@
                                         class="btn btn-success btn-primary"><span
                                             class="fa fa-save"></span>Guardar</button>
                                     <button class="btn btn-danger ml-3"
-                                        onclick="window.location.href='<?php echo base_url(); ?>patrimonio/pedido_material'">
+                                        onclick="window.location.href='<?php echo base_url(); ?>patrimonios/pedido_material'">
                                         <i class="fa fa-remove"></i> Cancelar
                                     </button>
                                 </div>
@@ -188,6 +310,7 @@
                     <table class="table table-hover table-sm">
                         <thead>
                             <tr>
+                                <th class="columna-hidden"></th>
                                 <th>#</th>
                                 <th>Código</th>
                                 <th>Rubro</th>
@@ -199,15 +322,14 @@
                         </thead>
                         <tbody>
                             <?php foreach ($bienes_servicios as $index => $bienes): ?>
-                                <tr class="list-item" 
-                                onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
-                                    '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')" 
+                                <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
+                                    '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')"
                                     data-bs-dismiss="modal">
                                     <td class="columna-hidden">
                                         <?= $bienes->IDbienservicio ?>
                                     </td>
                                     <td>
-                                        <?= $index +1 ?>
+                                        <?= $index + 1 ?>
                                     </td>
                                     <td>
                                         <?= $bienes->codigo ?>
@@ -237,130 +359,185 @@
     </div>
 </body>
 <script>
-    $(document).ready(function() {
-        var itemIndex = 1; // Mueve la definición de itemIndex aquí
 
-        // Función para agregar una fila a la tabla de items
-        function agregarFilaTabla(periodo, actividad, rubro, descripcion, precioUnit, cantidad, ivaCheck, ivaSelect) {
-            var exenta = ivaCheck ? "" : precioUnit;
-            var gravada = ivaCheck ? precioUnit : "";
-            var porcentajeIVA = ivaCheck ? ivaSelect : "";
-            var cantidad = 0;
-            var ivaSelect= 10;
+    $(document).ready(function () {
+        $("#formularioPrincipal").on("submit", function (event) {
+            event.preventDefault(); // Evita el envío predeterminado del formulario
 
-            var fila = `<tr>
-                <td>${itemIndex}</td>
-                <td>${$("#IDPedidoMaterial").val()}</td>
-                <td>${$("#id_unidad option:selected").text()}</td>
-                <td>${rubro}</td>
-                <td>${descripcion}</td>
-                <td contenteditable="true">${precioUnit}</td>
-                <td contenteditable="true">${cantidad}</td>
-                <td><input type="checkbox" class="form-check-input" ${ivaCheck ? 'checked' : ''}></td>
-                <td><input type="number" class="form-control" min="5" max="10" value="${porcentajeIVA}" ${ivaCheck ? '' : 'disabled'}></td>
-                <td>${exenta}</td>
-                <td>${gravada}</td>
-                <td><button type="button" class="btn btn-primary seleccionarBienBtn">Seleccionar Bien</button></td>
-            </tr>`;
+            var datosFormulario = {
+                fecha: $("#fecha").val(),
+                id_unidad: $("#id_unidad").val(),
+                IDPedidoMaterial: $("#IDPedidoMaterial").val(),
+            };
 
-            $("#tbodyItems").append(fila);
-            itemIndex++;
+            var filas = [];
+
+            $("#tablaP tbody tr").each(function () {
+                var fila = {
+                    pedido: $(this).find("input[name='npedido']").val(),
+                    actividad: $(this).find("input[name='actividad']").val(),
+                    idbien: $(this).find("input[name='idbien']").val(),
+                    //rubro: $(this).find("input[name='rubro']").val(),
+                    descripcion: $(this).find("input[name='descrip']").val(),
+                    precioUnit: $(this).find("input[name='precioref']").val(),
+                    cantidad: $(this).find("input[name='cantidad']").val(),
+                    piva: $(this).find("input[name='piva']").val(),
+                    exenta: $(this).find("input[name='exenta']").val(),
+                    gravada: $(this).find("input[name='gravada']").val(),
+                };
+
+                filas.push(fila);
+            });
+
+            // Combinar datos del formulario principal y de las filas dinámicas
+            var datosCompletos = {
+                datosFormulario: datosFormulario,
+                filas: filas,
+            };
+
+            // Mostrar los datos antes de enviarlos
+            //alert("Datos del formulario: " + JSON.stringify(datosCompletos));
+
+            // Enviamos los datos al controlador mediante AJAX
+            $.ajax({
+                url: '<?php echo base_url("patrimonio/pedido_material/store"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+                }
+            });
+        });
+    });
+
+</script>
+
+<script>
+    var currentRow = null;
+
+    // Función para abrir el modal de las cuentas contables
+    function openModal_4(currentRowParam) {
+
+        var modalContainer = document.getElementById('modalBienes');
+
+        currentRow = currentRowParam; // Almacenar la fila actual
+
+    }
+
+
+    // Función para seleccionar la cuenta contable
+    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+        // Verificar si currentRow está definido y no es null
+        if (currentRow) {
+            // Utilizar currentRow para actualizar los campos
+            currentRow.find('.IDbienservicio').val(IDbienservicio);
+            currentRow.find('.rubro').val(rubro);
+            currentRow.find('.descripcion').val(descripcion);
+            currentRow.find('.puni').val(precioref);
+
+        } else {
+            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
         }
+    }
 
-        function actualizarTabla() {
-            var actividad = $("#id_unidad").val();
-            var periodo = $("#fecha").val();
-            var rubro = $("#rubro").val();
-            var precioUnit = $("#precioref").val();
-            var cantidad = $("#cantidad").val();
-            var ivaCheck = $("#checkIVA").prop("checked");
-            var ivaSelect = $("#selectIVA").val();
+    // Abrir modal en fila dinamica
+    const openModalBtn_4 = document.getElementById("openModalBtn_4");
+    // Actualiza la función de clic para pasar la fila actual al abrir el modal
+    document.getElementById("tablaP").addEventListener("click", function (event) {
 
-            // Agregar fila a la tabla
-            agregarFilaTabla(periodo, $("#actividad").val(), $("#id_unidad option:selected").text(), rubro, precioUnit, cantidad, ivaCheck, ivaSelect);
+        // Encuentra la fila desde la cual se abrió el modal
+        var row = $(event.target).closest('tr');
+        if (
+            (event.target && event.target.className.includes("openModalBtn_4")) ||
+            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
+                "openModalBtn_4"))
+        ) {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal_4(row);
         }
+    });
 
-        // Evento click para agregar una fila a la tabla
-        $("#actualizarTablaBoton").on("click", function() {
-            actualizarTabla();
-        });
-
-        // Mostrar el número de pedido en el campo correspondiente
-        $("#IDPedidoMaterial").on("change", function() {
-            var numPedido = $(this).val();
-            $("#idpedido").val(numPedido);
-        });
-
-
-        // Evento click para mostrar el modal de Bienes/Servicios
-        $('#buscarBien').on('click', function() {
-            var modalBienes = new bootstrap.Modal(document.getElementById('modalBienes'));
-            modalBienes.show();
-        });
-
-        // Función para seleccionar un bien desde el modal y autocompletar los datos del formulario y de la tabla
-        function selectBien(IDbienservicio, rubro, descripcion, precioref) {
-            // Actualizar los campos del formulario con los datos del bien seleccionado
-            $("#codigo").val(descripcion);
-            $("#rubro").val(rubro);
-            $("#preciounit").val(precioref);
-
-            // Actualizar los campos de la última fila de la tabla de items con los datos del bien seleccionado
-            var lastRow = $("#tbodyItems tr:last");
-            lastRow.find("td:nth-child(4)").text(rubro);
-            lastRow.find("td:nth-child(5)").text(descripcion);
-            lastRow.find("td:nth-child(6)").text(precioref);
-
-            // Obtener el número de pedido y actualizar el campo correspondiente
-            var numPedido = $("#IDPedidoMaterial").val();
-            $("#idpedido").val(numPedido);
-
+    // Evento para manejar cambios en el checkbox
+    $(document).on("change", ".iva-checkbox", function () {
+        var row = $(this).closest('tr');
+        if ($(this).is(':checked')) {
+            row.find('.piva, .exenta').prop('readonly', false);
+            var valorOrigen = row.find('.puni').val();
+            row.find('.gravada').val(valorOrigen);
+        } else {
+            row.find('.piva, .exenta').prop('readonly', true);
+            row.find('.gravada').val(0);
         }
+    });
 
-        // Agregar evento click para seleccionar bien desde el modal
-        $(document).on('click', '.list-item', function() {
-            var IDbienservicio = $(this).find('td:eq(0)').text();
-            var rubro = $(this).find('td:eq(2)').text();
-            var descripcion = $(this).find('td:eq(4)').text();
-            var precioref = $(this).find('td:eq(7)').text();
-            selectBien(IDbienservicio, rubro, descripcion, precioref);
-            $('#modalBienes').modal('hide'); // Ocultar el modal después de seleccionar un bien
+    // Evento para desmarcar el checkbox
+    $(document).on("click", ".desmarcarCheckbox", function () {
+        var row = $(this).closest('tr');
+        row.find('.iva-checkbox').prop('checked', false).change(); // Usar change() para activar el manejador de eventos
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        var indice = 1;
+        // Agregar fila
+        $(document).on("click", ".agregarFila", function (e) {
+            e.preventDefault();
+
+            indice++;
+
+            // Clonar la fila base
+            var nuevaFila = $("#filaB").clone();
+
+            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+            nuevaFila.find("[id]").removeAttr('id');
+
+            // Agregar una clase a todos los elementos de la fila clonada
+            nuevaFila.find("select, input").addClass("filaClonada");
+
+            // Limpiar los valores de los campos en la nueva fila
+            nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
+
+            nuevaFila.find(".index").val(indice);
+            nuevaFila.find(".piva, .exenta, .gravada, .cantidad").val(0);
+            nuevaFila.find(".iva-checkbox").prop('checked', false);
+            // Mostrar la nueva fila
+            nuevaFila.show();
+
+            // Agregar la nueva fila al cuerpo de la tabla
+            $("#tablaP tbody").append(nuevaFila);
         });
 
-        // Agregar evento click para el botón "Seleccionar Bien" en la tabla de items
-        $(document).on('click', '.seleccionarBienBtn', function() {
-            var row = $(this).closest('tr');
-            var rubro = row.find('td:eq(3)').text();
-            var descripcion = row.find('td:eq(4)').text();
-            var precioref = row.find('td:eq(5)').text();
-            selectBien(null, rubro, descripcion, precioref);
+        // Eliminar fila
+        $("#tablaP").on("click", ".eliminarFila", function (e) {
+            e.preventDefault();
+
+            $(this).closest("tr").remove();
+
         });
 
-        // Habilitar o deshabilitar el campo de porcentaje de IVA al hacer clic en el checkbox de IVA
-        $(document).on('change', 'input[type="checkbox"]', function() {
-            var isChecked = $(this).prop('checked');
-            var row = $(this).closest('tr');
-            var porcentajeIVAInput = row.find('input[type="number"]');
-            porcentajeIVAInput.prop('disabled', !isChecked);
+
+        $('#id_unidad').on('change', function () {
+            var selectedValue = $(this).val();
+            $('.actividad').val(selectedValue);
+            //$('#rubro').val(selectedValue);
         });
 
-        // Actualizar automáticamente los campos de Exenta y Gravada al cambiar el estado del checkbox de IVA
-        $(document).on('change', 'input[type="checkbox"]', function() {
-            var isChecked = $(this).prop('checked');
-            var row = $(this).closest('tr');
-            var exentaCell = row.find('td:nth-child(10)');
-            var gravadaCell = row.find('td:nth-child(11)');
-            var precioUnitCell = row.find('td:nth-child(6)');
-            var precioUnit = parseFloat(precioUnitCell.text());
-
-            if (isChecked) {
-                exentaCell.text('');
-                gravadaCell.text(precioUnit);
-            } else {
-                exentaCell.text(precioUnit);
-                gravadaCell.text('');
-            }
-        });
     });
 </script>
 
