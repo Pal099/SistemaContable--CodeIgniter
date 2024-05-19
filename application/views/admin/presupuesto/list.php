@@ -5,6 +5,8 @@
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -87,7 +89,7 @@
                                                                             <i class="bi bi-pencil-fill"></i>
                                                                         </button>
                                                                         <button class="btn btn-danger btn-remove btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                                                            onclick="confirmarEliminarPresupuesto('<?php echo $presupuesto->ID_Presupuesto; ?>')">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
                                                                     </div>
@@ -194,8 +196,6 @@
         </div>
     </div>
 
-
-
     <!-- Script de la tabla de presupuesto -->
     <script>
         $(document).ready(function () {
@@ -269,7 +269,6 @@
         // Función para mostrar los detalles del presupuesto
         function mostrarDetalles(presupuestoDetalle) {
 
-
             // Formato de numeros en guaranies
             var formatoGuaranies = new Intl.NumberFormat('es-PY', {
                 style: 'currency',
@@ -307,6 +306,26 @@
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+
+    <!-- Script para SweetAlert2 -->
+    <script>
+        function confirmarEliminarPresupuesto(presupuestoId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url(); ?>mantenimiento/presupuesto/delete/' + presupuestoId;
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

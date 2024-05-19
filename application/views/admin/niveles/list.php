@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
     <main id="main" class="content">
         <nav>
@@ -48,18 +52,22 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if(!empty($niveles)):?>
-                                                        <?php foreach($niveles as $nivel):?>
-                                                        <tr>
-                                                            <td><?php echo $nivel->id_nivel;?></td>
-                                                            <td><?php echo $nivel->nombre_nivel;?></td>
-                                                            <td>
-                                                                <a href="<?php echo base_url();?>mantenimiento/niveles/edit/<?php echo $nivel->id_nivel;?>" class="btn btn-warning btn-sm"><span class="fa fa-pencil"></span> Editar</a>
-                                                                <a href="<?php echo base_url();?>mantenimiento/niveles/delete/<?php echo $nivel->id_nivel;?>" class="btn btn-danger btn-sm"><span class="fa fa-remove"></span> Eliminar</a>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach;?>
-                                                        <?php endif;?>
+                                                        <?php if (!empty($niveles)) : ?>
+                                                            <?php foreach ($niveles as $nivel) : ?>
+                                                                <tr>
+                                                                    <td><?php echo $nivel->id_nivel; ?></td>
+                                                                    <td><?php echo $nivel->nombre_nivel; ?></td>
+                                                                    <td>
+                                                                        <a href="<?php echo base_url(); ?>mantenimiento/niveles/edit/<?php echo $nivel->id_nivel; ?>" class="btn btn-warning btn-sm">
+                                                                            <span class="fa fa-pencil"></span>
+                                                                        </a>
+                                                                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminarNivel('<?php echo $nivel->id_nivel; ?>')">
+                                                                            <span class="fa fa-remove"></span> 
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                        <?php endif; ?>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -73,18 +81,19 @@
             </section>
         </div>
     </main>
+
     <!-- Script de la tabla de niveles -->
     <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaNiveles').DataTable({
-            dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
-                '<"row"<"col-sm-12"t>>' +
-                '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            lengthMenu: [
-                [10, 25, 50, -1],
-                ['10', '25', '50', 'Mostrar Todo']
-            ],
-            buttons: [{
+        $(document).ready(function () {
+            var table1 = $('#TablaNiveles').DataTable({
+                dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"t>>' +
+                    '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10', '25', '50', 'Mostrar Todo']
+                ],
+                buttons: [{
                     extend: 'pageLength',
                     className: 'btn bg-primary border border-0'
                 },
@@ -108,16 +117,35 @@
                     text: '<i class="bi bi-filetype-pdf"></i> PDF',
                     className: 'btn btn-danger',
                 }
-            ],
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            },
+                ],
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                },
+            });
         });
-    });
+
+        function confirmarEliminarNivel(nivelId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url(); ?>mantenimiento/niveles/delete/' + nivelId;
+                }
+            });
+        }
     </script>
+
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
+
 </html>
