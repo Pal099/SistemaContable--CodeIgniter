@@ -405,10 +405,14 @@
                 data: {
                     datos: datosCompletos
                 },
+                // Asumimos que la respuesta es texto plano
                 success: function (response) {
-                    console.log(response);
+                    // Asumimos que la respuesta es texto plano
                     if (response.includes('Datos guardados exitosamente.')) {
                         alert('Datos guardados exitosamente.');
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        console.log('Detalles del error: ', response);
                     }
                 },
                 error: function (xhr, status, error) {
