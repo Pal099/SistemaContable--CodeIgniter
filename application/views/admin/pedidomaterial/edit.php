@@ -13,7 +13,7 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>patrimonio/pedido_material">Pedido de
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/pedido_material">Pedido de
                         Materiales</a></li>
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/presupuesto">Listado
                         Presupuesto</a></li>
@@ -42,31 +42,6 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <?php
-                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-
-                                                    if ($conexion->connect_error) {
-                                                        die("Error de conexión: " . $conexion->connect_error);
-                                                    }
-
-                                                    // Consulta para obtener el máximo idcomprobante
-                                                    $sql = "SELECT MAX(IDPedidoMaterial) AS maxPedido FROM pedido_material";
-                                                    $resultado = $conexion->query($sql);
-
-                                                    // Verificar si la consulta fue exitosa
-                                                    if ($resultado) {
-                                                        $fila = $resultado->fetch_assoc();
-                                                        $maxPedido = $fila['maxPedido'];
-                                                    } else {
-                                                        die("Error en la consulta: " . $conexion->error);
-                                                    }
-
-                                                    // Calcular el siguiente número de comprobante
-                                                    $nextPedido = $maxPedido + 1;
-
-                                                    // Cerrar la conexión a la base de datos
-                                                    $conexion->close();
-                                                    ?>
 
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
@@ -83,7 +58,7 @@
                                                     <div class="form-group col-md-4">
                                                         <label for="IDPedidoMaterial">Nro. de Pedido:</label>
                                                         <input type="number" class="form-control" id="IDPedidoMaterial"
-                                                            name="IDPedidoMaterial" value="<?php echo $nextPedido; ?>"
+                                                            name="IDPedidoMaterial" value=""
                                                             readonly>
                                                     </div>
                                                     <div class="form-group col-md-4">
@@ -353,66 +328,62 @@
 </body>
 <script>
 
-    $("#formularioPrincipal").on("submit", function (event) {
+    $(document).ready(function () {
+        $("#formularioPrincipal").on("submit", function (event) {
+            event.preventDefault(); // Evita el envío predeterminado del formulario
 
-
-        var datosFormulario = {
-            fecha: $("#fecha").val(),
-            id_unidad: $("#id_unidad").val(),
-            IDPedidoMaterial: $("#IDPedidoMaterial").val(),
-        };
-
-        var filas = [];
-
-        $("#tablaP tbody tr").each(function () {
-            var fila = {
-                //pedido: $(this).find("input[name='npedido']").val(),
-                actividad: $(this).find("input[name='actividad']").val(),
-                idbien: $(this).find("input[name='idbien']").val(),
-                //rubro: $(this).find("input[name='rubro']").val(),
-                descripcion: $(this).find("input[name='descrip']").val(),
-                precioUnit: $(this).find("input[name='precioref']").val(),
-                cantidad: $(this).find("input[name='cantidad']").val(),
-                piva: $(this).find("input[name='piva']").val(),
-                exenta: $(this).find("input[name='exenta']").val(),
-                gravada: $(this).find("input[name='gravada']").val(),
+            var datosFormulario = {
+                fecha: $("#fecha").val(),
+                id_unidad: $("#id_unidad").val(),
+                IDPedidoMaterial: $("#IDPedidoMaterial").val(),
             };
 
-            filas.push(fila);
-        });
+            var filas = [];
 
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
-            datosFormulario: datosFormulario,
-            filas: filas,
-        };
+            $("#tablaP tbody tr").each(function () {
+                var fila = {
+                    //pedido: $(this).find("input[name='npedido']").val(),
+                    actividad: $(this).find("input[name='actividad']").val(),
+                    idbien: $(this).find("input[name='idbien']").val(),
+                    //rubro: $(this).find("input[name='rubro']").val(),
+                    descripcion: $(this).find("input[name='descrip']").val(),
+                    precioUnit: $(this).find("input[name='precioref']").val(),
+                    cantidad: $(this).find("input[name='cantidad']").val(),
+                    piva: $(this).find("input[name='piva']").val(),
+                    exenta: $(this).find("input[name='exenta']").val(),
+                    gravada: $(this).find("input[name='gravada']").val(),
+                };
 
-        // Mostrar los datos antes de enviarlos
-        //alert("Datos del formulario: " + JSON.stringify(datosCompletos));
+                filas.push(fila);
+            });
 
-        // Enviamos los datos al controlador mediante AJAX
-        $.ajax({
-            url: '<?php echo base_url("patrimonio/pedido_material/store"); ?>',
-            type: 'POST',
-            data: {
-                datos: datosCompletos
-            },
-            // Asumimos que la respuesta es texto plano
-            success: function (response) {
-               
-                if (response.includes('Datos guardados exitosamente.')) {
-                    alert('Datos guardados exitosamente.');
-                    // ... (código adicional si es necesario)
-                } else {
-                    alert('Error al guardar los datos: ' + response);
-                    console.log(response);
+            // Combinar datos del formulario principal y de las filas dinámicas
+            var datosCompletos = {
+                datosFormulario: datosFormulario,
+                filas: filas,
+            };
+
+            // Mostrar los datos antes de enviarlos
+            alert("Datos del formulario: " + JSON.stringify(datosCompletos));
+
+            // Enviamos los datos al controlador mediante AJAX
+            $.ajax({
+                url: '<?php echo base_url("patrimonio/pedido_material/store"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                // Asumimos que la respuesta es texto plano
+                success: function (response) {
+                    // Asumimos que la respuesta es texto plano
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
-                console.log(datosCompletos);
-                alert("Error en la solicitud AJAX: " + status + " - " + error);
-            }
+            });
         });
     });
 
@@ -510,7 +481,7 @@
             nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
 
             nuevaFila.find(".index").val(indice);
-
+            nuevaFila.find(".piva, .exenta, .gravada, .cantidad").val(0);
             nuevaFila.find(".iva-checkbox").prop('checked', false);
             // Mostrar la nueva fila
             nuevaFila.show();

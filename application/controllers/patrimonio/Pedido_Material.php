@@ -129,7 +129,7 @@ class Pedido_Material extends MY_Controller
 
 
 			}
-
+			
 			return redirect(base_url() . "patrimonio/pedido_material");
 		} else {
 			$this->session->set_flashdata("error", "No se pudo guardar la información");
