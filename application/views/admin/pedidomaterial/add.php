@@ -50,7 +50,7 @@
                                                     }
 
                                                     // Consulta para obtener el máximo idcomprobante
-                                                    $sql = "SELECT MAX(IDPedidoMaterial) AS maxPedido FROM pedido_material";
+                                                    $sql = "SELECT MAX(idpedido) AS maxPedido FROM pedido_material";
                                                     $resultado = $conexion->query($sql);
 
                                                     // Verificar si la consulta fue exitosa
@@ -366,10 +366,10 @@
 
         $("#tablaP tbody tr").each(function () {
             var fila = {
-                //pedido: $(this).find("input[name='npedido']").val(),
+                pedido: $(this).find("input[name='npedido']").val(),
                 actividad: $(this).find("input[name='actividad']").val(),
                 idbien: $(this).find("input[name='idbien']").val(),
-                //rubro: $(this).find("input[name='rubro']").val(),
+                rubro: $(this).find("input[name='rubro']").val(),
                 descripcion: $(this).find("input[name='descrip']").val(),
                 precioUnit: $(this).find("input[name='precioref']").val(),
                 cantidad: $(this).find("input[name='cantidad']").val(),
@@ -399,13 +399,11 @@
             },
             // Asumimos que la respuesta es texto plano
             success: function (response) {
-               
-                if (response.includes('Datos guardados exitosamente.')) {
-                    alert('Datos guardados exitosamente.');
-                    // ... (código adicional si es necesario)
+
+                if (response === "success") {
+                    window.location.href = '<?php echo base_url("patrimonio/pedido_material"); ?>';
                 } else {
                     alert('Error al guardar los datos: ' + response);
-                    console.log(response);
                 }
             },
             error: function (xhr, status, error) {

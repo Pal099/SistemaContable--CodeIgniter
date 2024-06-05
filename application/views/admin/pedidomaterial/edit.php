@@ -48,7 +48,7 @@
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
                                                             required>
                                                             <?php foreach ($unidad as $uni): ?>
-                                                                <option value="<?php echo $uni->id_unidad ?>">
+                                                                <option value="<?php echo $uni->id_unidad; ?>" <?php echo ($uni->id_unidad == $pedidos[0]->id_unidad) ? 'selected' : ''; ?>>
                                                                     <?php echo $uni->unidad . ' - ' . $uni->id_unidad; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
@@ -58,12 +58,14 @@
                                                     <div class="form-group col-md-4">
                                                         <label for="IDPedidoMaterial">Nro. de Pedido:</label>
                                                         <input type="number" class="form-control" id="IDPedidoMaterial"
-                                                            name="IDPedidoMaterial" value=""
-                                                            readonly>
+                                                            name="IDPedidoMaterial"
+                                                            value="<?php echo $pedidos[0]->idpedido; ?>" readonly>
                                                     </div>
+
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha</label>
                                                         <input type="date" class="form-control" id="fecha" name="fecha"
+                                                            value="<?php echo $pedidos[0]->fecha; ?>"
                                                             placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
                                                 </div>
@@ -116,7 +118,7 @@
                                                                                     <input type="number"
                                                                                         class="form-control border-0 bg-transparent npedido"
                                                                                         id="npedido" name="npedido"
-                                                                                        value="<?php echo $nextPedido; ?>"
+                                                                                        value="<?php echo $pedidos[0]->idpedido; ?>"
                                                                                         readonly>
                                                                                 </div>
                                                                             </td>
@@ -126,7 +128,8 @@
                                                                                     <input type="text"
                                                                                         class="form-control border-0 bg-transparent actividad"
                                                                                         id="actividad" name="actividad"
-                                                                                        value="1" readonly>
+                                                                                        value="<?php echo $pedidos[0]->id_unidad; ?>"
+                                                                                        readonly>
                                                                                 </div>
                                                                             </td>
                                                                             <td hidden>
@@ -135,7 +138,8 @@
                                                                                     <input type="number"
                                                                                         class="form-control border-0 bg-transparent IDbienservicio"
                                                                                         id="idbien" name="idbien"
-                                                                                        value="" readonly>
+                                                                                        value="<?php echo $pedidos[0]->id_bien; ?>"
+                                                                                        readonly>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -153,7 +157,8 @@
                                                                                     <input type="text"
                                                                                         class="form-control border-0 bg-transparent descripcion"
                                                                                         id="descrip" name="descrip"
-                                                                                        value="" readonly>
+                                                                                        value="<?php echo $pedidos[0]->concepto; ?>"
+                                                                                        readonly>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -162,7 +167,7 @@
                                                                                     <input type="text"
                                                                                         class="form-control border-0 bg-transparent precioref"
                                                                                         id="precioref" name="precioref"
-                                                                                        value="">
+                                                                                        value="<?php echo $pedidos[0]->preciounit; ?>">
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -171,14 +176,16 @@
                                                                                     <input type="number"
                                                                                         class="form-control border-0 bg-transparent cantidad"
                                                                                         id="cantidad" name="cantidad"
-                                                                                        value="" required>
+                                                                                        value="<?php echo $pedidos[0]->cantidad; ?>"
+                                                                                        required>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
                                                                                 <div class="form-check">
                                                                                     <input type="checkbox"
                                                                                         class="form-check-input iva iva-checkbox"
-                                                                                        id="iva" name="iva" value="">
+                                                                                        id="iva" name="iva"
+                                                                                        value="<?php echo $pedidos[0]->id_bien; ?>">
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -186,7 +193,8 @@
                                                                                     class="input-group input-group-sm align-items-center  ">
                                                                                     <input type="number"
                                                                                         class="form-control border-0 bg-transparent piva"
-                                                                                        id="piva" name="piva" value=""
+                                                                                        id="piva" name="piva"
+                                                                                        value="<?php echo $pedidos[0]->porcentaje_iva; ?>"
                                                                                         readonly>
                                                                                 </div>
                                                                             </td>
@@ -196,7 +204,8 @@
                                                                                     <input type="text"
                                                                                         class="form-control border-0 bg-transparent exenta"
                                                                                         id="exenta" name="exenta"
-                                                                                        value="" readonly>
+                                                                                        value="<?php echo $pedidos[0]->exenta; ?>"
+                                                                                        readonly>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -205,7 +214,8 @@
                                                                                     <input type="text"
                                                                                         class="form-control border-0 bg-transparent gravada"
                                                                                         id="gravada" name="gravada"
-                                                                                        value="" readonly>
+                                                                                        value="<?php echo $pedidos[0]->gravada; ?>"
+                                                                                        readonly>
                                                                                 </div>
                                                                             </td>
                                                                             <td>
@@ -328,9 +338,10 @@
 </body>
 <script>
 
+
     $(document).ready(function () {
-        $("#formularioPrincipal").on("submit", function (event) {
-            event.preventDefault(); // Evita el envío predeterminado del formulario
+        $('#formEditarPedido').submit(function (event) {
+            event.preventDefault(); // Evitar que el formulario se envíe normalmente
 
             var datosFormulario = {
                 fecha: $("#fecha").val(),
@@ -342,10 +353,8 @@
 
             $("#tablaP tbody tr").each(function () {
                 var fila = {
-                    //pedido: $(this).find("input[name='npedido']").val(),
                     actividad: $(this).find("input[name='actividad']").val(),
                     idbien: $(this).find("input[name='idbien']").val(),
-                    //rubro: $(this).find("input[name='rubro']").val(),
                     descripcion: $(this).find("input[name='descrip']").val(),
                     precioUnit: $(this).find("input[name='precioref']").val(),
                     cantidad: $(this).find("input[name='cantidad']").val(),
@@ -363,20 +372,19 @@
                 filas: filas,
             };
 
-            // Mostrar los datos antes de enviarlos
-            alert("Datos del formulario: " + JSON.stringify(datosCompletos));
-
-            // Enviamos los datos al controlador mediante AJAX
             $.ajax({
-                url: '<?php echo base_url("patrimonio/pedido_material/store"); ?>',
+                url: '<?php echo base_url("patrimonio/pedido_material/update"); ?>/' + datosFormulario.IDPedidoMaterial,
                 type: 'POST',
-                data: {
-                    datos: datosCompletos
-                },
-                // Asumimos que la respuesta es texto plano
+                data: { datos: datosCompletos },
                 success: function (response) {
-                    // Asumimos que la respuesta es texto plano
-
+                    console.log(response);
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                        // ... (código adicional si es necesario)
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        console.log(response);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
@@ -386,6 +394,7 @@
             });
         });
     });
+
 
 </script>
 
@@ -458,6 +467,109 @@
 
 <script>
     $(document).ready(function () {
+
+        /*   //Este Script se encarga de crear las opciones del select para los campos que se clonan
+           function crearOpciones(datos, select, valorSeleccionado, campoValor, campoTexto) {
+               // Se vacía el select antes de agregar nuevas opciones
+               select.empty();
+   
+               // Recorre los datos y crea una opción para cada elemento
+               for (var i = 0; i < datos.length; i++) {
+                   var opcion = $('<option>');
+                   opcion.val(datos[i][campoValor]);
+                   opcion.text(datos[i][campoTexto]);
+                   select.append(opcion);
+               }
+   
+               // Selecciona automáticamente la opción correspondiente al valor proporcionado
+               select.val(valorSeleccionado);
+           }
+           //Script para crear filas en base al array de editar
+           function crearFila(datos) {
+   
+   
+               // Clonar la fila de edicion
+               var nuevaFila = $("#filaEdicion").clone();
+   
+               // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+               nuevaFila.find(".eliminarFila").removeAttr('hidden');
+   
+               // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+               nuevaFila.find("[id]").removeAttr('id');
+   
+               // Agregar una clase a todos los elementos de la fila clonada
+               nuevaFila.find("select, input").addClass("campoDinamico");
+   
+               // Asignar los valores de los campos en la nueva fila basándote en los datos
+               nuevaFila.find(".campoDinamico").each(function () {
+                   var campo = $(this);
+                   var nombreCampo = campo.attr('name');
+                   if (datos[nombreCampo]) {
+                       campo.val(datos[nombreCampo]);
+   
+                       // Aplicar la función formatNumber solo al campo "Haber"
+                       if (nombreCampo === 'Haber' || nombreCampo === 'Debe') {
+                           formatNumber(campo);
+                           campo.on('input', function () {
+                               formatNumber(campo);
+                           });
+                       }
+                   }
+               });
+   
+               // Asignar los valores de los selectores en la nueva fila basándote en los datos
+               nuevaFila.find("select.campoDinamico").each(function () {
+                   var select = $(this);
+                   var nombreCampo = select.attr('name');
+   
+                   if (datos[nombreCampo]) {
+   
+                       // Seleccionamos el conjunto de datos adecuado según el nombre del campo
+                       var conjuntoDatos = [];
+                       switch (nombreCampo) {
+                           case 'id_pro':
+                               conjuntoDatos = programa;
+                               campoValor = 'id_pro';
+                               campoTexto = 'codigo';
+                               break;
+                           case 'id_ff':
+                               conjuntoDatos = fuenteF;
+                               campoValor = 'id_ff';
+                               campoTexto = 'codigo';
+                               break;
+                           case 'id_of':
+                               conjuntoDatos = origenF;
+                               campoValor = 'id_of';
+                               campoTexto = 'codigo';
+                               break;
+                           default:
+                           // Acá se puede manejar de otra forma en caso que no sea ninguno de los otro id
+                       }
+   
+                       // Llama a la función crearOpciones para generar las opciones del nuevo select
+                       crearOpciones(conjuntoDatos, select, datos[nombreCampo], campoValor, campoTexto);
+                   }
+               });
+   
+               // Mostrar la nueva fila
+               nuevaFila.show();
+               return nuevaFila;
+           }
+           //-----Acá termina la funcion de crear filas de editar-----
+   
+           var camposDinamicos =
+              echo json_encode($asiento[0]['camposDinamicos']);  ?>; // datos de los asientos
+           // si camposDinamicos es mayor a 2 objetos entonces se puede iterar para poder agregar los datos de forma dinamica
+           if (camposDinamicos.length > 2) {
+               for (var i = 2; i < camposDinamicos.length; i++) {
+                   // Crear una nueva fila basada en los datos del objeto actual
+                   var nuevaFila = crearFila(camposDinamicos[i]);
+   
+                   // Agregar la nueva fila al cuerpo de la tabla
+                   $("#miTabla tbody").append(nuevaFila);
+               }
+           }
+   */
         var indice = 1;
         // Agregar fila
         $(document).on("click", ".agregarFila", function (e) {

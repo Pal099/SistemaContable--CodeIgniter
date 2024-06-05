@@ -33,12 +33,18 @@ class Pedido_Material_model extends CI_Model
         return $resultado->row();
 
     }
+    public function deletePedidoItems($id_pedido)
+    {
+        $this->db->where('idpedido', $id_pedido);
+        $this->db->delete('pedido_material'); // Reemplaza 'pedido_material' con el nombre de tu tabla
+    }
 
     public function update($id, $data)
     {
-        $this->db->where("IDPedidoMaterial", $id);
+        $this->db->where("idpedido", $id);
         return $this->db->update("pedido_material", $data);
     }
+
     public function getPedidosMaterialesFiltrados($actividad, $pedido, $mes, $anio)
     {
         $this->db->select('*');
