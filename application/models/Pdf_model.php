@@ -69,6 +69,47 @@ class Pdf_model extends CI_Model {
         }
     }
 
+    public function obtenerDatos_pago() {
+        $this->db->select('numasi.FechaEmision as fecha,nd.numero, numasi.op as op, of.codigo as codigo_of, nd.Haber as haber, nd.detalles as detalle, pr.codigo as codigo_pro, numasi.MontoPagado as montopagado, cc.IDCuentaContable as id_cc, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle, cc.tipo as tipo, cc.Codigo_CC as codi_cc');
+        $this->db->from('num_asi_deta nd');
+        $this->db->join('proveedores p', 'p.id = nd.proveedores_id', 'left');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = nd.IDCuentaContable');
+        $this->db->join('programa pr', 'pr.id_pro = nd.id_pro');
+        $this->db->join('origen_de_financiamiento of', 'of.id_of = nd.id_of');
+        $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
+        $this->db->order_by('numasi.op', 'DESC'); // Ordena por el ID de forma descendente
+        $this->db->limit(1); // Limita a un solo registro
+        $query = $this->db->get();
+        $result = $query->result_array(); // Make sure to use result_array() for an array result
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Devuelve un solo registro como un arreglo
+        } else {
+            return array(); // Si no hay resultados, devuelve un arreglo vacío
+        }
+    }
+
+    public function obtenerDatos_pago_numasi($numero_asiento) {
+        $this->db->select('numasi.FechaEmision as fecha,nd.numero, numasi.op as op, of.codigo as codigo_of, nd.Haber as haber, nd.detalles as detalle, pr.codigo as codigo_pro, numasi.MontoPagado as montopagado, cc.IDCuentaContable as id_cc, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle, cc.tipo as tipo, cc.Codigo_CC as codi_cc');
+        $this->db->from('num_asi_deta nd');
+        $this->db->join('proveedores p', 'p.id = nd.proveedores_id', 'left');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = nd.IDCuentaContable');
+        $this->db->join('programa pr', 'pr.id_pro = nd.id_pro');
+        $this->db->join('origen_de_financiamiento of', 'of.id_of = nd.id_of');
+        $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
+        $this->db->where('num_asi', $numero_asiento);
+        $this->db->order_by('numasi.op', 'DESC'); // Ordena por el ID de forma descendente
+        $this->db->limit(1); // Limita a un solo registro
+        $query = $this->db->get();
+        $result = $query->result_array(); // Make sure to use result_array() for an array result
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Devuelve un solo registro como un arreglo
+        } else {
+            return array(); // Si no hay resultados, devuelve un arreglo vacío
+        }
+    }
+
 
 
 

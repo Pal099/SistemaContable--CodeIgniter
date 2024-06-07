@@ -376,6 +376,7 @@ public function obtener_datos_asiento($numero_asiento = null) {
 
 public function getCuentaContableN($descripcion) {
     $this->db->where('Descripcion_CC', $descripcion);
+	$this->db->like('tipo', 'SubCuenta');
     $resultados = $this->db->get('cuentacontable')->row_array();
     return $resultados;
 }

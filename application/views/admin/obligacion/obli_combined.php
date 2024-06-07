@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
 </head>
@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Diario de Obligación</li>
+                <li class="breadcrumb-item active">Diario de Obligación</li>
             </ol>
         </nav>
 
@@ -32,6 +32,10 @@
                                     id="camposOpcionalesSwitch">
                                 <label class="form-check-label" for="camposOpcionalesSwitch">Campos
                                     Opcionales</label>
+                            </div>
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="strSwitch">
+                                <label class="form-check-label" for="strSwitch">STR</label>
                             </div>
                             <div class="btn-group " role="group">
                                 <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
@@ -115,8 +119,8 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="datetime-local" class="form-control" id="fecha"
-                                                            name="fecha" required>
+                                                        <input type="date" class="form-control" id="fecha" name="fecha"
+                                                            required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
                                                     <!--     <div class="form-group col-md-4">
@@ -128,6 +132,42 @@
                                                         <label for="concepto">Concepto:</label>
                                                         <input type="text" class="form-control" id="concepto"
                                                             name="concepto">
+                                                    </div>
+
+                                                    <!-- Campo del STR -->
+                                                    <div class="collapse mt-4" id="strCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <!-- Contador del STR -->
+                                                                <div class="form-group col-md-4">
+                                                                    <label for="str">STR:</label>
+                                                                    <input type="text" class="form-control" id="str"
+                                                                        name="str" value="<?= $ultimo_str ?>" readonly>
+                                                                </div>
+                                                                <!-- Select de los niveles -->
+                                                                <div class="col-md-8">
+                                                                    <label for="niveles">Niveles:</label>
+                                                                    <div class="input-group">
+                                                                        <select name="niveles" id="niveles"
+                                                                            class="form-control" required>
+                                                                            <option selected disabled>Seleccione un
+                                                                                nivel...</option>
+                                                                            <?php foreach ($niveles as $nv) : ?>
+                                                                            <option
+                                                                                value="<?php echo $nv->id_nivel ?>">
+                                                                                <?php echo $nv->nombre_nivel; ?>
+                                                                            </option>
+                                                                            <?php endforeach; ?>
+                                                                        </select>
+                                                                        <button type="button" data-bs-toggle="modal"
+                                                                            data-bs-target="#modalCuentasCont"
+                                                                            class="btn btn-primary">
+                                                                            <i class="bi bi-search"> Buscar</i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <!-- Campos Opcionales del formulario -->
@@ -158,7 +198,7 @@
                                                                 <div class="col-md-4">
                                                                     <label for="total">Total:</label>
                                                                     <input type="text" class="form-control w-100"
-                                                                        id="total" name="total">
+                                                                        id="total" name="total" readonly>
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="pagado">Pagado:</label>
@@ -176,7 +216,6 @@
                                                 </div>
                                                 <table class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                     id="miTabla">
-
                                                     <thead class="align-middle">
                                                         <tr>
                                                             <th class="columna-ancha">Prog</th>
@@ -452,7 +491,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -464,14 +503,19 @@
                                                         <tr>
                                                             <td>
                                                                 <input type="text" id="DebeC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                    disabled>
                                                             </td>
                                                             <td>
                                                                 <input type="text" id="HaberC"
-                                                                    class="form-control border-0 bg-transparent">
+                                                                    class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                    disabled>
                                                             </td>
-                                                            <td id="diferencia">0</td>
-
+                                                            <td>
+                                                                <input type="text" id="diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                    value=0 disabled>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -496,7 +540,7 @@
                                         <!-- Tabla de los asientos -->
                                         <div class="card border">
                                             <div class="card-body">
-                                                <h4 class="mt-4">Asientos</h4>
+                                                <h4 class="mt-4">Asientos Obligados</h4>
                                                 <hr><!-- Separador -->
                                                 <table id="vistaobli"
                                                     class="table table-hover table-bordered table-sm rounded-3">
@@ -519,7 +563,7 @@
                                                             <td>
                                                                 <?php echo $asien->FechaEmision ?>
                                                             </td>
-                                                            <td>
+                                                            <td class="texto-izquierda">
                                                                 <?php echo $asien->razon_social ?>
                                                             </td>
                                                             <td>
@@ -712,7 +756,7 @@
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
                 detalles: $("#detalles").val(),
-
+                niveles: ($("#niveles").val() !== null) ? $("#niveles").val() : ""//Si no se selecciono un nivel simplemente envia vacio
             };
 
 
@@ -747,7 +791,7 @@
                 filas: filas,
             };
 
-            var diferenciaActualizada = parseFloat($("#diferencia").text());
+            var diferenciaActualizada = parseFloat($("#diferencia").val());
 
             if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                 $.ajax({
@@ -974,6 +1018,15 @@
         });
         </script>
 
+        <!-- Script para mostrar el campo de STR -->
+        <script>
+        document.getElementById('strSwitch').addEventListener('change', function() {
+            var strCollapse = new bootstrap.Collapse(document.getElementById(
+                'strCollapse'));
+            strCollapse.toggle();
+        });
+        </script>
+
         <!-- Seleccionar un Proveedor -->
         <script>
         function selectProveedor(ruc, razonSocial) {
@@ -1065,7 +1118,9 @@
                 lengthChange: true,
                 searching: true,
                 info: true,
-                order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
+                order: [
+                    [0, 'desc']
+                ], // Ordena la primera columna en orden descendiente
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                 }
@@ -1115,8 +1170,8 @@
             // Formatear como número con separadores de miles
             $("#DebeC").val(formatearNumero(sumaDebe));
             $("#HaberC").val(formatearNumero(sumaHaber));
-            var dife    enciaTotal = sumaDebe - sumaHaber;
-            $("#diferencia").text(formatearNumero(diferenciaTotal));
+            var diferenciaTotal = sumaDebe - sumaHaber;
+            $("#diferencia").val(formatearNumero(diferenciaTotal));
         }
 
         function formatearNumero(numero) {

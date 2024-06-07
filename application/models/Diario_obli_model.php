@@ -6,6 +6,7 @@ class Diario_obli_model extends CI_Model {
 	//num asi primero
 	public function __construct() {
         $this->load->database();
+		$this->load->model("Usuarios_model");
     }
 	public function obtener_asientos() {
 		return $this->db->get('num_asi')->result_array();
@@ -15,7 +16,7 @@ class Diario_obli_model extends CI_Model {
     }
 
 	public function GETasientos($id_uni_respon_usu) {
-		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.estado_registro, p.razon_social, na.MontoTotal');
+		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');
 		$this->db->join('uni_respon_usu uru', 'na.id_uni_respon_usu = uru.id_uni_respon_usu');
 		$this->db->join('proveedores p', 'na.id_provee = p.id'); // Corregido para unir con la tabla de proveedores correctamente
@@ -35,7 +36,64 @@ class Diario_obli_model extends CI_Model {
 		$resultados = $this->db->get('num_asi');
 		return $resultados->result();
 	}
+
+	public function getSTRaumentado($id_user) {
+		// Acá obtenemos el id de la unidad academica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
 	
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$last_str = $this->db->get()->row()->str;
+	
+		// Si no hay registros previos para esta unidad académica, inicializamos el str en 1
+		if ($last_str == NULL) {
+			$last_str = 1;
+		} else {
+			// Si ya hay registros, incrementamos el str en 1
+			$last_str++;
+		}
+		
+		return $last_str;
+	}
+
+	public function ultimoSTR($id_user) {
+		// Acá obtenemos el id de la unidad académica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+	
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$query = $this->db->get();
+	
+		// Verificamos si hay resultados
+		if ($query->num_rows() > 0) {
+			// Extraemos el valor de 'str' del primer resultado
+			$row = $query->row();
+			$last_str = $row->str;
+		} else {
+			// Si no hay resultados, asignamos un valor predeterminado
+			$last_str = 0; // O cualquier otro valor que desees
+		}
+	
+		// Retornamos el valor de 'str'
+		return $last_str;
+	}
+
+	public function getNiveles() {
+		$this->db->select('id_nivel, nombre_nivel');
+		$this->db->from('nivel');
+		$query = $this->db->get();
+		return $query->result();
+	}
 
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
@@ -44,10 +102,7 @@ class Diario_obli_model extends CI_Model {
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }
-	public function actualizar_asiento($id, $data) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->update('num_asi', $data);
-    }
+
 	public function eliminar_asiento($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
@@ -61,72 +116,6 @@ class Diario_obli_model extends CI_Model {
 	
 		return $lastInsertedId;
 	}
-	//Funcion para obtener los asientos para su futura edicion
-	public function GetAsientoEditar($IDNum_Asi) {
-		$this->db->select('num_asi.FechaEmision, num_asi.num_asi, num_asi.op, num_asi.SumaMonto, num_asi.MontoTotal, 
-		num_asi.id_provee, num_asi.concepto, num_asi.ped_mat, num_asi.modalidad, num_asi.tipo_presu, num_asi.nro_exp, 
-		num_asi.MontoTotal, num_asi.MontoPagado, num_asi_deta.IDCuentaContable, num_asi_deta.MontoPago, num_asi_deta.Debe, 
-		num_asi_deta.Haber, num_asi_deta.Comprobante, num_asi_deta.detalles, num_asi_deta.id_of, num_asi_deta.id_pro, 
-		num_asi_deta.id_ff, num_asi_deta.cheques_che_id, num_asi_deta.IDNum_Asi_Deta');
-		$this->db->from('num_asi');
-		$this->db->join('num_asi_deta', 'num_asi.IdNum_Asi = num_asi_deta.Num_Asi_IDNum_Asi ');
-		$this->db->where('num_asi.IDNUM_Asi', $IDNum_Asi);
-		$this->db->where('num_asi.estado_registro', 1); // Condicion para saber si se borro el registro o no
-	
-		$query = $this->db->get();
-		//Guardamos el resultado de la busqueda en un array
-		$arrayOriginal = $query->result();
-		//Declaramos un array para poder agrupar nuestros datos en fijos y los dinamicos (la tabla)
-		$agrupados = [];
-
-		foreach ($arrayOriginal as $index => $objeto) {
-			// Crear una clave única basada en las propiedades que no cambian en este caso los datos del formulario
-			$claveUnica = $objeto->FechaEmision . '_' . $objeto->num_asi . '_' . $objeto->id_provee;
-		
-			// Si la clave no existe en el array $agrupados, inicializarla
-			if (!array_key_exists($claveUnica, $agrupados)) {
-				$agrupados[$claveUnica] = [
-					'datosFijos' => [
-						'FechaEmision' => $objeto->FechaEmision,
-						'num_asi' => $objeto->num_asi,
-						'id_provee' => $objeto->id_provee,
-						'op' => $objeto->op,
-						'concepto' => $objeto->concepto,
-						'ped_mat' => $objeto->ped_mat,
-						'modalidad' => $objeto->modalidad,
-						'tipo_presu' => $objeto->tipo_presu,
-						'nro_exp' => $objeto->nro_exp,
-						'MontoTotal' => $objeto->MontoTotal,
-						'MontoPagado' => $objeto->MontoPagado,
-						// Se puede seguir agregando segun la necesidad o los datos de la bd
-					],
-					//Array para los campos dinamicos
-					'camposDinamicos' => [],
-				];
-			}
-		
-			// Creamos un objeto para los campos dinámicos
-			$campoDinamico = new stdClass();
-			$campoDinamico->IDNum_Asi_Deta = $objeto->IDNum_Asi_Deta;
-			$campoDinamico->IDCuentaContable = $objeto->IDCuentaContable;
-			$campoDinamico->Debe = $objeto->Debe;
-			$campoDinamico->Haber = $objeto->Haber;
-			$campoDinamico->id_of = $objeto->id_of;
-			$campoDinamico->id_pro = $objeto->id_pro;
-			$campoDinamico->id_ff = $objeto->id_ff;
-			$campoDinamico->Comprobante = $objeto->Comprobante;
-			$campoDinamico->detalles = $objeto->detalles;
-		
-			// Agregamos el objeto de campos dinámicos al array correspondiente
-			$agrupados[$claveUnica]['camposDinamicos'][] = $campoDinamico;
-		}
-		
-		// Convertimos el array de objetos agrupados en un array simple
-		$arrayFinal = array_values($agrupados);
-
-		return $arrayFinal;
-	}
-
 
 	// num asi deta segundo
 	public function obtener_detalles_por_asiento($idAsiento) {

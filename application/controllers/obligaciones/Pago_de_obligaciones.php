@@ -17,6 +17,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->model("Diario_obli_model");
 		$this->load->model("Cdp_model");
 		$this->load->model("Usuarios_model");
+		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 
 	}
 
@@ -92,8 +93,6 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
-	
-
 	public function pdfs_pago_num_asi($numero_asiento) //Por numero de asiento
 	{
 		// Puedes usar $numero_asiento en tu lógica de la vista
@@ -139,7 +138,6 @@ class Pago_de_obligaciones extends CI_Controller
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
 		$proyecto = $this->input->post("proyecto");
-		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
@@ -263,7 +261,7 @@ class Pago_de_obligaciones extends CI_Controller
 
 		// Aquí deberías utilizar tu lógica para obtener información basada en la descripción desde la base de datos
 		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion);
-
+	
 		/*if (is_null($informacion['IDCuentaContable'])) {
 			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
 		}^*/
@@ -307,7 +305,6 @@ class Pago_de_obligaciones extends CI_Controller
 		$tipo_presupuesto = $this->input->post("tipo_presupuesto");
 		$unidad_respon = $this->input->post("unidad_respon");
 		$proyecto = $this->input->post("proyecto");
-		$estado = $this->input->post("estado");
 		$nro_pac = $this->input->post("nro_pac");
 		$nro_exp = $this->input->post("nro_exp");
 		$total = $this->input->post("total");
@@ -315,34 +312,35 @@ class Pago_de_obligaciones extends CI_Controller
 		$obliaactual = $this->Pago_obli_model->obtener_asiento_por_id($idobli);
 
 
-		$data = array(
-			'ruc' => $ruc,
-			'numero' => $numero,
-			'contabilidad' => $contabilidad,
-			'direccion' => $direccion,
-			'telefono' => $telefono,
-			'observacion' => $observacion,
-			'FechaEmision' => $fecha,
-			'tesoreria' => $tesoreria,
-			'pedi_matricula' => $pedi_matricula,
-			'modalidad' => $modalidad,
-			'tipo_presupuesto' => $tipo_presupuesto,
-			'unidad_respon' => $unidad_respon,
-			'proyecto' => $proyecto,
-			'estado' => $estado,
-			'nro_pac' => $nro_pac,
-			'nro_exp' => $nro_exp,
-			'total' => $total,
-			'pagado' => $pagado,
-			'estado_registro' => "1",
-		);
+			$data  = array(
+                'ruc' => $ruc,
+				'numero' => $numero, 
+				'contabilidad' => $contabilidad,
+				'direccion' => $direccion,
+                'telefono' => $telefono,
+                'observacion' => $observacion,
+                'FechaEmision' => $fecha,
+                'tesoreria' => $tesoreria,
+                'pedi_matricula' => $pedi_matricula,
+                'modalidad' => $modalidad,
+                'tipo_presupuesto' => $tipo_presupuesto,
+                'unidad_respon' => $unidad_respon,
+                'proyecto' => $proyecto,
+                'estado' => $estado,
+                'nro_pac' => $nro_pac,
+                'nro_exp' => $nro_exp,
+                'total' => $total,
+                'pagado' => $pagado,
+				'estado_registro' => "1",
+			);
 
-		if ($this->Pago_obli_model->save_num_asiave($idobli, $data)) {
-			redirect(base_url() . "obligaciones/Pago_de_obligaciones");
-		} else {
-			$this->session->set_flashdata("error", "No se pudo guardar la informacion");
-			redirect(base_url() . "obligaciones/Pago_de_obligaciones/add" . $idobli);
-		}
+			if ($this->Pago_obli_model->save_num_asiave($idobli,$data)) {
+				redirect(base_url()."obligaciones/Pago_de_obligaciones");
+			}
+			else{
+				$this->session->set_flashdata("error","No se pudo guardar la informacion");
+				redirect(base_url()."obligaciones/Pago_de_obligaciones/add".$idobli);
+			}
 	}
 
 

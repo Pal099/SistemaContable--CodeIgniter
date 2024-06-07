@@ -11,6 +11,27 @@
   width: 25%;
 }
 
+.celda-debe{
+  background-color: #e9eaff !important;
+}
+.celda-haber{
+  background-color: #e9eaff!important;
+}
+.celda-diferencia {
+  background-color: #f7f6e2 !important;
+}
+
+#vistapago th, #vistapago td {
+  text-align: center;
+}
+
+#vistapago .texto-izquierda {
+  text-align: left;
+}
+
+#vistapago .texto-derecha {
+  text-align: right;
+}
 
 /* Css de las tablas y modales de cuentas contables */
 .cuentas-contables {

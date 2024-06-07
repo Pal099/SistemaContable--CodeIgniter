@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item">Presupuesto</li>
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/mantenimiento/presupuesto">Listado
                         Presupuesto</a></li>
-                <li class="breadcrumb-item">Editar presupuesto</li>
+                <li class="breadcrumb-item active">Editar presupuesto</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">
@@ -50,6 +50,8 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
+                                                    <p class="titulo-body fw-semibold">Información general del presupuesto</p>
+                                                    <hr>
                                                     <input type="hidden"
                                                         value="<?php echo $presupuesto->ID_Presupuesto; ?>"
                                                         name="ID_Presupuesto">
