@@ -243,9 +243,11 @@ public function getUsuarioId($nombre){
 		return $this->db->update("proveedores",$data);
 	}
 
+		//Este es el que se usa para obtener los programas en el controlador del Diario de Obligaciones
 	public function getProgramGastos($id_uni_respon_usu) {
 		$this->db->select('programa.*');
 		$this->db->from('programa');
+		$this->db->join('presupuestos', 'presupuestos.programa_id_pro = programa.id_pro', 'full Join');
 		$this->db->join('uni_respon_usu', 'programa.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 		$this->db->where('programa.estado', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
@@ -254,19 +256,25 @@ public function getUsuarioId($nombre){
 		return $resultados->result();
 	}
 	
+
+
+			//Este es el que se usa para obtener los ff en el controlador del Diario de Obligaciones
 	public function getFuentes($id_uni_respon_usu) {
 		$this->db->select('fuente_de_financiamiento.*');
 		$this->db->from('fuente_de_financiamiento');
+		$this->db->join('presupuestos', 'presupuestos.fuente_de_financiamiento_id_ff = fuente_de_financiamiento.id_ff', 'full Join');
 		$this->db->join('uni_respon_usu', 'fuente_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 		$this->db->where('fuente_de_financiamiento.estado', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 		$resultados = $this->db->get();
 		return $resultados->result();
 	}
-	
+
+			//Este es el que se usa para obtener los origenes en el controlador del Diario de Obligaciones
 	public function getOrigenes($id_uni_respon_usu) {
 		$this->db->select('origen_de_financiamiento.*');
 		$this->db->from('origen_de_financiamiento');
+		$this->db->join('presupuestos', 'presupuestos.origen_de_financiamiento_id_of = Origen_de_financiamiento.id_of', 'full Join');
 		$this->db->join('uni_respon_usu', 'origen_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
 		$this->db->where('origen_de_financiamiento.estado', '1');
 		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
@@ -302,10 +310,34 @@ public function getUsuarioId($nombre){
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
 	
-	public function getCuentaContable() {
-		$query = $this->db->get("cuentacontable");
-		return $query->result();
-	}
+
+	//Aca obtenemos la cuenta contable que está también presupuestada
+public function getCuentaContable() {
+	$this->db->select('cuentacontable.*, presupuestos.*');
+	$this->db->from('cuentacontable');
+	$this->db->join('presupuestos', 'presupuestos.idcuentacontable = cuentacontable.IDCuentaContable', 'left');
+	$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro', 'left');
+	$this->db->where('ing_egr', 'I');
+	$this->db->join('fuente_de_financiamiento ff', 'presupuestos.fuente_de_financiamiento_id_ff = ff.id_ff', 'left');
+	$this->db->join('origen_de_financiamiento of', 'presupuestos.origen_de_financiamiento_id_of = of.id_of', 'left');
+	$query = $this->db->get();
+	return $query->result();
+}
+
+
+
+public function getCuenta_Contable() { //para el valor E de la columna Ingr_Egr
+	$this->db->select('cuentacontable.*, presupuestos.*');
+	$this->db->from('cuentacontable');
+	$this->db->join('presupuestos', 'presupuestos.idcuentacontable = cuentacontable.IDCuentaContable', 'left');
+	$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro', 'left');
+	$this->db->where('ing_egr', 'E');
+	$this->db->join('fuente_de_financiamiento ff', 'presupuestos.fuente_de_financiamiento_id_ff = ff.id_ff', 'left');
+	$this->db->join('origen_de_financiamiento of', 'presupuestos.origen_de_financiamiento_id_of = of.id_of', 'left');
+	$query = $this->db->get();
+	return $query->result();
+}
+	
 
 	public function getDiarios_obli() {
 		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		

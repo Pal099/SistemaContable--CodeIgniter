@@ -81,6 +81,7 @@ public function obtener_unidades_academicas()
         $this->db->select('id_user');
         $this->db->from('usuarios');
         $this->db->where('Nombre_usuario', $username);
+
         $query = $this->db->get();
     
         if ($query->num_rows() > 0) {
@@ -90,22 +91,52 @@ public function obtener_unidades_academicas()
             return false;
         }
     }
+
+    public function getRegistrosPorUnidadAcademica($id_uni_academica) {
+        $this->db->select('proveedores.*'); // Selecciona todos los campos de la tabla proveedores
+        $this->db->from('proveedores');
+        $this->db->join('usuarios', 'proveedores.id_uni_respon_usu = usuarios.id_unidad');
+        $this->db->join('unidad_academica', 'usuarios.id_unidad = unidad_academica.id_unidad');
+        $this->db->where('usuarios.id_unidad', $id_uni_academica);
     
-    //Acá obtenemos el id de la tabla id_uni_respon_usu  mediante el id del usuario
-    public function getUserIdUniResponByUserId($id_user) {
-        $this->db->select('id_uni_respon_usu');
-        $this->db->from('uni_respon_usu');
-        $this->db->join('usuarios', 'uni_respon_usu.id_user = usuarios.id_user');
-        $this->db->where('uni_respon_usu.id_user', $id_user);
         $query = $this->db->get();
-    
-        if ($query->num_rows() > 0) {
-            $row = $query->row();
-            return $row->id_uni_respon_usu;
-        } else {
-            return false;
-        }
+        
+        return $query->result(); // Devuelve todos los registros que pertenecen a la unidad académica especificada
     }
+    
+    
+    
+        //Acá obtenemos el id de la tabla id_uni_respon_usu  mediante el id del usuario
+        public function getUserIdUniResponByUserId($id_user) {
+            $this->db->select('unidad_academica.id_unidad');
+            $this->db->from('unidad_academica');
+            $this->db->join('usuarios', 'unidad_academica.id_unidad = usuarios.id_unidad');
+            $this->db->where('unidad_academica.id_unidad', $id_user);
+            $query = $this->db->get();
+        
+            if ($query->num_rows() > 0) {
+                $row = $query->row();
+                return $row->id_unidad;
+            } else {
+                return false;
+            }
+        }
+
+         //Acá obtenemos el id de la tabla id_uni_respon_usu  mediante el id del usuario
+         public function getUnidad_academica($id_unidad) {
+            $this->db->select('uni_respon_usu.id_unidad');
+            $this->db->from('uni_respon_usu');
+            $this->db->join('unidad_academica', 'unidad_academica.id_unidad = uni_respon_usu.id_unidad');
+            $this->db->where('unidad_academica.id_unidad', $id_unidad);
+            $query = $this->db->get();
+        
+            if ($query->num_rows() > 0) {
+                $row = $query->row();
+                return $row->id_unidad;
+            } else {
+                return false;
+            }
+        }
 
     //Si queremos obtener nombres de usuarios directamente por los nombres de usuarios
     public function obtener_usuario_por_nombre($username) {

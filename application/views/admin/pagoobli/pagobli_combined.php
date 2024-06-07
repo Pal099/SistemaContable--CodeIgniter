@@ -979,30 +979,40 @@
                 <div class="modal-body">
 
                     <table class="table table-hover table-sm" id="TablaCuentaCont1">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Código de Cuenta</th>
-                                <th>Descripción de Cuenta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código de Cuenta</th>
+                                    <th>Descripción de Cuenta</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td><?= $dato->IDCuentaContable ?></td>
+                                    <td><?= $dato->Codigo_CC ?></td>
+                                    <td><?= $dato->Descripcion_CC ?></td>
+                                    <td>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                            <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
+                                    </td>
+
+                                </tr>
                             <?php endforeach; ?>
-                        </tbody>
+
+                                
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -1021,30 +1031,42 @@
                 <div class="modal-body">
 
                     <table class="table table-hover table-sm" id="TablaCuentaCont2">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Código de Cuenta</th>
-                                <th>Descripción de Cuenta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
+                    <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código de Cuenta</th>
+                                    <th>Descripción de Cuenta</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($cuentacontable_E as $dato): ?>
+                                <tr class="list-item"
+                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td>
+                                        <?= $dato->IDCuentaContable ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Codigo_CC ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                    <td>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                            <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
                     </table>
                 </div>
             </div>

@@ -478,13 +478,17 @@
                                                 <!-- Botones guardar y cancelar -->
                                                 <div class="container-fluid mt-4 mb-3">
                                                     <div class="col-md-12 d-flex flex-row justify-content-center">
+                                                    <button style="margin-right: 600px;" type="submit"
+                                                            class="btn btn-warning"><span
+                                                                class="bi bi-calculator-fill"></span> Calcular IVA</button>
                                                         <button style="margin-right: 8px;" type="submit"
                                                             class="btn btn-success btn-primary"><span
-                                                                class="fa fa-save"></span>Guardar</button>
+                                                                class="fa fa-save"></span> Guardar</button>
                                                         <button type="button" class="btn btn-danger ml-3"
-                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/index'">
                                                             <i class="fa fa-remove"></i> Cancelar
                                                         </button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -803,24 +807,33 @@
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
+                            <?php foreach ($cuentacontable as $dato): ?>
                                 <tr class="list-item"
                                     onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
                                     data-bs-dismiss="modal">
+                                    <td><?= $dato->IDCuentaContable ?></td>
+                                    <td><?= $dato->Codigo_CC ?></td>
+                                    <td><?= $dato->Descripcion_CC ?></td>
                                     <td>
-                                        <?= $dato->IDCuentaContable ?>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                            <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?= $dato->Codigo_CC ?>
+                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
                                     </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
+
                                 </tr>
-                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+
+                                
                             </tbody>
                         </table>
                     </div>
@@ -845,6 +858,8 @@
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -860,6 +875,17 @@
                                     </td>
                                     <td>
                                         <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                    
+                                    <td>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                            <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

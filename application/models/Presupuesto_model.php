@@ -21,6 +21,8 @@ public function getPresu($id_uni_respon_usu) {
 }
 
 
+
+
 	public function save($data){
 		return $this->db->insert("presupuestos",$data);
 	}
@@ -28,6 +30,7 @@ public function getPresu($id_uni_respon_usu) {
 	public function getPresupuesto($id){
 		$this->db->where("ID_Presupuesto",$id);
 		$resultado = $this->db->get("presupuestos");
+		
 		return $resultado->row();
 
 	}

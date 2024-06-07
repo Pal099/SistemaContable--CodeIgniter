@@ -13,8 +13,10 @@ class Diario_obligaciones extends CI_Controller
 		//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
 		$this->load->model("ProgramGasto_model");
+		$this->load->model("Presupuesto_model");
 		$this->load->model("Pago_obli_model");
 		$this->load->model("Diario_obli_model");
+		$this->load->model("CuentaContable_model");
 		$this->load->model("Usuarios_model");
 		$this->load->library('form_validation');
 
@@ -39,9 +41,17 @@ class Diario_obligaciones extends CI_Controller
 		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
+
+		foreach ($data['presupuesto'] as $presupuesto) {
+			$totalPresupuestado = $this->Presupuesto_model->obtenerTotalPresupuestado($presupuesto->Idcuentacontable);
+			$presupuesto->TotalPresupuestado = ($totalPresupuestado > 0) ? $totalPresupuestado : 0;
+		}
+		
+			
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
         $this->load->view("admin/obligacion/obli_combined", $data);
@@ -82,6 +92,8 @@ class Diario_obligaciones extends CI_Controller
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
 			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
+
 		);
 
 		$this->load->view("layouts/header");

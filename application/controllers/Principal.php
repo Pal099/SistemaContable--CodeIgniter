@@ -27,11 +27,10 @@ class Principal extends CI_Controller
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		
-		$data  = array(
-			'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
-			'cuentacontable'=>$this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
-            'count_obligados_mes' => $this->Principal_model->getCountObligadosMes($id_uni_respon_usu),
-		);
+		     // Obtener el conteo de obligados en el mes desde el modelo
+             $data['total_obligados_mes'] = $this->Principal_model->getCountObligadosMes($id_uni_respon_usu);
+             // Obtener el conteo de Pagados en el mes desde el modelo
+             $data['total_pagados_mes'] = $this->Principal_model->getCountPagadosMes($id_uni_respon_usu);
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
