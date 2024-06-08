@@ -396,12 +396,12 @@
                                                                         <?php if (isset($haber_2)): ?>
                                                                         <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
                                                                         <input type="text"
-                                                                            class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero haber_reten"
                                                                             id="Haber_2" name="Haber_2"
                                                                             value="<?php echo $haber_2_value; ?>">
                                                                         <?php else: ?>
                                                                         <input type="text"
-                                                                            class="form-control small border-0 bg-transparent formatoNumero"
+                                                                            class="form-control small border-0 bg-transparent formatoNumero haber_reten"
                                                                             id="Haber_2" name="Haber_2"
                                                                             oninput="formatNumber('Haber_2')">
                                                                         <?php endif; ?>
@@ -496,6 +496,7 @@
                                                                                         <input type="text"
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0" id="iva-retencion"
+                                                                                            data-id-cuenta="1438"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -533,7 +534,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-iva"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1438">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         for="selec-iva"
@@ -574,6 +576,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="renta-retencion"
+                                                                                            data-id-cuenta="1439"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -612,7 +615,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-renta"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1439">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -652,6 +656,7 @@
                                                                                         <input type="text"
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0" id="ley-retencion"
+                                                                                            data-id-cuenta="1440"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -690,7 +695,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-ley"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1440">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -731,6 +737,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="aporte-jubilatorio"
+                                                                                            data-id-cuenta="1441"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -769,7 +776,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-jubilatorio"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1441">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -810,6 +818,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="deduccion-anticipo"
+                                                                                            data-id-cuenta="1442"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -848,7 +857,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-anticipo"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1442">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -889,6 +899,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="deduccion-reparo"
+                                                                                            data-id-cuenta="1443"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -927,7 +938,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-reparo"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1443">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -968,6 +980,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="incuplimiento-contrato"
+                                                                                            data-id-cuenta="1444"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -1006,7 +1019,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-contrato"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1444">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -1047,6 +1061,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="otras-retenciones"
+                                                                                            data-id-cuenta="1445"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -1085,7 +1100,8 @@
                                                                                     <input type="checkbox"
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-otras"
-                                                                                        autocomplete="off">
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1445">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -1409,7 +1425,8 @@
             porcentajeIva[i].addEventListener('input', updateValues);
 
             function updateValues() {
-                const debeValue = parseFloat(debeInput.value.replace(/\./g, '').replace(',', '.')) || 0;
+                const debeValue = parseFloat(debeInput.value.replace(/[.,]/g, '')) || 0;
+                console.log("Valor Actual del debe: ", debeValue);
                 const porcentaje = parseFloat(porcentajeIva[i].value) || 0;
                 const retencion = (debeValue * porcentaje) / 100;
                 ivaRetencion[i].value = formatNumber(retencion);
@@ -1445,8 +1462,119 @@
         }
     });
     </script>
+
 </body>
 
+<!-- Script para agregar la retencion desde el boton a la tabla -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Definir el objeto cuentasContables
+    var cuentasContables = <?php echo json_encode($cuentacontable); ?>;
+    // Agregar fila
+    function agregarFila(idCuentaContable, valorRetencion) {
+        // Clonar la fila base
+        var nuevaFila = $("#filaBase").clone();
+
+        // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+        // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+        nuevaFila.find("[id]").removeAttr('id');
+
+        // Agregar una clase a todos los elementos de la fila clonada
+        nuevaFila.find("select, input").addClass("filaClonada");
+
+        // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
+        nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
+
+        // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
+        nuevaFila.find(".formatoNumero").each(function() {
+            // Obtener el campo actual
+            var campo = $(this);
+
+            // Asociar la función formatNumber al evento oninput
+            campo.on('input', function() {
+                formatNumber(campo);
+            });
+        });
+
+        // Buscar los datos de la cuenta contable correspondiente
+        var cuentaBuscada = cuentasContables.find(function(cuenta) {
+            return cuenta.IDCuentaContable == idCuentaContable;
+        });
+
+        // Verificar si se encontró la cuenta contable
+        if (cuentaBuscada) {
+            // Asignar los valores de la cuenta contable a los campos correspondientes
+            nuevaFila.find(".codigo_cc_2").val(cuentaBuscada
+                .Codigo_CC);
+            nuevaFila.find(".descripcion_cc_2").val(cuentaBuscada
+                .Descripcion_CC);
+
+            // Asignar el valor al campo #Haber_2 en la fila clonada
+            nuevaFila.find(".haber_reten").val(valorRetencion);
+        } else {
+            console.error('Cuenta contable no encontrada para ID:', idCuentaContable);
+        }
+
+        // Asignar el ID de la cuenta contable al valor del campo de entrada oculto
+        nuevaFila.find(".idcuentacontable_2").val(idCuentaContable);
+
+        // Asignamos el valor de la retencion a la fila
+        nuevaFila.find(".haber_reten").val(valorRetencion);
+
+        // Eliminar el atributo 'hidden' de la nueva fila clonada
+        nuevaFila.removeAttr('hidden');
+
+        // Añadir la nueva fila clonada al contenedor de la tabla
+        $("#miTabla").append(nuevaFila);
+    }
+    // Eliminar fila con botón
+    $("#miTabla").on("click", ".eliminarFila", function(e) {
+        e.preventDefault();
+
+        $(this).closest("tr").remove();
+    });
+
+    // Eliminar fila con el check de la retención
+    function eliminarFila(idCuentaContable) {
+        // Encuentra el input oculto con el valor específico y elimina la fila más cercana
+        $("input.idcuentacontable_2").each(function() {
+            if ($(this).val() == idCuentaContable) {
+                $(this).closest("tr").remove();
+            }
+        });
+    }
+
+    function formatNumber(campo) {
+        var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+        }
+    }
+
+    // Controlador de eventos para todos los checkboxes de retención
+    $(".select-retencion").on("change", function() {
+        // Obtener el ID de la cuenta contable del atributo de datos personalizado
+        var idCuentaContable = $(this).data("id-cuenta");
+
+        // Obtener el valor de retención del input asociado
+        var valorRetencion = $('.input-retencion[data-id-cuenta="' + idCuentaContable + '"]').val();
+
+        // Remover los puntos y comas para obtener el número real
+        valorRetencion = valorRetencion.replace(/\./g, '').replace(',', '.');
+        valorRetencion = parseFloat(valorRetencion);
+
+        // Llamar a las funciones agregarFila y eliminarFila con el ID de la cuenta contable y el valor de retención
+        if (this.checked) {
+            agregarFila(idCuentaContable, valorRetencion);
+        } else {
+            eliminarFila(idCuentaContable);
+        }
+    });
+
+});
+</script>
 <!-- Script modal lista de obligaciones (seleccionar) -->
 <script>
 function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
@@ -1707,11 +1835,17 @@ $("#formularioPrincipal").on("submit", function(e) {
         filas: filas,
     };
 
-    var diferenciaActualizada = parseFloat($("#diferencia").text());
+    var diferenciaActualizada = parseFloat($("#diferencia").val());
     var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
     var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
     var Suma = debe + Totalpagado;
     var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+
+    console.log("diferenciaActualizada: ", diferenciaActualizada);
+    console.log("Totalpagado: ", Totalpagado);
+    console.log("debe: ", debe);
+    console.log("Suma: ", Suma);
+    console.log("total: ", total);
 
 
     if (Suma <= total) {
