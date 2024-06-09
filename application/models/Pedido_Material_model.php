@@ -20,7 +20,6 @@ class Pedido_Material_model extends CI_Model
 
     public function savePedido($data)
     {
-
         return $this->db->insert('pedido_material', $data);
     }
 
@@ -33,15 +32,18 @@ class Pedido_Material_model extends CI_Model
         return $resultado->row();
 
     }
-    public function deletePedidoItems($id_pedido)
+
+    public function getPedidoMaterialp($id)
     {
-        $this->db->where('idpedido', $id_pedido);
-        $this->db->delete('pedido_material'); // Reemplaza 'pedido_material' con el nombre de tu tabla
+        $this->db->where("idpedido", $id);
+        $resultado = $this->db->get("pedido_material");
+        return $resultado->row();
+
     }
 
     public function update($id, $data)
     {
-        $this->db->where("idpedido", $id);
+        $this->db->where("IDPedidoMaterial", $id);
         return $this->db->update("pedido_material", $data);
     }
 

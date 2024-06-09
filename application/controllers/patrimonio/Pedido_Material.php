@@ -138,19 +138,31 @@ class Pedido_Material extends MY_Controller
 	}
 
 
-	public function edit($id_pedido)
+	public function edit($id)
 	{
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-
+		$pedidos = $this->Pedido_Material_model->getPedidoMaterial($id);
+		$bienes = $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu);
+		
+		$bienEn = null;
+		foreach ($bienes as $bien) {
+			if ($bien->IDbienservicio == $pedidos->id_bien) {
+				$bienEn = $bien;
+				break;
+			}
+		}
+		
 		$data = array(
 			'pedidos' => $this->Pedido_Material_model->getPedidosMateriales($id_uni_respon_usu),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
 			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
+			'bien' => $bienEn,
+			'pedido' => $pedidos,
 		);
 
 		$this->load->view("layouts/header");
@@ -172,12 +184,10 @@ class Pedido_Material extends MY_Controller
 		// Recopilar datos generales del pedido
 		$id_unidad = $datosFormulario['id_unidad'];
 		$fecha = $datosFormulario['fecha'];
-		$id_pedido = $datosFormulario['IDPedidoMaterial'];
+		$id_pedido = $datosFormulario['npedido'];
+		$idnumpedido = $datosFormulario['IDPedidoMaterial'];
 
 		if ($this->input->is_ajax_request()) {
-
-			// Elimina los items anteriores del pedido
-			$this->Pedido_Material_model->deletePedidoItems($id_pedido);
 
 			$filas = $datosCompletos['filas'];
 
@@ -199,10 +209,10 @@ class Pedido_Material extends MY_Controller
 					'estado' => "1",
 				);
 
-				$this->Pedido_Material_model->savePedido($dataPedido);
+				$this->Pedido_Material_model->update($idnumpedido, $dataPedido);
 			}
 
-			return redirect(base_url() . "patrimonio/pedido_material");
+			echo "success";
 		} else {
 			$this->session->set_flashdata("error", "No se pudo actualizar la información");
 			return redirect(base_url() . "patrimonio/pedidomaterial/edit/" . $id_pedido);
@@ -224,9 +234,5 @@ class Pedido_Material extends MY_Controller
 		$this->Pedido_Material_model->update($id, $data);
 		redirect(base_url() . "patrimonio/pedido_material");
 	}
-	public function getPedidoDetalle($id)
-	{
-		$PedidoDetalle = $this->Pedido_Material_model->getPedidoMaterial($id);
-		echo json_encode($PedidoDetalle);
-	}
+	
 }

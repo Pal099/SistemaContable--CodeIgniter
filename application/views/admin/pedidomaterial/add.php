@@ -84,7 +84,7 @@
                                                         <label for="IDPedidoMaterial">Nro. de Pedido:</label>
                                                         <input type="number" class="form-control" id="IDPedidoMaterial"
                                                             name="IDPedidoMaterial" value="<?php echo $nextPedido; ?>"
-                                                            readonly>
+                                                            >
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha</label>

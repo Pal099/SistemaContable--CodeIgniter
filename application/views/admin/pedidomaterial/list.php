@@ -134,10 +134,10 @@
                                   <button type="button" class="btn btn-primary btn-view-pedido btn-sm" data-bs-toggle="modal" data-bs-target="#modalPedidos" value="<?php echo $ped->IDPedidoMaterial; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/pedido_material/edit/<?php echo $ped->idpedido;?>'">
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/pedido_material/edit/<?php echo $ped->IDPedidoMaterial;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/pedido_material/delete/<?php echo$ped->idpedido; ?>'">
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/pedido_material/delete/<?php echo$ped->IDPedidoMaterial; ?>'">
                                     <i class="bi bi-trash"></i>
                                   </button>
                                 </div>
