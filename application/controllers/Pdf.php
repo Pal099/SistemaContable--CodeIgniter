@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pdf extends CI_Controller {
+class Pdf_str extends CI_Controller {
 
     public function index()
     {
@@ -115,7 +115,7 @@ $pdf->Cell(0, 10, 'Barrio San Juan Ciudad del Este Alto Parana', 0, 1, 'C');
            $pdf->SetFont('Arial', 'B', 15);
            $pdf->setY(35);
            $pdf->setX(11);
-           $pdf->Cell(5, $textypos, "Datos del beneficiario:");
+           $pdf->Cell(5, $textypos, "Datos del benefdsficiario:");
            //--------------------------//----------------------
            $pdf->SetFont('Arial', 'B', 10);
            $pdf->setY(40);

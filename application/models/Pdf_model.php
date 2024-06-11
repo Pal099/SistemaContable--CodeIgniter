@@ -28,6 +28,51 @@ class Pdf_model extends CI_Model {
         }
     }
 
+
+    public function obtenerDatosSu() {
+        $this->db->select('numasi.FechaEmision as fecha,nd.numero, numasi.op as op, of.codigo as codigo_of, nd.Haber as haber, nd.detalles as detalle, pr.codigo as codigo_pro, numasi.MontoPagado as montopagado, cc.IDCuentaContable as id_cc, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle, cc.tipo as tipo');
+        $this->db->from('num_asi_deta nd');
+        $this->db->join('proveedores p', 'p.id = nd.proveedores_id', 'left');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = nd.IDCuentaContable');
+        $this->db->join('programa pr', 'pr.id_pro = nd.id_pro');
+        $this->db->join('origen_de_financiamiento of', 'of.id_of = nd.id_of');
+        $this->db->join('num_asi numasi', 'numasi.IDNum_Asi = nd.Num_Asi_IDNum_Asi', 'left');
+        $this->db->order_by('nd.IDNum_Asi_Deta', 'DESC'); // Ordena por el ID de forma descendente
+        $this->db->limit(1); // Limita a un solo registro
+        $query = $this->db->get();
+        $result = $query->result_array(); // Make sure to use result_array() for an array result
+
+        return $result;
+        if ($query->num_rows() > 0) {
+            return $query->row_array(); // Devuelve un solo registro como un arreglo
+        } else {
+            return array(); // Si no hay resultados, devuelve un arreglo vacío
+        }
+    }
+    
+
+    public function obtenerUnidadAcademicaPorNombreUsuario($nombreUsuario) {
+        // Obtener el id_unidad del usuario
+        $this->db->select('id_unidad');
+        $this->db->from('usuarios');
+        $this->db->where('Nombre_usuario', $nombreUsuario);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        if (!$result) {
+            return null;
+        }
+        $idUnidad = $result['id_unidad'];
+        
+        // Obtener el nombre de la unidad académica
+        $this->db->select('unidad');
+        $this->db->from('unidad_academica');
+        $this->db->where('id_unidad', $idUnidad);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result ? $result['unidad'] : null;
+    }
+
+
     public function obtenerDatos_pago() {
         $this->db->select('numasi.FechaEmision as fecha,nd.numero, numasi.op as op, of.codigo as codigo_of, nd.Haber as haber, nd.detalles as detalle, pr.codigo as codigo_pro, numasi.MontoPagado as montopagado, cc.IDCuentaContable as id_cc, nd.comprobante, nd.Debe, nd.Haber, p.ruc as ruc, p.razon_social as proveedor,p.direccion as direccion,p.telefono as telef, p.email as email, numasi.op as orden_de_pago, cc.Descripcion_CC as Descripcion, nd.detalles as detalle, cc.tipo as tipo, cc.Codigo_CC as codi_cc');
         $this->db->from('num_asi_deta nd');
