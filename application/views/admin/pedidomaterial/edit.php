@@ -35,20 +35,21 @@
             <section class="seccion_agregar_presupuesto">
                 <div class="container-fluid">
                     <div class="row">
-                        <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';">
+                        <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';"
+                            action="<?php echo base_url('patrimonio/Pedido_Material/update'); ?>" method="POST">
                             <div class="container-fluid mt-2">
                                 <div class="row justify-content-center">
                                     <div class="col-md-12">
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <input type="hidden" value="<?php echo $pedido->IDPedidoMaterial;?>" id = "IDPedidoMaterial" name="IDPedidoMaterial">
+
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
                                                             required>
                                                             <?php foreach ($unidad as $uni): ?>
-                                                                <option value="<?php echo $uni->id_unidad; ?>" <?php echo ($uni->id_unidad == $pedido->id_unidad) ? 'selected' : ''; ?>>
+                                                                <option value="<?php echo $uni->id_unidad; ?>" <?php echo ($uni->id_unidad == $pedidos->id_unidad) ? 'selected' : ''; ?>>
                                                                     <?php echo $uni->unidad . ' - ' . $uni->id_unidad; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
@@ -59,13 +60,13 @@
                                                         <label for="IDPedidoMaterialp">Nro. de Pedido:</label>
                                                         <input type="number" class="form-control" id="IDPedidoMaterialp"
                                                             name="IDPedidoMaterialp"
-                                                            value="<?php echo $pedido->idpedido; ?>" readonly>
+                                                            value="<?php echo $pedidos->idpedido; ?>" readonly>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha</label>
                                                         <input type="date" class="form-control" id="fecha" name="fecha"
-                                                            value="<?php echo $pedido->fecha; ?>"
+                                                            value="<?php echo $pedidos->fecha; ?>"
                                                             placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
                                                 </div>
@@ -102,151 +103,177 @@
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                        <tr id="filaB" class="filaB">
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent index"
-                                                                                        id="item" name="item" value="1"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="number"
-                                                                                        class="form-control border-0 bg-transparent npedido"
-                                                                                        id="npedido" name="npedido"
-                                                                                        value="<?php echo $pedido->idpedido; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent actividad"
-                                                                                        id="actividad" name="actividad"
-                                                                                        value="<?php echo $pedido->id_unidad; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td hidden>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center">
-                                                                                    <input type="number"
-                                                                                        class="form-control border-0 bg-transparent IDbienservicio"
-                                                                                        id="idbien" name="idbien"
-                                                                                        value="<?php echo $pedido->id_bien; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent rubro"
-                                                                                        id="rubro" name="rubro"
-                                                                                        value="<?php echo $bien->rubro; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent descripcion"
-                                                                                        id="descrip" name="descrip"
-                                                                                        value="<?php echo $pedido->concepto; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent precioref"
-                                                                                        id="precioref" name="precioref"
-                                                                                        value="<?php echo $pedido->preciounit; ?>">
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="number"
-                                                                                        class="form-control border-0 bg-transparent cantidad"
-                                                                                        id="cantidad" name="cantidad"
-                                                                                        value="<?php echo $pedido->cantidad; ?>"
-                                                                                        required>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div class="form-check">
-                                                                                    <input type="checkbox"
-                                                                                        class="form-check-input iva iva-checkbox"
-                                                                                        id="iva" name="iva"
-                                                                                        value="<?php echo $pedido->id_bien; ?>">
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="number"
-                                                                                        class="form-control border-0 bg-transparent piva"
-                                                                                        id="piva" name="piva"
-                                                                                        value="<?php echo $pedido->porcentaje_iva; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent exenta"
-                                                                                        id="exenta" name="exenta"
-                                                                                        value="<?php echo $pedido->exenta; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <input type="text"
-                                                                                        class="form-control border-0 bg-transparent gravada"
-                                                                                        id="gravada" name="gravada"
-                                                                                        value="<?php echo $pedido->gravada; ?>"
-                                                                                        readonly>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="input-group input-group-sm align-items-center  ">
-                                                                                    <button type="button"
-                                                                                        data-bs-toggle="modal"
-                                                                                        data-bs-target="#modalBienes"
-                                                                                        class="btn btn-primary openModalBtn_4">
-                                                                                        <i class="bi bi-search">
-                                                                                        </i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div
-                                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-outline-primary border-0 agregarFila">
-                                                                                        <i
-                                                                                            class="bi bi-plus-square"></i>
-                                                                                    </button>
-                                                                                    <button type="button"
-                                                                                        class="btn btn-outline-danger border-0 eliminarFila"
-                                                                                        hidden>
-                                                                                        <i class="bi bi-trash3"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
+                                                                        <?php if (!empty($pedido) && is_array($pedido)): ?>
+                                                                            <?php foreach ($pedido as $index => $pedidos): ?>
+                                                                                <tr id="filaB" class="filaB">
+                                                                                    <td class="columna-hidden">
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="hidden"
+                                                                                                value="<?php echo $pedidos->IDPedidoMaterial; ?>"
+                                                                                                id="IDPedidoMaterial"
+                                                                                                name="IDPedidoMaterial[]">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent index"
+                                                                                                id="item" name="item"
+                                                                                                value="<?php echo $index + 1; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="number"
+                                                                                                class="form-control border-0 bg-transparent npedido"
+                                                                                                id="npedido" name="npedido[]"
+                                                                                                value="<?php echo $pedidos->idpedido; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent actividad"
+                                                                                                id="actividad"
+                                                                                                name="actividad[]"
+                                                                                                value="<?php echo $pedidos->id_unidad; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td hidden>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="number"
+                                                                                                class="form-control border-0 bg-transparent IDbienservicio"
+                                                                                                id="idbien" name="idbien[]"
+                                                                                                value="<?php echo $pedidos->id_bien; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <?php if (isset($bienes[$pedidos->id_bien])): ?>
+                                                                                                <input type="number"
+                                                                                                    class="form-control border-0 bg-transparent rubro"
+                                                                                                    id="rubro" name="rubro[]"
+                                                                                                    value="<?php echo $bienes[$pedidos->id_bien]->rubro; ?>"
+                                                                                                    readonly>
+                                                                                            <?php else: ?>
+                                                                                                <input type="text"
+                                                                                                    class="form-control border-0 bg-transparent rubro"
+                                                                                                    id="rubro" name="rubro"
+                                                                                                    value="">
+                                                                                            <?php endif; ?>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent descripcion"
+                                                                                                id="descrip" name="descrip[]"
+                                                                                                value="<?php echo $pedidos->concepto; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent precioref"
+                                                                                                id="precioref"
+                                                                                                name="precioref[]"
+                                                                                                value="<?php echo $pedidos->preciounit; ?>">
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="number"
+                                                                                                class="form-control border-0 bg-transparent cantidad"
+                                                                                                id="cantidad" name="cantidad[]"
+                                                                                                value="<?php echo $pedidos->cantidad; ?>"
+                                                                                                required>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="form-check">
+                                                                                        <input type="hidden" name="iva[<?php echo $index; ?>]" value="0">
+                                                                                        <input type="checkbox" class="form-check-input iva-checkbox" id="iva<?php echo $index; ?>" name="iva[<?php echo $index; ?>]" value="1"
+                                                                                        <?php if ($pedidos->iva == 1) echo 'checked'; ?>>
+                    
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="number"
+                                                                                                class="form-control border-0 bg-transparent piva"
+                                                                                                id="piva" name="piva[]"
+                                                                                                value="<?php echo $pedidos->porcentaje_iva; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent exenta"
+                                                                                                id="exenta" name="exenta[]"
+                                                                                                value="<?php echo $pedidos->exenta; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <input type="text"
+                                                                                                class="form-control border-0 bg-transparent gravada"
+                                                                                                id="gravada" name="gravada[]"
+                                                                                                value="<?php echo $pedidos->gravada; ?>"
+                                                                                                readonly>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="input-group input-group-sm align-items-center">
+                                                                                            <button type="button"
+                                                                                                data-bs-toggle="modal"
+                                                                                                data-bs-target="#modalBienes"
+                                                                                                class="btn btn-primary openModalBtn_4">
+                                                                                                <i class="bi bi-search"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div
+                                                                                            class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                                            <button type="button"
+                                                                                                class="btn btn-outline-primary border-0 agregarFila">
+                                                                                                <i
+                                                                                                    class="bi bi-plus-square"></i>
+                                                                                            </button>
+                                                                                            <button type="button"
+                                                                                                class="btn btn-outline-danger border-0 eliminarFila"
+                                                                                                hidden>
+                                                                                                <i class="bi bi-trash3"></i>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            <?php endforeach; ?>
+                                                                        <?php else: ?>
+                                                                            <tr>
+                                                                                <td colspan="13">No data available</td>
+                                                                            </tr>
+                                                                        <?php endif; ?>
                                                                     </tbody>
                                                                 </table>
                                                             </div>
@@ -337,63 +364,7 @@
         </div>
     </div>
 </body>
-<script>
 
-    $('#formularioPrincipal').submit(function (event) {
-        event.preventDefault(); // Evitar que el formulario se envíe normalmente
-
-        var datosFormulario = {
-            IDPedidoMaterial: $("#IDPedidoMaterial").val(),
-            fecha: $("#fecha").val(),
-            id_unidad: $("#id_unidad").val(),
-            npedido: $("#IDPedidoMaterialp").val(),
-        };
-
-        var filas = [];
-
-        $("#tablaP tbody tr").each(function () {
-            var fila = {
-                actividad: $(this).find("input[name='actividad']").val(),
-                idbien: $(this).find("input[name='idbien']").val(),
-                descripcion: $(this).find("input[name='descrip']").val(),
-                precioUnit: $(this).find("input[name='precioref']").val(),
-                cantidad: $(this).find("input[name='cantidad']").val(),
-                piva: $(this).find("input[name='piva']").val(),
-                exenta: $(this).find("input[name='exenta']").val(),
-                gravada: $(this).find("input[name='gravada']").val(),
-            };
-
-            filas.push(fila);
-        });
-
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
-            datosFormulario: datosFormulario,
-            filas: filas,
-        };
-
-        $.ajax({
-            url: '<?php echo base_url("patrimonio/pedido_material/update"); ?>',
-            type: 'POST',
-            data: { datos: datosCompletos },
-            success: function (response) {
-                if (response === "success") {
-                    window.location.href = '<?php echo base_url("patrimonio/pedido_material"); ?>';
-                } else {
-                    alert('Error al guardar los datos: ' + response);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
-                console.log(datosCompletos);
-                alert("Error en la solicitud AJAX: " + status + " - " + error);
-            }
-        });
-    });
-
-
-
-</script>
 
 <script>
     var currentRow = null;
@@ -450,7 +421,7 @@
             row.find('.gravada').val(valorOrigen);
         } else {
             row.find('.piva, .exenta').prop('readonly', true);
-            row.find('.gravada').val(0);
+            row.find('.gravada, .piva, .exenta').val(0);
         }
     });
 
@@ -464,54 +435,139 @@
 
 <script>
     $(document).ready(function () {
-        var indice = 1;
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function (e) {
-            e.preventDefault();
+        let index = <?php echo count($pedido); ?>; // Contador para nuevas filas
 
-            indice++;
-
-            // Clonar la fila base
-            var nuevaFila = $("#filaB").clone();
-
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
-
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
-
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
-
-            // Limpiar los valores de los campos en la nueva fila
-            nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
-
-            nuevaFila.find(".index").val(indice);
-            nuevaFila.find(".piva, .exenta, .gravada, .cantidad").val(0);
-            nuevaFila.find(".iva-checkbox").prop('checked', false);
-            // Mostrar la nueva fila
-            nuevaFila.show();
-
-            // Agregar la nueva fila al cuerpo de la tabla
-            $("#tablaP tbody").append(nuevaFila);
+        // Función para agregar una nueva fila
+        $('.agregarFila').on('click', function () {
+            let newRow = `
+            <tr class="filaB">
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="text" class="form-control border-0 bg-transparent index"
+                            id="item" name="item" value="${index + 1}" readonly>
+                    </div>
+                </td>
+                <td class="columna-hidden">
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="number" class="form-control border-0 bg-transparent IDPedidoMaterial"
+                            id="IDPedidoMaterial" name="IDPedidoMaterial[]" value="0" readonly>
+                    </div>
+                 </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="number" class="form-control border-0 bg-transparent npedido"
+                            id="npedido" name="npedido[]" value="<?php echo $pedidos->idpedido; ?>" readonly>
+                    </div>     
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="text" class="form-control border-0 bg-transparent actividad"
+                            id="actividad" name="actividad[]" value="<?php echo $pedidos->id_unidad; ?>" readonly>
+                    </div>
+                </td>
+                <td hidden>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="number" class="form-control border-0 bg-transparent IDbienservicio"
+                            id="idbien" name="idbien[]" value=""readonly>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="text" class="form-control border-0 bg-transparent rubro"
+                            id="rubro" name="rubro[]" value="" readonly>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="text" class="form-control border-0 bg-transparent descripcion"
+                            id="descrip" name="descrip[]" value="" readonly>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="text" class="form-control border-0 bg-transparent precioref"
+                            id="precioref" name="precioref[]" value="">
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                        <input type="number" class="form-control border-0 bg-transparent cantidad"
+                            id="cantidad" name="cantidad[]" value="" required>
+                    </div>        
+                </td>
+                <td>
+                    <div class="form-check">
+                        <input type="hidden" name="iva[${index}]" value="0">
+                        <input type="checkbox" class="form-check-input iva-checkbox" id="iva${index}" name="iva[${index}]" value="1">
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                    <input type="number" class="form-control border-0 bg-transparent piva"
+                        id="piva" name="piva[]" value="" readonly>
+                        </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                    <input type="text" class="form-control border-0 bg-transparent exenta"
+                        id="exenta" name="exenta[]" value="" readonly>
+                        </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                    <input type="text" class="form-control border-0 bg-transparent gravada"
+                        id="gravada" name="gravada[]" value="" readonly>
+                        </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm align-items-center">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#modalBienes"
+                        class="btn btn-primary openModalBtn_4">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                        <button type="button" class="btn btn-outline-primary border-0 agregarFila">
+                            <i class="bi bi-plus-square"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger border-0 eliminarFila">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+            $('#tablaP tbody').append(newRow);
+            index++;
         });
 
-        // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
-
-            $(this).closest("tr").remove();
-
+        // Función para eliminar una fila
+        $(document).on('click', '.eliminarFila', function () {
+            $(this).closest('tr').remove();
+            index--;
+            updateRowNumbers();
         });
 
+        // Función para actualizar los números de las filas
+        function updateRowNumbers() {
+            $('#tablaP tbody tr').each(function (i) {
+                $(this).find('td:first').text(i + 1);
+            });
+        }
+    });
 
-        $('#id_unidad').on('change', function () {
-            var selectedValue = $(this).val();
-            $('.actividad').val(selectedValue);
-            //$('#rubro').val(selectedValue);
-        });
-
+    $('#id_unidad').on('change', function () {
+        var selectedValue = $(this).val();
+        $('.actividad').val(selectedValue);
+        //$('#rubro').val(selectedValue);
     });
 </script>
+
+
+
+
+
+
 
 </html>

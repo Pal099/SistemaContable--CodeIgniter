@@ -117,7 +117,7 @@ class Pedido_Material extends MY_Controller
 					'concepto' => $fila['descripcion'],
 					'preciounit' => $fila['precioUnit'],
 					'cantidad' => $fila['cantidad'],
-					'iva' => $fila['piva'],
+					'iva' => $fila['iva'],
 					'porcentaje_iva' => $fila['piva'],
 					'exenta' => $fila['exenta'],
 					'gravada' => $fila['gravada'],
@@ -144,25 +144,30 @@ class Pedido_Material extends MY_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$pedidos = $this->Pedido_Material_model->getPedidoMaterial($id);
-		$bienes = $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu);
-		
-		$bienEn = null;
-		foreach ($bienes as $bien) {
-			if ($bien->IDbienservicio == $pedidos->id_bien) {
-				$bienEn = $bien;
-				break;
+		// Ensure these methods return arrays of objects
+		$pedidos = $this->Pedido_Material_model->getPedidoMaterialp($id);
+		$bienes = [];
+		if (!empty($pedidos)) {
+			foreach ($pedidos as $pedido) {
+				$bien = $this->Pedido_Material_model->obtener_bien_por_id($pedido->id_bien);
+				if ($bien) {
+					// Verificamos si el resultado es un array y tomamos el primer elemento si es necesario
+					if (is_array($bien)) {
+						$bien = reset($bien); // reset() devuelve el primer elemento del array
+					}
+					$bienes[$pedido->id_bien] = $bien;
+				}
 			}
 		}
-		
+
 		$data = array(
-			'pedidos' => $this->Pedido_Material_model->getPedidosMateriales($id_uni_respon_usu),
+			'pedidos' => $this->Pedido_Material_model->getPedidoMaterial($id),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
 			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
-			'bien' => $bienEn,
 			'pedido' => $pedidos,
+			'bienes' => $bienes,
 		);
 
 		$this->load->view("layouts/header");
@@ -173,49 +178,60 @@ class Pedido_Material extends MY_Controller
 
 	public function update()
 	{
-		header('Access-Control-Allow-Origin: *');
-		$datosCompletos = $this->input->post('datos');
-		$datosFormulario = $datosCompletos['datosFormulario'];
-
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		// Recopilar datos generales del pedido
-		$id_unidad = $datosFormulario['id_unidad'];
-		$fecha = $datosFormulario['fecha'];
-		$id_pedido = $datosFormulario['npedido'];
-		$idnumpedido = $datosFormulario['IDPedidoMaterial'];
+		// Obtén los datos del formulario
+		$unidad = $this->input->post('id_unidad');
+		$idpedidom = $this->input->post('IDPedidoMaterial');
+		$fecha = $this->input->post('fecha');
+		$idbien = $this->input->post('idbien');
+		$nupedido = $this->input->post('IDPedidoMaterialp');
+		$npedido = $this->input->post('npedido');
+		$descrip = $this->input->post('descrip');
+		$precioref = $this->input->post('precioref');
+		$cantidad = $this->input->post('cantidad');
+		$iva = $this->input->post('iva');
+		$piva = $this->input->post('piva');
+		$exenta = $this->input->post('exenta');
+		$gravada = $this->input->post('gravada');
 
-		if ($this->input->is_ajax_request()) {
+		// Verifica si los datos han sido enviados
+		if ($npedido) {
+			foreach ($idpedidom as $index => $id) {
 
-			$filas = $datosCompletos['filas'];
-
-			foreach ($filas as $fila) {
-				// Procesar cada fila y actualizar
-				$dataPedido = array(
-					'idpedido' => $id_pedido, // Usar el ID de pedido proporcionado
-					'id_bien' => $fila['idbien'],
-					'id_unidad' => $id_unidad,
+				// Datos de cada pedido
+				$data = array(
+					'idpedido' => $nupedido,
+					'id_unidad' => $unidad,
 					'fecha' => $fecha,
-					'concepto' => $fila['descripcion'],
-					'preciounit' => $fila['precioUnit'],
-					'cantidad' => $fila['cantidad'],
-					'iva' => $fila['piva'],
-					'porcentaje_iva' => $fila['piva'],
-					'exenta' => $fila['exenta'],
-					'gravada' => $fila['gravada'],
+					'concepto' => $descrip[$index],
+					'iva' => $iva[$index],
+					'porcentaje_iva' => $piva[$index],
+					'exenta' => $exenta[$index],
+					'gravada' => $gravada[$index],
+					'id_bien' => $idbien[$index],
+					'preciounit' => $precioref[$index],
+					'cantidad' => $cantidad[$index],
 					'id_uni_respon_usu' => $id_uni_respon_usu,
 					'estado' => "1",
 				);
 
-				$this->Pedido_Material_model->update($idnumpedido, $dataPedido);
-			}
+				// Si idpedido está vacío, inserta un nuevo registro
+				if (empty($id)) {
+					$this->Pedido_Material_model->savePedido($data);
+				} else {
+					// Actualiza cada pedido en la base de datos
+					$this->Pedido_Material_model->update($id, $data);
+				}
 
-			echo "success";
+			}
+			// Redirige después de la actualización
+			redirect('patrimonio/Pedido_Material');
 		} else {
-			$this->session->set_flashdata("error", "No se pudo actualizar la información");
-			return redirect(base_url() . "patrimonio/pedidomaterial/edit/" . $id_pedido);
+			// Maneja el caso donde no hay datos enviados
+			show_error('No se recibieron datos del formulario.');
 		}
 	}
 	public function view($id)
@@ -234,5 +250,5 @@ class Pedido_Material extends MY_Controller
 		$this->Pedido_Material_model->update($id, $data);
 		redirect(base_url() . "patrimonio/pedido_material");
 	}
-	
+
 }

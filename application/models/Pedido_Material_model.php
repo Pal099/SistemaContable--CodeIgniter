@@ -27,20 +27,27 @@ class Pedido_Material_model extends CI_Model
 
     public function getPedidoMaterial($id)
     {
-        $this->db->where("IDPedidoMaterial", $id);
+        $this->db->where("idpedido", $id);
         $resultado = $this->db->get("pedido_material");
         return $resultado->row();
+
 
     }
 
     public function getPedidoMaterialp($id)
     {
         $this->db->where("idpedido", $id);
+        $this->db->where("estado", 1);  
         $resultado = $this->db->get("pedido_material");
-        return $resultado->row();
-
+        return $resultado->result();  // Use result() to get an array of objects
     }
 
+    public function obtener_bien_por_id($idbien)
+    {
+        $this->db->where('IDbienservicio', $idbien);
+        $resultado = $this->db->get("bienes_servicios");
+        return $resultado->result();  // Use result() to get an array of objects
+    }
     public function update($id, $data)
     {
         $this->db->where("IDPedidoMaterial", $id);

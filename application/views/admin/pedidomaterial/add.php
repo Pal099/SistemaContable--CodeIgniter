@@ -355,6 +355,7 @@
 
     $("#formularioPrincipal").on("submit", function (event) {
 
+        var ivac = $(this).find("input[name='iva']").is(':checked') ? 1 : 0;
 
         var datosFormulario = {
             fecha: $("#fecha").val(),
@@ -370,6 +371,7 @@
                 actividad: $(this).find("input[name='actividad']").val(),
                 idbien: $(this).find("input[name='idbien']").val(),
                 rubro: $(this).find("input[name='rubro']").val(),
+                iva: ivac,
                 descripcion: $(this).find("input[name='descrip']").val(),
                 precioUnit: $(this).find("input[name='precioref']").val(),
                 cantidad: $(this).find("input[name='cantidad']").val(),
@@ -471,7 +473,8 @@
             row.find('.gravada').val(valorOrigen);
         } else {
             row.find('.piva, .exenta').prop('readonly', true);
-            row.find('.gravada').val(0);
+            row.find('.gravada, .piva, .exenta').val(0);
+            
         }
     });
 
