@@ -42,3 +42,4 @@ class Bienes_Servicios_model extends CI_Model {
     }
 
 }
+

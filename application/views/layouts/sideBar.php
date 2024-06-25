@@ -152,6 +152,11 @@
                        <i class="bi bi-circle"></i><span>Bienes y/o Servicios</span>
                    </a>
                </li>
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/pedido_material">
+                       <i class="bi bi-circle"></i><span>Pedido Material</span>
+                   </a>
+               </li>
            </ul>
        </li>
         <li class="nav-item">
