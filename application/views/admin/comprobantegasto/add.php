@@ -252,11 +252,11 @@
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-sm">
-                    <thead>
+                <thead>
                         <tr>
                             <th>Periodo</th>
-                            <th>Tipo</th>
                             <th>Programa</th>
+                            <th>Cuenta Contable</th>
                             <th>Rubro</th>
                             <th>FF</th>
                             <th>OF</th>
@@ -266,24 +266,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($presupuestos as $index => $presu): ?>
+                        <?php foreach ($datos_vista as $dato): ?>
                             <tr class="list-item presupuesto-item" 
-                                data-programa-id-pro="<?= $presu->programa_id_pro ?>"
-                                data-fuente-de-financiamiento-id-ff="<?= $presu->fuente_de_financiamiento_id_ff ?>"
-                                data-origen-de-financiamiento-id-of="<?= $presu->origen_de_financiamiento_id_of ?>"
+                                data-programa-id-pro="<?= $dato['programa_id_pro'] ?>"
+                                data-fuente-de-financiamiento-id-ff="<?= $dato['fuente_de_financiamiento_id_ff'] ?>"
+                                data-origen-de-financiamiento-id-of="<?= $dato['origen_de_financiamiento_id_of']?>"
                                 data-bs-dismiss="modal"></tr>
                             <tr class="list-item" 
-                                onclick="selectPresupuesto('<?= $presu->programa_id_pro ?>', '<?= $presu->fuente_de_financiamiento_id_ff ?>', '<?= $presu->origen_de_financiamiento_id_of ?>')" 
+                                onclick="selectPresupuesto('<?= $dato['rubro'] ?>','<?= $dato['programa_id_pro'] ?>', '<?= $dato['fuente_de_financiamiento_id_ff'] ?>', '<?= $dato['origen_de_financiamiento_id_of']?>')" 
                                 data-bs-dismiss="modal">
-                                <td><?= $presu->Año ?></td>
-                                <td><?= $presu->Idcuentacontable ?></td>
-                                <td><?= $presu->programa_id_pro ?></td>
-                                <td><?= $presu->Idcuentacontable ?></td>
-                                <td><?= $presu->fuente_de_financiamiento_id_ff ?></td>
-                                <td><?= $presu->origen_de_financiamiento_id_of ?></td>
-                                <td><?= $presu->Idcuentacontable ?></td>
-                                <td><?= $presu->TotalPresupuestado ?></td>
-                                <td><?= $presu->TotalPresupuestado /*Saldo actual no se si se quita de los pre_mes*/?></td> 
+                                <td><?= $dato['Año']?></td>
+                                <td><?= $dato['programa_id_pro']?></td>
+                                <td><?= $dato['codigo']?></td>
+                                <td><?= $dato['rubro']?></td>
+                                <td><?= $dato['fuente_de_financiamiento_id_ff'] ?></td>
+                                <td><?= $dato['origen_de_financiamiento_id_of']?></td>
+                                <td><?= $dato['programa_id_pro'] ?></td>
+                                <td><?= $dato['TotalPresupuestado'] ?></td>
+                                <td><?= $dato['saldo_actual'] /*Saldo actual sale del ultimo mes que se cargó*/?></td> 
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
