@@ -126,7 +126,7 @@
                               <td><?php echo $ped->fecha; ?></td>
                               <td><?php echo $ped->preciounit; ?></td>
                               <td><?php echo $ped->cantidad; ?></td>
-                              <td><?php echo $ped->iva; ?></td>
+                              <td><?php echo $ped->porcentaje_iva; ?></td>
                               <td><?php echo $ped->exenta; ?></td>
                               <td><?php echo $ped->gravada; ?></td>
                               <td>
