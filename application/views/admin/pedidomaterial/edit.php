@@ -412,17 +412,46 @@
         }
     });
 
-    // Evento para manejar cambios en el checkbox
-    $(document).on("change", ".iva-checkbox", function () {
-        var row = $(this).closest('tr');
-        if ($(this).is(':checked')) {
-            row.find('.piva, .exenta').prop('readonly', false);
-            var valorOrigen = row.find('.precioref').val();
-            row.find('.gravada').val(valorOrigen);
-        } else {
-            row.find('.piva, .exenta').prop('readonly', true);
-            row.find('.gravada, .piva, .exenta').val(0);
-        }
+       // Manejar el cambio en la casilla de verificación y el campo piva
+       $(document).on("change", ".iva-checkbox, .piva", function () {
+            var row = $(this).closest('tr');
+
+            // Verificar si la casilla iva-checkbox está marcada
+            if (row.find('.iva-checkbox').is(':checked')) {
+                // Habilitar el campo piva
+                row.find('.piva').prop('readonly', false);
+
+                // Calcular gravada cuando cambian los campos relevantes
+                row.on('input', '.precioref, .cantidad, .piva', function () {
+                    var precio = parseFloat(row.find('.precioref').val()) || 0;
+                    var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
+                    var piva = parseFloat(row.find('.piva').val()) || 0;
+                    var gravada = precio * cantidad * (1 + piva / 100);
+                    row.find('.gravada').val(gravada.toFixed(0));
+                });
+
+                // Calcular gravada inicialmente al cargar la página
+                var precio = parseFloat(row.find('.precioref').val()) || 0;
+                var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
+                var piva = parseFloat(row.find('.piva').val()) || 0;
+                var gravada = precio * cantidad * (1 + piva / 100);
+                row.find('.gravada').val(gravada.toFixed(0));
+
+            } else {
+                // Deshabilitar el campo piva y reiniciar los valores de gravada y piva
+                row.find('.piva').prop('readonly', true);
+                row.find('.gravada').val(0);
+                row.find('.piva').val('');
+            }
+        });
+
+    $('#tablaP').on('input', '.precioref, .cantidad', function () {
+        var $row = $(this).closest('tr');
+        var precio = $row.find('.precioref').val();
+        var cantidad = $row.find('.cantidad').val();
+        var piva = $row.find('.piva').val();
+        var exenta = precio * cantidad;
+        $row.find('.exenta').val(exenta);
     });
 
     // Evento para desmarcar el checkbox
