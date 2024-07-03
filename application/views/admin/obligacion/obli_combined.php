@@ -964,26 +964,31 @@
 
                         <table class="table table-hover table-sm" id="TablaCuentaCont2">
                             <thead>
-                                <tr>
+                                 <tr>
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
+                                    <th>Estado</th>
+                                    <th>Presupuesto</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                <?php foreach ($cuentacontable2 as $dato): ?>
+                                    <tr class="list-item"
+                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>', '<?= $dato->Descripcion_CC ?>')"
                                     data-bs-dismiss="modal">
+                                    <td><?= $dato->IDCuentaContable ?></td>
+                                    <td><?= $dato->Codigo_CC ?></td>
+                                    <td><?= $dato->Descripcion_CC ?></td>
                                     <td>
-                                        <?= $dato->IDCuentaContable ?>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                            <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
                                     </td>
-                                    <td>
-                                        <?= $dato->Codigo_CC ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
+                                    <td><?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
+                                </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -1004,18 +1009,7 @@
                
             Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-            // Buscar la cuenta padre, complementado con la funcion adicional también en el selec
-            const cuentaPadre = obtenerCuentaPadre(Codigo_CC);
-                    if (cuentaPadre) {
-                        document.getElementById('codigo_cc').value = cuentaPadre.codigo;
-                        document.getElementById('descripcion_cc').value = cuentaPadre.descripcion;
-                    }
-
-                    else {
-            // Limpiar los campos de la cuenta padre si no se encuentra
-            document.getElementById('codigo_cc').value = cuentaPadre.codigo;
-            document.getElementById('descripcion_cc').value = cuentaPadre.descripcion;
-        }
+           
 
         }
 
@@ -1033,32 +1027,102 @@
 
 
 
+    <!--Vamos a ubicar el script para desglozar el patron de numeros del codigo de la cuenta contable-->
+
+                    <script>
+                    function seleccionarCuenta(codigoCuenta) {
+                        // Llamar a la función para desglosar el código de cuenta
+                        desglosarCodigoCuenta(codigoCuenta);
+                    }
+                </script>
+
+
+
+
+
+
+
+                    <!-- Script destinado a desglosar el código de cuenta -->
+                    <script>
+                            function desglosarCodigoCuenta(codigoCompleto) {
+                                const patron = /^(\d{2})(\d{3})(\d{7})$/;
+                                const resultado = codigoCompleto.match(patron);
+                                
+                                if (resultado) {
+                                    const primerParte = resultado[1]; // Ejemplo: "41"
+                                    const segundaParte = resultado[2]; // Ejemplo: "101"
+                                    const tercerParte = resultado[3]; // Ejemplo: "1100000"
+
+                                    console.log("Código completo:", codigoCompleto);
+                                    console.log("Primer parte:", primerParte);
+                                    console.log("Segunda parte:", segundaParte);
+                                    console.log("Tercer parte:", tercerParte);
+
+                                    return {
+                                        primerParte: primerParte,
+                                        segundaParte: segundaParte,
+                                        tercerParte: tercerParte
+                                    };
+                                } else {
+                                    console.error("El código de cuenta no coincide con el patrón esperado.");
+                                    return null;
+                                }
+                            }
+
+                            function obtenerCuentasPadres(callback) {
+                                $.ajax({
+                                    url: '<?php echo base_url("obligaciones/diario_obligaciones/getCuentasPadres"); ?>', // Ajusta la URL según tu ruta y controlador
+                                    type: 'GET',
+                                    dataType: 'json',
+                                    success: function(data) {
+                                        if (data) {
+                                            console.log("Cuentas padres encontradas:", data);
+                                            callback(data);
+                                        } else {
+                                            console.error("No se encontraron cuentas padres.");
+                                            callback(null);
+                                        }
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error("Error al obtener las cuentas padres:", error);
+                                        callback(null);
+                                    }
+                                });
+                            }
+
+                            function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+                                document.getElementById('idcuentacontable_2').value = IDCuentaContable;
+                                document.getElementById('codigo_cc_2').value = Codigo_CC;
+                                document.getElementById('descripcion_cc_2').value = Descripcion_CC;
+
+                                const desglose = desglosarCodigoCuenta(Codigo_CC);
+                                if (desglose) {
+                                    const segundaParte = desglose.segundaParte;
+
+                                    obtenerCuentasPadres(function(cuentasPadres) {
+                                        if (cuentasPadres) {
+                                            const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
+                                            if (cuentaPadre) {
+                                                console.log("Cuenta padre encontrada:", cuentaPadre);
+                                                document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
+                                                document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
+                                            } else {
+                                                console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                    </script>
+
+
+
+
+
 
         <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
         <script>
-                      // Datos de cuentas contables y sus relaciones padre-hijo
-                        const cuentasPadres = [
-                            { codigo: "32101", descripcion: "Servicios Personales" }
-                        ];
-
-                        function obtenerCuentaPadre(codigoHijo) {
-                            // Extraer la parte relevante del código hijo (tercera a sexta posición)
-                            const parteRelevanteHijo = codigoHijo.substring(2, 5); // 101 en 4110111
-
-                            // Buscar la cuenta padre correspondiente
-                            for (const cuenta of cuentasPadres) {
-                                const parteRelevantePadre = cuenta.codigo.substring(2, 5); // 101 en 32101
-                                if (parteRelevanteHijo === parteRelevantePadre) {
-                                    return cuenta;
-                                }
-                            }
-                            return null;
-                        }
-
-
-
-
-
+                
 
         var currentRow = null;
 
@@ -1073,26 +1137,10 @@
 
         
 
-        // Función para seleccionar la cuenta contable
-        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Verificar si currentRow está definido y no es null
-            if (currentRow) {
-                // Utilizar currentRow para actualizar los campos
-                currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-                currentRow.find('.codigo_cc_2').val(Codigo_CC);
-                currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+       
 
 
-                 // Buscar la cuenta padre
-            const cuentaPadre = obtenerCuentaPadre(Codigo_CC);
-            if (cuentaPadre) {
-                document.getElementById('codigo_cc').value = cuentaPadre.codigo;
-                document.getElementById('descripcion_cc').value = cuentaPadre.descripcion;
-            }
-            } else {
-                console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-            }
-        }
+        
 
         // Abrir modal en fila dinamica
         const openModalBtn_4 = document.getElementById("openModalBtn_4");

@@ -274,16 +274,19 @@ public function getUsuarioId($nombre){
         return $resultados->result();
     }
 
-	public function getCC_padre(){
-        $this->db->select('cuentacontable.*');
-		$this->db->from('cuentacontable');
-		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('cuentacontable.estado', '1');
-		$this->db->where('cuentacontable.imputable', '2');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+
+
+	public function getC_C() {
+        $this->db->select('Codigo_CC, Descripcion_CC');
+        $this->db->from('cuentacontable');
+        $this->db->where('imputable', 2);
         $resultados = $this->db->get();
-        return $resultados->result();
+        echo json_encode($resultados->result());
     }
+
+
+	
+
 	
 
 	//guardar asientos
@@ -299,7 +302,17 @@ public function getUsuarioId($nombre){
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
 	
+
+	//Para el Selectcc, es decir, el primer modal del DEBE
 	public function getCuentaContable() {
+		$query = $this->db->get("cuentacontable");
+		return $query->result();
+	}
+
+	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
+	public function getCuentaContable2() {
+		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
+		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}

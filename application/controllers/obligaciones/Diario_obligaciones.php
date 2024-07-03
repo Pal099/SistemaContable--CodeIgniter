@@ -10,6 +10,7 @@ class Diario_obligaciones extends CI_Controller
 		parent::__construct();
 		//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Proveedores_model");
+		$this->load->model("Presupuesto_model");
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Pago_obli_model");
 		$this->load->model("Diario_obli_model");
@@ -41,10 +42,19 @@ class Diario_obligaciones extends CI_Controller
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 		$data['comprobante'] = $this->Comprobante_Gastos_model->getComprobantesGastos($id_user);
+		$cuentas = $this->CuentasContablesModel->getC_C($id_user);
+		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
+
+        echo json_encode($cuentas);
+
 		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
 		var_dump($data['asientos']); // Solo para depuración, eliminar después
 
-		//$data['cuentasPadres'] = $this->Diario_obli_model->getCC_padre($id_uni_respon_usu);
+
+		foreach ($data['presupuesto'] as $presupuesto) { //Aqui hacemos las busquedas de los rubros que están o no presupuestadas
+			$totalPresupuestado = $this->Presupuesto_model->obtenerTotalPresupuestado($presupuesto->Idcuentacontable);
+			$presupuesto->TotalPresupuestado = ($totalPresupuestado > 0) ? $totalPresupuestado : 0;
+		}
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
@@ -54,13 +64,18 @@ class Diario_obligaciones extends CI_Controller
 
 	}
 
+	
+
+	//Esta funcion se usa en el obli_combined
+
 	public function obtenerCuentasPadres() {
-        // Consultar la base de datos para obtener las cuentas padres
-        $this->db->where('imputable', 2); // Asumiendo que 'imputable' es la columna relevante
-        $query = $this->db->get('cuentacontable'); // Reemplaza 'tabla_cuentas' con el nombre real de tu tabla
+        $this->db->where('imputable', 2); 
+        $query = $this->db->get('cuentacontable'); 
 
         echo json_encode($query->result_array());
     }
+
+
 
 	public function pdfs()
 	{
@@ -79,6 +94,17 @@ class Diario_obligaciones extends CI_Controller
 		echo json_encode($data);
 	}
 
+	//Funcion para obtener las cuentas padres que se complementan con las funciones del Selectcc2 en el obli_combined
+	public function getCuentasPadres() {
+		$this->db->select('Codigo_CC, Descripcion_CC');
+		$this->db->from('cuentacontable');
+		$this->db->where('imputable', 2);
+		$this->db->like('Codigo_CC', '32', 'after'); // Filtrar donde el código comience con "32"
+		$resultados = $this->db->get();
+		echo json_encode($resultados->result());
+	}
+	
+
 	public function add()
 	{
 
@@ -93,8 +119,10 @@ class Diario_obligaciones extends CI_Controller
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
 			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
+			'cuentacontable2' => $this->Diario_obli_model->getCuentaContable2($id_uni_respon_usu),
 			'niveles' => $this->Diario_obli_model->getNiveles(),
 			'comprobante'=> $this->Comprobante_Gasto_model->getComprobantesGastos($id_user),
+			'presupuesto'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 
 		);
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
