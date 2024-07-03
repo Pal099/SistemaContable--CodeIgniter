@@ -27,6 +27,12 @@
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <!-- Switch -->
+                            <div class="form-check form-switch mt-2">
+                                <input class="form-check-input" type="checkbox" role="switch" id="retencionSwitch"
+                                    disabled>
+                                <label class="form-check-label" for="retencionSwitch">Retención</label>
+                            </div>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
                                     data-bs-target="#modalListaObligacion">
@@ -399,12 +405,12 @@
                                                                         <?php if (isset($haber_2)): ?>
                                                                         <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
                                                                         <input type="text"
-                                                                            class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero haber_reten"
                                                                             id="Haber_2" name="Haber_2"
                                                                             value="<?php echo $haber_2_value; ?>">
                                                                         <?php else: ?>
                                                                         <input type="text"
-                                                                            class="form-control small border-0 bg-transparent formatoNumero"
+                                                                            class="form-control small border-0 bg-transparent formatoNumero haber_reten"
                                                                             id="Haber_2" name="Haber_2"
                                                                             oninput="formatNumber('Haber_2')">
                                                                         <?php endif; ?>
@@ -454,10 +460,702 @@
                                                                     <input type="text" id="HaberC"
                                                                         class="form-control border-0 bg-transparent">
                                                                 </td>
-                                                                <td id="diferencia">0</td>
-                                                            </tr>
+                                                                <td>
+                                                                    <input type="text" id="diferencia"
+                                                                        class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                        value=0 disabled>
+                                                                </td>
                                                         </tbody>
                                                     </table>
+                                                    <!-- Tabla de los calculos de retención -->
+                                                    <div class="collapse" id="calculoderetencion">
+                                                        <div class="card border">
+                                                            <div class="card-body">
+                                                                <div class="col-md-6 mt-4">
+                                                                    <h5>Calculo de Retención</h5>
+                                                                </div>
+                                                                <hr>
+                                                                <table class="table table-hover text center">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Concepto</th>
+                                                                            <th class="col-md-5 text-center"></th>
+                                                                            <th class="col-md-2 text-center"></th>
+                                                                            <th class="col-md-3 text-center">Base
+                                                                                Retención
+                                                                            </th>
+                                                                            <th class="col-md-1 text-center">Acciones
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <!-- Fila de Retencion IVA -->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Retención
+                                                                                    IVA:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0" id="iva-retencion"
+                                                                                            data-id-cuenta="1438"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="30" step="1" max="99"
+                                                                                            min="0" id="porcentaje-iva"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="iva-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-iva"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1438">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        for="selec-iva"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-iva"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-iva">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Retencion IVA -->
+                                                                        <!-- Fila de Retencion Renta -->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Retención
+                                                                                    Renta:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2 w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="renta-retencion"
+                                                                                            data-id-cuenta="1439"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="3" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-renta"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="renta-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-renta"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1439">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-renta">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-renta"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-renta">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Retencion Renta -->
+                                                                        <!-- Fila de Retencion Ley 2051 -->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Retención
+                                                                                    Ley 2051:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2 w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0" id="ley-retencion"
+                                                                                            data-id-cuenta="1440"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="0.5" step="1"
+                                                                                            max="99" min="0"
+                                                                                            id="porcentaje-ley"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="ley-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-ley"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1440">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-ley">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-ley"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-ley">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Retencion Ley 2051 -->
+                                                                        <!-- Fila de Retencion Aporte Jubilatorio -->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Aporte
+                                                                                    Jubilatorio:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="aporte-jubilatorio"
+                                                                                            data-id-cuenta="1441"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="16" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-jubilatorio"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="jubilatorio-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-jubilatorio"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1441">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-jubilatorio">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-jubilatorio"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-jubilatorio">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Retencion Aporte Jubilatorio -->
+                                                                        <!-- Fila de Deduccion por Anticipo-->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Deducción
+                                                                                    por Anticipo:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="deduccion-anticipo"
+                                                                                            data-id-cuenta="1442"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="20" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-anticipo"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="anticipo-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-anticipo"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1442">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-anticipo">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-anticipo"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-anticipo">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Deduccion por Anticipo -->
+                                                                        <!-- Fila de Deduccion por Fondo de Reparo-->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Deducción
+                                                                                    por Fondo de Reparo:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="deduccion-reparo"
+                                                                                            data-id-cuenta="1443"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="5" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-reparo"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="reparo-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-reparo"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1443">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-reparo">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-reparo"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-reparo">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Deduccion por Fondo de Reparo -->
+                                                                        <!-- Fila de Incuplimiento de Contrato-->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Incuplimiento
+                                                                                    de Contrato:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="incuplimiento-contrato"
+                                                                                            data-id-cuenta="1444"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="1" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-contrato"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="contrato-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-contrato"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1444">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-contrato">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-contrato"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-contrato">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Incuplimiento de Contrato -->
+                                                                        <!-- Fila de Otras Retenciones-->
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span
+                                                                                    class="input-group-text border-0 bg-transparent">Otras
+                                                                                    Retenciones:</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group me-2">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-retencion"
+                                                                                            value="0"
+                                                                                            id="otras-retenciones"
+                                                                                            data-id-cuenta="1445"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">$GS</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group mx-auto my-auto">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="number"
+                                                                                            class="form-control text-end editable-input"
+                                                                                            value="0" step="1" max="99"
+                                                                                            min="0"
+                                                                                            id="porcentaje-otras"
+                                                                                            readonly>
+                                                                                        <span
+                                                                                            class="input-group-text">%</span>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="form-group d-flex align-items-center">
+                                                                                    <div class="input-group w-100">
+                                                                                        <input type="text"
+                                                                                            class="form-control text-end input-baserentencion"
+                                                                                            value="0"
+                                                                                            id="otras-baserentencion"
+                                                                                            readonly>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div
+                                                                                    class="d-flex justify-content-center align-items-center">
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check select-retencion"
+                                                                                        id="selec-otras"
+                                                                                        autocomplete="off"
+                                                                                        data-id-cuenta="1445">
+                                                                                    <label
+                                                                                        class="btn btn-outline-success me-2"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Seleccionar retención"
+                                                                                        for="selec-otras">
+                                                                                        <i class="bi bi-check2"></i>
+                                                                                    </label>
+                                                                                    <input type="checkbox"
+                                                                                        class="btn-check edit-checkbox"
+                                                                                        id="edit-otras"
+                                                                                        autocomplete="off">
+                                                                                    <label
+                                                                                        class="btn btn-outline-warning"
+                                                                                        data-bs-toggle="tooltip"
+                                                                                        data-bs-placement="bottom"
+                                                                                        title="Editar Porcentaje"
+                                                                                        for="edit-otras">
+                                                                                        <i
+                                                                                            class="bi bi-pencil-fill"></i>
+                                                                                    </label>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <!-- Fila de Otras Retenciones -->
+                                                                    </tbody>
+                                                                </table>
+                                                                <div
+                                                                    class="d-flex justify-content-end align-items-center">
+                                                                    <span
+                                                                        class="input-group-text border-0 bg-transparent fw-bold">Total
+                                                                        Retención:</span>
+                                                                    <div
+                                                                        class="form-group d-flex align-items-center ms-2">
+                                                                        <div class="input-group me-2">
+                                                                            <input type="text"
+                                                                                class="form-control text-end fw-bold"
+                                                                                value="0" id="total-retenciones"
+                                                                                readonly>
+                                                                            <span class="input-group-text">$GS</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Acá termina lo de retención -->
                                                     <div class="container-fluid mt-3 mb-3">
                                                         <div class="col-md-12 d-flex flex-row justify-content-center">
                                                             <button style="margin-right: 8px;" type="submit"
@@ -546,6 +1244,22 @@
                 </div>
             </section>
         </div>
+
+        <!-- Toast del total para la retencion -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="toastRetenciones" class="toast text-bg-warning" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="toast-header">
+                    <i class="bi bi-exclamation-triangle-fill me-2" style="color: red;"></i>
+                    <strong class="me-auto">Advertencia</strong>
+                </div>
+                <div class="toast-body">
+                    El total de la retención no puede ser mayor que el valor del Debe. Por favor, ajusta los
+                    porcentajes.
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Modal Lista de Obligaciones-->
@@ -655,580 +1369,821 @@
         </div>
     </div>
 
-    <!-- Script modal lista de obligaciones (seleccionar) -->
+    <!-- Script que controla los tooltips -->
     <script>
-    // Función para seleccionar un asi
-    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
-        deta, comp, cheq, idcuenta, numasio, pagado) {
-
-        var descripcionConPrefijo = 'A.P. ' + descrip;
-        //var descripcionConPrefijo2 = 'A.P.' + descrip;
-        var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
-        //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
-
-
-        document.getElementById('ruc').value = ruc;
-        document.getElementById('contabilidad').value = razonSocial;
-        document.getElementById('fecha').value = fechas;
-        document.getElementById('concepto').value = concepto;
-        document.getElementById('Debe').value = debes;
-        document.getElementById('MontoPago').value = montos;
-        document.getElementById('MontoTotal').value = montos;
-        document.getElementById('id_ff').value = fuentes;
-        document.getElementById('id_pro').value = programas;
-        document.getElementById('id_of').value = origens;
-        //Prueba '&descripcion2=' + descripcionCodificada2
-        $.ajax({
-            type: 'GET',
-            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +
-                descripcionCodificada,
-            data: {
-                descripcionConPrefijo
-            },
-            success: function(respuesta) {
-                // Dividir la cadena de respuesta en un array usando la coma como separador
-                var valores = respuesta.split(',');
-
-                // Asignar los valores a los campos correspondientes
-                $('#idcuentacontable').val(valores[1]);
-                $('#codigo_cc').val(valores[2]);
-                $('#descripcion_cc').val(valores[3]);
-
-                // Imprimir los valores en la consola para verificar
-
-
-
-            },
-            error: function(xhr, status, error) {
-                console.error('Error en la solicitud AJAX');
-                console.log('XHR:', xhr);
-                console.log('Status:', status);
-                console.log('Error:', error);
-            }
-        });
-
-        document.getElementById('detalles').value = deta;
-        document.getElementById('comprobante').value = comp;
-        document.getElementById('cheques_che_id').value = cheq;
-        document.getElementById('num_asio').value = numasio;
-        document.getElementById('MontoPago_2').value = pagado;
-    }
-    </script>
-    <!-- Script de DataTable de vista  -->
-    <script>
-    $(document).ready(function() {
-        $('#vistapago').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar todos los tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
     });
     </script>
 
-    <!-- script para las fechas -->
+    <!-- Script para mostrar los campos de retencion -->
     <script>
-    // Obtener la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
-    function obtenerFechaHoraActual() {
-        const fecha = new Date();
-        const dia = fecha.getDate().toString().padStart(2, '0');
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-        const año = fecha.getFullYear();
-        return `${año}-${mes}-${dia}`;
-    }
-
-    // Preestablecer el campo de fecha con la fecha y hora actual
-    const fechaInput = document.getElementById('fecha');
-    fechaInput.value = obtenerFechaHoraActual();
+    document.getElementById('retencionSwitch').addEventListener('change', function() {
+        var calculoderetencion = new bootstrap.Collapse(document.getElementById(
+            'calculoderetencion'));
+        calculoderetencion.toggle();
+    });
     </script>
 
-    <!-- funcion para mostrar el toast -->
+    <!-- Script de Edicion del porcentaje de retencion -->
     <script>
-    function showToast(message, bgColor, makeTextWhite) {
-        // Seleccionar el toast
-        var toastElement = document.getElementById('toastErrorFila');
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll('.edit-checkbox');
+        const inputs = document.querySelectorAll('.editable-input');
 
-        // Animacion para el toast
-        toastElement.setAttribute('data-mdb-animation-init', '');
-        toastElement.setAttribute('data-mdb-animation-reset', 'true');
-        toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
-
-        // Actualizar el mensaje y el color de fondo del toast
-        var toastBody = toastElement.querySelector('.toast-body');
-        toastBody.innerText = message;
-        toastElement.classList.add(bgColor);
-
-        // Hacer el texto del cuerpo blanco si es necesario
-        if (makeTextWhite) {
-            toastBody.classList.add('text-white');
-        }
-
-        // Mostrar el toast
-        var toast = new bootstrap.Toast(toastElement, {
-            animation: true
-        });
-        toast.show();
-    }
-    </script>
-
-    <!-- Script para agregar nuevas filas a la tabla -->
-    <script>
-    $(document).ready(function() {
-
-        function formatNumber(campo) {
-            var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-            if (!isNaN(value)) {
-                campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
-            }
-        }
-
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function(e) {
-            e.preventDefault();
-
-            // Clonar la fila base
-            var nuevaFila = $("#filaBase").clone();
-
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
-
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
-
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
-
-            // Limpiar los valores de los campos en la  nueva fila
-            nuevaFila.find("select, input").val("");
-
-            nuevaFila.find(".formatoNumero").each(function() {
-                // Obtener el campo actual
-                var campo = $(this);
-
-                // Asociar la función formatNumber al evento oninput
-                campo.on('input', function() {
-                    formatNumber(campo);
-                });
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    inputs[index].removeAttribute('readonly');
+                } else {
+                    inputs[index].setAttribute('readonly', true);
+                }
             });
-
-            // Mostrar la nueva fila
-            nuevaFila.show();
-
-            // Agregar la nueva fila al cuerpo de la tabla
-            $("#miTabla tbody").append(nuevaFila);
         });
-
-        // Eliminar fila
-        $("#miTabla").on("click", ".eliminarFila", function(e) {
-            e.preventDefault();
-
-            $(this).closest("tr").remove();
-
-        });
-
     });
     </script>
-    <!-- Envio de formulario principal -->
+
+    <!-- Script donde se realiza los calculos de la retencion -->
     <script>
-    $("#formularioPrincipal").on("submit", function(e) {
+    document.addEventListener('DOMContentLoaded', function() {
+        const selecIva = document.getElementsByClassName('select-retencion');
+        const debeInput = document.getElementById('Debe');
+        const porcentajeIva = document.getElementsByClassName('editable-input');
+        const ivaRetencion = document.getElementsByClassName('input-retencion');
+        const ivaBaseRetencion = document.getElementsByClassName('input-baserentencion');
+        const totalRetenciones = document.getElementById('total-retenciones');
+        const myToast = new bootstrap.Toast(document.getElementById('myToast'));
 
-        //datos que no son de la tabla dinamica
-        var datosFormulario = {
-
-
-            op: $("#op").val(),
-            ruc: $("#ruc").val(),
-            num_asi: $("#num_asi").val(),
-            detalles: $("#detalles").val(),
-            contabilidad: $("#contabilidad").val(),
-            direccion: $("#direccion").val(),
-            telefono: $("#telefono").val(),
-            tesoreria: $("#tesoreria").val(),
-            concepto: $("#concepto").val(),
-            fecha: $("#fecha").val(),
-            idnumasi: $("#num_asio").val(),
-
-            // Agrega más campos según sea necesario
-            id_pro: $("#id_pro").val(),
-            id_ff: $("#id_ff").val(),
-            id_of: $("#id_of").val(),
-            IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-            MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
-            comprobante: $("#comprobante").val(),
-            Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-            Haber: $("#Haber").val(),
-            cheques_che_id: $("#cheques_che_id").val(),
+        function showToast() {
+            const toastEl = document.getElementById('toastRetenciones');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
 
 
-        };
+        for (let i = 0; i < selecIva.length; i++) {
+            selecIva[i].addEventListener('change', updateValues);
+            porcentajeIva[i].addEventListener('input', updateValues);
 
+            function updateValues() {
+                const debeValue = parseFloat(debeInput.value.replace(/[.,]/g, '')) || 0;
+                console.log("Valor Actual del debe: ", debeValue);
+                const porcentaje = parseFloat(porcentajeIva[i].value) || 0;
+                const retencion = (debeValue * porcentaje) / 100;
+                ivaRetencion[i].value = formatNumber(retencion);
 
-        // variable para saber si el debe es igual a haber
-        let sumahaber = 0;
+                const baseRetencion = debeValue - retencion;
+                ivaBaseRetencion[i].value = formatNumber(baseRetencion);
 
-        var filas = [];
+                if (!selecIva[i].checked) {
+                    ivaRetencion[i].value = 0;
+                    ivaBaseRetencion[i].value = 0;
+                }
 
+                // Suma todos los valores de los inputs de "input-retencion"
+                let total = 0;
+                for (let j = 0; j < ivaRetencion.length; j++) {
+                    total += parseFloat(ivaRetencion[j].value.replace(/\./g, '').replace(',', '.')) || 0;
+                }
+                totalRetenciones.value = formatNumber(total);
 
-        $("#miTabla tbody tr:gt(0)").each(function() {
+                // Verifica si el total de retenciones es mayor que el valor de "Debe"
+                if (total > debeValue) {
+                    // Revierte los cambios
+                    ivaRetencion[i].value = 0;
+                    ivaBaseRetencion[i].value = 0;
+                    totalRetenciones.value = formatNumber(total - retencion);
+                    showToast();
+                }
+            }
+        }
 
-            var fila = {
-                id_pro: $(this).find("select[name='id_pro_2']").val(),
-                id_ff: $(this).find("select[name='id_ff_2']").val(),
-                id_of: $(this).find("select[name='id_of_2']").val(),
-                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                detalles: $(this).find("input[name='detalles_2']").val(),
-                comprobante: $(this).find("input[name='comprobante_2']").val(),
-                Debe: $(this).find("input[name='Debe_2']").val(),
-                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-            };
-            // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
-            var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
-            sumahaber += valorClonado;
-            filas.push(fila);
+        function formatNumber(num) {
+            return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+    });
+    </script>
+
+</body>
+
+<!-- Script para agregar la retencion desde el boton a la tabla -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Definir el objeto cuentasContables
+    var cuentasContables = <?php echo json_encode($cuentacontable); ?>;
+    // Agregar fila
+    function agregarFila(idCuentaContable, valorRetencion) {
+        // Clonar la fila base
+        var nuevaFila = $("#filaBase").clone();
+
+        // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+        // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+        nuevaFila.find("[id]").removeAttr('id');
+
+        // Agregar una clase a todos los elementos de la fila clonada
+        nuevaFila.find("select, input").addClass("filaClonada");
+
+        // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
+        nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
+
+        // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
+        nuevaFila.find(".formatoNumero").each(function() {
+            // Obtener el campo actual
+            var campo = $(this);
+
+            // Asociar la función formatNumber al evento oninput
+            campo.on('input', function() {
+                formatNumber(campo);
+            });
         });
 
+        // Buscar los datos de la cuenta contable correspondiente
+        var cuentaBuscada = cuentasContables.find(function(cuenta) {
+            return cuenta.IDCuentaContable == idCuentaContable;
+        });
 
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
-            datosFormulario: datosFormulario,
-            filas: filas,
-        };
+        // Verificar si se encontró la cuenta contable
+        if (cuentaBuscada) {
+            // Asignar los valores de la cuenta contable a los campos correspondientes
+            nuevaFila.find(".codigo_cc_2").val(cuentaBuscada
+                .Codigo_CC);
+            nuevaFila.find(".descripcion_cc_2").val(cuentaBuscada
+                .Descripcion_CC);
 
-        var diferenciaActualizada = parseFloat($("#diferencia").text());
-        var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
-        var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
-        var Suma = debe + Totalpagado;
-        var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
-
-
-        if (Suma <= total) {
-
-            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: {
-                        datos: datosCompletos
-                    },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function(response) {
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            // ... (código adicional si es necesario)
-                        }
-                    },
-                    error: function(xhr, status, error) {
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                    }
-                });
-            } else {
-                alert('El debe y el haber son diferentes');
-                return false;
-            }
+            // Asignar el valor al campo #Haber_2 en la fila clonada
+            nuevaFila.find(".haber_reten").val(valorRetencion);
         } else {
-            alert('El Monto Pagado es mayor al Total a Pagar');
+            console.error('Cuenta contable no encontrada para ID:', idCuentaContable);
+        }
+
+        // Asignar el ID de la cuenta contable al valor del campo de entrada oculto
+        nuevaFila.find(".idcuentacontable_2").val(idCuentaContable);
+
+        // Asignamos el valor de la retencion a la fila
+        nuevaFila.find(".haber_reten").val(valorRetencion);
+
+        // Eliminar el atributo 'hidden' de la nueva fila clonada
+        nuevaFila.removeAttr('hidden');
+
+        // Añadir la nueva fila clonada al contenedor de la tabla
+        $("#miTabla").append(nuevaFila);
+    }
+    // Eliminar fila con botón
+    $("#miTabla").on("click", ".eliminarFila", function(e) {
+        e.preventDefault();
+
+        $(this).closest("tr").remove();
+    });
+
+    // Eliminar fila con el check de la retención
+    function eliminarFila(idCuentaContable) {
+        // Encuentra el input oculto con el valor específico y elimina la fila más cercana
+        $("input.idcuentacontable_2").each(function() {
+            if ($(this).val() == idCuentaContable) {
+                $(this).closest("tr").remove();
+            }
+        });
+    }
+
+    function formatNumber(campo) {
+        var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+        }
+    }
+
+    // Controlador de eventos para todos los checkboxes de retención
+    $(".select-retencion").on("change", function() {
+        // Obtener el ID de la cuenta contable del atributo de datos personalizado
+        var idCuentaContable = $(this).data("id-cuenta");
+
+        // Obtener el valor de retención del input asociado
+        var valorRetencion = $('.input-retencion[data-id-cuenta="' + idCuentaContable + '"]').val();
+
+        // Remover los puntos y comas para obtener el número real
+        valorRetencion = valorRetencion.replace(/\./g, '').replace(',', '.');
+        valorRetencion = parseFloat(valorRetencion);
+
+        // Llamar a las funciones agregarFila y eliminarFila con el ID de la cuenta contable y el valor de retención
+        if (this.checked) {
+            agregarFila(idCuentaContable, valorRetencion);
+        } else {
+            eliminarFila(idCuentaContable);
+        }
+    });
+
+});
+</script>
+<!-- Script modal lista de obligaciones (seleccionar) -->
+<script>
+function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
+    deta, comp, cheq, idcuenta, numasio, pagado) {
+
+    var descripcionConPrefijo = 'A.P. ' + descrip;
+    var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
+
+    document.getElementById('ruc').value = ruc;
+    document.getElementById('contabilidad').value = razonSocial;
+    document.getElementById('fecha').value = fechas;
+    document.getElementById('concepto').value = concepto;
+    document.getElementById('Debe').value = debes;
+    document.getElementById('MontoPago').value = montos;
+    document.getElementById('MontoTotal').value = montos;
+    document.getElementById('id_ff').value = fuentes;
+    document.getElementById('id_pro').value = programas;
+    document.getElementById('id_of').value = origens;
+
+    // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
+    const rucInput = document.getElementById('ruc');
+    const retencionSwitch = document.getElementById('retencionSwitch');
+
+    if (rucInput.value.trim() !== "") {
+        retencionSwitch.removeAttribute('disabled');
+    } else {
+        retencionSwitch.setAttribute('disabled', true);
+        retencionSwitch.checked = false;
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +
+            descripcionCodificada,
+        data: {
+            descripcionConPrefijo
+        },
+        success: function(respuesta) {
+            var valores = respuesta.split(',');
+
+            $('#idcuentacontable').val(valores[1]);
+            $('#codigo_cc').val(valores[2]);
+            $('#descripcion_cc').val(valores[3]);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX');
+            console.log('XHR:', xhr);
+            console.log('Status:', status);
+            console.log('Error:', error);
+        }
+    });
+
+    document.getElementById('detalles').value = deta;
+    document.getElementById('comprobante').value = comp;
+    document.getElementById('cheques_che_id').value = cheq;
+    document.getElementById('num_asio').value = numasio;
+    document.getElementById('MontoPago_2').value = pagado;
+}
+
+// Inicializar el estado del switch cuando se cargue la página
+document.addEventListener('DOMContentLoaded', function() {
+    const rucInput = document.getElementById('ruc');
+    const retencionSwitch = document.getElementById('retencionSwitch');
+
+    if (rucInput.value.trim() !== "") {
+        retencionSwitch.removeAttribute('disabled');
+    } else {
+        retencionSwitch.setAttribute('disabled', true);
+        retencionSwitch.checked = false;
+    }
+});
+</script>
+<!-- Script de DataTable de vista  -->
+<script>
+$(document).ready(function() {
+    $('#vistapago').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        order: [
+            [0, 'desc']
+        ], // Ordena la primera columna en orden descendiente
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        }
+    });
+});
+</script>
+
+<!-- script para las fechas -->
+<script>
+// Obtener la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
+function obtenerFechaHoraActual() {
+    const fecha = new Date();
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const año = fecha.getFullYear();
+    return `${año}-${mes}-${dia}`;
+}
+
+// Preestablecer el campo de fecha con la fecha y hora actual
+const fechaInput = document.getElementById('fecha');
+fechaInput.value = obtenerFechaHoraActual();
+</script>
+
+<!-- funcion para mostrar el toast -->
+<script>
+function showToast(message, bgColor, makeTextWhite) {
+    // Seleccionar el toast
+    var toastElement = document.getElementById('toastErrorFila');
+
+    // Animacion para el toast
+    toastElement.setAttribute('data-mdb-animation-init', '');
+    toastElement.setAttribute('data-mdb-animation-reset', 'true');
+    toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
+
+    // Actualizar el mensaje y el color de fondo del toast
+    var toastBody = toastElement.querySelector('.toast-body');
+    toastBody.innerText = message;
+    toastElement.classList.add(bgColor);
+
+    // Hacer el texto del cuerpo blanco si es necesario
+    if (makeTextWhite) {
+        toastBody.classList.add('text-white');
+    }
+
+    // Mostrar el toast
+    var toast = new bootstrap.Toast(toastElement, {
+        animation: true
+    });
+    toast.show();
+}
+</script>
+
+<!-- Script para agregar nuevas filas a la tabla -->
+<script>
+$(document).ready(function() {
+
+    function formatNumber(campo) {
+        var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+        }
+    }
+
+    // Agregar fila
+    $(document).on("click", ".agregarFila", function(e) {
+        e.preventDefault();
+
+        // Clonar la fila base
+        var nuevaFila = $("#filaBase").clone();
+
+        // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+        // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+        nuevaFila.find("[id]").removeAttr('id');
+
+        // Agregar una clase a todos los elementos de la fila clonada
+        nuevaFila.find("select, input").addClass("filaClonada");
+
+        // Limpiar los valores de los campos en la  nueva fila
+        nuevaFila.find("select, input").val("");
+
+        nuevaFila.find(".formatoNumero").each(function() {
+            // Obtener el campo actual
+            var campo = $(this);
+
+            // Asociar la función formatNumber al evento oninput
+            campo.on('input', function() {
+                formatNumber(campo);
+            });
+        });
+
+        // Mostrar la nueva fila
+        nuevaFila.show();
+
+        // Agregar la nueva fila al cuerpo de la tabla
+        $("#miTabla tbody").append(nuevaFila);
+    });
+
+    // Eliminar fila
+    $("#miTabla").on("click", ".eliminarFila", function(e) {
+        e.preventDefault();
+
+        $(this).closest("tr").remove();
+
+    });
+
+});
+</script>
+<!-- Envio de formulario principal -->
+<script>
+$("#formularioPrincipal").on("submit", function(e) {
+
+    //datos que no son de la tabla dinamica
+    var datosFormulario = {
+
+
+        op: $("#op").val(),
+        ruc: $("#ruc").val(),
+        num_asi: $("#num_asi").val(),
+        detalles: $("#detalles").val(),
+        contabilidad: $("#contabilidad").val(),
+        direccion: $("#direccion").val(),
+        telefono: $("#telefono").val(),
+        tesoreria: $("#tesoreria").val(),
+        concepto: $("#concepto").val(),
+        fecha: $("#fecha").val(),
+        idnumasi: $("#num_asio").val(),
+
+        // Agrega más campos según sea necesario
+        id_pro: $("#id_pro").val(),
+        id_ff: $("#id_ff").val(),
+        id_of: $("#id_of").val(),
+        IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
+        MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
+        comprobante: $("#comprobante").val(),
+        Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+        Haber: $("#Haber").val(),
+        cheques_che_id: $("#cheques_che_id").val(),
+
+
+    };
+
+
+    // variable para saber si el debe es igual a haber
+    let sumahaber = 0;
+
+    var filas = [];
+
+
+    $("#miTabla tbody tr:gt(0)").each(function() {
+
+        var fila = {
+            id_pro: $(this).find("select[name='id_pro_2']").val(),
+            id_ff: $(this).find("select[name='id_ff_2']").val(),
+            id_of: $(this).find("select[name='id_of_2']").val(),
+            IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+            detalles: $(this).find("input[name='detalles_2']").val(),
+            comprobante: $(this).find("input[name='comprobante_2']").val(),
+            Debe: $(this).find("input[name='Debe_2']").val(),
+            Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+            cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+        };
+        // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
+        var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
+        sumahaber += valorClonado;
+        filas.push(fila);
+    });
+
+
+    // Combinar datos del formulario principal y de las filas dinámicas
+    var datosCompletos = {
+        datosFormulario: datosFormulario,
+        filas: filas,
+    };
+
+    var diferenciaActualizada = parseFloat($("#diferencia").val());
+    var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
+    var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
+    var Suma = debe + Totalpagado;
+    var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+
+    console.log("diferenciaActualizada: ", diferenciaActualizada);
+    console.log("Totalpagado: ", Totalpagado);
+    console.log("debe: ", debe);
+    console.log("Suma: ", Suma);
+    console.log("total: ", total);
+
+
+    if (Suma <= total) {
+
+        if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                success: function(response) {
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                        // ... (código adicional si es necesario)
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        // ... (código adicional si es necesario)
+                    }
+                },
+                error: function(xhr, status, error) {
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+                }
+            });
+        } else {
+            alert('El debe y el haber son diferentes');
             return false;
         }
+    } else {
+        alert('El Monto Pagado es mayor al Total a Pagar');
+        return false;
+    }
 
 
-        e.stopPropagation();
+    e.stopPropagation();
 
-    });
-    </script>
+});
+</script>
 
-    <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered cuentas-contables">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Buscador de Cuentas Contables</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+<div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cuentas-contables">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
 
-                    <table class="table table-hover table-sm" id="TablaCuentaCont1">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Código de Cuenta</th>
-                                <th>Descripción de Cuenta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-hover table-sm" id="TablaCuentaCont1">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Código de Cuenta</th>
+                            <th>Descripción de Cuenta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cuentacontable as $dato): ?>
+                        <tr class="list-item"
+                            onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                            data-bs-dismiss="modal">
+                            <td>
+                                <?= $dato->IDCuentaContable ?>
+                            </td>
+                            <td>
+                                <?= $dato->Codigo_CC ?>
+                            </td>
+                            <td>
+                                <?= $dato->Descripcion_CC ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-    <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered cuentas-contables">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Buscador de Cuentas Contables</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+<!-- Modal con Bootstrap Cuentas Contables numero 2-->
+<div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cuentas-contables">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
 
-                    <table class="table table-hover table-sm" id="TablaCuentaCont2">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Código de Cuenta</th>
-                                <th>Descripción de Cuenta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-hover table-sm" id="TablaCuentaCont2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Código de Cuenta</th>
+                            <th>Descripción de Cuenta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cuentacontable as $dato): ?>
+                        <tr class="list-item"
+                            onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                            data-bs-dismiss="modal">
+                            <td>
+                                <?= $dato->IDCuentaContable ?>
+                            </td>
+                            <td>
+                                <?= $dato->Codigo_CC ?>
+                            </td>
+                            <td>
+                                <?= $dato->Descripcion_CC ?>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
 
-    <!-- alerta toast -->
-    <div id="toastErrorFila" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
+<!-- alerta toast -->
+<div id="toastErrorFila" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
         </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+            aria-label="Close"></button>
     </div>
+</div>
 
-    <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
-    <script>
-    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Actualizar los campos de texto en la vista principal con los valores seleccionados
-        document.getElementById('idcuentacontable').value = IDCuentaContable;
-        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-        document.getElementById('descripcion_cc').value =
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+<!-- Script destinado al primer modal con bootstrap (seleccionar) -->
+<script>
+function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+    document.getElementById('idcuentacontable').value = IDCuentaContable;
+    document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+    document.getElementById('descripcion_cc').value =
+        Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    }
-    $(document).ready(function() {
-        // Agregar un controlador de eventos de clic al botón
-        $('#openModalBtn_3').on('click', function(event) {
-            // Detener la propagación del evento
-            event.stopPropagation();
-            event.preventDefault();
-            // Tu lógica para abrir el modal aquí si es necesario
-        });
+}
+$(document).ready(function() {
+    // Agregar un controlador de eventos de clic al botón
+    $('#openModalBtn_3').on('click', function(event) {
+        // Detener la propagación del evento
+        event.stopPropagation();
+        event.preventDefault();
+        // Tu lógica para abrir el modal aquí si es necesario
     });
-    </script>
+});
+</script>
 
 
-    <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
-    <script>
-    var currentRow = null;
+<!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
+<script>
+var currentRow = null;
 
-    // Función para abrir el modal de las cuentas contables
-    function openModal_4(currentRowParam) {
+// Función para abrir el modal de las cuentas contables
+function openModal_4(currentRowParam) {
 
-        var modalContainer = document.getElementById('modalCuentasCont2');
+    var modalContainer = document.getElementById('modalCuentasCont2');
 
-        currentRow = currentRowParam; // Almacenar la fila actual
+    currentRow = currentRowParam; // Almacenar la fila actual
 
+}
+
+
+// Función para seleccionar la cuenta contable
+function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Verificar si currentRow está definido y no es null
+    if (currentRow) {
+        // Utilizar currentRow para actualizar los campos
+        currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+        currentRow.find('.codigo_cc_2').val(Codigo_CC);
+        currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+    } else {
+        console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
     }
+}
+
+// Abrir modal en fila dinamica
+const openModalBtn_4 = document.getElementById("openModalBtn_4");
+// Actualiza la función de clic para pasar la fila actual al abrir el modal
+document.getElementById("miTabla").addEventListener("click", function(event) {
+
+    // Encuentra la fila desde la cual se abrió el modal
+    var row = $(event.target).closest('tr');
+    if (
+        (event.target && event.target.className.includes("openModalBtn_4")) ||
+        (event.target && event.target.parentNode && event.target.parentNode.className.includes(
+            "openModalBtn_4"))
+    ) {
+        event.stopPropagation();
+        event.preventDefault();
+        openModal_4(row);
+    }
+});
+</script>
+
+<script>
+// Función para formatear números con separadores de miles y dos decimales
+function formatNumber(inputId) {
+    var input = document.getElementById(inputId);
+    var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+    if (!isNaN(value)) {
+        input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+    }
+}
+</script>
+
+<script>
+function calcularTotalesYDiferencia() {
+    var sumaDebe = 0;
+    var sumaHaber = 0;
 
 
-    // Función para seleccionar la cuenta contable
-    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-            currentRow.find('.codigo_cc_2').val(Codigo_CC);
-            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+    $("#miTabla tbody tr").each(function() {
+        // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+        var valorDebe = $(this).find("input[name*='Debe']").val();
+        var valorHaber = $(this).find("input[name*='Haber']").val();
+        // Realizar reemplazo por separado
+        valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+        valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+        // Convertir a número y sumar
+        sumaDebe += parseFloat(valorDebe) || 0;
+        sumaHaber += parseFloat(valorHaber) || 0;
+    });
 
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+    // Formatear como número con separadores de miles
+    $("#DebeC").val(formatearNumero(sumaDebe));
+    $("#HaberC").val(formatearNumero(sumaHaber));
+    var diferenciaTotal = sumaDebe - sumaHaber;
+    $("#diferencia").val(formatearNumero(diferenciaTotal));
+}
+
+function formatearNumero(numero) {
+    // Asegurarse de que el número es un tipo flotante
+    numero = parseFloat(numero);
+    // Convertir a texto y añadir separadores de miles
+    return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+$(document).ready(function() {
+    $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+});
+</script>
+
+<!-- Script encargado de las tabla de Lista de Obligacion -->
+<script>
+$(document).ready(function() {
+    $('#TablaListaObligacion').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
         }
-    }
+    });
+});
+</script>
 
-    // Abrir modal en fila dinamica
-    const openModalBtn_4 = document.getElementById("openModalBtn_4");
-    // Actualiza la función de clic para pasar la fila actual al abrir el modal
-    document.getElementById("miTabla").addEventListener("click", function(event) {
-
-        // Encuentra la fila desde la cual se abrió el modal
-        var row = $(event.target).closest('tr');
-        if (
-            (event.target && event.target.className.includes("openModalBtn_4")) ||
-            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                "openModalBtn_4"))
-        ) {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal_4(row);
+<!-- script de las tablas de cuentas contables -->
+<script>
+$(document).ready(function() {
+    var table1 = $('#TablaCuentaCont1').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
         }
     });
-    </script>
 
-    <script>
-    // Función para formatear números con separadores de miles y dos decimales
-    function formatNumber(inputId) {
-        var input = document.getElementById(inputId);
-        var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-        if (!isNaN(value)) {
-            input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
+    var table2 = $('#TablaCuentaCont2').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
         }
-    }
-    </script>
-
-    <script>
-    function calcularTotalesYDiferencia() {
-        var sumaDebe = 0;
-        var sumaHaber = 0;
-
-
-        $("#miTabla tbody tr").each(function() {
-            // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-            var valorDebe = $(this).find("input[name*='Debe']").val();
-            var valorHaber = $(this).find("input[name*='Haber']").val();
-            // Realizar reemplazo por separado
-            valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
-            valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
-            // Convertir a número y sumar
-            sumaDebe += parseFloat(valorDebe) || 0;
-            sumaHaber += parseFloat(valorHaber) || 0;
-        });
-
-        // Actualizar los campos y la diferencia
-        $("#DebeC").val(sumaDebe.toFixed(2));
-        $("#HaberC").val(sumaHaber.toFixed(2));
-        var diferenciaTotal = sumaDebe - sumaHaber;
-        $("#diferencia").text(diferenciaTotal.toFixed(2));
-    }
-
-    // Vincular eventos
-    $(document).ready(function() {
-        $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
     });
-    </script>
-    <!-- Script encargado de las tabla de Lista de Obligacion -->
-    <script>
-    $(document).ready(function() {
-        $('#TablaListaObligacion').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-            }
-        });
-    });
-    </script>
+});
+</script>
 
-    <!-- script de las tablas de cuentas contables -->
-    <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont1').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-            }
-        });
+<!-- script para las alertas -->
+<script>
+const toastTrigger = document.getElementById('liveToastBtn')
+const toastLiveExample = document.getElementById('liveToast')
 
-        var table2 = $('#TablaCuentaCont2').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            }
-        });
-    });
-    </script>
+if (toastTrigger) {
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    toastTrigger.addEventListener('click', () => {
+        toastBootstrap.show()
+    })
+}
+</script>
 
-    <!-- script para las alertas -->
-    <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
+<script>
+// Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+document.getElementById('Debe').addEventListener('input', function() {
+    document.getElementById('MontoPago').value = this.value;
+});
+</script>
 
-    if (toastTrigger) {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-        toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
-        })
-    }
-    </script>
 
-    <script>
-    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-    document.getElementById('Debe').addEventListener('input', function() {
-        document.getElementById('MontoPago').value = this.value;
-    });
-    </script>
 
-    <!-- Script de DataTable de jquery -->
-    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
-    <!-- Script de Popper para el toast -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <!-- Script de DataTable de jquery -->
-    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+<!-- Script de DataTable de jquery -->
+<script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+<!-- Script de Popper para el toast -->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<!-- Script de DataTable de jquery -->
+<script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
 </html>

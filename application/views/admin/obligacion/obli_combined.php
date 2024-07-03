@@ -153,8 +153,7 @@
                                                                             <option selected disabled>Seleccione un
                                                                                 nivel...</option>
                                                                             <?php foreach ($niveles as $nv) : ?>
-                                                                            <option
-                                                                                value="<?php echo $nv->id_nivel ?>">
+                                                                            <option value="<?php echo $nv->id_nivel ?>">
                                                                                 <?php echo $nv->nombre_nivel; ?>
                                                                             </option>
                                                                             <?php endforeach; ?>
@@ -546,6 +545,7 @@
                                                             <th>Fecha de Emisión</th>
                                                             <th>Proveedor</th>
                                                             <th>Monto Total</th>
+                                                            <th>STR</th>
                                                             <th>Acciones</th>
                                                         </tr>
                                                     </thead>
@@ -564,6 +564,13 @@
                                                             </td>
                                                             <td>
                                                                 <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                            </td>
+                                                            <td>
+                                                                <?php if ($asien->str > 0): ?>
+                                                                <span class="badge bg-success">Activo</span>
+                                                                <?php else: ?>
+                                                                <span class="badge bg-danger">Inactivo</span>
+                                                                <?php endif; ?>
                                                             </td>
                                                             <td>
                                                                 <div
@@ -752,7 +759,8 @@
                 Haber: $("#Haber").val(),
                 cheques_che_id: $("#cheques_che_id").val(),
                 detalles: $("#detalles").val(),
-                niveles: ($("#niveles").val() !== null) ? $("#niveles").val() : ""//Si no se selecciono un nivel simplemente envia vacio
+                niveles: ($("#niveles").val() !== null) ? $("#niveles").val() :
+                    "" //Si no se selecciono un nivel simplemente envia vacio
             };
 
 
