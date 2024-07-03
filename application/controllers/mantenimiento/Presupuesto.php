@@ -64,6 +64,12 @@ class Presupuesto extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
+	public function pdfs_presu()
+	{
+		$this->load->view("fpdf_presu");
+
+	}
+
 	public function add(){
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
@@ -88,11 +94,11 @@ class Presupuesto extends CI_Controller {
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		
 		$año = $this->input->post("Año");
-		$descripcion = $this->input->post("cuentacontable");
+		$descripcion = $this->input->post("Idcuentacontable");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
-		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento");
+		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
 		$programa_id_pro = $this->input->post("programa_id_pro");
-		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento");
+		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
 		$TotalModificado = $this->input->post("TotalModificado");
 		$mesSeleccionado = $this->input->post('mes');
 		$preMes = $this->input->post("pre_" . $mesSeleccionado);
@@ -102,26 +108,27 @@ class Presupuesto extends CI_Controller {
 
 		echo "Excedente del mes anterior: " . $excedenteMesAnterior . "<br>";
 		$debeMesAnterior = $this->Presupuesto_model->sumarDebePorMes($mesSeleccionado, $descripcion, $origen_de_financiamiento_id_of, $fuente_de_financiamiento_id_ff, $programa_id_pro);
-	
+				
+			// Asegurarse de que $debeMesAnterior sea un número
+				$debeMesAnterior = is_numeric($debeMesAnterior) ? $debeMesAnterior : 0;
 
-		$excedente= $excedenteMesAnterior - $debeMesAnterior;
-	
-		// Sumar el excedente al presupuesto del nuevo mes
-		$preMes += $excedente;
+				$excedente = $excedenteMesAnterior - $debeMesAnterior;
 
+				// Sumar el excedente al presupuesto del nuevo mes
+				$preMes += $excedente;
 		// Obtener la suma del debe del mes anterior
 	
 		// Construir el array de datos para guardar el nuevo presupuesto
 		$data = array(
 			'Año' => $año,
-			'idcuentacontable' => $descripcion,
+			'Idcuentacontable' => $descripcion,
 			'TotalPresupuestado' => $totalpresupuestado,
 			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
 			'programa_id_pro' => $programa_id_pro,
 			'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
 			'TotalModificado' => $TotalModificado,
 			'id_uni_respon_usu' => $id_uni_respon_usu,
-			'estado' => "1"
+			'estado' => "1",
 		);
 	
 		// Añadir valores de los campos de mes al array
@@ -175,7 +182,9 @@ class Presupuesto extends CI_Controller {
 		// Aquí podrías realizar alguna acción adicional si lo necesitas, como redirigir a otra página o mostrar un mensaje de éxito
 		echo "Excedente del mes anterior calculado y sumado al presupuesto del nuevo mes exitosamente.";
 	}
-	
+
+
+
 	public function edit($id){
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);

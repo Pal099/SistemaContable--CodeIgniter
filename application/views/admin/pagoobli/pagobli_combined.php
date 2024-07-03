@@ -43,7 +43,7 @@
                                     <i class='bx bx-edit' style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs_pago')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
@@ -1221,9 +1221,21 @@
                                                                     </button>
                                                                     <button type="button"
                                                                         class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                         <i class="bi bi-trash"></i>
                                                                     </button>
+                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
+                                                                        <i class="bi bi-filetype-pdf"></i>
+                                                                    </button>
+
+                                                                    <script>
+                                                                        function generarPDF(numeroAsiento) {
+                                                                            // Redirige a la URL con el número de asiento
+                                                                            window.location.href = "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" + numeroAsiento;
+                                                                        }
+                                                                    </script>
+
+
                                                                 </div>
                                                             </td>
                                                         </tr>
