@@ -252,7 +252,7 @@
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-sm">
-                <thead>
+                    <thead>
                         <tr>
                             <th>Periodo</th>
                             <th>Programa</th>
@@ -397,13 +397,15 @@
 <script>
 $(document).ready(function() {
 
-function selectPresupuesto(programa_id_pro, fuente_de_financiamiento_id_ff, origen_de_financiamiento_id_of) {
+function selectPresupuesto(rubro, programa_id_pro, fuente_de_financiamiento_id_ff, origen_de_financiamiento_id_of) {
+    $("#rubro").val(rubro);
     $("#programa_id_pro").val(programa_id_pro);
     $("#fuente_de_financiamiento_id_ff").val(fuente_de_financiamiento_id_ff);
     $("#origen_de_financiamiento_id_of").val(origen_de_financiamiento_id_of);
 
     // Actualizar la última fila de la tabla solo con los campos de presupuesto
     var lastRow = $("#tbodyItems tr:last");
+    lastRow.find("td:nth-child(4)").text(rubro);
     lastRow.find("td:nth-child(5)").text(programa_id_pro); // Columna 'Prog.'
     lastRow.find("td:nth-child(6)").text(fuente_de_financiamiento_id_ff); // Columna 'FF'
     lastRow.find("td:nth-child(7)").text(origen_de_financiamiento_id_of); // Columna 'OF'
@@ -494,7 +496,8 @@ $('#modalBienes').on('click', '.list-item', function() {
 
 // Selección de presupuesto de la lista del modal
 $('#modalPresupuestos').on('click', '.list-item', function() {
-    var programa_id_pro = $(this).find('td:eq(2)').text();
+    var rubro = $(this).find('td:eq(1)').text(); 
+    var programa_id_pro = $(this).find('td:eq(3)').text();
     var fuente_de_financiamiento_id_ff = $(this).find('td:eq(4)').text();
     var origen_de_financiamiento_id_of = $(this).find('td:eq(5)').text();
     selectPresupuesto(programa_id_pro, fuente_de_financiamiento_id_ff, origen_de_financiamiento_id_of);
