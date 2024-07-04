@@ -26,7 +26,8 @@
           </div>
           <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes/add'">
+              <button type="button" class="btn btn-primary"
+                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes/add'">
                 <i class="bi bi-plus-circle"></i> Agregar Recepcion de Bienes
               </button>
             </div>
@@ -56,28 +57,37 @@
                               <th>Acciones</th>
                             </tr>
                           </thead>
-                            <?php foreach ($bienes as $bien) : ?>
-                              <td><?php echo $bien->nro; ?></td>
-                              <td><?php echo $bien->fecha; ?></td>
-                              <td><?php echo $bien->plazo; ?></td>
-                              <td><?php echo $proveedores[$bien->id_proveedor]->razon_social; ?></td>
-                              <td><?php echo $bien->monto; ?></td>
-                              <td><?php echo $bien->observacion; ?></td>
-                              <td>
-                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                  <button type="button" class="btn btn-primary btn-view-bienes btn-sm" data-bs-toggle="modal" data-bs-target="#modalBienes" value="<?php echo $bien->IDRecepcionBienes; ?>">
-                                    <span class="fa fa-search"></span>
-                                  </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>suministro/recepcion_bienes/edit/<?php echo $bien->IDRecepcionBienes;?>'">
-                                    <i class="bi bi-pencil-fill"></i>
-                                  </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>suministro/recepcion_bienes/delete/<?php echo$bien->IDRecepcionBienes; ?>'">
-                                    <i class="bi bi-trash"></i>
-                                  </button>
-                                </div>
-                              </td>
-                              </tr>
-                            <?php endforeach; ?>
+                          <?php foreach ($bienes as $bien): ?>
+                            <td><?php echo $bien->nro; ?></td>
+                            <td><?php echo $bien->fecha; ?></td>
+                            <td><?php echo $bien->plazo; ?></td>
+                            <?php
+                            $id_proveedores = array_column($proveedores, 'id');
+                            $index = array_search($bien->id_proveedor, $id_proveedores);
+                            $razon_social = $proveedores[$index]->razon_social;
+                            echo '<td>' . $razon_social . '</td>';
+                            ?>
+                            <td><?php echo $bien->monto; ?></td>
+                            <td><?php echo $bien->observacion; ?></td>
+                            <td>
+                              <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                <button type="button" class="btn btn-primary btn-view-bienes btn-sm"
+                                  data-bs-toggle="modal" data-bs-target="#modalBienes"
+                                  value="<?php echo $bien->IDRecepcionBienes; ?>">
+                                  <span class="fa fa-search"></span>
+                                </button>
+                                <button class="btn btn-warning btn-sm"
+                                  onclick="window.location.href='<?php echo base_url() ?>patrimonio/recepcion_bienes/edit/<?php echo $bien->IDRecepcionBienes; ?>'">
+                                  <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <button class="btn btn-danger btn-remove btn-sm"
+                                  onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes/delete/<?php echo $bien->IDRecepcionBienes; ?>'">
+                                  <i class="bi bi-trash"></i>
+                                </button>
+                              </div>
+                            </td>
+                            </tr>
+                          <?php endforeach; ?>
                         </table>
                       </div>
                     </div>
@@ -139,7 +149,7 @@
 
   <!-- Script de la tabla de presupuesto -->
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       var table1 = $('#TablaRecepcionBienes').DataTable({
         dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
           '<"row"<"col-sm-12"t>>' +
@@ -149,29 +159,29 @@
           ['10', '25', '50', 'Mostrar Todo']
         ],
         buttons: [{
-            extend: 'pageLength',
-            className: 'btn bg-primary border border-0'
-          },
-          {
-            extend: 'copy',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-copy"></i> Copiar',
-          },
-          {
-            extend: 'print',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-printer"></i> Imprimir',
-          },
-          {
-            extend: 'excel',
-            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
-            className: 'btn btn-success',
-          },
-          {
-            extend: 'pdf',
-            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
-            className: 'btn btn-danger',
-          }
+          extend: 'pageLength',
+          className: 'btn bg-primary border border-0'
+        },
+        {
+          extend: 'copy',
+          className: 'btn bg-primary border border-0',
+          text: '<i class="bi bi-copy"></i> Copiar',
+        },
+        {
+          extend: 'print',
+          className: 'btn bg-primary border border-0',
+          text: '<i class="bi bi-printer"></i> Imprimir',
+        },
+        {
+          extend: 'excel',
+          text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdf',
+          text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+          className: 'btn btn-danger',
+        }
         ],
         searching: true,
         info: true,
@@ -184,7 +194,7 @@
 
   <!-- Script para ver los detalles del presupuesto -->
   <script>
-    $('.btn-view-bienes').on('click', function() {
+    $('.btn-view-bienes').on('click', function () {
       // Obtiene el ID del presupuesto desde el valor del botón
       var bienId = $(this).val();
       console.log("Recepcion ID:", bienId);
@@ -193,12 +203,12 @@
       $.ajax({
         type: 'GET',
         url: 'recepcion_bienes/getBienDetalle/' + bienId,
-        success: function(response) {
+        success: function (response) {
           // Se maneja las respuesta acá luego se llama a la funcion de mostrarDetalles si todo es correcto
           var bienDetalle = JSON.parse(response);
           mostrarDetalles(bienDetalle);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
           console.error("Error en la solicitud AJAX:", status, error);
         }
       });
@@ -218,9 +228,9 @@
       $('#nro').text(bienDetalle.nro);
       $('#fecha').text(bienDetalle.fecha);
       $('#plazo').text(bienDetalle.plazo);
-      $('#proveedor').text(bienDetalle.id_proveedor); 
-      $('#monto').text(formatoGuaranies.format(bienDetalle.monto)); 
-      $('#observacion').text(bienDetalle.observacion); 
+      $('#proveedor').text(bienDetalle.id_proveedor);
+      $('#monto').text(formatoGuaranies.format(bienDetalle.monto));
+      $('#observacion').text(bienDetalle.observacion);
     }
   </script>
 
