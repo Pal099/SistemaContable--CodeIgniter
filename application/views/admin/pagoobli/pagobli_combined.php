@@ -396,7 +396,7 @@
                                                                 <td>
                                                                     <div class="input-group input-group-sm  ">
                                                                         <input type="text"
-                                                                            class="form-control border-0 bg-transparent"
+                                                                            class="form-control border-0 bg-transparent debe2"
                                                                             id="Debe_2" name="Debe_2" required>
                                                                     </div>
                                                                 </td>
@@ -1503,6 +1503,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
         nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
+
+        nuevaFila.find(".debe2").val("0");
 
         // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
         nuevaFila.find(".formatoNumero").each(function() {
