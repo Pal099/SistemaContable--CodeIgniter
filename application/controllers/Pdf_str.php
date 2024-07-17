@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pdf extends CI_Controller {
+class Pdf_str extends CI_Controller {
 
     public function index()
     {
@@ -25,7 +25,10 @@ class Pdf extends CI_Controller {
        $pdf->SetFont('Arial','B',12);    
        $textypos = 5;
        $nombreUsuario = $this->session->userdata('Nombre_usuario');
-        $unidadAcademica = $this->Pdf_model->obtenerUnidadAcademicaPorNombreUsuario($nombreUsuario);
+       $unidadAcademica = $this->Pdf_model->obtenerUnidadAcademicaPorNombreUsuario($nombreUsuario);
+       $fuenteFinanciamiento = isset($datosProveedor[0]['fuente_financiamiento']) ? $datosProveedor[0]['fuente_financiamiento'] : 'No disponible';
+       $nombreCuenta = $datosProveedor[0]['Descripcion'];
+
 
 // Ajusta la posición vertical del título
 $pdf->SetY(3);
@@ -140,7 +143,7 @@ $pdf->Cell(5, $textypos, "Financiamiento:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(70);
 $pdf->setX(34);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos,  $fuenteFinanciamiento);
 
 //----------------------------//----------------------------------------
 
@@ -176,13 +179,13 @@ $pdf->Cell(5, $textypos, "Cuenta de Debito:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(65);
 $pdf->setX(140);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos,$nombreCuenta);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(70);
 $pdf->setX(105);
-$pdf->Cell(5, $textypos, "Cuenta de Cresdito:");
+$pdf->Cell(5, $textypos, "Cuenta de Credito:");
 //-----------------------//-------------------------------------------------
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(70);
@@ -241,7 +244,7 @@ $pdf->Cell(5, $textypos, "Sub. Pro");
 $pdf->SetFont('Arial', 'B', 8);
 $pdf->setY(95);
 $pdf->setX(65);
-$pdf->Cell(5, $textypos, "Rubro");
+$pdf->Cell(5, $textypos, "Objeto");
 
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(105);
