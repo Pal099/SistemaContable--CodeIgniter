@@ -91,6 +91,7 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 	public function obtener_datos_presupuesto() {
 		$this->db->select('
+			presupuestos.ID_Presupuesto,
 			origen_de_financiamiento.nombre AS origen_de_financiamiento_id_of,
 			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
 			programa.nombre AS programa_id_pro,
