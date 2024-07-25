@@ -143,7 +143,7 @@
                                                             placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
                                                     <div class="form-group col-md-6">
-                                                        <label for="concepto">Observacion:</label>
+                                                        <label for="concepto">Concepto:</label>
                                                         <input type="text" class="form-control" id="concepto"
                                                             name="concepto" required>
                                                     </div>
@@ -484,6 +484,7 @@
             fecha: $("#fecha").val(),
             id_unidad: $("#id_unidad").val(),
             IDPedidoMaterial: $("#IDPedidoMaterial").val(),
+            concepto: $("#concepto").val(),
             idproveedor: $("#idproveedor").val(),
 
         };
@@ -516,8 +517,8 @@
         };
 
         // Mostrar los datos antes de enviarlos
-        alert("Datos del formulario: " + JSON.stringify(datosCompletos));
-        console.log("Datos del formulario: ", JSON.stringify(datosCompletos));
+        //alert("Datos del formulario: " + JSON.stringify(datosCompletos));
+        //console.log("Datos del formulario: ", JSON.stringify(datosCompletos));
 
         // Enviamos los datos al controlador mediante AJAX
         $.ajax({
