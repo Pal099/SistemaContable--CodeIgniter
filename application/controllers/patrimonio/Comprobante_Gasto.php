@@ -101,6 +101,7 @@ class Comprobante_Gasto extends MY_Controller {
 
 		$id_unidad = $datosFormulario['id_unidad'];
 		$fecha = $datosFormulario['fecha'];
+		$concepto = $datosFormulario['concepto'];
 		$id_proveedor = $datosFormulario['idproveedor'];
 		//$id_presupuesto= $datosFormulario['idpresupuesto'];
 
@@ -117,7 +118,8 @@ class Comprobante_Gasto extends MY_Controller {
 					'fecha' => $fecha,
 					//'idpresupuesto' => $id_presupuesto,
 					'idproveedor' => $id_proveedor,
-					'concepto' => $fila['descripcion'],
+					'descripcion' => $fila['descripcion'],
+					'concepto' => $concepto,
 					'id_item' => $fila['id_item'],
 					'preciounit' => $fila['precioUnit'],
 					'cantidad' => $fila['cantidad'],
