@@ -231,6 +231,22 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="sal_ene">Plan Financiero Enero:</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="sal_ene" name="sal_ene"
+                                                                        value="<?php echo $presupuesto->sal_ene ?>">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="sal_jul">Plan Financiero Diciembre:</label>
+                                                                    <input type="number" class="form-control"
+                                                                        id="sal_jul" name="sal_jul"
+                                                                        value="<?php echo $presupuesto->sal_jul ?>">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
