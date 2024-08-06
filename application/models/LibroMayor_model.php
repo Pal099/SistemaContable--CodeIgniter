@@ -18,41 +18,56 @@ class LibroMayor_model extends CI_Model {
         $this->db->join('cuentacontable cc', 'nad.IDCuentaContable = cc.IDCuentaContable');
     
         // Filtros por fechas
-        if (!empty($fechaInicio) && !empty($fechaFin)) {
+        if (!empty($fechaInicio) && !empty($fechaFin) && $fechaInicio != '-1' && $fechaFin != '-1') {
             $this->db->where('na.FechaEmision >=', $fechaInicio);
             $this->db->where('na.FechaEmision <=', $fechaFin);
         }
     
         // Filtro por cuenta contable
-        if (!empty($idcuentacontable)) {
+        if (!empty($idcuentacontable) && $idcuentacontable != '-1') {
             $this->db->where('nad.IDCuentaContable', $idcuentacontable);
         }
     
         // Filtro por programa
-        if (!empty($idPro)) {
+        if (!empty($idPro) && $idPro != '-1') {
             $this->db->where('na.proyecto', $idPro);
         }
     
         // Filtro por fuente de financiamiento
-        if (!empty($idFf)) {
+        if (!empty($idFf) && $idFf != '-1') {
             $this->db->where('na.id_ff', $idFf);
         }
     
         // Filtro por origen de financiamiento
-        if (!empty($idOf)) {
+        if (!empty($idOf) && $idOf != '-1') {
             $this->db->where('na.id_of', $idOf);
         }
     
         // Filtro por id_form
-        if (!empty($idForm)) {
+        if (!empty($idForm) && $idForm != '-1') {
             $this->db->where('na.id_form', $idForm);
         }
     
         $query = $this->db->get();
     
+        if ($query->num_rows() > 0) {
+            $resultados = $query->result_array();
+            $saldo = 0; // Inicializar saldo fuera del bucle
     
-        if($query->num_rows() > 0){
-            return $query->result_array();
+            foreach ($resultados as &$resultado) {
+                // Determinar el tipo de cuenta basado en el inicio del Codigo_CC
+                if (strpos($resultado['Codigo_CC'], "2") === 0 || strpos($resultado['Codigo_CC'], "3") === 0) {
+                    // Para cuentas que empiezan con "2" o "3"
+                    $saldo += ($resultado['Debe'] - $resultado['Haber']); // Actualiza el saldo
+                } elseif (strpos($resultado['Codigo_CC'], "4") === 0 || strpos($resultado['Codigo_CC'], "8") === 0) {
+                    // Para cuentas que empiezan con "4" o "8"
+                    $saldo += ($resultado['Haber'] - $resultado['Debe']); // Actualiza el saldo
+                }
+                // Agregar el saldo calculado al array del resultado
+                $resultado['Saldo'] = $saldo;
+            }
+    
+            return $resultados;
         } else {
             return null;
         }

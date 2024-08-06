@@ -12,10 +12,6 @@ class Origen extends CI_Controller {
 		$this->load->model("Usuarios_model");
 	}
 
-	protected function middleware()
-    {
-        return ['Sesion'];
-    }
 	//----------------------Index Fuente--------------------------------------------------------
 
 	public function index()
@@ -33,14 +29,17 @@ class Origen extends CI_Controller {
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
 		$data  = array(
-			'origenes' => $this->Origen_model->getOrigenes($id_uni_respon_usu), 
+			'origenes' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 		);
-		$this->load->view("layouts/header");
-		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/origen/listorigen",$data);
-		$this->load->view("layouts/footer");
-
+	
+		
+			$this->load->view("layouts/header");
+			$this->load->view("layouts/sideBar");
+			$this->load->view("admin/origen/listorigen", $data);
+			$this->load->view("layouts/footer");
+		
 	}
+		
     public function add(){
 
 		$this->load->view("layouts/header");
@@ -81,15 +80,15 @@ class Origen extends CI_Controller {
 			$this->add();  
 		}
 	}
-	public function edit($id){
+	public function edit($id_of){
 		$data  = array(
-			'origenes' => $this->Origen_model->getOrigen($id), 
+			'origenes' => $this->Origen_model->getOrigen($id_of), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/origen/editorigen",$data);
 		$this->load->view("layouts/footer");
-		$this->load->view("admin/origen/listorigen/",$data);
+		
 	}
     public function update(){
 		$idOrigen = $this->input->post("idOrigen");
@@ -125,7 +124,7 @@ class Origen extends CI_Controller {
 		$data  = array(
 			'origenes' => $this->Origen_model->getOrigen($id), 
 		);
-		$this->load->view("admin/origen/listorigen/",$data);
+		$this->load->view("admin/origen/vieworigen", $data);
 	}
     public function delete($id){
 		$data  = array(

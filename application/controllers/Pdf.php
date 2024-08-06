@@ -935,7 +935,7 @@ $pdf->Cell(5, $textypos, $nombreUsuario);
 
 //-------------------------------------//-----------------------------------------
 
-        $pdf->Output('Reporte Pago Obligacion.pdf' , 'I' );
+        $pdf->Output('Reporte Obligacion.pdf' , 'I' );
    }
 
 

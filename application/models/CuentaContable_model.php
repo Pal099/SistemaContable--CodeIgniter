@@ -15,6 +15,8 @@ class CuentaContable_model extends CI_Model {
 		return $resultados->result();   
     }
 
+    
+
     public function save($data){
         return $this->db->insert("cuentacontable", $data);
     }
@@ -23,6 +25,23 @@ class CuentaContable_model extends CI_Model {
         $this->db->where("IDCuentaContable", $id);
         $resultado = $this->db->get("cuentacontable");
         return $resultado->row();
+    }
+
+
+
+    public function getCuentaPadre($codigo_cc) {
+        // La lógica para determinar la cuenta padre puede variar
+        // Aquí suponemos que las cuentas padre tienen un código que es un prefijo de las cuentas hijas
+        $codigo_padre = substr($codigo_cc, 0, 4) . '01';
+
+        $this->db->where('Codigo_CC', $codigo_padre);
+        $query = $this->db->get('cuentas_contables');
+
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return null;
+        }
     }
 
     public function update($id, $data){

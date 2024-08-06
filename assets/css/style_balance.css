@@ -1,0 +1,7 @@
+#TablaBalanceGeneral th, #TablaBalanceGeneral td {
+    text-align: center;
+  }
+  
+  #TablaBalanceGeneral td:nth-child(1), #TablaBalanceGeneral td:nth-child(2) {
+    text-align: left;
+}
