@@ -26,7 +26,7 @@ class SyS extends CI_Controller {
         $this->load->view("layouts/footer");
     }
     public function GenerarExcel() {
-        $data['cuentas'] = $this->Balance_Gral_model->obtenerDatosCuentas();
+        $data['cuentas'] = $this->Balance_Gral_model->obtenerDatosCuentasSyS();
         
         foreach ($data['cuentas'] as &$cuenta) {
             $cuentasProcesadas = array(); // Arreglo para evitar duplicados
@@ -73,6 +73,7 @@ class SyS extends CI_Controller {
                 break;
             case '4':
             case '5':
+            case '8':
                 // Para cuentas que comienzan con 4 o 5
                 $cuenta->TotalDeudor = 0;
                 $cuenta->TotalAcreedor = $cuenta->TotalHaber - $cuenta->TotalDebe;
