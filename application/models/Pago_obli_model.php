@@ -266,7 +266,6 @@ public function getCuentasContables($id_uni_respon_usu){
 
 
 
-
 //guardar asientos
 public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
 	$this->db->trans_start();  // Iniciar transacción
@@ -279,40 +278,10 @@ public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
 
 	return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 }
-
-//Aca obtenemos la cuenta contable que está también presupuestada
 public function getCuentaContable() {
-	$this->db->select('cuentacontable.*, presupuestos.*');
-	$this->db->from('cuentacontable');
-	$this->db->join('presupuestos', 'presupuestos.idcuentacontable = cuentacontable.IDCuentaContable', 'left');
-	$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro', 'left');
-	$this->db->where('ing_egr', 'I');
-	$this->db->join('fuente_de_financiamiento ff', 'presupuestos.fuente_de_financiamiento_id_ff = ff.id_ff', 'left');
-	$this->db->join('origen_de_financiamiento of', 'presupuestos.origen_de_financiamiento_id_of = of.id_of', 'left');
-	$query = $this->db->get();
+	$query = $this->db->get("cuentacontable");
 	return $query->result();
 }
-
-
-
-public function getCuenta_Contable() {
-	$this->db->select('cuentacontable.*, presupuestos.*');
-	$this->db->from('cuentacontable');
-	$this->db->join('presupuestos', 'presupuestos.idcuentacontable = cuentacontable.IDCuentaContable', 'left');
-	$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro', 'left');
-	$this->db->where('ing_egr', 'E');
-	$this->db->join('fuente_de_financiamiento ff', 'presupuestos.fuente_de_financiamiento_id_ff = ff.id_ff', 'left');
-	$this->db->join('origen_de_financiamiento of', 'presupuestos.origen_de_financiamiento_id_of = of.id_of', 'left');
-	$query = $this->db->get();
-	return $query->result();
-}
-
-
-
-
-
-
-
 
 
 public function obtener_datos_asiento($numero_asiento = null) {
