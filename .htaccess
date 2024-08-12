@@ -1,8 +1,17 @@
 Options +FollowSymLinks
 Options -Indexes
 DirectoryIndex index.html index.php
+
 RewriteEngine on
+
+# Permitir el acceso directo a archivos y directorios existentes
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Permitir el acceso directo a archivos CSS, JS, imágenes, etc.
+RewriteRule \.(css|js|png|jpg|gif|ico)$ - [L]
+
+# Redirigir el resto a index.php
 RewriteCond $1 !^(index\.php|images|robots\.txt)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /practica/index.php/$1 [L,QSA]
