@@ -30,12 +30,6 @@
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-4">
-                            <div class="form-check form-switch mt-2">
-                                <!-- En este switch se verifica si el strBoolean es verdadero entonces si hay datos de str en ese asiento por lo tanto ya es un STR -->
-                                <input class="form-check-input" type="checkbox" role="switch" id="strSwitch"
-                                    <?= $strBoolean ? 'checked disabled' : '' ?>>
-                                <label class="form-check-label" for="strSwitch">STR</label>
-                            </div>
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
                                     data-bs-target="#modal_proveedores">
@@ -89,37 +83,6 @@
                                                             <input type="text" class="form-control" id="concepto"
                                                                 name="concepto"
                                                                 value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>">
-                                                        </div>
-                                                        <!-- Campo del STR -->
-                                                        <div class="collapse mt-4" id="strCollapse">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <!-- Select de los niveles -->
-                                                                    <div class="col-md-12">
-                                                                        <label for="niveles">Niveles:</label>
-                                                                        <div class="input-group">
-                                                                            <select name="niveles" id="niveles"
-                                                                                class="form-control" required>
-                                                                                <option selected disabled>Seleccione un
-                                                                                    nivel...</option>
-                                                                                <?php foreach ($niveles as $nv) : ?>
-                                                                                <?php $selected = ($nivel_str && $nivel_str->id_nivel == $nv->id_nivel) ? 'selected' : ''; ?>
-                                                                                <option
-                                                                                    value="<?php echo $nv->id_nivel ?>"
-                                                                                    <?php echo $selected; ?>>
-                                                                                    <?php echo $nv->nombre_nivel; ?>
-                                                                                </option>
-                                                                                <?php endforeach; ?>
-                                                                            </select>
-                                                                            <button type="button" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalCuentasCont"
-                                                                                class="btn btn-primary">
-                                                                                <i class="bi bi-search"> Buscar</i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         </div>
                                                         <!-- Campos Opcionales del formulario -->
                                                         <div class="form-group">
@@ -664,10 +627,6 @@
             </div>
     </main>
 
-    <script>
-    console.log(<?php echo json_encode($nivel_str); ?>);
-    </script>
-
     <!-- Modal Proveedores con boostrap -->
     <div class="modal fade mi-modal" id="modal_proveedores" tabindex="-1" aria-labelledby="ModalProveedores"
         aria-hidden="true">
@@ -829,28 +788,6 @@
             // Tu lógica para abrir el modal aquí si es necesario
         });
     });
-    </script>
-
-    <!-- Script para mostrar el campo de STR -->
-    <script>
-    window.onload = function() {
-        var strSwitch = document.getElementById('strSwitch');
-        var strCollapse = new bootstrap.Collapse(document.getElementById('strCollapse'), {
-            toggle: false // Acá evita que muestre apenas se crea el collapse
-        });
-
-        // Se verifica el estado del switch
-        if (strSwitch.checked) {
-            strCollapse.show(); // Muestra los campos si es true
-        } else {
-            strCollapse.hide(); // Los oculta si no 
-        }
-
-        // Cambia el estado al hacer clic en el switch
-        strSwitch.addEventListener('change', function() {
-            strCollapse.toggle(); // Cambia el estado al hacer clic
-        });
-    };
     </script>
 
     <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
@@ -1188,6 +1125,7 @@
     <!-- Envio de formulario principal -->
     <script>
     $("#formularioPrincipal").on("submit", function() {
+
         //validacion de los campos dianmicos para evitar conflictos a la hora de enviar el form
         if ($("#filaEdicion").is(":visible")) {
             var id_pro = $("select[name='id_pro']").val();
@@ -1203,9 +1141,6 @@
             }
         }
 
-        // Obtenemos el estado del swicth que sirve para saber si es un str o no.
-        var strSwitchEstado = $('#strSwitch').is(':disabled') ? 'on' : 'off';
-
         //datos que no son de la tabla dinamica
         var datosFormulario = {
             IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
@@ -1220,8 +1155,6 @@
             tipo_presu: $("#tipo_presupuesto").val(),
             nro_exp: $("#nro_exp").val(),
             total: $("#total").val(),
-            nivel: $("#niveles").val(),
-            strSwitch: strSwitchEstado,
         };
 
         // variable para saber si el debe es igual a haber
@@ -1338,7 +1271,6 @@
         calcularTotalesYDiferencia();
     });
     </script>
-
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
