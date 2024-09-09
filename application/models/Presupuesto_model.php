@@ -22,8 +22,77 @@ class Presupuesto_model extends CI_Model
 		return $resultados->result();
 	}
 
+	
+	public function obtenerTotalPresupuestado($id_cuenta_contable) {
+		$this->db->select_sum('TotalPresupuestado');
+		$this->db->where('Idcuentacontable', $id_cuenta_contable);
+		$query = $this->db->get('presupuestos');
+		
+		$row = $query->row();
+		return ($row) ? $row->TotalPresupuestado : 0;
+	}
 
 
+
+
+	
+	public function obtenerDatosPresupuestoAnterior($idOf, $idFf, $idPro, $idCuentaContable, $mesActual) {
+		// Calculamos el mes anterior al mes actual
+		$mesAnterior = $mesActual - 1;
+		if ($mesAnterior < 1) {
+			$mesAnterior = 12;
+		}
+	
+		// Buscamos el presupuesto correspondiente al mes anterior
+		$this->db->select('pre_ene, pre_feb, pre_mar, pre_abr, pre_may, pre_jun, pre_jul, pre_ago, pre_sep, pre_oct, pre_nov, pre_dic');
+		$this->db->from('presupuestos');
+		$this->db->where('origen_de_financiamiento_id_of', $idOf);
+		$this->db->where('fuente_de_financiamiento_id_ff', $idFf);
+		$this->db->where('programa_id_pro', $idPro);
+		$this->db->where('Idcuentacontable', $idCuentaContable);
+		$this->db->where('estado', '1');
+		$query = $this->db->get();
+		$resultado = $query->row();
+	
+		// Verificamos si hay resultado antes de intentar acceder a sus propiedades
+		if ($resultado) {
+			// Obtenemos el valor correspondiente al mes anterior
+			$valorMesAnterior = $resultado->{'pre_' . $this->obtenerNombreMes($mesAnterior)};
+		} else {
+			$valorMesAnterior = 0; // O cualquier valor que desees devolver si no hay datos
+		}
+	
+		return $valorMesAnterior;
+	}
+	
+	private function obtenerNombreMes($numeroMes) {
+		// Array con los nombres de los meses
+		$nombresMeses = array(
+			1 => 'ene', 2 => 'feb', 3 => 'mar', 4 => 'abr',
+			5 => 'may', 6 => 'jun', 7 => 'jul', 8 => 'ago',
+			9 => 'sep', 10 => 'oct', 11 => 'nov', 12 => 'dic'
+		);
+		// Retornamos el nombre del mes correspondiente al número
+		return $nombresMeses[$numeroMes];
+	}
+	
+
+	public function sumarDebePorMes($mes, $idCuentaContable, $idOf, $idFf, $idPro) {
+		$this->db->select('SUM(nad.Debe) as suma_debe');
+		$this->db->from('num_asi_deta as nad');
+		$this->db->join('num_asi as na', 'nad.Num_Asi_IDNum_Asi = na.IDNum_Asi');
+		$this->db->where('MONTH(na.FechaEmision)', $mes);
+		$this->db->where('nad.IDCuentaContable', $idCuentaContable);
+		$this->db->where('nad.id_of', $idOf);
+		$this->db->where('nad.id_ff', $idFf);
+		$this->db->where('nad.id_pro', $idPro);
+		
+		$query = $this->db->get();
+		$result = $query->row();
+		
+		return ($result) ? $result->suma_debe : 0;
+	}
+	
 
 	public function save($data)
 	{
@@ -34,6 +103,7 @@ class Presupuesto_model extends CI_Model
 	{
 		$this->db->where("ID_Presupuesto", $id);
 		$resultado = $this->db->get("presupuestos");
+		
 		return $resultado->row();
 
 	}

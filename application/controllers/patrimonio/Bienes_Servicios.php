@@ -47,13 +47,12 @@ class Bienes_Servicios extends MY_Controller {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$codigo = $this->input->post("codigo");
 		$rubro = $this->input->post("rubro");
 		$descripcion = $this->input->post("descripcion");
 		$codcatalogo = $this->input->post("codcatalogo");
 		$descripcioncatalogo = $this->input->post("descripcioncatalogo");
 		$precioref = $this->input->post("precioref");
-
+		$codigo = $this->generar_codigo($rubro);
 		$data = array(
 			'codigo' => $codigo,
 			'rubro' => $rubro,
@@ -73,7 +72,17 @@ class Bienes_Servicios extends MY_Controller {
 			redirect(base_url() . "patrimonio/bienes_servicios/add");
 		}
 	}
-	
+	private function generar_codigo($rubro) {
+       
+        $cantidad_registros  = $this->Bienes_Servicios_model->contar_registros_por_rubro($rubro);
+        
+
+        $nuevo_codigo = $rubro . ($cantidad_registros + 1); 
+
+        return $nuevo_codigo;
+    }
+
+
 
 	public function edit($id){
 		$data  = array(

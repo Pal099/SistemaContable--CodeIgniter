@@ -67,13 +67,12 @@ class Balance_Gral extends CI_Controller {
         $primerDigito = substr($cuenta->Codigo_CC, 0, 1);
         switch ($primerDigito) {
             case '2':
-            case '3':
                 // Para cuentas que comienzan con 2 o 3
                 $cuenta->TotalDeudor = $cuenta->TotalDebe - $cuenta->TotalHaber;
                 $cuenta->TotalAcreedor = 0;
                 break;
             case '4':
-            case '5':
+            case '8':
                 // Para cuentas que comienzan con 4 o 5
                 $cuenta->TotalDeudor = 0;
                 $cuenta->TotalAcreedor = $cuenta->TotalHaber - $cuenta->TotalDebe;

@@ -55,6 +55,12 @@ class Presupuesto extends CI_Controller {
 		$this->load->view("layouts/footer");
 	}
 
+	public function pdfs_presu()
+	{
+		$this->load->view("fpdf_presu");
+
+	}
+
 	public function add(){
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
@@ -79,11 +85,11 @@ class Presupuesto extends CI_Controller {
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		
 		$año = $this->input->post("Año");
-		$descripcion = $this->input->post("cuentacontable");
+		$descripcion = $this->input->post("Idcuentacontable");
 		$totalpresupuestado = $this->input->post("TotalPresupuestado");
-		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento");
+		$origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
 		$programa_id_pro = $this->input->post("programa_id_pro");
-		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento");
+		$fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
 		$TotalModificado = $this->input->post("TotalModificado");
 		$mesSeleccionado = $this->input->post('mes');
 		$preMes = $this->input->post("pre_" . $mesSeleccionado);
@@ -92,14 +98,14 @@ class Presupuesto extends CI_Controller {
 		$meses = array('ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic');
 		$data = array(
 			'Año' => $año,
-			'idcuentacontable' => $descripcion,
+			'Idcuentacontable' => $descripcion,
 			'TotalPresupuestado' => $totalpresupuestado,
 			'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
 			'programa_id_pro' => $programa_id_pro,
 			'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
 			'TotalModificado' => $TotalModificado,
 			'id_uni_respon_usu' => $id_uni_respon_usu,
-			'estado' => "1"
+			'estado' => "1",
 		);
 	
 		// Añadir valores de los campos de mes al array
