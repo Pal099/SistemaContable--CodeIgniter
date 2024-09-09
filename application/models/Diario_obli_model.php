@@ -63,16 +63,17 @@ class Diario_obli_model extends CI_Model {
 
 	public function ultimoSTR($id_user) {
 		// Acá obtenemos el id de la unidad académica perteneciente al usuario
-	
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+
 		// Obtenemos el último valor de 'str' para esta unidad académica
 		$this->db->select('num_asi.str');
 		$this->db->from('num_asi');
 		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
-		$this->db->where('usuarios.id_unidad', $id_user);
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
 		$this->db->order_by('num_asi.str', 'desc');
 		$this->db->limit(1);
 		$query = $this->db->get();
-	
+
 		// Verificamos si hay resultados
 		if ($query->num_rows() > 0) {
 			// Extraemos el valor de 'str' del primer resultado
@@ -82,7 +83,7 @@ class Diario_obli_model extends CI_Model {
 			// Si no hay resultados, asignamos un valor predeterminado
 			$last_str = 0; // O cualquier otro valor que desees
 		}
-	
+
 		// Retornamos el valor de 'str'
 		return $last_str;
 	}

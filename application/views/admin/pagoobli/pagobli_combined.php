@@ -442,7 +442,7 @@
                                                         </tbody>
                                                     </table>
                                                     <table id="miTabla2"
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                        class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                         <thead>
                                                             <tr>
                                                                 <th>Debe</th>
@@ -454,11 +454,13 @@
                                                             <tr>
                                                                 <td>
                                                                     <input type="text" id="DebeC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                        class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                        disabled>
                                                                 </td>
                                                                 <td>
                                                                     <input type="text" id="HaberC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                        class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                        disabled>
                                                                 </td>
                                                                 <td>
                                                                     <input type="text" id="diferencia"
@@ -467,6 +469,7 @@
                                                                 </td>
                                                         </tbody>
                                                     </table>
+
                                                     <!-- Tabla de los calculos de retención -->
                                                     <div class="collapse" id="calculoderetencion">
                                                         <div class="card border">
@@ -1188,63 +1191,65 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php if (!empty($asiento)): ?>
-                                                                <?php foreach ($asiento as $asien): ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php echo $asien->num_asi ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->op ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->FechaEmision ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->razon_social ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div
-                                                                                class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#modalPresupuesto"
-                                                                                    value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                                    <span class="fa fa-search"></span>
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-warning btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-pencil-fill"></i>
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-danger btn-remove btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-sm"
-                                                                                    onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
-                                                                                    <i class="bi bi-filetype-pdf"></i>
-                                                                                </button>
+                                                            <?php foreach ($asiento as $asien): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $asien->num_asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->op ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->FechaEmision ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->razon_social ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-sm"
+                                                                            onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
+                                                                            <i class="bi bi-filetype-pdf"></i>
+                                                                        </button>
 
-                                                                                <script>
-                                                                                    function generarPDF(numeroAsiento) {
-                                                                                        // Redirige a la URL con el número de asiento
-                                                                                        window.location.href = "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" + numeroAsiento;
-                                                                                    }
-                                                                                </script>
+                                                                        <script>
+                                                                        function generarPDF(numeroAsiento) {
+                                                                            // Redirige a la URL con el número de asiento
+                                                                            window.location.href =
+                                                                                "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" +
+                                                                                numeroAsiento;
+                                                                        }
+                                                                        </script>
 
 
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php endforeach; ?>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
                                                             <?php else: ?>
-                                                                <p>No se encontraron datos.</p>
+                                                            <p>No se encontraron datos.</p>
                                                             <?php endif; ?>
                                                         </tbody>
                                                     </table>
@@ -1599,20 +1604,20 @@
 </script>
 <!-- Script modal lista de obligaciones (seleccionar) -->
 <script>
-    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, codigo, descrip,
-        deta, comp, cheq, idcuenta, numasio, pagado) {
+function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, codigo, descrip,
+    deta, comp, cheq, idcuenta, numasio, pagado) {
 
 
-        document.getElementById('ruc').value = ruc;
-        document.getElementById('contabilidad').value = razonSocial;
-        document.getElementById('fecha').value = fechas;
-        document.getElementById('concepto').value = concepto;
-        document.getElementById('MontoPago').value = montos;
-        document.getElementById('MontoTotal').value = montos;
-        document.getElementById('Debe').value = debes;
-        document.getElementById('id_ff').value = fuentes;
-        document.getElementById('id_pro').value = programas;
-        document.getElementById('id_of').value = origens;
+    document.getElementById('ruc').value = ruc;
+    document.getElementById('contabilidad').value = razonSocial;
+    document.getElementById('fecha').value = fechas;
+    document.getElementById('concepto').value = concepto;
+    document.getElementById('MontoPago').value = montos;
+    document.getElementById('MontoTotal').value = montos;
+    document.getElementById('Debe').value = debes;
+    document.getElementById('id_ff').value = fuentes;
+    document.getElementById('id_pro').value = programas;
+    document.getElementById('id_of').value = origens;
 
         // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
         const rucInput = document.getElementById('ruc');
@@ -1625,15 +1630,15 @@
             retencionSwitch.checked = false;
         }
 
-        document.getElementById('codigo_cc').value = codigo;
-        document.getElementById('descripcion_cc').value = descrip;
-        document.getElementById('detalles').value = deta;
-        document.getElementById('comprobante').value = comp;
-        document.getElementById('cheques_che_id').value = cheq;
-        document.getElementById('idcuentacontable').value = idcuenta;
-        document.getElementById('num_asio').value = numasio;
-        document.getElementById('MontoPago_2').value = pagado;
-    }
+    document.getElementById('codigo_cc').value = codigo;
+    document.getElementById('descripcion_cc').value = descrip;
+    document.getElementById('detalles').value = deta;
+    document.getElementById('comprobante').value = comp;
+    document.getElementById('cheques_che_id').value = cheq;
+    document.getElementById('idcuentacontable').value = idcuenta;
+    document.getElementById('num_asio').value = numasio;
+    document.getElementById('MontoPago_2').value = pagado;
+}
 
     // Inicializar el estado del switch cuando se cargue la página
     document.addEventListener('DOMContentLoaded', function () {

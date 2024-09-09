@@ -81,8 +81,8 @@ class Pago_de_obligaciones extends CI_Controller
 			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
-			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu), //Aqui trabajamos con la columna ingr_egr, valor I
-			'cuentacontable_E' => $this->Pago_obli_model->getCuenta_Contable($id_uni_respon_usu),
+			'cuentacontable' => $this->Pago_obli_model->getCuentaContable(), //Aqui trabajamos con la columna ingr_egr, valor I
+			'cuentacontable_E' => $this->Pago_obli_model->getCuentaContable(),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
 		);
