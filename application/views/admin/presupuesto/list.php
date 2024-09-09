@@ -8,102 +8,96 @@
 </head>
 
 <body>
-    <main id="main" class="content">
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Presupuesto</li>
-                <li class="breadcrumb-item active">Listado Presupuesto</li>
-            </ol>
-        </nav>
-        <!-- Contenedor de los componentes -->
-        <div class="container-fluid bg-white border rounded-3">
-            <!-- Encabezado -->
-            <div class="pagetitle">
-                <div class="container-fluid d-flex flex-row justify-content-between">
-                    <div class="col-md-6 mt-4">
-                        <h1>Listado de Presupuestos</h1>
-                    </div>
-                    <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="button" class="btn btn-primary"
-                                onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/add'">
-                                <i class="bi bi-plus-circle"></i> Agregar Presupuesto
-                            </button>
-                        </div>
-                    </div>
-                </div>
+  <main id="main" class="content">
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
+        <li class="breadcrumb-item">Presupuesto</li>
+        <li class="breadcrumb-item active">Listado Presupuesto</li>
+      </ol>
+    </nav>
+    <!-- Contenedor de los componentes -->
+    <div class="container-fluid bg-white border rounded-3">
+      <!-- Encabezado -->
+      <div class="pagetitle">
+        <div class="container-fluid d-flex flex-row justify-content-between">
+          <div class="col-md-6 mt-4">
+            <h1>Listado de Presupuesto</h1>
+          </div>
+          <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/add'">
+                <i class="bi bi-plus-circle"></i> Agregar Presupuesto
+              </button>
+              <button type="button" class="btn btn-danger" title="Generar PDF"
+                                    onclick="window.open('<?php echo base_url(); ?>mantenimiento/Presupuesto/pdfs_presu')">
+                                    <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
+                                </button>
             </div>
-            <!-- Fin del Encabezado -->
-            <hr> <!-- barra separadora -->
-            <section class="seccion_tabla">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="container-fluid mt-2">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12">
-                                    <div class="card border">
-                                        <div class="card-body mt-4">
-                                            <div class="table-responsive">
-                                                <table id="TablaPresupuesto"
-                                                    class="table table-hover table-sm rounded-3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Fecha</th>
-                                                            <th>Descripcion</th>
-                                                            <th>Presupuesto Inicial</th>
-                                                            <th>Origen de financiamiento</th>
-                                                            <th>Fuente de financiamiento</th>
-                                                            <th>Programa</th>
-                                                            <th>Total modificado</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
-                                                    <?php foreach ($presupuestos as $presupuesto) : ?>
-                                                    <td><?php echo $presupuesto->Año; ?></td>
-                                                    <td><?php echo $presupuesto->Idcuentacontable; ?></td>
-                                                    <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
-                                                    </td>
-                                                    <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
-                                                    <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
-                                                    <td><?php echo $presupuesto->programa; ?></td>
-                                                    <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                            <button type="button"
-                                                                class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#modalPresupuesto"
-                                                                value="<?php echo $presupuesto->ID_Presupuesto; ?>">
-                                                                <span class="fa fa-search"></span>
-                                                            </button>
-                                                            <button class="btn btn-warning btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
-                                                                <i class="bi bi-pencil-fill"></i>
-                                                            </button>
-                                                            <button class="btn btn-danger btn-remove btn-sm"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                    </tr>
-                                                    <?php endforeach; ?>
-                                                    <?php endif; ?>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+          </div>
         </div>
-    </main>
+      </div>
+      <!-- Fin del Encabezado -->
+      <hr> <!-- barra separadora -->
+      <section class="seccion_tabla">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="container-fluid mt-2">
+              <div class="row justify-content-center">
+                <div class="col-md-12">
+                  <div class="card border">
+                    <div class="card-body mt-4">
+                      <div class="table-responsive">
+                        <table id="TablaPresupuesto" class="table table-hover table-sm rounded-3">
+                          <thead>
+                            <tr>
+                              <th>Fecha</th>
+                              <th>Descripcion</th>
+                              <th>Presupuesto Inicial</th>
+                              <th>Origen de financiamiento</th>
+                              <th>Fuente de financiamiento</th>
+                              <th>Programa</th>
+                              <th>Total modificado</th>
+                              <th>Acciones</th>
+                            </tr>
+                          </thead>
+                          <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
+                            <?php foreach ($presupuestos as $presupuesto) : ?>
+                              <td><?php echo $presupuesto->Año; ?></td>
+                              <td><?php echo $presupuesto->Idcuentacontable; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
+                              <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
+                              <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
+                              <td><?php echo $presupuesto->programa; ?></td>
+                              <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
+                              <td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                  <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm" data-bs-toggle="modal" data-bs-target="#modalPresupuesto" value="<?php echo $presupuesto->ID_Presupuesto; ?>">
+                                    <span class="fa fa-search"></span>
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
+                              </tr>
+                            <?php endforeach; ?>
+                          <?php endif; ?>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 
     <!-- script para ver los presupuestos modal -->
     <div class="modal fade mi-modal" id="modalPresupuesto" tabindex="-1" aria-labelledby="ModalVerPresupuesto"

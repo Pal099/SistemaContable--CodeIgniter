@@ -25,6 +25,19 @@ class CuentaContable extends CI_Controller {
         $this->load->view('layouts/footer');
     }
 
+    public function getCuentaPadre() {
+        $codigo_cc = $this->input->get('codigo_cc');
+
+        // Obtener la cuenta padre desde el modelo
+        $cuentaPadre = $this->CuentaContableModel->getCuentaPadre($codigo_cc);
+
+        if ($cuentaPadre) {
+            echo json_encode(array('success' => true, 'cuentaPadre' => $cuentaPadre));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Cuenta padre no encontrada'));
+        }
+    }
+
     public function add() {
         $tipo = $this->input->get('tipo');  // Obtener el tipo seleccionado desde la URL
         $data = array(

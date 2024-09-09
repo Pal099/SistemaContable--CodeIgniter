@@ -9,6 +9,7 @@ class Comprobante_Gasto extends MY_Controller {
 	//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Comprobante_Gasto_model");
 		$this->load->model("Bienes_Servicios_model");
+		$this->load->model("Presupuesto_model");
 		$this->load->library('session');
 		$this->load->model("Usuarios_model");
 		$this->load->model("Proveedores_model");
@@ -69,12 +70,15 @@ class Comprobante_Gasto extends MY_Controller {
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		
 		$data  = array(
+			'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
 			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
+			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -82,47 +86,61 @@ class Comprobante_Gasto extends MY_Controller {
 		$this->load->view("layouts/footer");
 	}
 
-	public function store() {
-		$nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+
+	public function store()
+	{
+		header('Access-Control-Allow-Origin: *');
+		$datosCompletos = $this->input->post('datos');
+		$datosFormulario = $datosCompletos['datosFormulario'];
+
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$id_unidad = $this->input->post("id_unidad");
-		$fecha = $this->input->post("fecha");
-		$idproveedor = $this->input->post("idproveedor");
-		$monto = $this->input->post("monto");
-		$concepto = $this->input->post("concepto");
-		$aprobado = $this->input->post("aprobado");
-		$id_ff = $this->input->post("id_ff");
-		$obl = $this->input->post("obl");
-		$str = $this->input->post("str");
-		$op = $this->input->post("op");
 
-		
-		
-		$concepto = $this->input->post("concepto");
+		// Recopilar datos generales del pedido
 
-			$data = array(
-				'id_unidad' => $id_unidad,
-				'fecha' => $fecha,
-				'aprobado' => $aprobado,
-				'idproveedor' => $idproveedor,
-				'monto' => $monto,
-				'concepto' => $concepto,
-				'id_ff' => $id_ff,
-				'obl' => $obl,
-				'str' => $str,
-				'op' => $op,
-				'id_uni_respon_usu' => $id_uni_respon_usu,
-				'estado' => "1",
-				
-			);
-	
-			if ($this->Comprobante_Gasto_model->save($data)) {
-				redirect(base_url() . "patrimonio/comprobantegasto");
-			} else {
-				$this->session->set_flashdata("error", "No se pudo guardar la información");
-				redirect(base_url() . "patrimonio/comprobantegasto/add");
+		$id_unidad = $datosFormulario['id_unidad'];
+		$fecha = $datosFormulario['fecha'];
+		$concepto = $datosFormulario['concepto'];
+		$id_proveedor = $datosFormulario['idproveedor'];
+		//$id_presupuesto= $datosFormulario['idpresupuesto'];
+
+		if ($this->input->is_ajax_request()) {
+
+			$datosFormulario = $datosCompletos['filas'];
+			$filas = $datosCompletos['filas'];
+
+			foreach ($filas as $fila) {
+				// Ejemplo de cómo podrías procesar una fila
+				$dataPedido = array(
+					'id_pedido'=> $fila['id_pedido'], // Ajusta el nombre según tus datos
+					'id_unidad' => $id_unidad,
+					'fecha' => $fecha,
+					//'idpresupuesto' => $id_presupuesto,
+					'idproveedor' => $id_proveedor,
+					'descripcion' => $fila['descripcion'],
+					'concepto' => $concepto,
+					'id_item' => $fila['id_item'],
+					'preciounit' => $fila['precioUnit'],
+					'cantidad' => $fila['cantidad'],
+					'iva' => $fila['iva'],
+					'porcentaje_iva' => $fila['piva'],
+ 					'exenta' => $fila['exenta'],
+					'gravada' => $fila['gravada'],
+					'id_uni_respon_usu' => $id_uni_respon_usu,
+					'estado' => "1",
+				);
+
+				$this->Comprobante_Gasto_model->save($dataPedido);
+
+
 			}
+
+			echo "success";
+		} else {
+			$this->session->set_flashdata("error", "No se pudo guardar la información");
+			return redirect(base_url() . "patrimonio/comprobantegasto/add");
+		}
 	}
 	
 
@@ -142,7 +160,6 @@ class Comprobante_Gasto extends MY_Controller {
 		$fecha = $this->input->post("fecha");
 		$idproveedor = $this->input->post("idproveedor");
 		$aprobado= $this->input->post("aprobado"); 
-		$monto= $this->input->post("monto");
 		$concepto= $this->input->post("concepto");
 		$aprobado = $this->input->post("aprobado");
 		$id_ff = $this->input->post("id_ff");
@@ -157,7 +174,6 @@ class Comprobante_Gasto extends MY_Controller {
 				'fecha' => $fecha,
 				'aprobado' => $aprobado,	
 				'idproveedor' => $idproveedor,
-				'monto' => $monto,
 				'concepto' => $concepto,
 				'id_ff' => $id_ff,
 				'obl' => $obl,

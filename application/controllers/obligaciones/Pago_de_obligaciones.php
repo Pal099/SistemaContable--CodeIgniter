@@ -15,6 +15,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->model("ProgramGasto_model");
 		$this->load->model("Pago_obli_model");
 		$this->load->model("Diario_obli_model");
+		$this->load->model("Cdp_model");
 		$this->load->model("Usuarios_model");
 		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 
@@ -35,6 +36,11 @@ class Pago_de_obligaciones extends CI_Controller
 		//esa id es importante para hacer las relaciones y registros por usuario
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
+		 // Obtener datos de asiento por búsqueda
+		 $numero_asiento = obtener_numero_asiento(); // Debes proporcionar una forma de obtener el número de asiento
+		 $data['dato_saldo'] = $this->Cdp_model->obtener_datos_asiento($numero_asiento); // Obtener saldo presupuestario
+	 
+
 		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu); // Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
 		$data['programa'] = $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu);
@@ -42,6 +48,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$data['fuente_de_financiamiento'] = $this->Pago_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Pago_obli_model->getOrigenes($id_uni_respon_usu);
 		$data['cuentacontable'] = $this->Pago_obli_model->getCuentasContables($id_uni_respon_usu);
+
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -56,8 +63,14 @@ class Pago_de_obligaciones extends CI_Controller
 
 	}
 
+	
+	
+
 	public function add()
 	{
+				// Obtener datos de asiento por búsqueda
+				$numero_asiento = $this->input->get('numero_asiento');
+				$data_saldo['dato_saldo'] = $this->Cdp_model->obtener_datos_asiento($numero_asiento); // Obtener saldo presupuestario
 
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
@@ -68,7 +81,8 @@ class Pago_de_obligaciones extends CI_Controller
 			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
-			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
+			'cuentacontable' => $this->Pago_obli_model->getCuentaContable(), //Aqui trabajamos con la columna ingr_egr, valor I
+			'cuentacontable_E' => $this->Pago_obli_model->getCuentaContable(),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
 		);
@@ -236,30 +250,6 @@ class Pago_de_obligaciones extends CI_Controller
 	}
 
 
-	public function obtenerInformacionPorDescripcion()
-	{
-		// Obtener la descripción desde la URL
-		$descripcionConPrefijo = urldecode($_GET['descripcion']);
-		//$descripcionConPrefijo2 = urldecode($_GET['descripcion2']);
-		// Utilizar la descripción completa con el prefijo "A.P."
-		$descripcion = $descripcionConPrefijo;
-		//$descripcion2 = $descripcionConPrefijo2;
-
-		// Aquí deberías utilizar tu lógica para obtener información basada en la descripción desde la base de datos
-		$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion);
-	
-		/*if (is_null($informacion['IDCuentaContable'])) {
-			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
-		}^*/
-		
-
-		if ($informacion) {
-			// Imprimir los valores directamente
-			echo $informacion . ',' . $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];
-		} else {
-			echo 'No se pudo obtener la información.';
-		}
-	}
 
 
 	public function edit($id)
