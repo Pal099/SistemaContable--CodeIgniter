@@ -473,7 +473,7 @@
                 var options = {
                     head: [
                         ['Fecha', 'N° Asiento', 'N° OP',
-                            'Debe', 'Haber','Saldo Anterior', 'Saldo', 'Cuenta Contable', 'Descripción', 'Comprobante'
+                            'Comprobante', 'Descripción','Debe', 'Haber', 'Saldo Anterior', 'Saldo', 'Cuenta Contable'
                         ]
                     ],
                     body: tableData,
