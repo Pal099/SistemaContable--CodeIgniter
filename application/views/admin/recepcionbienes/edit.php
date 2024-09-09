@@ -45,17 +45,21 @@
                     <div class="card border">
                       <div class="card-body">
                         <div class="row g-3 align-items-center mt-2">
-                          <input type="hidden" value="<?php echo $bienes->IDRecepcionBienes;?>" name="IDRecepcionBienes">
+                          <input type="hidden" value="<?php echo $bienes->IDRecepcionBienes; ?>"
+                            name="IDRecepcionBienes">
 
                           <div class="form-group col-md-4">
                             <label for="nro">Nro. de Orden:</label>
-                            <input type="number" class="form-control" id="nro" name="nro" value="<?php echo $bienes->nro?>" required>
+                            <input type="number" class="form-control" id="nro" name="nro"
+                              value="<?php echo $bienes->nro ?>" required>
                           </div>
                           <div class="form-group col-md-4">
                             <label for="Unidad">Unidad:</label>
-                            <input type="text" class="form-control columna-hidden" id="id_Unidad" name="id_Unidad"  value="<?php echo $bienes->id_unidad?>">
+                            <input type="text" class="form-control columna-hidden" id="id_Unidad" name="id_Unidad"
+                              value="<?php echo $bienes->id_unidad ?>">
                             <div style="display: flex; align-items: center;">
-                              <input type="text" class="form-control" id="Unidad" name="Unidad"  value="<?php echo $unidad->unidad?>">
+                              <input type="text" class="form-control" id="Unidad" name="Unidad"
+                                value="<?php echo $unidad->unidad ?>">
                               <button type="button" data-bs-toggle="modal" data-bs-target="#modalContainer_unidad"
                                 class="btn btn-primary">
                                 <i class="bi bi-search"> </i>
@@ -64,10 +68,11 @@
                           </div>
                           <div class="form-group col-md-4">
                             <label for="Proveedor">Proveedor:</label>
-                            <input type="text" class="form-control columna-hidden" id="id_Proveedor"
-                              name="id_Proveedor" value="<?php echo $bienes->id_proveedor?>">
+                            <input type="text" class="form-control columna-hidden" id="id_Proveedor" name="id_Proveedor"
+                              value="<?php echo $bienes->id_proveedor ?>">
                             <div style="display: flex; align-items: center;">
-                              <input type="text" class="form-control" id="Proveedor" name="Proveedor" value="<?php echo $proveedores->razon_social?>">
+                              <input type="text" class="form-control" id="Proveedor" name="Proveedor"
+                                value="<?php echo $proveedores->razon_social ?>">
                               <button type="button" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores"
                                 class="btn btn-primary">
                                 <i class="bi bi-search"> </i>
@@ -78,19 +83,20 @@
                           <div class="form-group col-md-4">
                             <label for="fecha">Fecha</label>
                             <input type="date" class="form-control" id="fecha" name="fecha" placeholder="Ej. YYYY/MM/DD"
-                              required value="<?php echo $bienes->fecha?>">
+                              required value="<?php echo $bienes->fecha ?>">
                           </div>
                           <div class="form-group col-md-4">
                             <label for="plazo">Plazo</label>
                             <input type="date" class="form-control" id="plazo" name="plazo" placeholder="Ej. YYYY/MM/DD"
-                              required value="<?php echo $bienes->plazo?>">
+                              required value="<?php echo $bienes->plazo ?>">
                           </div>
                           <div class="form-group col-md-4">
                             <label for="Dependencia">Dependencia:</label>
                             <input type="text" class="form-control columna-hidden" id="id_Dependencia"
-                              name="id_Dependencia"  value="<?php echo $bienes->id_dependencia?>">
+                              name="id_Dependencia" value="<?php echo $bienes->id_dependencia ?>">
                             <div style="display: flex; align-items: center;">
-                              <input type="text" class="form-control" id="Dependencia" name="Dependencia" value="<?php echo $dependencia->dependencia?>">
+                              <input type="text" class="form-control" id="Dependencia" name="Dependencia"
+                                value="<?php echo $dependencia->dependencia ?>">
                               <button type="button" data-bs-toggle="modal" data-bs-target="#modalContainer_dependencia"
                                 class="btn btn-primary">
                                 <i class="bi bi-search"> </i>
@@ -100,9 +106,10 @@
                           <div class="form-group col-md-6">
                             <label for="Funcionario">Funcionario:</label>
                             <input type="text" class="form-control columna-hidden" id="id_Funcionario"
-                              name="id_Funcionario" value="<?php echo $bienes->id_funcionario?>" >
+                              name="id_Funcionario" value="<?php echo $bienes->id_funcionario ?>">
                             <div style="display: flex; align-items: center;">
-                              <input type="text" class="form-control" id="Funcionario" name="Funcionario" value="<?php echo $funcionarios->funcionario?>">
+                              <input type="text" class="form-control" id="Funcionario" name="Funcionario"
+                                value="<?php echo $funcionarios->funcionario ?>">
                               <button type="button" data-bs-toggle="modal" data-bs-target="#modalContainer_funcionario"
                                 class="btn btn-primary">
                                 <i class="bi bi-search"> </i>
@@ -111,7 +118,8 @@
                           </div>
                           <div class="form-group col-md-6">
                             <label for="concepto">Observacion:</label>
-                            <input type="text" class="form-control" id="observacion" name="observacion" required value="<?php echo $bienes->observacion?>">
+                            <input type="text" class="form-control" id="observacion" name="observacion" required
+                              value="<?php echo $bienes->observacion ?>">
                           </div>
                         </div>
                       </div>
@@ -144,43 +152,44 @@
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent"
-                                            id="idcomprobante" name="idcomprobante" value="<?php echo $bienes->id_comprobante?>"  readonly>
+                                            id="idcomprobante" name="idcomprobante"
+                                            value="<?php echo $bienes->id_comprobante ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="date" class="form-control border-0 bg-transparent" id="fechaT"
-                                            name="fechaT" value="<?php echo $comprobantes->fecha?>" readonly>
+                                            name="fechaT" value="<?php echo $comprobantes->fecha ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent" id="concepto"
-                                            name="concepto" value="<?php echo $comprobantes->concepto?>" readonly>
+                                            name="concepto" value="<?php echo $comprobantes->concepto ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent" id="obl"
-                                            name="obl"  value="<?php echo $comprobantes->obl?>" readonly>
+                                            name="obl" value="<?php echo $comprobantes->obl ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent" id="str"
-                                            name="str"  value="<?php echo $comprobantes->str?>" readonly>
+                                            name="str" value="<?php echo $comprobantes->str ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent" id="op"
-                                            name="op"  value="<?php echo $comprobantes->op?>" readonly>
+                                            name="op" value="<?php echo $comprobantes->op ?>" readonly>
                                         </div>
                                       </td>
                                       <td>
                                         <div class="input-group input-group-sm align-items-center  ">
                                           <input type="text" class="form-control border-0 bg-transparent" id="monto"
-                                            name="monto" value="<?php echo $comprobantes->monto?>" >
+                                            name="monto" value="<?php echo $comprobantes->monto ?>">
                                         </div>
                                       </td>
                                       <td>
@@ -291,7 +300,7 @@
       <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Lista de Funcionarios</h5>
+            <h5 class="modal-title">Lista de Unidades</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -345,7 +354,7 @@
             <table id="TablaDependencia" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th class="columna-hidden"></th>
+                  <th></th>
                   <th>#</th>
                   <th>Dependencia</th>
                 </tr>
@@ -355,7 +364,7 @@
                   <tr class="list-item"
                     onclick="selectDep('<?= $dependencia->dependencia_id ?>', '<?= $dependencia->dependencia ?>')"
                     data-bs-dismiss="modal">
-                    <td class="columna-hidden">
+                    <td>
                       <?= $dependencia->dependencia_id ?>
                     </td>
                     <td>
@@ -460,10 +469,8 @@
               </thead>
               <tbody>
                 <?php foreach ($compro as $index => $comp): ?>
-                  <tr class="list-item"
-                    onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
-                    , '<?= $comp->str ?>', '<?= $comp->op ?>')"
-                    data-bs-dismiss="modal">
+                  <tr class="list-item" onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
+                    , '<?= $comp->str ?>', '<?= $comp->op ?>')" data-bs-dismiss="modal">
                     <td>
                       <?= $comp->IDComprobanteGasto ?>
                     </td>
@@ -589,7 +596,8 @@
       });
     </script>
 
-
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 
 
   </main>

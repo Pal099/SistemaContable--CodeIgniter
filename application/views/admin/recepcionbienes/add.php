@@ -5,7 +5,13 @@
   <link href="<?php echo base_url(); ?>/assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
   <!-- Estilos de DataTable de jquery -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-
+  <style>
+    /* Estilo para ocultar la columna */
+    table.dataTable td.hidden,
+    table.dataTable th.hidden {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
@@ -228,7 +234,7 @@
             <table id="TablaProveedores" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th class="columna-hidden"></th>
+                  <th></th>
                   <th>#</th>
                   <th>Ruc</th>
                   <th>Razón Social</th>
@@ -243,7 +249,7 @@
                   <tr class="list-item"
                     onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->razon_social ?>')"
                     data-bs-dismiss="modal">
-                    <td class="columna-hidden">
+                    <td>
                       <?= $proveedor->id ?>
                     </td>
                     <td>
@@ -297,9 +303,8 @@
             <table id="TablaUnidad" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th class="columna-hidden"></th>
-                  <th class="columna-hidden"></th>
                   <th>#</th>
+                  <th>ID</th>
                   <th>Unidad</th>
                 </tr>
               </thead>
@@ -307,11 +312,12 @@
                 <?php foreach ($unidad as $index => $unidad): ?>
                   <tr class="list-item" onclick="selectUni('<?= $unidad->id_unidad ?>', '<?= $unidad->unidad ?>')"
                     data-bs-dismiss="modal">
-                    <td class="columna-hidden">
-                      <?= $unidad->id_unidad ?>
-                    </td>
+                    
                     <td>
                       <?= $index + 1 ?>
+                    </td>
+                    <td >
+                      <?= $unidad->id_unidad ?>
                     </td>
                     <td>
                       <?= $unidad->unidad ?>
@@ -460,10 +466,8 @@
               </thead>
               <tbody>
                 <?php foreach ($comprobantes as $index => $comp): ?>
-                  <tr class="list-item"
-                    onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
-                    , '<?= $comp->str ?>', '<?= $comp->op ?>')"
-                    data-bs-dismiss="modal">
+                  <tr class="list-item" onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
+                    , '<?= $comp->str ?>', '<?= $comp->op ?>')" data-bs-dismiss="modal">
                     <td>
                       <?= $comp->IDComprobanteGasto ?>
                     </td>
@@ -514,7 +518,7 @@
 
 
 
-   
+
 
     <!-- Script encargado de las tablas de proveedores -->
     <script>
@@ -589,7 +593,8 @@
         });
       });
     </script>
-
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 
 
 
