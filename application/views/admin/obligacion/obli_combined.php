@@ -671,7 +671,7 @@
 
 
 
-   <!-- Modal Comprobante de gastos con boostrap -->
+   <!-- Modal Comprobante de gastos con boostrap, le saqué lo de monto y str para que funcione, ver para que funcione con eso-->
    <div class="modal fade mi-modal" id="modalContainer_comprobante" tabindex="-1"
             aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
@@ -690,16 +690,15 @@
                                     <th>Ruc</th>
                                     <th>Razon Social</th>
                                     <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>STR</th>
-                                </tr>
+                            
                             </thead>
+                            
                             <tbody>
                                 <?php foreach ($comprobante as $index => $comprob): ?>
                                 <tr class="list-item"
                                     onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
-                                    '<?= $comprob->razon_social ?>', '<?= $comprob->concepto?>', 
-                                    '<?= $comprob->monto ?>', '<?= $comprob->str?>')"
+                                    '<?= $comprob->razon_social ?>', '<?= $comprob->concepto?>')"
+                                    
                                     data-bs-dismiss="modal">
                                     <td>
                                         <?= $index + 1 ?>
@@ -720,12 +719,7 @@
                                     <td>
                                         <?= $comprob->concepto ?>
                                     </td>
-                                    <td>
-                                        <?= $comprob->monto ?>
-                                    </td>
-                                    <td>
-                                        <?= $comprob->str?>
-                                    </td>
+
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
