@@ -7,6 +7,9 @@
     max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
     overflow-y: auto; /* Habilita el scroll vertical */
   }
+  .titulo-body {
+    margin-bottom: 0; /* Reduce el margen inferior del párrafo */
+}
   .cuentas-contables thead,
   .cuentas-contables tbody tr {
     display: table; /* Mantiene el comportamiento de cuentas-contables */

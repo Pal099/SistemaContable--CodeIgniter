@@ -24,7 +24,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Balances</li>
-                <li class="breadcrumb-item">Sumas y Saldos</li>
+                <li class="breadcrumb-item active">Sumas y Saldos</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white rounded-3">

@@ -34,7 +34,7 @@ class LibroBanco extends CI_Controller {
 
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
-        $this->load->view('admin/libro/librolist', $data); // Cambiado de 'index' a 'librolist'
+        $this->load->view('admin/librob/libroblist', $data); // Cambiado de 'index' a 'librolist'
         $this->load->view('layouts/footer');
     }
 
@@ -44,9 +44,6 @@ class LibroBanco extends CI_Controller {
         $fechaFin = $this->input->post('fecha_fin');
         $idcuentacontable = $this->input->post('idcuentacontable'); // Asegúrate de que este campo existe en tu formulario
 
-		$nombre = $this->session->userdata('Nombre_usuario');
-		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
-		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         // Obtener los datos del modelo
         $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idcuentacontable);
 
@@ -55,15 +52,13 @@ class LibroBanco extends CI_Controller {
             'entradas' => $entradasLibroMayor,
             'fechaInicio' => $fechaInicio,
             'fechaFin' => $fechaFin,
-            'idcuentacontable' => $idcuentacontable,
-            'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu)
-
+            'idcuentacontable' => $idcuentacontable
         );
 
         // Cargar las vistas con los datos
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
-        $this->load->view('admin/libro/librolist', $data);
+        $this->load->view('admin/librob/libroblist', $data);
         $this->load->view('layouts/footer');
     }
 

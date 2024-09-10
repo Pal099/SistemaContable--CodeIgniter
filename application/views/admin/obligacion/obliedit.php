@@ -19,7 +19,7 @@
                 <li class="breadcrumb-item"><a
                         href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de
                         Obligación</a></li>
-                <li class="breadcrumb-item">Edición de Obligación</li>
+                <li class="breadcrumb-item active">Edición de Obligación</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">

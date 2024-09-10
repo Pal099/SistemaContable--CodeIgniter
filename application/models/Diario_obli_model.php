@@ -5,21 +5,19 @@ class Diario_obli_model extends CI_Model
 {
 	//acá empieza el javorai de isaac
 	//num asi primero
-	public function __construct()
-	{
-		$this->load->database();
-	}
-	public function obtener_asientos()
-	{
+	public function __construct() {
+        $this->load->database();
+		$this->load->model("Usuarios_model");
+    }
+	public function obtener_asientos() {
 		return $this->db->get('num_asi')->result_array();
 		var_dump($result); // Solo para depuración
 		return $result;
 
 	}
 
-	public function GETasientos($id_uni_respon_usu)
-	{
-		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.estado_registro, p.razon_social, na.MontoTotal');
+	public function GETasientos($id_uni_respon_usu) {
+		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');
 		$this->db->join('uni_respon_usu uru', 'na.id_uni_respon_usu = uru.id_uni_respon_usu');
 		$this->db->join('proveedores p', 'na.id_provee = p.id'); // Corregido para unir con la tabla de proveedores correctamente
@@ -41,6 +39,63 @@ class Diario_obli_model extends CI_Model
 		return $resultados->result();
 	}
 
+	public function getSTRaumentado($id_user) {
+		// Acá obtenemos el id de la unidad academica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+	
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$last_str = $this->db->get()->row()->str;
+	
+		// Si no hay registros previos para esta unidad académica, inicializamos el str en 1
+		if ($last_str == NULL) {
+			$last_str = 1;
+		} else {
+			// Si ya hay registros, incrementamos el str en 1
+			$last_str++;
+		}
+		
+		return $last_str;
+	}
+
+	public function ultimoSTR($id_user) {
+		// Acá obtenemos el id de la unidad académica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$query = $this->db->get();
+
+		// Verificamos si hay resultados
+		if ($query->num_rows() > 0) {
+			// Extraemos el valor de 'str' del primer resultado
+			$row = $query->row();
+			$last_str = $row->str;
+		} else {
+			// Si no hay resultados, asignamos un valor predeterminado
+			$last_str = 0; // O cualquier otro valor que desees
+		}
+
+		// Retornamos el valor de 'str'
+		return $last_str;
+	}
+
+	public function getNiveles() {
+		$this->db->select('id_nivel, nombre_nivel');
+		$this->db->from('nivel');
+		$query = $this->db->get();
+		return $query->result();
+	}
 
 	public function obtener_asiento_por_id($id)
 	{
@@ -67,101 +122,6 @@ class Diario_obli_model extends CI_Model
 
 		return $lastInsertedId;
 	}
-	//Funcion para obtener los asientos para su futura edicion
-	public function GetAsientoEditar($IDNum_Asi)
-	{
-		$this->db->select('num_asi.IDNum_Asi, num_asi.FechaEmision, num_asi.num_asi, num_asi.op, num_asi.SumaMonto, num_asi.MontoTotal, 
-		num_asi.id_provee, num_asi.concepto, num_asi.ped_mat, num_asi.modalidad, num_asi.tipo_presu, num_asi.nro_exp, 
-		num_asi.MontoTotal, num_asi.MontoPagado, num_asi_deta.IDCuentaContable, num_asi_deta.MontoPago, num_asi_deta.Debe, 
-		num_asi_deta.Haber, num_asi_deta.Comprobante, num_asi_deta.detalles, num_asi_deta.id_of, num_asi_deta.id_pro, 
-		num_asi_deta.id_ff, num_asi_deta.cheques_che_id, num_asi_deta.IDNum_Asi_Deta');
-		$this->db->from('num_asi');
-		$this->db->join('num_asi_deta', 'num_asi.IdNum_Asi = num_asi_deta.Num_Asi_IDNum_Asi ');
-		$this->db->where('num_asi.IDNUM_Asi', $IDNum_Asi);
-		$this->db->where('num_asi.estado_registro', 1); // Condicion para saber si se borro el registro o no
-		$this->db->where('num_asi_deta.estado_registro', 1); // Condicion para saber si se borro el registro o no
-
-		$query = $this->db->get();
-		//Guardamos el resultado de la busqueda en un array
-		$arrayOriginal = $query->result();
-		//Declaramos un array para poder agrupar nuestros datos en fijos y los dinamicos (la tabla)
-		$agrupados = [];
-
-		foreach ($arrayOriginal as $index => $objeto) {
-			// Crear una clave única basada en las propiedades que no cambian en este caso los datos del formulario
-			$claveUnica = $objeto->FechaEmision . '_' . $objeto->num_asi . '_' . $objeto->id_provee;
-
-			// Si la clave no existe en el array $agrupados, inicializarla
-			if (!array_key_exists($claveUnica, $agrupados)) {
-				$agrupados[$claveUnica] = [
-					'datosFijos' => [
-						'IDNum_Asi' => $objeto->IDNum_Asi,
-						'FechaEmision' => $objeto->FechaEmision,
-						'num_asi' => $objeto->num_asi,
-						'id_provee' => $objeto->id_provee,
-						'op' => $objeto->op,
-						'concepto' => $objeto->concepto,
-						'ped_mat' => $objeto->ped_mat,
-						'modalidad' => $objeto->modalidad,
-						'tipo_presu' => $objeto->tipo_presu,
-						'nro_exp' => $objeto->nro_exp,
-						'MontoTotal' => $objeto->MontoTotal,
-						'MontoPagado' => $objeto->MontoPagado,
-						// Se puede seguir agregando segun la necesidad o los datos de la bd
-					],
-					//Array para los campos dinamicos
-					'camposDinamicos' => [],
-				];
-			}
-
-			// Creamos un objeto para los campos dinámicos
-			$campoDinamico = new stdClass();
-			$campoDinamico->IDNum_Asi_Deta = $objeto->IDNum_Asi_Deta;
-			$campoDinamico->IDCuentaContable = $objeto->IDCuentaContable;
-			$campoDinamico->Debe = $objeto->Debe;
-			$campoDinamico->Haber = $objeto->Haber;
-			$campoDinamico->id_of = $objeto->id_of;
-			$campoDinamico->id_pro = $objeto->id_pro;
-			$campoDinamico->id_ff = $objeto->id_ff;
-			$campoDinamico->Comprobante = $objeto->Comprobante;
-			$campoDinamico->detalles = $objeto->detalles;
-
-			// Agregamos el objeto de campos dinámicos al array correspondiente
-			$agrupados[$claveUnica]['camposDinamicos'][] = $campoDinamico;
-		}
-
-		// Convertimos el array de objetos agrupados en un array simple
-		$arrayFinal = array_values($agrupados);
-
-		return $arrayFinal;
-	}
-
-	//----------Funciones nuevas del editar----------
-	public function actualizar_num_asi($id, $data)
-	{
-		$this->db->where('IDNum_Asi', $id);
-		return $this->db->update('num_asi', $data);
-	}
-
-	public function update_num_asi_deta($IDNum_Asi_Deta, $data)
-	{
-		$this->db->where('IDNum_Asi_Deta', $IDNum_Asi_Deta);
-		return $this->db->update('num_asi_deta', $data);
-	}
-
-	public function update_num_asi_deta_fila_nueva($data)
-	{
-		return $this->db->insert('num_asi_deta', $data);
-	}
-
-	public function borrado_logico($IDNum_Asi_Deta)
-	{
-		$data = array('estado_registro' => 0);
-		$this->db->where('IDNum_Asi_Deta', $IDNum_Asi_Deta);
-		return $this->db->update('num_asi_deta', $data);
-	}
-
-	//----------Acá terminan las funciones nuevas del editar----------
 
 	// num asi deta segundo
 	public function obtener_detalles_por_asiento($idAsiento)
@@ -326,42 +286,29 @@ class Diario_obli_model extends CI_Model
 		return $resultados->result();
 	}
 
+   
+    public function getCuentasContables(){
+        $this->db->select('cuentacontable.*');
+		$this->db->from('cuentacontable');
+		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('cuentacontable.estado', '1');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        $resultados = $this->db->get();
+        return $resultados->result();
+    }
 
 
-	public function getPresupuesto()
-	{
-		$this->db->select('presupuestos.*, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
-		cuentacontable.Descripcion_CC as descrip,');
-		$this->db->from('presupuestos');
-		$this->db->join('uni_respon_usu', 'presupuestos.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.IDCuentaContable');
-		$this->db->where('presupuestos.estado', '1');
-		$this->db->where('(pre_ene > 0 OR pre_feb > 0 OR pre_mar > 0 OR pre_abr > 0 OR pre_may > 0 OR pre_jun > 0 OR pre_jul > 0 OR pre_ago > 0 OR pre_sep > 0 OR pre_oct > 0 OR pre_nov > 0 OR pre_dic > 0)');
-		//$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		$resultados = $this->db->get();
-		return $resultados->result();
-	}
 
-	public function getPresupuestoMes()
-	{
-		$this->db->select('ID_Presupuesto, pre_ene, pre_feb, pre_mar, pre_abr, pre_may, pre_jun, pre_jul, pre_ago, pre_sep, pre_oct, pre_nov, pre_dic');
-		$this->db->from('presupuestos');
-		$this->db->where('estado', '1');
-		$this->db->where('(pre_ene > 0 OR pre_feb > 0 OR pre_mar > 0 OR pre_abr > 0 OR pre_may > 0 OR pre_jun > 0 OR pre_jul > 0 OR pre_ago > 0 OR pre_sep > 0 OR pre_oct > 0 OR pre_nov > 0 OR pre_dic > 0)');
-		$resultados = $this->db->get()->result();
-		// Procesar los resultados si es necesario
-		$meses = array();
-		foreach ($resultados as $fila) {
-			// Aquí puedes hacer cualquier procesamiento adicional si es necesario
-			// Por ejemplo, podrías filtrar los valores aquí mismo
+	public function getC_C() {
+        $this->db->select('Codigo_CC, Descripcion_CC');
+        $this->db->from('cuentacontable');
+        $this->db->where('imputable', 2);
+        $resultados = $this->db->get();
+        echo json_encode($resultados->result());
+    }
 
-			$meses[] = $fila;
-		}
 
-		// Devolver los resultados procesados
-		return $meses;
-
-	}
+	
 
 
 
@@ -378,16 +325,24 @@ class Diario_obli_model extends CI_Model
 
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
+	
 
-	public function getCuentaContable()
-	{
+	//Para el Selectcc, es decir, el primer modal del DEBE
+	public function getCuentaContable() {
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
 
-	public function getDiarios_obli()
-	{
-		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');
+	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
+	public function getCuentaContable2() {
+		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
+		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
+		$query = $this->db->get("cuentacontable");
+		return $query->result();
+	}
+
+	public function getDiarios_obli() {
+		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		
 		$this->db->from('num_asi_deta');
 		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
 		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');

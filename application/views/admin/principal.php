@@ -1,59 +1,65 @@
-
-<!-- =============================================== -->
+<!-- Contenido Principal -->
 <main id="main" class="main">
-
-
     <div class="pagetitle">
-      <h1>Informe Gerencial</h1>
-      <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
-        </ol>
-      </nav>
+        <h1>Informe Gerencial</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
 
-  <section class="section dashboard">
-    <div class="row">
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Columnas Izquierdas -->
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- Tarjeta de cuántos obligados hay en el mes -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <?php
+                                // Establecer la configuración regional a español
+                                setlocale(LC_TIME, 'es_ES.UTF-8');
+                                ?>
+                                <h5 class="card-title">Total Obligados en <?php echo strftime('%B'); ?></h5>
+                                <!-- '%B' devuelve el nombre completo del mes en español -->
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-clipboard2-data-fill"></i>
+                                    </div>
+                                    <p class="card-text"><?php echo $total_obligados_mes; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Tarjeta de obligación en el mes -->
 
-        <!-- Left side columns -->
-        <div class="col-lg-8">
-          <div class="row">
-          <link href="<?php echo base_url();?>assets/css/principal.css" rel="stylesheet">
-
-
- <!-- Left side columns -->
- <div class="col-lg-8">
-          <div class="row">
 
 
 
-            <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-<div class="container">
-    <div class="row">
-        <div class="col-lg-3 col-sm-6">
-            <div class="card-box bg-blue">
-                <div class="inner">
-                    <h3> 13436 </h3>
-                    <p> Student Strength </p>
+
+
+                    <!-- Tarjeta de cuántos Pagados hay en el mes -->
+                    <div class="col-xxl-6 col-md-6">
+                        <div class="card info-card sales-card">
+                            <div class="card-body">
+                                <?php
+                                // Establecer la configuración regional a español
+                                setlocale(LC_TIME, 'es_ES.UTF-8');
+                                ?>
+                                <h5 class="card-title">Total Pagados en <?php echo strftime('%B'); ?></h5>
+                                <!-- '%B' devuelve el nombre completo del mes en español -->
+                                <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="bi bi-clipboard2-data-fill"></i>
+                                    </div>
+                                    <p class="card-text"><?php echo $total_pagados_mes; ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- End Tarjeta de obligación en el mes -->
                 </div>
-                <div class="icon">
-                    <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-                </div>
-                <a href="#" class="card-box-footer">View More <i class="fa fa-arrow-circle-right"></i></a>
-            </div>
+            </div><!-- Fin de las columnas izquierdas -->
         </div>
-
-            
-        </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>
-</div>
-
-
     </section>
 </main>
-
