@@ -229,7 +229,7 @@ class Pago_de_obligaciones extends CI_Controller
 	}
 
 
-	public function obtenerInformacionPorDescripcion()
+/* 	public function obtenerInformacionPorDescripcion()
 	{
 		// Obtener la descripción desde la URL
 		$descripcionConPrefijo = urldecode($_GET['descripcion']);
@@ -243,17 +243,11 @@ class Pago_de_obligaciones extends CI_Controller
 
 		/*if (is_null($informacion['IDCuentaContable'])) {
 			$informacion = $this->Pago_obli_model->getCuentaContableN($descripcion2);
-		}^*/
-		
+		}^*
 
-		if ($informacion) {
-			// Imprimir los valores directamente
-			echo $informacion . ',' . $informacion['IDCuentaContable'] . ',' . $informacion['Codigo_CC'] . ',' . $informacion['Descripcion_CC'];
-		} else {
-			echo 'No se pudo obtener la información.';
-		}
-	}
 
+	
+ */
 
 	public function edit($id)
 	{

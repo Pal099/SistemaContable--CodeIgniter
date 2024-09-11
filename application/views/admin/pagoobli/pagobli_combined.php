@@ -1292,7 +1292,6 @@
                         </thead>
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
-                            <?php if (($asi->id_form == 1 && $asi->Debe > 0)): ?>
                             <tr class="list-item"
                                 onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
@@ -1355,7 +1354,6 @@
                                     <?= $asi->id_numasi ?>
                                 </td>
                             </tr>
-                            <?php endif; ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -1363,6 +1361,78 @@
             </div>
         </div>
     </div>
+<!-- Script modal lista de obligaciones (seleccionar) ubiqué acá para que se entienda mejor (isaac)-->
+
+    <script>
+function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
+    deta, comp, cheq, idcuenta, numasio, pagado) {
+
+   // var descripcionConPrefijo = 'A.P. ' + descrip;
+   // var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
+
+    document.getElementById('ruc').value = ruc;
+    document.getElementById('contabilidad').value = razonSocial;
+    document.getElementById('fecha').value = fechas;
+    document.getElementById('concepto').value = concepto;
+    document.getElementById('Debe').value = debes;
+    document.getElementById('MontoPago').value = montos;
+    document.getElementById('MontoTotal').value = montos;
+    document.getElementById('id_ff').value = fuentes;
+    document.getElementById('id_pro').value = programas;
+    document.getElementById('id_of').value = origens;
+
+    document.getElementById('idcuentacontable').value = idcuenta;
+    document.getElementById('codigo_cc').value = cuentas;
+    document.getElementById('descripcion_cc').value = descrip;
+
+    document.getElementById('detalles').value = deta;
+    document.getElementById('comprobante').value = comp;
+    document.getElementById('cheques_che_id').value = cheq;
+    document.getElementById('num_asio').value = numasio;
+    document.getElementById('MontoPago_2').value = pagado;
+
+    // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
+    const rucInput = document.getElementById('ruc');
+    const retencionSwitch = document.getElementById('retencionSwitch');
+
+    if (rucInput.value.trim() !== "") {
+        retencionSwitch.removeAttribute('disabled');
+    } else {
+        retencionSwitch.setAttribute('disabled', true);
+        retencionSwitch.checked = false;
+    }
+
+  
+}
+
+// Inicializar el estado del switch cuando se cargue la página
+document.addEventListener('DOMContentLoaded', function() {
+    const rucInput = document.getElementById('ruc');
+    const retencionSwitch = document.getElementById('retencionSwitch');
+
+    if (rucInput.value.trim() !== "") {
+        retencionSwitch.removeAttribute('disabled');
+    } else {
+        retencionSwitch.setAttribute('disabled', true);
+        retencionSwitch.checked = false;
+    }
+});
+</script>
+<!-- Script encargado de las tabla de Lista de Obligacion -->
+<script>
+$(document).ready(function() {
+    $('#TablaListaObligacion').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+        }
+    });
+});
+</script>
 
     <!-- Script que controla los tooltips -->
     <script>
@@ -1573,78 +1643,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-});
-</script>
-<!-- Script modal lista de obligaciones (seleccionar) -->
-<script>
-function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
-    deta, comp, cheq, idcuenta, numasio, pagado) {
-
-    var descripcionConPrefijo = 'A.P. ' + descrip;
-    var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
-
-    document.getElementById('ruc').value = ruc;
-    document.getElementById('contabilidad').value = razonSocial;
-    document.getElementById('fecha').value = fechas;
-    document.getElementById('concepto').value = concepto;
-    document.getElementById('Debe').value = debes;
-    document.getElementById('MontoPago').value = montos;
-    document.getElementById('MontoTotal').value = montos;
-    document.getElementById('id_ff').value = fuentes;
-    document.getElementById('id_pro').value = programas;
-    document.getElementById('id_of').value = origens;
-
-    // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
-    const rucInput = document.getElementById('ruc');
-    const retencionSwitch = document.getElementById('retencionSwitch');
-
-    if (rucInput.value.trim() !== "") {
-        retencionSwitch.removeAttribute('disabled');
-    } else {
-        retencionSwitch.setAttribute('disabled', true);
-        retencionSwitch.checked = false;
-    }
-
-    $.ajax({
-        type: 'GET',
-        url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +
-            descripcionCodificada,
-        data: {
-            descripcionConPrefijo
-        },
-        success: function(respuesta) {
-            var valores = respuesta.split(',');
-
-            $('#idcuentacontable').val(valores[1]);
-            $('#codigo_cc').val(valores[2]);
-            $('#descripcion_cc').val(valores[3]);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error en la solicitud AJAX');
-            console.log('XHR:', xhr);
-            console.log('Status:', status);
-            console.log('Error:', error);
-        }
-    });
-
-    document.getElementById('detalles').value = deta;
-    document.getElementById('comprobante').value = comp;
-    document.getElementById('cheques_che_id').value = cheq;
-    document.getElementById('num_asio').value = numasio;
-    document.getElementById('MontoPago_2').value = pagado;
-}
-
-// Inicializar el estado del switch cuando se cargue la página
-document.addEventListener('DOMContentLoaded', function() {
-    const rucInput = document.getElementById('ruc');
-    const retencionSwitch = document.getElementById('retencionSwitch');
-
-    if (rucInput.value.trim() !== "") {
-        retencionSwitch.removeAttribute('disabled');
-    } else {
-        retencionSwitch.setAttribute('disabled', true);
-        retencionSwitch.checked = false;
-    }
 });
 </script>
 <!-- Script de DataTable de vista  -->
@@ -1872,7 +1870,7 @@ $("#formularioPrincipal").on("submit", function(e) {
                     console.log(xhr
                         .responseText); // Agrega esta línea para ver la respuesta del servidor
                     console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+                    alert("Error en la solicitud AJAX555: " + status + " - " + error);
 
 
                     console.log(xhr
@@ -1890,6 +1888,13 @@ $("#formularioPrincipal").on("submit", function(e) {
         alert('El Monto Pagado es mayor al Total a Pagar');
         return false;
     }
+
+
+    e.stopPropagation();
+
+});
+</script>
+
 
 
     e.stopPropagation();
@@ -2108,21 +2113,6 @@ $(document).ready(function() {
 });
 </script>
 
-<!-- Script encargado de las tabla de Lista de Obligacion -->
-<script>
-$(document).ready(function() {
-    $('#TablaListaObligacion').DataTable({
-        paging: true,
-        pageLength: 10,
-        lengthChange: true,
-        searching: true,
-        info: true,
-        language: {
-            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-        }
-    });
-});
-</script>
 
 <!-- script de las tablas de cuentas contables -->
 <script>
@@ -2171,7 +2161,14 @@ document.getElementById('Debe').addEventListener('input', function() {
 });
 </script>
 
-
+<script>
+        // Este script escucha los cambios en el campo 'debe'
+        // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
+        document.getElementById('Debe').addEventListener('input', function() {
+            document.getElementById('Haber').value = 0;
+            document.getElementById('Debe_2').value = 0;
+        });
+        </script>
 
 <!-- Script de DataTable de jquery -->
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>

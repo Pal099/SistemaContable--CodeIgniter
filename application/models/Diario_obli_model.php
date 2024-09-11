@@ -10,7 +10,7 @@ class Diario_obli_model extends CI_Model {
     }
 	public function obtener_asientos() {
 		return $this->db->get('num_asi')->result_array();
-		var_dump($result); // Solo para depuración
+		//var_dump($result); // Solo para depuración
   		 return $result;
 
     }
