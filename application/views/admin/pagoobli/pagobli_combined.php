@@ -14,7 +14,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
-                <li class="breadcrumb-item">Pago de Obligaciones</li>
+                <li class="breadcrumb-item active">Pago de Obligaciones</li>
             </ol>
         </nav>
 
@@ -38,12 +38,8 @@
                                     data-bs-target="#modalListaObligacion">
                                     <i class="bi bi-plus" style="font-size: 20px;"></i>
                                 </button>
-                                <button type="button" class="btn btn-warning" title="Editar"
-                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/edit'">
-                                    <i class='bx bx-edit' style="font-size: 20px;"></i>
-                                </button>
                                 <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs_pago')">
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
@@ -150,11 +146,6 @@
                                                                 name="concepto">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -396,7 +387,7 @@
                                                                 <td>
                                                                     <div class="input-group input-group-sm  ">
                                                                         <input type="text"
-                                                                            class="form-control border-0 bg-transparent debe2"
+                                                                            class="form-control border-0 bg-transparent"
                                                                             id="Debe_2" name="Debe_2" required>
                                                                     </div>
                                                                 </td>
@@ -469,7 +460,6 @@
                                                                 </td>
                                                         </tbody>
                                                     </table>
-
                                                     <!-- Tabla de los calculos de retención -->
                                                     <div class="collapse" id="calculoderetencion">
                                                         <div class="card border">
@@ -1172,10 +1162,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- Tabla de los asientos -->
                                             <div class="card border">
                                                 <div class="card-body">
-                                                    <h4 class="mt-4">Asientos</h4>
+                                                    <h4 class="mt-4">Asientos Pagados</h4>
                                                     <hr><!-- Separador -->
                                                     <table id="vistapago"
                                                         class="table table-hover table-bordered table-sm rounded-3">
@@ -1202,7 +1193,7 @@
                                                                 <td>
                                                                     <?php echo $asien->FechaEmision ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="texto-izquierda">
                                                                     <?php echo $asien->razon_social ?>
                                                                 </td>
                                                                 <td>
@@ -1220,30 +1211,14 @@
                                                                         </button>
                                                                         <button type="button"
                                                                             class="btn btn-warning btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class="bi bi-pencil-fill"></i>
                                                                         </button>
                                                                         <button type="button"
                                                                             class="btn btn-danger btn-remove btn-sm"
-                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
-                                                                        <button type="button"
-                                                                            class="btn btn-primary btn-sm"
-                                                                            onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
-                                                                            <i class="bi bi-filetype-pdf"></i>
-                                                                        </button>
-
-                                                                        <script>
-                                                                        function generarPDF(numeroAsiento) {
-                                                                            // Redirige a la URL con el número de asiento
-                                                                            window.location.href =
-                                                                                "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" +
-                                                                                numeroAsiento;
-                                                                        }
-                                                                        </script>
-
-
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -1512,8 +1487,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
         nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
 
-        nuevaFila.find(".debe2").val("0");
-
         // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
         nuevaFila.find(".formatoNumero").each(function() {
             // Obtener el campo actual
@@ -1604,17 +1577,19 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <!-- Script modal lista de obligaciones (seleccionar) -->
 <script>
-function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, codigo, descrip,
+function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
     deta, comp, cheq, idcuenta, numasio, pagado) {
 
+    var descripcionConPrefijo = 'A.P. ' + descrip;
+    var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
 
     document.getElementById('ruc').value = ruc;
     document.getElementById('contabilidad').value = razonSocial;
     document.getElementById('fecha').value = fechas;
     document.getElementById('concepto').value = concepto;
+    document.getElementById('Debe').value = debes;
     document.getElementById('MontoPago').value = montos;
     document.getElementById('MontoTotal').value = montos;
-    document.getElementById('Debe').value = debes;
     document.getElementById('id_ff').value = fuentes;
     document.getElementById('id_pro').value = programas;
     document.getElementById('id_of').value = origens;
@@ -1630,12 +1605,31 @@ function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, p
         retencionSwitch.checked = false;
     }
 
-    document.getElementById('codigo_cc').value = codigo;
-    document.getElementById('descripcion_cc').value = descrip;
+    $.ajax({
+        type: 'GET',
+        url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +
+            descripcionCodificada,
+        data: {
+            descripcionConPrefijo
+        },
+        success: function(respuesta) {
+            var valores = respuesta.split(',');
+
+            $('#idcuentacontable').val(valores[1]);
+            $('#codigo_cc').val(valores[2]);
+            $('#descripcion_cc').val(valores[3]);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la solicitud AJAX');
+            console.log('XHR:', xhr);
+            console.log('Status:', status);
+            console.log('Error:', error);
+        }
+    });
+
     document.getElementById('detalles').value = deta;
     document.getElementById('comprobante').value = comp;
     document.getElementById('cheques_che_id').value = cheq;
-    document.getElementById('idcuentacontable').value = idcuenta;
     document.getElementById('num_asio').value = numasio;
     document.getElementById('MontoPago_2').value = pagado;
 }
