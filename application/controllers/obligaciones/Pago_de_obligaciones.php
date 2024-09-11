@@ -21,8 +21,7 @@ class Pago_de_obligaciones extends CI_Controller
 	}
 
 
-	public function index()
-	{
+	public function index()	{
 		//Con la libreria Session traemos los datos del usuario
 		//Obtenemos el nombre que nos va servir para obtener su id
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -79,8 +78,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
-	public function store()
-	{
+	public function store()	{
 		header('Access-Control-Allow-Origin: *');
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
@@ -153,6 +151,7 @@ class Pago_de_obligaciones extends CI_Controller
 				'op' => $op,
 				'estado' => $estado,
 				'id_uni_respon_usu' => $id_uni_respon_usu,
+				'id_usuario_numasi' => "1",
 				'id_form' => "2",
 				'estado_registro' => "1",
 			);
