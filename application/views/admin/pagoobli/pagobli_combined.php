@@ -1292,6 +1292,8 @@
                         </thead>
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
+                                <?php if (($asi->id_form == 1)): ?><!-- hacemos que traiga solo obligaciones -->
+
                             <tr class="list-item"
                                 onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
                                         '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
@@ -1354,6 +1356,8 @@
                                     <?= $asi->id_numasi ?>
                                 </td>
                             </tr>
+                            <?php endif; ?>
+
                             <?php endforeach; ?>
                         </tbody>
                     </table>
