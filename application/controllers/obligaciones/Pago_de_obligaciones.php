@@ -174,7 +174,7 @@ class Pago_de_obligaciones extends CI_Controller
 				'op' => $op,
 				'estado' => $estado,
 				'id_uni_respon_usu' => $id_uni_respon_usu,
-				'id_usuario_numasi' => "1",
+				'id_usuario_numasi' => $id_user,
 				'id_form' => "2",
 				'estado_registro' => "1",
 			);
