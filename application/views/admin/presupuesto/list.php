@@ -303,7 +303,25 @@
             $('#Diciembre').text(formatoGuaranies.format(presupuestoDetalle.pre_dic));
         }
     </script>
-
+    <!-- Script para SweetAlert2 -->
+    <script>
+        function confirmarEliminarPresupuesto(presupuestoId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url(); ?>mantenimiento/presupuesto/delete/' + presupuestoId;
+                }
+            });
+        }
+    </script>
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 

@@ -12,8 +12,8 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-        <li class="breadcrumb-item">Comprobante de Gastos</li>
-        <li class="breadcrumb-item active">Listado de Comprobante de Gastos</li>
+        <li class="breadcrumb-item">Bienes y Servicios</li>
+        <li class="breadcrumb-item active">Listado de Bienes y Servicios</li>
       </ol>
     </nav>
     <div class="container mt-4">
@@ -22,8 +22,8 @@
           <div class="col-md-3">
             <label for="actividad" class="form-label">Actividad:</label>
             <select class="form-select" id="actividad" name="actividad">
-            <option value="">Ninguno</option>
-              <?php foreach ($unidad as $uni) : ?>
+              <option value="">Ninguno</option>
+              <?php foreach ($unidad as $uni): ?>
                 <option value="<?php echo $uni->id_unidad; ?>"><?php echo $uni->unidad; ?></option>
               <?php endforeach; ?>
             </select>
@@ -32,8 +32,8 @@
           <div class="col-md-3">
             <label for="fuente" class="form-label">Fuente:</label>
             <select class="form-select" id="fuente" name="fuente">
-            <option value="">Ninguno</option>
-              <?php foreach ($fuentes as $fuente) : ?>
+              <option value="">Ninguno</option>
+              <?php foreach ($fuentes as $fuente): ?>
                 <option value="<?php echo $fuente->id_ff; ?>"><?php echo $fuente->codigo; ?></option>
               <?php endforeach; ?>
             </select>
@@ -82,12 +82,13 @@
       <div class="pagetitle">
         <div class="container-fluid d-flex flex-row justify-content-between">
           <div class="col-md-6 mt-4">
-            <h1>Listado de Comprobante de Gastos</h1>
+            <h1>Listado de Bienes y Servicios</h1>
           </div>
           <div class="col-md-6 d-flex flex-row justify-content-end align-items-center mt-4">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-primary" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/add'">
-                <i class="bi bi-plus-circle"></i> Agregar Comprobante de Gastos
+              <button type="button" class="btn btn-primary"
+                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/bienes_servicios/add'">
+                <i class="bi bi-plus-circle"></i> Agregar Bienes y Servicios
               </button>
             </div>
           </div>
@@ -104,77 +105,49 @@
                   <div class="card border">
                     <div class="card-body mt-4">
                       <div class="table-responsive">
-                        <table id="TablaComprobanteGasto" class="table table-hover table-sm rounded-3">
+                        <table id="TablaBienes" class="table table-hover table-sm rounded-3">
                           <thead>
                             <tr>
                               <th>ID</th>
-                              <th>Actividad</th>
-                              <th>Fecha</th>
-                              <th>Proveedor</th>
-                              <th>Monto</th>
-                              <th>concepto</th>
-                              <th>Aprobado</th>
-                              <th>F.F</th>
-                              <th>OBL</th>
-                              <th>STR</th>
-                              <th>O.P.</th>
+                              <th>codigo</th>
+                              <th>rubro</th>
+                              <th>descripcion</th>
+                              <th>Cod. Catalogo</th>
+                              <th>Concepto</th>
+                              <th>Precio</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
-                            <?php foreach ($comprobantes as $comp) : ?>
-                              <td><?php echo $comp->IDComprobanteGasto; ?></td>
-                              <td><?php echo $comp->id_unidad; ?></td>
-                              <td><?php echo $comp->fecha; ?></td>
-                              <td>
-                                <?php
-                                $proveedorEncontrado = array_filter($proveedores, function ($proveedor) use ($comp) {
-                                    return $proveedor->id == $comp->idproveedor;
-                                });
-
-                                if (!empty($proveedorEncontrado)) {
-                                    $primerProveedorEncontrado = reset($proveedorEncontrado);
-                                    echo $primerProveedorEncontrado->razon_social;
-                                } else {
-                                    echo "Proveedor no encontrado";
-                                }
-                                ?>
-                            </td>
-                              <td><?php echo $comp->monto; ?></td>
-                              <td><?php echo $comp->concepto; ?></td>
-                              <td><?php echo $comp->aprobado; ?></td>
-                              <td>
-                                  <?php
-                                  $fuenteEncontrada = array_filter($fuentes, function ($fuente) use ($comp) {
-                                      return $fuente->id_ff == $comp->id_ff;
-                                  });
-
-                                  if (!empty($fuenteEncontrada)) {
-                                      $primeraFuenteEncontrada = reset($fuenteEncontrada);
-                                      echo $primeraFuenteEncontrada->codigo;
-                                  } else {
-                                      echo "Fuente no encontrada";
-                                  }
-                                  ?>
-                              </td>
-
-                              <td><?php echo $comp->obl; ?></td>
-                              <td><?php echo $comp->str; ?></td>
-                              <td><?php echo $comp->op; ?></td>
-                              <td>
-                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                  <button type="button" class="btn btn-primary btn-view-comprobante btn-sm" data-bs-toggle="modal" data-bs-target="#modalComprobantes" value="<?php echo $comp->IDComprobanteGasto; ?>">
-                                    <span class="fa fa-search"></span>
-                                  </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto;?>'">
-                                    <i class="bi bi-pencil-fill"></i>
-                                  </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo$comp->IDComprobanteGasto; ?>'">
-                                    <i class="bi bi-trash"></i>
-                                  </button>
-                                </div>
-                              </td>
+                          <tbody>
+                            <?php foreach ($bienes_servicios as $bien): ?>
+                              <tr>
+                                <td><?php echo $bien->IDbienservicio; ?></td>
+                                <td><?php echo $bien->codigo; ?></td>
+                                <td><?php echo $bien->rubro; ?></td>
+                                <td><?php echo $bien->descripcion; ?></td>
+                                <td><?php echo $bien->codcatalogo; ?></td>
+                                <td><?php echo $bien->descripcioncatalogo; ?></td>
+                                <td><?php echo $bien->precioref; ?></td>
+                                <td>
+                                  <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                    <button type="button" class="btn btn-primary btn-view-comprobante btn-sm"
+                                      data-bs-toggle="modal" data-bs-target="#modalComprobantes"
+                                      value="<?php echo $bien->IDbienservicio; ?>">
+                                      <span class="fa fa-search"></span>
+                                    </button>
+                                    <button class="btn btn-warning btn-sm"
+                                      onclick="window.location.href='<?php echo base_url() ?>patrimonio/bienes_servicios/edit/<?php echo $bien->IDbienservicio; ?>'">
+                                      <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-remove btn-sm"
+                                      onclick="window.location.href='<?php echo base_url(); ?>patrimonio/bienes_servicios/delete/<?php echo $bien->IDbienservicio; ?>'">
+                                      <i class="bi bi-trash"></i>
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             <?php endforeach; ?>
+                          </tbody>
                         </table>
                       </div>
                     </div>
@@ -187,76 +160,10 @@
       </section>
     </div>
   </main>
-
-  <!-- script para ver los presupuestos modal -->
-  <div class="modal fade mi-modal" id="modalComprobantes" tabindex="-1" aria-labelledby="modalVerComprobante" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-extra-large">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Detalles del Comprobante de Gastos</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover table-sm" id="TablaComprobanteGastoModal">
-              <tbody>
-                  <th>ID</th>
-                  <td id="id"></td>
-                </tr>
-                <tr>
-                  <th>Actividad</th>
-                  <td id="actividad"></td>
-                </tr>
-                <tr>
-                  <th>Fecha</th>
-                  <td id="fecha"></td>
-                </tr>
-                <tr>
-                  <th>Proveedor</th>
-                  <td id="proveedor"></td>
-                </tr>
-                <tr>
-                  <th>Monto</th>
-                  <td id="monto"></td>
-                </tr>
-                <tr>
-                  <th>Concepto</th>
-                  <td id="concepto"></td>
-                </tr>
-                <tr>
-                  <th>Aprobado</th>
-                  <td id="aprobado"></td>
-                </tr>
-                <tr>
-                  <th>F.F.</th>
-                  <td id="ff"></td>
-                </tr>
-                <tr>
-                  <th>OBL</th>
-                  <td id="obl"></td>
-                </tr>
-                <tr>
-                  <th>STR</th>
-                  <td id="str"></td>
-                </tr>
-                <tr>
-                  <th>O.P.</th>
-                  <td id="op"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
   <!-- Script de la tabla de presupuesto -->
   <script>
-    $(document).ready(function() {
-      var table1 = $('#TablaComprobanteGasto').DataTable({
+    $(document).ready(function () {
+      var table1 = $('#TablaBienes').DataTable({
         dom: '<"row"<"col-sm-12 col-md-6"B><"col-sm-12 col-md-6"f>>' +
           '<"row"<"col-sm-12"t>>' +
           '<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -265,29 +172,29 @@
           ['10', '25', '50', 'Mostrar Todo']
         ],
         buttons: [{
-            extend: 'pageLength',
-            className: 'btn bg-primary border border-0'
-          },
-          {
-            extend: 'copy',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-copy"></i> Copiar',
-          },
-          {
-            extend: 'print',
-            className: 'btn bg-primary border border-0',
-            text: '<i class="bi bi-printer"></i> Imprimir',
-          },
-          {
-            extend: 'excel',
-            text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
-            className: 'btn btn-success',
-          },
-          {
-            extend: 'pdf',
-            text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
-            className: 'btn btn-danger',
-          }
+          extend: 'pageLength',
+          className: 'btn bg-primary border border-0'
+        },
+        {
+          extend: 'copy',
+          className: 'btn bg-primary border border-0',
+          text: '<i class="bi bi-copy"></i> Copiar',
+        },
+        {
+          extend: 'print',
+          className: 'btn bg-primary border border-0',
+          text: '<i class="bi bi-printer"></i> Imprimir',
+        },
+        {
+          extend: 'excel',
+          text: '<i class="bi bi-file-excel"></i> Excel', // Se agrega el icono
+          className: 'btn btn-success',
+        },
+        {
+          extend: 'pdf',
+          text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+          className: 'btn btn-danger',
+        }
         ],
         searching: true,
         info: true,
@@ -296,52 +203,6 @@
         },
       });
     });
-  </script>
-
-  <!-- Script para ver los detalles del presupuesto -->
-  <script>
-    $('.btn-view-comprobante').on('click', function() {
-
-      var comprobanteId = $(this).val();
-      console.log("Comprobante ID:", comprobanteId);
-
-      $.ajax({
-        type: 'GET',
-        url: 'comprobante_gasto/getComprobanteDetalle/' + comprobanteId,
-        success: function(response) {
-          // Se maneja las respuesta acá luego se llama a la funcion de mostrarDetalles si todo es correcto
-          var comprobanteDetalle = JSON.parse(response);
-          mostrarDetalles(comprobanteDetalle);
-        },
-        error: function(xhr, status, error) {
-          console.error("Error en la solicitud AJAX:", status, error);
-        }
-      });
-    });
-
-    // Función para mostrar los detalles del presupuesto
-    function mostrarDetalles(comprobanteDetalle) {
-
-
-      // Formato de numeros en guaranies
-      var formatoGuaranies = new Intl.NumberFormat('es-PY', {
-        style: 'currency',
-        currency: 'PYG'
-      });
-
-      // Formato de la fila para la tabla
-      $('#id').text(comprobanteDetalle.IDComprobanteGasto);
-      $('#actividad').text(comprobanteDetalle.actividad);
-      $('#fecha').text(comprobanteDetalle.fecha);
-      $('#proveedor').text(comprobanteDetalle.idproveedor); 
-      $('#monto').text(formatoGuaranies.format(comprobanteDetalle.monto)); 
-      $('#aprobado').text(comprobanteDetalle.aprobado);
-      $('#concepto').text(comprobanteDetalle.concepto); 
-      $('#ff').text(comprobanteDetalle.id_ff); 
-      $('#obl').text(comprobanteDetalle.obl); 
-      $('#str').text(comprobanteDetalle.str); 
-      $('#op').text(comprobanteDetalle.op); 
-    }
   </script>
 
   <!-- Script de DataTable de jquery -->

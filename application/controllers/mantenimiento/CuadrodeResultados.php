@@ -64,13 +64,11 @@ class CuadrodeResultados extends CI_Controller {
         // Aplica las reglas del switch después de procesar todas las cuentas hijas
         $primerDigito = substr($cuenta->Codigo_CC, 0, 1);
         switch ($primerDigito) {
-            case '2':
             case '3':
                 // Para cuentas que comienzan con 2 o 3
                 $cuenta->TotalDeudor = $cuenta->TotalDebe - $cuenta->TotalHaber;
                 $cuenta->TotalAcreedor = 0;
                 break;
-            case '4':
             case '5':
                 // Para cuentas que comienzan con 4 o 5
                 $cuenta->TotalDeudor = 0;

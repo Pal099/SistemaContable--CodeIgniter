@@ -6,28 +6,39 @@ class Pago_obli_model extends CI_Model
 	$this->load->database();
 }
 public function obtener_asientos($id_uni_respon_usu) {
-	$this->db->select('num_asi_deta.*, programa.nombre as nombre_programa, num_asi.op as op,num_asi.concepto as concepto, num_asi.SumaMonto as suma_monto,num_asi.Montototal as total,
-	 	num_asi.num_asi as nume, num_asi.estado as estado, num_asi.FechaEmision as fecha,num_asi.IDNum_Asi as id_numasi,num_asi.MontoTotal as total, num_asi.id_provee as provee,
-		num_asi.MontoPagado as pagado, num_asi.op as op, proveedores.ruc as ruc_proveedor,proveedores.direccion as direccion_proveedor, proveedores.razon_social as razso_proveedor,
-	 	fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.Codigo_CC as codigo, cuentacontable.IDCuentaContable as idcuenta,
-		cuentacontable.Descripcion_CC as descrip, num_asi_deta.IDNum_Asi_Deta as id_numasideta');
-	$this->db->from('num_asi_deta');
-	$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
-	$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
-	$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
-	$this->db->join('proveedores', 'num_asi_deta.proveedores_id = proveedores.id');
-	$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
-	$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
-	$this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-	$this->db->where('num_asi.MontoPagado < num_asi.MontoTotal');
-	$this->db->where('num_asi_deta.estado_registro', '1');
-	$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-	//$this->db->limit(1);  // Agrega esta línea para limitar a un solo registro
-	
-	$resultados = $this->db->get();
-	return $resultados->result();    
+    $this->db->select('num_asi_deta.*, 
+        programa.nombre as nombre_programa, 
+        num_asi.op, num_asi.concepto, num_asi.SumaMonto as suma_monto, 
+        num_asi.MontoTotal as total, num_asi.num_asi as numero, 
+        num_asi.estado, num_asi.FechaEmision as fecha, 
+        num_asi.IDNum_Asi as id_numasi, num_asi.id_provee as provee, 
+        num_asi.MontoPagado as pagado, 
+        proveedores.ruc as ruc_proveedor, 
+        proveedores.direccion as direccion_proveedor, 
+        proveedores.razon_social as razso_proveedor, 
+        fuente_de_financiamiento.nombre as nombre_fuente, 
+        fuente_de_financiamiento.id_ff,
+        origen_de_financiamiento.nombre as nombre_origen, 
+        origen_de_financiamiento.id_of,
+        cuentacontable.Codigo_CC as codigo, 
+        cuentacontable.IDCuentaContable as idcuenta, 
+        cuentacontable.Descripcion_CC as descrip');
+    $this->db->from('num_asi_deta');
+    $this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
+    $this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
+    $this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
+    $this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
+    $this->db->join('proveedores', 'num_asi.id_provee = proveedores.id');
+    $this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
+    $this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+    $this->db->where('num_asi.MontoPagado < num_asi.MontoTotal');
+    $this->db->where('num_asi_deta.estado_registro', '1');
+    $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+    $this->db->order_by('num_asi_deta.IDNum_Asi_Deta', 'ASC');
+    
+    $resultados = $this->db->get();
+    return $resultados->result();    
 }
-
 public function GETasientos($id_uni_respon_usu) {
 	$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.estado_registro, p.razon_social, na.MontoTotal');
 	$this->db->from('num_asi na');
@@ -254,7 +265,7 @@ public function getOrigenes($id_uni_respon_usu) {
 	return $resultados->result();
 }
 
-public function getCuentasContables(){
+public function getCuentasContables($id_uni_respon_usu){
 	$this->db->select('cuentacontable.*');
 	$this->db->from('cuentacontable');
 	$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
@@ -287,7 +298,6 @@ public function getCuentaContable() {
 
 public function getCuentaContableN($descripcion) {
     $this->db->where('Descripcion_CC', $descripcion);
-	$this->db->like('tipo', 'SubCuenta');
     $resultados = $this->db->get('cuentacontable')->row_array();
     return $resultados;
 }
