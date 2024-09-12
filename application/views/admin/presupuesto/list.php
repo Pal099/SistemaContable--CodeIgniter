@@ -5,6 +5,8 @@
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+        <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -78,9 +80,10 @@
                                   <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/presupuesto/edit/<?php echo $presupuesto->ID_Presupuesto;?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
-                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto/delete/<?php echo $presupuesto->ID_Presupuesto; ?>'">
-                                    <i class="bi bi-trash"></i>
-                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm"
+                                     onclick="confirmarEliminarPresupuesto('<?php echo $presupuesto->ID_Presupuesto; ?>')">
+                                     <i class="bi bi-trash"></i>
+                                 </button>
                                 </div>
                               </td>
                               </tr>
@@ -294,7 +297,25 @@
         $('#Diciembre').text(formatoGuaranies.format(presupuestoDetalle.pre_dic));
     }
     </script>
-
+    <!-- Script para SweetAlert2 -->
+    <script>
+        function confirmarEliminarPresupuesto(presupuestoId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esto!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminarlo',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '<?php echo base_url(); ?>mantenimiento/presupuesto/delete/' + presupuestoId;
+                }
+            });
+        }
+    </script>
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>

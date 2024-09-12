@@ -42,8 +42,8 @@ class LibroBanco extends CI_Controller {
     public function mostrarLibroMayor(){
         $fechaInicio = $this->input->post('fecha_inicio');
         $fechaFin = $this->input->post('fecha_fin');
-        $idcuentacontable = $this->input->post('idcuentacontable'); // Asegúrate de que este campo existe en tu formulario
-
+        $idcuentacontable = $this->input->post('idcuentacontable'); 
+        
         // Obtener los datos del modelo
         $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idcuentacontable);
 
@@ -74,9 +74,5 @@ class LibroBanco extends CI_Controller {
         echo json_encode($entradasFiltradas);
     }
     
-    // En tu controlador LibroMayor.php
 
-
-
-    // Otros métodos necesarios para la gestión del Libro Mayor podrían ir aquí
 }
