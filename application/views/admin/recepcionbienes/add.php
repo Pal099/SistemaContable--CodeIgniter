@@ -204,7 +204,7 @@
                     <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span
                         class="fa fa-save"></span>Guardar</button>
                     <button class="btn btn-danger ml-3"
-                      onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto'">
+                      onclick="window.location.href='<?php echo base_url(); ?>patrimonio/recepcion_bienes'">
                       <i class="fa fa-remove"></i> Cancelar
                     </button>
                   </div>

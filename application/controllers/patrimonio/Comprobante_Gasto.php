@@ -144,15 +144,61 @@ class Comprobante_Gasto extends MY_Controller {
 	}
 	
 
-	public function edit($id){
-		$data  = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobanteGasto($id), 
+	public function edit($id) {
+		// Obtener nombre del usuario y sus identificadores relacionados
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+	
+		// Obtener el comprobante de gasto a editar
+		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
+	
+		// Obtener datos necesarios para cargar el formulario, al igual que en add()
+		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
+		$comprobantes = $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu);
+		$unidad = $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu);
+		$presupuestos = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
+		$fuentes = $this->Registros_financieros_model->getFuentes($id_uni_respon_usu);
+		$bienes_servicios = $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu);
+	
+		// Buscar y asignar el proveedor y la unidad correspondiente al comprobante
+		$proveedorEncontrado = null;
+		foreach ($proveedores as $proveedor) {
+			if ($proveedor->id == $comprobante->idproveedor) {
+				$proveedorEncontrado = $proveedor;
+				break;
+			}
+		}
+	
+		$unidadEncontrada = null;
+		foreach ($unidad as $uni) {
+			if ($uni->id_unidad == $comprobante->id_unidad) {
+				$unidadEncontrada = $uni;
+				break;
+			}
+		}
+	
+		// Preparar los datos para pasarlos a la vista, tal como en add()
+		$data = array(
+			'proveedores' => $proveedores,
+			'comprobante' => $comprobante,
+			'comprobantes' => $comprobantes,
+			'uni' => $unidad,
+			'proveedor' => $proveedorEncontrado,
+			'unidad' => $unidadEncontrada,
+			'presupuestos' => $presupuestos,
+			'fuentes' => $fuentes,
+			'bienes_servicios' => $bienes_servicios,
+			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
+	
+		// Cargar las vistas correspondientes
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/comprobantegasto/edit",$data);
+		$this->load->view("admin/comprobantegasto/edit", $data);
 		$this->load->view("layouts/footer");
 	}
+	
 
 	public function update(){
 		$IDComprobanteGasto = $this->input->post("IDComprobanteGasto");
@@ -203,7 +249,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Comprobante_Gasto_model->update($id,$data);
-		redirect(base_url() . "patrimonio/bienes_servicios");
+		redirect(base_url() . "patrimonio/comprobante_gasto");
 	}
 	public function getComprobanteDetalle($id) {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);

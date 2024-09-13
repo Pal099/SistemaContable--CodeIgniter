@@ -1,0 +1,7 @@
+#TablaCuadroResultado th, #TablaCuadroResultado td {
+    text-align: center;
+  }
+  
+  #TablaCuadroResultado td:nth-child(1), #TablaCuadroResultado td:nth-child(2) {
+    text-align: left;
+}
