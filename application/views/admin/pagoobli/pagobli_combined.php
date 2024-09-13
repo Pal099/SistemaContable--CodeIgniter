@@ -496,7 +496,7 @@
                                                                                         <input type="text"
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0" id="iva-retencion"
-                                                                                            data-id-cuenta="1438"
+                                                                                            data-id-cuenta="1311"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -535,7 +535,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-iva"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1438">
+                                                                                        data-id-cuenta="1311">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         for="selec-iva"
@@ -576,7 +576,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="renta-retencion"
-                                                                                            data-id-cuenta="1439"
+                                                                                            data-id-cuenta="1312"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -616,7 +616,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-renta"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1439">
+                                                                                        data-id-cuenta="1312">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -656,7 +656,7 @@
                                                                                         <input type="text"
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0" id="ley-retencion"
-                                                                                            data-id-cuenta="1440"
+                                                                                            data-id-cuenta="1319"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -696,7 +696,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-ley"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1440">
+                                                                                        data-id-cuenta="1319">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -737,7 +737,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="aporte-jubilatorio"
-                                                                                            data-id-cuenta="1441"
+                                                                                            data-id-cuenta="1308"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -777,7 +777,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-jubilatorio"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1441">
+                                                                                        data-id-cuenta="1308">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -818,7 +818,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="deduccion-anticipo"
-                                                                                            data-id-cuenta="1442"
+                                                                                            data-id-cuenta="1310"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -858,7 +858,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-anticipo"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1442">
+                                                                                        data-id-cuenta="1310">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -899,7 +899,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="deduccion-reparo"
-                                                                                            data-id-cuenta="1443"
+                                                                                            data-id-cuenta="1300"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -939,7 +939,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-reparo"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1443">
+                                                                                        data-id-cuenta="1300">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"
@@ -1061,7 +1061,7 @@
                                                                                             class="form-control text-end input-retencion"
                                                                                             value="0"
                                                                                             id="otras-retenciones"
-                                                                                            data-id-cuenta="1445"
+                                                                                            data-id-cuenta="1313"
                                                                                             readonly>
                                                                                         <span
                                                                                             class="input-group-text">$GS</span>
@@ -1101,7 +1101,7 @@
                                                                                         class="btn-check select-retencion"
                                                                                         id="selec-otras"
                                                                                         autocomplete="off"
-                                                                                        data-id-cuenta="1445">
+                                                                                        data-id-cuenta="1313">
                                                                                     <label
                                                                                         class="btn btn-outline-success me-2"
                                                                                         data-bs-toggle="tooltip"

@@ -73,7 +73,7 @@ class Balance_Gral extends CI_Controller {
                 break;
             case '4':
             case '8':
-                // Para cuentas que comienzan con 4 o 5
+                // Para cuentas que comienzan con 4 o 5->a 8 cambió richar
                 $cuenta->TotalDeudor = 0;
                 $cuenta->TotalAcreedor = $cuenta->TotalHaber - $cuenta->TotalDebe;
                 break;
@@ -100,4 +100,3 @@ class Balance_Gral extends CI_Controller {
     }
 }
 ?>
-
