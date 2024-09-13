@@ -5,6 +5,8 @@
     <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 
@@ -568,25 +570,34 @@
                                                                 <?php endif; ?>
                                                             </td>
                                                             <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalPresupuesto"
-                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                        <span class="fa fa-search"></span>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-pencil-fill"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                </div>
+                                                            <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+    <!-- Botón para PDF -->
+    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+    <!-- Botón para PDF con el ícono de Font Awesome -->
+    <button type="button"
+        class="btn btn-primary btn-view-presupuesto btn-sm"
+        onclick="window.location.href='<?php echo base_url() ?>Pdf_str/generarPDF_str/<?php echo $asien->IDNum_Asi; ?>'">
+        <i class="fas fa-file-pdf"></i> <!-- Ícono para PDF -->
+    </button>
+    
+    <!-- Botón para editar -->
+    <button type="button" class="btn btn-warning btn-sm"
+        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+        <i class="bi bi-pencil-fill"></i>
+    </button>
+    
+    <!-- Botón para eliminar -->
+    <button type="button"
+        class="btn btn-danger btn-remove btn-sm"
+        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+        <i class="bi bi-trash"></i>
+    </button>
+</div>
+
+</div>
+
+</div>
+
                                                             </td>
                                                         </tr>
                                                         <?php endforeach; ?>
