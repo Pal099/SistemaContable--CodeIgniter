@@ -1090,14 +1090,17 @@
                                 document.getElementById('descripcion_cc_2').value = Descripcion_CC;
 
                                 const desglose = desglosarCodigoCuenta(Codigo_CC);
+                                
                                 if (desglose) {
                                     const segundaParte = desglose.segundaParte;
 
                                     obtenerCuentasPadres(function(cuentasPadres) {
                                         if (cuentasPadres) {
+                                            console.log("Cuentas padres total: ", cuentasPadres);
                                             const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
                                             if (cuentaPadre) {
                                                 console.log("Cuenta padre encontrada:", cuentaPadre);
+                                                document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
                                                 document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
                                                 document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
                                             } else {
