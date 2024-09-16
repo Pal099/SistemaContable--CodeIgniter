@@ -671,7 +671,7 @@
 
 
 
-   <!-- Modal Comprobante de gastos con boostrap -->
+   <!-- Modal Comprobante de gastos con boostrap, le saqué lo de monto y str para que funcione, ver para que funcione con eso-->
    <div class="modal fade mi-modal" id="modalContainer_comprobante" tabindex="-1"
             aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
@@ -690,16 +690,15 @@
                                     <th>Ruc</th>
                                     <th>Razon Social</th>
                                     <th>Concepto</th>
-                                    <th>Monto</th>
-                                    <th>STR</th>
-                                </tr>
+                            
                             </thead>
+                            
                             <tbody>
                                 <?php foreach ($comprobante as $index => $comprob): ?>
                                 <tr class="list-item"
                                     onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
-                                    '<?= $comprob->razon_social ?>', '<?= $comprob->concepto?>', 
-                                    '<?= $comprob->monto ?>', '<?= $comprob->str?>')"
+                                    '<?= $comprob->razon_social ?>', '<?= $comprob->concepto?>')"
+                                    
                                     data-bs-dismiss="modal">
                                     <td>
                                         <?= $index + 1 ?>
@@ -720,12 +719,7 @@
                                     <td>
                                         <?= $comprob->concepto ?>
                                     </td>
-                                    <td>
-                                        <?= $comprob->monto ?>
-                                    </td>
-                                    <td>
-                                        <?= $comprob->str?>
-                                    </td>
+
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -1096,14 +1090,17 @@
                                 document.getElementById('descripcion_cc_2').value = Descripcion_CC;
 
                                 const desglose = desglosarCodigoCuenta(Codigo_CC);
+                                
                                 if (desglose) {
                                     const segundaParte = desglose.segundaParte;
 
                                     obtenerCuentasPadres(function(cuentasPadres) {
                                         if (cuentasPadres) {
+                                            console.log("Cuentas padres total: ", cuentasPadres);
                                             const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
                                             if (cuentaPadre) {
                                                 console.log("Cuenta padre encontrada:", cuentaPadre);
+                                                document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
                                                 document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
                                                 document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
                                             } else {

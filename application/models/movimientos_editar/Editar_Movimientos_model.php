@@ -12,7 +12,7 @@ class Editar_Movimientos_model extends CI_Model
 		num_asi.id_provee, num_asi.concepto, num_asi.ped_mat, num_asi.modalidad, num_asi.tipo_presu, num_asi.nro_exp, 
 		num_asi.MontoTotal, num_asi.MontoPagado, num_asi_deta.IDCuentaContable, num_asi_deta.MontoPago, num_asi_deta.Debe, 
 		num_asi_deta.Haber, num_asi_deta.Comprobante, num_asi_deta.detalles, num_asi_deta.id_of, num_asi_deta.id_pro, 
-		num_asi_deta.id_ff, num_asi_deta.cheques_che_id, num_asi_deta.IDNum_Asi_Deta');
+		num_asi_deta.id_ff, num_asi_deta.cheques_che_id, num_asi_deta.IDNum_Asi_Deta, num_asi.str, num_asi.id_nivel_str');
 		$this->db->from('num_asi');
 		$this->db->join('num_asi_deta', 'num_asi.IdNum_Asi = num_asi_deta.Num_Asi_IDNum_Asi ');
 		$this->db->where('num_asi.IDNUM_Asi', $IDNum_Asi);
@@ -45,6 +45,8 @@ class Editar_Movimientos_model extends CI_Model
 						'nro_exp' => $objeto->nro_exp,
 						'MontoTotal' => $objeto->MontoTotal,
 						'MontoPagado' => $objeto->MontoPagado,
+						'str' => $objeto->str,
+						'id_nivel_str' => $objeto->id_nivel_str,
 						// Se puede seguir agregando segun la necesidad o los datos de la bd
 					],
 					//Array para los campos dinamicos

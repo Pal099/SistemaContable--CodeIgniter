@@ -35,63 +35,9 @@ class Comprobante_Gasto_model extends CI_Model {
 		$this->db->where("IDComprobanteGasto",$id);
 		return $this->db->update("comprobante_gasto",$data);
 	}
-	public function obtener_datos_asiento($numero_asiento = null) {
-		$this->db->select('
-			origen_de_financiamiento.nombre as nombre_origen,
-			fuente_de_financiamiento.nombre as nombre_fuente,
-			programa.nombre as nombre_programa,
-			num_asi.num_asi as numero_asiento,
-			num_asi_deta.Debe as debe_num_asi_deta,
-			cuentacontable.Codigo_CC as codigo,
-			cuentacontable.Descripcion_CC,
-			presupuestos.pre_ene,
-			presupuestos.pre_feb,
-			presupuestos.pre_mar,
-			presupuestos.pre_abr,
-			presupuestos.pre_may,
-			presupuestos.pre_jun,
-			presupuestos.pre_jul,
-			presupuestos.pre_ago,
-			presupuestos.pre_sep,
-			presupuestos.pre_oct,
-			presupuestos.pre_nov,
-			presupuestos.pre_dic,
-			(presupuestos.TotalPresupuestado + presupuestos.TotalModificado) as Vigente,
-			IFNULL(SUM(num_asi_deta.Debe), 0) as Obligado,
-			((presupuestos.TotalPresupuestado + presupuestos.TotalModificado) - IFNULL(SUM(num_asi_deta.Debe), 0)) as SaldoPresupuestario,
-			SUM(num_asi_deta.Debe) as total_debe_cuenta,
-			COALESCE(
-				SUM(num_asi_deta.Debe) OVER (
-					PARTITION BY 
-						cuentacontable.Codigo_CC, 
-						programa.codigo, 
-						fuente_de_financiamiento.codigo, 
-						origen_de_financiamiento.codigo
-					ORDER BY num_asi.num_asi ASC 
-					ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING
-				), 0) as acumulado_anterior
-		');
-	
-		$this->db->from('num_asi_deta');
-		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of');
-		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff');
-		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro');
-		$this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
-		$this->db->join('presupuestos', 'cuentacontable.Idcuentacontable = presupuestos.Idcuentacontable');
-		$this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
-	
-		if ($numero_asiento) {
-			$this->db->where('num_asi.num_asi', $numero_asiento);
-		}
-	
-		$this->db->group_by('origen_de_financiamiento.nombre, fuente_de_financiamiento.nombre, programa.nombre, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, num_asi.num_asi');
-	
-		return $this->db->get()->result_array();
-	}
-	
-	
 	public function obtener_datos_presupuesto() {
 		$this->db->select('
+			presupuestos.ID_Presupuesto,
 			origen_de_financiamiento.nombre AS origen_de_financiamiento_id_of,
 			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
 			programa.nombre AS programa_id_pro,
@@ -146,9 +92,6 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 		return $this->db->get()->result_array();
 	}
-	
-	
-	
 	public function getComprobantesGastosFiltrados($actividad, $fuente, $anio, $mes)
 {
     $this->db->select('*');

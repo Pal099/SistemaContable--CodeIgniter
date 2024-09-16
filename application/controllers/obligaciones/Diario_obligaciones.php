@@ -96,7 +96,7 @@ class Diario_obligaciones extends CI_Controller
 
 	//Funcion para obtener las cuentas padres que se complementan con las funciones del Selectcc2 en el obli_combined
 	public function getCuentasPadres() {
-		$this->db->select('Codigo_CC, Descripcion_CC');
+		$this->db->select('IdCuentaContable, Codigo_CC, Descripcion_CC');
 		$this->db->from('cuentacontable');
 		$this->db->where('imputable', 2);
 		$this->db->like('Codigo_CC', '32', 'after'); // Filtrar donde el código comience con "32"

@@ -32,6 +32,11 @@
                         <i class="bi bi-circle"></i><span>Libro Mayor</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>mantenimiento/LibroBanco">
+                        <i class="bi bi-circle"></i><span>Libro Banco</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- Acá termina lo de Obligacion -->
 
@@ -173,6 +178,11 @@
                         <i class="bi bi-circle"></i><span>Libro Mayor</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>mantenimiento/LibroBanco">
+                        <i class="bi bi-circle"></i><span>Libro Banco</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- Acá termina lo de Obligacion -->
 
@@ -270,6 +280,11 @@
                         <i class="bi bi-circle"></i><span>Cuentas</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?php echo base_url(); ?>mantenimiento/Niveles">
+                        <i class="bi bi-circle"></i><span>Niveles</span>
+                    </a>
+                </li>
             </ul>
         </li><!-- Acá termina lo de Utilidades -->
         <li class="nav-item">
@@ -291,6 +306,11 @@
                <li class="nav-item">
                    <a href="<?php echo base_url(); ?>patrimonio/bienes_servicios">
                        <i class="bi bi-circle"></i><span>Bienes y/o Servicios</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/pedido_material">
+                       <i class="bi bi-circle"></i><span>Pedido Material</span>
                    </a>
                </li>
            </ul>

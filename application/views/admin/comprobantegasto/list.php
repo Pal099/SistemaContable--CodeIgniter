@@ -30,16 +30,6 @@
           </div>
 
           <div class="col-md-3">
-            <label for="fuente" class="form-label">Fuente:</label>
-            <select class="form-select" id="fuente" name="fuente">
-            <option value="">Ninguno</option>
-              <?php foreach ($fuentes as $fuente) : ?>
-                <option value="<?php echo $fuente->id_ff; ?>"><?php echo $fuente->codigo; ?></option>
-              <?php endforeach; ?>
-            </select>
-          </div>
-
-          <div class="col-md-3">
             <label for="periodo" class="form-label">Periodo:</label>
             <select class="form-select" id="periodo" name="periodo">
               <option value="">Ninguno</option>
@@ -111,13 +101,7 @@
                               <th>Actividad</th>
                               <th>Fecha</th>
                               <th>Proveedor</th>
-                              <th>Monto</th>
                               <th>concepto</th>
-                              <th>Aprobado</th>
-                              <th>F.F</th>
-                              <th>OBL</th>
-                              <th>STR</th>
-                              <th>O.P.</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
@@ -139,27 +123,8 @@
                                 }
                                 ?>
                             </td>
-                              <td><?php echo $comp->monto; ?></td>
                               <td><?php echo $comp->concepto; ?></td>
-                              <td><?php echo $comp->aprobado; ?></td>
-                              <td>
-                                  <?php
-                                  $fuenteEncontrada = array_filter($fuentes, function ($fuente) use ($comp) {
-                                      return $fuente->id_ff == $comp->id_ff;
-                                  });
-
-                                  if (!empty($fuenteEncontrada)) {
-                                      $primeraFuenteEncontrada = reset($fuenteEncontrada);
-                                      echo $primeraFuenteEncontrada->codigo;
-                                  } else {
-                                      echo "Fuente no encontrada";
-                                  }
-                                  ?>
-                              </td>
-
-                              <td><?php echo $comp->obl; ?></td>
-                              <td><?php echo $comp->str; ?></td>
-                              <td><?php echo $comp->op; ?></td>
+                              
                               <td>
                                 <div class="d-grid gap-1 d-md-flex justify-content-md-center">
                                   <button type="button" class="btn btn-primary btn-view-comprobante btn-sm" data-bs-toggle="modal" data-bs-target="#modalComprobantes" value="<?php echo $comp->IDComprobanteGasto; ?>">
