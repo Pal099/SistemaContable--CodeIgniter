@@ -37,7 +37,7 @@
                                     <i class='bx bx-edit' style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger" title="Generar PDF"
-                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs_pago')">
+                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/pdfs')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
                                 </button>
                                 <button type="button" class="btn btn-success" itle="Generar EXCEL" id="openModalBtn">
@@ -46,6 +46,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div> <!-- Final del encabezado -->
             <hr> <!-- barra separadora -->
@@ -55,12 +56,14 @@
                     <div class="row">
                         <!-- Campos principales -->
                         <div class="row">
-                            <form id="formularioPrincipal" onkeydown="return event.key != 'Enter';">
+                            <form id="formularioPrincipal">
                                 <div class="container-fluid mt-2">
                                     <div class="row justify-content-center">
                                         <div class="col-md-12">
                                             <div class="card border">
                                                 <div class="card-body">
+                                                    <h4 class="mt-4">Obligación</h4>
+                                                    <hr><!-- Separador -->
                                                     <div class="row g-3 align-items-center mt-2">
 
                                                         <?php
@@ -112,10 +115,6 @@
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
                                                         </div>
-                                                        <div class="form-group col-md-2 columna-hidden">
-                                                            <input type="text" class="form-control w-100" id="num_asio"
-                                                                name="num_asio" readonly>
-                                                        </div>
                                                         <div class="form-group col-md-2">
                                                             <label for="num_asi">N° asiento:</label>
                                                             <input type="text" class="form-control w-100" id="num_asi"
@@ -135,25 +134,15 @@
                                                         </div>
                                                         <div class="form-group col-md-4">
                                                             <label for="fecha">Fecha:</label>
-                                                            <input type="date" class="form-control" id="fecha"
+                                                            <input type="datetime-local" class="form-control" id="fecha"
                                                                 name="fecha" required>
                                                         </div>
                                                         <div class="form-group col-md-12">
-                                                            <label for="concepto">Concepto:</label>
-                                                            <input type="text" class="form-control w-100" id="concepto"
-                                                                name="concepto">
-                                                        </div>
-                                                        <div class="form-group col-md-12">
-                                                            <label for="MontoPago">MontoPago:</label>
-                                                            <input type="text" class="form-control w-100" id="concepto"
-                                                                name="MontoPago">
+                                                            <label for="observacion">Concepto:</label>
+                                                            <input type="text" class="form-control w-100"
+                                                                id="observacion" name="observacion">
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
-                                            <div class="card border">
-                                                <div class="card-body">
                                                     <table
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4"
                                                         id="miTabla">
@@ -227,7 +216,7 @@
                                                                         <input style="font-size: small;" type="text"
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="descripcion_cc" name="descripcion_cc">
-                                                                        <button type="button" data-bs-toggle="modal"
+                                                                        <button data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont1"
                                                                             class="btn btn-sm btn-outline-primary"
                                                                             id="openModalBtn_3">
@@ -254,14 +243,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <input type="text"
                                                                             class="form-control small border-0 bg-transparent"
-                                                                            id="" name="" readonly>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="columna-hidden">
-                                                                    <div class="input-group input-group-sm ">
-                                                                        <input type="text"
-                                                                            class="form-control small border-0 bg-transparent"
-                                                                            id="MontoTotal" name="MontoTotal" readonly>
+                                                                            id="MontoPago" name="MontoPago" readonly>
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -362,7 +344,7 @@
                                                                             class="form-control border-0 bg-transparent descripcion_cc_2"
                                                                             id="descripcion_cc_2"
                                                                             name="descripcion_cc_2">
-                                                                        <button type="button" data-bs-toggle="modal"
+                                                                        <button data-bs-toggle="modal"
                                                                             data-bs-target="#modalCuentasCont2"
                                                                             class="btn btn-sm btn-outline-primary openModalBtn_4"
                                                                             id="botonBuscar2">
@@ -440,6 +422,7 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <!-- Tabla del debe, haber y Diferencia -->
                                                     <table id="miTabla2"
                                                         class="table table-hover table-bordered table-sm rounded-3 mt-4">
                                                         <thead>
@@ -452,17 +435,17 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <input type="text" id="DebeC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                    <input type="text" id="DebeC" class="form-control">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" id="HaberC"
-                                                                        class="form-control border-0 bg-transparent">
+                                                                    <input type="text" id="HaberC" class="form-control">
                                                                 </td>
                                                                 <td id="diferencia">0</td>
+
                                                             </tr>
                                                         </tbody>
                                                     </table>
+                                                    <!-- Botones guardar y cancelar -->
                                                     <div class="container-fluid mt-3 mb-3">
                                                         <div class="col-md-12 d-flex flex-row justify-content-center">
                                                             <button style="margin-right: 8px;" type="submit"
@@ -476,82 +459,71 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Tabla de los asientos -->
+                                            <!-- Acá termina el card que envuelve los campos del formulario y comienza la tabla -->
                                             <div class="card border">
                                                 <div class="card-body">
+                                                    <!-- Tabla de Num_asi -->
                                                     <h4 class="mt-4">Asientos</h4>
                                                     <hr><!-- Separador -->
+                                                    </hr>
                                                     <table id="vistapago"
-                                                    class="table table-hover table-bordered table-sm rounded-3">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>N° asiento</th>
-                                                            <th>N° OP</th>
-                                                            <th>Fecha de Emisión</th>
-                                                            <th>Proveedor</th>
-                                                            <th>Monto Total</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php if (!empty($asiento)): ?>
-                                                        <?php foreach ($asiento as $asien): ?>
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo $asien->num_asi ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->op ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->FechaEmision ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->razon_social ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalPresupuesto"
-                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                        <span class="fa fa-search"></span>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-pencil-fill"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-primary btn-sm" onclick="generarPDF(<?php echo $asien->num_asi; ?>)">
-                                                                        <i class="bi bi-filetype-pdf"></i>
-                                                                    </button>
-
-                                                                    <script>
-                                                                        function generarPDF(numeroAsiento) {
-                                                                            // Redirige a la URL con el número de asiento
-                                                                            window.location.href = "<?php echo base_url('Pdf_pago_num_asi/pdf_pago_obli_num_asi/'); ?>" + numeroAsiento;
-                                                                        }
-                                                                    </script>
-
-
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                        <p>No se encontraron datos.</p>
-                                                        <?php endif; ?>
-                                                    </tbody>
-                                                </table>
+                                                        class="table table-hover table-bordered table-sm rounded-3">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>id_num_asi</th>
+                                                                <th>Fecha de Emisión</th>
+                                                                <th>num_asi</th>
+                                                                <th>op</th>
+                                                                <th>Estado</th>
+                                                                <th>Acciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <?php if (!empty($asiento)): ?>
+                                                            <?php foreach ($asiento as $asien): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $asien->IDNum_Asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->FechaEmision ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->num_asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->op ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->estado ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class='bx bx-edit'></i>
+                                                                        </button>
+                                                                        <button class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
+                                                            <?php else: ?>
+                                                            <p>No se encontraron datos.</p>
+                                                            <?php endif; ?>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
@@ -565,7 +537,6 @@
         </div>
     </main>
 
- 
     <!-- Modal Lista de Obligaciones-->
     <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
         aria-hidden="true">
@@ -584,7 +555,6 @@
                                 <th>Razon Social</th>
                                 <th>Nro. asiento</th>
                                 <th>Fecha</th>
-                                <th>Concepto</th>
                                 <th>M. Pagado</th>
                                 <th>M. Total</th>
                                 <th>Suma del Pago</th>
@@ -642,11 +612,33 @@
                         <tbody>
                         <?php foreach ($registros_por_proveedor as $asi): ?>
         <?php
+        // Agrega un bloque adicional para manejar la lógica de estados e Id_form
+        $estado_texto = '';
 
+        // Utilizamos un switch para manejar la lógica de estados
+        switch ($asi->estado) {
+            case 3:
+                // Caso 1: Estado 3 (pendiente)
+                $estado_texto = 'Pendiente';
+                break;
+
+            case 4:
+                // Caso 2: Estado 4 (pagado)
+                // Puedes agregar más lógica según tus requerimientos
+                // También puedes añadir condiciones adicionales para casos específicos
+                $estado_texto = 'Pagado';
+                break;
+
+            // Puedes agregar más casos según tus requerimientos
+
+            default:
+                // En caso de que el estado no coincida con ningún caso
+                $estado_texto = 'Pendiente';
+        }
         ?>
                             <tr class="list-item"
                                 onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
-                                        '<?= $asi->Debe ?>',  '<?= $asi->concepto ?>','<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
                                         '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasideta ?>', '<?= $asi->total ?>')"
                                 data-bs-dismiss="modal">
                                 <td>
@@ -659,13 +651,10 @@
                                     <?= $asi->razso_proveedor ?>
                                 </td>
                                 <td>
-                                    <?= $asi->fecha ?>
-                                </td>
-                                <td>
-                                    <?= $asi->concepto ?>
-                                </td>
-                                <td>
                                     <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->fecha ?>
                                 </td>
                                 <td>
                                     <?= $asi->pagado ?>
@@ -713,26 +702,16 @@
 
     <!-- Script modal lista de obligaciones (seleccionar) -->
     <script>
-
-
-
-
     // Función para seleccionar un asi
-    function selectAsi(numero,ruc, razonSocial, fechas, concepto,   debes, montos, fuentes, programas, origens, cuentas, descrip, deta,
-    comp, cheq, idcuenta) {
-
-        var descripcionConPrefijo = 'A.P. ' + descrip;
-        //var descripcionConPrefijo2 = 'A.P.' + descrip;
-        var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
-        //var descripcionCodificada2 = encodeURIComponent(descripcionConPrefijo2);
-
+    function selectAsi(numero,ruc, razonSocial, fechas, montos, debes, fuentes, programas, origens, cuentas, descrip, deta,
+        comp, cheq, idcuenta, numes) {
+        // Actualizar los campos de texto en la vista principal
         document.getElementById('num_asi').value = numero;
         document.getElementById('ruc').value = ruc;
         document.getElementById('contabilidad').value = razonSocial;
         document.getElementById('fecha').value = fechas;
-        document.getElementById('concepto').value = debes;
-        document.getElementById('Debe').value = concepto;
-        document.getElementById('MontoPago').value = concepto;
+        document.getElementById('Debe').value = debes;
+        document.getElementById('MontoPago').value = montos;
         document.getElementById('id_ff').value = fuentes;
         document.getElementById('id_pro').value = programas;
         document.getElementById('id_of').value = origens;
@@ -743,53 +722,20 @@
         document.getElementById('cheques_che_id').value = cheq;
         document.getElementById('idcuentacontable').value = idcuenta;
 
-        //Prueba '&descripcion2=' + descripcionCodificada2
-        $.ajax({
-            type: 'GET',
-            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/obtenerInformacionPorDescripcion"); ?>?descripcion=' +
-                descripcionCodificada,
-            data: {
-                descripcionConPrefijo
-            },
-            success: function(respuesta) {
-                // Dividir la cadena de respuesta en un array usando la coma como separador
-                var valores = respuesta.split(',');
-
-                // Asignar los valores a los campos correspondientes
-                $('#idcuentacontable').val(valores[1]);
-                $('#codigo_cc').val(valores[2]);
-                $('#descripcion_cc').val(valores[3]);
-
-                // Imprimir los valores en la consola para verificar
-
-
-
-            },
-            error: function(xhr, status, error) {
-                console.error('Error en la solicitud AJAX');
-                console.log('XHR:', xhr);
-                console.log('Status:', status);
-                console.log('Error:', error);
-            }
-        });
-
-        document.getElementById('detalles').value = deta;
-        document.getElementById('comprobante').value = comp;
-        document.getElementById('cheques_che_id').value = cheq;
-        document.getElementById('num_asio').value = numasio;
-        document.getElementById('MontoPago').value = pagado;
     }
     </script>
-    <!-- Script de DataTable de vista  -->
+    <!-- Script de la tabla Asientos  -->
     <script>
     $(document).ready(function() {
         $('#vistapago').DataTable({
             paging: true,
-            pageLength: 10,
+            lengthMenu: [
+                [5, 15, 25, -1],
+                ['5', '15', '25', 'Todo']
+            ],
             lengthChange: true,
             searching: true,
             info: true,
-            order: [[0, 'desc']], // Ordena la primera columna en orden descendiente
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             }
@@ -799,18 +745,18 @@
 
     <!-- script para las fechas -->
     <script>
-    // Obtener la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
-    function obtenerFechaHoraActual() {
+    // Obtener la fecha actual en el formato deseado (yyyy-mm-dd)
+    function obtenerFechaActual() {
         const fecha = new Date();
         const dia = fecha.getDate().toString().padStart(2, '0');
         const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
         const año = fecha.getFullYear();
-        return `${año}-${mes}-${dia}`;
+        return `${dia}-${mes}-${año}`;
     }
 
-    // Preestablecer el campo de fecha con la fecha y hora actual
+    // Preestablecer el campo de fecha con la fecha actual
     const fechaInput = document.getElementById('fecha');
-    fechaInput.value = obtenerFechaHoraActual();
+    //fechaInput.value = obtenerFechaActual();
     </script>
 
     <!-- funcion para mostrar el toast -->
@@ -889,6 +835,9 @@
             $("#miTabla tbody").append(nuevaFila);
         });
 
+
+
+
         // Eliminar fila
         $("#miTabla").on("click", ".eliminarFila", function(e) {
             e.preventDefault();
@@ -915,21 +864,19 @@
             direccion: $("#direccion").val(),
             telefono: $("#telefono").val(),
             tesoreria: $("#tesoreria").val(),
-            concepto: $("#concepto").val(),
+            observacion: $("#observacion").val(),
             fecha: $("#fecha").val(),
-            idnumasi: $("#num_asio").val(),
 
             // Agrega más campos según sea necesario
             id_pro: $("#id_pro").val(),
             id_ff: $("#id_ff").val(),
             id_of: $("#id_of").val(),
-            IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-            MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
+            IDCuentaContable: $("#idcuentacontable").val(),
+            MontoPago: $("#MontoPago").val(),
             comprobante: $("#comprobante").val(),
             Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
             Haber: $("#Haber").val(),
             cheques_che_id: $("#cheques_che_id").val(),
-
 
         };
 
@@ -940,7 +887,7 @@
         var filas = [];
 
 
-        $("#miTabla tbody tr:gt(0)").each(function() {
+        $("#miTabla tbody tr:gt(0)").each(function(e) {
 
             var fila = {
                 id_pro: $(this).find("select[name='id_pro_2']").val(),
@@ -967,57 +914,47 @@
         };
 
         var diferenciaActualizada = parseFloat($("#diferencia").text());
-        var Totalpagado = parseFloat($("#MontoPago").val().replace(/[^\d.-]/g, ''));
-        var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
-        var Suma = debe + Totalpagado;
-        var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
 
-
-        if (Suma <= total) {
-
-            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: {
-                        datos: datosCompletos
-                    },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function(response) {
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            // ... (código adicional si es necesario)
-                        }
-                    },
-                    error: function(xhr, status, error) {
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
+        if (diferenciaActualizada < 0.0001) {
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
+                success: function(response) {
+                    alert(filas);
+                    alert(filas);
+                    console.log(response);
+                    if (response.includes('Datos guardados exitosamente.')) {
+                        alert('Datos guardados exitosamente.');
+                        // ... (código adicional si es necesario)
+                    } else {
+                        alert('Error al guardar los datos: ' + response);
+                        // ... (código adicional si es necesario)
                     }
-                });
-            } else {
-                alert('El debe y el haber son diferentes');
-                return false;
-            }
+                },
+                error: function(xhr, status, error) {
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+
+                    console.log(xhr
+                        .responseText); // Agrega esta línea para ver la respuesta del servidor
+                    console.log(datosCompletos);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+
+                }
+            });
         } else {
-            alert('El Monto Pagado es mayor al Total a Pagar');
+            alert('El debe y el haber son diferentes');
             return false;
         }
 
-
-        e.stopPropagation();
 
     });
     </script>
@@ -1031,42 +968,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    <input type="text" id="searchInput" placeholder="Buscar por código o descripción...">
                     <table class="table table-hover table-sm" id="TablaCuentaCont1">
-                    <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Código de Cuenta</th>
-                                    <th>Descripción de Cuenta</th>
-                                    <th>Estado</th>
-                                    <th>Presupuesto</th>
-                                </tr>
-                            </thead>
-                            
-                            <tbody>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código de Cuenta</th>
+                                <th>Descripción de Cuenta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td><?= $dato->IDCuentaContable ?></td>
-                                    <td><?= $dato->Codigo_CC ?></td>
-                                    <td><?= $dato->Descripcion_CC ?></td>
-                                    <td>
-                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                            <span class="badge bg-success">Presupuestado</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-warning">No está Presupuestado</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
-                                    </td>
-
-                                </tr>
+                            <tr class="list-item"
+                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $dato->IDCuentaContable ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Codigo_CC ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Descripcion_CC ?>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
-
-                                
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -1083,44 +1010,32 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                    <input type="text" id="searchInput_2" placeholder="Buscar por código o descripción...">
                     <table class="table table-hover table-sm" id="TablaCuentaCont2">
-                    <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Código de Cuenta</th>
-                                    <th>Descripción de Cuenta</th>
-                                    <th>Estado</th>
-                                    <th>Presupuesto</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($cuentacontable_E as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $dato->IDCuentaContable ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Codigo_CC ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
-                                    <td>
-                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                            <span class="badge bg-success">Presupuestado</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-warning">No está Presupuestado</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <?= number_format($dato->TotalPresupuestado, 0, ',', '.') ?>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código de Cuenta</th>
+                                <th>Descripción de Cuenta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($cuentacontable as $dato): ?>
+                            <tr class="list-item"
+                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $dato->IDCuentaContable ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Codigo_CC ?>
+                                </td>
+                                <td>
+                                    <?= $dato->Descripcion_CC ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -1148,15 +1063,6 @@
             Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
     }
-    $(document).ready(function() {
-        // Agregar un controlador de eventos de clic al botón
-        $('#openModalBtn_3').on('click', function(event) {
-            // Detener la propagación del evento
-            event.stopPropagation();
-            event.preventDefault();
-            // Tu lógica para abrir el modal aquí si es necesario
-        });
-    });
     </script>
 
 
@@ -1182,7 +1088,7 @@
             currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
             currentRow.find('.codigo_cc_2').val(Codigo_CC);
             currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-
+            closeModal_4();
         } else {
             console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
         }
@@ -1317,6 +1223,28 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+    <!-- Script de DataTable de vista  -->
+    <script>
+    $(document).ready(function() {
+        $('#vistaobli').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "language": {
+                "search": "Busqueda de asientos:",
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
+        });
+    });
+    </script>
+
+
+
+
 </body>
 
 </html>

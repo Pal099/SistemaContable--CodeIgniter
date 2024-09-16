@@ -63,12 +63,13 @@ class Diario_obli_model extends CI_Model {
 
 	public function ultimoSTR($id_user) {
 		// Acá obtenemos el id de la unidad académica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
 	
 		// Obtenemos el último valor de 'str' para esta unidad académica
 		$this->db->select('num_asi.str');
 		$this->db->from('num_asi');
 		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
-		$this->db->where('usuarios.id_unidad', $id_user);
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
 		$this->db->order_by('num_asi.str', 'desc');
 		$this->db->limit(1);
 		$query = $this->db->get();
@@ -275,18 +276,6 @@ public function getUsuarioId($nombre){
     }
 
 
-
-	public function getC_C() {
-        $this->db->select('Codigo_CC, Descripcion_CC');
-        $this->db->from('cuentacontable');
-        $this->db->where('imputable', 2);
-        $resultados = $this->db->get();
-        echo json_encode($resultados->result());
-    }
-
-
-	
-
 	
 
 	//guardar asientos
@@ -302,7 +291,6 @@ public function getUsuarioId($nombre){
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
 	
-
 	//Para el Selectcc, es decir, el primer modal del DEBE
 	public function getCuentaContable() {
 		$query = $this->db->get("cuentacontable");

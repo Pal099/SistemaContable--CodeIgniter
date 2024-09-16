@@ -20,6 +20,9 @@
         cursor: pointer;
     }
 
+  
+
+
     /* Animación para mostrar la notificación */
     @keyframes slideIn {
         from {

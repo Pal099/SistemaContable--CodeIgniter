@@ -6,9 +6,9 @@ class Proveedores_model extends CI_Model {
 	public function getProveedores($id_uni_respon_usu) {
 		$this->db->select('proveedores.*');
 		$this->db->from('proveedores');
-		$this->db->join('uni_respon_usu', 'proveedores.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('unidad_academica', 'proveedores.id_uni_respon_usu = unidad_academica.id_unidad');
 		$this->db->where('proveedores.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
 		
 		$resultados = $this->db->get();
 		return $resultados->result();
