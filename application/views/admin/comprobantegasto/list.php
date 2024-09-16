@@ -130,9 +130,9 @@
                                   <button type="button" class="btn btn-primary btn-view-comprobante btn-sm" data-bs-toggle="modal" data-bs-target="#modalComprobantes" value="<?php echo $comp->IDComprobanteGasto; ?>">
                                     <span class="fa fa-search"></span>
                                   </button>
-                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto;?>'">
+                                  <!-- <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto;?>'">
                                     <i class="bi bi-pencil-fill"></i>
-                                  </button>
+                                  </button> -->
                                   <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo$comp->IDComprobanteGasto; ?>'">
                                     <i class="bi bi-trash"></i>
                                   </button>

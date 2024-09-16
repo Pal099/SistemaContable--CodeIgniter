@@ -14,7 +14,7 @@ class Pdf_str extends CI_Controller {
         //$this->load->view('layouts/footer');
     }
 
-    public function generarPDFS()
+    public function generarPDF_str()
     {
         require_once APPPATH . 'third_party/fpdf/fpdf.php';
     
@@ -132,7 +132,7 @@ $pdf->Cell(5, $textypos, "Unidad responsable:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(65);
 $pdf->setX(43);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $unidadAcademica);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -157,7 +157,7 @@ $pdf->Cell(5, $textypos, utf8_decode("Fecha de recepción:"));
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(55);
 $pdf->setX(140);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['fecha'] );
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
@@ -168,7 +168,7 @@ $pdf->Cell(5, $textypos, "Doc. nro.:");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(60);
 $pdf->setX(130);
-$pdf->Cell(5, $textypos, $datosProveedor[0]['fecha']);
+$pdf->Cell(5, $textypos, $datosProveedor[0]['ruc']);
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
