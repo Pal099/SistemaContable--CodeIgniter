@@ -642,84 +642,69 @@ function openModal_4(currentRowParam) {
 </script>
 
 <script>
-    $(document).ready(function () {
-        var indice = 1;
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function (e) {
-            e.preventDefault();
+   $(document).ready(function () {
+    var indice = 1;
 
-            indice++;
+    // Agregar fila
+    $(document).on("click", ".agregarFila", function (e) {
+        e.preventDefault();
+        indice++;
 
-            // Clonar la fila base
-            var nuevaFila = $("#filaB").clone();
+        // Clonar la fila base
+        var nuevaFila = $("#filaB").clone();
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
+        nuevaFila.find("[id]").removeAttr('id');
+        nuevaFila.find("select, input").addClass("filaClonada");
+        nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
+        nuevaFila.find(".index").val(indice);
+        nuevaFila.find(".piva").prop('readonly', true);
+        nuevaFila.find(".iva-checkbox").prop('checked', false);
+        nuevaFila.show();
 
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
-
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
-
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
-
-            // Limpiar los valores de los campos en la nueva fila
-            nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
-
-            nuevaFila.find(".index").val(indice);
-
-            nuevaFila.find(".piva").prop('readonly', true);
-
-            nuevaFila.find(".iva-checkbox").prop('checked', false);
-            // Mostrar la nueva fila
-            nuevaFila.show();
-
-            // Agregar la nueva fila al cuerpo de la tabla
-            $("#tablaP tbody").append(nuevaFila);
-        });
-
-        // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
-
-            $(this).closest("tr").remove();
-
-        });
-
-        // Manejar el cambio en la casilla de verificación y el campo piva
-        $(document).on("change", ".iva-checkbox, .piva", function () {
-            var row = $(this).closest('tr');
-
-            // Verificar si la casilla iva-checkbox está marcada
-            if (row.find('.iva-checkbox').is(':checked')) {
-                // Habilitar el campo piva
-                row.find('.piva').prop('readonly', false);
-
-                
-                // Calcular gravada cuando cambian los campos relevantes
-                row.on('input', '.precioref, .cantidad, .piva', function () {
-                    var precio = parseFloat(row.find('.precioref').val()) || 0;
-                    var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
-                    var piva = parseFloat(row.find('.piva').val()) || 0;
-                    var gravada = precio * cantidad * (1 + piva / 100);
-                    row.find('.gravada').val(gravada.toFixed(0));
-                });
-
-                // Calcular gravada inicialmente al cargar la página
-                var precio = parseFloat(row.find('.precioref').val()) || 0;
-                var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
-                var piva = parseFloat(row.find('.piva').val()) || 0;
-                var gravada = precio * cantidad * (1 + piva / 100);
-                row.find('.gravada').val(gravada.toFixed(0));
-
-            } else {
-                // Deshabilitar el campo piva y reiniciar los valores de gravada y piva
-                row.find('.piva').prop('readonly', true);
-                row.find('.gravada').val(0);
-                row.find('.piva').val('');
-            }
-        });
-
+        // Agregar la nueva fila al cuerpo de la tabla
+        $("#tablaP tbody").append(nuevaFila);
     });
+
+    // Eliminar fila
+    $("#tablaP").on("click", ".eliminarFila", function (e) {
+        e.preventDefault();
+        $(this).closest("tr").remove();
+    });
+
+    // Manejar el cambio en la casilla de verificación y los campos
+    $(document).on("change", ".iva-checkbox, .precioref, .cantidad, .piva", function () {
+        var row = $(this).closest('tr');
+        actualizarValores(row);
+    });
+
+    // Función para actualizar los valores de exenta y gravada
+    function actualizarValores(row) {
+        var precio = parseFloat(row.find('.precioref').val()) || 0;
+        var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
+        var piva = parseFloat(row.find('.piva').val()) || 0;
+
+        if (row.find('.iva-checkbox').is(':checked')) {
+            // Si el IVA está marcado
+            var gravada = precio * cantidad * (1 + piva / 100);
+            row.find('.gravada').val(gravada.toFixed(0));  // Asignar valor a gravada
+            row.find('.exenta').val(0);  // Exenta debe ser 0
+            row.find('.piva').prop('readonly', false);  // Habilitar el campo de IVA
+        } else {
+            // Si el IVA no está marcado
+            var exenta = precio * cantidad;
+            row.find('.exenta').val(exenta.toFixed(0));  // Asignar valor a exenta
+            row.find('.gravada').val(0);  // Gravada debe ser 0
+            row.find('.piva').val('');  // Limpiar el valor del IVA
+            row.find('.piva').prop('readonly', true);  // Deshabilitar el campo de IVA
+        }
+    }
+
+    // Inicializar el estado de las filas al cargar la página
+    $("#tablaP tbody tr").each(function () {
+        var row = $(this);
+        actualizarValores(row);
+    });
+});
 
 </script>
 

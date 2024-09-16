@@ -66,9 +66,9 @@
 
                                                     <!-- Número de Comprobante (readonly) -->
                                                     <div class="form-group col-md-4">
-                                                        <label for="npedido">Nro. de Comprobante:</label>
-                                                        <input type="number" class="form-control" id="npedido"
-                                                            name="npedido"
+                                                        <label for="id_pedido">Nro. de Comprobante:</label>
+                                                        <input type="number" class="form-control" id="id_pedido"
+                                                            name="id_pedido"
                                                             value="<?php echo $comprobante->id_pedido; ?>" required
                                                             readonly>
                                                     </div>
@@ -162,9 +162,9 @@
                                                                                                             <input
                                                                                                                 type="text"
                                                                                                                 class="form-control border-0 bg-transparent index"
-                                                                                                                id="item"
-                                                                                                                name="item"
-                                                                                                                value="<?php echo $comprobante->item; ?>"
+                                                                                                                id="id_item"
+                                                                                                                name="id_item"
+                                                                                                                value="<?php echo $comprobante->id_item; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -173,10 +173,10 @@
                                                                                                             class="input-group input-group-sm align-items-center">
                                                                                                             <input
                                                                                                                 type="number"
-                                                                                                                class="form-control border-0 bg-transparent npedido"
-                                                                                                                id="npedido"
-                                                                                                                name="npedido"
-                                                                                                                value="<?php echo $comprobante->npedido; ?>"
+                                                                                                                class="form-control border-0 bg-transparent id_pedido"
+                                                                                                                id="id_pedido"
+                                                                                                                name="id_pedido"
+                                                                                                                value="<?php echo $comprobante->id_pedido; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -185,10 +185,10 @@
                                                                                                             class="input-group input-group-sm align-items-center">
                                                                                                             <input
                                                                                                                 type="text"
-                                                                                                                class="form-control border-0 bg-transparent actividad"
-                                                                                                                id="actividad"
-                                                                                                                name="actividad"
-                                                                                                                value="<?php echo $comprobante->actividad; ?>"
+                                                                                                                class="form-control border-0 bg-transparent id_unidad"
+                                                                                                                id="id_unidad"
+                                                                                                                name="id_unidad"
+                                                                                                                value="<?php echo $comprobante->id_unidad; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -224,7 +224,7 @@
                                                                                                                 class="form-control border-0 bg-transparent rubro"
                                                                                                                 id="rubro"
                                                                                                                 name="rubro"
-                                                                                                                value="<?php echo $comprobante->rubro; ?>"
+                                                                                                                value="<?php echo isset($rubro) ? $rubro : ''; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -245,10 +245,10 @@
                                                                                                             class="input-group input-group-sm align-items-center">
                                                                                                             <input
                                                                                                                 type="text"
-                                                                                                                class="form-control border-0 bg-transparent precioref"
-                                                                                                                id="precioref"
-                                                                                                                name="precioref"
-                                                                                                                value="<?php echo $comprobante->precioref; ?>">
+                                                                                                                class="form-control border-0 bg-transparent preciounit"
+                                                                                                                id="preciounit"
+                                                                                                                name="preciounit"
+                                                                                                                value="<?php echo $comprobante->preciounit; ?>">
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td>
@@ -271,7 +271,7 @@
                                                                                                                 class="form-check-input iva iva-checkbox"
                                                                                                                 id="iva"
                                                                                                                 name="iva"
-                                                                                                                <?php echo $comprobante->iva ? 'checked' : ''; ?>>
+                                                                                                                <?php echo ($comprobante->porcentaje_iva > 0) ? 'checked' : ''; ?>>
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td>
@@ -279,12 +279,14 @@
                                                                                                             class="input-group input-group-sm align-items-center">
                                                                                                             <input
                                                                                                                 type="number"
-                                                                                                                class="form-control border-0 bg-transparent piva"
-                                                                                                                id="piva"
-                                                                                                                name="piva"
-                                                                                                                value="<?php echo $comprobante->piva; ?>"
+                                                                                                                class="form-control border-0 bg-transparent porcentaje_iva"
+                                                                                                                id="porcentaje_iva"
+                                                                                                                name="porcentaje_iva"
+                                                                                                                value="<?php echo $comprobante->porcentaje_iva; ?>"
                                                                                                                 readonly>
-                                                                                                        </div>
+                                                                                                            <div
+                                                                                                                class="form-group">
+                                                                                                            </div>
                                                                                                     </td>
                                                                                                     <td>
                                                                                                         <div
@@ -438,13 +440,13 @@
                                 <th>Descripción</th>
                                 <th>Catálogo</th>
                                 <th>Descripción de Catálogo</th>
-                                <th>Precio Ref</th>
+                                <th>Precio Unit</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($bienes_servicios as $index => $bienes): ?>
                                 <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
-                                    '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')"
+                                    '<?= $bienes->descripcion ?>', '<?= $bienes->preciounit ?>')"
                                     data-bs-dismiss="modal">
                                     <td class="columna-hidden">
                                         <?= $bienes->IDbienservicio ?>
@@ -468,7 +470,7 @@
                                         <?= $bienes->descripcioncatalogo ?>
                                     </td>
                                     <td>
-                                        <?= $bienes->precioref ?>
+                                        <?= $bienes->preciounit ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -498,16 +500,16 @@
 
         $("#tablaP tbody tr").each(function () {
             var fila = {
-                id_pedido: $(this).find("input[name='npedido']").val(),
+                id_pedido: $(this).find("input[name='id_pedido']").val(),
                 id_unidad: $(this).find("input[name='id_unidad']").val(),
                 id_item: $(this).find("input[name='id_item']").val(),
                 //idpresupuesto: $(this).find("input[name='idpresupuesto']").val(),
                 rubro: $(this).find("input[name='rubro']").val(),
                 iva: ivac,
                 descripcion: $(this).find("input[name='descrip']").val(),
-                precioUnit: $(this).find("input[name='precioref']").val(),
+                precioUnit: $(this).find("input[name='preciounit']").val(),
                 cantidad: $(this).find("input[name='cantidad']").val(),
-                piva: $(this).find("input[name='piva']").val(),
+                porcentaje_iva: $(this).find("input[name='porcentaje_iva']").val(),
                 exenta: $(this).find("input[name='exenta']").val(),
                 gravada: $(this).find("input[name='gravada']").val(),
             };
@@ -566,14 +568,14 @@
 
 
     // Función para seleccionar la cuenta contable
-    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+    function selectBien(IDbienservicio, rubro, descripcion, preciounit) {
         // Verificar si currentRow está definido y no es null
         if (currentRow) {
             // Utilizar currentRow para actualizar los campos
             currentRow.find('.IDbienservicio').val(IDbienservicio);
             currentRow.find('.rubro').val(rubro);
             currentRow.find('.descripcion').val(descripcion);
-            currentRow.find('.precioref').val(precioref);
+            currentRow.find('.preciounit').val(preciounit);
 
         } else {
             console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
@@ -635,11 +637,11 @@
         //$('#rubro').val(selectedValue);
     });
 
-    $('#tablaP').on('input', '.precioref, .cantidad', function () {
+    $('#tablaP').on('input', '.preciounit, .cantidad', function () {
         var $row = $(this).closest('tr');
-        var precio = $row.find('.precioref').val();
+        var precio = $row.find('.preciounit').val();
         var cantidad = $row.find('.cantidad').val();
-        var piva = $row.find('.piva').val();
+        var porcentaje_iva = $row.find('.porcentaje_iva').val();
         var exenta = precio * cantidad;
         $row.find('.exenta').val(exenta.toFixed(0));
     });
@@ -647,84 +649,70 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        var indice = 1;
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function (e) {
-            e.preventDefault();
+$(document).ready(function () {
+    var indice = 1;
 
-            indice++;
+    // Agregar fila
+    $(document).on("click", ".agregarFila", function (e) {
+        e.preventDefault();
+        indice++;
 
-            // Clonar la fila base
-            var nuevaFila = $("#filaB").clone();
+        // Clonar la fila base
+        var nuevaFila = $("#filaB").clone();
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
+        nuevaFila.find("[id]").removeAttr('id');
+        nuevaFila.find("select, input").addClass("filaClonada");
+        nuevaFila.find("select, input").not('.index, .id_pedido, .actividad').val("");
+        nuevaFila.find(".index").val(indice);
+        nuevaFila.find(".porcentaje_iva").prop('readonly', true);
+        nuevaFila.find(".iva-checkbox").prop('checked', false);
+        nuevaFila.show();
 
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
-
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
-
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
-
-            // Limpiar los valores de los campos en la nueva fila
-            nuevaFila.find("select, input").not('.index, .npedido, .actividad').val("");
-
-            nuevaFila.find(".index").val(indice);
-
-            nuevaFila.find(".piva").prop('readonly', true);
-
-            nuevaFila.find(".iva-checkbox").prop('checked', false);
-            // Mostrar la nueva fila
-            nuevaFila.show();
-
-            // Agregar la nueva fila al cuerpo de la tabla
-            $("#tablaP tbody").append(nuevaFila);
-        });
-
-        // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
-
-            $(this).closest("tr").remove();
-
-        });
-
-        // Manejar el cambio en la casilla de verificación y el campo piva
-        $(document).on("change", ".iva-checkbox, .piva", function () {
-            var row = $(this).closest('tr');
-
-            // Verificar si la casilla iva-checkbox está marcada
-            if (row.find('.iva-checkbox').is(':checked')) {
-                // Habilitar el campo piva
-                row.find('.piva').prop('readonly', false);
-
-
-                // Calcular gravada cuando cambian los campos relevantes
-                row.on('input', '.precioref, .cantidad, .piva', function () {
-                    var precio = parseFloat(row.find('.precioref').val()) || 0;
-                    var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
-                    var piva = parseFloat(row.find('.piva').val()) || 0;
-                    var gravada = precio * cantidad * (1 + piva / 100);
-                    row.find('.gravada').val(gravada.toFixed(0));
-                });
-
-                // Calcular gravada inicialmente al cargar la página
-                var precio = parseFloat(row.find('.precioref').val()) || 0;
-                var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
-                var piva = parseFloat(row.find('.piva').val()) || 0;
-                var gravada = precio * cantidad * (1 + piva / 100);
-                row.find('.gravada').val(gravada.toFixed(0));
-
-            } else {
-                // Deshabilitar el campo piva y reiniciar los valores de gravada y piva
-                row.find('.piva').prop('readonly', true);
-                row.find('.gravada').val(0);
-                row.find('.piva').val('');
-            }
-        });
-
+        // Agregar la nueva fila al cuerpo de la tabla
+        $("#tablaP tbody").append(nuevaFila);
     });
+
+    // Eliminar fila
+    $("#tablaP").on("click", ".eliminarFila", function (e) {
+        e.preventDefault();
+        $(this).closest("tr").remove();
+    });
+
+    // Manejar el cambio en la casilla de verificación y los campos
+    $(document).on("change", ".iva-checkbox, .preciounit, .cantidad, .porcentaje_iva", function () {
+        var row = $(this).closest('tr');
+        actualizarValores(row);
+    });
+
+    // Función para actualizar los valores de exenta y gravada
+    function actualizarValores(row) {
+        var precio = parseFloat(row.find('.preciounit').val()) || 0;
+        var cantidad = parseFloat(row.find('.cantidad').val()) || 0;
+        var porcentaje_iva = parseFloat(row.find('.porcentaje_iva').val()) || 0;
+
+        if (row.find('.iva-checkbox').is(':checked')) {
+            // Si el IVA está marcado
+            var gravada = precio * cantidad * (1 + porcentaje_iva / 100);
+            row.find('.gravada').val(gravada.toFixed(0));  // Asignar valor a gravada
+            row.find('.exenta').val(0);  // Exenta debe ser 0
+            row.find('.porcentaje_iva').prop('readonly', false);  // Habilitar el campo de IVA
+        } else {
+            // Si el IVA no está marcado
+            var exenta = precio * cantidad;
+            row.find('.exenta').val(exenta.toFixed(0));  // Asignar valor a exenta
+            row.find('.gravada').val(0);  // Gravada debe ser 0
+            row.find('.porcentaje_iva').val('');  // Limpiar el valor del IVA
+            row.find('.porcentaje_iva').prop('readonly', true);  // Deshabilitar el campo de IVA
+        }
+    }
+
+    // Inicializar el estado de las filas al cargar la página
+    $("#tablaP tbody tr").each(function () {
+        var row = $(this);
+        actualizarValores(row);
+    });
+});
+
 
 </script>
 

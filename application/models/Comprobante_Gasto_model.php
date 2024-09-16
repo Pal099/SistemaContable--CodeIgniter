@@ -92,6 +92,19 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 		return $this->db->get()->result_array();
 	}
+	public function getRubroYDescripcionByIdItem($id_item) {
+		$this->db->select('rubro, descripcion');
+		$this->db->from('bienes_servicios');
+		$this->db->where('IDbienservicio', $id_item);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->row();  
+		} else {
+			return null;  
+		}
+	}	
+
 	public function getComprobantesGastosFiltrados($actividad, $fuente, $anio, $mes)
 {
     $this->db->select('*');

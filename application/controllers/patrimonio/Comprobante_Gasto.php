@@ -153,7 +153,10 @@ class Comprobante_Gasto extends MY_Controller {
 		// Obtener el comprobante de gasto a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 	
-		// Obtener datos necesarios para cargar el formulario, al igual que en add()
+		// Obtener rubro y descripción de la tabla bienes_servicios
+		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
+	
+		// Obtener otros datos
 		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
 		$comprobantes = $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu);
 		$unidad = $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu);
@@ -178,7 +181,7 @@ class Comprobante_Gasto extends MY_Controller {
 			}
 		}
 	
-		// Preparar los datos para pasarlos a la vista, tal como en add()
+		// Preparar los datos para la vista
 		$data = array(
 			'proveedores' => $proveedores,
 			'comprobante' => $comprobante,
@@ -189,15 +192,31 @@ class Comprobante_Gasto extends MY_Controller {
 			'presupuestos' => $presupuestos,
 			'fuentes' => $fuentes,
 			'bienes_servicios' => $bienes_servicios,
+			'rubro' => isset($rubroYDescripcion->rubro) ? $rubroYDescripcion->rubro : '',
+			'item' => isset($rubroYDescripcion->descripcion) ? $rubroYDescripcion->descripcion : '',
 			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
 	
-		// Cargar las vistas correspondientes
+		// Cargar las vistas
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/edit", $data);
 		$this->load->view("layouts/footer");
 	}
+	public function obtenerItemsPorPedido() {
+        // Verificar que el id_pedido esté presente en la solicitud
+        if (isset($_GET['id_pedido'])) {
+            $id_pedido = intval($_GET['id_pedido']);
+            
+            // Obtener los items desde el modelo
+            $items = $this->model->obtenerItemsPorPedido($id_pedido);
+            
+            // Devolver los items como JSON para la vista
+            echo json_encode($items);
+        } else {
+            echo json_encode(['error' => 'No se proporcionó id_pedido']);
+        }
+    }
 	
 
 	public function update(){
