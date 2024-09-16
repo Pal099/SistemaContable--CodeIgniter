@@ -18,6 +18,13 @@ class Comprobante_Gasto extends MY_Controller {
 		$this->load->library('form_validation');
 
 	}
+	public function pdfs($numero_asiento)
+	{
+		// Puedes usar $numero_asiento en tu lógica de la vista
+		$data['numero_asiento'] = $numero_asiento;
+	
+		$this->load->view("Pdf_cdp/generarPDF_compro/", $data);
+	}
 
 	public function index()
 	{
