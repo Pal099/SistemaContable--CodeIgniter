@@ -13,8 +13,8 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>patrimonio/pedido_material">Comprobante Gastos</a></li>
-                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/presupuesto">Listado
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>patrimonio/Comprobante_Gasto">Comprobante Gastos</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/patrimonio/Comprobante_Gasto">Listado
                         Presupuesto</a></li>
                 <li class="breadcrumb-item">Agregar Comprobante Gastos</li>
             </ol>
