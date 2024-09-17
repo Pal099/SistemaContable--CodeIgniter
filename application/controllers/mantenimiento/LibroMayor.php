@@ -46,7 +46,8 @@ class LibroMayor extends CI_Controller {
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
         $entradasLibroMayor = $this->LibroMayor_model->obtenerEntradasLibroMayor($fechaInicio, $fechaFin, $idcuentacontable);
-
+        error_log(print_r($entradasLibroMayor, true)); // Muestra las entradas en el log
+        
         $data = array(
             'entradas' => $entradasLibroMayor,
             'fechaInicio' => $fechaInicio,

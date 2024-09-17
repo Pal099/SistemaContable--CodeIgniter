@@ -130,7 +130,7 @@
                                                                     id="idcuentacontable" name="idcuentacontable">
                                                                 <input style="width: 40%; font-size: small;" type="text"
                                                                     class="form-control border-0 bg-transparent"
-                                                                    id="codigo_cc" name="codigo_cc" required>
+                                                                    id="codigo_cc" name="codigo_cc" >
                                                                 <input style="font-size: small;" type="text"
                                                                     class="form-control border-0 bg-transparent"
                                                                     id="descripcion_cc" name="descripcion_cc">
@@ -170,6 +170,18 @@
                                             </thead>
                                             <tbody>
                                                 <?php if (!empty($entradas)): ?>
+                                                    <script>
+                                                        // Convertimos los datos de PHP a un formato JSON válido para JavaScript
+                                                        var entradas = $entradas
+
+                                                        // Verifica si las entradas están vacías
+                                                        if (entradas.length === 0) {
+                                                            alert("No se encontraron datos.");
+                                                        } else {
+                                                            // Mostrar los datos en un alert
+                                                            alert(JSON.stringify(entradas, null, 2)); // Muestra los datos en un formato más legible
+                                                        }
+                                                    </script>
                                                     <?php foreach ($entradas as $entrada): ?>
                                                         <tr>
                                                             <td><?php echo $entrada['FechaEmision']; ?></td>
@@ -179,7 +191,7 @@
                                                             <td><?php echo $entrada['Descripcion']; ?></td>
                                                             <td><?php echo $entrada['Debe']; ?></td>
                                                             <td><?php echo $entrada['Haber']; ?></td>
-                                                            <td><?php echo isset($entrada['Saldo_Anterior']) ? $entrada['Saldo_Anterior'] : '0'; ?>
+
                                                             <td><?php echo $entrada['Saldo']; ?></td>
                                                             <td>
                                                                 <?php echo $entrada['Codigo_CC']; ?> -
@@ -473,7 +485,7 @@
                 var options = {
                     head: [
                         ['Fecha', 'N° Asiento', 'N° OP',
-                            'Comprobante', 'Descripción','Debe', 'Haber', 'Saldo Anterior', 'Saldo', 'Cuenta Contable'
+                            'Comprobante', 'Descripción', 'Debe', 'Haber', 'Saldo Anterior', 'Saldo', 'Cuenta Contable'
                         ]
                     ],
                     body: tableData,
