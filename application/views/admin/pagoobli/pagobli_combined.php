@@ -1292,12 +1292,12 @@
                         </thead>
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
-                            <?php if (($asi->id_form == 1)): ?>
-                            <!-- hacemos que traiga solo obligaciones -->
+                            <?php if (($asi->id_form == 1) && ($asi->Debe == 0)): ?>
+                            <!-- hacemos que traiga solo obligaciones  -->
 
                             <tr class="list-item"
                                 onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
-                                        '<?= $asi->Debe ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->Debe ?>','<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
                                         '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
                                 data-bs-dismiss="modal">
                                 <td>
@@ -1369,7 +1369,7 @@
     <!-- Script modal lista de obligaciones (seleccionar) ubiqué acá para que se entienda mejor (isaac)-->
 
     <script>
-    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
+        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas, descrip,
         deta, comp, cheq, idcuenta, numasio, pagado) {
 
         // var descripcionConPrefijo = 'A.P. ' + descrip;
@@ -1379,7 +1379,8 @@
         document.getElementById('contabilidad').value = razonSocial;
         document.getElementById('fecha').value = fechas;
         document.getElementById('concepto').value = concepto;
-        document.getElementById('Debe').value = debes;
+        document.getElementById('Debe').value = haber;
+        document.getElementById('Haber').value = debes;
         document.getElementById('MontoPago').value = montos;
         document.getElementById('MontoTotal').value = montos;
         document.getElementById('id_ff').value = fuentes;
@@ -1407,9 +1408,7 @@
             retencionSwitch.checked = false;
         }
 
-
     }
-
     // Inicializar el estado del switch cuando se cargue la página
     document.addEventListener('DOMContentLoaded', function() {
         const rucInput = document.getElementById('ruc');
@@ -1901,12 +1900,6 @@ $("#formularioPrincipal").on("submit", function(e) {
 });
 </script>
 
-
-
-e.stopPropagation();
-
-});
-</script>
 
 <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
     aria-hidden="true">
