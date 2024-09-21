@@ -56,16 +56,26 @@
                                                         <input type="date" class="form-control" id="Año" name="Año"
                                                             placeholder="Ej. YYYY/MM/DD" required>
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="TotalPresupuestado">Presupuesto Inicial:</label>
-                                                        <input type="number" class="form-control"
-                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <select name="Idcuentacontable" id="Idcuentacontable"
+                                                                class="form-control" required>
+                                                                <option selected disabled>Seleccione una Cuenta
+                                                                    Contable...</option>
+                                                                <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalCuentasCont"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar</i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="TotalModificado">Presupuesto Modificado:</label>
-                                                        <input type="number" class="form-control" id="TotalModificado"
-                                                            name="TotalModificado" required>
-                                                    </div>
+
                                                     <div class="form-group col-md-4">
                                                         <label for="fuente_de_financiamiento_id_ff">Fuente de
                                                             Financiamiento:</label>
@@ -104,24 +114,15 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <div class="input-group">
-                                                            <select name="Idcuentacontable" id="Idcuentacontable"
-                                                                class="form-control" required>
-                                                                <option selected disabled>Seleccione una Cuenta
-                                                                    Contable...</option>
-                                                                <?php foreach ($cuentacontable as $cc) : ?>
-                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
-                                                                    <?php echo $cc->Descripcion_CC; ?>
-                                                                </option>
-                                                                <?php endforeach; ?>
-                                                            </select>
-                                                            <button type="button" data-bs-toggle="modal"
-                                                                data-bs-target="#modalCuentasCont"
-                                                                class="btn btn-primary">
-                                                                <i class="bi bi-search"> Buscar</i>
-                                                            </button>
-                                                        </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="TotalPresupuestado">Presupuesto Inicial:</label>
+                                                        <input type="text" class="form-control number-separator"
+                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="TotalModificado">Presupuesto Modificado:</label>
+                                                        <input type="text" class="form-control number-separator"
+                                                            id="TotalModificado" name="TotalModificado" required>
                                                     </div>
                                                     <!-- Campos de los meses del presupuesto -->
                                                     <div class="collapse mt-4" id="camposMesesCollapse">
@@ -129,13 +130,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_ene">Presupuesto Enero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ene" name="pre_ene">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_ene" name="pre_ene">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_jul">Presupuesto Julio:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_jul" name="pre_jul">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_jul" name="pre_jul">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -143,13 +144,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_feb">Presupuesto Febrero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_feb" name="pre_feb">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_feb" name="pre_feb">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_ago">Presupuesto Agosto:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ago" name="pre_ago">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_ago" name="pre_ago">
 
                                                                 </div>
                                                             </div>
@@ -158,14 +159,14 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_mar">Presupuesto Marzo:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_mar" name="pre_mar">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_mar" name="pre_mar">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_sep">Presupuesto Septiembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_sep" name="pre_sep">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_sep" name="pre_sep">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -173,14 +174,14 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_abr">Presupuesto Abril:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_abr" name="pre_abr">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_abr" name="pre_abr">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_oct">Presupuesto Octubre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_oct" name="pre_oct">
+                                                                    <input type="text" class="form-control number-separator"
+                                                                    id="pre_oct" name="pre_oct">
 
                                                                 </div>
                                                             </div>
@@ -189,13 +190,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_may">Presupuesto Mayo:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="pre_may" name="pre_may">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_nov">Presupuesto Noviembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="pre_nov" name="pre_nov">
 
                                                                 </div>
@@ -205,12 +206,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_jun">Presupuesto Junio:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="pre_jun" name="pre_jun">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_dic">Presupuesto Diciembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="pre_dic" name="pre_dic">
                                                                 </div>
                                                             </div>
@@ -219,12 +220,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_ene">Plan Financiero Enero:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_ene" name="sal_ene">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_jul">Plan Financiero Julio:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_jul" name="sal_jul">
                                                                 </div>
                                                             </div>
@@ -233,12 +234,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_feb">Plan Financiero Febrero:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_feb" name="sal_feb">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_ago">Plan Financiero Agosto:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_ago" name="sal_ago">
 
                                                                 </div>
@@ -248,13 +249,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_mar">Plan Financiero Marzo:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_mar" name="sal_mar">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_sep">Plan Financiero Septiembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_sep" name="sal_sep">
                                                                 </div>
                                                             </div>
@@ -263,13 +264,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_abr">Plan Financiero Abril:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_abr" name="sal_abr">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_oct">Plan Financiero Octubre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_oct" name="sal_oct">
 
                                                                 </div>
@@ -279,13 +280,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_may">Plan Financiero Mayo:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_may" name="sal_may">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_nov">Plan Financiero Noviembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_nov" name="sal_nov">
 
                                                                 </div>
@@ -295,12 +296,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_jun">Plan Financiero Junio:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_jun" name="sal_jun">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_dic">Plan Financiero Diciembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="text" class="form-control number-separator"
                                                                         id="sal_dic" name="sal_dic">
                                                                 </div>
                                                             </div>
@@ -313,12 +314,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_ene">Plan Financiero Enero:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_ene" name="sal_ene">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_jul">Plan Financiero Julio:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_jul" name="sal_jul">
                                                                 </div>
                                                             </div>
@@ -327,12 +328,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_feb">Plan Financiero Febrero:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_feb" name="sal_feb">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_ago">Plan Financiero Agosto:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_ago" name="sal_ago">
 
                                                                 </div>
@@ -342,13 +343,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_mar">Plan Financiero Marzo:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_mar" name="sal_mar">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_sep">Plan Financiero Septiembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_sep" name="sal_sep">
                                                                 </div>
                                                             </div>
@@ -357,13 +358,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_abr">Plan Financiero Abril:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_abr" name="sal_abr">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_oct">Plan Financiero Octubre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_oct" name="sal_oct">
 
                                                                 </div>
@@ -373,13 +374,13 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_may">Plan Financiero Mayo:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_may" name="sal_may">
 
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_nov">Plan Financiero Noviembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_nov" name="sal_nov">
 
                                                                 </div>
@@ -389,12 +390,12 @@
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="sal_jun">Plan Financiero Junio:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_jun" name="sal_jun">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="sal_dic">Plan Financiero Diciembre:</label>
-                                                                    <input type="number" class="form-control"
+                                                                    <input type="number" class="form-control number-separator"
                                                                         id="sal_dic" name="sal_dic">
                                                                 </div>
                                                             </div>
@@ -478,7 +479,18 @@
         camposMesesCollapse.toggle();
     });
     </script>
+        <!-- separador de miles -->
 
+<script>
+    document.querySelectorAll('.number-separator').forEach(function (input) {
+        input.addEventListener('input', function (e) {
+            let value = e.target.value;
+            value = value.replace(/\D/g, ''); // Remove non-digits
+            value = new Intl.NumberFormat().format(value); // Add thousand separators
+            e.target.value = value;
+        });
+    });
+</script>
     <!-- Script para la tabla de cuentas contables -->
     <script>
     $(document).ready(function() {
