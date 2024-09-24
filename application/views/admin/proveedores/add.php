@@ -2,7 +2,6 @@
 
   <div class="pagetitle">
       <h1> Proveedores
-        <small>Nuevo jeje</small>
       </h1>
     <nav>
       <ol class="breadcrumb">
