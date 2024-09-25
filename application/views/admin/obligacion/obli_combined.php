@@ -571,14 +571,26 @@
                                                             </td>
                                                             <td>
                                                             <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-    <!-- Botón para PDF -->
-    <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+    <!-- Botón para PDF 'str' -->
+<div class="d-grid gap-1 d-md-flex justify-content-md-center">
     <!-- Botón para PDF con el ícono de Font Awesome -->
     <button type="button"
         class="btn btn-primary btn-view-presupuesto btn-sm"
         onclick="window.location.href='<?php echo base_url() ?>Pdf_str/generarPDF_str/<?php echo $asien->IDNum_Asi; ?>'">
-        <i class="fas fa-file-pdf"></i> <!-- Ícono para PDF -->
+        <i class="fas fa-file-pdf"></i> str <!-- Ícono para PDF y el nombre 'str' -->
     </button>
+</div>
+
+
+<!-- Botón para PDF 'op' -->
+<div class="d-grid gap-1 d-md-flex justify-content-md-center">
+    <!-- Botón para PDF con el ícono de Font Awesome -->
+    <button type="button"
+        class="btn btn-primary btn-view-presupuesto btn-sm"
+        onclick="window.location.href='<?php echo base_url() ?>Pdf_op/generarPDF_op/<?php echo $asien->IDNum_Asi; ?>'">
+        <i class="fas fa-file-pdf"></i> op <!-- Ícono para PDF y el nombre 'op' -->
+    </button>
+</div>
     
     <!-- Botón para editar -->
     <button type="button" class="btn btn-warning btn-sm"
