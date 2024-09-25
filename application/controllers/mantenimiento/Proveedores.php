@@ -115,8 +115,7 @@ class Proveedores extends MY_Controller {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$telefono = $this->input->post("telefono");
-		$telefono = $this->input->post("telefono");
-		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
+		$direccion= $this->input->post("direccion"); 
 		$email= $this->input->post("email");
 		$observacion= $this->input->post("observacion");
 
@@ -125,7 +124,7 @@ class Proveedores extends MY_Controller {
 		if ($ruc == $proveedoractual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[proveedor.ruc]";
+			$is_unique = "|is_unique[proveedores.ruc]";
 		}
 		
 		$this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
@@ -164,6 +163,6 @@ class Proveedores extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Proveedores_model->update($id,$data);
-		echo "mantenimiento/proveedores";
+		redirect(base_url() . "mantenimiento/proveedores");
 	}
 }
