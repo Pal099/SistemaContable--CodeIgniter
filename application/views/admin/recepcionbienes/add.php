@@ -234,8 +234,7 @@
             <table id="TablaProveedores" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th></th>
-                  <th>#</th>
+                  <th>ID</th>
                   <th>Ruc</th>
                   <th>Razón Social</th>
                   <th>Dirección</th>
@@ -251,9 +250,6 @@
                     data-bs-dismiss="modal">
                     <td>
                       <?= $proveedor->id ?>
-                    </td>
-                    <td>
-                      <?= $index + 1 ?>
                     </td>
                     <td>
                       <?= $proveedor->ruc ?>
@@ -303,7 +299,6 @@
             <table id="TablaUnidad" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>ID</th>
                   <th>Unidad</th>
                 </tr>
@@ -312,10 +307,6 @@
                 <?php foreach ($unidad as $index => $unidad): ?>
                   <tr class="list-item" onclick="selectUni('<?= $unidad->id_unidad ?>', '<?= $unidad->unidad ?>')"
                     data-bs-dismiss="modal">
-                    
-                    <td>
-                      <?= $index + 1 ?>
-                    </td>
                     <td >
                       <?= $unidad->id_unidad ?>
                     </td>
@@ -351,8 +342,7 @@
             <table id="TablaDependencia" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th class="columna-hidden"></th>
-                  <th>#</th>
+                  <th>ID</th>
                   <th>Dependencia</th>
                 </tr>
               </thead>
@@ -361,11 +351,8 @@
                   <tr class="list-item"
                     onclick="selectDep('<?= $dependencia->dependencia_id ?>', '<?= $dependencia->dependencia ?>')"
                     data-bs-dismiss="modal">
-                    <td class="columna-hidden">
-                      <?= $dependencia->dependencia_id ?>
-                    </td>
                     <td>
-                      <?= $index + 1 ?>
+                      <?= $dependencia->dependencia_id ?>
                     </td>
                     <td>
                       <?= $dependencia->dependencia ?>
@@ -398,8 +385,7 @@
             <table id="TablaFuncionario" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th class="columna-hidden"></th>
-                  <th>#</th>
+                  <th>ID</th>
                   <th>Dependencia</th>
                   <th>Unidad</th>
                   <th>Funcionario</th>
@@ -410,11 +396,8 @@
                   <tr class="list-item"
                     onclick="selectFun('<?= $funcionarios->funcionario_id ?>', '<?= $funcionarios->funcionario ?>')"
                     data-bs-dismiss="modal">
-                    <td class="columna-hidden">
-                      <?= $funcionarios->funcionario_id ?>
-                    </td>
                     <td>
-                      <?= $index + 1 ?>
+                      <?= $funcionarios->funcionario_id ?>
                     </td>
                     <td>
                       <?= $funcionarios->unidad ?>
@@ -466,7 +449,7 @@
               </thead>
               <tbody>
                 <?php foreach ($comprobantes as $index => $comp): ?>
-                  <tr class="list-item" onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
+                  <tr class="list-item" onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->preciounit ?>', '<?= $comp->obl ?>'
                     , '<?= $comp->str ?>', '<?= $comp->op ?>')" data-bs-dismiss="modal">
                     <td>
                       <?= $comp->IDComprobanteGasto ?>
@@ -478,7 +461,7 @@
                       <?= $comp->idproveedor ?>
                     </td>
                     <td>
-                      <?= $comp->monto ?>
+                      <?= $comp->preciounit ?>
                     </td>
                     <td>
                       <?= $comp->concepto ?>
