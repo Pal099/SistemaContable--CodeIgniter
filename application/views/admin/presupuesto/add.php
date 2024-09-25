@@ -116,13 +116,17 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalPresupuestado">Presupuesto Inicial:</label>
-                                                        <input type="text" class="form-control number-separator"
-                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                        <input type="text" class="form-control number-separator" id="TotalPresupuestado" name="TotalPresupuestado" required oninput="calcularPresupuestoVigente()">
                                                     </div>
+
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalModificado">Presupuesto Modificado:</label>
-                                                        <input type="text" class="form-control number-separator"
-                                                            id="TotalModificado" name="TotalModificado" required>
+                                                        <input type="text" class="form-control number-separator" id="TotalModificado" name="TotalModificado" required oninput="calcularPresupuestoVigente()">
+                                                    </div>
+
+                                                    <div class="form-group col-md-4">
+                                                        <label for="TotalVigente">Presupuesto Vigente:</label>
+                                                        <input type="text" class="form-control" id="TotalVigente" name="TotalVigente" disabled>
                                                     </div>
                                                     <!-- Campos de los meses del presupuesto -->
                                                     <div class="collapse mt-4" id="camposMesesCollapse">
@@ -479,18 +483,57 @@
         camposMesesCollapse.toggle();
     });
     </script>
-        <!-- separador de miles -->
-
-<script>
+        
+        
+    <!-- Script para el separador de miles -->
+    <script>
     document.querySelectorAll('.number-separator').forEach(function (input) {
         input.addEventListener('input', function (e) {
+            // Obtener el valor actual del input
             let value = e.target.value;
-            value = value.replace(/\D/g, ''); // Remove non-digits
-            value = new Intl.NumberFormat().format(value); // Add thousand separators
+
+            // Eliminar todos los caracteres no numéricos excepto comas y puntos
+            value = value.replace(/[^\d]/g, '');
+
+            // Eliminar las comas y reformatear con el formato de número con separadores de miles
+            value = value.replace(/,/g, '');
+            value = new Intl.NumberFormat().format(value);
+
+            // Actualizar el valor del input con el nuevo formato
             e.target.value = value;
+
+            // Llamar a la función de cálculo cuando se modifica el valor
+            calcularPresupuestoVigente();
         });
     });
-</script>
+
+    // Eliminar los separadores de miles antes de enviar el formulario
+    document.querySelector('form').addEventListener('submit', function() {
+        document.querySelectorAll('.number-separator').forEach(function (input) {
+            input.value = input.value.replace(/,/g, '');
+        });
+    });
+    </script>
+
+    <!-- Script para el cálculo del presupuesto vigente -->
+    <script>
+    function calcularPresupuestoVigente() {
+        // Obtener valores de los campos
+        let presupuestoInicial = document.getElementById('TotalPresupuestado').value.replace(/,/g, '') || 0;
+        let presupuestoModificado = document.getElementById('TotalModificado').value.replace(/,/g, '') || 0;
+
+        // Convertir los valores a números
+        presupuestoInicial = parseFloat(presupuestoInicial) || 0;
+        presupuestoModificado = parseFloat(presupuestoModificado) || 0;
+
+        // Calcular el Presupuesto Vigente
+        let presupuestoVigente = presupuestoInicial + presupuestoModificado;
+
+        // Mostrar el resultado en el campo de "Presupuesto Vigente"
+        document.getElementById('TotalVigente').value = new Intl.NumberFormat().format(presupuestoVigente.toFixed(2));
+    }
+    </script>
+    
     <!-- Script para la tabla de cuentas contables -->
     <script>
     $(document).ready(function() {
@@ -506,6 +549,7 @@
         });
     });
     </script>
+
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>

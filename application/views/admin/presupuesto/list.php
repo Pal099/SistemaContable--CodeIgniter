@@ -54,12 +54,11 @@
                           <thead>
                             <tr>
                               <th>Fecha</th>
-                              <th>Descripcion</th>
-                              <th>Origen de financiamiento</th>
-                              <th>Fuente de financiamiento</th>
+                              <th>O.F.</th>
+                              <th>F.F.</th>
                               <th>Programa</th>
+                              <th>Descripcion</th>
                               <th>Presupuesto Inicial</th>
-
                               <th>Total modificado</th>
                               <th>Acciones</th>
                             </tr>
@@ -67,10 +66,30 @@
                           <?php if (!empty($presupuestos) || !empty($cuentacontable) || !empty($programa) || !empty($registros_financieros) || !empty($origen)) : ?>
                             <?php foreach ($presupuestos as $presupuesto) : ?>
                               <td><?php echo $presupuesto->Año; ?></td>
-                              <td><?php echo $presupuesto->descripcion; ?></td>
-                              <td><?php echo $presupuesto->origen_de_financiamiento; ?></td>
-                              <td><?php echo $presupuesto->fuente_de_financiamiento; ?></td>
+                              <td>
+                                          <?php
+                                          // Buscar el origen de financiamiento correspondiente
+                                          foreach ($origen as $o) {
+                                              if ($o->id_of == $presupuesto->origen_de_financiamiento_id_of) {
+                                                  echo $o->codigo;
+                                                  break; // Salir del bucle una vez que se encuentre el origen
+                                              }
+                                          }
+                                          ?>
+                                      </td>
+                                      <td>
+                                  <?php
+                                  // Buscar la fuente de financiamiento correspondiente
+                                  foreach ($registros_financieros as $fuente) {
+                                      if ($fuente->id_ff == $presupuesto->fuente_de_financiamiento_id_ff) {
+                                          echo $fuente->codigo;
+                                          break; // Salir del bucle una vez que se encuentre la fuente
+                                      }
+                                  }
+                                  ?>
+                              </td>                              
                               <td><?php echo $presupuesto->programa; ?></td>
+                              <td><?php echo $presupuesto->descripcion; ?></td>
                               <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?></td>
                               <td><?php echo number_format($presupuesto->TotalModificado, 0, ',', '.'); ?></td>
                               <td>

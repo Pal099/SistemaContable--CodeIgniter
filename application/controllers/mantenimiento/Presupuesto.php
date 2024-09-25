@@ -66,6 +66,7 @@ class Presupuesto extends CI_Controller
         'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
         'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
         'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
+		'plan_financiero' => $this->Presupuesto_model->getPlanFinanciero($id_uni_respon_usu),
     );
 
     $this->load->view("layouts/header");
