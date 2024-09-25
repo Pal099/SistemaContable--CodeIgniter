@@ -48,7 +48,8 @@ class Comprobante_Gasto extends MY_Controller {
 		$fuente = $this->input->post("fuente");
 		$periodo = $this->input->post("periodo");
 		$mes = $this->input->post("mes");
-		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)) {
+		$nropedido = $this->input->post("id_pedido");
+		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)&& empty($nropedido)) {
 			// Ningún campo seleccionado, redireccionar o mostrar un mensaje de error
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
@@ -149,10 +150,14 @@ class Comprobante_Gasto extends MY_Controller {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-	
+		
+
 		// Obtener el comprobante de gasto a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
-	
+		$id_pedido = $comprobante->id_pedido;
+
+		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
+    
 		// Obtener rubro y descripción de la tabla bienes_servicios
 		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
 	
@@ -186,6 +191,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'proveedores' => $proveedores,
 			'comprobante' => $comprobante,
 			'comprobantes' => $comprobantes,
+			'comprobantesPedido' => $comprobantesPedido,
 			'uni' => $unidad,
 			'proveedor' => $proveedorEncontrado,
 			'unidad' => $unidadEncontrada,
@@ -196,8 +202,7 @@ class Comprobante_Gasto extends MY_Controller {
 			'item' => isset($rubroYDescripcion->descripcion) ? $rubroYDescripcion->descripcion : '',
 			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
-	
-		// Cargar las vistas
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/edit", $data);

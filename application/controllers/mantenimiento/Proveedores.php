@@ -22,12 +22,15 @@ class Proveedores extends MY_Controller {
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
+		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
 		
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu  ),
+			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu ),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/list",$data);
 		$this->load->view("layouts/footer");
 
@@ -36,7 +39,7 @@ class Proveedores extends MY_Controller {
 	public function add(){
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/add");
 		$this->load->view("layouts/footer");
 	}
@@ -51,8 +54,27 @@ class Proveedores extends MY_Controller {
 		$telefono = $this->input->post("telefono");
 		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
-	
+
+		$this->form_validation->set_rules("ruc", "RUC", "required|is_unique[proveedores.ruc]", array(
+			'required' => 'El campo RUC es obligatorio.',
+			'is_unique' => 'El RUC ya está registrado.'
+		));
+		$this->form_validation->set_rules("razon_social", "Razón Social", "required", array(
+			'required' => 'El campo Razón Social es obligatorio.'
+		));
+		$this->form_validation->set_rules("direccion", "Dirección", "required", array(
+			'required' => 'El campo Direccion es obligatorio.'
+		));
+		$this->form_validation->set_rules("telefono", "Teléfono", "required", array(
+			'required' => 'El campo Telefono es obligatorio.'
+		));
+		$this->form_validation->set_rules("email", "Email", "required", array(
+			'required' => 'El campo Email es obligatorio.'
+		));
+		$this->form_validation->set_rules("observacion", "Observación", "required", array(
+			'required' => 'El campo Observación es obligatorio.'
+		));
+
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'ruc' => $ruc,
@@ -83,7 +105,7 @@ class Proveedores extends MY_Controller {
 			'proveedor' => $this->Proveedores_model->getProveedor($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/proveedores/edit",$data);
 		$this->load->view("layouts/footer");
 	}

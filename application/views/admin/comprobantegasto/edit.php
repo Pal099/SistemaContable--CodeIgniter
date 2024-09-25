@@ -154,6 +154,7 @@
                                                                                                 </tr>
                                                                                             </thead>
                                                                                             <tbody>
+                                                                                            <?php foreach ($comprobantesPedido as $comprobanteP): ?>
                                                                                                 <tr id="filaB"
                                                                                                     class="filaB">
                                                                                                     <td>
@@ -164,7 +165,7 @@
                                                                                                                 class="form-control border-0 bg-transparent index"
                                                                                                                 id="id_item"
                                                                                                                 name="id_item"
-                                                                                                                value="<?php echo $comprobante->id_item; ?>"
+                                                                                                                value="<?php echo $comprobanteP->id_item; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -176,7 +177,7 @@
                                                                                                                 class="form-control border-0 bg-transparent id_pedido"
                                                                                                                 id="id_pedido"
                                                                                                                 name="id_pedido"
-                                                                                                                value="<?php echo $comprobante->id_pedido; ?>"
+                                                                                                                value="<?php echo $comprobanteP->id_pedido; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -188,7 +189,7 @@
                                                                                                                 class="form-control border-0 bg-transparent id_unidad"
                                                                                                                 id="id_unidad"
                                                                                                                 name="id_unidad"
-                                                                                                                value="<?php echo $comprobante->id_unidad; ?>"
+                                                                                                                value="<?php echo $comprobanteP->id_unidad; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -200,7 +201,7 @@
                                                                                                                 class="form-control border-0 bg-transparent IDbienservicio"
                                                                                                                 id="id_item"
                                                                                                                 name="id_item"
-                                                                                                                value="<?php echo $comprobante->id_item; ?>"
+                                                                                                                value="<?php echo $comprobanteP->id_item; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -212,7 +213,7 @@
                                                                                                                 class="form-control border-0 bg-transparent IDpresupuesto"
                                                                                                                 id="idpresupuesto"
                                                                                                                 name="idpresupuesto"
-                                                                                                                value="<?php echo $comprobante->idpresupuesto; ?>"
+                                                                                                                value="<?php echo $comprobanteP->idpresupuesto; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -236,7 +237,7 @@
                                                                                                                 class="form-control border-0 bg-transparent descripcion"
                                                                                                                 id="descrip"
                                                                                                                 name="descrip"
-                                                                                                                value="<?php echo $comprobante->descripcion; ?>"
+                                                                                                                value="<?php echo $comprobanteP->descripcion; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -248,7 +249,7 @@
                                                                                                                 class="form-control border-0 bg-transparent preciounit"
                                                                                                                 id="preciounit"
                                                                                                                 name="preciounit"
-                                                                                                                value="<?php echo $comprobante->preciounit; ?>">
+                                                                                                                value="<?php echo $comprobanteP->preciounit; ?>">
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td>
@@ -259,7 +260,7 @@
                                                                                                                 class="form-control border-0 bg-transparent cantidad"
                                                                                                                 id="cantidad"
                                                                                                                 name="cantidad"
-                                                                                                                value="<?php echo $comprobante->cantidad; ?>"
+                                                                                                                value="<?php echo $comprobanteP->cantidad; ?>"
                                                                                                                 required>
                                                                                                         </div>
                                                                                                     </td>
@@ -271,7 +272,7 @@
                                                                                                                 class="form-check-input iva iva-checkbox"
                                                                                                                 id="iva"
                                                                                                                 name="iva"
-                                                                                                                <?php echo ($comprobante->porcentaje_iva > 0) ? 'checked' : ''; ?>>
+                                                                                                                <?php echo ($comprobanteP->porcentaje_iva > 0) ? 'checked' : ''; ?>>
                                                                                                         </div>
                                                                                                     </td>
                                                                                                     <td>
@@ -282,7 +283,7 @@
                                                                                                                 class="form-control border-0 bg-transparent porcentaje_iva"
                                                                                                                 id="porcentaje_iva"
                                                                                                                 name="porcentaje_iva"
-                                                                                                                value="<?php echo $comprobante->porcentaje_iva; ?>"
+                                                                                                                value="<?php echo $comprobanteP->porcentaje_iva; ?>"
                                                                                                                 readonly>
                                                                                                             <div
                                                                                                                 class="form-group">
@@ -296,7 +297,7 @@
                                                                                                                 class="form-control border-0 bg-transparent exenta"
                                                                                                                 id="exenta"
                                                                                                                 name="exenta"
-                                                                                                                value="<?php echo $comprobante->exenta; ?>"
+                                                                                                                value="<?php echo $comprobanteP->exenta; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -308,7 +309,7 @@
                                                                                                                 class="form-control border-0 bg-transparent gravada"
                                                                                                                 id="gravada"
                                                                                                                 name="gravada"
-                                                                                                                value="<?php echo $comprobante->gravada; ?>"
+                                                                                                                value="<?php echo $comprobanteP->gravada; ?>"
                                                                                                                 readonly>
                                                                                                         </div>
                                                                                                     </td>
@@ -345,6 +346,7 @@
                                                                                                         </div>
                                                                                                     </td>
                                                                                                 </tr>
+                                                                                                <?php endforeach; ?>
                                                                                             </tbody>
                                                                                         </table>
                                                                                     </div>
