@@ -1221,7 +1221,8 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '/assets/json/es-ES.json',
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    timeout: 10000
                 }
             });
         });
@@ -1237,7 +1238,8 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '/assets/json/es-ES.json',
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    timeout: 10000
                 }
             });
         });
@@ -1253,7 +1255,8 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '/assets/json/es-ES.json',
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    timeout: 10000
                 }
             });
 
@@ -1264,7 +1267,8 @@
                 searching: true,
                 info: true,
                 language: {
-                    url: '/assets/json/es-ES.json',
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    timeout: 10000
                 }
             });
         });
@@ -1313,7 +1317,8 @@
                     [0, 'desc']
                 ], // Ordena la primera columna en orden descendiente
                 language: {
-                    url: '/assets/json/es-ES.json',
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    timeout: 10000
                 }
             });
         });
