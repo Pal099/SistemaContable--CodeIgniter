@@ -54,14 +54,27 @@ class Proveedores extends MY_Controller {
 		$telefono = $this->input->post("telefono");
 		$email = $this->input->post("email");
 		$observacion = $this->input->post("observacion");
-		$this->form_validation->set_rules("ruc", "Ruc", "required|is_unique[proveedores.ruc]");
-		$this->form_validation->set_rules("razon_social","Razon Social","required|is_unique[proveedores.razon_social]");
-		$this->form_validation->set_rules("direccion","Direccion","required|is_unique[proveedores.direccion]");
-		$this->form_validation->set_rules("telefono","Telefono","required|is_unique[proveedores.telefono]");
-		$this->form_validation->set_rules("email","Email","required|is_unique[proveedores.email]");
-		$this->form_validation->set_rules("observacion","Observacion","required|is_unique[proveedores.observacion]");
 
-	
+		$this->form_validation->set_rules("ruc", "RUC", "required|is_unique[proveedores.ruc]", array(
+			'required' => 'El campo RUC es obligatorio.',
+			'is_unique' => 'El RUC ya está registrado.'
+		));
+		$this->form_validation->set_rules("razon_social", "Razón Social", "required", array(
+			'required' => 'El campo Razón Social es obligatorio.'
+		));
+		$this->form_validation->set_rules("direccion", "Dirección", "required", array(
+			'required' => 'El campo Direccion es obligatorio.'
+		));
+		$this->form_validation->set_rules("telefono", "Teléfono", "required", array(
+			'required' => 'El campo Telefono es obligatorio.'
+		));
+		$this->form_validation->set_rules("email", "Email", "required", array(
+			'required' => 'El campo Email es obligatorio.'
+		));
+		$this->form_validation->set_rules("observacion", "Observación", "required", array(
+			'required' => 'El campo Observación es obligatorio.'
+		));
+
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'ruc' => $ruc,
@@ -102,8 +115,7 @@ class Proveedores extends MY_Controller {
 		$ruc = $this->input->post("ruc");
 		$razon_social = $this->input->post("razon_social");
 		$telefono = $this->input->post("telefono");
-		$telefono = $this->input->post("telefono");
-		$direccion= $this->input->post("direccion"); // Faltaba direccion en el codigo xd
+		$direccion= $this->input->post("direccion"); 
 		$email= $this->input->post("email");
 		$observacion= $this->input->post("observacion");
 
@@ -112,7 +124,7 @@ class Proveedores extends MY_Controller {
 		if ($ruc == $proveedoractual->ruc) {
 			$is_unique = "";
 		}else{
-			$is_unique = "|is_unique[proveedor.ruc]";
+			$is_unique = "|is_unique[proveedores.ruc]";
 		}
 		
 		$this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
@@ -151,6 +163,6 @@ class Proveedores extends MY_Controller {
 			'estado' => "0", 
 		);
 		$this->Proveedores_model->update($id,$data);
-		echo "mantenimiento/proveedores";
+		redirect(base_url() . "mantenimiento/proveedores");
 	}
 }

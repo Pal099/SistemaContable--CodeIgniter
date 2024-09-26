@@ -30,6 +30,18 @@ class Comprobante_Gasto_model extends CI_Model {
 		return $resultado->row();
 
 	}
+	/*public function getComprobanteGasto($id = null, $id_pedido = null){
+		if ($id !== null) {
+			$this->db->where("IDComprobanteGasto", $id);
+		}
+		if ($id_pedido !== null) {
+			$this->db->or_where("id_pedido", $id_pedido); 
+		}
+		
+		$resultado = $this->db->get("comprobante_gasto");
+		return $resultado->row();
+	}*/
+	
  
 	public function update($id,$data){
 		$this->db->where("IDComprobanteGasto",$id);
@@ -92,7 +104,29 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 		return $this->db->get()->result_array();
 	}
-	public function getComprobantesGastosFiltrados($actividad, $fuente, $anio, $mes)
+	public function obtener_comprobantes_por_pedido($id_pedido) {
+		$this->db->select('*');
+		$this->db->from('comprobante_gasto');
+		$this->db->where('id_pedido', $id_pedido); 
+		
+		$query = $this->db->get();
+		return $query->result(); // Retorna todas las filas que coinciden con el id_pedido
+	}
+	
+	public function getRubroYDescripcionByIdItem($id_item) {
+		$this->db->select('rubro, descripcion');
+		$this->db->from('bienes_servicios');
+		$this->db->where('IDbienservicio', $id_item);
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->row();  
+		} else {
+			return null;  
+		}
+	}	
+
+	public function getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido)
 {
     $this->db->select('*');
     $this->db->from('comprobante_gasto');
@@ -109,6 +143,9 @@ class Comprobante_Gasto_model extends CI_Model {
 
     if (!empty($mes)) {
         $this->db->where('MONTH(fecha)', $mes);
+    }
+	if (!empty($nropedido)) {
+        $this->db->where('id_pedido', $nropedido);
     }
 
     $query = $this->db->get();
