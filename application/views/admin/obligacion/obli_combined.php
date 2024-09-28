@@ -48,7 +48,7 @@
                                     data-bs-target="#modalContainer_comprobante">
                                     <i class="bi bi-wallet2" style="font-size: 20px;"></i>
                                 </button>
-                                <button type="button" class="btn btn-danger" title="Generar PDF"
+                               <button type="button" class="btn btn-danger" title="Generar PDF"
                                     onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                     <i class="bi bi-filetype-pdf" style="font-size: 20px;"></i>
                                 </button>
