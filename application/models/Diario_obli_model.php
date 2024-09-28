@@ -6,10 +6,95 @@ class Diario_obli_model extends CI_Model {
 	//num asi primero
 	public function __construct() {
         $this->load->database();
+		$this->load->model("Usuarios_model");
     }
 	public function obtener_asientos() {
-        return $this->db->get('num_asi')->result_array();
+		return $this->db->get('num_asi')->result_array();
+		//var_dump($result); // Solo para depuración
+  		 return $result;
+
     }
+
+	public function GETasientos($id_uni_respon_usu) {
+		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
+		$this->db->from('num_asi na');
+		$this->db->join('uni_respon_usu uru', 'na.id_uni_respon_usu = uru.id_uni_respon_usu');
+		$this->db->join('proveedores p', 'na.id_provee = p.id'); // Corregido para unir con la tabla de proveedores correctamente
+		$this->db->where('na.estado_registro', '1');
+		$this->db->where('na.id_form', '1');
+		$this->db->where('uru.id_uni_respon_usu', $id_uni_respon_usu);
+	
+		$resultados = $this->db->get();
+		return $resultados->result();
+	}
+	
+	public function GETasientosD($id_uni_respon_usu) {
+		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
+		$this->db->where('estado_registro', '1');
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+		$resultados = $this->db->get('num_asi');
+		return $resultados->result();
+	}
+
+	public function getSTRaumentado($id_user) {
+		// Acá obtenemos el id de la unidad academica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+	
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$last_str = $this->db->get()->row()->str;
+	
+		// Si no hay registros previos para esta unidad académica, inicializamos el str en 1
+		if ($last_str == NULL) {
+			$last_str = 1;
+		} else {
+			// Si ya hay registros, incrementamos el str en 1
+			$last_str++;
+		}
+		
+		return $last_str;
+	}
+
+	public function ultimoSTR($id_user) {
+		// Acá obtenemos el id de la unidad académica perteneciente al usuario
+		$id_unidad_user = $this->Usuarios_model->getUserUnidadAcademica($id_user);
+
+		// Obtenemos el último valor de 'str' para esta unidad académica
+		$this->db->select('num_asi.str');
+		$this->db->from('num_asi');
+		$this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+		$this->db->where('usuarios.id_unidad', $id_unidad_user);
+		$this->db->order_by('num_asi.str', 'desc');
+		$this->db->limit(1);
+		$query = $this->db->get();
+
+		// Verificamos si hay resultados
+		if ($query->num_rows() > 0) {
+			// Extraemos el valor de 'str' del primer resultado
+			$row = $query->row();
+			$last_str = $row->str;
+		} else {
+			// Si no hay resultados, asignamos un valor predeterminado
+			$last_str = 0; // O cualquier otro valor que desees
+		}
+
+		// Retornamos el valor de 'str'
+		return $last_str;
+	}
+
+	public function getNiveles() {
+		$this->db->select('id_nivel, nombre_nivel');
+		$this->db->from('nivel');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function obtener_asiento_por_id($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->get('num_asi')->row_array();
@@ -17,10 +102,7 @@ class Diario_obli_model extends CI_Model {
     public function insertar_asiento($data) {
         return $this->db->insert('num_asi', $data);
     }
-	public function actualizar_asiento($id, $data) {
-        $this->db->where('IDNum_Asi', $id);
-        return $this->db->update('num_asi', $data);
-    }
+
 	public function eliminar_asiento($id) {
         $this->db->where('IDNum_Asi', $id);
         return $this->db->delete('num_asi');
@@ -34,8 +116,6 @@ class Diario_obli_model extends CI_Model {
 	
 		return $lastInsertedId;
 	}
-	
-
 
 	// num asi deta segundo
 	public function obtener_detalles_por_asiento($idAsiento) {
@@ -196,6 +276,18 @@ public function getUsuarioId($nombre){
     }
 
 
+
+	public function getC_C() {
+        $this->db->select('Codigo_CC, Descripcion_CC');
+        $this->db->from('cuentacontable');
+        $this->db->where('imputable', 2);
+        $resultados = $this->db->get();
+        echo json_encode($resultados->result());
+    }
+
+
+	
+
 	
 
 	//guardar asientos
@@ -211,7 +303,17 @@ public function getUsuarioId($nombre){
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
 	
+
+	//Para el Selectcc, es decir, el primer modal del DEBE
 	public function getCuentaContable() {
+		$query = $this->db->get("cuentacontable");
+		return $query->result();
+	}
+
+	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
+	public function getCuentaContable2() {
+		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
+		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
@@ -281,14 +383,13 @@ public function getMontoPagoAnterior($proveedor_id) {
 }
 
 
-public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id,$numero) {
-    $this->db->where('IDNum_Asi', $id_num_asi);
-	$this->db->where('id_form', '1');
-	$this->db->where('num_asi', $numero);
-	$this->db->where('id_provee', $proveedor_id);
-    $this->db->update('num_asi', array('SumaMonto' => $suma_monto, 'MontoPagado' =>$suma_monto));
-    return $this->db->affected_rows() > 0;
-}
+	public function updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id) {
+		$this->db->where('IDNum_Asi', $id_num_asi);
+		$this->db->where('id_form', '1');
+		$this->db->where('id_provee', $proveedor_id);
+		$this->db->update('num_asi', array('SumaMonto' => $suma_monto, 'MontoPagado' =>$suma_monto));
+		return $this->db->affected_rows() > 0;
+	}
 
 public function updateEstadoSuma($idNum_Asi, $num_asi, $suma_monto, $proveedor_id, $nuevo_monto_pagado) {
     $this->db->where('IDNum_Asi', $idNum_Asi);
@@ -430,17 +531,4 @@ public function getDebeFromNumAsiDeta($id_provee)
 		$query = $this->db->get_where('usuarios', array('id_user' => $id));
 		return $query->row();
    }
-
-//	public function getDiarios_obli() {
-//		$this->db->select('programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen');
-//		$this->db->from('num_asi_deta');
-//		$this->db->join('programa', 'num_asi_deta.id_pro = programa.id_pro', 'left');
-//		$this->db->join('fuente_de_financiamiento', 'num_asi_deta.id_ff = fuente_de_financiamiento.id_ff', 'left');
-//		$this->db->join('origen_de_financiamiento', 'num_asi_deta.id_of = origen_de_financiamiento.id_of', 'left');
-//	
-//		
-//		$query = $this->db->get();
-//		return $query->result();
-//	}
-	
 }
