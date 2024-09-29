@@ -62,7 +62,19 @@ class Pago_de_obligaciones extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data = array(
+		// Obtener el último valor de num_asi filtrado por unidad académica
+		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
+	
+		// Verificar si hay registros y calcular el próximo número
+		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null) {
+			$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
+		} else {
+			// Si no hay registros, iniciar en 1
+			$data['numero_siguiente'] = 1;
+		}
+	
+		// Agregar el resto de los datos necesarios
+		$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
 			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
@@ -70,7 +82,7 @@ class Pago_de_obligaciones extends CI_Controller
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
-		);
+		));
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -79,7 +91,6 @@ class Pago_de_obligaciones extends CI_Controller
 	}
 
 	public function store()	{
-		header('Access-Control-Allow-Origin: *');
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
 		var_dump($datosFormulario);

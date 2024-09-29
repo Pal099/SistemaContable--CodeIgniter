@@ -15,6 +15,22 @@ class Diario_obli_model extends CI_Model {
 
     }
 
+	public function getMaxNumAsiAndOp($id_uni_respon_usu) {
+		// Obtener el último valor de num_asi para una unidad específica
+		$this->db->select('MAX(num_asi) as ultimo_numero, MAX(op) as op_ultimo');
+		$this->db->from('num_asi'); // Tu tabla
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('num_asi.id_uni_respon_usu', $id_uni_respon_usu); // Ser explícito con la tabla en el WHERE
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			return $query->row(); // Retorna el resultado como objeto
+		} else {
+			return null; // Si no hay registros, retorna null
+		}
+	}
+	
+
 	public function GETasientos($id_uni_respon_usu) {
 		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');
@@ -292,15 +308,25 @@ public function getUsuarioId($nombre){
 	}
 	
 	//Para el Selectcc, es decir, el primer modal del DEBE
+
 	public function getCuentaContable() {
+		$this->db->select('pre.TotalPresupuestado, ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
+		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
+		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->join('plan_financiero', 'pre.id_pf_fk = plan_financiero.ID_PF');
+		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
+		$this->db->join('origen_de_financiamiento of', 'of.id_of = pre.origen_de_financiamiento_id_of');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
 
 	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
 	public function getCuentaContable2() {
+		$this->db->select('pre.TotalPresupuestado,ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
 		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
 		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
+		$this->db->join('origen_de_financiamiento of', 'of.id_of = pre.origen_de_financiamiento_id_of');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}

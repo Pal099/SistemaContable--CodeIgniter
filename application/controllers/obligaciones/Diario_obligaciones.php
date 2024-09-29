@@ -41,8 +41,8 @@ class Diario_obligaciones extends CI_Controller
 		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
-		$data['comprobante'] = $this->Comprobante_Gastos_model->getComprobantesGastos($id_user);
-		$cuentas = $this->CuentasContablesModel->getC_C($id_user);
+		$data['comprobante'] = $this->Comprobante_Gastos_model->getComprobantesGastos($id_uni_respon_usu);
+		$cuentas = $this->CuentasContablesModel->getC_C($id_uni_respon_usu);
 		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
 
         echo json_encode($cuentas);
@@ -75,7 +75,11 @@ class Diario_obligaciones extends CI_Controller
         echo json_encode($query->result_array());
     }
 
-
+	
+	
+	
+	
+	
 
 	public function pdfs()
 	{
@@ -105,14 +109,29 @@ class Diario_obligaciones extends CI_Controller
 	}
 	
 
-	public function add()
-	{
-
+	public function add() {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+	
+			// Obtener el último valor de num_asi filtrado por unidad académica
+			$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
+		
+			// Verificar si hay registros y calcular el próximo número
+			if ($data['numeros'] && $data['numeros']->ultimo_numero !== null
+			&& $data['numeros']->op_ultimo !== null) {
+				$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
+				$data['op_siguiente'] = $data['numeros']->op_ultimo + 1; // Sumar 1 al último valor de num_asi
 
-		$data = array(
+			} else {
+				// Si no hay registros, iniciar en 1
+				$data['numero_siguiente'] = 1;
+				$data['op_siguiente'] = 1;
+
+			}
+		
+			// Agregar el resto de los datos necesarios
+			$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
@@ -123,15 +142,17 @@ class Diario_obligaciones extends CI_Controller
 			'niveles' => $this->Diario_obli_model->getNiveles(),
 			'comprobante'=> $this->Comprobante_Gasto_model->getComprobantesGastos($id_user),
 			'presupuesto'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
-
-		);
+		));
+	
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
-
+	
+		// Cargar la vista con los datos
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/obligacion/obli_combined", $data); // Pasar los datos a la vista
 		$this->load->view("layouts/footer");
 	}
+	
 
 	public function store()
 	{

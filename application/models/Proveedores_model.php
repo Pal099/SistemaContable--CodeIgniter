@@ -3,12 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Proveedores_model extends CI_Model {
 
-	public function getProveedores($id_uni_respon_usu) {
+	public function getProveedores($id_uni_academica) {
 		$this->db->select('proveedores.*');
 		$this->db->from('proveedores');
-		$this->db->join('unidad_academica', 'proveedores.id_uni_respon_usu = unidad_academica.id_unidad');
+		$this->db->join('uni_respon_usu', 'proveedores.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_academica);
 		$this->db->where('proveedores.estado', '1');
-		$this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
 		
 		$resultados = $this->db->get();
 		return $resultados->result();
@@ -59,8 +59,9 @@ class Proveedores_model extends CI_Model {
 	
 	
     
-	public function getProveedor($id){
-		$this->db->where("id",$id);
+	public function getProveedor($id_uni_academica){
+		$this->db->join('uni_respon_usu', 'proveedores.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('uni_respon_usu.id_unidad', $id_uni_academica);
 		$resultado = $this->db->get("proveedores");
 		return $resultado->row();
 

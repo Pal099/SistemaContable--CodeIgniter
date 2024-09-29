@@ -50,22 +50,7 @@ public function obtener_unidades_academicas() {
         }
     }
 
-     //Funcion para obtner la unidad academica del usuario
-     public function getUserUnidadAcademica($id_user) {
-        $this->db->select('id_unidad');
-        $this->db->from('usuarios');
-        $this->db->where('id_user', $id_user);
-        $query = $this->db->get();
-        
-        // Se verifica si se encontraron resultados
-        if ($query->num_rows() > 0) {
-            // Retorna el ID de la unidad académica
-            $row = $query->row();
-            return $row->id_unidad;
-        } else {
-            return null;
-        }
-    }
+ 
 
    
 

@@ -72,41 +72,14 @@
                                                 <h4 class="mt-4">Obligación</h4>
                                                 <hr><!-- Separador -->
                                                 <div class="row row g-3 align-items-center mt-2">
-                                                    <?php
-                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-                                                    if ($conexion->connect_error) {
-                                                        die("La conexión a la base de datos falló: " . $conexion->connect_error);
-                                                    }
+                                                    
+                                                <div class="form-group col-md-2">
+                                                    <label for="num_asi">Numero:</label>
+                                                    <input type="text" class="form-control" id="num_asi" name="num_asi"
+                                                        value="<?php echo isset($numero_siguiente) ? $numero_siguiente : $numero_siguiente; ?>" readonly>
+                                                </div>
 
-                                                    $consulta = "SELECT MAX(num_asi) as ultimo_numero FROM num_asi";
-                                                    $resultado = $conexion->query($consulta);
 
-                                                    if ($resultado->num_rows > 0) {
-                                                        $fila = $resultado->fetch_assoc();
-                                                        $numero_actual = $fila['ultimo_numero'];
-                                                        $numero_siguiente = $numero_actual + 1;
-                                                    } else {
-                                                        $numero_actual = 1;
-                                                        $numero_siguiente = 2;
-                                                    }
-
-                                                    $consulta = "SELECT MAX(op) as op FROM num_asi";
-                                                    $resultado = $conexion->query($consulta);
-
-                                                    if ($resultado !== false && $resultado->num_rows > 0) {
-                                                        $op_actual = 0;
-                                                    } else {
-                                                        $op_actual = 0;
-                                                    }
-
-                                                    $conexion->close();
-                                                    ?>
-                                                    <div class="form-group col-md-2">
-                                                        <label for="num_asi">Numero:</label>
-                                                        <input type="text" class="form-control" id="num_asi"
-                                                            name="num_asi" value="<?php echo $numero_siguiente; ?>"
-                                                            readonly>
-                                                    </div>
                                                     <div
                                                         class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
                                                         <label for="ruc">Ruc:</label>
@@ -903,47 +876,55 @@
 
         });
         </script>
-
-        <!-- Modal con Bootstrap Cuentas Contables numero 1-->
-        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered cuentas-contables">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Buscador de Cuentas Contables</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-hover table-sm" id="TablaCuentaCont1">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Código de Cuenta</th>
-                                    <th>Descripción de Cuenta</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $dato->IDCuentaContable ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Codigo_CC ?>
-                                    </td>
-                                    <td>
-                                        <?= $dato->Descripcion_CC ?>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<!-- Modal con Bootstrap Cuentas Contables número 1 -->
+<div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cuentas-contables">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover table-sm" id="TablaCuentaCont2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Código - Fuente de Financiamiento</th>
+                            <th>Código - Origen de Financiamiento</th>
+                            <th>Código de Cuenta</th>
+                            <th>Descripción de Cuenta</th>
+                            <th>Estado</th>
+                            <th>Presupuesto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cuentacontable as $dato): ?>
+                            <tr class="list-item"
+                                onclick="selectCC(<?= $dato->IDCuentaContable ?>, '<?= $dato->Codigo_CC ?>', '<?= $dato->nombre_of ?>','<?= $dato->codigo_ff ?>','<?= $dato->codigo_of ?>','<?= $dato->nombre_ff ?>', '<?= $dato->Descripcion_CC ?>')"
+                                data-bs-dismiss="modal">
+                                <td><?= htmlspecialchars($dato->IDCuentaContable); ?></td>
+                                <td><?= htmlspecialchars($dato->codigo_ff);?></td>
+                                <td><?= htmlspecialchars($dato->codigo_of . ' - ' . $dato->nombre_of); ?></td>
+                                <td><?= htmlspecialchars($dato->Codigo_CC); ?></td>
+                                <td><?= htmlspecialchars($dato->Descripcion_CC); ?></td>
+                                <td>
+                                    <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                        <span class="badge bg-success">Presupuestado</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-warning">No está Presupuestado</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+</div>
 
         <!-- Modal con Bootstrap Cuentas Contables numero 2-->
         <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
@@ -995,15 +976,32 @@
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
             
-        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-            // Actualizar los campos de texto en la vista principal con los valores seleccionados
-            document.getElementById('idcuentacontable').value = IDCuentaContable;
-            document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-            document.getElementById('descripcion_cc').value =
-               
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+        function selectCC(IDCuentaContable, Codigo_CC,codigo_ff, codigo_of, nombre_ff, nombre_of, Descripcion_CC) {
 
-           
+            document.getElementById('idcuentacontable').value = IDCuentaContable;
+            document.getElementById('codigo_cc_2').value = Codigo_CC; 
+            document.getElementById('id_ff').value = codigo_ff;
+            document.getElementById('descripcion_cc_2').value = Descripcion_CC;
+
+            const desglose = desglosarCodigoCuenta(Codigo_CC);
+                                
+                                if (desglose) {
+                                    const segundaParte = desglose.segundaParte;
+
+                                    obtenerCuentasPadres(function(cuentasPadres) {
+                                        if (cuentasPadres) {
+                                            const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
+                                            if (cuentaPadre) {
+                                                document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
+                                                document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
+                                                document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
+                                            } else {
+                                                console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
+                                            }
+                                        }
+                                    });
+                                }
+                            
 
         }
 

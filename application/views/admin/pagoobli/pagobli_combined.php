@@ -110,7 +110,7 @@
                                                         ?>
 
                                                         <div class="form-group col-md-1 columna-hidden">
-                                                            <label for="op">N° Op</label>
+                                                            <label for="op" >N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
                                                         </div>
@@ -1339,10 +1339,10 @@
                             <tr class="list-item"
                                 onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
                                         '<?= $asi->Debe ?>',  '<?= $asi->concepto ?>','<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasideta ?>', '<?= $asi->total ?>')"
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasi ?>', '<?= $asi->total ?>')"
                                 data-bs-dismiss="modal">
                                 <td>
-                                    <?= $asi->id_numasideta ?>
+                                    <?= $asi->id_numasi ?>
                                 </td>
                                 <td>
                                     <?= $asi->ruc_proveedor ?>
