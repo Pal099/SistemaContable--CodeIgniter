@@ -191,7 +191,7 @@
                                                             <td><?php echo $entrada['Descripcion']; ?></td>
                                                             <td><?php echo $entrada['Debe']; ?></td>
                                                             <td><?php echo $entrada['Haber']; ?></td>
-
+                                                            <td><?php echo isset($entrada['Saldo_Anterior']) ? $entrada['Saldo_Anterior'] : '0'; ?>
                                                             <td><?php echo $entrada['Saldo']; ?></td>
                                                             <td>
                                                                 <?php echo $entrada['Codigo_CC']; ?> -
