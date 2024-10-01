@@ -116,8 +116,8 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
-                                                        <input type="date" class="form-control" id="fecha"
-                                                            name="fecha" required>
+                                                        <input type="date" class="form-control" id="fecha" name="fecha"
+                                                            required>
                                                     </div>
                                                     <!-- Borré la mayoría de campos a pedido de mi papá  -->
                                                     <!--     <div class="form-group col-md-4">
@@ -200,9 +200,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_pro" name="id_pro">
                                                                         <?php foreach ($programa as $prog): ?>
-                                                                        <option value="<?php echo $prog->id_pro; ?>">
-                                                                            <?php echo $prog->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $prog->id_pro; ?>">
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -212,9 +212,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_ff" name="id_ff" required>
                                                                         <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                        <option value="<?php echo $ff->id_ff; ?>">
-                                                                            <?php echo $ff->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $ff->id_ff; ?>">
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -224,9 +224,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_of" name="id_of" required>
                                                                         <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                        <option value="<?php echo $of->id_of; ?>">
-                                                                            <?php echo $of->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $of->id_of; ?>">
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -276,16 +276,16 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php if (isset($Debe)): ?>
-                                                                    <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Debe" name="Debe"
-                                                                        value="<?php echo $Debe_value; ?>">
+                                                                        <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Debe" name="Debe"
+                                                                            value="<?php echo $Debe_value; ?>">
                                                                     <?php else: ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent"
-                                                                        id="Debe" name="Debe"
-                                                                        oninput="formatNumber('Debe')">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Debe" name="Debe"
+                                                                            oninput="formatNumber('Debe')">
                                                                     <?php endif; ?>
                                                                 </div>
                                                             </td>
@@ -320,9 +320,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_pro_2" name="id_pro_2" required>
                                                                         <?php foreach ($programa as $prog): ?>
-                                                                        <option value="<?php echo $prog->id_pro; ?>">
-                                                                            <?php echo $prog->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $prog->id_pro; ?>">
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -332,9 +332,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_ff_2" name="id_ff_2" required>
                                                                         <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                        <option value="<?php echo $ff->id_ff; ?>">
-                                                                            <?php echo $ff->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $ff->id_ff; ?>">
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -344,9 +344,9 @@
                                                                     <select class="form-control border-0 bg-transparent"
                                                                         id="id_of_2" name="id_of_2" required>
                                                                         <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                        <option value="<?php echo $of->id_of; ?>">
-                                                                            <?php echo $of->codigo; ?>
-                                                                        </option>
+                                                                            <option value="<?php echo $of->id_of; ?>">
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
                                                                         <?php endforeach; ?>
                                                                     </select>
                                                                 </div>
@@ -404,16 +404,16 @@
                                                             <td>
                                                                 <div class="input-group input-group-sm">
                                                                     <?php if (isset($haber_2)): ?>
-                                                                    <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent form formatoNumero"
-                                                                        id="Haber_2" name="Haber_2"
-                                                                        value="<?php echo $haber_2_value; ?>">
+                                                                        <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero"
+                                                                            id="Haber_2" name="Haber_2"
+                                                                            value="<?php echo $haber_2_value; ?>">
                                                                     <?php else: ?>
-                                                                    <input type="text"
-                                                                        class="form-control small border-0 bg-transparent formatoNumero"
-                                                                        id="Haber_2" name="Haber_2"
-                                                                        oninput="formatNumber('Haber_2')">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent formatoNumero"
+                                                                            id="Haber_2" name="Haber_2"
+                                                                            oninput="formatNumber('Haber_2')">
                                                                     <?php endif; ?>
                                                                 </div>
                                                             </td>
@@ -444,7 +444,7 @@
                                                     </tbody>
                                                 </table>
                                                 <table id="miTabla2"
-                                                    class="table table-hover table-bordered table-sm rounded-3 mt-4">
+                                                    class="table table-bordered table-sm rounded-3 mt-4 text-center">
                                                     <thead>
                                                         <tr>
                                                             <th>Debe</th>
@@ -455,13 +455,20 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <input type="text" id="DebeC" class="form-control">
+                                                                <input type="text" id="DebeC"
+                                                                    class="form-control border-0 bg-transparent celda-debe fw-bold text-center"
+                                                                    disabled>
                                                             </td>
                                                             <td>
-                                                                <input type="text" id="HaberC" class="form-control">
+                                                                <input type="text" id="HaberC"
+                                                                    class="form-control border-0 bg-transparent celda-haber fw-bold text-center"
+                                                                    disabled>
                                                             </td>
-                                                            <td id="diferencia">0</td>
-
+                                                            <td>
+                                                                <input type="text" id="diferencia"
+                                                                    class="form-control border-0 bg-transparent celda-diferencia fw-bold text-center"
+                                                                    value=0 disabled>
+                                                            </td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -471,7 +478,7 @@
                                                         <button style="margin-right: 8px;" type="submit"
                                                             class="btn btn-success btn-primary"><span
                                                                 class="fa fa-save"></span>Guardar</button>
-                                                        <button class="btn btn-danger ml-3"
+                                                        <button type="button" class="btn btn-danger ml-3"
                                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones'">
                                                             <i class="fa fa-remove"></i> Cancelar
                                                         </button>
@@ -484,7 +491,7 @@
                                             <div class="card-body">
                                                 <h4 class="mt-4">Asientos</h4>
                                                 <hr><!-- Separador -->
-                                                                                                <table id="vistaobli"
+                                                <table id="vistaobli"
                                                     class="table table-hover table-bordered table-sm rounded-3">
                                                     <thead>
                                                         <tr>
@@ -497,45 +504,45 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php if (!empty($asientos)): ?>
-                                                        <?php foreach ($asientos as $asien): ?>
-                                                        <tr>
-                                                            <td>
-                                                                <?php echo $asien->num_asi ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->FechaEmision ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo $asien->razon_social ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
-                                                            </td>
-                                                            <td>
-                                                                <div
-                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalPresupuesto"
-                                                                        value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                        <span class="fa fa-search"></span>
-                                                                    </button>
-                                                                    <button type="button" class="btn btn-warning btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-pencil-fill"></i>
-                                                                    </button>
-                                                                    <button type="button"
-                                                                        class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                        <i class="bi bi-trash"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach; ?>
+                                                            <?php foreach ($asientos as $asien): ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <?php echo $asien->num_asi ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $asien->FechaEmision ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo $asien->razon_social ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div
+                                                                            class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                            <button type="button"
+                                                                                class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#modalPresupuesto"
+                                                                                value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                                <span class="fa fa-search"></span>
+                                                                            </button>
+                                                                            <button type="button" class="btn btn-warning btn-sm"
+                                                                                onclick="window.location.href='<?php echo base_url() ?>obligaciones/deposito_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                                <i class="bi bi-pencil-fill"></i>
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                class="btn btn-danger btn-remove btn-sm"
+                                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                                <i class="bi bi-trash"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
                                                         <?php else: ?>
-                                                        <p>No se encontraron datos.</p>
+                                                            <p>No se encontraron datos.</p>
                                                         <?php endif; ?>
                                                     </tbody>
                                                 </table>
@@ -729,7 +736,7 @@
                         cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
                     };
 
-                    
+
                     filas.push(fila);
                 });
 
@@ -740,7 +747,7 @@
                     filas: filas,
                 };
 
-                var diferenciaActualizada = parseFloat($("#diferencia").text());
+                var diferenciaActualizada = parseFloat($("#diferencia").val());
 
                 if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
                     $.ajax({
@@ -773,6 +780,7 @@
                     });
                 } else {
                     alert('El debe y el haber son diferentes');
+                    alert(diferenciaActualizada);
                     return false;
                 }
 
@@ -874,14 +882,14 @@
             }
 
             $(document).ready(function () {
-            // Agregar un controlador de eventos de clic al botón
-            $('#openModalBtn_3').on('click', function (event) {
-                // Detener la propagación del evento
-                event.stopPropagation();
-                event.preventDefault();
-                // Tu lógica para abrir el modal aquí si es necesario
-            });
-        }); 
+                // Agregar un controlador de eventos de clic al botón
+                $('#openModalBtn_3').on('click', function (event) {
+                    // Detener la propagación del evento
+                    event.stopPropagation();
+                    event.preventDefault();
+                    // Tu lógica para abrir el modal aquí si es necesario
+                });
+            }); 
         </script>
 
         <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
@@ -992,45 +1000,45 @@
             });
         </script>
 
-        <script>
+        <!--     <script>
             // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
             document.getElementById('comprobante').addEventListener('input', function () {
                 document.getElementById('comprobante_2').value = this.value;
             });
-        </script>
+        </script>-->
 
         <script>
-        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-        document.getElementById('detalles').addEventListener('input', function() {
-            document.getElementById('detalles_2').value = this.value;
-        });
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('detalles').addEventListener('input', function () {
+                document.getElementById('detalles_2').value = this.value;
+            });
         </script>
         <script>
-        // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-        document.getElementById('detalles').addEventListener('input', function() {
-            document.getElementById('detalles_2').value = this.value;
-        });
+            // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+            document.getElementById('detalles').addEventListener('input', function () {
+                document.getElementById('detalles_2').value = this.value;
+            });
         </script>
 
         <!-- Script de DataTable de jquery -->
         <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
         <!-- Script de la tabla Asientos  -->
         <script>
-        $(document).ready(function() {
-            $('#vistaobli').DataTable({
-                paging: true,
-                lengthMenu: [
-                    [5, 15, 25, -1],
-                    ['5', '15', '25', 'Todo']
-                ],
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
+            $(document).ready(function () {
+                $('#vistaobli').DataTable({
+                    paging: true,
+                    lengthMenu: [
+                        [5, 15, 25, -1],
+                        ['5', '15', '25', 'Todo']
+                    ],
+                    lengthChange: true,
+                    searching: true,
+                    info: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                    }
+                });
             });
-        });
         </script>
         <script>
             // Función para formatear números con separadores de miles y dos decimales
@@ -1042,15 +1050,15 @@
                 }
             }
         </script>
-        <!--         <script>
+        <script>
             // Este script escucha los cambios en el campo 'debe'
             // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
-                document.getElementById('Debe').addEventListener('input', function () {
+            document.getElementById('Debe').addEventListener('input', function () {
                 document.getElementById('Haber_2').value = this.value;
                 document.getElementById('Haber').value = 0;
                 document.getElementById('Debe_2').value = 0;
             });
-        </script> -->
+        </script>
         <script>
             function calcularTotalesYDiferencia() {
                 var sumaDebe = 0;
@@ -1069,19 +1077,25 @@
                     sumaHaber += parseFloat(valorHaber) || 0;
                 });
 
-                // Actualizar los campos y la diferencia
-                $("#DebeC").val(sumaDebe.toFixed(2));
-                $("#HaberC").val(sumaHaber.toFixed(2));
+                // Formatear como número con separadores de miles
+                $("#DebeC").val(formatearNumero(sumaDebe));
+                $("#HaberC").val(formatearNumero(sumaHaber));
                 var diferenciaTotal = sumaDebe - sumaHaber;
-                $("#diferencia").text(diferenciaTotal.toFixed(2));
+                $("#diferencia").val(formatearNumero(diferenciaTotal));
             }
 
-            // Vincular eventos
-            $(document).ready(function () {
-                $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber_2']", calcularTotalesYDiferencia);
-            });
+            function formatearNumero(numero) {
+                // Asegurarse de que el número es un tipo flotante
+                numero = parseFloat(numero);
+                // Convertir a texto y añadir separadores de miles
+                return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
 
+            $(document).ready(function () {
+                $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+            });
         </script>
+
 
 
 
