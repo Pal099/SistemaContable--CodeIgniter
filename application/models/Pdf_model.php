@@ -168,15 +168,15 @@ class Pdf_model extends CI_Model {
         }
     }
     
-
-    public function obtenerDatosComprobanteGasto($idComprobanteGasto) {
+    public function obtenerDatosPedido($id_pedido) {
         $this->db->select('cg.*, p.ruc, p.razon_social as proveedor');
         $this->db->from('comprobante_gasto cg');
         $this->db->join('proveedores p', 'p.id = cg.idproveedor', 'left');
-        $this->db->where('cg.IDComprobanteGasto', $idComprobanteGasto);
+        $this->db->where('cg.id_pedido', $id_pedido); // Filtra por id_pedido en lugar de IDComprobanteGasto
         $query = $this->db->get();
         return $query->result_array();
     }
+    
 
     public function getPresu() {
         $this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.codigo as ff, of.codigo as of, pr.nombre as prog, c.tipo as tipo, c.Codigo_CC as codi_cc, pre.TotalPresupuestado as presu_monto');

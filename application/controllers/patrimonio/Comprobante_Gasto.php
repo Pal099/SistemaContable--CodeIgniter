@@ -18,13 +18,6 @@ class Comprobante_Gasto extends MY_Controller {
 		$this->load->library('form_validation');
 
 	}
-	public function pdfs($numero_asiento)
-	{
-		// Puedes usar $numero_asiento en tu lógica de la vista
-		$data['numero_asiento'] = $numero_asiento;
-	
-		$this->load->view("Pdf_cdp/generarPDF_compro/", $data);
-	}
 
 	public function index()
 	{
@@ -55,7 +48,8 @@ class Comprobante_Gasto extends MY_Controller {
 		$fuente = $this->input->post("fuente");
 		$periodo = $this->input->post("periodo");
 		$mes = $this->input->post("mes");
-		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)) {
+		$nropedido = $this->input->post("id_pedido");
+		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)&& empty($nropedido)) {
 			// Ningún campo seleccionado, redireccionar o mostrar un mensaje de error
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
@@ -156,11 +150,18 @@ class Comprobante_Gasto extends MY_Controller {
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-	
+		
+
 		// Obtener el comprobante de gasto a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
+		$id_pedido = $comprobante->id_pedido;
+
+		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
+    
+		// Obtener rubro y descripción de la tabla bienes_servicios
+		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
 	
-		// Obtener datos necesarios para cargar el formulario, al igual que en add()
+		// Obtener otros datos
 		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
 		$comprobantes = $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu);
 		$unidad = $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu);
@@ -185,26 +186,42 @@ class Comprobante_Gasto extends MY_Controller {
 			}
 		}
 	
-		// Preparar los datos para pasarlos a la vista, tal como en add()
+		// Preparar los datos para la vista
 		$data = array(
 			'proveedores' => $proveedores,
 			'comprobante' => $comprobante,
 			'comprobantes' => $comprobantes,
+			'comprobantesPedido' => $comprobantesPedido,
 			'uni' => $unidad,
 			'proveedor' => $proveedorEncontrado,
 			'unidad' => $unidadEncontrada,
 			'presupuestos' => $presupuestos,
 			'fuentes' => $fuentes,
 			'bienes_servicios' => $bienes_servicios,
+			'rubro' => isset($rubroYDescripcion->rubro) ? $rubroYDescripcion->rubro : '',
+			'item' => isset($rubroYDescripcion->descripcion) ? $rubroYDescripcion->descripcion : '',
 			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
-	
-		// Cargar las vistas correspondientes
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/edit", $data);
 		$this->load->view("layouts/footer");
 	}
+	public function obtenerItemsPorPedido() {
+        // Verificar que el id_pedido esté presente en la solicitud
+        if (isset($_GET['id_pedido'])) {
+            $id_pedido = intval($_GET['id_pedido']);
+            
+            // Obtener los items desde el modelo
+            $items = $this->model->obtenerItemsPorPedido($id_pedido);
+            
+            // Devolver los items como JSON para la vista
+            echo json_encode($items);
+        } else {
+            echo json_encode(['error' => 'No se proporcionó id_pedido']);
+        }
+    }
 	
 
 	public function update(){
@@ -262,4 +279,17 @@ class Comprobante_Gasto extends MY_Controller {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		echo json_encode($ComprobanteDetalle);
 	}
+
+	//Funcion para el reporte de comprobante de gastos
+    public function generarReporteComprobante($id_pedido) {
+        // Llama a la funcion del modelo para obtener los datos
+        $comprobantes = $this->Comprobante_Gasto_model->getComprobanteReporte($id_pedido);
+
+        // Verificar si se encontraron comprobantes
+        if ($comprobantes) {
+            echo json_encode($comprobantes);
+        } else {
+            echo json_encode([]);
+        }
+    }
 }

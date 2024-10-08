@@ -5,6 +5,8 @@
     <!-- Estilos de DataTable de jQuery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <!-- jsPDF y Autotable para las datatable -->
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
@@ -69,11 +71,19 @@
                         </select>
                     </div>
 
+                    <!-- Campo de búsqueda por número de pedido -->
+                    <div class="col-md-3">
+                        <label for="numero_pedido" class="form-label">Número de Pedido:</label>
+                        <input type="text" class="form-control" id="id_pedido" name="id_pedido"
+                            placeholder="Ingrese número de pedido">
+                    </div>
+
                     <div class="col-md-12 text-md-end">
                         <button type="submit" class="btn btn-primary">Filtrar</button>
                     </div>
                 </div>
             </form>
+
         </div>
         <!-- Contenedor de los componentes -->
         <div class="container-fluid bg-white border rounded-3">
@@ -108,7 +118,7 @@
                                                     class="table table-hover table-sm rounded-3">
                                                     <thead>
                                                         <tr>
-                                                            <th>ID</th>
+                                                            <th>Nro de pedido</th>
                                                             <th>Actividad</th>
                                                             <th>Fecha</th>
                                                             <th>Proveedor</th>
@@ -117,7 +127,7 @@
                                                         </tr>
                                                     </thead>
                                                     <?php foreach ($comprobantes as $comp): ?>
-                                                        <td><?php echo $comp->IDComprobanteGasto; ?></td>
+                                                        <td><?php echo $comp->id_pedido; ?></td>
                                                         <td><?php echo $comp->id_unidad; ?></td>
                                                         <td><?php echo $comp->fecha; ?></td>
                                                         <td>
@@ -137,30 +147,49 @@
                                                         <td><?php echo $comp->concepto; ?></td>
 
                                                         <td>
-                                                            <div class="d-flex justify-content-between">
-                                                                <!-- Botón para PDF con el ícono de Font Awesome, alineado a la izquierda -->
+                                                            <div class="d-grid gap-1 d-md-flex justify-content-md-center">
                                                                 <button type="button"
-                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                    onclick="generarPDF()">
-                                                                    <i class="fas fa-file-pdf"></i> PDF
+                                                                    class="btn btn-primary btn-view-comprobante btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modalComprobantes"
+                                                                    value="<?php echo $comp->IDComprobanteGasto; ?>">
+                                                                    <span class="fa fa-search"></span>
                                                                 </button>
 
-                                                                <div class="d-flex gap-2">
-                                                                    <!-- Botón para ver el comprobante -->
-                                                                    <button type="button"
-                                                                        class="btn btn-primary btn-view-comprobante btn-sm"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalComprobantes"
-                                                                        value="<?php echo $comp->IDComprobanteGasto; ?>">
-                                                                        <span class="fa fa-search"></span>
-                                                                    </button>
+                                                                <button class="btn btn-warning btn-sm btn-pdf"
+                                                                    data-idpedido="<?php echo $comp->id_pedido; ?>">
+                                                                    <i class="bi bi-filetype-pdf"></i>
+                                                                </button>
 
-                                                                    <!-- Botón para eliminar -->
-                                                                    <button class="btn btn-danger btn-remove btn-sm"
-                                                                        onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo $comp->IDComprobanteGasto; ?>'">
-                                                                        <i class="bi bi-trash"></i>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <!-- Botón para PDF de Pedido con el ícono de Font Awesome -->
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>Pdf_ped/generarPDF_ped/<?php echo $comp->id_pedido; ?>'">
+                                                                        <i class="fas fa-file-pdf"></i> Pedido
                                                                     </button>
                                                                 </div>
+
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <!-- Botón para PDF de Orden con el ícono de Font Awesome -->
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>Pdf_orden/generarPDF_orden/<?php echo $comp->id_pedido; ?>'">
+                                                                        <i class="fas fa-file-pdf"></i> Orden
+                                                                    </button>
+                                                                </div>
+
+                                                                <button class="btn btn-warning btn-sm"
+                                                                    onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                                                    <i class="bi bi-pencil-fill"></i>
+                                                                </button>
+
+                                                                <button class="btn btn-danger btn-remove btn-sm"
+                                                                    onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                                                    <i class="bi bi-trash"></i>
+                                                                </button>
                                                             </div>
                                                         </td>
 
@@ -340,7 +369,37 @@
 
     <!-- Script del pdf de Comprobante de gasto -->
     <script>
-        async function generarPDF() {
+        /* Script del botón que recupera el ID del comprobante de gasto */
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttons = document.querySelectorAll(".btn-pdf");
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    // Obtener el ID del pedido del atributo data-idpedido
+                    var id_pedido = this.getAttribute('data-idpedido');
+                    console.log("Id pedido: ", id_pedido);
+
+                    // Hacer una llamada AJAX para obtener los datos desde el backend
+                    fetch("<?= base_url('patrimonio/comprobante_gasto/generarReporteComprobante/') ?>" +
+                        id_pedido)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la respuesta de la solicitud: ' +
+                                    response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Visualizar los datos obtenidos
+                            console.log("Datos obtenidos: ", data);
+                            // Llamar a la función generarPDF si es necesario
+                            generarPDF(data);
+                        })
+                        .catch(error => console.error('Error:', error));
+                });
+            });
+        });
+
+        async function generarPDF(data) {
             const {
                 jsPDF
             } = window.jspdf;
@@ -351,7 +410,7 @@
                 const logoDataURL = await getImageDataURL(); // Asume que tienes una función para obtener la imagen
                 doc.addImage(logoDataURL, 'PNG', 15, 15, 25, 0); // Posicionar el logo
 
-                //Variable para la cantidad de paginas del footer
+                // Variable para la cantidad de paginas del footer
                 var totalPagesExp = "{total_pages_count_string}";
 
                 // Fecha de generación del documento
@@ -373,8 +432,8 @@
                 doc.text('COMPROBANTES DE LA SOLICITUD', 105, 35, null, null, 'center');
 
                 doc.setFontSize(10);
-
-                var text = 'Solicitud N°: 385/2023';
+                // Crear el texto dinámico
+                var text = `Solicitud N°: ${data[0].id_pedido}`;
 
                 // Medir el ancho del texto
                 var textWidth = doc.getTextWidth(text);
@@ -382,11 +441,11 @@
 
                 // Coordenadas para el cuadro (ajustar estas coordenadas para centrar mejor el cuadro)
                 var xPos = doc.internal.pageSize.width - textWidth - padding * 3;
-                var yPos = 47;
+                var yPos = 47; // Mantener la coordenada Y fija o ajustarla si es necesario
 
                 // Ajustar la posición del texto para que esté en el centro del cuadro
                 var textXPos = xPos + padding; // Centrar horizontalmente con padding
-                var textYPos = yPos; // Ajustar la altura del texto dentro del cuadro
+                var textYPos = yPos; // Mantener la altura del texto
 
                 // Grosor del borde del cuadro
                 doc.setLineWidth(0.3); // Ajustar grosor de los bordes
@@ -415,15 +474,25 @@
                 // Escribir los textos dentro del cuadro
                 doc.setFontSize(9);
                 // Izquierda
-                doc.text(`Fecha Comprobante: ${fecha}`, 15, 58);
+                // Formateo de la fecha data[0].fecha tiene el formato 'YYYY-MM-DD'
+                const fechaOriginal = data[0].fecha; // Ejemplo: '2024-09-26'
+
+                // Dividir la fecha en componentes
+                const [year, month, day] = fechaOriginal.split('-');
+
+                // Formatear la fecha como 'DD/MM/YY'
+                const fechaFormateada = `${day}/${month}/${year.slice(2)}`;
+
+                // Insertar la fecha formateada en el PDF
+                doc.text(`Fecha Comprobante: ${fechaFormateada}`, 15, 58);
                 doc.text(`Nro. Comprobante: 001-001-0001275`, 15, 63);
 
                 // Al lado de fecha de comprobante
-                doc.text(`Proveedor: VENTSERV S.R.L.`, 71, 58);
+                doc.text(`Proveedor: ${data[0].razon_social}`, 71, 58);
                 doc.text('Obs.: 242 - Mantenimiento y Reparación de Edificio', 71, 63);
 
                 // Al lado de proveedores
-                doc.text(`RUC: 80077381-0`, 123, 58);
+                doc.text(`RUC: ${data[0].ruc}`, 123, 58);
                 doc.text(`Monto: 100.000.000`, 155, 63);
 
                 // CC
@@ -431,66 +500,78 @@
 
                 // Crear la tabla de items
                 const tableColumn = [
-                    ['Item', 'Tipo', 'Prog./Sub', 'Obj.', 'FF', 'Org.', 'Dpto.', 'Bien/Servicio', 'Cant.',
-                        'Precio Un.', 'Exentas', 'Gravadas', '% IVA'
+                    ['Item', 'Tipo', 'Prog./Sub', 'Obj', 'FF', 'Org.', 'Dpto.', 'Bien/Servicio', 'Cantidad',
+                        'Precio Unit.', 'Exentas', 'Gravadas', 'IVA'
                     ]
                 ];
 
-                // Estos serían los datos que deben completarse con los datos reales
-                const tableRows = [
-                    ['1)', '01-01', '242', '10', '01', '0', '', 'Demolición de revestido y revoque existente',
-                        '350.0', '24.000', '0', '8.400.000', '10%'
-                    ],
-                    ['2)', '01-01', '242', '10', '01', '0', '', 'Revoque de paredes', '350.0', '20.000', '0',
-                        '7.000.000', '10%'
-                    ],
-                    ['3)', '01-01', '242', '10', '01', '0', '', 'Mocheta para cubrir caños de bajada', '90.0',
-                        '80.000', '0', '7.200.000', '10%'
-                    ],
-                    // Añade todas las filas necesarias aquí
-                ];
+                //-------------Acá comienza los datos-------------
+                const tableRows = [];
+
+                // Rellenar las filas con los datos reales del backend
+                data.forEach((item, index) => {
+                    tableRows.push([
+                        index + 1 + ')',
+                        '1',
+                        '1',
+                        '1',
+                        '1',
+                        '1',
+                        '1',
+                        item.descripcion,
+                        item.cantidad,
+                        item.preciounit,
+                        item.exenta,
+                        item.gravada,
+                        item.porcentaje_iva + '%',
+                    ]);
+                });
 
                 // Configuración de la tabla
                 doc.autoTable({
                     head: tableColumn,
                     body: tableRows,
-                    startY: 67, // Ajusta el valor según necesites
+                    startY: 67, //Posicion de donde inicia la tabla
+                    theme: 'plain',
                     headStyles: {
-                        fillColor: null, // O usa [255, 255, 255] si el fondo sigue apareciendo
-                        textColor: '#000000', // Color del texto (negro)
-                        fontStyle: 'bold', // Texto en negrita
-                        lineWidth: 0.3, // Grosor del borde
-                        lineColor: [0, 0, 0] // Color del borde (negro)
+                        fillColor: null,
+                        textColor: '#000000',
+                        fontStyle: 'normal',
+                        fontSize: 9,
                     },
                     bodyStyles: {
                         cellPadding: 2,
-                        fontSize: 9 //tamaño de las letras de la tabla
+                        fontSize: 9,
                     },
                     columnStyles: {
+                        1: {
+                            halign: 'center'
+                        },
+                        2: {
+                            halign: 'center'
+                        },
+                        3: {
+                            halign: 'center'
+                        },
+                        4: {
+                            halign: 'center'
+                        },
+                        5: {
+                            halign: 'center'
+                        },
+                        6: {
+                            halign: 'center'
+                        },
                         7: {
-                            halign: 'left'
-                        }, // "Bien/Servicio" alineado a la izquierda
+                            cellWidth: 38,
+                        },
                         8: {
-                            halign: 'right'
-                        }, // "Cant."
-                        9: {
-                            halign: 'right'
-                        }, // "Precio Un."
-                        10: {
-                            halign: 'right'
-                        }, // "Exentas"
-                        11: {
-                            halign: 'right'
-                        }, // "Gravadas"
-                        12: {
-                            halign: 'right'
-                        }, // "% IVA"
+                            halign: 'center'
+                        } //Bien-Servicio
                     },
-                    //Este es el código del footer
                     didDrawPage: function (data) {
-                        // Número de página, centrado
-                        var str = "Página " + doc.internal.getNumberOfPages()
-                        // Total de páginas número plugin sólo en nuevas páginas
+                        // Pie de página
+                        var str = "Página " + doc.internal.getNumberOfPages();
                         if (typeof doc.putTotalPages === 'function') {
                             str = str + " de " + totalPagesExp;
                         }
@@ -501,30 +582,39 @@
                     },
                     margin: {
                         top: 10
-                    },
+                    }
                 });
 
                 // Totales
-                let finalY = doc.previousAutoTable.finalY + 10; // Para posicionar los totales justo debajo de la tabla
+                let finalY = doc.previousAutoTable.finalY + 10;
+
+                // Dibujar una línea divisoria del mismo ancho que la tabla
+                const startX = 14; // Coordenada X del inicio de la tabla (ajústala si es diferente)
+                const endX = 196; // Coordenada X del final de la tabla (ajústala si es diferente)
+                doc.setLineWidth(0.3); // Grosor de la línea
+                doc.line(startX, finalY - 3, endX, finalY - 3); // Dibuja la línea justo antes de los totales
+
+                // Texto de totales
                 doc.setFontSize(10);
-                doc.text('Total Comprobante:', 99, finalY);
-                doc.text('100.000.000.000.000.000', 196, finalY, {
+                doc.text('Total Comprobante:', 105, finalY + 1, null, null, 'right');
+                doc.text('100.000.000.000.000.000', 196, finalY + 1, {
                     align: 'right'
                 });
 
-                finalY += 5;
-                doc.text('Total General:', 99, finalY);
-                doc.text('100.000.000.000.000.000', 196, finalY, {
-                    align: 'right'
-                });
-
-                // Total de páginas, este es el plugin para calcular la totalidad de paginas
                 if (typeof doc.putTotalPages === 'function') {
                     doc.putTotalPages(totalPagesExp);
                 }
 
                 // Guardar el PDF
-                doc.save('Comprobante_Solicitud.pdf');
+                //doc.save('Comprobante_Solicitud.pdf');
+
+                // Generar un Blob del documento PDF
+                const pdfBlob = doc.output('blob');
+
+                // Crear una URL para el Blob y abrirla en una nueva pestaña
+                const blobUrl = URL.createObjectURL(pdfBlob);
+                window.open(blobUrl);
+
             } catch (error) {
                 console.error('Error al generar el PDF:', error);
             }
