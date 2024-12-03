@@ -170,6 +170,15 @@
                                                                         <i class="fas fa-file-pdf"></i> Pedido
                                                                     </button>
                                                                 </div>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <!-- Botón para PDF de Pedido con el ícono de Font Awesome -->
+                                                                    <button type="button"
+                                                                        class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                        onclick="window.location.href='<?php echo base_url() ?>Pdf_nota/generarPDF_nota/<?php echo $comp->id_pedido; ?>'">
+                                                                        <i class="fas fa-file-pdf"></i> Nota
+                                                                    </button>
+                                                                </div>
 
                                                                 <div
                                                                     class="d-grid gap-1 d-md-flex justify-content-md-center">
