@@ -25,7 +25,7 @@ class Comprobante_Gasto extends MY_Controller {
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data  = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesPorPedido($id_uni_respon_usu),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
@@ -143,71 +143,114 @@ class Comprobante_Gasto extends MY_Controller {
 			return redirect(base_url() . "patrimonio/comprobantegasto/add");
 		}
 	}
-	
-
 	public function edit($id) {
-		// Obtener nombre del usuario y sus identificadores relacionados
+		// Verificar la sesión del usuario
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		
-
-		// Obtener el comprobante de gasto a editar
+	
+		// Obtener los datos del comprobante específico a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		$id_pedido = $comprobante->id_pedido;
-
 		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
-    
-		// Obtener rubro y descripción de la tabla bienes_servicios
+		$proveedor = $this->Proveedores_model->getProveedor($comprobante->idproveedor);
+
+		if (!$comprobante) {
+			// Manejar el caso de no encontrar el comprobante
+			$this->session->set_flashdata("error", "Comprobante no encontrado");
+			return redirect(base_url() . "patrimonio/comprobantegasto");
+		}
 		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
-	
-		// Obtener otros datos
-		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
-		$comprobantes = $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu);
-		$unidad = $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu);
-		$presupuestos = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
-		$fuentes = $this->Registros_financieros_model->getFuentes($id_uni_respon_usu);
-		$bienes_servicios = $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu);
-	
-		// Buscar y asignar el proveedor y la unidad correspondiente al comprobante
-		$proveedorEncontrado = null;
-		foreach ($proveedores as $proveedor) {
-			if ($proveedor->id == $comprobante->idproveedor) {
-				$proveedorEncontrado = $proveedor;
-				break;
-			}
-		}
-	
-		$unidadEncontrada = null;
-		foreach ($unidad as $uni) {
-			if ($uni->id_unidad == $comprobante->id_unidad) {
-				$unidadEncontrada = $uni;
-				break;
-			}
-		}
-	
 		// Preparar los datos para la vista
 		$data = array(
-			'proveedores' => $proveedores,
+			'proveedor' => $proveedor,
 			'comprobante' => $comprobante,
-			'comprobantes' => $comprobantes,
 			'comprobantesPedido' => $comprobantesPedido,
-			'uni' => $unidad,
-			'proveedor' => $proveedorEncontrado,
-			'unidad' => $unidadEncontrada,
-			'presupuestos' => $presupuestos,
-			'fuentes' => $fuentes,
-			'bienes_servicios' => $bienes_servicios,
+			'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'rubro' => isset($rubroYDescripcion->rubro) ? $rubroYDescripcion->rubro : '',
-			'item' => isset($rubroYDescripcion->descripcion) ? $rubroYDescripcion->descripcion : '',
+			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
+			'uni' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
+			'bienes_servicios' => $this->Bienes_Servicios_model->getBienesServicios($id_uni_respon_usu),
 			'datos_vista' => $this->Comprobante_Gasto_model->obtener_datos_presupuesto(),
 		);
-
+	
+		// Cargar las vistas
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/edit", $data);
 		$this->load->view("layouts/footer");
 	}
+	
+	public function update() {
+		header('Access-Control-Allow-Origin: *');
+		$datosCompletos = $this->input->post('datos');
+		$datosFormulario = $datosCompletos['datosFormulario'];
+	
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+	
+		// Recopilar datos generales del formulario
+		$id_pedido = $datosFormulario['id_pedido'];
+		$id_unidad = $datosFormulario['id_unidad'];
+		$fecha = $datosFormulario['fecha'];
+		$concepto = $datosFormulario['concepto'];
+		$id_proveedor = $datosFormulario['idproveedor'];
+	
+		if ($this->input->is_ajax_request()) {
+			$filas = $datosCompletos['filas'];
+	
+			// Actualizar el comprobante principal
+			$dataComprobante = array(
+				'id_pedido' => $id_pedido,
+				'id_unidad' => $id_unidad,
+				'fecha' => $fecha,
+				'concepto' => $concepto,
+				'idproveedor' => $id_proveedor,
+				'id_uni_respon_usu' => $id_uni_respon_usu,
+			);
+	
+			$this->Comprobante_Gasto_model->update($id_pedido, $dataComprobante);
+	
+			// Actualizar las filas
+			foreach ($filas as $fila) {
+				// Aquí podrías implementar la lógica para actualizar cada fila
+				$dataFila = array(
+					'id_pedido' => $fila['id_pedido'],
+					'IDComprobanteGasto' => $fila['IDComprobanteGasto'],
+					'id_unidad' => $id_unidad,
+					'fecha' => $fecha,
+					'idproveedor' => $id_proveedor,
+					'descripcion' => $fila['descripcion'],
+					'concepto' => $concepto,
+					'id_item' => $fila['id_item'],
+					'preciounit' => $fila['preciounit'],
+					'cantidad' => $fila['cantidad'],
+					'iva' => $fila['iva'],
+					'porcentaje_iva' => $fila['porcentaje_iva'],
+					'exenta' => $fila['exenta'],
+					'gravada' => $fila['gravada'],
+				);
+	
+				// Lógica para determinar si es una inserción o actualización
+				if (isset($fila['id_pedido'])) {
+					// Si tiene ID, es una actualización
+					$this->Comprobante_Gasto_model->updateFilaComprobanteGasto($fila['IDComprobanteGasto'], $dataFila);
+				} else {
+					// Si no tiene ID, es una inserción
+					$this->Comprobante_Gasto_model->save($dataFila);
+				}
+			}
+	
+			echo "success";
+		} else {
+			$this->session->set_flashdata("error", "No se pudo actualizar la información");
+			return redirect(base_url() . "patrimonio/comprobantegasto/" );
+		}
+	}
+	
 	public function obtenerItemsPorPedido() {
         // Verificar que el id_pedido esté presente en la solicitud
         if (isset($_GET['id_pedido'])) {
@@ -222,45 +265,7 @@ class Comprobante_Gasto extends MY_Controller {
             echo json_encode(['error' => 'No se proporcionó id_pedido']);
         }
     }
-	
-
-	public function update(){
-		$IDComprobanteGasto = $this->input->post("IDComprobanteGasto");
-		$id_unidad = $this->input->post("id_unidad");
-		$fecha = $this->input->post("fecha");
-		$idproveedor = $this->input->post("idproveedor");
-		$aprobado= $this->input->post("aprobado"); 
-		$concepto= $this->input->post("concepto");
-		$aprobado = $this->input->post("aprobado");
-		$id_ff = $this->input->post("id_ff");
-		$obl = $this->input->post("obl");
-		$str = $this->input->post("str");
-		$op = $this->input->post("op");
-
-		$comprobanteactual = $this->Comprobante_Gasto_model->getComprobanteGasto($IDComprobanteGasto);
-
-			$data = array(
-				'id_unidad' => $id_unidad, 
-				'fecha' => $fecha,
-				'aprobado' => $aprobado,	
-				'idproveedor' => $idproveedor,
-				'concepto' => $concepto,
-				'id_ff' => $id_ff,
-				'obl' => $obl,
-				'str' => $str,
-				'op' => $op,
-			);
-
-			if ($this->Comprobante_Gasto_model->update($IDComprobanteGasto,$data)) {
-				redirect(base_url()."patrimonio/comprobantegasto");
-			}
-			else{
-				$this->session->set_flashdata("error","No se pudo actualizar la informacion");
-				redirect(base_url()."patrimonio/comprobantegasto/edit/".$IDComprobanteGasto);
-			}
 		
-	}
-	
 	public function view($id){
 		$data  = array(
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobanteGasto($id), 

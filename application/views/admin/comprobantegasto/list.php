@@ -141,7 +141,8 @@
                                   value="<?php echo $comp->IDComprobanteGasto; ?>">
                                   <span class="fa fa-search"></span>
                                 </button>
-                                <button class="btn btn-warning btn-sm"
+                                
+                                <button class="btn btn-warning btn-sm" 
                                   onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">
                                   <i class="bi bi-pencil-fill"></i>
                                 </button>
@@ -271,7 +272,7 @@
         searching: true,
         info: true,
         language: {
-          url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+          url: 'http://localhost/practica/assets/json/es-ES.json',
         },
       });
     });
