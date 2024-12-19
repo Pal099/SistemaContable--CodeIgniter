@@ -111,7 +111,18 @@ class Pdf_model extends CI_Model {
     }
 
 
-
+    public function obtenerDatosPedido($id_pedido) {
+        // Selecciona los campos necesarios, incluyendo 'fecha'
+        $this->db->select('cg.*, p.ruc, p.razon_social as proveedor, cg.fecha'); 
+        $this->db->from('comprobante_gasto cg');
+        $this->db->join('proveedores p', 'p.id = cg.idproveedor', 'left');
+        $this->db->where('cg.id_pedido', $id_pedido); // Filtra por id_pedido
+        $query = $this->db->get();
+        
+        // Devuelve los resultados como un arreglo
+        return $query->result_array();
+    }
+    
 
     public function obtenerDatos_cdp($numero_asiento) {
         $this->db->select('
