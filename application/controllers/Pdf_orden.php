@@ -25,6 +25,14 @@ class Pdf_orden extends CI_Controller
         // Obtener nombre de usuario y unidad académica
         $nombreUsuario = $this->session->userdata('Nombre_usuario');
         $unidadAcademica = $this->Pdf_model->obtenerUnidadAcademicaPorNombreUsuario($nombreUsuario);
+        $datos_pedido = $this->Pdf_model->obtenerDatosPedido($id_pedido);
+
+// Accede a la fecha (suponiendo que 'fecha' es parte de los resultados de 'cg')
+$fecha_entrega = $datos_pedido[0]['fecha']; // Si solo hay un resultado, puedes usar el índice 0
+
+// Si deseas formatear la fecha (ejemplo: 'd/m/Y'):
+$fecha_formateada = date('d/m/Y', strtotime($fecha_entrega)); // Ajusta el formato según lo que necesites
+
 
         // Encabezado con el logo y el título
         $pdf->Image('assets/img/logoUNE.png', 35, 3, 25);
@@ -63,13 +71,13 @@ class Pdf_orden extends CI_Controller
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->Cell(40, 6, utf8_decode("Fecha de Orden:"), 0, 0, 'L');
         $pdf->SetFont('Arial', '', 9);
-        $pdf->Cell(50, 6, utf8_decode(date('d/m/Y')), 0, 1, 'L');
+        $pdf->Cell(50, 6, utf8_decode($fecha_formateada), 0, 1, 'L');
 
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->Cell(40, 6, utf8_decode("Plazo Entrega:"), 0, 0, 'L');
         $pdf->SetFont('Arial', '', 9);
-        $pdf->Cell(50, 6, utf8_decode("13/10/2023"), 0, 1, 'L');
-
+        $pdf->Cell(50, 6, utf8_decode($fecha_formateada), 0, 1, 'L');
+        
         // Columna derecha
         $pdf->SetXY(110, 55);
         $pdf->SetFont('Arial', 'B', 9);
@@ -95,11 +103,14 @@ class Pdf_orden extends CI_Controller
         $pdf->SetFont('Arial', '', 9);
         $pdf->Cell(50, 6, utf8_decode("----"), 0, 1, 'L');
 
-        // Pie del cuadro
-        $pdf->SetXY(10, 80);
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->MultiCell(190, 5, utf8_decode("Señor/es: VENTSERV S.R.L., sirvase en proveer los Bienes y/o Servicios que a continuación se mencionan, con plazo de entrega hasta: 13/10/2023, conforme a las especificaciones técnicas ofertadas y aprobadas."), 0, 'L');
+       // Obtener el nombre del proveedor desde los datos del comprobante
+$proveedor = utf8_decode($datosComprobante[0]['proveedor']); // Asumimos que siempre habrá un proveedor
+$ruc = $datosComprobante[0]['ruc']; // También puedes incluir el RUC si lo necesitas
 
+// Pie del cuadro, reemplaza VENTSERV S.R.L. por el proveedor dinámico y añade la fecha
+$pdf->SetXY(10, 80);
+$pdf->SetFont('Arial', '', 9);
+$pdf->MultiCell(190, 5, utf8_decode("Señor/es: " . $proveedor . ", sírvase en proveer los Bienes y/o Servicios que a continuación se mencionan, con plazo de entrega hasta: " . $fecha_formateada . ", conforme a las especificaciones técnicas ofertadas y aprobadas."), 0, 'L');
 
     // Inicializar acumulador para el total de la columna "Monto" (nontoi)
 $totalGral = 0;

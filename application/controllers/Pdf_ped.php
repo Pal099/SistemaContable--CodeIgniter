@@ -35,9 +35,16 @@ class Pdf_ped extends CI_Controller
 
 
         /// Cuadro pequeño al lado del título con "Nro."
-        $pdf->SetXY(160, 35);  // Ajustado más hacia la derecha y arriba
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(30, 10, utf8_decode('Nro.:'), 1, 0, 'L'); // Cuadro con borde y texto
+       // Ajustar posición para el cuadro del número
+$pdf->SetXY(160, 35); // Ajustado más hacia la derecha y arriba
+$pdf->SetFont('Arial', 'B', 10);
+
+// Obtener el año actual
+$year = date('Y');
+
+// Crear el cuadro con borde y texto
+$pdf->Cell(40, 10, utf8_decode('Nro.: ') . $id_pedido . '/' . $year, 1, 0, 'L');
+
 
         // Añadiendo tabla de datos generales
         $pdf->SetY(55);
@@ -49,12 +56,12 @@ class Pdf_ped extends CI_Controller
         // Dentro del cuadro, puedes usar MultiCell para evitar líneas internas
         $pdf->SetXY(10, 55); // Ajustar la posición para el contenido
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 10, utf8_decode("Fecha Pedido:"), 0, 0, 'L', 0);
+        $pdf->Cell(30, 10, utf8_decode("Fecha Pedido:"), 0, 0, 'L', 0);
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(150, 10, utf8_decode($datosComprobante[0]['fecha']), 0, 1, 'L', 0);
 
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 10, utf8_decode("Dependencia Solicitante:"), 0, 0, 'L', 0);
+        $pdf->Cell(30, 10, utf8_decode("Dependencia Solicitante:"), 0, 0, 'L', 0);
         $pdf->SetFont('Arial', '', 10);
 
         // Ajustar la posición de X para mover el contenido más a la izquierda
@@ -62,7 +69,7 @@ class Pdf_ped extends CI_Controller
         $pdf->Cell(150, 10, utf8_decode($datosComprobante[0]['ruc']), 0, 1, 'L', 0);
 
         $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 10, utf8_decode("Local de salida:"), 0, 0, 'L', 0);
+        $pdf->Cell(30, 10, utf8_decode("Local de salida:"), 0, 0, 'L', 0);
         $pdf->SetFont('Arial', '', 10);
         $pdf->Cell(150, 10, utf8_decode("Dpto. Suministros"), 0, 1, 'L', 0);
 
@@ -134,8 +141,8 @@ foreach ($datosComprobante as $index => $dato) {
         $pdf->MultiCell(0, 10, utf8_decode("Por la presente, declaramos haber recibidos bienes/servicios mencionados más arriba:"), 0, 'C');
 
         // Firmas
-        $pdf->Ln(10); // Espacio entre el texto y las firmas
-        $pdf->Cell(60, 10, utf8_decode("Fecha:"), 0);
+        $pdf->Ln(20); // Espacio entre el texto y las firmas
+        $pdf->Cell(60, 10, utf8_decode("Fecha recepción:"), 0);
         $pdf->Cell(60, 10, utf8_decode("Firma solicitante:"), 0);
         $pdf->Cell(60, 10, utf8_decode("Firma Enc. Suministros:"), 0);
         $pdf->Ln(20); // Espacio para las firmas

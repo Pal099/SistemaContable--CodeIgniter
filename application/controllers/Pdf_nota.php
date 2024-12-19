@@ -33,7 +33,7 @@ class Pdf_nota extends CI_Controller
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->Cell(0, 10, utf8_decode('GESTION ADMINISTRATIVA RECTORADO - UNE'), 0, 1, 'C');
         $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 20, utf8_decode('NOTA DE RECEPCIÓN - PRIOVEEDORES'), 0, 1, 'C');
+        $pdf->Cell(0, 20, utf8_decode('NOTA DE RECEPCIÓN - PROVEEDORES'), 0, 1, 'C');
 
         // Año actual
         $year = date('Y');
@@ -45,13 +45,16 @@ class Pdf_nota extends CI_Controller
         $pdf->SetY(55);
         $pdf->SetFont('Arial', 'B', 10);
 
-       
+        // Obtener el nombre del proveedor desde los datos del comprobante
+$proveedor = utf8_decode($datosComprobante[0]['proveedor']); // Asumimos que siempre habrá un proveedor
+$ruc = $datosComprobante[0]['ruc']; // También puedes incluir el RUC si lo necesitas
+
         // Pie del cuadro
         $pdf->SetXY(10, 60);
         $pdf->SetFont('Arial', '', 9);
         $pdf->MultiCell(190, 5, utf8_decode(
             "Fecha: " . date('d/m/Y') . "\n\n" . // Agregar la fecha actual
-            "Por la presente, se deja constancia de haber recepcionado los bienes y/o servicios descritos más abajo, correspondientes a: VENTSERV S.R.L. RUC80077381-O, conforme a las especificaciones técnicas ofertadas y contratadas:\n\n" .
+            "Por la presente, se deja constancia de haber recepcionado los bienes y/o servicios descritos más abajo, correspondientes a: " . $proveedor . " ". $ruc .", conforme a las especificaciones técnicas ofertadas y contratadas:\n\n" .
             "Procedimiento / Adjudicación:\n\n" .
             "Listado de Bienes y/o Servicios Recepcionados:"
         ), 0, 'L');
@@ -120,21 +123,28 @@ $pdf->SetFont('Arial', 'B', 8);
 $pdf->Cell(190, 7, 'Total Gral.: ' . number_format($totalGral, 0), 0, 0, 'R'); // Texto "Total Gral." y total en la última celda
 $pdf->Ln(10); // Espacio antes de las firmas
 
-// Agregar las líneas de título para las firmas
-$pdf->SetFont('Arial', 'B', 8);
-$signatureWidth = 47.5; // Ancho de cada columna de firmas
 
-$pdf->Cell($signatureWidth, 10, 'Firma Ordenador:', 1, 0, 'C');
-$pdf->Cell($signatureWidth, 10, 'Auditoria Interna:', 1, 0, 'C');
-$pdf->Cell($signatureWidth, 10, 'Registro Presupuesto:', 1, 0, 'C');
-$pdf->Cell($signatureWidth, 10, 'Recibi Conforme:', 1, 1, 'C'); // La última celda hace un salto de línea
+// Estado de la recepción y firmas
+$pdf->SetFont('Arial', '', 9);
+$pdf->MultiCell(190, 5, utf8_decode(
+    "Estado de la recepción:\n\n" . 
+    "Los abajo firmantes dan constancia de la recepción:\n\n" . 
+    "Observaciones:\n\n\n" // Espacio para observaciones
+), 0, 'L');
 
-// Agregar las celdas para las firmas debajo de los títulos
-$pdf->SetFont('Arial', '', 8);
-$pdf->Cell($signatureWidth, 20, '', 1, 0, 'C'); // Celda para "Firma Ordenador"
-$pdf->Cell($signatureWidth, 20, '', 1, 0, 'C'); // Celda para "Auditoria Interna"
-$pdf->Cell($signatureWidth, 20, '', 1, 0, 'C'); // Celda para "Registro Presupuesto"
-$pdf->Cell($signatureWidth, 20, '', 1, 1, 'C'); // Celda para "Recibi Conforme"
+// Espacios para las firmas
+$pdf->Ln(5);
+$pdf->SetX(10);
+$pdf->Cell(60, 5, '__________________________', 0, 0, 'C'); // Firma 1
+$pdf->Cell(60, 5, '', 0, 0, 'C'); // Espacio entre firmas
+$pdf->Cell(60, 5, '__________________________', 0, 1, 'C'); // Firma 2
+
+$pdf->SetX(10);
+$pdf->Cell(60, 5, utf8_decode('Nombre y Cargo'), 0, 0, 'C'); // Texto bajo firma 1
+$pdf->Cell(60, 5, '', 0, 0, 'C'); // Espacio entre firmas
+$pdf->Cell(60, 5, utf8_decode('Nombre y Cargo'), 0, 1, 'C'); // Texto bajo firma 2
+
+$pdf->Ln(10); // Espacio final
 
         // Generar y enviar el PDF
         $pdf->Output('Orden_Servicio_' . $id_pedido . '.pdf', 'I');

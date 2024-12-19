@@ -14,6 +14,7 @@ class Comprobante_Gasto_model extends CI_Model {
 		$resultados = $this->db->get();
 		return $resultados->result();
 	}
+	
 
 	public function getComprobanteReporte($id_pedido)
 	{
@@ -33,8 +34,6 @@ class Comprobante_Gasto_model extends CI_Model {
     }
 }
 	
-
-	
 	public function save($data) {
 	
 		return $this->db->insert('comprobante_gasto', $data);
@@ -48,19 +47,27 @@ class Comprobante_Gasto_model extends CI_Model {
 		return $resultado->row();
 
 	}
-	/*public function getComprobanteGasto($id = null, $id_pedido = null){
-		if ($id !== null) {
-			$this->db->where("IDComprobanteGasto", $id);
-		}
-		if ($id_pedido !== null) {
-			$this->db->or_where("id_pedido", $id_pedido); 
-		}
-		
-		$resultado = $this->db->get("comprobante_gasto");
-		return $resultado->row();
-	}*/
 	
- 
+	public function getComprobantesPorPedido($id_uni_respon_usu)
+{
+    $this->db->select('*');
+    $this->db->from('comprobante_gasto');
+    $this->db->where('id_uni_respon_usu', $id_uni_respon_usu);
+    $this->db->group_by('id_pedido'); // Agrupa los resultados por id_pedido
+    $query = $this->db->get();
+
+    return $query->result();
+}
+	
+    public function updateComprobanteGasto($id_pedido, $data) {
+        $this->db->where('id_pedido', $id_pedido);
+        return $this->db->update('comprobante_gasto', $data);
+    }
+
+    public function updateFilaComprobanteGasto($IDComprobanteGasto, $filaData) {
+        $this->db->where('IDComprobanteGasto', $IDComprobanteGasto);
+        return $this->db->update('comprobante_gasto', $filaData);
+    }
 	public function update($id,$data){
 		$this->db->where("IDComprobanteGasto",$id);
 		return $this->db->update("comprobante_gasto",$data);
@@ -130,7 +137,8 @@ class Comprobante_Gasto_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result(); // Retorna todas las filas que coinciden con el id_pedido
 	}
-	
+
+
 	public function getRubroYDescripcionByIdItem($id_item) {
 		$this->db->select('rubro, descripcion');
 		$this->db->from('bienes_servicios');
