@@ -39,7 +39,7 @@ class EjecucionP extends CI_Controller
 
         // Ahora pasamos el ID como argumento al método getEjecucionesP().
         $data = array(
-            'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta(),
+            'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta($id_uni_respon_usu),
             'fuente' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),

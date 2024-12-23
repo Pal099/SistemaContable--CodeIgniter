@@ -20,12 +20,20 @@ class EjecucionPC extends CI_Controller
 
     public function index()
     {
-        // Suponiendo que $id_uni_respon_usu se obtenga de la sesión del usuario o mediante algún otro método.
-        //$id_uni_respon_usu = $this->session->userdata('id_uni_respon_usu');
+        //Con la libreria Session traemos los datos del usuario
+		//Obtenemos el nombre que nos va servir para obtener su id
+		$nombre=$this->session->userdata('Nombre_usuario');
 
+		//Con el método getUserIdByUserName en el modelo del usuario, nos devuelve el id
+		//id conseguido mediante el nombre del usuario
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		
+		//Y finalmente, con el método getUserIdUniResponByUserId traemos el id_uni_respon_usu
+		//esa id es importante para hacer las relaciones y registros por usuario
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         // Ahora pasamos el ID como argumento al método getEjecucionesP().
         $data = array(
-            'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta(),
+            'ejecucionpresupuestaria' => $this->EjecucionP_model->getSumaDebePorCuenta($id_uni_respon_usu),
         );
 
         // Cargar vistas con datos

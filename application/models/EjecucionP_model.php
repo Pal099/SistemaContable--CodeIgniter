@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class EjecucionP_model extends CI_Model {
 
-	public function getSumaDebePorCuenta() {
+	public function getSumaDebePorCuenta($id_uni_respon_usu) {
                 $this->db->select('
                 p.origen_de_financiamiento_id_of,
                 p.fuente_de_financiamiento_id_ff,
@@ -20,6 +20,8 @@ class EjecucionP_model extends CI_Model {
             $this->db->from('presupuestos p'); // Asegúrate de que el nombre de la tabla sea correcto
             $this->db->join('cuentacontable c', 'p.Idcuentacontable = c.IDCuentaContable');
             $this->db->join('num_asi_deta d', 'c.IDCuentaContable = d.IDCuentaContable', 'left');
+            $this->db->join('uni_respon_usu', 'p.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+            $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
             $this->db->group_by('p.Idcuentacontable, p.ID_Presupuesto');
             $query = $this->db->get();
 
