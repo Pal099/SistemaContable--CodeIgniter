@@ -302,7 +302,7 @@ public function getUsuarioId($nombre){
 }
 
 
-public function obtener_datos_asiento_por_busqueda($numero_asiento = null) {
+public function obtener_datos_asiento_por_busqueda( $id_uni_respon_usu, $numero_asiento = null) {
     $this->db->select('
         origen_de_financiamiento.nombre as nombre_origen,
         fuente_de_financiamiento.nombre as nombre_fuente,
@@ -347,6 +347,8 @@ public function obtener_datos_asiento_por_busqueda($numero_asiento = null) {
     $this->db->join('cuentacontable', 'num_asi_deta.IDCuentaContable = cuentacontable.IDCuentaContable');
     $this->db->join('presupuestos', 'cuentacontable.Idcuentacontable = presupuestos.Idcuentacontable');
     $this->db->join('num_asi', 'num_asi_deta.Num_Asi_IDNum_Asi = num_asi.IDNum_Asi');
+    $this->db->join('uni_respon_usu', 'num_asi_deta.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+    $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
 
     if ($numero_asiento) {
         $this->db->where('num_asi.num_asi', $numero_asiento);
