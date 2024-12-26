@@ -580,11 +580,11 @@
         <i class="fas fa-file-pdf"></i> <!-- Ícono para PDF -->
     </button>
     
-    <!-- Botón para editar 
+    <!-- Botón para editar -->
     <button type="button" class="btn btn-warning btn-sm"
         onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
         <i class="bi bi-pencil-fill"></i>
-    </button>-->
+    </button>
     
     <!-- Botón para eliminar -->
     <button type="button"
