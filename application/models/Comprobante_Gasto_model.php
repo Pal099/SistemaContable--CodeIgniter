@@ -61,12 +61,7 @@ class Comprobante_Gasto_model extends CI_Model {
 			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
 			programa.nombre AS programa_id_pro,
 			cuentacontable.Codigo_CC as codigo,
-			RIGHT(
-            CONCAT(
-                SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 4), ".", -1),
-                SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 5), ".", -1)
-            ), 3
-        	) as rubro, 
+			cuentacontable.Relacion as rubro,
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,
@@ -111,7 +106,7 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 		return $this->db->get()->result_array();
 	}
-	public function obtener_comprobantes_por_pedido($id_pedido) {
+		public function obtener_comprobantes_por_pedido($id_pedido) {
 		$this->db->select('*');
 		$this->db->from('comprobante_gasto');
 		$this->db->where('id_pedido', $id_pedido); 
@@ -134,16 +129,13 @@ class Comprobante_Gasto_model extends CI_Model {
 		}
 	}	
 
-	public function getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido)
+	public function getComprobantesGastosFiltrados($actividad, $periodo, $mes, $nropedido)
 {
     $this->db->select('*');
     $this->db->from('comprobante_gasto');
 
     if (!empty($actividad)) {
         $this->db->where('id_unidad', $actividad);
-    }
-    if (!empty($fuente)) {
-        $this->db->where('id_ff', $fuente);
     }
     if (!empty($periodo)) {
         $this->db->where('YEAR(fecha)', $periodo);
@@ -159,4 +151,5 @@ class Comprobante_Gasto_model extends CI_Model {
     $query = $this->db->get();
     return $query->result();
 }
+
 }

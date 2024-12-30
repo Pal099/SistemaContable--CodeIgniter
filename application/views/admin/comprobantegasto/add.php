@@ -127,10 +127,22 @@
                                                         <input type="text" class="form-control" id="concepto"
                                                             name="concepto" required>
                                                     </div>
-                                                  
-                                                    
-                                                                                            
+                                                    <div class="col-md-4">
+                                                        <div class="form-group input-group">
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalPresupuestos"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar Presupuesto</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>                                            
                                                     </div>
+                                                    
+                                                    <div id="rubroSeleccionado" style="margin-top: 10px; padding: 5px; background-color: #f0f0f0;">
+                                                        Rubro Seleccionado: <span id="rubroTexto">Ninguno</span>
+                                                    </div>
+
+
                                                 </div>
                                             </div>
                                         </div>
@@ -349,7 +361,7 @@
             </div>
             <div class="modal-body">
                 <table class="table table-hover table-sm" id="TablaPresupuestoModal">
-                <thead>
+                    <thead>
                         <tr>
                             <th>Periodo</th>
                             <th>Programa</th>
@@ -364,23 +376,18 @@
                     </thead>
                     <tbody>
                         <?php foreach ($datos_vista as $dato): ?>
-                            <tr class="list-item presupuesto-item" 
-                                data-programa-id-pro="<?= $dato['programa_id_pro'] ?>"
-                                data-fuente-de-financiamiento-id-ff="<?= $dato['fuente_de_financiamiento_id_ff'] ?>"
-                                data-origen-de-financiamiento-id-of="<?= $dato['origen_de_financiamiento_id_of']?>"
-                                data-bs-dismiss="modal"></tr>
                             <tr class="list-item" 
-                                onclick="selectPresupuesto('<?= $dato['ID_Presupuesto'] ?>')" 
+                                onclick="selectPresupuesto('<?= $dato['ID_Presupuesto'] ?>', '<?= $dato['rubro'] ?>')" 
                                 data-bs-dismiss="modal">
-                                <td><?= $dato['Año']?></td>
-                                <td><?= $dato['programa_id_pro']?></td>
-                                <td><?= $dato['codigo']?></td>
-                                <td><?= $dato['rubro']?></td>
+                                <td><?= $dato['Año'] ?></td>
+                                <td><?= $dato['programa_id_pro'] ?></td>
+                                <td><?= $dato['codigo'] ?></td>
+                                <td><?= $dato['rubro'] ?></td>
                                 <td><?= $dato['fuente_de_financiamiento_id_ff'] ?></td>
-                                <td><?= $dato['origen_de_financiamiento_id_of']?></td>
+                                <td><?= $dato['origen_de_financiamiento_id_of'] ?></td>
                                 <td><?= $dato['programa_id_pro'] ?></td>
                                 <td><?= $dato['TotalPresupuestado'] ?></td>
-                                <td><?= $dato['saldo_actual'] /*Saldo actual sale del ultimo mes que se cargó*/?></td> 
+                                <td><?= $dato['saldo_actual'] /* Saldo actual sale del último mes que se cargó */ ?></td> 
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -389,6 +396,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="modalBienes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-presupuesto-large" role="document">
         <div class="modal-content">
@@ -415,33 +423,17 @@
                     <tbody>
                         <?php foreach ($bienes_servicios as $index => $bienes): ?>
                             <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
-                                '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')"
-                                data-bs-dismiss="modal">
-                                <td class="columna-hidden">
-                                    <?= $bienes->IDbienservicio ?>
-                                </td>
-                                <td>
-                                    <?= $index + 1 ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->codigo ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->rubro ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->descripcion ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->codcatalogo ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->descripcioncatalogo ?>
-                                </td>
-                                <td>
-                                    <?= $bienes->precioref ?>
-                                </td>
-                            </tr>
+                            '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')" data-bs-dismiss="modal" data-rubro="<?= $bienes->rubro ?>">
+                            <td class="columna-hidden"><?= $bienes->IDbienservicio ?></td>
+                            <td><?= $index + 1 ?></td>
+                            <td><?= $bienes->codigo ?></td>
+                            <td><?= $bienes->rubro ?></td>
+                            <td><?= $bienes->descripcion ?></td>
+                            <td><?= $bienes->codcatalogo ?></td>
+                            <td><?= $bienes->descripcioncatalogo ?></td>
+                            <td><?= $bienes->precioref ?></td>
+                        </tr>
+
                         <?php endforeach; ?>  
                     </tbody>
                 </table>
@@ -589,7 +581,28 @@ $(document).ready(function() {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
                 }
             });
+
+            $('#modalBienes').on('show.bs.modal', function () {
+    console.log('Rubro Seleccionado al abrir el modal:', rubroSeleccionado);
+
+    if (rubroSeleccionado) {
+        $('#TablaBienesModal tbody tr').each(function() {
+            var rubroBien = $(this).find('td').eq(3).text().trim(); // Obtiene el rubro de la 4ta columna (índice 3)
+
+            if (rubroBien !== rubroSeleccionado) {
+                $(this).hide();  // Oculta la fila si el rubro no coincide
+            } else {
+                $(this).show();  // Muestra la fila si el rubro coincide
+            }
         });
+    } else {
+        alert('Seleccione un presupuesto primero');
+    }
+});
+
+
+
+    });
 </script>
 <script>
 $(document).ready(function() {
@@ -643,18 +656,20 @@ function openModal_4(currentRowParam) {
     currentRow = currentRowParam; // Almacenar la fila actual
 
 }
+let rubroSeleccionado = '';  // Variable global para almacenar el rubro seleccionado
 
-    function selectPresupuesto(idpresupuesto) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idpresupuesto').val(idpresupuesto);
+function selectPresupuesto(idpresupuesto, rubro) {
+
+    
+    // Actualiza el texto en el contenedor #rubroTexto con la relación
+    $('#rubroTexto').text(rubro);  // Este es el campo donde se debe mostrar la relación
+    $('#idPresupuestoSeleccionado').val(idpresupuesto); 
+    // Almacena el rubro seleccionado
+    rubroSeleccionado = rubro;
+}
 
 
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-        }
-    }
+
     function selectProveedor(id, ruc, razon_social) {
             document.getElementById('idproveedor').value = id;
             document.getElementById('ruc').value = ruc;
@@ -679,6 +694,21 @@ function openModal_4(currentRowParam) {
             openModal_4(row);
         }
     });
+    function filtrarBienesPorRubro(relacion) {
+    // Recorrer todas las filas del modal y filtrar por el rubro
+    $('#TablaBienesModal tbody tr').each(function() {
+        var row = $(this);
+        var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro
+        
+        // Si el rubro está en la relación, mostramos la fila; de lo contrario, la ocultamos
+        if (relacion.includes(rubro)) {
+            row.show(); // Mostrar la fila
+        } else {
+            row.hide(); // Ocultar la fila
+        }
+    });
+}
+
 
 
 
@@ -728,6 +758,9 @@ function openModal_4(currentRowParam) {
         // Agregar la nueva fila al cuerpo de la tabla
         $("#tablaP tbody").append(nuevaFila);
     });
+
+
+
 
     // Eliminar fila
     $("#tablaP").on("click", ".eliminarFila", function (e) {
