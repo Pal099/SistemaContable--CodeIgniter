@@ -15,6 +15,23 @@ class Diario_obli_model extends CI_Model {
 
     }
 
+	public function getMaxNumAsiAndOp($id_uni_respon_usu) {
+		// Obtener el último valor de num_asi para una unidad específica
+		$this->db->select('MAX(num_asi) as ultimo_numero, MAX(op) as op_ultimo');
+		$this->db->from('num_asi'); // Tu tabla
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('num_asi.id_uni_respon_usu', $id_uni_respon_usu); // Ser explícito con la tabla en el WHERE
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			return $query->row(); // Retorna el resultado como objeto
+		} else {
+			return null; // Si no hay registros, retorna null
+		}
+	}
+	
+
+
 	public function GETasientos($id_uni_respon_usu) {
 		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');

@@ -109,12 +109,11 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                        <div class="form-group col-md-1 columna-hidden">
-                                                            <label for="op">N° Op</label>
+                                                    <div class="form-group col-md-1 columna-hidden">
+                                                            <label for="op" >N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
-                                                        </div>
-                                                        <div class="form-group col-md-2 columna-hidden">
+                                                        </div>                                                        <div class="form-group col-md-2 columna-hidden">
                                                             <input type="text" class="form-control w-100" id="num_asio"
                                                                 name="num_asio" readonly>
                                                         </div>
