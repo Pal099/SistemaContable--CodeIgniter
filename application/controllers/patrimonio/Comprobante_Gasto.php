@@ -49,12 +49,12 @@ class Comprobante_Gasto extends MY_Controller {
 		$periodo = $this->input->post("periodo");
 		$mes = $this->input->post("mes");
 		$nropedido = $this->input->post("id_pedido");
-		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)&& empty($nropedido)) {
+		if (empty($actividad) && empty($periodo) && empty($mes)&& empty($nropedido)) {
 			// Ningún campo seleccionado, redireccionar o mostrar un mensaje de error
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
 		$data  = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad,$periodo, $mes, $nropedido),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
@@ -284,8 +284,8 @@ class Comprobante_Gasto extends MY_Controller {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		echo json_encode($ComprobanteDetalle);
 	}
-	//Funcion para el reporte de comprobante de gastos
-    public function generarReporteComprobante($id_pedido) {
+	 //Funcion para el reporte de comprobante de gastos
+	 public function generarReporteComprobante($id_pedido) {
         // Llama a la funcion del modelo para obtener los datos
         $comprobantes = $this->Comprobante_Gasto_model->getComprobanteReporte($id_pedido);
 
@@ -296,4 +296,5 @@ class Comprobante_Gasto extends MY_Controller {
             echo json_encode([]);
         }
     }
+	
 }

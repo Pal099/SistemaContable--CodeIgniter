@@ -16,23 +16,6 @@ class Comprobante_Gasto_model extends CI_Model {
 	}
 	
 
-	public function getComprobanteReporte($id_pedido)
-	{
-		// Hacer un JOIN entre comprobante_gasto y proveedores
-		$this->db->select('comprobante_gasto.*, proveedores.razon_social, proveedores.ruc ');
-		$this->db->from('comprobante_gasto');
-		$this->db->join('proveedores', 'comprobante_gasto.idproveedor = proveedores.id', 'left');
-		$this->db->where('comprobante_gasto.id_pedido', $id_pedido);
-	
-		$query = $this->db->get();
-	
-    // Verifica si hay resultados
-    if ($query->num_rows() > 0) {
-        return $query->result_array(); // Retorna los resultados como un array
-    } else {
-        return false; // Retorna false si no hay resultados
-    }
-}
 	
 	public function save($data) {
 	
@@ -47,7 +30,6 @@ class Comprobante_Gasto_model extends CI_Model {
 		return $resultado->row();
 
 	}
-	
 	public function getComprobantesPorPedido($id_uni_respon_usu)
 {
     $this->db->select('*');
@@ -152,16 +134,13 @@ class Comprobante_Gasto_model extends CI_Model {
 		}
 	}	
 
-	public function getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido)
+	public function getComprobantesGastosFiltrados($actividad, $periodo, $mes, $nropedido)
 {
     $this->db->select('*');
     $this->db->from('comprobante_gasto');
 
     if (!empty($actividad)) {
         $this->db->where('id_unidad', $actividad);
-    }
-    if (!empty($fuente)) {
-        $this->db->where('id_ff', $fuente);
     }
     if (!empty($periodo)) {
         $this->db->where('YEAR(fecha)', $periodo);
@@ -176,5 +155,23 @@ class Comprobante_Gasto_model extends CI_Model {
 
     $query = $this->db->get();
     return $query->result();
+}
+
+public function getComprobanteReporte($id_pedido)
+	{
+		// Hacer un JOIN entre comprobante_gasto y proveedores
+		$this->db->select('comprobante_gasto.*, proveedores.razon_social, proveedores.ruc ');
+		$this->db->from('comprobante_gasto');
+		$this->db->join('proveedores', 'comprobante_gasto.idproveedor = proveedores.id', 'left');
+		$this->db->where('comprobante_gasto.id_pedido', $id_pedido);
+	
+		$query = $this->db->get();
+	
+    // Verifica si hay resultados
+    if ($query->num_rows() > 0) {
+        return $query->result_array(); // Retorna los resultados como un array
+    } else {
+        return false; // Retorna false si no hay resultados
+    }
 }
 }
