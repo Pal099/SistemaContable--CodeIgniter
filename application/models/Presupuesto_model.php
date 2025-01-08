@@ -5,7 +5,7 @@ class Presupuesto_model extends CI_Model {
 
 
 
-    public function getPresu($id_uni_respon_usu) {
+    public function getPresu($id_uni_academica) {
         $this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.nombre as fuente_de_financiamiento, of.nombre as origen_de_financiamiento, pr.nombre as programa, pf.*');
         $this->db->from('presupuestos pre');
         $this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff");
@@ -15,16 +15,16 @@ class Presupuesto_model extends CI_Model {
         $this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
         $this->db->join('plan_financiero pf', 'pre.id_pf_fk = pf.ID_PF'); // Unión externa izquierda
         $this->db->where('pre.estado', '1');
-        $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_academica);
         
         $resultados = $this->db->get();
         return $resultados->result();
     }
 
-    public function getPlanFinanciero($id_uni_respon_usu) {
+    public function getPlanFinanciero($id_uni_academica) {
         $this->db->select('*');
         $this->db->from('plan_financiero');
-        $this->db->where('id_user', $id_uni_respon_usu);
+        $this->db->where('id_user', $id_uni_academica);
         $resultados = $this->db->get();
         return $resultados->result();
     }
@@ -51,6 +51,19 @@ class Presupuesto_model extends CI_Model {
     }
 
 
+    public function getCuentasContables($id_uni_academica = null) {
+        $this->db->select('cuentacontable.*');
+        $this->db->from('cuentacontable');
+        $this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu', 'left');
+        $this->db->where('cuentacontable.estado', '1');
+        
+        if (!is_null($id_uni_academica)) {
+            $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_academica);
+        }
+        
+        $resultados = $this->db->get();
+        return $resultados->result();
+    }
 
 
 	public function getPresupuesto($id){

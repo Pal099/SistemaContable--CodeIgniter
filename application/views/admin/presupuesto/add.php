@@ -429,8 +429,7 @@
         </div>
     </main>
     <!-- Modal de las cuentas Contables -->
-    <div class="modal fade mi-modal" id="modalCuentasCont" tabindex="-1" aria-labelledby="ModalCuentasContables"
-        aria-hidden="true">
+    <div class="modal fade mi-modal" id="modalCuentasCont" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered cuentas-contables">
             <div class="modal-content">
                 <div class="modal-header">

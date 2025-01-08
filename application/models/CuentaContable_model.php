@@ -4,15 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CuentaContable_model extends CI_Model {
 //Aquí cargamos en la tabla"cuentacontable" los arrays
 
-    public function getCuentasContables($id_uni_respon_usu){
+    public function getCuentasContables($id_uni_respon_usu = null) {
         $this->db->select('cuentacontable.*');
-		$this->db->from('cuentacontable');
-		$this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('cuentacontable.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		
-		$resultados = $this->db->get();
-		return $resultados->result();   
+        $this->db->from('cuentacontable');
+        $this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu', 'left'); // Left join por si no hay relación
+        $this->db->where('cuentacontable.estado', '1');
+        
+        // Aplicar el filtro solo si se proporciona $id_uni_respon_usu
+        if (!is_null($id_uni_respon_usu)) {
+            $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
+        }
+
+        $resultados = $this->db->get();
+        return $resultados->result();
     }
 
     
@@ -41,6 +45,7 @@ class CuentaContable_model extends CI_Model {
             return $query->row_array();
         } else {
             return null;
+            
         }
     }
 
