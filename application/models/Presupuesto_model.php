@@ -74,7 +74,7 @@ class Presupuesto_model extends CI_Model {
 	}
 
 	public function update($id, $data){
-		$this->db->where("id_presupuesto",$id);
+		$this->db->where("ID_Presupuesto",$id);
 		return $this->db->update("presupuestos",$data);
 	}
 
