@@ -40,50 +40,48 @@
             </div>
             <!-- fin del encabezado -->
             <hr> <!-- barra separadora -->
-            <section class="seccion_editar_presupuesto">
-                <div class="container-fluid">
-                    <div class="row">
-                        <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
-                            <div class="container-fluid mt-2">
-                                <div class="row justify-content-center">
-                                    <div class="col-md-12">
-                                        <div class="card border">
-                                            <div class="card-body">
-                                                <div class="row g-3 align-items-center mt-2">
-                                                    <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
-                                                    <div class="row g-3 mb-4">
-                                                    <div class="col-md-4">
-                                                    <!-- Información Principal -->
-                                                    <?php print_r($presupuesto); ?>
-                                                    <div class="row g-3 mb-4">
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <input type="date" class="form-control" id="Año" name="Año" 
-                                                                    value="<?php echo $presupuesto->Año ?>" required>
-                                                                <label for="Año">Fecha</label>
-                                                                <div class="invalid-feedback">Por favor seleccione una fecha</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
+                        <div class="container-fluid mt-2">
+                            <div class="row justify-content-center">
+                                <div class="col-md-12">
+                                    <div class="card border">
+                                        <div class="card-body">
+                                            <div class="row g-3 align-items-center mt-2">
+                                                <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
+                                                <div class="row g-3 mb-12">
+                                                    <div class="col-md-12">
+                                                        <!-- Información Principal -->
+                                                        <div class="row g-3 mb-6">
+                                                            <div class="col-md-4">
+                                                                <div class="form-floating">
+                                                                    <input type="date" class="form-control" id="Año" name="Año" 
+                                                                        value="<?php echo $presupuesto->Año ?>" required>
+                                                                    <label for="Año">Fecha</label>
+                                                                    <div class="invalid-feedback">Por favor seleccione una fecha</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-floating">
+                                                                    <input type="number" step="0.01" class="form-control" id="TotalPresupuestado" 
+                                                                        name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>" required>
+                                                                    <label for="TotalPresupuestado">Total Presupuestado</label>
+                                                                    <div class="invalid-feedback">Ingrese un monto válido</div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-4">
+                                                                <div class="form-floating">
+                                                                    <input type="number" step="0.01" class="form-control" id="TotalModificado" 
+                                                                        name="TotalModificado" value="<?php echo $presupuesto->TotalModificado ?>" required>
+                                                                    <label for="TotalModificado">Total Modificado</label>
+                                                                    <div class="invalid-feedback">Ingrese un monto válido</div>
+                                                                </div>
                                                             </div>
                                                         </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <input type="number" step="0.01" class="form-control" id="TotalPresupuestado" 
-                                                                    name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>" required>
-                                                                <label for="TotalPresupuestado">Total Presupuestado</label>
-                                                                <div class="invalid-feedback">Ingrese un monto válido</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <input type="number" step="0.01" class="form-control" id="TotalModificado" 
-                                                                    name="TotalModificado" value="<?php echo $presupuesto->TotalModificado ?>" required>
-                                                                <label for="TotalModificado">Total Modificado</label>
-                                                                <div class="invalid-feedback">Ingrese un monto válido</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                    <br> 
                                                     <!-- Selects -->
                                                     <div class="row g-3 mb-4">
                                                         <div class="col-md-4">
@@ -499,7 +497,7 @@
         document.getElementById('TotalVigente').value = new Intl.NumberFormat().format(presupuestoVigente.toFixed(2));
     }
     </script>
-            <script>
+    <script>
         // Función para calcular la suma de los campos por mes
         function calcularSuma(mes) {
             const planFinanciero = document.getElementById('pre_' + mes);
