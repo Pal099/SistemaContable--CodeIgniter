@@ -72,11 +72,26 @@ class Presupuesto_model extends CI_Model {
 		return $resultado->row();
 
 	}
-
-	public function update($id, $data){
-		$this->db->where("ID_Presupuesto",$id);
-		return $this->db->update("presupuestos",$data);
-	}
+    public function getPlanFinanciero($id_presupuesto) {
+        $this->db->where('id_presupuesto', $id_presupuesto);
+        $query = $this->db->get('plan_financiero');
+        return $query->row();
+    }
+	public function update($id, $presupuesto_data, $plan_financiero_data) {
+        $this->db->trans_start();
+        
+        // Actualizar el presupuesto
+        $this->db->where('ID_Presupuesto', $id);
+        $this->db->update('presupuestos', $presupuesto_data);
+        
+        // Actualizar el plan financiero
+        $this->db->where('id_presupuesto', $id);
+        $this->db->update('plan_financiero', $plan_financiero_data);
+        
+        $this->db->trans_complete();
+        
+        return $this->db->trans_status();
+    }
 
 
 	
