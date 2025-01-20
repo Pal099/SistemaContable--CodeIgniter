@@ -45,11 +45,6 @@ class Diario_obligaciones extends CI_Controller
 		$cuentas = $this->CuentasContablesModel->getC_C($id_uni_respon_usu);
 		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
 
-        echo json_encode($cuentas);
-
-		//$data['cuentacontable'] = $this->Diario_obli_model->getCuentasContables($id_uni_respon_usu); 
-		var_dump($data['asientos']); // Solo para depuración, eliminar después
-
 
 		foreach ($data['presupuesto'] as $presupuesto) { //Aqui hacemos las busquedas de los rubros que están o no presupuestadas
 			$totalPresupuestado = $this->Presupuesto_model->obtenerTotalPresupuestado($presupuesto->Idcuentacontable);

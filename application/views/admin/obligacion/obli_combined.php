@@ -488,12 +488,11 @@
                                                 <!-- Botones guardar y cancelar -->
                                                 <div class="container-fluid mt-4 mb-3">
                                                     <div class="col-md-12 d-flex flex-row justify-content-center">
-                                                        <button style="margin-right: 8px;" type="submit"
-                                                            class="btn btn-success btn-primary"><span
-                                                                class="fa fa-save"></span>Guardar</button>
-                                                        <button type="button" class="btn btn-danger ml-3"
-                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
-                                                            <i class="fa fa-remove"></i> Cancelar
+                                                        <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary">
+                                                            <span class="fa fa-save"></span>Guardar
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
+                                                            Cancelar
                                                         </button>
                                                     </div>
                                                 </div>
@@ -774,116 +773,7 @@
         });
         </script>
 
-        <!-- Envio de formulario principal -->
-        <script>
-        $("#formularioPrincipal").on("submit", function() {
 
-            //datos que no son de la tabla dinamica
-            var datosFormulario = {
-
-                op: $("#op").val(),
-                ruc: $("#ruc").val(),
-                num_asi: $("#num_asi").val(),
-                contabilidad: $("#razon_social").val(),
-                concepto: $("#concepto").val(),
-                fecha: $("#fecha").val(),
-                pedmat: $("#pedi_matricula").val(),
-                modalidad: $("#modalidad").val(),
-                tipo_presu: $("#tipo_presupuesto").val(),
-                nro_exp: $("#nro_exp").val(),
-                total: $("#total").val(),
-                pagado: $("#pagado").val(),
-                MontoPago: $("#MontoPago").val(),
-                //MontoPago2: $("#MontoPago_2").val(),
-                // Agrega más campos según sea necesario
-                id_pro: $("#id_pro").val(),
-                id_ff: $("#id_ff").val(),
-                id_of: $("#id_of").val(),
-                IDCuentaContable: $("#idcuentacontable").val(),
-                comprobante: $("#comprobante").val(),
-                Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-                Haber: $("#Haber").val(),
-                cheques_che_id: $("#cheques_che_id").val(),
-                detalles: $("#detalles").val(),
-                niveles: ($("#niveles").val() !== null) ? $("#niveles").val() :
-                    "" //Si no se selecciono un nivel simplemente envia vacio
-            };
-
-
-            // variable para saber si el debe es igual a haber
-            let sumahaber = 0;
-
-            var filas = [];
-
-
-            $("#miTabla tbody tr:gt(0)").each(function() {
-
-                var fila = {
-                    id_pro: $(this).find("select[name='id_pro_2']").val(),
-                    id_ff: $(this).find("select[name='id_ff_2']").val(),
-                    id_of: $(this).find("select[name='id_of_2']").val(),
-                    IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                    detalles: $(this).find("input[name='detalles_2']").val(),
-                    comprobante: $(this).find("input[name='comprobante_2']").val(),
-                    Debe: $(this).find("input[name='Debe_2']").val(),
-                    Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                };
-
-
-                filas.push(fila);
-            });
-
-
-            // Combinar datos del formulario principal y de las filas dinámicas
-            var datosCompletos = {
-                datosFormulario: datosFormulario,
-                filas: filas,
-            };
-
-            var diferenciaActualizada = parseFloat($("#diferencia").val());
-
-            if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
-                    type: 'POST',
-                    data: {
-                        datos: datosCompletos
-                    },
-                    //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                    success: function(response) {
-                        console.log(response);
-                        if (response.includes('Datos guardados exitosamente.')) {
-                            alert('Datos guardados exitosamente.');
-                            // ... (código adicional si es necesario)
-                        } else {
-                            alert('Error al guardar los datos: ' + response);
-                            console.log(response);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                        console.log(xhr
-                            .responseText); // Agrega esta línea para ver la respuesta del servidor
-                        console.log(datosCompletos);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                    }
-                });
-            } else {
-                alert('El debe y el haber son diferentes');
-                return false;
-            }
-
-
-        });
-        </script>
 
         <!-- Modal con Bootstrap Cuentas Contables número 1 -->
         <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
@@ -1373,7 +1263,98 @@
         </script>
 
 
-
+        <!-- Envio de formulario principal -->
+        <script>
+            $(document).ready(function() {
+                $("#formularioPrincipal").on("submit", function(e) {
+                    e.preventDefault(); // Prevent form submission initially
+        
+                    const datosFormulario = obtenerDatosFormulario();
+                    const filas = obtenerFilasDinamicas();
+                    const datosCompletos = {
+                        datosFormulario: datosFormulario,
+                        filas: filas,
+                    };
+        
+                    const diferenciaActualizada = parseFloat($("#diferencia").val());
+        
+                    if (diferenciaActualizada === 0) {
+                        enviarDatos(datosCompletos);
+                    } else {
+                        alert('El debe y el haber son diferentes');
+                    }
+                });
+        
+                function obtenerDatosFormulario() {
+                    return {
+                        op: $("#op").val(),
+                        ruc: $("#ruc").val(),
+                        num_asi: $("#num_asi").val(),
+                        contabilidad: $("#razon_social").val(),
+                        concepto: $("#concepto").val(),
+                        fecha: $("#fecha").val(),
+                        pedmat: $("#pedi_matricula").val(),
+                        modalidad: $("#modalidad").val(),
+                        tipo_presu: $("#tipo_presupuesto").val(),
+                        nro_exp: $("#nro_exp").val(),
+                        total: $("#total").val(),
+                        pagado: $("#pagado").val(),
+                        MontoPago: $("#MontoPago").val(),
+                        id_pro: $("#id_pro").val(),
+                        id_ff: $("#id_ff").val(),
+                        id_of: $("#id_of").val(),
+                        IDCuentaContable: $("#idcuentacontable").val(),
+                        comprobante: $("#comprobante").val(),
+                        Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+                        Haber: $("#Haber").val(),
+                        cheques_che_id: $("#cheques_che_id").val(),
+                        detalles: $("#detalles").val(),
+                        niveles: $("#niveles").val() || ""
+                    };
+                }
+        
+                function obtenerFilasDinamicas() {
+                    const filas = [];
+                    $("#miTabla tbody tr:gt(0)").each(function() {
+                        const fila = {
+                            id_pro: $(this).find("select[name='id_pro_2']").val(),
+                            id_ff: $(this).find("select[name='id_ff_2']").val(),
+                            id_of: $(this).find("select[name='id_of_2']").val(),
+                            IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                            detalles: $(this).find("input[name='detalles_2']").val(),
+                            comprobante: $(this).find("input[name='comprobante_2']").val(),
+                            Debe: $(this).find("input[name='Debe_2']").val(),
+                            Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                            cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                        };
+                        filas.push(fila);
+                    });
+                    return filas;
+                }
+        
+                function enviarDatos(datosCompletos) {
+                    $.ajax({
+                        url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
+                        type: 'POST',
+                        data: { datos: datosCompletos },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.includes('Datos guardados exitosamente.')) {
+                                alert('Datos guardados exitosamente.');
+                               // window.location.reload(); // Recargar la página no es necesario acá porque ya se usa esta función en el botón de guardar 
+                            } else {
+                                alert('Error al guardar los datos: ' + response);
+                                console.log(response);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(xhr.responseText);
+                            alert("Error en la solicitud AJAX: " + status + " - " + error);
+                        }
+                    });
+                }
+            });
+        </script>
     </main>
 
 </body>

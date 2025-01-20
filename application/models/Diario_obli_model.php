@@ -311,15 +311,22 @@ public function getUsuarioId($nombre){
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
 		$this->db->trans_start();  // Iniciar transacción
 	
-		$this->db->insert('num_asi', $data);  
-		$this->db->insert('num_asi_deta', $dataDetaDebe); 
-		$this->db->insert('num_asi_deta', $dataDetaHaber);  
+		// Insertar en la tabla num_asi
+		$this->db->insert('num_asi', $data);
+		$num_asi_id = $this->db->insert_id();  // Obtener el ID del último registro insertado
+	
+		// Asegurarse de que $dataDetaDebe y $dataDetaHaber contengan el ID de num_asi
+		$dataDetaDebe['Num_Asi_IDNum_Asi'] = $num_asi_id;
+		$dataDetaHaber['Num_Asi_IDNum_Asi'] = $num_asi_id;
+	
+		// Insertar en la tabla num_asi_deta
+		$this->db->insert('num_asi_deta', $dataDetaDebe);
+		$this->db->insert('num_asi_deta', $dataDetaHaber);
 	
 		$this->db->trans_complete();  // Completar transacción
 	
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
-	
 
 	//Para el Selectcc, es decir, el primer modal del DEBE
 	public function getCuentaContable() {
