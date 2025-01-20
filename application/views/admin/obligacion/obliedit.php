@@ -1187,7 +1187,7 @@
 
     <!-- Envio de formulario principal -->
     <script>
-    $("#formularioPrincipal").on("submit", function() {
+    $("#formularioPrincipal").on("submit", function(e) {
         e.proventDefault();
         //validacion de los campos dianmicos para evitar conflictos a la hora de enviar el form
         if ($("#filaEdicion").is(":visible")) {
