@@ -72,7 +72,8 @@ class Presupuesto_model extends CI_Model {
 		return $resultado->row();
 
 	}
-    public function getPlanFinanciero($id_presupuesto) {
+    
+    public function getPlanFinan($id_presupuesto) {
         $this->db->where('id_presupuesto', $id_presupuesto);
         $query = $this->db->get('plan_financiero');
         return $query->row();

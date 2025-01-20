@@ -39,6 +39,7 @@ class Presupuesto extends CI_Controller
 			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
+            'plan_financiero' => $this->Presupuesto_model->getPlanFinanciero($id_uni_respon_usu),//tomamos el plan financiero
 			//'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(), // Aquí no pasamos $id_uni_respon_usu
 		);
@@ -143,7 +144,7 @@ public function edit($id){
     $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         // Obtener los datos del presupuesto y plan financiero
     $presupuesto = $this->Presupuesto_model->getPresupuesto($id);
-    $plan_financiero = $this->Presupuesto_model->getPlanFinanciero($id);
+    $plan_financiero = $this->Presupuesto_model->getPlanFinan($id);
     
         if (!$presupuesto) {
             show_404();
@@ -216,7 +217,7 @@ public function edit($id){
     $presupuesto = $this->Presupuesto_model->getPresupuesto($id);
 	$data['presupuesto'] = !empty($presupuestos) ? $presupuestos[0] : null; // Assuming you want the first object
 
-    $plan_financiero = $this->Presupuesto_model->getPlanFinanciero($id);
+    $plan_financiero = $this->Presupuesto_model->getPlanFinan($id);
 
     if (!$presupuesto) {
         show_404();
@@ -305,6 +306,8 @@ public function update($id) {
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
 			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(), // Aquí tampoco lo pasamos
+            'plan_financiero' => $this->Presupuesto_model->getPlanFinan($id),//tomamos el plan financiero
+
 		);
 		$this->load->view("admin/presupuesto/view", $data);
 	}
