@@ -74,11 +74,13 @@
                                                 <h4 class="mt-4">Obligación</h4>
                                                 <hr><!-- Separador -->
                                                 <div class="row row g-3 align-items-center mt-2">
-                                                <div class="form-group col-md-2">
-                                                    <label for="num_asi">Numero:</label>
-                                                    <input type="text" class="form-control" id="num_asi" name="num_asi"
-                                                        value="<?php echo isset($numero_siguiente) ? $numero_siguiente : $numero_siguiente; ?>" readonly>
-                                                </div>
+                                                    <div class="form-group col-md-2">
+                                                        <label for="num_asi">Numero:</label>
+                                                        <input type="text" class="form-control" id="num_asi"
+                                                            name="num_asi"
+                                                            value="<?php echo isset($numero_siguiente) ? $numero_siguiente : $numero_siguiente; ?>"
+                                                            readonly>
+                                                    </div>
                                                     <div
                                                         class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
                                                         <label for="ruc">Ruc:</label>
@@ -259,7 +261,7 @@
                                                                     <button type="button" data-bs-toggle="modal"
                                                                         data-bs-target="#modalCuentasCont1"
                                                                         class="btn btn-sm btn-outline-primary"
-                                                                        id="openModalBtn_3">
+                                                                        id="openModalBtn_3" disabled>
                                                                         <i class="bi bi-search"></i>
                                                                     </button>
                                                                 </div>
@@ -488,10 +490,12 @@
                                                 <!-- Botones guardar y cancelar -->
                                                 <div class="container-fluid mt-4 mb-3">
                                                     <div class="col-md-12 d-flex flex-row justify-content-center">
-                                                        <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary">
+                                                        <button style="margin-right: 8px;" type="submit"
+                                                            class="btn btn-success btn-primary">
                                                             <span class="fa fa-save"></span>Guardar
                                                         </button>
-                                                        <button type="button" class="btn btn-danger ml-3" onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
+                                                        <button type="button" class="btn btn-danger ml-3"
+                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
                                                             Cancelar
                                                         </button>
                                                     </div>
@@ -539,50 +543,54 @@
                                                                 <?php endif; ?>
                                                             </td>
                                                             <td>
-                                                            <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                <!-- Botón para PDF -->
-                                                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                <!-- Botón para PDF con el ícono de Font Awesome -->
-                                                                <button type="button"
-                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                    onclick="window.location.href='<?php echo base_url() ?>Pdf_str/generarPDF_str/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                    <i class="fas fa-file-pdf"></i> <!-- Ícono para PDF -->
-                                                                </button>
-                                                                
-                                                                <!-- Botón para editar -->
-                                                                <button type="button" class="btn btn-warning btn-sm"
-                                                                    onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                    <i class="bi bi-pencil-fill"></i>
-                                                                </button>
-                                                                
-                                                                <!-- Botón para eliminar -->
-                                                                <button type="button"
-                                                                    class="btn btn-danger btn-remove btn-sm"
-                                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                    <i class="bi bi-trash"></i>
-                                                                </button>
-                                                            </div>
+                                                                <div
+                                                                    class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                    <!-- Botón para PDF -->
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <!-- Botón para PDF con el ícono de Font Awesome -->
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>Pdf_str/generarPDF_str/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="fas fa-file-pdf"></i>
+                                                                            <!-- Ícono para PDF -->
+                                                                        </button>
 
-                                                            </div>
+                                                                        <!-- Botón para editar -->
+                                                                        <button type="button"
+                                                                            class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/Diario_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                        </button>
 
-                                                            </div>
+                                                                        <!-- Botón para eliminar -->
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
 
-                                                            </td>
-                                                        </tr>
-                                                        <?php endforeach; ?>
-                                                        <?php else: ?>
-                                                        <p>No se encontraron datos.</p>
-                                                        <?php endif; ?>
-                                                    </tbody>
-                                                </table>
+                                                                </div>
+
                                             </div>
+
+                                            </td>
+                                            </tr>
+                                            <?php endforeach; ?>
+                                            <?php else: ?>
+                                            <p>No se encontraron datos.</p>
+                                            <?php endif; ?>
+                                            </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                     </div>
-                    </form>
                 </div>
+                </form>
+        </div>
         </div>
         </section>
         </div>
@@ -651,8 +659,8 @@
 
 
 
-   <!-- Modal Comprobante de gastos con boostrap, le saqué lo de monto y str para que funcione, ver para que funcione con eso-->
-   <div class="modal fade mi-modal" id="modalContainer_comprobante" tabindex="-1"
+        <!-- Modal Comprobante de gastos con boostrap, le saqué lo de monto y str para que funcione, ver para que funcione con eso-->
+        <div class="modal fade mi-modal" id="modalContainer_comprobante" tabindex="-1"
             aria-labelledby="ModalCuentasContables" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
                 <div class="modal-content">
@@ -670,20 +678,18 @@
                                     <th>Ruc</th>
                                     <th>Razon Social</th>
                                     <th>Concepto</th>
-                            
+
                             </thead>
-                            
+
                             <tbody>
                                 <?php foreach ($comprobante as $index => $comprob): ?>
-                                <tr class="list-item"
-                                    onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
+                                <tr class="list-item" onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
                                     '<?= $comprob->razon_social ?>', '<?= $comprob->concepto?>')"
-                                    
                                     data-bs-dismiss="modal">
                                     <td>
                                         <?= $index + 1 ?>
                                     </td>
-                                    
+
                                     <td>
                                         <?= $comprob->id_unidad ?>
                                     </td>
@@ -773,10 +779,9 @@
         });
         </script>
 
-
-
         <!-- Modal con Bootstrap Cuentas Contables número 1 -->
-        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered cuentas-contables">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -788,8 +793,6 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Código - Fuente de Financiamiento</th>
-                                    <th>Código - Origen de Financiamiento</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
                                     <th>Estado</th>
@@ -798,25 +801,23 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable as $dato): ?>
-                                    <tr class="list-item"
-                                        onclick="selectCC(<?= $dato->IDCuentaContable ?>, '<?= $dato->Codigo_CC ?>', '<?= $dato->nombre_of ?>','<?= $dato->codigo_ff ?>','<?= $dato->codigo_of ?>','<?= $dato->nombre_ff ?>', '<?= $dato->Descripcion_CC ?>')"
-                                        data-bs-dismiss="modal">
-                                        <td><?= htmlspecialchars($dato->IDCuentaContable); ?></td>
-                                        <td><?= htmlspecialchars($dato->codigo_ff);?></td>
-                                        <td><?= htmlspecialchars($dato->codigo_of . ' - ' . $dato->nombre_of); ?></td>
-                                        <td><?= htmlspecialchars($dato->Codigo_CC); ?></td>
-                                        <td><?= htmlspecialchars($dato->Descripcion_CC); ?></td>
-                                        <td>
-                                            <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                                <span class="badge bg-success">Presupuestado</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-warning">No está Presupuestado</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td>
-                                            <?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
-                                        </td>
-                                    </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>, '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td><?= htmlspecialchars($dato->IDCuentaContable); ?></td>
+                                    <td><?= htmlspecialchars($dato->Codigo_CC); ?></td>
+                                    <td><?= htmlspecialchars($dato->Descripcion_CC); ?></td>
+                                    <td>
+                                        <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
+                                        <span class="badge bg-success">Presupuestado</span>
+                                        <?php else: ?>
+                                        <span class="badge bg-warning">No está Presupuestado</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
+                                    </td>
+                                </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -838,7 +839,7 @@
 
                         <table class="table table-hover table-sm" id="TablaCuentaCont2">
                             <thead>
-                                 <tr>
+                                <tr>
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
@@ -848,21 +849,21 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($cuentacontable2 as $dato): ?>
-                                    <tr class="list-item"
-                                    onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                <tr class="list-item"
+                                    onclick="selectCCcomplex(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
                                     data-bs-dismiss="modal">
                                     <td><?= $dato->IDCuentaContable ?></td>
                                     <td><?= $dato->Codigo_CC ?></td>
                                     <td><?= $dato->Descripcion_CC ?></td>
                                     <td>
                                         <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                            <span class="badge bg-success">Presupuestado</span>
+                                        <span class="badge bg-success">Presupuestado</span>
                                         <?php else: ?>
-                                            <span class="badge bg-warning">No está Presupuestado</span>
+                                        <span class="badge bg-warning">No está Presupuestado</span>
                                         <?php endif; ?>
                                     </td>
                                     <td><?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
-                                </td>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -871,45 +872,55 @@
                 </div>
             </div>
         </div>
+
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>
-            
-        function selectCC(IDCuentaContable, Codigo_CC,codigo_ff, codigo_of, nombre_ff, nombre_of, Descripcion_CC) {
-
+        // Función específica para el botón 1
+        function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            // Actualizar los campos de texto en la vista principal con los valores seleccionados
             document.getElementById('idcuentacontable').value = IDCuentaContable;
-            document.getElementById('codigo_cc_2').value = Codigo_CC; 
-            document.getElementById('id_ff').value = codigo_ff;
+            document.getElementById('codigo_cc').value = Codigo_CC; // Campo código CC
+            document.getElementById('descripcion_cc').value = Descripcion_CC; // Campo descripción CC
+        }
+
+        // Función específica para el botón 2
+        function selectCCcomplex(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            document.getElementById('idcuentacontable').value = IDCuentaContable;
+            document.getElementById('codigo_cc_2').value = Codigo_CC;
             document.getElementById('descripcion_cc_2').value = Descripcion_CC;
 
             const desglose = desglosarCodigoCuenta(Codigo_CC);
-                                
-                                if (desglose) {
-                                    const segundaParte = desglose.segundaParte;
 
-                                    obtenerCuentasPadres(function(cuentasPadres) {
-                                        if (cuentasPadres) {
-                                            const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
-                                            if (cuentaPadre) {
-                                                document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
-                                                document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
-                                                document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
-                                            } else {
-                                                console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
-                                            }
-                                        }
-                                    });
-                                }
-                            
+            if (desglose) {
+                const segundaParte = desglose.segundaParte;
 
+                obtenerCuentasPadres(function(cuentasPadres) {
+                    if (cuentasPadres) {
+                        const cuentaPadre = cuentasPadres.find(cuenta =>
+                            cuenta.Codigo_CC.includes(segundaParte)
+                        );
+                        if (cuentaPadre) {
+                            document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
+                            document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
+                            document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
+                        } else {
+                            console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
+                        }
+                    }
+                });
+            }
         }
 
+        // Asociar eventos a los botones
         $(document).ready(function() {
-            // Agregar un controlador de eventos de clic al botón
+            // Botón 1
             $('#openModalBtn_3').on('click', function(event) {
-                // Detener la propagación del evento
-                event.stopPropagation();
                 event.preventDefault();
-                // Tu lógica para abrir el modal aquí si es necesario
+            });
+
+            // Botón 2
+            $('#botonBuscar2').on('click', function(event) {
+                event.preventDefault();
             });
         });
         </script>
@@ -917,96 +928,97 @@
 
 
 
-    <!--Vamos a ubicar el script para desglozar el patron de numeros del codigo de la cuenta contable-->
+        <!--Vamos a ubicar el script para desglozar el patron de numeros del codigo de la cuenta contable-->
 
-                    <script>
-                    function seleccionarCuenta(codigoCuenta) {
-                        // Llamar a la función para desglosar el código de cuenta
-                        desglosarCodigoCuenta(codigoCuenta);
+        <script>
+        function seleccionarCuenta(codigoCuenta) {
+            // Llamar a la función para desglosar el código de cuenta
+            desglosarCodigoCuenta(codigoCuenta);
+        }
+        </script>
+
+
+
+
+
+
+
+        <!-- Script destinado a desglosar el código de cuenta -->
+        <script>
+        function desglosarCodigoCuenta(codigoCompleto) {
+            const patron = /^(\d{2})(\d{3})(\d{7})$/;
+            const resultado = codigoCompleto.match(patron);
+
+            if (resultado) {
+                const primerParte = resultado[1]; // Ejemplo: "41"
+                const segundaParte = resultado[2]; // Ejemplo: "101"
+                const tercerParte = resultado[3]; // Ejemplo: "1100000"
+
+                console.log("Código completo:", codigoCompleto);
+                console.log("Primer parte:", primerParte);
+                console.log("Segunda parte:", segundaParte);
+                console.log("Tercer parte:", tercerParte);
+
+                return {
+                    primerParte: primerParte,
+                    segundaParte: segundaParte,
+                    tercerParte: tercerParte
+                };
+            } else {
+                console.error("El código de cuenta no coincide con el patrón esperado.");
+                return null;
+            }
+        }
+
+        function obtenerCuentasPadres(callback) {
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/diario_obligaciones/getCuentasPadres"); ?>', // Ajusta la URL según tu ruta y controlador
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data) {
+                        console.log("Cuentas padres encontradas:", data);
+                        callback(data);
+                    } else {
+                        console.error("No se encontraron cuentas padres.");
+                        callback(null);
                     }
-                </script>
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener las cuentas padres:", error);
+                    callback(null);
+                }
+            });
+        }
 
+        function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+            document.getElementById('idcuentacontable_2').value = IDCuentaContable;
+            document.getElementById('codigo_cc_2').value = Codigo_CC;
+            document.getElementById('descripcion_cc_2').value = Descripcion_CC;
 
+            const desglose = desglosarCodigoCuenta(Codigo_CC);
 
+            if (desglose) {
+                const segundaParte = desglose.segundaParte;
 
-
-
-
-                    <!-- Script destinado a desglosar el código de cuenta -->
-                    <script>
-                            function desglosarCodigoCuenta(codigoCompleto) {
-                                const patron = /^(\d{2})(\d{3})(\d{7})$/;
-                                const resultado = codigoCompleto.match(patron);
-                                
-                                if (resultado) {
-                                    const primerParte = resultado[1]; // Ejemplo: "41"
-                                    const segundaParte = resultado[2]; // Ejemplo: "101"
-                                    const tercerParte = resultado[3]; // Ejemplo: "1100000"
-
-                                    console.log("Código completo:", codigoCompleto);
-                                    console.log("Primer parte:", primerParte);
-                                    console.log("Segunda parte:", segundaParte);
-                                    console.log("Tercer parte:", tercerParte);
-
-                                    return {
-                                        primerParte: primerParte,
-                                        segundaParte: segundaParte,
-                                        tercerParte: tercerParte
-                                    };
-                                } else {
-                                    console.error("El código de cuenta no coincide con el patrón esperado.");
-                                    return null;
-                                }
-                            }
-
-                            function obtenerCuentasPadres(callback) {
-                                $.ajax({
-                                    url: '<?php echo base_url("obligaciones/diario_obligaciones/getCuentasPadres"); ?>', // Ajusta la URL según tu ruta y controlador
-                                    type: 'GET',
-                                    dataType: 'json',
-                                    success: function(data) {
-                                        if (data) {
-                                            console.log("Cuentas padres encontradas:", data);
-                                            callback(data);
-                                        } else {
-                                            console.error("No se encontraron cuentas padres.");
-                                            callback(null);
-                                        }
-                                    },
-                                    error: function(xhr, status, error) {
-                                        console.error("Error al obtener las cuentas padres:", error);
-                                        callback(null);
-                                    }
-                                });
-                            }
-
-                            function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-                                document.getElementById('idcuentacontable_2').value = IDCuentaContable;
-                                document.getElementById('codigo_cc_2').value = Codigo_CC;
-                                document.getElementById('descripcion_cc_2').value = Descripcion_CC;
-
-                                const desglose = desglosarCodigoCuenta(Codigo_CC);
-                                
-                                if (desglose) {
-                                    const segundaParte = desglose.segundaParte;
-
-                                    obtenerCuentasPadres(function(cuentasPadres) {
-                                        if (cuentasPadres) {
-                                            console.log("Cuentas padres total: ", cuentasPadres);
-                                            const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(segundaParte));
-                                            if (cuentaPadre) {
-                                                console.log("Cuenta padre encontrada:", cuentaPadre);
-                                                document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
-                                                document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
-                                                document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
-                                            } else {
-                                                console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
-                                            }
-                                        }
-                                    });
-                                }
-                            }
-                    </script>
+                obtenerCuentasPadres(function(cuentasPadres) {
+                    if (cuentasPadres) {
+                        console.log("Cuentas padres total: ", cuentasPadres);
+                        const cuentaPadre = cuentasPadres.find(cuenta => cuenta.Codigo_CC.includes(
+                            segundaParte));
+                        if (cuentaPadre) {
+                            console.log("Cuenta padre encontrada:", cuentaPadre);
+                            document.getElementById('idcuentacontable').value = cuentaPadre.IdCuentaContable;
+                            document.getElementById('codigo_cc').value = cuentaPadre.Codigo_CC;
+                            document.getElementById('descripcion_cc').value = cuentaPadre.Descripcion_CC;
+                        } else {
+                            console.error("No se encontró la cuenta padre con la segunda parte proporcionada.");
+                        }
+                    }
+                });
+            }
+        }
+        </script>
 
 
 
@@ -1015,8 +1027,6 @@
 
         <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
         <script>
-                
-
         var currentRow = null;
 
         // Función para abrir el modal de las cuentas contables
@@ -1028,12 +1038,12 @@
 
         }
 
-        
-
-       
 
 
-        
+
+
+
+
 
         // Abrir modal en fila dinamica
         const openModalBtn_4 = document.getElementById("openModalBtn_4");
@@ -1082,8 +1092,8 @@
         </script>
 
 
- <!-- Seleccionar un comprobante -->
- <script>
+        <!-- Seleccionar un comprobante -->
+        <script>
         function selectComprobante(id_unidad, fecha, ruc, razon_social, concepto, monto, str) {
             document.getElementById('fecha').value = fecha;
             document.getElementById('ruc').value = ruc;
@@ -1112,8 +1122,8 @@
         });
         </script>
 
-         <!-- Script encargado de las tablas de Comprobante -->
-         <script>
+        <!-- Script encargado de las tablas de Comprobante -->
+        <script>
         $(document).ready(function() {
             $('#TablaComprobante').DataTable({
                 paging: true,
@@ -1265,95 +1275,97 @@
 
         <!-- Envio de formulario principal -->
         <script>
-            $(document).ready(function() {
-                $("#formularioPrincipal").on("submit", function(e) {
-                    e.preventDefault(); // Prevent form submission initially
-        
-                    const datosFormulario = obtenerDatosFormulario();
-                    const filas = obtenerFilasDinamicas();
-                    const datosCompletos = {
-                        datosFormulario: datosFormulario,
-                        filas: filas,
-                    };
-        
-                    const diferenciaActualizada = parseFloat($("#diferencia").val());
-        
-                    if (diferenciaActualizada === 0) {
-                        enviarDatos(datosCompletos);
-                    } else {
-                        alert('El debe y el haber son diferentes');
-                    }
-                });
-        
-                function obtenerDatosFormulario() {
-                    return {
-                        op: $("#op").val(),
-                        ruc: $("#ruc").val(),
-                        num_asi: $("#num_asi").val(),
-                        contabilidad: $("#razon_social").val(),
-                        concepto: $("#concepto").val(),
-                        fecha: $("#fecha").val(),
-                        pedmat: $("#pedi_matricula").val(),
-                        modalidad: $("#modalidad").val(),
-                        tipo_presu: $("#tipo_presupuesto").val(),
-                        nro_exp: $("#nro_exp").val(),
-                        total: $("#total").val(),
-                        pagado: $("#pagado").val(),
-                        MontoPago: $("#MontoPago").val(),
-                        id_pro: $("#id_pro").val(),
-                        id_ff: $("#id_ff").val(),
-                        id_of: $("#id_of").val(),
-                        IDCuentaContable: $("#idcuentacontable").val(),
-                        comprobante: $("#comprobante").val(),
-                        Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-                        Haber: $("#Haber").val(),
-                        cheques_che_id: $("#cheques_che_id").val(),
-                        detalles: $("#detalles").val(),
-                        niveles: $("#niveles").val() || ""
-                    };
-                }
-        
-                function obtenerFilasDinamicas() {
-                    const filas = [];
-                    $("#miTabla tbody tr:gt(0)").each(function() {
-                        const fila = {
-                            id_pro: $(this).find("select[name='id_pro_2']").val(),
-                            id_ff: $(this).find("select[name='id_ff_2']").val(),
-                            id_of: $(this).find("select[name='id_of_2']").val(),
-                            IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                            detalles: $(this).find("input[name='detalles_2']").val(),
-                            comprobante: $(this).find("input[name='comprobante_2']").val(),
-                            Debe: $(this).find("input[name='Debe_2']").val(),
-                            Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                            cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                        };
-                        filas.push(fila);
-                    });
-                    return filas;
-                }
-        
-                function enviarDatos(datosCompletos) {
-                    $.ajax({
-                        url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
-                        type: 'POST',
-                        data: { datos: datosCompletos },
-                        success: function(response) {
-                            console.log(response);
-                            if (response.includes('Datos guardados exitosamente.')) {
-                                alert('Datos guardados exitosamente.');
-                               // window.location.reload(); // Recargar la página no es necesario acá porque ya se usa esta función en el botón de guardar 
-                            } else {
-                                alert('Error al guardar los datos: ' + response);
-                                console.log(response);
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.log(xhr.responseText);
-                            alert("Error en la solicitud AJAX: " + status + " - " + error);
-                        }
-                    });
+        $(document).ready(function() {
+            $("#formularioPrincipal").on("submit", function(e) {
+                e.preventDefault(); // Prevent form submission initially
+
+                const datosFormulario = obtenerDatosFormulario();
+                const filas = obtenerFilasDinamicas();
+                const datosCompletos = {
+                    datosFormulario: datosFormulario,
+                    filas: filas,
+                };
+
+                const diferenciaActualizada = parseFloat($("#diferencia").val());
+
+                if (diferenciaActualizada === 0) {
+                    enviarDatos(datosCompletos);
+                } else {
+                    alert('El debe y el haber son diferentes');
                 }
             });
+
+            function obtenerDatosFormulario() {
+                return {
+                    op: $("#op").val(),
+                    ruc: $("#ruc").val(),
+                    num_asi: $("#num_asi").val(),
+                    contabilidad: $("#razon_social").val(),
+                    concepto: $("#concepto").val(),
+                    fecha: $("#fecha").val(),
+                    pedmat: $("#pedi_matricula").val(),
+                    modalidad: $("#modalidad").val(),
+                    tipo_presu: $("#tipo_presupuesto").val(),
+                    nro_exp: $("#nro_exp").val(),
+                    total: $("#total").val(),
+                    pagado: $("#pagado").val(),
+                    MontoPago: $("#MontoPago").val(),
+                    id_pro: $("#id_pro").val(),
+                    id_ff: $("#id_ff").val(),
+                    id_of: $("#id_of").val(),
+                    IDCuentaContable: $("#idcuentacontable").val(),
+                    comprobante: $("#comprobante").val(),
+                    Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+                    Haber: $("#Haber").val(),
+                    cheques_che_id: $("#cheques_che_id").val(),
+                    detalles: $("#detalles").val(),
+                    niveles: $("#niveles").val() || ""
+                };
+            }
+
+            function obtenerFilasDinamicas() {
+                const filas = [];
+                $("#miTabla tbody tr:gt(0)").each(function() {
+                    const fila = {
+                        id_pro: $(this).find("select[name='id_pro_2']").val(),
+                        id_ff: $(this).find("select[name='id_ff_2']").val(),
+                        id_of: $(this).find("select[name='id_of_2']").val(),
+                        IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                        detalles: $(this).find("input[name='detalles_2']").val(),
+                        comprobante: $(this).find("input[name='comprobante_2']").val(),
+                        Debe: $(this).find("input[name='Debe_2']").val(),
+                        Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                        cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+                    };
+                    filas.push(fila);
+                });
+                return filas;
+            }
+
+            function enviarDatos(datosCompletos) {
+                $.ajax({
+                    url: '<?php echo base_url("obligaciones/diario_obligaciones/store"); ?>',
+                    type: 'POST',
+                    data: {
+                        datos: datosCompletos
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.includes('Datos guardados exitosamente.')) {
+                            alert('Datos guardados exitosamente.');
+                            // window.location.reload(); // Recargar la página no es necesario acá porque ya se usa esta función en el botón de guardar 
+                        } else {
+                            alert('Error al guardar los datos: ' + response);
+                            console.log(response);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr.responseText);
+                        alert("Error en la solicitud AJAX: " + status + " - " + error);
+                    }
+                });
+            }
+        });
         </script>
     </main>
 
