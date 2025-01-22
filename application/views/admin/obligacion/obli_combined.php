@@ -185,7 +185,7 @@
                                                                 <div class="form-group col-md-12">
                                                                     <label for="op">N° Op</label>
                                                                     <input type="text" class="form-control" id="op"
-                                                                        name="op" value="<?= $op_actual ?>" readonly>
+                                                                        name="op" value="<?php echo isset($op_siguiente) ? $op_siguiente : $op_siguiente; ?>" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>

@@ -71,7 +71,9 @@
                                                     <div class="form-group col-md-2">
                                                         <label for="num_asi">Numero:</label>
                                                         <input type="text" class="form-control" id="num_asi"
-                                                            name="num_asi" value="28" readonly>
+                                                            name="num_asi"
+                                                            value="<?php echo isset($numero_siguiente) ? $numero_siguiente : 'No definido'; ?>"
+                                                            readonly>
                                                     </div>
                                                     <div
                                                         class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
@@ -143,7 +145,7 @@
                                                                 <div class="form-group col-md-12">
                                                                     <label for="op">N° Op</label>
                                                                     <input type="text" class="form-control" id="op"
-                                                                        name="op" value="0" readonly>
+                                                                        name="op" value="<?php echo isset($op_siguiente) ? $op_siguiente : $op_siguiente; ?>" readonly>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -498,7 +500,7 @@
                                                                             <!-- Botón para PDF -->
                                                                             <div
                                                                                 class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                                
+
                                                                                 <!-- Botón para editar -->
                                                                                 <button type="button"
                                                                                     class="btn btn-warning btn-sm"

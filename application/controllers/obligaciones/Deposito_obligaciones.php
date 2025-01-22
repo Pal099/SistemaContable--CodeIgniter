@@ -75,7 +75,6 @@ class Deposito_obligaciones extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-
 		// Obtener el último valor de num_asi filtrado por unidad académica
 		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
 
@@ -94,15 +93,15 @@ class Deposito_obligaciones extends CI_Controller
 
 		}
 
-
-		$data = array(
-			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
+		// Agregar el resto de los datos necesarios
+		$data = array_merge($data, array(
+			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
 			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
-			'asientos' => $this->Diario_obli_model->GETasientosD($id_uni_respon_usu),
+			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
-		);
+		));
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -384,7 +383,7 @@ class Deposito_obligaciones extends CI_Controller
 			//Acá se verifica si el usuario selecciono algún nivel o no, si no se selecciono nada no inserta nada.
 			//También si selecciono un nivel dentro del select quiere decir que se activo el switch entonces se debe de aumentar el str
 
-			
+
 			//Se actualiza num_asi
 			$this->Editar_Movimientos_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
 
@@ -393,7 +392,7 @@ class Deposito_obligaciones extends CI_Controller
 				$filas = $datosCompletos['filas'];
 				foreach ($filas as $fila) {
 					/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
-														debemos de agregarlo como un registro nuevo */
+																									 debemos de agregarlo como un registro nuevo */
 					if (!isset($fila['IDNum_Asi_Deta'])) {
 						$Num_Asi_IDNum_Asi = $IDNum_Asi;
 						$dataInsertar = array(
