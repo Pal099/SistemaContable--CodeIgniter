@@ -46,45 +46,52 @@ class EjecucionP_model extends CI_Model {
         ];
     }
 
-    // Nuevo método para obtener todos los datos para la vista
-    public function obtener_ejecuciones_para_vista($fecha_inicio, $fecha_fin) {
-        $anio = date('Y', strtotime($fecha_inicio));
-        
+    public function obtener_ejecuciones_para_vista($fecha_inicio, $fecha_fin, $origen = null, $fuente = null, $programa = null, $cuenta = null) {
         $this->db->select('
-            p.origen_de_financiamiento_id_of,
-            p.fuente_de_financiamiento_id_ff,
-            p.programa_id_pro,
             p.Idcuentacontable,
-            COALESCE(SUM(p.TotalPresupuestado), 0) as TotalPresupuestado,
-            COALESCE(SUM(p.TotalModificado), 0) as TotalModificado,
-            COALESCE(SUM(n.obligado), 0) as Obligado,
-            COALESCE(SUM(n.pagado), 0) as Pagado
+            of.codigo AS codigo_origen,
+            of.nombre AS nombre_of,
+            ff.codigo AS codigo_fuente,
+            ff.nombre AS nombre_ff,
+            pro.codigo AS codigo_programa,
+            pro.nombre AS nombre_pro,
+            cc.Codigo_CC AS codigo_cuenta,
+            cc.Descripcion_CC AS nombre_cuenta,
+            SUM(p.TotalPresupuestado) AS TotalPresupuestado,
+            SUM(p.TotalModificado) AS TotalModificado,
+            (SUM(p.TotalPresupuestado) + SUM(p.TotalModificado)) AS Vigente,
+            COALESCE(SUM(nd.MontoPago), 0) AS Obligado,
+            COALESCE(SUM(nd.Haber), 0) AS Pagado
         ');
-        
-        $this->db->from('presupuestos p');
-        $this->db->join('(
-            SELECT 
-                IDCuentaContable,
-                id_of as origen_de_financiamiento_id_of,  -- Alias para coincidir con presupuestos
-                id_ff as fuente_de_financiamiento_id_ff,  -- Alias para coincidir con presupuestos
-                id_pro as programa_id_pro,                -- Alias para coincidir con presupuestos
-                SUM(CASE WHEN id_form = 1 THEN Debe ELSE 0 END) as obligado,
-                SUM(CASE WHEN id_form = 2 THEN Debe ELSE 0 END) as pagado
-            FROM num_asi_deta
-            WHERE creado_en BETWEEN "'.$this->db->escape_str($fecha_inicio).'" 
-            AND "'.$this->db->escape_str($fecha_fin).'"
-            GROUP BY IDCuentaContable, id_of, id_ff, id_pro
-        ) n', 'p.Idcuentacontable = n.IDCuentaContable 
-            AND p.origen_de_financiamiento_id_of = n.origen_de_financiamiento_id_of
-            AND p.fuente_de_financiamiento_id_ff = n.fuente_de_financiamiento_id_ff
-            AND p.programa_id_pro = n.programa_id_pro', 'left');
-        
-        $this->db->where('YEAR(p.Año)', $anio);
-        $this->db->group_by('p.Idcuentacontable, p.origen_de_financiamiento_id_of, p.fuente_de_financiamiento_id_ff, p.programa_id_pro');
-        $query = $this->db->get();
     
-        return $query->result();
+        $this->db->from('presupuestos p');
+        
+        // JOINS CORREGIDOS
+        $this->db->join('origen_de_financiamiento of', 'p.origen_de_financiamiento_id_of = of.id_of', 'left');
+        $this->db->join('fuente_de_financiamiento ff', 'p.fuente_de_financiamiento_id_ff = ff.id_ff', 'left');
+        $this->db->join('programa pro', 'p.programa_id_pro = pro.id_pro', 'left');
+        $this->db->join('cuentacontable cc', 'p.Idcuentacontable = cc.IDCuentaContable', 'left');
+        $this->db->join('num_asi_deta nd', 'p.Idcuentacontable = nd.IDCuentaContable', 'left');
+    
+        // FILTRO DE FECHAS CON LEFT JOIN
+        $this->db->group_start()
+            ->where('nd.creado_en BETWEEN "' . $fecha_inicio . '" AND "' . $fecha_fin . '"')
+            ->or_where('nd.creado_en IS NULL')
+        ->group_end();
+    
+        // APLICAR FILTROS ADICIONALES
+        if ($origen) $this->db->where('p.origen_de_financiamiento_id_of', $origen);
+        if ($fuente) $this->db->where('p.fuente_de_financiamiento_id_ff', $fuente);
+        if ($programa) $this->db->where('p.programa_id_pro', $programa);
+        if ($cuenta) $this->db->where('p.Idcuentacontable', $cuenta);
+    
+        $this->db->group_by('p.Idcuentacontable, p.origen_de_financiamiento_id_of, p.fuente_de_financiamiento_id_ff, p.programa_id_pro');
+    
+        return $this->db->get()->result();
     }
+    
+    
+    
     
     public function save($data){
         return $this->db->insert("ejecucionpresupuestaria", $data);

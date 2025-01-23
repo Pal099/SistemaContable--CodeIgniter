@@ -25,39 +25,56 @@ class EjecucionP extends CI_Controller
 
     public function index()
     {
-        // Obtener parámetros de fechas
+        // Capturar parámetros de filtro
         $fecha_inicio = $this->input->get('fecha_inicio') ?? date('Y-01-01');
         $fecha_fin = $this->input->get('fecha_fin') ?? date('Y-12-31');
-        
+        $origen = $this->input->get('origen');
+        $fuente = $this->input->get('fuente');
+        $programa = $this->input->get('programa');
+        $cuenta = $this->input->get('cuenta');
+    
         // Obtener datos del usuario
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-
-        // Obtener datos principales
+    
+        // Obtener datos principales con filtros
         $data = array(
-            'ejecucionpresupuestaria' => $this->EjecucionP_model->obtener_ejecuciones_para_vista($fecha_inicio, $fecha_fin),
+            'ejecucionpresupuestaria' => $this->EjecucionP_model->obtener_ejecuciones_para_vista(
+                $fecha_inicio, 
+                $fecha_fin,
+                $origen,
+                $fuente,
+                $programa,
+                $cuenta
+            ),
             'fuente' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
             'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
             'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
             'cuentas' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
-            'fecha_inicio' => $fecha_inicio,
-            'fecha_fin' => $fecha_fin
+            'filtros_actuales' => [
+                'fecha_inicio' => $fecha_inicio,
+                'fecha_fin' => $fecha_fin,
+                'origen' => $origen,
+                'fuente' => $fuente,
+                'programa' => $programa,
+                'cuenta' => $cuenta
+            ]
         );
-
+    
         // Calcular campos derivados
         foreach($data['ejecucionpresupuestaria'] as &$item) {
             $item->Vigente = ($item->TotalPresupuestado ?? 0) + ($item->TotalModificado ?? 0);
-            $item->SaldoPresupuestario = ($item->obligado ?? 0) - ($item->pagado ?? 0);
+            $item->SaldoPresupuestario = $item->Vigente - ($item->Obligado ?? 0);
         }
-
+    
         // Cargar vistas
         $this->load->view("layouts/header");
         $this->load->view("layouts/aside");
         $this->load->view("admin/ejecucion/list_eje", $data);
         $this->load->view("layouts/footer");
     }
-
+    
     public function obtener_ejecucion_completa() {
         // Validar parámetros
         $cuenta_id = $this->input->get('cuenta_id');

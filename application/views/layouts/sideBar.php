@@ -75,7 +75,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url(); ?>mantenimiento/EjecucionPc">
+                    <a href="<?php echo base_url(); ?>mantenimiento/EjecucionP">
                         <i class="bi bi-circle"></i><span>Ejecución Presupuestaria</span>
                     </a>
                 </li>
