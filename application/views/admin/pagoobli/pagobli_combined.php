@@ -1154,7 +1154,7 @@
                                                                 class="btn btn-success" id="guardarFilas"><span
                                                                     class="fa fa-save"></span>Guardar</button>
                                                             <button type="button" class="btn btn-danger"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
+                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones/add'">
                                                                 <span class="fa fa-remove"></span> Cancelar
                                                             </button>
                                                         </div>

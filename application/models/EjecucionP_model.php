@@ -61,7 +61,8 @@ class EjecucionP_model extends CI_Model {
             SUM(p.TotalModificado) AS TotalModificado,
             (SUM(p.TotalPresupuestado) + SUM(p.TotalModificado)) AS Vigente,
             COALESCE(SUM(nd.MontoPago), 0) AS Obligado,
-            COALESCE(SUM(nd.Haber), 0) AS Pagado
+            COALESCE(SUM(nd.Haber), 0) AS Pagado,
+            nd.creado_en As fecha
         ');
     
         $this->db->from('presupuestos p');
