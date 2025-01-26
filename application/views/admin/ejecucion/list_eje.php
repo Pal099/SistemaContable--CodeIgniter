@@ -109,8 +109,7 @@
 
                                                         <!-- Cuenta Contable -->
                                                         <td>
-                                                            <div
-                                                                class="d-grid gap-1 d-md-flex justify-content">
+                                                            <div class="d-grid gap-1 d-md-flex justify-content">
                                                                 <input type="hidden" class="form-control"
                                                                     id="idcuentacontable" name="cuenta">
                                                                 <input style="width: 90%; font-size: small;" type="text"
@@ -293,11 +292,8 @@
             },
             {
                 extend: 'pdf',
-                className: 'btn btn-sm btn-danger',
-                text: '<i class="bi bi-file-earmark-pdf"></i> PDF',
-                action: function (e, dt, node, config) {
-                    generarPDFEjecucion();
-                }
+                text: '<i class="bi bi-filetype-pdf"></i> PDF', // Icono de pdf tambien
+                className: 'btn btn-danger',
             }],
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
