@@ -1385,7 +1385,7 @@
                             console.log(response);
                             if (response.includes('Datos guardados exitosamente.')) {
                                 alert('Datos guardados exitosamente.');
-                                // window.location.reload(); // Recargar la página no es necesario acá porque ya se usa esta función en el botón de guardar 
+                                window.location.reload(); // Recargar la página no es necesario acá porque ya se usa esta función en el botón de guardar 
                             } else {
                                 alert('Error al guardar los datos: ' + response);
                                 console.log(response);
