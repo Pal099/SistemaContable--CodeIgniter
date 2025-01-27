@@ -16,7 +16,7 @@ class Seleccion extends CI_Controller {
 			'categorias' => $this->Productos_model->getCategorias()//Con la variable categorias (también en la vista view/admin/filtros/filtrar) traemos en el dropdown (box list) las categorias existentes.
         );
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/filtros/filtrar", $data);
         $this->load->view("layouts/footer");
     }
@@ -33,7 +33,7 @@ class Seleccion extends CI_Controller {
         );
 
         $this->load->view("layouts/header");
-        $this->load->view("layouts/aside");
+        $this->load->view("layouts/sideBar");
         $this->load->view("admin/filtros/filtrar", $data);
         $this->load->view("layouts/footer");
     }

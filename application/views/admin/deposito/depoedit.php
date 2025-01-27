@@ -17,25 +17,19 @@
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Movimientos</li>
                 <li class="breadcrumb-item"><a
-                        href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">Diario de
-                        Obligación</a></li>
-                <li class="breadcrumb-item active">Edición de Obligación</li>
+                        href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">Deposito</a></li>
+                <li class="breadcrumb-item active">Edición de Deposito</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white border rounded-3">
             <div class="pagetitle">
                 <div class="container-fluid d-flex flex-row justify-content-between">
                     <div class="col-md-6 mt-4">
-                        <h1>Editar Obligación</h1>
+                        <h1>Editar Deposito</h1>
                     </div>
                     <div class="col-md-6 mt-4 ">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mr-4">
-                            <div class="form-check form-switch mt-2">
-                                <!-- En este switch se verifica si el strBoolean es verdadero entonces si hay datos de str en ese asiento por lo tanto ya es un STR -->
-                                <input class="form-check-input" type="checkbox" role="switch" id="strSwitch"
-                                    <?= $strBoolean ? 'checked disabled' : '' ?>>
-                                <label class="form-check-label" for="strSwitch">STR</label>
-                            </div>
+            
                             <div class="btn-group" role="group">
                                 <button class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
                                     data-bs-target="#modal_proveedores">
@@ -90,37 +84,7 @@
                                                                 name="concepto"
                                                                 value="<?php echo $asiento[0]['datosFijos']['concepto']; ?>">
                                                         </div>
-                                                        <!-- Campo del STR -->
-                                                        <div class="collapse mt-4" id="strCollapse">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <!-- Select de los niveles -->
-                                                                    <div class="col-md-12">
-                                                                        <label for="niveles">Niveles:</label>
-                                                                        <div class="input-group">
-                                                                            <select name="niveles" id="niveles"
-                                                                                class="form-control" required>
-                                                                                <option selected disabled>Seleccione un
-                                                                                    nivel...</option>
-                                                                                <?php foreach ($niveles as $nv) : ?>
-                                                                                <?php $selected = ($nivel_str && $nivel_str->id_nivel == $nv->id_nivel) ? 'selected' : ''; ?>
-                                                                                <option
-                                                                                    value="<?php echo $nv->id_nivel ?>"
-                                                                                    <?php echo $selected; ?>>
-                                                                                    <?php echo $nv->nombre_nivel; ?>
-                                                                                </option>
-                                                                                <?php endforeach; ?>
-                                                                            </select>
-                                                                            <button type="button" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalCuentasCont"
-                                                                                class="btn btn-primary">
-                                                                                <i class="bi bi-search"> Buscar</i>
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        
                                                         <!-- Campos Opcionales del formulario -->
                                                         <div class="form-group">
                                                             <div class="row">
@@ -652,7 +616,7 @@
                                                 class="btn btn-success "><span class="fa fa-save"></span>Guardar
                                             </button>
                                             <button type="button" class="btn btn-danger ml-3"
-                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/diario_obligaciones/add'">
+                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add'">
                                                 <i class="fa fa-remove"></i> Cancelar
                                             </button>
                                         </div>
@@ -664,9 +628,6 @@
             </div>
     </main>
 
-    <script>
-    console.log(<?php echo json_encode($nivel_str); ?>);
-    </script>
 
     <!-- Modal Proveedores con boostrap -->
     <div class="modal fade mi-modal" id="modal_proveedores" tabindex="-1" aria-labelledby="ModalProveedores"
@@ -829,28 +790,6 @@
             // Tu lógica para abrir el modal aquí si es necesario
         });
     });
-    </script>
-
-    <!-- Script para mostrar el campo de STR -->
-    <script>
-    window.onload = function() {
-        var strSwitch = document.getElementById('strSwitch');
-        var strCollapse = new bootstrap.Collapse(document.getElementById('strCollapse'), {
-            toggle: false // Acá evita que muestre apenas se crea el collapse
-        });
-
-        // Se verifica el estado del switch
-        if (strSwitch.checked) {
-            strCollapse.show(); // Muestra los campos si es true
-        } else {
-            strCollapse.hide(); // Los oculta si no 
-        }
-
-        // Cambia el estado al hacer clic en el switch
-        strSwitch.addEventListener('change', function() {
-            strCollapse.toggle(); // Cambia el estado al hacer clic
-        });
-    };
     </script>
 
     <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
@@ -1194,9 +1133,7 @@
                     alert("Por favor, complete todos los campos obligatorios.");
                     return false;
                 }
-
-                const strSwitchEstado = $('#strSwitch').is(':disabled') ? 'on' : 'off';
-                const datosFormulario = obtenerDatosFormulario(strSwitchEstado);
+                const datosFormulario = obtenerDatosFormulario();
                 const filas = obtenerFilasDinamicas();
                 const datosCompletos = {
                     datosFormulario: datosFormulario,
@@ -1227,7 +1164,7 @@
                 return true;
             }
 
-            function obtenerDatosFormulario(strSwitchEstado) {
+            function obtenerDatosFormulario() {
                 return {
                     IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
                     op: $("#op").val(),
@@ -1242,7 +1179,6 @@
                     nro_exp: $("#nro_exp").val(),
                     total: $("#total").val(),
                     nivel: $("#niveles").val(),
-                    strSwitch: strSwitchEstado,
                 };
             }
 
@@ -1266,7 +1202,7 @@
 
             function enviarDatos(datosCompletos) {
                 $.ajax({
-                    url: '<?php echo base_url("obligaciones/Diario_obligaciones/update"); ?>',
+                    url: '<?php echo base_url("obligaciones/deposito_obligaciones/update"); ?>',
                     type: 'POST',
                     data: { datos: datosCompletos },
                     success: function(response) {
@@ -1275,7 +1211,7 @@
                             alert(response.message);
                             window.location.href = response.redirect_url;
                         } else {
-                            window.location.href = '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>';
+                            window.location.href = '<?php echo base_url("obligaciones/deposito_obligaciones/add"); ?>';
                         }
                     },
                     error: function(xhr, status, error) {

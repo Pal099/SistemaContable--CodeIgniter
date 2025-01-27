@@ -15,6 +15,23 @@ class Diario_obli_model extends CI_Model {
 
     }
 
+	public function getMaxNumAsiAndOp($id_uni_respon_usu) {
+		// Obtener el último valor de num_asi para una unidad específica
+		$this->db->select('MAX(num_asi) as ultimo_numero, MAX(op) as op_ultimo');
+		$this->db->from('num_asi'); // Tu tabla
+		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->where('num_asi.id_uni_respon_usu', $id_uni_respon_usu); // Ser explícito con la tabla en el WHERE
+		$query = $this->db->get();
+	
+		if ($query->num_rows() > 0) {
+			return $query->row(); // Retorna el resultado como objeto
+		} else {
+			return null; // Si no hay registros, retorna null
+		}
+	}
+	
+
+
 	public function GETasientos($id_uni_respon_usu) {
 		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');
@@ -29,11 +46,15 @@ class Diario_obli_model extends CI_Model {
 	}
 	
 	public function GETasientosD($id_uni_respon_usu) {
-		$this->db->select('IDNum_Asi, FechaEmision, num_asi, op, estado');
-		$this->db->where('estado_registro', '1');
-		$this->db->join('uni_respon_usu', 'num_asi.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		$resultados = $this->db->get('num_asi');
+		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
+		$this->db->from('num_asi na');
+		$this->db->join('uni_respon_usu uru', 'na.id_uni_respon_usu = uru.id_uni_respon_usu');
+		$this->db->join('proveedores p', 'na.id_provee = p.id'); // Corregido para unir con la tabla de proveedores correctamente
+		$this->db->where('na.estado_registro', '1');
+		$this->db->where('na.id_form', '3');
+		$this->db->where('uru.id_uni_respon_usu', $id_uni_respon_usu);
+	
+		$resultados = $this->db->get();
 		return $resultados->result();
 	}
 
@@ -228,8 +249,8 @@ public function getUsuarioId($nombre){
 	}
 
 	public function update($id,$data){
-		$this->db->where("id",$id);
-		return $this->db->update("proveedores",$data);
+		$this->db->where("IDNum_asi",$id);
+		return $this->db->update("num_asi",$data);
 	}
 
 	public function getProgramGastos($id_uni_respon_usu) {
@@ -294,15 +315,22 @@ public function getUsuarioId($nombre){
 	public function guardar_asiento($data, $dataDetaDebe, $dataDetaHaber) {
 		$this->db->trans_start();  // Iniciar transacción
 	
-		$this->db->insert('num_asi', $data);  
-		$this->db->insert('num_asi_deta', $dataDetaDebe); 
-		$this->db->insert('num_asi_deta', $dataDetaHaber);  
+		// Insertar en la tabla num_asi
+		$this->db->insert('num_asi', $data);
+		$num_asi_id = $this->db->insert_id();  // Obtener el ID del último registro insertado
+	
+		// Asegurarse de que $dataDetaDebe y $dataDetaHaber contengan el ID de num_asi
+		$dataDetaDebe['Num_Asi_IDNum_Asi'] = $num_asi_id;
+		$dataDetaHaber['Num_Asi_IDNum_Asi'] = $num_asi_id;
+	
+		// Insertar en la tabla num_asi_deta
+		$this->db->insert('num_asi_deta', $dataDetaDebe);
+		$this->db->insert('num_asi_deta', $dataDetaHaber);
 	
 		$this->db->trans_complete();  // Completar transacción
 	
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
-	
 
 	//Para el Selectcc, es decir, el primer modal del DEBE
 	public function getCuentaContable() {

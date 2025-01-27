@@ -249,7 +249,7 @@
                   <tr class="list-item"
                     onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->razon_social ?>')"
                     data-bs-dismiss="modal">
-                    <td>
+                    <td >
                       <?= $proveedor->id ?>
                     </td>
                     <td>
@@ -312,11 +312,11 @@
                 <?php foreach ($unidad as $index => $unidad): ?>
                   <tr class="list-item" onclick="selectUni('<?= $unidad->id_unidad ?>', '<?= $unidad->unidad ?>')"
                     data-bs-dismiss="modal">
-                    
+
                     <td>
                       <?= $index + 1 ?>
                     </td>
-                    <td >
+                    <td>
                       <?= $unidad->id_unidad ?>
                     </td>
                     <td>
@@ -453,48 +453,39 @@
             <table id="TablaComprobantes" class="table table-hover table-sm">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th>#</th>
+                  <th>Actividad</th>
                   <th>Fecha</th>
-                  <th>Proveedor</th>
-                  <th>Monto</th>
-                  <th>Obs.</th>
-                  <th class="columna-hidden">ff</th>
-                  <th class="columna-hidden">str</th>
-                  <th class="columna-hidden">op</th>
-                  <th class="columna-hidden">obl</th>
+                  <th>Ruc</th>
+                  <th>Razon Social</th>
+                  <th>Concepto</th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($comprobantes as $index => $comp): ?>
-                  <tr class="list-item" onclick="selectComp('<?= $comp->IDComprobanteGasto ?>',  '<?= $comp->fecha ?>', '<?= $comp->concepto ?>', '<?= $comp->monto ?>', '<?= $comp->obl ?>'
-                    , '<?= $comp->str ?>', '<?= $comp->op ?>')" data-bs-dismiss="modal">
+                <?php foreach ($comprobantes as $index => $comprob): ?>
+                  <tr class="list-item" onclick="selectComp('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
+                                    '<?= $comprob->razon_social ?>', '<?= $comprob->concepto ?>')"
+                    data-bs-dismiss="modal">
                     <td>
-                      <?= $comp->IDComprobanteGasto ?>
+                      <?= $index + 1 ?>
                     </td>
+
                     <td>
-                      <?= $comp->fecha ?>
-                    </td>
-                    <td>
-                      <?= $comp->idproveedor ?>
-                    </td>
-                    <td>
-                      <?= $comp->monto ?>
+                      <?= $comprob->id_unidad ?>
                     </td>
                     <td>
-                      <?= $comp->concepto ?>
+                      <?= $comprob->fecha ?>
                     </td>
-                    <td class="columna-hidden">
-                      <?= $comp->id_ff ?>
+                    <td>
+                      <?= $comprob->ruc ?>
                     </td>
-                    <td class="columna-hidden">
-                      <?= $comp->obl ?>
+                    <td>
+                      <?= $comprob->razon_social ?>
                     </td>
-                    <td class="columna-hidden">
-                      <?= $comp->str ?>
+                    <td>
+                      <?= $comprob->concepto ?>
                     </td>
-                    <td class="columna-hidden">
-                      <?= $comp->op ?>
-                    </td>
+
                   </tr>
                 <?php endforeach; ?>
               </tbody>
@@ -505,14 +496,13 @@
     </div>
 
     <script>
-      function selectComp(IDComprobanteGasto, fecha, concepto, monto, obl, str, op) {
-        document.getElementById('idcomprobante').value = IDComprobanteGasto;
-        document.getElementById('fechaT').value = fecha;
+      function selectComp(id_unidad, fecha, ruc, razon_social, concepto, monto, str) {
+        document.getElementById('fecha').value = fecha;
+        document.getElementById('ruc').value = ruc;
+        document.getElementById('razon_social').value = razon_social;
         document.getElementById('concepto').value = concepto;
-        document.getElementById('monto').value = monto;
-        document.getElementById('obl').value = obl;
+        document.getElementById('monto').value = Debe;
         document.getElementById('str').value = str;
-        document.getElementById('op').value = op;
       }
     </script>
 

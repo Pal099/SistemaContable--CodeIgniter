@@ -151,9 +151,12 @@ class Proveedores extends MY_Controller {
 		
 	}
 	
-	public function view($id){
+	public function view($id_uni_respon_usu){
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data  = array(
-			'proveedor' => $this->Proveedores_model->getProveedor($id), 
+			'proveedor' => $this->Proveedores_model->getProveedor($id_uni_respon_usu), 
 		);
 		$this->load->view("admin/proveedores/view",$data);
 	}

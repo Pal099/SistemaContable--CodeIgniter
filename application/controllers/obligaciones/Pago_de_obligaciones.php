@@ -21,7 +21,8 @@ class Pago_de_obligaciones extends CI_Controller
 	}
 
 
-	public function index()	{
+	public function index()
+	{
 		//Con la libreria Session traemos los datos del usuario
 		//Obtenemos el nombre que nos va servir para obtener su id
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -62,7 +63,19 @@ class Pago_de_obligaciones extends CI_Controller
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-		$data = array(
+		// Obtener el último valor de num_asi filtrado por unidad académica
+		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
+
+		// Verificar si hay registros y calcular el próximo número
+		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null) {
+			$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
+		} else {
+			// Si no hay registros, iniciar en 1
+			$data['numero_siguiente'] = 1;
+		}
+
+		// Agregar el resto de los datos necesarios
+		$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
 			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
 			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
@@ -70,7 +83,7 @@ class Pago_de_obligaciones extends CI_Controller
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
-		);
+		));
 
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -78,8 +91,8 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/footer");
 	}
 
-	public function store()	{
-		header('Access-Control-Allow-Origin: *');
+	public function store()
+	{
 		$datosCompletos = $this->input->post('datos');
 		$datosFormulario = $datosCompletos['datosFormulario'];
 		var_dump($datosFormulario);
@@ -155,7 +168,7 @@ class Pago_de_obligaciones extends CI_Controller
 				'id_form' => "2",
 				'estado_registro' => "1",
 			);
-			
+
 
 			$this->Diario_obli_model->updateSumaMonto($id_num_asi, $suma_monto, $proveedor_id);
 
@@ -233,7 +246,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-	
+
 		// Obtener datos de las tablas requeridas para los datos
 		$asiento = $this->Editar_Movimientos_model->GetAsientoEditar($id);
 		$proveedores = $this->Proveedores_model->getProveedores($id_uni_respon_usu);
@@ -241,7 +254,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$fuente_de_financiamiento = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
 		$origen_de_financiamiento = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
 		$cuentacontables = $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu);
-	
+
 		// Buscamos los datos corresponiendentes de las tablas para facilidad de su manejo
 		$proveedorEncontrado = null;
 		foreach ($proveedores as $proveedor) {
@@ -269,21 +282,21 @@ class Pago_de_obligaciones extends CI_Controller
 		// Agregar datos al array $data
 		$data = array(
 			'asiento' => $asiento,
-			'proveedor' => $proveedorEncontrado, 
+			'proveedor' => $proveedorEncontrado,
 			'programa' => $programas,
 			'fuente_de_financiamiento' => $fuente_de_financiamiento,
 			'origen_de_financiamiento' => $origen_de_financiamiento,
 			'cuentacontable' => $cuentacontables,
 			'proveedoresALL' => $proveedores,
 		);
-	
+
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobliedit", $data);
 		$this->load->view("layouts/footer");
 	}
 
- 
+
 	public function update()
 	{
 		header('Access-Control-Allow-Origin: *');
@@ -325,7 +338,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$filasMonto = $datosCompletos['filas'];
 		foreach ($filasMonto as $fila) {
 			if (!empty($fila['Debe'])) {
-				$debe = $fila['Debe']; 
+				$debe = $fila['Debe'];
 				$MontoTotal += floatval($debe);
 			}
 		}
@@ -333,7 +346,7 @@ class Pago_de_obligaciones extends CI_Controller
 		$op = $datosFormulario['op'];
 
 		//Funcion de eliminacion logica
-		if ($filasEliminadas){
+		if ($filasEliminadas) {
 			//Se elimina solo si el usuario le dio al boton borrar y guardar
 			foreach ($filasEliminadas as $idNumAsiDeta) {
 				// Se realiza la operación de borrado lógico para cada IDNum_Asi_Deta
@@ -359,60 +372,60 @@ class Pago_de_obligaciones extends CI_Controller
 			$this->Editar_Movimientos_model->actualizar_num_asi($IDNum_Asi, $dataNum_Asi);
 
 			//Acá el codigo para actualizar num_asi_deta
-				if ($this->input->is_ajax_request()) {
-						$filas = $datosCompletos['filas'];
-						foreach ($filas as $fila) {
-							/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
-							debemos de agregarlo como un registro nuevo */
-							if (!isset($fila['IDNum_Asi_Deta'])) {
-								$Num_Asi_IDNum_Asi = $IDNum_Asi;
-								$dataInsertar = array(
-									'MontoPago' => $fila['Haber'],
-									'Debe' => $fila['Debe'],
-									'Haber' => $fila['Haber'],
-									'detalles' => $fila['detalles'],
-									'numero' => $numero,
-									'Comprobante' => $fila['Comprobante'],
-									'id_of' => $fila['id_of'],	
-									'id_pro' => $fila['id_pro'],
-									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentaContable'],
-									'cheques_che_id' => $fila['cheques_che_id'],
-									'proveedores_id' => $proveedor_id,
-									'numero' => $num_asi,
-									'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
-									'estado_registro' => 1,
-								);
-								$this->Editar_Movimientos_model->update_num_asi_deta_fila_nueva($dataInsertar);
-							}else{
-								//Obtenemos el valor del id para poder actualizar los datos
-								$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
-								//Creamos el array de los datos que se actualizaran
-								$dataActualizar = array(
-									'MontoPago' => $fila['Haber'],
-									'Debe' => $fila['Debe'],
-									'Haber' => $fila['Haber'],
-									'detalles' => $fila['detalles'],
-									'numero' => $numero,
-									'Comprobante' => $fila['Comprobante'],
-									'id_of' => $fila['id_of'],	
-									'id_pro' => $fila['id_pro'],
-									'id_ff' => $fila['id_ff'],
-									'IDCuentaContable' => $fila['IDCuentaContable'],
-									'cheques_che_id' => $fila['cheques_che_id'],
-									'proveedores_id' => $proveedor_id,
-								);	
-								$this->Editar_Movimientos_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
-							}
-	
-						}
-						exit();
-				} else {
-					// Esta lógica se ejecutará si la solicitud no es AJAX
-					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
-					echo 'Esta no es una solicitud AJAX';
-				}		
-		} 
+			if ($this->input->is_ajax_request()) {
+				$filas = $datosCompletos['filas'];
+				foreach ($filas as $fila) {
+					/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
+										 debemos de agregarlo como un registro nuevo */
+					if (!isset($fila['IDNum_Asi_Deta'])) {
+						$Num_Asi_IDNum_Asi = $IDNum_Asi;
+						$dataInsertar = array(
+							'MontoPago' => $fila['Haber'],
+							'Debe' => $fila['Debe'],
+							'Haber' => $fila['Haber'],
+							'detalles' => $fila['detalles'],
+							'numero' => $numero,
+							'Comprobante' => $fila['Comprobante'],
+							'id_of' => $fila['id_of'],
+							'id_pro' => $fila['id_pro'],
+							'id_ff' => $fila['id_ff'],
+							'IDCuentaContable' => $fila['IDCuentaContable'],
+							'cheques_che_id' => $fila['cheques_che_id'],
+							'proveedores_id' => $proveedor_id,
+							'numero' => $num_asi,
+							'Num_Asi_IDNum_Asi' => $Num_Asi_IDNum_Asi,
+							'estado_registro' => 1,
+						);
+						$this->Editar_Movimientos_model->update_num_asi_deta_fila_nueva($dataInsertar);
+					} else {
+						//Obtenemos el valor del id para poder actualizar los datos
+						$IDNum_Asi_Deta = $fila['IDNum_Asi_Deta'];
+						//Creamos el array de los datos que se actualizaran
+						$dataActualizar = array(
+							'MontoPago' => $fila['Haber'],
+							'Debe' => $fila['Debe'],
+							'Haber' => $fila['Haber'],
+							'detalles' => $fila['detalles'],
+							'numero' => $numero,
+							'Comprobante' => $fila['Comprobante'],
+							'id_of' => $fila['id_of'],
+							'id_pro' => $fila['id_pro'],
+							'id_ff' => $fila['id_ff'],
+							'IDCuentaContable' => $fila['IDCuentaContable'],
+							'cheques_che_id' => $fila['cheques_che_id'],
+							'proveedores_id' => $proveedor_id,
+						);
+						$this->Editar_Movimientos_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
+					}
+
+				}
+				exit();
+			} else {
+				// Esta lógica se ejecutará si la solicitud no es AJAX
+				// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
+				echo 'Esta no es una solicitud AJAX';
+			}
+		}
 	}
 
 
@@ -431,9 +444,9 @@ class Pago_de_obligaciones extends CI_Controller
 	public function delete($id)
 	{
 		$data = array(
-			'estado_bd' => "0",
+			'estado_registro' => "0",
 		);
-		$this->Pago_obli_model->update($id, $data);
-		echo "obligaciones/pago_de_obligaciones";
+		$this->Diario_obli_model->update($id, $data);
+		return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
 	}
 }
