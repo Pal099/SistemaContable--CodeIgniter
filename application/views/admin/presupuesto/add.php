@@ -137,7 +137,8 @@
                                                         <input type="text" class="form-control" id="TotalVigente"
                                                             disabled>
                                                     </div>
-                                                    <!-- Campos de los meses -->
+                                                    <!-- Campos solo para los meses -->
+
                                                     <div class="collapse mt-4 show" id="camposMesesCollapse">
                                                         <?php
                                                         $meses = [
@@ -154,19 +155,18 @@
                                                             'nov' => 'Noviembre',
                                                             'dic' => 'Diciembre'
                                                         ];
-
+                                                    
                                                         foreach ($meses as $key => $mes): ?>
                                                             <div class="form-group">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <label for="monto_<?= $key ?>">Presupuesto
-                                                                            <?= $mes ?>:</label>
+                                                                        <label for="monto_<?= $key ?>">Plan Financiero <?= $mes ?>:</label>
                                                                         <input type="text"
                                                                             class="form-control number-separator"
                                                                             id="monto_<?= $key ?>"
                                                                             name="montos_mensuales[<?= $key ?>]"
                                                                             data-mes="<?= $key ?>"
-                                                                            placeholder="Ingrese el monto para <?= $mes ?>">
+                                                                            placeholder="Ingrese el Plan Financiero para <?= $mes ?>">
                                                                     </div>
                                                                 </div>
                                                             </div>

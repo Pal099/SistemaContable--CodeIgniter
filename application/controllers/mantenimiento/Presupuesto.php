@@ -66,7 +66,7 @@ class Presupuesto extends CI_Controller
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-
+    
         // Validar formulario (sin regex)
         $this->form_validation->set_rules('Año', 'Año', 'required|valid_date');
         $this->form_validation->set_rules('Idcuentacontable', 'Cuenta Contable', 'required|numeric');
@@ -75,53 +75,55 @@ class Presupuesto extends CI_Controller
         $this->form_validation->set_rules('fuente_de_financiamiento_id_ff', 'Fuente Financiamiento', 'required|numeric');
         $this->form_validation->set_rules('TotalPresupuestado', 'Presupuesto Inicial', 'required|numeric');
         $this->form_validation->set_rules('TotalModificado', 'Presupuesto Modificado', 'required|numeric');
-
-        $montos_raw = $this->input->post("montos_mensuales") ?: [];
-
+    
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url() . "mantenimiento/presupuesto/add");
         }
-
+    
         // Procesar fecha
         $fecha = DateTime::createFromFormat('Y-m-d', $this->input->post('Año'));
         if (!$fecha) {
             $this->session->set_flashdata('error', 'Formato de fecha inválido');
             redirect(base_url() . "mantenimiento/presupuesto/add");
         }
-
-        // Procesar montos principales (segunda capa de limpieza)
-        $total_presupuestado = (float) preg_replace('/[^0-9]/', '', $this->input->post('TotalPresupuestado'));
-        $total_modificado = (float) preg_replace('/[^0-9]/', '', $this->input->post('TotalModificado'));
-
+    
         // Procesar montos mensuales
-        $montos_mensuales = $this->procesarMontos($montos_raw);
-
+        $montos_mensuales = $this->input->post("montos_mensuales") ?: [];
+    
+        // Validar montos mensuales
+        foreach ($montos_mensuales as $monto) {
+            if (!is_numeric($monto)) {
+                $this->session->set_flashdata('error', 'Todos los montos mensuales deben ser números válidos');
+                redirect(base_url() . "mantenimiento/presupuesto/add");
+            }
+        }
+    
         // Validar al menos un monto mensual positivo
         if (array_sum($montos_mensuales) <= 0) {
             $this->session->set_flashdata('error', 'Debe ingresar al menos un monto mensual válido');
             redirect(base_url() . "mantenimiento/presupuesto/add");
         }
-
+    
         // Datos del presupuesto
         $presupuesto_data = array(
             'Año' => $fecha->format('Y-m-d'),
             'Idcuentacontable' => $this->input->post("Idcuentacontable"),
-            'TotalPresupuestado' => $total_presupuestado,
-            'TotalModificado' => $total_modificado,
+            'TotalPresupuestado' => $this->input->post('TotalPresupuestado'),
+            'TotalModificado' => $this->input->post('TotalModificado'),
             'origen_de_financiamiento_id_of' => $this->input->post("origen_de_financiamiento_id_of"),
             'programa_id_pro' => $this->input->post("programa_id_pro"),
             'fuente_de_financiamiento_id_ff' => $this->input->post("fuente_de_financiamiento_id_ff"),
             'id_uni_respon_usu' => $id_uni_respon_usu,
             'estado' => 1
         );
-
+    
         if ($this->Presupuesto_model->save($presupuesto_data, $montos_mensuales)) {
             $this->session->set_flashdata('success', 'Presupuesto creado exitosamente');
         } else {
             $this->session->set_flashdata('error', 'Error al guardar el presupuesto');
         }
-
+    
         redirect(base_url() . "mantenimiento/presupuesto");
     }
 
@@ -144,15 +146,7 @@ class Presupuesto extends CI_Controller
         ];
     }
 
-    private function procesarMontos($montos_raw)
-    {
-        $montos_procesados = [];
-        foreach ($montos_raw as $mes => $valor) {
-            $valor_limpio = preg_replace('/[^0-9]/', '', $valor);  // Elimina todo excepto números
-            $montos_procesados[$mes] = is_numeric($valor_limpio) ? (int) $valor_limpio : 0;
-        }
-        return $montos_procesados;
-    }
+
     public function edit($id)
     {
 
