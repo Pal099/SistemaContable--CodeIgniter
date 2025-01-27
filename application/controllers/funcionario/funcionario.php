@@ -36,7 +36,7 @@ class Funcionario extends CI_Controller {
 		);
 
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/funcionarios/list",$data);
 		$this->load->view("layouts/footer");
 
@@ -52,7 +52,7 @@ class Funcionario extends CI_Controller {
 			'dependencia' => $this->Funcionarios_model->getDependencias(),
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/funcionarios/add",$data);
 		$this->load->view("layouts/footer");
 	}
@@ -97,7 +97,7 @@ class Funcionario extends CI_Controller {
 			'gastos' => $this->Programa_model->getProgramGasto($id), 
 		);
 		$this->load->view("layouts/header");
-		$this->load->view("layouts/aside");
+		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/progasto/editprogasto",$data);
 		$this->load->view("layouts/footer");
 	}
