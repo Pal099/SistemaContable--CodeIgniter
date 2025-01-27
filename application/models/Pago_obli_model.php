@@ -74,7 +74,6 @@ public function guardarNuevoRegistro() {
 	return $op_actual + 1;
 }
 
-
 public function getIdNumAsiByProveedor($id_proveedor) {
 	$this->db->select('IDNum_Asi');
 	$this->db->where('id_provee', $id_proveedor);
