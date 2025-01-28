@@ -46,7 +46,9 @@
                         </div>
                     </div><!-- End Tarjeta de pagados en el mes -->
                 </div>
+                
             </div><!-- Fin de las columnas izquierdas -->
         </div>
+        
     </section>
 </main>

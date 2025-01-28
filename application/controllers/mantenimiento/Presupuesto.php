@@ -40,7 +40,7 @@ class Presupuesto extends CI_Controller
 			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
 			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
 			//'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
 		);
 
 		$this->load->view("layouts/header");
@@ -62,10 +62,10 @@ class Presupuesto extends CI_Controller
     $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
     $data = array(
         'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
-        'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
-        'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
-        'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
-        'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
+        'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
+        'origen' => $this->Origen_model->getOrigenes(),
+        'programa' => $this->ProgramGasto_model->getProgramGastos(),
+        'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
     );
 
     $this->load->view("layouts/header");
@@ -76,56 +76,77 @@ class Presupuesto extends CI_Controller
 
 public function store()
 {
+    // Obtener el nombre de usuario y sus datos relacionados
     $nombre = $this->session->userdata('Nombre_usuario');
     $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
     $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-    // Datos del presupuesto
-    $presupuesto_data = array(
-        'Año' => $this->input->post("Año"),
-        'Idcuentacontable' => $this->input->post("Idcuentacontable"),
-        'TotalPresupuestado' => $this->input->post("TotalPresupuestado"),
-        'origen_de_financiamiento_id_of' => $this->input->post("origen_de_financiamiento_id_of"),
-        'programa_id_pro' => $this->input->post("programa_id_pro"),
-        'fuente_de_financiamiento_id_ff' => $this->input->post("fuente_de_financiamiento_id_ff"),
-        'TotalModificado' => $this->input->post("TotalModificado"),
-        'pre_ene' => $this->input->post("pre_ene"),
-        'pre_feb' => $this->input->post("pre_feb"),
-        'pre_mar' => $this->input->post("pre_mar"),
-        'pre_abr' => $this->input->post("pre_abr"),
-        'pre_may' => $this->input->post("pre_may"),
-        'pre_jun' => $this->input->post("pre_jun"),
-        'pre_jul' => $this->input->post("pre_jul"),
-        'pre_ago' => $this->input->post("pre_ago"),
-        'pre_sep' => $this->input->post("pre_sep"),
-        'pre_oct' => $this->input->post("pre_oct"),
-        'pre_nov' => $this->input->post("pre_nov"),
-        'pre_dic' => $this->input->post("pre_dic"),
-        'id_uni_respon_usu' => $id_uni_respon_usu,
-        'estado' => "1"
-    );
+    // Recibir los datos del formulario
+	$id = $this->input->post("ID_Presupuesto");
+	$año = $this->input->post("Año");
+    $totalpresupuestado = $this->input->post("TotalPresupuestado");
+    $origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
+    $programa_id_pro = $this->input->post("programa_id_pro");
+    $fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
+    $TotalModificado = $this->input->post("TotalModificado");
+    $Idcuentacontable = $this->input->post("Idcuentacontable");
 
-    // Datos del plan financiero
-    $plan_financiero_data = array(
-        'Fecha' => $this->input->post("Año"),
-        'sal_ene' => $this->input->post("sal_ene") !== '' ? $this->input->post("sal_ene") : NULL,
-        'sal_feb' => $this->input->post("sal_feb") !== '' ? $this->input->post("sal_feb") : NULL,
-        'sal_mar' => $this->input->post("sal_mar") !== '' ? $this->input->post("sal_mar") : NULL,
-        'sal_abr' => $this->input->post("sal_abr") !== '' ? $this->input->post("sal_abr") : NULL,
-        'sal_may' => $this->input->post("sal_may") !== '' ? $this->input->post("sal_may") : NULL,
-        'sal_jun' => $this->input->post("sal_jun") !== '' ? $this->input->post("sal_jun") : NULL,
-        'sal_jul' => $this->input->post("sal_jul") !== '' ? $this->input->post("sal_jul") : NULL,
-        'sal_ago' => $this->input->post("sal_ago") !== '' ? $this->input->post("sal_ago") : NULL,
-        'sal_sep' => $this->input->post("sal_sep") !== '' ? $this->input->post("sal_sep") : NULL,
-        'sal_oct' => $this->input->post("sal_oct") !== '' ? $this->input->post("sal_oct") : NULL,
-        'sal_nov' => $this->input->post("sal_nov") !== '' ? $this->input->post("sal_nov") : NULL,
-        'sal_dic' => $this->input->post("sal_dic") !== '' ? $this->input->post("sal_dic") : NULL,
-        'id_user' => $id_user
-    );
+    // Datos generales del presupuesto
+    $presupuesto_data = [
+        'Año' => $año,
+        'TotalPresupuestado' => $totalpresupuestado,
+        'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
+        'programa_id_pro' => $programa_id_pro,
+        'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
+        'TotalModificado' => $TotalModificado,
+        'Idcuentacontable' => $Idcuentacontable,
+        'id_uni_respon_usu' => $id_uni_respon_usu, // Relacionado con el usuario
+        'estado' => 1, // Estado activo por defecto
+    ];
 
-    if ($this->Presupuesto_model->save($presupuesto_data, $plan_financiero_data)) {
+    // Guardar en la tabla `presupuestos` y obtener el ID generado
+    if ($this->Presupuesto_model->save($presupuesto_data)) {
+		$id = $this->input->post("ID_Presupuesto");
+
+        // Relación de los meses con los valores ingresados
+        $meses = [
+            'Enero' => $this->input->post("pre_ene"),
+            'Febrero' => $this->input->post("pre_feb"),
+            'Marzo' => $this->input->post("pre_mar"),
+            'Abril' => $this->input->post("pre_abr"),
+            'Mayo' => $this->input->post("pre_may"),
+            'Junio' => $this->input->post("pre_jun"),
+            'Julio' => $this->input->post("pre_jul"),
+            'Agosto' => $this->input->post("pre_ago"),
+            'Septiembre' => $this->input->post("pre_sep"),
+            'Octubre' => $this->input->post("pre_oct"),
+            'Noviembre' => $this->input->post("pre_nov"),
+            'Diciembre' => $this->input->post("pre_dic"),
+        ];
+
+        // Guardar los presupuestos mensuales que tengan valores no vacíos
+        foreach ($meses as $mes => $monto) {
+            if (!empty($monto)) {
+                $presupuesto_mensual_data = [
+                    'id_presupuesto' => $id, // Clave foránea
+                    'mes' => $mes,
+                    'monto_presupuestado' => $monto,
+                    'monto_modificado' => $TotalModificado, // Valor inicial del monto modificado
+                ];
+                $this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data);
+            }
+        }
+		if (!$this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data)) {
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('error', 'Error al guardar los presupuestos mensuales.');
+			redirect(base_url() . "mantenimiento/presupuesto/add");
+		}
+		
+
+        // Redirigir con éxito
         redirect(base_url() . "mantenimiento/presupuesto");
     } else {
+        // Redirigir a la vista de agregar con error
         redirect(base_url() . "mantenimiento/presupuesto/add");
     }
 }
@@ -137,11 +158,11 @@ public function store()
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
 			'presupuesto' => $this->Presupuesto_model->getPresupuesto($id),
-			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
-			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
-			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
-			'plan_financiero' => $this->Presupuesto_model->getPlanFinanciero($id_uni_respon_usu) // Añadido
+			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
+			'origen' => $this->Origen_model->getOrigenes(),
+			'programa' => $this->ProgramGasto_model->getProgramGastos(),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
+			'plan_financiero' => $this->Presupuesto_model->getPlanFinanciero() // Añadido
 
 		);
 		$this->load->view("layouts/header");
@@ -214,10 +235,10 @@ public function store()
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data = array(
 			'presupuestos' => $this->Presupuesto_model->getPresupuesto($id),
-			'registros_financieros' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
-			'origen' => $this->Origen_model->getOrigenes($id_uni_respon_usu),
-			'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
-			'cuentacontable' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
+			'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
+			'origen' => $this->Origen_model->getOrigenes(),
+			'programa' => $this->ProgramGasto_model->getProgramGastos(),
+			'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
 		);
 		$this->load->view("admin/presupuesto/view", $data);
 	}

@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet">
-  
+
 
   <!-- jquery -->
   <script src="<?php echo base_url(); ?>/assets/DataTables/jquery/jquery-3.7.1.min.js"></script>
@@ -79,6 +79,17 @@
             <hr class="dropdown-divider">
           </li>
 
+           <!-- Nueva opción para el Modo Oscuro -->
+    <li>
+        <a id="darkModeToggle" class="dropdown-item d-flex align-items-center" href="#">
+            <i class="bi bi-moon"></i>
+            <span>Modo Oscuro</span>
+        </a>
+    </li>
+    <li>
+        <hr class="dropdown-divider">
+    </li>
+
           <li>
             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
               <i class="bi bi-person"></i>
@@ -122,4 +133,38 @@
     </ul>
   </nav><!-- End Icons Navigation -->
 
+
+
 </header><!-- End Header -->
+
+
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    // Evento de clic para alternar el modo oscuro
+    darkModeToggle.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+
+        // Cambiar el texto de la opción
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        darkModeToggle.innerHTML = `
+            <i class="bi ${isDarkMode ? 'bi-sun' : 'bi-moon'}"></i>
+            <span>${isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
+        `;
+
+        // Guardar preferencia en localStorage
+        localStorage.setItem('darkMode', isDarkMode);
+    });
+
+    // Cargar la preferencia del usuario
+    window.addEventListener('load', function () {
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = `
+                <i class="bi bi-sun"></i>
+                <span>Modo Claro</span>
+            `;
+        }
+    });
+</script>

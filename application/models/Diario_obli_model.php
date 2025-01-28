@@ -248,37 +248,9 @@ public function getUsuarioId($nombre){
 		return $this->db->update("proveedores",$data);
 	}
 
-	public function getProgramGastos($id_uni_respon_usu) {
-		$this->db->select('programa.*');
-		$this->db->from('programa');
-		$this->db->join('uni_respon_usu', 'programa.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('programa.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		
-		$resultados = $this->db->get();
-		return $resultados->result();
-	}
 	
-	public function getFuentes($id_uni_respon_usu) {
-		$this->db->select('fuente_de_financiamiento.*');
-		$this->db->from('fuente_de_financiamiento');
-		$this->db->join('uni_respon_usu', 'fuente_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('fuente_de_financiamiento.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		$resultados = $this->db->get();
-		return $resultados->result();
-	}
 	
-	public function getOrigenes($id_uni_respon_usu) {
-		$this->db->select('origen_de_financiamiento.*');
-		$this->db->from('origen_de_financiamiento');
-		$this->db->join('uni_respon_usu', 'origen_de_financiamiento.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
-		$this->db->where('origen_de_financiamiento.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-		
-		$resultados = $this->db->get();
-		return $resultados->result();
-	}
+	
 
    
     public function getCuentasContables(){
@@ -310,19 +282,49 @@ public function getUsuarioId($nombre){
 	//Para el Selectcc, es decir, el primer modal del DEBE
 
 	public function getCuentaContable() {
-		$this->db->select('pre.TotalPresupuestado, ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
-		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
-		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
-		$this->db->join('plan_financiero', 'pre.id_pf_fk = plan_financiero.ID_PF');
-		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
-		$this->db->join('origen_de_financiamiento of', 'of.id_of = pre.origen_de_financiamiento_id_of');
+		$this->db->select('cuentacontable.IDCuentaContable, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
 
-	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
 	public function getCuentaContable2() {
-		$this->db->select('pre.TotalPresupuestado,ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
+		$this->db->select("
+			pre.TotalPresupuestado,
+			pre.pre_ene,
+			pre.pre_feb,
+			pre.pre_mar,
+			pre.pre_abr,
+			pre.pre_may,
+			pre.pre_jun, 
+			pre.pre_jul,
+			pre.pre_ago,
+			pre.pre_sep,
+			pre.pre_oct,
+			pre.pre_nov,
+			pre.pre_dic,
+			ff.nombre as nombre_ff,
+			of.nombre as nombre_of,
+			of.codigo as codigo_of,
+			ff.codigo as codigo_ff,
+			cuentacontable.Codigo_CC,
+			cuentacontable.Descripcion_CC,
+			pre.IDCuentaContable,
+			CONCAT(
+				IF(pre_ene > 0, 'Enero', ''),
+				IF(pre_feb > 0, 'Febrero', ''),
+				IF(pre_mar > 0, 'Marzo', ''),
+				IF(pre_abr > 0, 'Abril', ''),
+				IF(pre_may > 0, 'Mayo', ''),
+				IF(pre_jun > 0, 'Junio', ''),
+				IF(pre_jul > 0, 'Julio', ''),
+				IF(pre_ago > 0, 'Agosto', ''),
+				IF(pre_sep > 0, 'Septiembre', ''),
+				IF(pre_oct > 0, 'Octubre', ''),
+				IF(pre_nov > 0, 'Noviembre', ''),
+				IF(pre_dic > 0, 'Diciembre', '')
+			) AS meses_presupuesto
+		"); // Selecciona los meses con presupuesto
+	
 		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
 		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
 		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
@@ -330,6 +332,7 @@ public function getUsuarioId($nombre){
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
+	
 
 	public function getDiarios_obli() {
 		$this->db->select('proveedores.id as id_provee, programa.nombre as nombre_programa, fuente_de_financiamiento.nombre as nombre_fuente, origen_de_financiamiento.nombre as nombre_origen, cuentacontable.CodigoCuentaContable as Codigocuentacontable ,cuentacontable.DescripcionCuentaContable as Desccuentacontable ,');		

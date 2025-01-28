@@ -110,18 +110,19 @@ public function obtener_unidades_academicas() {
         //Acá obtenemos el id de la tabla id_uni_respon_usu  mediante el id del usuario
         public function getUserIdUniResponByUserId($id_user) {
             $this->db->select('unidad_academica.id_unidad');
-            $this->db->from('unidad_academica');
-            $this->db->join('usuarios', 'unidad_academica.id_unidad = usuarios.id_unidad');
-            $this->db->where('unidad_academica.id_unidad', $id_user);
+            $this->db->from('uni_respon_usu');
+            $this->db->join('usuarios', 'usuarios.id_user = uni_respon_usu.id_user');
+            $this->db->join('unidad_academica', 'uni_respon_usu.id_unidad = unidad_academica.id_unidad');
+            $this->db->where('usuarios.id_user', $id_user); // Ajustar según el nombre real de tu campo de usuario
             $query = $this->db->get();
         
             if ($query->num_rows() > 0) {
-                $row = $query->row();
-                return $row->id_unidad;
+                return $query->row()->id_unidad; // Retorna directamente el ID de la unidad académica
             } else {
-                return false;
+                return false; // No se encontró una unidad académica para el usuario
             }
         }
+        
 
          //Acá obtenemos el id de la tabla id_uni_respon_usu  mediante el id del usuario
          public function getUnidad_academica($id_unidad) {
