@@ -82,8 +82,7 @@ public function store()
     $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
     // Recibir los datos del formulario
-	$id = $this->input->post("ID_Presupuesto");
-	$año = $this->input->post("Año");
+    $año = $this->input->post("Año");
     $totalpresupuestado = $this->input->post("TotalPresupuestado");
     $origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
     $programa_id_pro = $this->input->post("programa_id_pro");
@@ -100,14 +99,17 @@ public function store()
         'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
         'TotalModificado' => $TotalModificado,
         'Idcuentacontable' => $Idcuentacontable,
-        'id_uni_respon_usu' => $id_uni_respon_usu, // Relacionado con el usuario
+        'id_uni_respon_usu' => $id_uni_respon_usu,
         'estado' => 1, // Estado activo por defecto
     ];
 
-    // Guardar en la tabla `presupuestos` y obtener el ID generado
-    if ($this->Presupuesto_model->save($presupuesto_data)) {
-		$id = $this->input->post("ID_Presupuesto");
+    // Iniciar transacción
+    $this->db->trans_start();
 
+    // Guardar en la tabla `presupuestos` y obtener el ID generado
+    $id_presupuesto = $this->Presupuesto_model->insertar_presupuesto($presupuesto_data);
+
+    if ($id_presupuesto) {
         // Relación de los meses con los valores ingresados
         $meses = [
             'Enero' => $this->input->post("pre_ene"),
@@ -124,32 +126,40 @@ public function store()
             'Diciembre' => $this->input->post("pre_dic"),
         ];
 
-        // Guardar los presupuestos mensuales que tengan valores no vacíos
+        // Guardar los presupuestos mensuales
         foreach ($meses as $mes => $monto) {
             if (!empty($monto)) {
                 $presupuesto_mensual_data = [
-                    'id_presupuesto' => $id, // Clave foránea
-                    'mes' => $mes,
-                    'monto_presupuestado' => $monto,
-                    'monto_modificado' => $TotalModificado, // Valor inicial del monto modificado
+                    'id_presupuesto' => $id_presupuesto, // Clave foránea
+                    'mes' => $mes, // Nombre del mes
+                    'monto_presupuestado' => $monto, // Monto presupuestado
+                    'monto_modificado' => $TotalModificado, // Total modificado
                 ];
                 $this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data);
             }
         }
-		if (!$this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data)) {
-			$this->db->trans_rollback();
-			$this->session->set_flashdata('error', 'Error al guardar los presupuestos mensuales.');
-			redirect(base_url() . "mantenimiento/presupuesto/add");
-		}
-		
+    } else {
+        $this->db->trans_rollback();
+        $this->session->set_flashdata('error', 'Error al guardar el presupuesto.');
+        redirect(base_url() . "mantenimiento/presupuesto/add");
+        return;
+    }
 
-        // Redirigir con éxito
+    // Completar transacción
+    $this->db->trans_complete();
+
+    if ($this->db->trans_status()) {
+        // Éxito
+        $this->session->set_flashdata('success', 'Presupuesto guardado exitosamente.');
         redirect(base_url() . "mantenimiento/presupuesto");
     } else {
-        // Redirigir a la vista de agregar con error
+        // Error
+        $this->session->set_flashdata('error', 'Error al guardar el presupuesto.');
         redirect(base_url() . "mantenimiento/presupuesto/add");
     }
 }
+
+
 
 	public function edit($id)
 	{

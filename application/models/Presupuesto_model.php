@@ -32,10 +32,10 @@ class Presupuesto_model extends CI_Model {
     public function save($presupuesto_data){
         $this->db->trans_start();
         
-        // Guardar el presupuesto
+        //Guardar el presupuesto
         $this->db->insert("presupuestos", $presupuesto_data);
         $id_presupuesto = $this->db->insert_id(); // Obtener el ID del presupuesto recién insertado
-        
+
         $this->db->trans_complete();
         
         return $this->db->trans_status();
@@ -58,7 +58,7 @@ class Presupuesto_model extends CI_Model {
 
 	public function update($id, $data){
 		$this->db->where("id_presupuesto",$id);
-		return $this->db->update("presupuestos",$data);
+		return $this->db->update("pr2esupuestos",$data);
 	}
 
 
@@ -81,5 +81,33 @@ class Presupuesto_model extends CI_Model {
      {
          return $this->db->insert('presupuesto_mensual', $data);
      }
+
+     
+     
+     
+     
+     public function save_presupuesto_con_mensual($presupuesto_data, $presupuesto_mensual_data) {
+        $this->db->trans_start(); // Inicia la transacción
+    
+        // Insertar en la tabla `presupuestos`
+        $this->db->insert('presupuestos', $presupuesto_data);
+        $id_presupuesto = $this->db->insert_id(); // Obtener el ID del presupuesto recién insertado
+    
+        // Agregar el `id_presupuesto` a los datos de `presupuesto_mensual`
+        foreach ($presupuesto_mensual_data as &$mensual) {
+            $mensual['id_presupuesto'] = $id_presupuesto;
+        }
+    
+        // Insertar en la tabla `presupuesto_mensual`
+        $this->db->insert_batch('presupuesto_mensual', $presupuesto_mensual_data);
+
+        return $this->db->insert('presupuestos_mensuales', $data);
+
+    
+        $this->db->trans_complete(); // Completa la transacción
+    
+        return $this->db->trans_status(); // Retorna el estado de la transacción
+    }
+    
      
 }
