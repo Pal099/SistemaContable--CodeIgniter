@@ -65,7 +65,7 @@ class Pago_de_obligaciones extends CI_Controller
 
 		// Obtener el último valor de num_asi filtrado por unidad académica
 		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
-
+	
 		// Verificar si hay registros y calcular el próximo número
 		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null) {
 			$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
@@ -73,7 +73,7 @@ class Pago_de_obligaciones extends CI_Controller
 			// Si no hay registros, iniciar en 1
 			$data['numero_siguiente'] = 1;
 		}
-
+	
 		// Agregar el resto de los datos necesarios
 		$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
@@ -141,7 +141,6 @@ class Pago_de_obligaciones extends CI_Controller
 		$monto_pago_anterior = $this->Diario_obli_model->getMontoPagoAnterior($proveedor_id);
 
 		$suma_monto = $nuevo_monto_pago + $monto_pago_anterior;
-		$estado = $this->Diario_obli_model->obtenerEstadoSegunSumaMonto($proveedor_id);
 
 
 		if ($proveedor_id) {
@@ -167,6 +166,8 @@ class Pago_de_obligaciones extends CI_Controller
 				'id_usuario_numasi' => $id_user, //necesita este valor para terminar de subir la tabla
 				'id_form' => "2",
 				'estado_registro' => "1",
+				'id_usuario_numasi' => $id_user,
+
 			);
 
 

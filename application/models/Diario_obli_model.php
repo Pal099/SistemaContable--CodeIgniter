@@ -31,7 +31,6 @@ class Diario_obli_model extends CI_Model {
 	}
 	
 
-
 	public function GETasientos($id_uni_respon_usu) {
 		$this->db->select('na.IDNum_Asi, na.FechaEmision, na.num_asi, na.op, na.str, na.estado_registro, p.razon_social, na.MontoTotal');
 		$this->db->from('num_asi na');
@@ -297,18 +296,6 @@ public function getUsuarioId($nombre){
     }
 
 
-
-	public function getC_C() {
-        $this->db->select('Codigo_CC, Descripcion_CC');
-        $this->db->from('cuentacontable');
-        $this->db->where('imputable', 2);
-        $resultados = $this->db->get();
-        echo json_encode($resultados->result());
-    }
-
-
-	
-
 	
 
 	//guardar asientos
@@ -331,17 +318,27 @@ public function getUsuarioId($nombre){
 	
 		return $this->db->trans_status();  // Devuelve TRUE si todo está OK o FALSE si hay algún fallo
 	}
-
+	
 	//Para el Selectcc, es decir, el primer modal del DEBE
+
 	public function getCuentaContable() {
+		$this->db->select('pre.TotalPresupuestado, ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
+		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
+		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->join('plan_financiero', 'pre.id_pf_fk = plan_financiero.ID_PF');
+		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
+		$this->db->join('origen_de_financiamiento of', 'of.id_of = pre.origen_de_financiamiento_id_of');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}
 
 	//Para el Selectcc2, es decir, el segundo modal del HABER para que solo nos muestre las cuentas con 4
 	public function getCuentaContable2() {
+		$this->db->select('pre.TotalPresupuestado,ff.nombre as nombre_ff, of.nombre as nombre_of, of.codigo as codigo_of, ff.codigo as codigo_ff, cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, pre.IDCuentaContable');
 		$this->db->like('Codigo_CC', '4', 'after'); // Filtrar donde el código comience con "4"
 		$this->db->join('presupuestos pre', 'pre.idcuentacontable = cuentacontable.IDCuentaContable');
+		$this->db->join('fuente_de_financiamiento ff', 'ff.id_ff = pre.fuente_de_financiamiento_id_ff');
+		$this->db->join('origen_de_financiamiento of', 'of.id_of = pre.origen_de_financiamiento_id_of');
 		$query = $this->db->get("cuentacontable");
 		return $query->result();
 	}

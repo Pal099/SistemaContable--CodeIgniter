@@ -3,13 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Comprobante_Gasto_model extends CI_Model {
 
-	public function getComprobantesGastos($id_user) {
+	public function getComprobantesGastos($id_uni_respon_usu) {
 		$this->db->select('comprobante_gasto.*, proveedores.*');
 		$this->db->from('comprobante_gasto');
-		$this->db->join('uni_respon_usu', 'comprobante_gasto.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
+		$this->db->join('unidad_academica', 'comprobante_gasto.id_uni_respon_usu = unidad_academica.id_unidad');
 		$this->db->join('proveedores', 'comprobante_gasto.idproveedor = proveedores.id');
 		$this->db->where('comprobante_gasto.estado', '1');
-		$this->db->where('uni_respon_usu.id_uni_respon_usu', $id_user);
+		$this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
 		
 		$resultados = $this->db->get();
 		return $resultados->result();

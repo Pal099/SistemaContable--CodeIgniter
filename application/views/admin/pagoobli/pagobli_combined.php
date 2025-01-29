@@ -109,7 +109,7 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                    <div class="form-group col-md-1 columna-hidden">
+                                                        <div class="form-group col-md-1 columna-hidden">
                                                             <label for="op" >N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
@@ -245,7 +245,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <input type="text"
                                                                             class="form-control small border-0 bg-transparent"
-                                                                            id="MontoPago" name="MontoPago" readonly>
+                                                                            id="" name="" readonly>
                                                                     </div>
                                                                 </td>
                                                                 <td class="columna-hidden">
@@ -1256,6 +1256,7 @@
 
     </main>
 
+ 
     <!-- Modal Lista de Obligaciones-->
     <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
         aria-hidden="true">
@@ -1274,9 +1275,10 @@
                                 <th>Razon Social</th>
                                 <th>Nro. asiento</th>
                                 <th>Fecha</th>
-                                <th hidden></th> <!-- Columna oculta -->
+                                <th>Concepto</th>
                                 <th>M. Pagado</th>
-                                <th>M. de Pago</th>
+                                <th>M. Total</th>
+                                <th>Suma del Pago</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
@@ -1285,22 +1287,61 @@
                                 <th>Origen</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
-                                <th hidden></th> <!-- Columna oculta -->
-                                <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
+                    <?php
+                        $registros_por_proveedor = array();
+
+                        foreach ($asientos as $asi) {
+                            $clave_proveedor = $asi->provee;
+
+                            $resta_montos = $asi->total - $asi->suma_monto;
+
+                            // Evalúa diferentes casos usando un switch
+                            switch (true) {
+                                case $asi->suma_monto == $asi->total && $resta_montos == 0:
+                                    break;
+
+                                case $asi->suma_monto < $asi->total && $resta_montos != 0 && $asi->id_form == 1:
+                                        agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+
+                                        break;
+
+                                        case $asi->suma_monto == 0 && $asi->total !=0 && $resta_montos != 0 && $asi->id_form == 1:
+                                            agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
+                            
+                                            break;
+                            }
+                        }
+
+                        function agregarRegistroProveedor(&$registros, $clave, $asi) {
+                            // Lógica adicional para verificar si el registro está pagado
+                            $resta_montos = $asi->total - $asi->suma_monto;
+                        
+                            // Verificar si SumaMonto y MontoTotal son iguales, y la resta es igual a 0
+                            if ($asi->suma_monto == $asi->total && $resta_montos == 0 && $asi->id_form==1) {
+                                // No agregar el registro si está pagado
+                                return;
+                            }
+                            // Verifica si ya existe un registro para este proveedor
+                            if (!isset($registros[$clave])) {
+                                $registros[$clave] = $asi;
+                            } 
+                        }
+                        ?>
+
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
                             <?php if (($asi->id_form == 1) && ($asi->Debe == 0)): ?>
                             <!-- hacemos que traiga solo obligaciones  -->
 
                             <tr class="list-item"
-                                onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
-                                        '<?= $asi->Debe ?>','<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
+                                onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
+                                        '<?= $asi->Debe ?>',  '<?= $asi->concepto ?>','<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasi ?>', '<?= $asi->total ?>')"
                                 data-bs-dismiss="modal">
                                 <td>
-                                    <?= $asientoN + 1 ?>
+                                    <?= $asi->id_numasi ?>
                                 </td>
                                 <td>
                                     <?= $asi->ruc_proveedor ?>
@@ -1309,13 +1350,13 @@
                                     <?= $asi->razso_proveedor ?>
                                 </td>
                                 <td>
-                                    <?= $asi->numero ?>
-                                </td>
-                                <td>
                                     <?= $asi->fecha ?>
                                 </td>
-                                <td hidden>
+                                <td>
                                     <?= $asi->concepto ?>
+                                </td>
+                                <td>
+                                    <?= $asi->numero ?>
                                 </td>
                                 <td>
                                     <?= $asi->pagado ?>
@@ -1323,14 +1364,13 @@
                                 <td>
                                     <?= $asi->total ?>
                                 </td>
-                                <td hidden>
-                                    <?= $asi->Debe ?>
-                                </td>
+                                <td><?= $asi->suma_monto ?></td>
+
                                 <td hidden>
                                     <?= $asi->Haber ?>
                                 </td>
                                 <td hidden>
-                                    <?= $asi->idcuenta ?> -
+                                    <?= $asi->IDCuentaContable ?> -
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
@@ -1351,9 +1391,6 @@
                                 </td>
                                 <td hidden>
                                     <?= $asi->cheques_che_id ?>
-                                </td>
-                                <td hidden>
-                                    <?= $asi->id_numasi ?>
                                 </td>
                             </tr>
                             <?php endif; ?>
@@ -1377,11 +1414,9 @@
         document.getElementById('ruc').value = ruc;
         document.getElementById('contabilidad').value = razonSocial;
         document.getElementById('fecha').value = fechas;
-        document.getElementById('concepto').value = concepto;
-        document.getElementById('Debe').value = haber;
-        document.getElementById('Haber').value = debes;
-        document.getElementById('MontoPago').value = montos;
-        document.getElementById('MontoTotal').value = montos;
+        document.getElementById('concepto').value = debes;
+        document.getElementById('Debe').value = concepto;
+        document.getElementById('MontoPago').value = concepto;
         document.getElementById('id_ff').value = fuentes;
         document.getElementById('id_pro').value = programas;
         document.getElementById('id_of').value = origens;
