@@ -133,36 +133,22 @@
                                                         </div>
                                                     </div>
                                                     <!-- Campos de los meses del presupuesto -->
+                                                    <!-- Campos de los meses del presupuesto -->
                                                     <div class="collapse mt-4" id="camposMesesCollapse">
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_ene">Presupuesto Enero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ene" name="pre_ene"
-                                                                        value="<?php echo $presupuesto->pre_ene ?>">
+                                                                    <input type="number" class="form-control" id="pre_ene" name="pre_ene"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Enero']) ? 
+                                                                    $presupuestos_mensuales['Enero'] : ''; ?>">
+
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_jul">Presupuesto Julio:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_jul" name="pre_jul"
-                                                                        value="<?php echo $presupuesto->pre_jul ?>">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_feb">Presupuesto Febrero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_feb" name="pre_feb"
-                                                                        value="<?php echo $presupuesto->pre_feb ?>">
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ago" name="pre_ago"
-                                                                        value="<?php echo $presupuesto->pre_ago ?>">
+                                                                    <input type="number" class="form-control" id="pre_jul" name="pre_jul"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Julio']) ? 
+                                                                    $presupuestos_mensuales['Julio'] : ''; ?>">
 
                                                                 </div>
                                                             </div>
@@ -170,83 +156,100 @@
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <label for="pre_mar">Presupuesto Marzo:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_mar" name="pre_mar"
-                                                                        value="<?php echo $presupuesto->pre_mar ?>">
+                                                                    <label for="pre_feb">Presupuesto Febrero:</label>
+                                                                    <input type="number" class="form-control" id="pre_feb" name="pre_feb"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Febrero']) ? 
+                                                                    $presupuestos_mensuales['Febrero'] : ''; ?>">
+
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_sep" name="pre_sep"
-                                                                        value="<?php echo $presupuesto->pre_sep ?>">
+                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
+                                                                    <input type="number" class="form-control" id="pre_ago" name="pre_ago"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Agosto']) ? 
+                                                                    $presupuestos_mensuales['Agosto'] : ''; ?>">
+
+
+                                                                </div>
+                                                        
+                                                    
+                                                        <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_mar">Presupuesto Marzo:</label>
+                                                                    <input type="number" class="form-control" id="pre_mar" name="pre_mar"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Marzo']) ? 
+                                                                    $presupuestos_mensuales['Marzo'] : ''; ?>">
+
                                                                 </div>
                                                             </div>
-                                                        </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_sep" name="pre_sep"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Septiembre']) ? 
+                                                                    $presupuestos_mensuales['Septiembre'] : ''; ?>">
+
+                                                                </div>
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_abr">Presupuesto Abril:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_abr" name="pre_abr"
-                                                                        value="<?php echo $presupuesto->pre_abr ?>">
+                                                                    <input type="number" class="form-control" id="pre_abr" name="pre_abr"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Abril']) ? 
+                                                                    $presupuestos_mensuales['Abril'] : ''; ?>">
+
+
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_oct">Presupuesto Octubre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_oct" name="pre_oct"
-                                                                        value="<?php echo $presupuesto->pre_oct ?>">
+                                                                    <input type="number" class="form-control" id="pre_oct" name="pre_oct"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Octubre']) ? 
+                                                                    $presupuestos_mensuales['Octubre'] : ''; ?>">
+
+
                                                                 </div>
-                                                            </div>
-                                                        </div>
+                                                          
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_may">Presupuesto Mayo:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_may" name="pre_may"
-                                                                        value="<?php echo $presupuesto->pre_may ?>">
+                                                                    <input type="number" class="form-control" id="pre_may" name="pre_may"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Mayo']) ? 
+                                                                    $presupuestos_mensuales['Mayo'] : ''; ?>">
+
+
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label for="pre_nov">Presupuesto Noviembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_nov" name="pre_nov"
-                                                                        value="<?php echo $presupuesto->pre_nov ?>">
+                                                                    <input type="number" class="form-control" id="pre_nov" name="pre_nov"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Noviembre']) ? 
+                                                                    $presupuestos_mensuales['Noviembre'] : ''; ?>">
+
+
                                                                 </div>
-                                                            </div>
-                                                        </div>
+                                                            
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_jun">Presupuesto Junio:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_jun" name="pre_jun"
-                                                                        value="<?php echo $presupuesto->pre_jun ?>">
+                                                                    <input type="number" class="form-control" id="pre_jun" name="pre_jun"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Junio']) ? 
+                                                                    $presupuestos_mensuales['Junio'] : ''; ?>">
+
                                                                 </div>
                                                                 <div class="col-md-6">
-                                                                    <label for="pre_dic">Presupuesto Diciembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_dic" name="pre_dic"
-                                                                        value="<?php echo $presupuesto->pre_dic ?>">
+                                                                    <label for="pre_dic">Presupuesto Diciembre: </label>
+                                                                    <input type="number" class="form-control" id="pre_dic" name="pre_dic"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Diciembre']) ? 
+                                                                    $presupuestos_mensuales['Diciembre'] : ''; ?>">
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <label for="sal_ene">Plan Financiero Enero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="sal_ene" name="sal_ene"
-                                                                        value="<?php echo $presupuesto->sal_ene ?>">
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="sal_jul">Plan Financiero Diciembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="sal_jul" name="sal_jul"
-                                                                        value="<?php echo $presupuesto->sal_jul ?>">
-                                                                </div>
-                                                            </div>
+                                                        
                                                         </div>
+                                                    </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>

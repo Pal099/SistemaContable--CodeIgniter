@@ -21,13 +21,6 @@ class Presupuesto_model extends CI_Model {
         return $resultados->result();
     }
 
-    public function getPlanFinanciero($id_uni_respon_usu) {
-        $this->db->select('*');
-        $this->db->from('plan_financiero');
-        $this->db->where('id_user', $id_uni_respon_usu);
-        $resultados = $this->db->get();
-        return $resultados->result();
-    }
 
     public function save($presupuesto_data){
         $this->db->trans_start();
@@ -56,11 +49,41 @@ class Presupuesto_model extends CI_Model {
 
 	}
 
+    public function getPresupuestosMensuales($id_presupuesto)
+    {
+        $this->db->where("id_presupuesto", $id_presupuesto);
+        $resultado = $this->db->get("presupuesto_mensual");
+    
+        $presupuestos_mensuales = array();
+        foreach ($resultado->result() as $row) {
+            $presupuestos_mensuales[$row->mes] = $row->monto_presupuestado;
+        }
+    
+        return $presupuestos_mensuales;
+    }
+    
+
+
 	public function update($id, $data){
-		$this->db->where("id_presupuesto",$id);
-		return $this->db->update("pr2esupuestos",$data);
+		$this->db->where("ID_Presupuesto",$id);
+		return $this->db->update("presupuestos",$data);
 	}
 
+
+    public function update_mes($id, $data){
+		$this->db->where("id_presupuesto_mes",$id);
+		return $this->db->update("presupuesto_mensual",$data);
+	}
+
+
+
+    public function getPresupuestoMensual($id_presupuesto, $mes)
+{
+    $this->db->where("id_presupuesto", $id_presupuesto);
+    $this->db->where("mes", $mes);
+    $query = $this->db->get("presupuesto_mensual");
+    return $query->row(); // Devuelve el registro si existe, o null si no
+}
 
 
     
