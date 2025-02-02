@@ -73,9 +73,13 @@
                                                                             <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>mantenimiento/CuentaContable/edit/<?php echo $cuentacontable->IDCuentaContable; ?>'">
                                                                                 <i class="bi bi-pencil-fill"></i>
                                                                             </button>
-                                                                            <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='#'" onclick="confirmDelete(<?php echo $cuentacontable->IDCuentaContable; ?>)">
-                                                                                <i class="bi bi-trash"></i>
-                                                                            </button>
+                                                                            <button 
+                                                                                        class="btn btn-danger btn-remove btn-sm" 
+                                                                                        onclick="confirmDelete(<?php echo $cuentacontable->IDCuentaContable; ?>)"
+                                                                                    >
+                                                                                        Eliminar
+                                                                                    </button>
+
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -87,6 +91,21 @@
                                                 <div class="spinner-border text-primary" id="spinner" role="status">
                                                     <span class="visually-hidden">Cargando...</span>
                                                 </div>
+
+                                            
+<script>
+    function confirmDelete(idCuentaContable) {
+    // Mostrar una confirmación al usuario
+    const userConfirmed = confirm("¿Está seguro de que desea eliminar esta cuenta contable?");
+    
+    if (userConfirmed) {
+        // Redirigir a la URL de eliminación
+        window.location.href = `mantenimiento/CuentaContable/delete/${idCuentaContable}`;
+    }
+    // Si el usuario cancela, no hacer nada
+}
+
+</script>
                                             </div>
                                         </div>
                                     </div>

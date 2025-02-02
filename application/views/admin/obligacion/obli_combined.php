@@ -832,52 +832,59 @@
     </div>
 </div>
 
-        <!-- Modal con Bootstrap Cuentas Contables numero 2-->
-        <div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables"
-            aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered cuentas-contables">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Buscador de Cuentas Contables</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
+        <!-- Modal con Bootstrap Cuentas Contables número 2 -->
+<div class="modal fade mi-modal" id="modalCuentasCont2" tabindex="-1" aria-labelledby="ModalCuentasContables" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered cuentas-contables">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
 
-                        <table class="table table-hover table-sm" id="TablaCuentaCont2">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Código de Cuenta</th>
-                                    <th>Descripción de Cuenta</th>
-                                    <th>Estado</th>
-                                    <th>Presupuesto</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
-                                    <tr class="list-item"
-                                        onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                        data-bs-dismiss="modal">
-                                        <td><?= $dato->IDCuentaContable ?></td>
-                                        <td><?= $dato->Codigo_CC ?></td>
-                                        <td><?= $dato->Descripcion_CC ?></td>
-                                        <td>
-                                            <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                                <span class="badge bg-success">Presupuestado</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-warning">No está Presupuestado</span>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td><?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <!-- Campo de búsqueda -->
+                <input type="text" id="searchInput2" class="form-control mb-3" placeholder="Buscar en la tabla...">
+
+                <!-- Tabla con identificador único -->
+                <table class="table table-hover table-sm" id="TablaCuentaCont2">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Código de Cuenta</th>
+                            <th>Descripción de Cuenta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($cuentacontable2 as $dato): ?>
+                            <tr class="list-item"
+                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                data-bs-dismiss="modal">
+                                <td><?= htmlspecialchars($dato->IDCuentaContable) ?></td>
+                                <td><?= htmlspecialchars($dato->Codigo_CC) ?></td>
+                                <td><?= htmlspecialchars($dato->Descripcion_CC) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- JavaScript para la búsqueda -->
+<script>
+    document.getElementById('searchInput2').addEventListener('input', function () {
+        // Obtener el texto de búsqueda y convertirlo a mayúsculas para una búsqueda insensible a mayúsculas
+        let filter = this.value.toUpperCase();
+        let rows = document.querySelectorAll('#TablaCuentaCont2 tbody tr');
+
+        rows.forEach(row => {
+            // Convertir el texto de cada fila a mayúsculas y verificar si incluye el texto de búsqueda
+            let text = row.innerText.toUpperCase();
+            row.style.display = text.includes(filter) ? '' : 'none';
+        });
+    });
+</script>
 
         <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
         <script>

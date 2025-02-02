@@ -4,22 +4,88 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CuentaContable_model extends CI_Model {
 //Aquí cargamos en la tabla"cuentacontable" los arrays
 
-    public function getCuentasContables($id_uni_respon_usu = null) {
+    public function getCuentasContables(){
         $this->db->select('cuentacontable.*');
-        $this->db->from('cuentacontable');
-        $this->db->join('uni_respon_usu', 'cuentacontable.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu', 'left'); // Left join por si no hay relación
-        $this->db->where('cuentacontable.estado', '1');
-        
-        // Aplicar el filtro solo si se proporciona $id_uni_respon_usu
-        if (!is_null($id_uni_respon_usu)) {
-            $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-        }
-
-        $resultados = $this->db->get();
-        return $resultados->result();
+		$this->db->from('cuentacontable');
+		$this->db->where('cuentacontable.estado', '1');
+		
+		$resultados = $this->db->get();
+		return $resultados->result();   
     }
 
+    public function getCuentaContable2() {
+        $this->db->select('cuentacontable.Codigo_CC, cuentacontable.IDCuentaContable, cuentacontable.padre_id, cuentacontable.Descripcion_CC');
+        
+        // Agrupamos las condiciones con or_like
+        $this->db->group_start();
+        $this->db->like('Codigo_CC', '200000000000', 'after'); // Filtrar donde el código comience con "2"
+        $this->db->or_like('Codigo_CC', '300000000000', 'after'); // Filtrar donde el código comience con "3"
+        $this->db->or_like('Codigo_CC', '400000000000', 'after'); // Filtrar donde el código comience con "4"
+        $this->db->or_like('Codigo_CC', '500000000000', 'after'); // Filtrar donde el código comience con "5"
+        $this->db->or_like('Codigo_CC', '800000000000', 'after'); // Filtrar donde el código comience con "8"
+        $this->db->or_like('Codigo_CC', '900000000000', 'after'); // Filtrar donde el código comience con "8"
+        $this->db->group_end();
+        
+        $query = $this->db->get("cuentacontable");
+        return $query->result();
+    }
+
+ 
+    public function getTiposPorCodigoPadre($codigoPadre) {
+    $primerDigito = substr($codigoPadre, 0, 1); // Extrae el primer dígito del código del padre
+    $this->db->select('cuentacontable.Codigo_CC, cuentacontable.Descripcion_CC, cuentacontable.tipo, cuentacontable.padre_id, cuentacontable.IDCuentaContable');
+    $this->db->from('cuentacontable');
     
+    // Filtrar por el primer dígito del código
+    $this->db->like('Codigo_CC', $primerDigito, 'after'); // Filtra donde el código comience con ese dígito
+    
+    // Opcional: Agregar un filtro adicional si es necesario
+    $this->db->where('estado', 1); // Solo cuentas activas (si tienes esta columna)
+    
+    $query = $this->db->get();
+    return $query->result();
+}
+
+
+
+
+
+
+
+
+
+    public function getUltimoCodigoPorTipo($tipo)
+    {
+        // Buscar el último registro con el tipo seleccionado
+        $this->db->select('Codigo_CC');
+        $this->db->from('cuentacontable'); 
+        $this->db->where('tipo', $tipo);
+        $this->db->order_by('Codigo_CC', 'DESC'); 
+        $this->db->limit(1);
+        $query = $this->db->get();
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->Codigo_CC;
+        } else {
+            return null;
+        }
+    }
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function save($data){
         return $this->db->insert("cuentacontable", $data);

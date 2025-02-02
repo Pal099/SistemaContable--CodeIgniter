@@ -103,3 +103,16 @@
     .logo img {
     max-width: 100px; /* Ajusta el tamaño máximo del logo según tus necesidades */
 }
+
+/* Estilos por defecto (modo claro) */
+body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Modo oscuro */
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}

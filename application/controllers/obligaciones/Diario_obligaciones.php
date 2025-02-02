@@ -16,6 +16,8 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->model("Diario_obli_model");
 		$this->load->model("Comprobante_Gasto_model");
 		$this->load->model("Usuarios_model");
+		$this->load->model("Origen_model");
+		$this->load->model("Registros_financieros_model");
 		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 		$this->load->library('form_validation');
 
@@ -37,9 +39,9 @@ class Diario_obligaciones extends CI_Controller
 
 		$data['asientos'] = $this->Diario_obli_model->GETasientos($id_uni_respon_usu); // Obtener la lista de asientos
 		$data['proveedores'] = $this->Proveedores_model->getProveedores($id_uni_respon_usu);  // Obtener la lista de proveedores
-		$data['programa'] = $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu);
-		$data['fuente_de_financiamiento'] = $this->Diario_obli_model->getFuentes($id_uni_respon_usu);
-		$data['origen_de_financiamiento'] = $this->Diario_obli_model->getOrigenes($id_uni_respon_usu);
+		$data['programa'] = $this->Origen_model->getProgramGastos();
+		$data['fuente_de_financiamiento'] = $this->Registros_financieros_model->getFuentes();
+		$data['origen_de_financiamiento'] = $this->Origen_model->getOrigenes();
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 		$data['comprobante'] = $this->Comprobante_Gastos_model->getComprobantesGastos($id_uni_respon_usu);
 		$cuentas = $this->CuentasContablesModel->getC_C($id_uni_respon_usu);
@@ -129,12 +131,12 @@ class Diario_obligaciones extends CI_Controller
 		// Agregar el resto de los datos necesarios
 		$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
-			'programa' => $this->Diario_obli_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Diario_obli_model->getFuentes($id_uni_respon_usu),
-			'origen_de_financiamiento' => $this->Diario_obli_model->getOrigenes($id_uni_respon_usu),
+			'programa' => $this->ProgramGasto_model->getProgramGastos(),
+			'fuente_de_financiamiento' => $this->Registros_financieros_model->getFuentes(),
+			'origen_de_financiamiento' => $this->Origen_model->getOrigenes(),
 			'asientos' => $this->Diario_obli_model->GETasientos($id_uni_respon_usu),
-			'cuentacontable' => $this->Diario_obli_model->getCuentaContable($id_uni_respon_usu),
-			'cuentacontable2' => $this->Diario_obli_model->getCuentaContable2($id_uni_respon_usu),
+			'cuentacontable' => $this->Diario_obli_model->getCuentaContable2(),
+			'cuentacontable2' => $this->Diario_obli_model->getCuentaContable(),
 			'niveles' => $this->Diario_obli_model->getNiveles(),
 			'comprobante' => $this->Comprobante_Gasto_model->getComprobantesGastos($id_user),
 			'presupuesto' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),

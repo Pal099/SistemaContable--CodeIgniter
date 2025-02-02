@@ -152,106 +152,125 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!-- Sección de campos mensuales logica nueva -->
-                                                        <div class="collapse mt-4" id="camposMesesCollapse">
-                                                            <div class="card">
-                                                                <div class="card-header bg-light">
-                                                                    <h5 class="mb-0">Planificación Mensual</h5>
+                                                    <!-- Campos de los meses del presupuesto -->
+                                                    <!-- Campos de los meses del presupuesto -->
+                                                    <div class="collapse mt-4" id="camposMesesCollapse">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ene">Presupuesto Enero:</label>
+                                                                    <input type="number" class="form-control" id="pre_ene" name="pre_ene"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Enero']) ? 
+                                                                    $presupuestos_mensuales['Enero'] : ''; ?>">
+
                                                                 </div>
-                                                                <div class="card-body">
-                                                                    <?php
-                                                                    // Array de meses para generar campos de forma dinámica
-                                                                    $meses = [
-                                                                        'ene' => 'Enero',
-                                                                        'feb' => 'Febrero',
-                                                                        'mar' => 'Marzo',
-                                                                        'abr' => 'Abril',
-                                                                        'may' => 'Mayo',
-                                                                        'jun' => 'Junio',
-                                                                        'jul' => 'Julio',
-                                                                        'ago' => 'Agosto',
-                                                                        'sep' => 'Septiembre',
-                                                                        'oct' => 'Octubre',
-                                                                        'nov' => 'Noviembre',
-                                                                        'dic' => 'Diciembre'
-                                                                    ];
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jul">Presupuesto Julio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jul" name="pre_jul"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Julio']) ? 
+                                                                    $presupuestos_mensuales['Julio'] : ''; ?>">
 
-                                                                    foreach ($meses as $codigo => $nombre): ?>
-                                                                        <div class="form-group mb-4">
-                                                                            <div class="row align-items-center">
-                                                                                <div class="col-12 mb-2">
-                                                                                    <h6 class="border-bottom pb-2"><?php echo $nombre; ?></h6>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label for="pre_<?php echo $codigo; ?>">Plan Financiero:</label>
-                                                                                    <div class="input-group">
-                                                                                        <span class="input-group-text">$</span>
-                                                                                        <input type="text" 
-                                                                                            class="form-control number-separator calculo-suma" 
-                                                                                            id="pre_<?php echo $codigo; ?>" 
-                                                                                            name="pre_<?php echo $codigo; ?>" 
-                                                                                            data-mes="<?php echo $codigo; ?>"
-                                                                                            value="<?php echo $presupuesto->{"pre_$codigo"}; ?>">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label for="sal_<?php echo $codigo; ?>">Saldo Acumulado:</label>
-                                                                                    <div class="input-group">
-                                                                                        <span class="input-group-text">$</span>
-                                                                                        <input type="text" 
-                                                                                            class="form-control number-separator calculo-suma" 
-                                                                                            id="sal_<?php echo $codigo; ?>" 
-                                                                                            name="sal_<?php echo $codigo; ?>" 
-                                                                                            data-mes="<?php echo $codigo; ?>"
-                                                                                            value="<?php echo isset($plan_financiero->{"sal_$codigo"}) ? $plan_financiero->{"sal_$codigo"} : ''; ?>">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-4">
-                                                                                    <label for="total_<?php echo $codigo; ?>">Total:</label>
-                                                                                    <div class="input-group">
-                                                                                        <span class="input-group-text">$</span>
-                                                                                        <input type="text" 
-                                                                                            class="form-control number-separator" 
-                                                                                            id="total_<?php echo $codigo; ?>" 
-                                                                                            name="total_<?php echo $codigo; ?>" 
-                                                                                            readonly>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php endforeach; ?>
-
-                                                                    <!-- Resumen de Totales -->
-                                                                    <div class="row mt-4 bg-light py-3 rounded">
-                                                                        <div class="col-12">
-                                                                            <h6 class="mb-3">Resumen Anual</h6>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="total_plan">Total Plan Financiero:</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-text">$</span>
-                                                                                <input type="text" class="form-control" id="total_plan" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="total_saldo">Total Saldo Acumulado:</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-text">$</span>
-                                                                                <input type="text" class="form-control" id="total_saldo" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-4">
-                                                                            <label for="total_general">Total General:</label>
-                                                                            <div class="input-group">
-                                                                                <span class="input-group-text">$</span>
-                                                                                <input type="text" class="form-control" id="total_general" readonly>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_feb">Presupuesto Febrero:</label>
+                                                                    <input type="number" class="form-control" id="pre_feb" name="pre_feb"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Febrero']) ? 
+                                                                    $presupuestos_mensuales['Febrero'] : ''; ?>">
 
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
+                                                                    <input type="number" class="form-control" id="pre_ago" name="pre_ago"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Agosto']) ? 
+                                                                    $presupuestos_mensuales['Agosto'] : ''; ?>">
+
+
+                                                                </div>
+                                                        
+                                                    
+                                                        <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_mar">Presupuesto Marzo:</label>
+                                                                    <input type="number" class="form-control" id="pre_mar" name="pre_mar"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Marzo']) ? 
+                                                                    $presupuestos_mensuales['Marzo'] : ''; ?>">
+
+                                                                </div>
+                                                            </div>
+
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_sep" name="pre_sep"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Septiembre']) ? 
+                                                                    $presupuestos_mensuales['Septiembre'] : ''; ?>">
+
+                                                                </div>
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_abr">Presupuesto Abril:</label>
+                                                                    <input type="number" class="form-control" id="pre_abr" name="pre_abr"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Abril']) ? 
+                                                                    $presupuestos_mensuales['Abril'] : ''; ?>">
+
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_oct">Presupuesto Octubre:</label>
+                                                                    <input type="number" class="form-control" id="pre_oct" name="pre_oct"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Octubre']) ? 
+                                                                    $presupuestos_mensuales['Octubre'] : ''; ?>">
+
+
+                                                                </div>
+                                                          
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_may">Presupuesto Mayo:</label>
+                                                                    <input type="number" class="form-control" id="pre_may" name="pre_may"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Mayo']) ? 
+                                                                    $presupuestos_mensuales['Mayo'] : ''; ?>">
+
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_nov">Presupuesto Noviembre:</label>
+                                                                    <input type="number" class="form-control" id="pre_nov" name="pre_nov"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Noviembre']) ? 
+                                                                    $presupuestos_mensuales['Noviembre'] : ''; ?>">
+
+
+                                                                </div>
+                                                            
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_jun">Presupuesto Junio:</label>
+                                                                    <input type="number" class="form-control" id="pre_jun" name="pre_jun"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Junio']) ? 
+                                                                    $presupuestos_mensuales['Junio'] : ''; ?>">
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="pre_dic">Presupuesto Diciembre: </label>
+                                                                    <input type="number" class="form-control" id="pre_dic" name="pre_dic"
+                                                                    value="<?php echo isset($presupuestos_mensuales['Diciembre']) ? 
+                                                                    $presupuestos_mensuales['Diciembre'] : ''; ?>">
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

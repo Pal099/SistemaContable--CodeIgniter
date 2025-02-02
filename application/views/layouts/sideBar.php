@@ -91,6 +91,13 @@
                         <span>Ejecución de Plan de Caja</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="<?php echo base_url(); ?>mantenimiento/EjecucionPC">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Plan de Caja</span>
+                    </a>
+                </li>
             </ul>
 
         </li>
@@ -145,6 +152,17 @@
 
     </ul>
 </aside><aside id="sidebar" class="sidebar">
+
+
+
+
+
+
+
+
+
+
+
 
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
@@ -237,6 +255,7 @@
                         <span>Ejecución de Plan de Caja</span>
                     </a>
                 </li>
+
             </ul>
 
         </li>
