@@ -40,116 +40,96 @@
             </div>
             <!-- fin del encabezado -->
             <hr> <!-- barra separadora -->
-            <div class="container-fluid">
-                <div class="row">
-                    <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update/<?php echo $presupuesto->ID_Presupuesto; ?>" method="POST">
-                        <div class="container-fluid mt-2">
-                            <div class="row justify-content-center">
-                                <div class="col-md-12">
-                                    <div class="card border">
-                                        <div class="card-body">
-                                            <div class="row g-3 align-items-center mt-2">
-                                                <input type="hidden" value="<?php echo $presupuesto->ID_Presupuesto; ?>" name="ID_Presupuesto">
-                                                <div class="row g-3 mb-12">
-                                                    <div class="col-md-12">
-                                                        <!-- Información Principal -->
-                                                        <div class="row g-3 mb-6">
-                                                            <div class="col-md-4">
-                                                                <div class="form-floating">
-                                                                    <input type="date" class="form-control" id="Año" name="Año" 
-                                                                        value="<?php echo $presupuesto->Año ?>" required>
-                                                                    <label for="Año">Fecha</label>
-                                                                    <div class="invalid-feedback">Por favor seleccione una fecha</div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                <div class="form-floating">
-                                                                    <input type="number" step="0.01" class="form-control" id="TotalPresupuestado" 
-                                                                        name="TotalPresupuestado" value="<?php echo $presupuesto->TotalPresupuestado ?>" required>
-                                                                    <label for="TotalPresupuestado">Total Presupuestado</label>
-                                                                    <div class="invalid-feedback">Ingrese un monto válido</div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-4">
-                                                                <div class="form-floating">
-                                                                    <input type="number" step="0.01" class="form-control" id="TotalModificado" 
-                                                                        name="TotalModificado" value="<?php echo $presupuesto->TotalModificado ?>" required>
-                                                                    <label for="TotalModificado">Total Modificado</label>
-                                                                    <div class="invalid-feedback">Ingrese un monto válido</div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    <br> 
-                                                    <!-- Selects -->
-                                                    <div class="row g-3 mb-4">
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <select class="form-select" name="origen_de_financiamiento_id_of" 
-                                                                        id="origen_de_financiamiento_id_of" required>
-                                                                    <option value="" disabled>Seleccione una opción</option>
-                                                                    <?php foreach ($origen as $o): ?>
-                                                                        <option value="<?php echo $o->id_of ?>" 
-                                                                            <?php echo ($presupuesto->origen_de_financiamiento_id_of == $o->id_of) ? 'selected' : ''; ?>>
-                                                                            <?php echo $o->nombre; ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </select>
-                                                                <label for="origen_de_financiamiento_id_of">Origen de Financiamiento</label>
-                                                                <div class="invalid-feedback">Seleccione un origen de financiamiento</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <select class="form-select" name="fuente_de_financiamiento_id_ff" 
-                                                                        id="fuente_de_financiamiento_id_ff" required>
-                                                                    <option value="" disabled>Seleccione una opción</option>
-                                                                    <?php foreach ($registros_financieros as $fuente): ?>
-                                                                        <option value="<?php echo $fuente->id_ff ?>" 
-                                                                            <?php echo ($presupuesto->fuente_de_financiamiento_id_ff == $fuente->id_ff) ? 'selected' : ''; ?>>
-                                                                            <?php echo $fuente->nombre; ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </select>
-                                                                <label for="fuente_de_financiamiento_id_ff">Fuente de Financiamiento</label>
-                                                                <div class="invalid-feedback">Seleccione una fuente de financiamiento</div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-4">
-                                                            <div class="form-floating">
-                                                                <select class="form-select" name="programa_id_pro" id="programa_id_pro" required>
-                                                                    <option value="" disabled>Seleccione una opción</option>
-                                                                    <?php foreach ($programa as $prog): ?>
-                                                                        <option value="<?php echo $prog->id_pro ?>" 
-                                                                            <?php echo ($presupuesto->programa_id_pro == $prog->id_pro) ? 'selected' : ''; ?>>
-                                                                            <?php echo $prog->nombre; ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </select>
-                                                                <label for="programa_id_pro">Programa</label>
-                                                                <div class="invalid-feedback">Seleccione un programa</div>
-                                                            </div>
-                                                        </div>
+            <section class="seccion_editar_presupuesto">
+                <div class="container-fluid">
+                    <div class="row">
+                        <form action="<?php echo base_url(); ?>mantenimiento/presupuesto/update" method="POST">
+                            <div class="container-fluid mt-2">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-12">
+                                        <div class="card border">
+                                            <div class="card-body">
+                                                <div class="row g-3 align-items-center mt-2">
+                                                    <input type="hidden"
+                                                        value="<?php echo $presupuesto->ID_Presupuesto; ?>"
+                                                        name="ID_Presupuesto">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Año">Fecha:</label>
+                                                        <input type="date" class="form-control" id="Año" name="Año"
+                                                            value="<?php echo $presupuesto->Año ?>">
                                                     </div>
-                                                    <div class="row mb-4">
-                                                        <div class="col-md-12">
-                                                            <div class="input-group">
-                                                                <select name="Idcuentacontable" id="Idcuentacontable" class="form-control" required>
-                                                                    <option selected disabled>Seleccione una Cuenta Contable...</option>
-                                                                    <?php foreach ($cuentacontable as $cc) : ?>
-                                                                        <option value="<?php echo $cc->IDCuentaContable ?>"
-                                                                            <?php echo ($presupuesto->Idcuentacontable == $cc->IDCuentaContable) ? 'selected' : ''; ?>>
-                                                                            <?php echo $cc->Descripcion_CC; ?>
-                                                                        </option>
-                                                                    <?php endforeach; ?>
-                                                                </select>
-                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#modalCuentasCont" class="btn btn-primary">
-                                                                    <i class="bi bi-search"> Buscar</i>
-                                                                </button>
-                                                            </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="TotalPresupuestado">Total Presupuestado:</label>
+                                                        <input type="number" class="form-control"
+                                                            id="TotalPresupuestado" name="TotalPresupuestado"
+                                                            value="<?php echo $presupuesto->TotalPresupuestado ?>">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="TotalModificado">Total Modificado:</label>
+                                                        <input type="number" class="form-control" id="TotalModificado"
+                                                            name="TotalModificado"
+                                                            value="<?php echo $presupuesto->TotalModificado ?>">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="origen_de_financiamiento_id_of">Origen de
+                                                            Financiamiento:</label>
+                                                        <select name="origen_de_financiamiento_id_of"
+                                                            id="origen_de_financiamiento_id_of" class="form-control"
+                                                            required>
+                                                            <!-- En este ciclo se busca el id del origen, una vez encuentra ese id en el ciclo lo selecciona y lo muestra
+                                                                en el select -->
+                                                            <?php foreach ($origen as $o) : ?>
+                                                            <option value="<?php echo $o->id_of ?>"
+                                                                <?php echo ($presupuesto->origen_de_financiamiento_id_of == $o->id_of) ? 'selected' : ''; ?>>
+                                                                <?php echo $o->nombre; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="fuente_de_financiamiento_id_ff">Fuente de
+                                                            Financiamiento:</label>
+                                                        <select name="fuente_de_financiamiento_id_ff"
+                                                            id="fuente_de_financiamiento_id_ff" class="form-control"
+                                                            required>
+                                                            <?php foreach ($registros_financieros as $fuente) : ?>
+                                                            <option value="<?php echo $fuente->id_ff ?>"
+                                                                <?php echo ($presupuesto->fuente_de_financiamiento_id_ff  == $fuente->id_ff) ? 'selected' : ''; ?>>
+                                                                <?php echo $fuente->nombre; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="programa_id_pro">Programa:</label>
+                                                        <select name="programa_id_pro" id="programa_id_pro"
+                                                            class="form-control" required>
+                                                            <?php foreach ($programa as $prog) : ?>
+                                                            <option value="<?php echo $prog->id_pro ?>"
+                                                                <?php echo ($presupuesto->programa_id_pro  == $prog->id_pro) ? 'selected' : ''; ?>>
+                                                                <?php echo $prog->nombre; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <select name="Idcuentacontable" id="Idcuentacontable"
+                                                                class="form-control" required>
+                                                                <option selected disabled>Seleccione una Cuenta
+                                                                    Contable...</option>
+                                                                <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>"
+                                                                    <?php echo ($presupuesto->Idcuentacontable == $cc->IDCuentaContable) ? 'selected' : ''; ?>>
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalCuentasCont"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar</i>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <!-- Campos de los meses del presupuesto -->
@@ -190,8 +170,10 @@
 
 
                                                                 </div>
-                                                        
-                                                    
+                                                        </div>
+
+                                                    <div class="form-group">
+
                                                         <div class="row">
                                                                 <div class="col-md-6">
                                                                     <label for="pre_mar">Presupuesto Marzo:</label>
@@ -200,7 +182,7 @@
                                                                     $presupuestos_mensuales['Marzo'] : ''; ?>">
 
                                                                 </div>
-                                                            </div>
+                                                            
 
                                                                 <div class="col-md-6">
                                                                     <label for="pre_sep">Presupuesto Septiembre:</label>
@@ -209,6 +191,8 @@
                                                                     $presupuestos_mensuales['Septiembre'] : ''; ?>">
 
                                                                 </div>
+                                                            </div>
+                                                    </div>
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">
@@ -350,108 +334,7 @@
         camposMesesCollapse.toggle();
     });
     </script>
-        
-        
-    <!-- Script para el separador de miles -->
-    <script>
-    document.querySelectorAll('.number-separator').forEach(function (input) {
-        input.addEventListener('input', function (e) {
-            // Obtener el valor actual del input
-            let value = e.target.value;
 
-            // Eliminar todos los caracteres no numéricos excepto comas y puntos
-            value = value.replace(/[^\d]/g, '');
-
-            // Eliminar las comas y reformatear con el formato de número con separadores de miles
-            value = value.replace(/,/g, '');
-            value = new Intl.NumberFormat().format(value);
-
-            // Actualizar el valor del input con el nuevo formato
-            e.target.value = value;
-
-            // Llamar a la función de cálculo cuando se modifica el valor
-            calcularPresupuestoVigente();
-        });
-    });
-
-    // Eliminar los separadores de miles antes de enviar el formulario
-    document.querySelector('form').addEventListener('submit', function() {
-        document.querySelectorAll('.number-separator').forEach(function (input) {
-            input.value = input.value.replace(/,/g, '');
-        });
-    });
-    </script>
-
-    <!-- Script para el cálculo del presupuesto vigente -->
-    <script>
-    function calcularPresupuestoVigente() {
-        // Obtener valores de los campos
-        let presupuestoInicial = document.getElementById('TotalPresupuestado').value.replace(/,/g, '') || 0;
-        let presupuestoModificado = document.getElementById('TotalModificado').value.replace(/,/g, '') || 0;
-
-        // Convertir los valores a números
-        presupuestoInicial = parseFloat(presupuestoInicial) || 0;
-        presupuestoModificado = parseFloat(presupuestoModificado) || 0;
-
-        // Calcular el Presupuesto Vigente
-        let presupuestoVigente = presupuestoInicial + presupuestoModificado;
-
-        // Mostrar el resultado en el campo de "Presupuesto Vigente"
-        document.getElementById('TotalVigente').value = new Intl.NumberFormat().format(presupuestoVigente.toFixed(2));
-    }
-    </script>
-    <script>
-        // Función para calcular la suma de los campos por mes
-        function calcularSuma(mes) {
-            const planFinanciero = document.getElementById('pre_' + mes);
-            const saldoAcumulado = document.getElementById('sal_' + mes);
-            const totalCampo = document.getElementById('total_' + mes);
-            
-            // Obtener valores y remover separadores de miles
-            const valor1 = parseFloat(planFinanciero.value.replace(/,/g, '')) || 0;
-            const valor2 = parseFloat(saldoAcumulado.value.replace(/,/g, '')) || 0;
-            
-            // Calcular suma
-            const suma = valor1 + valor2;
-            
-            // Formatear resultado usando Intl.NumberFormat para consistencia con el script existente
-            totalCampo.value = new Intl.NumberFormat().format(suma);
-        }
-
-        // Modificar el script existente para incluir el cálculo de sumas
-        document.querySelectorAll('.number-separator').forEach(function (input) {
-            input.addEventListener('input', function (e) {
-                // Obtener el valor actual del input
-                let value = e.target.value;
-
-                // Eliminar todos los caracteres no numéricos excepto comas y puntos
-                value = value.replace(/[^\d]/g, '');
-
-                // Eliminar las comas y reformatear con el formato de número con separadores de miles
-                value = value.replace(/,/g, '');
-                value = new Intl.NumberFormat().format(value);
-
-                // Actualizar el valor del input con el nuevo formato
-                e.target.value = value;
-
-                // Llamar a la función de cálculo cuando se modifica el valor
-                calcularPresupuestoVigente();
-                
-                // Si el campo es parte de un cálculo de suma mensual, actualizarlo
-                if (input.classList.contains('calculo-suma')) {
-                    const mes = input.dataset.mes;
-                    calcularSuma(mes);
-                }
-            });
-        });
-
-        // Mantener el código existente para eliminar separadores antes del envío del formulario
-        document.querySelector('form').addEventListener('submit', function() {
-            document.querySelectorAll('.number-separator').forEach(function (input) {
-                input.value = input.value.replace(/,/g, '');
-            });
-        });
-    </script>
     <!-- Script para la tabla de cuentas contables -->
     <script>
     $(document).ready(function() {
@@ -468,49 +351,8 @@
     });
     </script>
 
-
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
-
-    <!-- CSS adicional para mejorar la presentación -->
-    <style>
-    .card-header {
-        border-bottom: 2px solid #dee2e6;
-    }
-
-    .form-group {
-        position: relative;
-    }
-
-    .form-group:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        bottom: -12px;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: #f0f0f0;
-    }
-
-    .input-group-text {
-        background-color: #f8f9fa;
-        min-width: 45px;
-        justify-content: center;
-    }
-
-    input[readonly] {
-        background-color: #f8f9fa;
-    }
-
-    h6 {
-        color: #495057;
-        font-weight: 600;
-    }
-
-    .bg-light {
-        background-color: #f8f9fa !important;
-    }
-    </style>
 </body>
 
 </html>

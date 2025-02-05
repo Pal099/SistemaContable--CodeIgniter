@@ -18,6 +18,7 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->model("Usuarios_model");
 		$this->load->model("Origen_model");
 		$this->load->model("Registros_financieros_model");
+		$this->load->model('EjecucionP_model'); // puesto para que cargue en la tabla de ejecucion_mensual, se usa en el add 
 		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 		$this->load->library('form_validation');
 
@@ -196,9 +197,7 @@ class Diario_obligaciones extends CI_Controller
 		$proveedor_id = $this->Diario_obli_model->getProveedorIdByRuc($ruc_id_provee); //Obtenemos el proveedor en base al ruc
 		$niveles = $datosFormulario['niveles'];
 
-
 		$op = $datosFormulario['op'];
-
 
 		if ($proveedor_id) {
 
@@ -277,10 +276,16 @@ class Diario_obligaciones extends CI_Controller
 							);
 
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
-
-
 						}
 
+						// Llamada a la función actualizarEjecucion después de guardar los datos
+						if ($this->EjecucionP_model->actualizarEjecucion($numero)) {
+							log_message('debug', 'Ejecución mensual actualizada correctamente para el número: ' . $numero);
+						} else {
+							log_message('error', 'Error al actualizar la ejecución mensual para el número: ' . $numero);
+						}
+					} else {
+						log_message('error', 'Error al guardar los datos de Debe');
 					}
 
 					return redirect(base_url() . "obligaciones/diario_obligaciones/add");
@@ -289,12 +294,9 @@ class Diario_obligaciones extends CI_Controller
 					// Puedes manejar la lógica específica de las solicitudes no AJAX aquí
 					echo 'Esta no es una solicitud AJAX';
 				}
-
 			}
 		}
-
 	} // fin del store
-
 	public function busqueda_por_cuenta()
 	{
 		$numero_cuenta = $this->input->get('busqueda');
@@ -507,7 +509,7 @@ class Diario_obligaciones extends CI_Controller
 				$filas = $datosCompletos['filas'];
 				foreach ($filas as $fila) {
 					/* Si esto es true entonces es un campo nuevo que agrego el usuario al editar, por lo tanto
-														debemos de agregarlo como un registro nuevo */
+																	   debemos de agregarlo como un registro nuevo */
 					if (!isset($fila['IDNum_Asi_Deta'])) {
 						$Num_Asi_IDNum_Asi = $IDNum_Asi;
 						$dataInsertar = array(
