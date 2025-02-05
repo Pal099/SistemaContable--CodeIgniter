@@ -804,7 +804,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cuentacontable2 as $dato): ?>
+                                <?php foreach ($cuentacontable as $dato): ?>
                                     <tr class="list-item"
                                         onclick="selectCCcomplex(<?= $dato->IDCuentaContable ?>, '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
                                         data-bs-dismiss="modal">
