@@ -33,6 +33,8 @@ class Presupuesto extends CI_Controller
         //esa id es importante para hacer las relaciones y registros por usuario
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         $id = $this->input->post("ID_Presupuesto");
+        $id_mes = $this->input->post("id_presupuesto_mes");
+
 
         $data = array(
             'presupuestos' => $this->Presupuesto_model->getPresu($id_uni_respon_usu),
