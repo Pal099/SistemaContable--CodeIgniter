@@ -40,8 +40,8 @@ class Comprobante_Gasto extends MY_Controller {
 
 	public function filtrar()
 	{
-		$nombre=$this->session->userdata('Nombre_usuario');
-		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$id = $this->input->post("IDComprobanteGasto");
 		$actividad = $this->input->post("actividad");

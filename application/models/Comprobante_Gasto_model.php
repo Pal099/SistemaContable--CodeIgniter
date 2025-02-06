@@ -61,12 +61,6 @@ class Comprobante_Gasto_model extends CI_Model {
 			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
 			programa.nombre AS programa_id_pro,
 			cuentacontable.Codigo_CC as codigo,
-			RIGHT(
-				CONCAT(
-					SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 4), ".", -1),
-					SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 5), ".", -1)
-				), 3
-			) as rubro, 
 			cuentacontable.Relacion as rubro,
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
@@ -117,14 +111,6 @@ class Comprobante_Gasto_model extends CI_Model {
 	
 		return $this->db->get()->result_array();
 	}//cambiamos para que se adapte a la nueva estructura de la tabla de presupuestos
-	public function obtener_comprobantes_por_pedido($id_pedido) {
-		$this->db->select('*');
-		$this->db->from('comprobante_gasto');
-		$this->db->where('id_pedido', $id_pedido); 
-		
-		$query = $this->db->get();
-		return $query->result(); // Retorna todas las filas que coinciden con el id_pedido
-	}
 		public function obtener_comprobantes_por_pedido($id_pedido) {
 		$this->db->select('*');
 		$this->db->from('comprobante_gasto');
