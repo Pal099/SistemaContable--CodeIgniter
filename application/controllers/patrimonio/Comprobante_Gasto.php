@@ -49,12 +49,12 @@ class Comprobante_Gasto extends MY_Controller {
 		$periodo = $this->input->post("periodo");
 		$mes = $this->input->post("mes");
 		$nropedido = $this->input->post("id_pedido");
-		if (empty($actividad) && empty($fuente) && empty($periodo) && empty($mes)&& empty($nropedido)) {
+		if (empty($actividad) && empty($periodo) && empty($mes)&& empty($nropedido)) {
 			// Ningún campo seleccionado, redireccionar o mostrar un mensaje de error
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
 		$data  = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad,$periodo, $mes, $nropedido),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
@@ -265,7 +265,35 @@ class Comprobante_Gasto extends MY_Controller {
             echo json_encode(['error' => 'No se proporcionó id_pedido']);
         }
     }
-		
+	
+	public function getCuentacontableRelacion(){
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+		$idpresupuesto = $this->input->post('idpresupuesto');
+		$this->db->select('Idcuentacontable');
+		$this->db->from('presupuestos');
+		$this->db->where('ID_Presupuesto', $idpresupuesto);
+		$query = $this->db->get();
+		if ($query->num_rows() > 0) {
+			$idcuentacontable = $query->row()->Idcuentacontable;
+			
+			// Ahora, con el Idcuentacontable, obtenemos la relación desde la tabla cuentacontable
+			$this->db->select('Relacion');
+			$this->db->from('cuentacontable');
+			$this->db->where('IDCuentaContable', $idcuentacontable);
+			$queryRelacion = $this->db->get();
+	
+			if ($queryRelacion->num_rows() > 0) {
+				$relacion = $queryRelacion->row()->relacion;
+				echo json_encode(['Relacion' => explode(',', $relacion)]); // Devolver la relación como un array
+			} else {
+				echo json_encode(['Relacion' => []]);  // Si no se encuentra relación
+			}
+		} else {
+			echo json_encode(['Relacion' => []]);  // Si no se encuentra el presupuesto
+		}
+	}
 	public function view($id){
 		$data  = array(
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobanteGasto($id), 

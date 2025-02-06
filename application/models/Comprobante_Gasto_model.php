@@ -67,6 +67,7 @@ class Comprobante_Gasto_model extends CI_Model {
 					SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 5), ".", -1)
 				), 3
 			) as rubro, 
+			cuentacontable.Relacion as rubro,
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,
@@ -124,6 +125,14 @@ class Comprobante_Gasto_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result(); // Retorna todas las filas que coinciden con el id_pedido
 	}
+		public function obtener_comprobantes_por_pedido($id_pedido) {
+		$this->db->select('*');
+		$this->db->from('comprobante_gasto');
+		$this->db->where('id_pedido', $id_pedido); 
+		
+		$query = $this->db->get();
+		return $query->result(); // Retorna todas las filas que coinciden con el id_pedido
+	}
 
 
 	public function getRubroYDescripcionByIdItem($id_item) {
@@ -146,9 +155,6 @@ class Comprobante_Gasto_model extends CI_Model {
 
     if (!empty($actividad)) {
         $this->db->where('id_unidad', $actividad);
-    }
-    if (!empty($fuente)) {
-        $this->db->where('id_ff', $fuente);
     }
     if (!empty($periodo)) {
         $this->db->where('YEAR(fecha)', $periodo);
