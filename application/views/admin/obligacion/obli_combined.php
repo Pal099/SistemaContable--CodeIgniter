@@ -799,7 +799,8 @@
                                     <th>#</th>
                                     <th>Código de Cuenta</th>
                                     <th>Descripción de Cuenta</th>
-                                    <th>Estado</th>
+                                    <th>Estado</th>         <!-- acá debería mostrar si aún tiene presupuesto -->
+                                    <th>Plan Financiero</th>         <!-- acá mostrará el mes del plan financiero que se va usar  -->
                                     <th>Presupuesto</th>
                                 </tr>
                             </thead>
@@ -817,6 +818,11 @@
                                             <?php else: ?>
                                                 <span class="badge bg-warning">No está Presupuestado</span>
                                             <?php endif; ?>
+                                        </td>
+                                        <td>
+                                        <?= isset($dato->meses_presupuesto) && $dato->meses_presupuesto 
+                                            ? rtrim($dato->meses_presupuesto, '') // Quita la última coma y espacio
+                                            : '<span class="badge bg-warning">Sin Plan Financiero</span>'; ?>
                                         </td>
                                         <td>
                                             <?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>

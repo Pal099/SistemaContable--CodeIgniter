@@ -15,7 +15,8 @@ class EjecucionP_model extends CI_Model
      * - El asiento con Debe > 0 (primer asiento) contiene el monto a sumar.
      * - El asiento con Haber > 0 (segundo asiento) contiene la cuenta presupuestada.
      */
-        public function actualizarEjecucion($numero) {
+    public function actualizarEjecucion($numero)
+    {
         // Buscar la cuenta presupuestada (segundo asiento)
         $this->db->select('IDCuentaContable');
         $this->db->from('num_asi_deta');
@@ -23,12 +24,12 @@ class EjecucionP_model extends CI_Model
         $this->db->where('Haber >', 0);
         $query = $this->db->get();
         $cuenta = $query->row();
-    
+
         if (!$cuenta) {
             log_message('error', 'No se encontró cuenta presupuestada para el asiento número: ' . $numero);
             return false;
         }
-    
+
         // Buscar el monto del Debe (primer asiento)
         $this->db->select('Debe');
         $this->db->from('num_asi_deta');
@@ -36,55 +37,75 @@ class EjecucionP_model extends CI_Model
         $this->db->where('Debe >', 0);
         $query = $this->db->get();
         $monto = $query->row();
-    
+
         if (!$monto) {
             log_message('error', 'No se encontró monto en Debe para el asiento número: ' . $numero);
             return false;
         }
-    
+
         // Buscar el presupuesto asociado a la cuenta presupuestada
         $this->db->select('ID_Presupuesto');
         $this->db->from('presupuestos');
         $this->db->where('Idcuentacontable', $cuenta->IDCuentaContable);
         $query = $this->db->get();
         $presupuesto = $query->row();
-    
+
         if (!$presupuesto) {
             log_message('error', 'No se encontró presupuesto para la cuenta: ' . $cuenta->IDCuentaContable);
             return false;
         }
-    
+
         // Definir la fecha en la que se hará la actualización (se usa el primer día del mes de la fecha actual)
-        $fecha = date('Y-m-01');
-    
+        $fecha = date('Y-m-01 00:00:00');
+        $mes = date('Y-m-d H:i:s', strtotime($fecha));
+
         // Obtener el tipo de asiento para saber qué campo actualizar
         $this->db->select('id_form');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
         $query = $this->db->get();
         $asiento = $query->row();
-    
+
         if (!$asiento) {
             log_message('error', 'No se encontró el tipo de asiento para el número: ' . $numero);
             return false;
         }
-    
+
         // Actualizar la tabla ejecucion_mensual
-        if ($asiento->id_form == 1) {
-            // Si es obligación, se suma al campo "obligado"
-            $this->db->set('obligado', 'obligado + ' . $monto->Debe, false);
-        } elseif ($asiento->id_form == 2) {
-            // Si es pago, se suma al campo "pagado"
-            $this->db->set('pagado', 'pagado + ' . $monto->Debe, false);
-        }
-    
+        $this->db->select('*');
+        $this->db->from('ejecucion_mensual');
         $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
-        $this->db->where('mes', $fecha);
-        $this->db->update('ejecucion_mensual');
-    
-        log_message('info', "Ejecución mensual actualizada para el presupuesto {$presupuesto->ID_Presupuesto} con monto {$monto->Debe} (asiento número: $numero)");
-        return true;
+        $this->db->where('mes', $mes);
+        $query = $this->db->get();
+
+
+
+        if ($query->num_rows() > 0) {
+            // Si ya existe, actualizar el valor correspondiente
+            if ($asiento->id_form == 1) {
+                $this->db->set('obligado', 'obligado + ' . $monto->Debe, false);
+            } elseif ($asiento->id_form == 2) {
+                $this->db->set('pagado', 'pagado + ' . $monto->Debe, false);
+            }
+
+            $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
+            $this->db->where('mes', $mes);
+            $this->db->update('ejecucion_mensual');
+
+            log_message('info', "Ejecución mensual actualizada para el presupuesto {$presupuesto->ID_Presupuesto} con monto {$monto->Debe} (asiento número: $numero)");
+        } else {
+            // Insertar si no existe
+            $data = [
+                'id_presupuesto' => $presupuesto->ID_Presupuesto,
+                'mes' => $mes,
+                'obligado' => $asiento->id_form == 1 ? $monto->Debe : 0,
+                'pagado' => $asiento->id_form == 2 ? $monto->Debe : 0
+            ];
+            $this->db->insert('ejecucion_mensual', $data);
+            log_message('info', "Nuevo registro creado en ejecucion_mensual para id_presupuesto {$presupuesto->ID_Presupuesto} y mes {$fecha} (asiento número: $numero)");
+        }
     }
+
 
     public function obtener_ejecucion_completa($cuenta_id, $fecha_inicio, $fecha_fin)
     {

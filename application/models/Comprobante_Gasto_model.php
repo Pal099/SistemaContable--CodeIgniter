@@ -62,55 +62,60 @@ class Comprobante_Gasto_model extends CI_Model {
 			programa.nombre AS programa_id_pro,
 			cuentacontable.Codigo_CC as codigo,
 			RIGHT(
-            CONCAT(
-                SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 4), ".", -1),
-                SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 5), ".", -1)
-            ), 3
-        	) as rubro, 
+				CONCAT(
+					SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 4), ".", -1),
+					SUBSTRING_INDEX(SUBSTRING_INDEX(cuentacontable.Codigo_CC, ".", 5), ".", -1)
+				), 3
+			) as rubro, 
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,
-			presupuestos.pre_ene,
-			presupuestos.pre_feb,
-			presupuestos.pre_mar,
-			presupuestos.pre_abr,
-			presupuestos.pre_may,
-			presupuestos.pre_jun,
-			presupuestos.pre_jul,
-			presupuestos.pre_ago,
-			presupuestos.pre_sep,
-			presupuestos.pre_oct,
-			presupuestos.pre_nov,
-			presupuestos.pre_dic,
+			GROUP_CONCAT(DISTINCT pm.mes ORDER BY FIELD(pm.mes, 
+				"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", 
+				"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+			) SEPARATOR ", ") AS meses_presupuesto,
 			presupuestos.id_uni_respon_usu,
 			presupuestos.estado,
-			(
-				CASE
-					WHEN presupuestos.pre_dic != 0 THEN presupuestos.pre_dic
-					WHEN presupuestos.pre_nov != 0 THEN presupuestos.pre_nov
-					WHEN presupuestos.pre_oct != 0 THEN presupuestos.pre_oct
-					WHEN presupuestos.pre_sep != 0 THEN presupuestos.pre_sep
-					WHEN presupuestos.pre_ago != 0 THEN presupuestos.pre_ago
-					WHEN presupuestos.pre_jul != 0 THEN presupuestos.pre_jul
-					WHEN presupuestos.pre_jun != 0 THEN presupuestos.pre_jun
-					WHEN presupuestos.pre_may != 0 THEN presupuestos.pre_may
-					WHEN presupuestos.pre_abr != 0 THEN presupuestos.pre_abr
-					WHEN presupuestos.pre_mar != 0 THEN presupuestos.pre_mar
-					WHEN presupuestos.pre_feb != 0 THEN presupuestos.pre_feb
-					WHEN presupuestos.pre_ene != 0 THEN presupuestos.pre_ene
-					ELSE 0
-				END
-			) AS saldo_actual
+			COALESCE((
+				SELECT pm_sub.monto_presupuestado - COALESCE(SUM(ej.pagado), 0)
+				FROM presupuesto_mensual pm_sub
+				LEFT JOIN ejecucion_mensual ej 
+					ON ej.id_presupuesto = pm_sub.id_presupuesto 
+					AND MONTH(ej.mes) = CASE pm_sub.mes
+						WHEN "Enero" THEN 1
+						WHEN "Febrero" THEN 2
+						WHEN "Marzo" THEN 3
+						WHEN "Abril" THEN 4
+						WHEN "Mayo" THEN 5
+						WHEN "Junio" THEN 6
+						WHEN "Julio" THEN 7
+						WHEN "Agosto" THEN 8
+						WHEN "Septiembre" THEN 9
+						WHEN "Octubre" THEN 10
+						WHEN "Noviembre" THEN 11
+						WHEN "Diciembre" THEN 12
+					END
+					AND YEAR(ej.mes) = YEAR(presupuestos.Año)
+				WHERE pm_sub.id_presupuesto = presupuestos.ID_Presupuesto
+				ORDER BY FIELD(pm_sub.mes, 
+					"Diciembre", "Noviembre", "Octubre", "Septiembre", "Agosto", 
+					"Julio", "Junio", "Mayo", "Abril", "Marzo", "Febrero", "Enero"
+				) DESC
+				LIMIT 1
+			), 0) AS saldo_actual
 		');
-	
+		
 		$this->db->from('presupuestos');
 		$this->db->join('origen_de_financiamiento', 'presupuestos.origen_de_financiamiento_id_of = origen_de_financiamiento.id_of');
 		$this->db->join('fuente_de_financiamiento', 'presupuestos.fuente_de_financiamiento_id_ff = fuente_de_financiamiento.id_ff');
 		$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro');
 		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.Idcuentacontable');
+		$this->db->join('presupuesto_mensual pm', 'pm.id_presupuesto = presupuestos.ID_Presupuesto', 'left');
+		
+		$this->db->group_by('presupuestos.ID_Presupuesto');
 	
 		return $this->db->get()->result_array();
-	}
+	}//cambiamos para que se adapte a la nueva estructura de la tabla de presupuestos
 	public function obtener_comprobantes_por_pedido($id_pedido) {
 		$this->db->select('*');
 		$this->db->from('comprobante_gasto');
