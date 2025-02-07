@@ -506,30 +506,27 @@
             </div>
         </div>
     </div>
-</body>
-<script>
+</body><script>
     $("#formularioPrincipal").on("submit", function (event) {
+        event.preventDefault();
 
-        var ivac = $(this).find("input[name='iva']").is(':checked') ? 1 : 0;
+        const ivac = $("input[name='iva']").is(':checked') ? 1 : 0;
 
-        var datosFormulario = {
+        const datosFormulario = {
             fecha: $("#fecha").val(),
             id_unidad: $("#id_unidad").val(),
             id_pedido: $("#id_pedido").val(),
             concepto: $("#concepto").val(),
             idproveedor: $("#idproveedor").val(),
-
-
         };
 
-        var filas = [];
+        let filas = [];
 
         $("#tablaP tbody tr").each(function () {
-            var fila = {
+            const fila = {
                 id_pedido: $(this).find("input[name='npedido']").val(),
                 id_unidad: $(this).find("input[name='id_unidad']").val(),
                 id_item: $(this).find("input[name='id_item']").val(),
-                //idpresupuesto: $(this).find("input[name='idpresupuesto']").val(),
                 rubro: $(this).find("input[name='rubro']").val(),
                 iva: ivac,
                 descripcion: $(this).find("input[name='descrip']").val(),
@@ -543,26 +540,16 @@
             filas.push(fila);
         });
 
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
+        const datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
         };
 
-        // Mostrar los datos antes de enviarlos
-        //alert("Datos del formulario: " + JSON.stringify(datosCompletos));
-        //console.log("Datos del formulario: ", JSON.stringify(datosCompletos));
-
-        // Enviamos los datos al controlador mediante AJAX
         $.ajax({
             url: '<?php echo base_url("patrimonio/comprobante_gasto/store"); ?>',
             type: 'POST',
-            data: {
-                datos: datosCompletos
-            },
-            // Asumimos que la respuesta es texto plano
+            data: { datos: datosCompletos },
             success: function (response) {
-
                 if (response === "success") {
                     window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
                 } else {
@@ -570,13 +557,12 @@
                 }
             },
             error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                console.log(xhr.responseText);
                 console.log(datosCompletos);
                 alert("Error en la solicitud AJAX: " + status + " - " + error);
             }
         });
     });
-
 </script>
 <script>
     $(document).ready(function () {
