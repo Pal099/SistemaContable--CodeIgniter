@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
 <body>
@@ -109,11 +112,12 @@
                                                         $conexion->close();
                                                         ?>
 
-                                                    <div class="form-group col-md-1 columna-hidden">
-                                                            <label for="op" >N° Op</label>
+                                                        <div class="form-group col-md-1 columna-hidden">
+                                                            <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
-                                                        </div>                                                        <div class="form-group col-md-2 columna-hidden">
+                                                        </div>
+                                                        <div class="form-group col-md-2 columna-hidden">
                                                             <input type="text" class="form-control w-100" id="num_asio"
                                                                 name="num_asio" readonly>
                                                         </div>
@@ -1368,7 +1372,8 @@
     <!-- Script modal lista de obligaciones (seleccionar) ubiqué acá para que se entienda mejor (isaac)-->
 
     <script>
-        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas, descrip,
+    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas,
+        descrip,
         deta, comp, cheq, idcuenta, numasio, pagado) {
 
         // var descripcionConPrefijo = 'A.P. ' + descrip;
@@ -1856,10 +1861,12 @@ $(document).ready(function() {
         $.ajax({
             url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
             type: 'POST',
-            data: { datos: datosCompletos },
+            data: {
+                datos: datosCompletos
+            },
             success: function(response) {
                 if (response.includes('Datos guardados exitosamente.')) {
-                    alert('Datos guardados exitosamente.');
+                    mostrarAlertaExito();
                 } else {
                     alert('Error al guardar los datos: ' + response);
                 }

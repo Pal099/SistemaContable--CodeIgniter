@@ -7,7 +7,9 @@
     <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
 <body>
@@ -1186,105 +1188,108 @@
     </script>
     <!-- Envio de formulario principal -->
     <script>
-        $(document).ready(function() {
-            $("#formularioPrincipal").on("submit", function(e) {
-                e.preventDefault(); // Prevent form submission initially
+    $(document).ready(function() {
+        $("#formularioPrincipal").on("submit", function(e) {
+            e.preventDefault(); // Prevent form submission initially
 
-                if (!validarCamposDinamicos()) {
-                    alert("Por favor, complete todos los campos obligatorios.");
-                    return false;
-                }
-
-                const strSwitchEstado = $('#strSwitch').is(':disabled') ? 'on' : 'off';
-                const datosFormulario = obtenerDatosFormulario(strSwitchEstado);
-                const filas = obtenerFilasDinamicas();
-                const datosCompletos = {
-                    datosFormulario: datosFormulario,
-                    filas: filas,
-                    filasEliminadas: window.idNumAsiDetaEliminados,
-                };
-
-                console.log('Todos los datos: ', datosCompletos);
-
-                const diferenciaActualizada = parseFloat($("#diferencia").val());
-
-                if (diferenciaActualizada === 0) {
-                    enviarDatos(datosCompletos);
-                } else {
-                    alert('El debe y el haber son diferentes');
-                }
-            });
-
-            function validarCamposDinamicos() {
-                if ($("#filaEdicion").is(":visible")) {
-                    const campos = ["id_pro", "id_ff", "id_of", "Debe", "Codigo_CC"];
-                    for (const campo of campos) {
-                        if ($(`select[name='${campo}']`).val() === "") {
-                            return false;
-                        }
-                    }
-                }
-                return true;
+            if (!validarCamposDinamicos()) {
+                alert("Por favor, complete todos los campos obligatorios.");
+                return false;
             }
 
-            function obtenerDatosFormulario(strSwitchEstado) {
-                return {
-                    IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
-                    op: $("#op").val(),
-                    ruc: $("#ruc").val(),
-                    num_asi: $("#num_asi").val(),
-                    contabilidad: $("#razon_social").val(),
-                    concepto: $("#concepto").val(),
-                    fecha: $("#fecha").val(),
-                    pedmat: $("#pedi_matricula").val(),
-                    modalidad: $("#modalidad").val(),
-                    tipo_presu: $("#tipo_presupuesto").val(),
-                    nro_exp: $("#nro_exp").val(),
-                    total: $("#total").val(),
-                    nivel: $("#niveles").val(),
-                    strSwitch: strSwitchEstado,
-                };
-            }
+            const strSwitchEstado = $('#strSwitch').is(':disabled') ? 'on' : 'off';
+            const datosFormulario = obtenerDatosFormulario(strSwitchEstado);
+            const filas = obtenerFilasDinamicas();
+            const datosCompletos = {
+                datosFormulario: datosFormulario,
+                filas: filas,
+                filasEliminadas: window.idNumAsiDetaEliminados,
+            };
 
-            function obtenerFilasDinamicas() {
-                const filas = [];
-                $("#miTabla tbody tr:visible").each(function() {
-                    const fila = {};
-                    $(this).find('input, select').each(function() {
-                        const nombreCampo = $(this).attr('name');
-                        let valorCampo = $(this).val();
-                        if (nombreCampo === 'Debe' || nombreCampo === 'Haber') {
-                            valorCampo = valorCampo.replace(/[^\d.-]/g, '');
-                        }
-                        fila[nombreCampo] = valorCampo;
-                    });
-                    fila['Asi_Deta_NULL'] = !('IDNum_Asi_Deta' in fila);
-                    filas.push(fila);
-                });
-                return filas;
-            }
+            console.log('Todos los datos: ', datosCompletos);
 
-            function enviarDatos(datosCompletos) {
-                $.ajax({
-                    url: '<?php echo base_url("obligaciones/Diario_obligaciones/update"); ?>',
-                    type: 'POST',
-                    data: { datos: datosCompletos },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.success) {
-                            alert(response.message);
-                            window.location.href = response.redirect_url;
-                        } else {
-                            window.location.href = '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>';
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr.responseText);
-                        alert("Error en la solicitud AJAX: " + status + " - " + error);
-                    }
-                });
+            const diferenciaActualizada = parseFloat($("#diferencia").val());
+
+            if (diferenciaActualizada === 0) {
+                enviarDatos(datosCompletos);
+            } else {
+                alert('El debe y el haber son diferentes');
             }
         });
+
+        function validarCamposDinamicos() {
+            if ($("#filaEdicion").is(":visible")) {
+                const campos = ["id_pro", "id_ff", "id_of", "Debe", "Codigo_CC"];
+                for (const campo of campos) {
+                    if ($(`select[name='${campo}']`).val() === "") {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function obtenerDatosFormulario(strSwitchEstado) {
+            return {
+                IDNum_Asi: '<?= $asiento[0]['datosFijos']['IDNum_Asi'] ?>',
+                op: $("#op").val(),
+                ruc: $("#ruc").val(),
+                num_asi: $("#num_asi").val(),
+                contabilidad: $("#razon_social").val(),
+                concepto: $("#concepto").val(),
+                fecha: $("#fecha").val(),
+                pedmat: $("#pedi_matricula").val(),
+                modalidad: $("#modalidad").val(),
+                tipo_presu: $("#tipo_presupuesto").val(),
+                nro_exp: $("#nro_exp").val(),
+                total: $("#total").val(),
+                nivel: $("#niveles").val(),
+                strSwitch: strSwitchEstado,
+            };
+        }
+
+        function obtenerFilasDinamicas() {
+            const filas = [];
+            $("#miTabla tbody tr:visible").each(function() {
+                const fila = {};
+                $(this).find('input, select').each(function() {
+                    const nombreCampo = $(this).attr('name');
+                    let valorCampo = $(this).val();
+                    if (nombreCampo === 'Debe' || nombreCampo === 'Haber') {
+                        valorCampo = valorCampo.replace(/[^\d.-]/g, '');
+                    }
+                    fila[nombreCampo] = valorCampo;
+                });
+                fila['Asi_Deta_NULL'] = !('IDNum_Asi_Deta' in fila);
+                filas.push(fila);
+            });
+            return filas;
+        }
+
+        function enviarDatos(datosCompletos) {
+            $.ajax({
+                url: '<?php echo base_url("obligaciones/Diario_obligaciones/update"); ?>',
+                type: 'POST',
+                data: {
+                    datos: datosCompletos
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.success) {
+                        console.log(response);
+                    } else {
+                        redirect =
+                        '<?php echo base_url("obligaciones/diario_obligaciones/add"); ?>';
+                        mostrarAlertaEdicion(redirect);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                    alert("Error en la solicitud AJAX: " + status + " - " + error);
+                }
+            });
+        }
+    });
     </script>
 
     <!-- Calcula la diferencia de los debes y haberes este script -->

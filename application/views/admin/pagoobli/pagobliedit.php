@@ -7,7 +7,9 @@
     <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet">
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
 <body>
@@ -1308,7 +1310,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Acá termina lo de retención -->
-                                                     
+
                                                     <!-- Toast del total para la retencion -->
                                                     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
                                                         <div id="toastRetenciones" class="toast text-bg-warning"
@@ -2080,7 +2082,8 @@
 
     <!-- Envio de formulario principal -->
     <script>
-    $("#formularioPrincipal").on("submit", function() {
+    $("#formularioPrincipal").on("submit", function(e) {
+        e.preventDefault();
         //validacion de los campos dianmicos para evitar conflictos a la hora de enviar el form
         if ($("#filaEdicion").is(":visible")) {
             var id_pro = $("select[name='id_pro']").val();
@@ -2153,28 +2156,26 @@
                     datos: datosCompletos
                 },
                 success: function(response) {
+                    console.log("Respuesta del servidor:", response);
                     console.log(response);
                     if (response.success) {
-                        alert(response.message);
-                        window.location.href = response.redirect_url;
+                        console.log(response);
+                        redirect =
+                            '<?php echo base_url("obligaciones/pago_de_obligaciones/add"); ?>';
+                        mostrarAlertaEdicion(redirect);
                     } else {
-                        window.location.href =
-                            '<?php echo base_url("obligaciones/pago_de_obligaciones/add"); ?>'
+                        redirect =
+                            '<?php echo base_url("obligaciones/pago_de_obligaciones/add"); ?>';
+                        mostrarAlertaEdicion(redirect);
+                        console.log("Error");
+                        console.log(response);
                     }
                 },
                 error: function(xhr, status, error) {
-
                     console.log(xhr
                         .responseText); // Agrega esta línea para ver la respuesta del servidor
                     console.log(datosCompletos);
                     alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-
-                    console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
-
                 }
             });
         } else {
