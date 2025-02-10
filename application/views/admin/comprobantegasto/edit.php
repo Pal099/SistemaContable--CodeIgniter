@@ -42,32 +42,6 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <?php
-                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-
-                                                    if ($conexion->connect_error) {
-                                                        die("Error de conexión: " . $conexion->connect_error);
-                                                    }
-
-                                                    // Consulta para obtener el máximo idcomprobante
-                                                    $sql = "SELECT MAX(id_pedido) AS maxPedido FROM comprobante_gasto";
-                                                    $resultado = $conexion->query($sql);
-
-                                                    // Verificar si la consulta fue exitosa
-                                                    if ($resultado) {
-                                                        $fila = $resultado->fetch_assoc();
-                                                        $maxPedido = $fila['maxPedido'];
-                                                    } else {
-                                                        die("Error en la consulta: " . $conexion->error);
-                                                    }
-
-                                                    // Calcular el siguiente número de comprobante
-                                                    $nextPedido = $maxPedido + 1;
-
-                                                    // Cerrar la conexión a la base de datos
-                                                    $conexion->close();
-                                                    ?>
-
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
@@ -224,7 +198,7 @@
                                                                                 <input type="number"
                                                                                     class="form-control border-0 bg-transparent IDComprobanteGasto"
                                                                                     id=" IDComprobanteGasto"
-                                                                                    name=" IDComprobanteGasto"
+                                                                                    name="IDComprobanteGasto"
                                                                                     value="<?php echo $comprobanteP->IDComprobanteGasto; ?>"
                                                                                     readonly>
                                                                             </div>
@@ -536,7 +510,8 @@
             </div>
         </div>
     </div>
-</div><script>
+</div>
+<script>
     $("#formularioPrincipal").on("submit", function (event) {
         event.preventDefault();
 
@@ -554,12 +529,12 @@
 
         $("#tablaP tbody tr").each(function () {
             const fila = {
-                id_pedido: $(this).find("input[name='id_pedido']").val(),
-                IDComprobanteGasto: $(this).find("input[name='IDComprobanteGasto']").val(),
+                id_pedido: $("#id_pedido").val(),//  Usar el id_pedido del formulario principal
+                IDComprobanteGasto: IDComprobanteGasto || undefined, // No incluir si está vacío
                 id_unidad: $(this).find("input[name='id_unidad']").val(),
                 id_item: $(this).find("input[name='id_item']").val(),
                 rubro: $(this).find("input[name='rubro']").val(),
-                iva: ivac,
+                iva: $(this).find(".iva-checkbox").is(':checked') ? 1 : 0, // El checkbox iva está siendo validado incorrectamente. Debes verificar el estado del checkbox por fila, no globalmente.
                 descripcion: $(this).find("input[name='descripcion']").val(),
                 preciounit: $(this).find("input[name='preciounit']").val(),
                 cantidad: $(this).find("input[name='cantidad']").val(),
@@ -720,28 +695,23 @@
 
             // Clonar la fila base
             var nuevaFila = $("#filaB").clone();
+
+            // Obtener valores actuales del formulario principal
+            var idPedidoPrincipal = $("#id_pedido").val();
+            var idUnidadPrincipal = $("#id_unidad").val();
+
+            // Asignar valores a los campos clonados
+            nuevaFila.find(".id_pedido").val(idPedidoPrincipal);
+            nuevaFila.find(".id_unidad").val(idUnidadPrincipal);
+
+            // Eliminar solo el campo IDComprobanteGasto en filas nuevas
+            nuevaFila.find("input[name='IDComprobanteGasto']").remove();
+
+            // Mostrar botón de eliminar
             nuevaFila.find(".eliminarFila").removeAttr('hidden');
-            nuevaFila.find("[id]").removeAttr('id');
-            nuevaFila.find("select, input").addClass("filaClonada");
-            nuevaFila.find("select, input").not('.index, .npedido, .id').val("");
-            nuevaFila.find(".index").val(indice);
-            nuevaFila.find(".piva").prop('readonly', true);
-            nuevaFila.find(".iva-checkbox").prop('checked', false);
-            nuevaFila.show();
 
-            // Agregar la nueva fila al cuerpo de la tabla
+            // Agregar la fila a la tabla
             $("#tablaP tbody").append(nuevaFila);
-        });
-        // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
-            $(this).closest("tr").remove();
-        });
-
-        // Manejar el cambio en la casilla de verificación y los campos
-        $(document).on("change", ".iva-checkbox, .preciounit, .cantidad, .porcentaje_iva", function () {
-            var row = $(this).closest('tr');
-            actualizarValores(row);
         });
 
         // Función para actualizar los valores de exenta y gravada

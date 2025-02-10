@@ -22,7 +22,11 @@ class Comprobante_Gasto_model extends CI_Model {
 		return $this->db->insert('comprobante_gasto', $data);
 	}
 	
-	
+	public function getMaxPedido() {
+        $this->db->select_max('id_pedido', 'maxPedido');
+        $query = $this->db->get('comprobante_gasto');
+        return $query->row()->maxPedido;
+    }
     
 	public function getComprobanteGasto($id){
 		$this->db->where("IDComprobanteGasto",$id);
