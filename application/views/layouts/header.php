@@ -28,7 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet">
-  
+
 
   <!-- jquery -->
   <script src="<?php echo base_url(); ?>/assets/DataTables/jquery/jquery-3.7.1.min.js"></script>
@@ -67,17 +67,28 @@
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="<?php echo base_url(); ?>assets/img/codex.png" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2" style="color: #fff;">K. Anderson</span>
+          <span class="d-none d-md-block dropdown-toggle ps-2" style="color: #fff;"><?php echo $this->session->userdata('Nombre_usuario'); ?></span>
         </a><!-- End Profile Iamge Icon -->
 
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6>Kevin Anderson</h6>
+            <h6><?php echo $this->session->userdata('unidad'); ?></h6>
             <span>Web Designer</span>
           </li>
           <li>
             <hr class="dropdown-divider">
           </li>
+
+           <!-- Nueva opción para el Modo Oscuro -->
+    <li>
+        <a id="darkModeToggle" class="dropdown-item d-flex align-items-center" href="#">
+            <i class="bi bi-moon"></i>
+            <span>Modo Oscuro</span>
+        </a>
+    </li>
+    <li>
+        <hr class="dropdown-divider">
+    </li>
 
           <li>
             <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
@@ -110,9 +121,10 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
+            <a class="dropdown-item d-flex align-items-center" href="<?php echo base_url('login/logout'); ?>">
               <i class="bi bi-box-arrow-right"></i>
               <span>Sign Out</span>
+
             </a>
           </li>
 
@@ -121,4 +133,38 @@
     </ul>
   </nav><!-- End Icons Navigation -->
 
+
+
 </header><!-- End Header -->
+
+
+<script>
+    const darkModeToggle = document.getElementById('darkModeToggle');
+
+    // Evento de clic para alternar el modo oscuro
+    darkModeToggle.addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+
+        // Cambiar el texto de la opción
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        darkModeToggle.innerHTML = `
+            <i class="bi ${isDarkMode ? 'bi-sun' : 'bi-moon'}"></i>
+            <span>${isDarkMode ? 'Modo Claro' : 'Modo Oscuro'}</span>
+        `;
+
+        // Guardar preferencia en localStorage
+        localStorage.setItem('darkMode', isDarkMode);
+    });
+
+    // Cargar la preferencia del usuario
+    window.addEventListener('load', function () {
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            darkModeToggle.innerHTML = `
+                <i class="bi bi-sun"></i>
+                <span>Modo Claro</span>
+            `;
+        }
+    });
+</script>

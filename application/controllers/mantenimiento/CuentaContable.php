@@ -20,21 +20,82 @@ class CuentaContable extends CI_Controller {
             'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id_uni_respon_usu),
         );
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/CuentaContable/list', $data);
         $this->load->view('layouts/footer');
     }
 
+
+    public function obtenerTiposPorCodigoPadre() {
+        $codigoPadre = $this->input->post('codigoPadre'); // Recibe el código del padre desde el frontend
+
+        if ($codigoPadre) {
+            // Log para verificar el valor recibido
+            log_message('debug', 'Código Padre Recibido: ' . $codigoPadre);
+    
+            // Llamar al modelo
+            $tipos = $this->CuentaContable_model->getTiposPorCodigoPadre($codigoPadre);
+    
+            // Verificar si hay resultados
+            if (!empty($tipos)) {
+                // Formatear resultados como JSON
+                $resultados = array_map(function($tipo) {
+                    return array(
+                        'idcuentacontable' => $tipo ->IDCuentaContable,
+                        'codigo' => $tipo->Codigo_CC,
+                        'descripcion' => $tipo->Descripcion_CC,
+                        'tipo' => $tipo->tipo,
+                        'id_padre' => $tipo->padre_id
+                    );
+                }, $tipos);
+                echo json_encode($resultados);
+            } else {
+                echo json_encode([]); // Devuelve un array vacío si no hay resultados
+            }
+        } else {
+            echo json_encode(['error' => 'Código Padre no proporcionado.']);
+        }
+    }
+    
+    
+
+
+
+
+
+
+
+
+
+    public function getCuentaPadre() {
+        $codigo_cc = $this->input->get('padre_id');
+
+        // Obtener la cuenta padre desde el modelo
+        $cuentaPadre = $this->CuentaContableModel->getCuentaContable2();
+
+        if ($cuentaPadre) {
+            echo json_encode(array('success' => true, 'cuentaPadre' => $cuentaPadre));
+        } else {
+            echo json_encode(array('success' => false, 'message' => 'Cuenta padre no encontrada'));
+        }
+    }
+
     public function add() {
         $tipo = $this->input->get('tipo');  // Obtener el tipo seleccionado desde la URL
+        $codigoPadre = $this->input->get('padre_id') ?? ''; // Asegura que no sea null
+    
         $data = array(
             'cuentasPadre' => $this->CuentaContable_model->getCuentasPorTipo($tipo),  // Obtener las cuentas padre basadas en el tipo
+            'cuentacontablePadre' => $this->CuentaContable_model->getCuentaContable2(),  // Otra consulta relacionada
+            'cuentasPadres' => $this->CuentaContable_model->getCuentaContable2(),  // Tipos por padre
         );
+        
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/CuentaContable/add', $data);
         $this->load->view('layouts/footer');
     }
+    
     
     
 	public function store() {
@@ -42,25 +103,27 @@ class CuentaContable extends CI_Controller {
         $nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-
-        $codigo = $this->input->post("Codigo_CC");
-        $descripcion = $this->input->post("Descripcion_CC");
-        $tipo = $this->input->post("tipo");
+        $idCuentaContable= $this->input->post("IDCuentaContable");
+        $codigo_nuevo = $this->input->post("codigo_nuevo");
+        $descripcion_nuevo = $this->input->post("descri_nueva");
+        $tipo = $this->input->post('nombreTipo');
         $imputable = $this->input->post("imputable") === '1' ? 1 : 0;
-        $padre_id = $this->input->post("padre_id");
+        $padree_id = $this->input->post("id_padre");
+
     
         // Validación del formulario
-        $this->form_validation->set_rules("Codigo_CC", "Código", "required|is_unique[cuentacontable.Codigo_CC]");
-        $this->form_validation->set_rules("Descripcion_CC", "Descripción", "required");
+        $this->form_validation->set_rules("codigo_nuevo", "CODIGO_NUEVO", "required|is_unique[cuentacontable.Codigo_CC]");
+        $this->form_validation->set_rules("descri_nueva", "DESCRIPCION", "required");
         // ... (otros campos si es necesario)
         if ($this->form_validation->run() == TRUE) {
             // Preparar datos para insertar.
             $data = array(
-                'Codigo_CC' => $codigo,
-                'Descripcion_CC' => $descripcion,
+                'IDCuentaContable' =>$idCuentaContable,
+                'Codigo_CC' => $codigo_nuevo,
+                'Descripcion_CC' => $descripcion_nuevo,
                 'tipo' => $tipo,
                'imputable' => $imputable,  // usar la variable booleana
-                'padre_id' => $padre_id,
+                'padre_id' => $padree_id,
                 'id_uni_respon_usu' =>$id_uni_respon_usu,
                 'estado' => '1' 
             );
@@ -79,11 +142,14 @@ class CuentaContable extends CI_Controller {
                 $this->add();
                 return;
             }
+            
         
         } else {
            
             $this->add();
         }
+
+        
     }
     
 
@@ -93,19 +159,22 @@ class CuentaContable extends CI_Controller {
             'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id),
         );
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/CuentaContable/edit', $data);
         $this->load->view('layouts/footer');
     }
 
     public function update() {
-        // Obtener los datos del formulario
-        $idCuentaContable = $this->input->post('IDCuentaContable');
-        $codigo = $this->input->post('Codigo_CC');
-        $descripcion = $this->input->post('Descripcion_CC');
-        $tipo = $this->input->post('tipo');
+        $codigo_nuevo = $this->input->post("codigo_nuevo");
+        $descripcion_nuevo = $this->input->post("descri_nueva");
+        $tipo = $this->input->post("tipo");
         $imputable = $this->input->post("imputable") === '1' ? 1 : 0;
-        $padre_id = $this->input->post('padre_id');
+        $padree_id = $this->input->post("id_padre");
+
+    
+        // Validación del formulario
+        $this->form_validation->set_rules("codigo_nuevo", "CODIGO_NUEVO", "required|is_unique[cuentacontable.Codigo_CC]");
+        $this->form_validation->set_rules("descri_nueva", "DESCRIPCION", "required");
 
         // Validación del formulario
         $this->form_validation->set_rules('Codigo_CC', 'Código', 'required');
@@ -116,11 +185,13 @@ class CuentaContable extends CI_Controller {
         if ($this->form_validation->run() == TRUE) {
             // Preparar datos para actualizar
             $data = array(
-                'Codigo_CC' => $codigo,
-                'Descripcion_CC' => $descripcion,
+                'Codigo_CC' => $codigo_nuevo,
+                'Descripcion_CC' => $descripcion_nuevo,
                 'tipo' => $tipo,
-                'imputable' => $imputable,  // usar la variable booleana
+               'imputable' => $imputable,  // usar la variable booleana
                 'padre_id' => $padre_id,
+                'id_uni_respon_usu' =>$id_uni_respon_usu,
+                'estado' => '1' 
             );
 
             // Actualizar la cuenta
@@ -139,7 +210,7 @@ class CuentaContable extends CI_Controller {
             'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id),
         );
         $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
+        $this->load->view('layouts/sideBar');
         $this->load->view('admin/CuentaContable/view', $data);
         $this->load->view('layouts/footer');
     }
@@ -171,7 +242,10 @@ class CuentaContable extends CI_Controller {
                 // ... (otros casos)
         }
     }
-    public function getCuentasPadre(){
+   
+   
+   
+    /*public function getCuentasPadre(){
         $tipoHijo = $this->input->post('tipo');
         $cuentasPadre = $this->CuentaContable_model->getCuentasPadrePorTipo($tipoHijo);
         
@@ -183,8 +257,12 @@ class CuentaContable extends CI_Controller {
                 'data' => $cuentasPadre,
                 'message' => !empty($cuentasPadre) ? '' : 'No se encontraron cuentas padre para el tipo seleccionado.'
             ]));
-    }
-    public function getCuentasPadrePorTipo(){
+    }*/
+
+
+
+
+    /*public function getCuentasPadrePorTipo(){
         $tipo = $this->input->post('tipo');
         $cuentasPadrePermitidas = $this->CuentaContable_model->getCuentasPadrePermitidasPorTipo($tipo);
 
@@ -199,7 +277,7 @@ class CuentaContable extends CI_Controller {
                 ->set_content_type('application/json')
                 ->set_output(json_encode(['message' => 'No se encontraron cuentas padre para el tipo seleccionado']));
         }
-    }
+    }*/
     
 }
        

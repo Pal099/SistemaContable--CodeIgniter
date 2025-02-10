@@ -61,6 +61,7 @@
                                                         <input type="number" class="form-control"
                                                             id="TotalPresupuestado" name="TotalPresupuestado" required>
                                                     </div>
+
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalModificado">Presupuesto Modificado:</label>
                                                         <input type="number" class="form-control" id="TotalModificado"
@@ -215,6 +216,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        
+                                                        </div>
+                                                    </div>
+                                                    
                                                     </div>
                                                 </div>
                                             </div>

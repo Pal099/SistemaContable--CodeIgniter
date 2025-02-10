@@ -42,32 +42,6 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <?php
-                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-
-                                                    if ($conexion->connect_error) {
-                                                        die("Error de conexión: " . $conexion->connect_error);
-                                                    }
-
-                                                    // Consulta para obtener el máximo idcomprobante
-                                                    $sql = "SELECT MAX(id_pedido) AS maxPedido FROM comprobante_gasto";
-                                                    $resultado = $conexion->query($sql);
-
-                                                    // Verificar si la consulta fue exitosa
-                                                    if ($resultado) {
-                                                        $fila = $resultado->fetch_assoc();
-                                                        $maxPedido = $fila['maxPedido'];
-                                                    } else {
-                                                        die("Error en la consulta: " . $conexion->error);
-                                                    }
-
-                                                    // Calcular el siguiente número de comprobante
-                                                    $nextPedido = $maxPedido + 1;
-
-                                                    // Cerrar la conexión a la base de datos
-                                                    $conexion->close();
-                                                    ?>
-
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
@@ -97,28 +71,36 @@
                                                             readonly>
                                                     </div>
                                                     <div class="row">
-    <!-- Campo de RUC -->
-    <div class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-        <label for="ruc">RUC:</label>
-        <input type="text" class="form-control" id="ruc" name="ruc" readonly>
-        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-    </div>
+                                                        <!-- Campo de RUC -->
+                                                        <div
+                                                            class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                            <label for="ruc">RUC:</label>
+                                                            <input type="text" class="form-control" id="ruc" name="ruc"
+                                                                readonly>
+                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                        </div>
 
-    <!-- Campo de Razón Social con botón de búsqueda -->
-    <div class="form-group col-md-8">
-        <label for="razon_social" class="form-label">Razón Social:</label>
-        <div class="input-group">
-            <input type="text" class="form-control" id="razon_social" name="razon_social" required readonly>
-            <div class="input-group-append">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalContainer_proveedores">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Campo oculto para almacenar el id del proveedor -->
-<input type="hidden" id="idproveedor" name="idproveedor" value="<?php echo isset($comprobante->idproveedor) ? $comprobante->idproveedor : ''; ?>">
+                                                        <!-- Campo de Razón Social con botón de búsqueda -->
+                                                        <div class="form-group col-md-8">
+                                                            <label for="razon_social" class="form-label">Razón
+                                                                Social:</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control"
+                                                                    id="razon_social" name="razon_social" required
+                                                                    readonly>
+                                                                <div class="input-group-append">
+                                                                    <button type="button" class="btn btn-primary"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modalContainer_proveedores">
+                                                                        <i class="bi bi-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- Campo oculto para almacenar el id del proveedor -->
+                                                    <input type="hidden" id="idproveedor" name="idproveedor"
+                                                        value="<?php echo isset($comprobante->idproveedor) ? $comprobante->idproveedor : ''; ?>">
 
 
                                                     <div class="form-group col-md-4">
@@ -216,7 +198,7 @@
                                                                                 <input type="number"
                                                                                     class="form-control border-0 bg-transparent IDComprobanteGasto"
                                                                                     id=" IDComprobanteGasto"
-                                                                                    name=" IDComprobanteGasto"
+                                                                                    name="IDComprobanteGasto"
                                                                                     value="<?php echo $comprobanteP->IDComprobanteGasto; ?>"
                                                                                     readonly>
                                                                             </div>
@@ -473,88 +455,86 @@
         </div>
     </div>
 </body>
-<div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
-            aria-labelledby="ModalCuentasContables" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Lista de Proveedores</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table id="TablaProveedores" class="table table-hover table-sm">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ruc</th>
-                                    <th>Razón Social</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                    <th>Observación</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($proveedores as $index => $proveedor): ?>
-                                <tr class="list-item"
-                                    onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td>
-                                        <?= $index + 1 ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->ruc ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->razon_social ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->direccion ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->telefono ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->email ?>
-                                    </td>
-                                    <td>
-                                        <?= $proveedor->observacion ?>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+<div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1" aria-labelledby="ModalCuentasContables"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lista de Proveedores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table id="TablaProveedores" class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Ruc</th>
+                            <th>Razón Social</th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($proveedores as $index => $proveedor): ?>
+                            <tr class="list-item"
+                                onclick="selectProveedor('<?= $proveedor->id ?>', '<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $index + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->ruc ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->razon_social ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->direccion ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->telefono ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->email ?>
+                                </td>
+                                <td>
+                                    <?= $proveedor->observacion ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
 
-                    </div>
-                </div>
             </div>
         </div>
+    </div>
+</div>
 <script>
-
     $("#formularioPrincipal").on("submit", function (event) {
+        event.preventDefault();
 
-        var ivac = $(this).find("input[name='iva']").is(':checked') ? 1 : 0;
+        const ivac = $("input[name='iva']").is(':checked') ? 1 : 0;
 
-        var datosFormulario = {
+        const datosFormulario = {
             fecha: $("#fecha").val(),
             id_unidad: $("#id_unidad").val(),
             id_pedido: $("#id_pedido").val(),
             concepto: $("#concepto").val(),
             idproveedor: $("#idproveedor").val(),
-
         };
 
-        var filas = [];
+        let filas = [];
 
         $("#tablaP tbody tr").each(function () {
-            var fila = {
-                id_pedido: $(this).find("input[name='id_pedido']").val(),
-                IDComprobanteGasto: $(this).find("input[name=' IDComprobanteGasto']").val(),
+            const fila = {
+                id_pedido: $("#id_pedido").val(),//  Usar el id_pedido del formulario principal
+                IDComprobanteGasto: IDComprobanteGasto || undefined, // No incluir si está vacío
                 id_unidad: $(this).find("input[name='id_unidad']").val(),
                 id_item: $(this).find("input[name='id_item']").val(),
-                //idpresupuesto: $(this).find("input[name='idpresupuesto']").val(),
                 rubro: $(this).find("input[name='rubro']").val(),
-                iva: ivac,
+                iva: $(this).find(".iva-checkbox").is(':checked') ? 1 : 0, // El checkbox iva está siendo validado incorrectamente. Debes verificar el estado del checkbox por fila, no globalmente.
                 descripcion: $(this).find("input[name='descripcion']").val(),
                 preciounit: $(this).find("input[name='preciounit']").val(),
                 cantidad: $(this).find("input[name='cantidad']").val(),
@@ -566,26 +546,16 @@
             filas.push(fila);
         });
 
-        // Combinar datos del formulario principal y de las filas dinámicas
-        var datosCompletos = {
+        const datosCompletos = {
             datosFormulario: datosFormulario,
             filas: filas,
         };
 
-        // Mostrar los datos antes de enviarlos
-        //alert("Datos del formulario: " + JSON.stringify(datosCompletos));
-        //console.log("Datos del formulario: ", JSON.stringify(datosCompletos));
-
-        // Enviamos los datos al controlador mediante AJAX
         $.ajax({
             url: '<?php echo base_url("patrimonio/comprobante_gasto/update"); ?>',
             type: 'POST',
-            data: {
-                datos: datosCompletos
-            },
-            // Asumimos que la respuesta es texto plano
+            data: { datos: datosCompletos },
             success: function (response) {
-
                 if (response === "success") {
                     window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
                 } else {
@@ -593,28 +563,27 @@
                 }
             },
             error: function (xhr, status, error) {
-                console.log(xhr.responseText); // Agrega esta línea para ver la respuesta del servidor
+                console.log(xhr.responseText);
                 console.log(datosCompletos);
                 alert("Error en la solicitud AJAX: " + status + " - " + error);
             }
         });
     });
-
 </script>
 <script>
-$(document).ready(function() {
-            $('#TablaProveedores').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
-            });
+    $(document).ready(function () {
+        $('#TablaProveedores').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
         });
-        </script>
+    });
+</script>
 <script>
     var currentRow = null;
 
@@ -629,11 +598,11 @@ $(document).ready(function() {
     }
 
     function selectProveedor(id, ruc, razon_social) {
-            document.getElementById('idproveedor').value = id;
-            document.getElementById('ruc').value = ruc;
-            document.getElementById('razon_social').value = razon_social;
+        document.getElementById('idproveedor').value = id;
+        document.getElementById('ruc').value = ruc;
+        document.getElementById('razon_social').value = razon_social;
 
-        }
+    }
     // Función para seleccionar la cuenta contable
     function selectBien(IDbienservicio, rubro, descripcion, precioref) {
         // Verificar si currentRow está definido y no es null
@@ -716,38 +685,33 @@ $(document).ready(function() {
 </script>
 
 <script>
-   $(document).ready(function () {
-    var indice = 1;
+    $(document).ready(function () {
+        var indice = 1;
 
-    // Agregar fila
-    $(document).on("click", ".agregarFila", function (e) {
-        e.preventDefault();
-        indice++;
-
-        // Clonar la fila base
-        var nuevaFila = $("#filaB").clone();
-        nuevaFila.find(".eliminarFila").removeAttr('hidden');
-        nuevaFila.find("[id]").removeAttr('id');
-        nuevaFila.find("select, input").addClass("filaClonada");
-        nuevaFila.find("select, input").not('.index, .npedido, .id').val("");
-        nuevaFila.find(".index").val(indice);
-        nuevaFila.find(".piva").prop('readonly', true);
-        nuevaFila.find(".iva-checkbox").prop('checked', false);
-        nuevaFila.show();
-
-        // Agregar la nueva fila al cuerpo de la tabla
-        $("#tablaP tbody").append(nuevaFila);
-    });
-        // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
+        // Agregar fila
+        $(document).on("click", ".agregarFila", function (e) {
             e.preventDefault();
-            $(this).closest("tr").remove();
-        });
+            indice++;
 
-        // Manejar el cambio en la casilla de verificación y los campos
-        $(document).on("change", ".iva-checkbox, .preciounit, .cantidad, .porcentaje_iva", function () {
-            var row = $(this).closest('tr');
-            actualizarValores(row);
+            // Clonar la fila base
+            var nuevaFila = $("#filaB").clone();
+
+            // Obtener valores actuales del formulario principal
+            var idPedidoPrincipal = $("#id_pedido").val();
+            var idUnidadPrincipal = $("#id_unidad").val();
+
+            // Asignar valores a los campos clonados
+            nuevaFila.find(".id_pedido").val(idPedidoPrincipal);
+            nuevaFila.find(".id_unidad").val(idUnidadPrincipal);
+
+            // Eliminar solo el campo IDComprobanteGasto en filas nuevas
+            nuevaFila.find("input[name='IDComprobanteGasto']").remove();
+
+            // Mostrar botón de eliminar
+            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+
+            // Agregar la fila a la tabla
+            $("#tablaP tbody").append(nuevaFila);
         });
 
         // Función para actualizar los valores de exenta y gravada
@@ -781,31 +745,32 @@ $(document).ready(function() {
 
 </script>
 <script>
-$(document).ready(function() {
-            $('#TablaBienesModal').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
-            });
+    $(document).ready(function () {
+        $('#TablaBienesModal').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
         });
+    });
 </script>
 <script>
-$(document).ready(function() {
-            $('#TablaProveedores').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-                }
-            });
+    $(document).ready(function () {
+        $('#TablaProveedores').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
         });
+    });
 </script>
+
 </html>

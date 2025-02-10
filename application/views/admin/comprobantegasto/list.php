@@ -2,9 +2,19 @@
 <html lang="es">
 
 <head>
-  <!-- Estilos de DataTable de jQuery -->
-  <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+    <!-- Estilos de DataTable de jQuery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- jsPDF y Autotable para las datatable -->
+    <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
+    <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
+    <!-- script para obtener el logo -->
+    <script>
+        var logoDataURL = '<?php echo site_url("dataTablePDF/ImageController/getimagedataurl"); ?>';
+    </script>
+    <script src="<?php echo base_url(); ?>/assets/js/obtener_logo.js"></script>
 </head>
 
 <body>
@@ -29,17 +39,17 @@
             </select>
           </div>
 
-          <div class="col-md-3">
-            <label for="periodo" class="form-label">Periodo:</label>
-            <select class="form-select" id="periodo" name="periodo">
-              <option value="">Ninguno</option>
-              <option value="2020">2020</option>
-              <option value="2021">2021</option>
-              <option value="2022">2022</option>
-              <option value="2023">2023</option>
-              <option value="2024">2024</option>
-            </select>
-          </div>
+                    <div class="col-md-3">
+                        <label for="periodo" class="form-label">Periodo:</label>
+                        <select class="form-select" id="periodo" name="periodo">
+                            <option value="">Ninguno</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                        </select>
+                    </div>
 
           <div class="col-md-3">
             <label for="mes" class="form-label">Mes:</label>
@@ -282,8 +292,8 @@
   <script>
     $('.btn-view-comprobante').on('click', function () {
 
-      var comprobanteId = $(this).val();
-      console.log("Comprobante ID:", comprobanteId);
+            var comprobanteId = $(this).val();
+            console.log("Comprobante ID:", comprobanteId);
 
       $.ajax({
         type: 'GET',
@@ -299,15 +309,15 @@
       });
     });
 
-    // Función para mostrar los detalles del presupuesto
-    function mostrarDetalles(comprobanteDetalle) {
+        // Función para mostrar los detalles del presupuesto
+        function mostrarDetalles(comprobanteDetalle) {
 
 
-      // Formato de numeros en guaranies
-      var formatoGuaranies = new Intl.NumberFormat('es-PY', {
-        style: 'currency',
-        currency: 'PYG'
-      });
+            // Formato de numeros en guaranies
+            var formatoGuaranies = new Intl.NumberFormat('es-PY', {
+                style: 'currency',
+                currency: 'PYG'
+            });
 
       // Formato de la fila para la tabla
       $('#id').text(comprobanteDetalle.IDComprobanteGasto);
@@ -324,8 +334,8 @@
     }
   </script>
 
-  <!-- Script de DataTable de jquery -->
-  <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+    <!-- Script de DataTable de jquery -->
+    <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
 </html>

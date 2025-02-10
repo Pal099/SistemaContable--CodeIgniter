@@ -6,3 +6,22 @@
 #TablaPresupuestoModal tbody td {
   display: block;
 }
+.filtros {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.filtros label {
+  font-weight: 500;
+}
+
+.form-select {
+  transition: all 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+} 

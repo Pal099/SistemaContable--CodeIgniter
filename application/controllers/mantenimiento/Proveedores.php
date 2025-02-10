@@ -22,12 +22,11 @@ class Proveedores extends MY_Controller {
 		$nombre=$this->session->userdata('Nombre_usuario');
 		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
 		$this->form_validation->set_rules("ruc","Ruc","required|is_unique[proveedores.ruc]");
 		
 		$data  = array(
-			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu ),
+			'proveedores' => $this->Proveedores_model->getproveedores($id_uni_respon_usu),
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -151,9 +150,12 @@ class Proveedores extends MY_Controller {
 		
 	}
 	
-	public function view($id){
+	public function view($id_uni_respon_usu){
+		$nombre=$this->session->userdata('Nombre_usuario');
+		$id_user=$this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 		$data  = array(
-			'proveedor' => $this->Proveedores_model->getProveedor($id), 
+			'proveedor' => $this->Proveedores_model->getProveedor($id_uni_respon_usu), 
 		);
 		$this->load->view("admin/proveedores/view",$data);
 	}

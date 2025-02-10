@@ -1,0 +1,41 @@
+Analizar # Videos que explican conceptos del sistema
+
+# Videos del Cliente
+
+## Explicación del contenido
+
+Todos los videos relacionados al OldSys: https://drive.google.com/drive/folders/16pzwF2E0TaUQ5nyepgjQCAXA17qMxp8L?usp=drive_link
+
+Creo que es justo empezar por [Presupuesto, Plan Financiero y de paso STR](https://www.notion.so/Videos-que-explican-conceptos-del-sistema-dc19979b0b1c46d68d3ccf31096e9118?pvs=21) por que  tenemos videos donde se muestra Como se vincula el [presupuesto con el plan financiero con la obligación y con la generación de STR](https://drive.google.com/file/d/1qcyJeP9OXrF6_05NfbJmcUvJpEF69qZv/view?usp=sharing) en la Facultad de derecho y luego tenemos los mismos ejemplos para el caso [del Rectorado dados por Belén(no se cuando se grabó esto)](https://drive.google.com/file/d/1MsMVAxWWa0F1WocKdUAA2wAdwwnxiMFo/view?usp=sharing), también tenemos un ejemplo que desarrolla más y [llega a Ordenes de Pago](https://drive.google.com/file/d/1KN2Y2e1_Mp2ySEN8H3Rvfkki9GiY8ZO_/view?usp=sharing).
+
+Es claro que muchos pasos ya se enciman con el módulo de la  sección de Finanzas donde Peter nos muestra  [cómo se cargan items en el catálogo y posteriormente genera un comprobante de gasto](https://drive.google.com/file/d/1xlYlJuAaEE_iu4rUESCFmoCCwsIGbuWo/view?usp=sharing), luego como en Patrimonio  explica como se dá la [recepción de bienes](https://drive.google.com/file/d/1GD_hyZHdZHanMDOTbCTBrEwnLnHHyTKd/view?usp=sharing) Patrimonio.
+
+Paul realiza [Retenciones a posteriori sobre Comprobantes de gastos ya preparadas](https://drive.google.com/file/d/1jzu6uYVQ94eDKBxRLqsg4eTlXpYYsyOW/view?usp=sharing)(esto indica que se puede agregar a nuestra obligación añadiendo algo similar a lo añadido para STR @Adrian Portillo).
+
+Preguntas:es un comprobante de gasto una obligación ? Preguntaré a mí papá si es que es razonable mantener el estilo actual de obligación
+
+# Videos del Contador
+
+Todos los videos de grabados por mi papá: https://drive.google.com/drive/folders/1IWgH75Zt_w-LvArPUugNMfvWfDsRLJuD?usp=drive_link
+
+Mayormente se explican cuestiones contables, reports que debe tener el sys
+
+Balance general & demás 
+
+Obligaciones
+
+
+
+
+
+presupuesto y plan financiero
+obligar str y pagar Retenciones
+plan de cuenta
+
+
+
+
+
+
+
+

@@ -34,7 +34,6 @@ class Bienes_Servicios_model extends CI_Model {
 		$this->db->where("IDbienservicio",$id);
 		return $this->db->update("bienes_servicios",$data);
 	}
-
 	public function contar_registros_por_rubro($rubro) {
         $this->db->where('rubro', $rubro);
         $query = $this->db->get('bienes_servicios');

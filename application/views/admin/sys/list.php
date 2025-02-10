@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <link href="<?php echo base_url(); ?>assets/css/style_suma_saldo.css" rel="stylesheet" type="text/css">
     <!-- jsPDF y Autotable para las datatable -->
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
     <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
@@ -23,7 +24,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
                 <li class="breadcrumb-item">Balances</li>
-                <li class="breadcrumb-item">Sumas y Saldos</li>
+                <li class="breadcrumb-item active">Sumas y Saldos</li>
             </ol>
         </nav>
         <div class="container-fluid bg-white rounded-3">
@@ -326,6 +327,20 @@
                     startY: 40,
                     headStyles: headerStyles,
                     bodyStyles: bodyStyles,
+                    columnStyles: {
+                        2: {
+                            halign: 'right'
+                        }, // Columna "Total Debe"
+                        3: {
+                            halign: 'right'
+                        }, // Columna "Total Haber"
+                        4: {
+                            halign: 'right'
+                        }, // Columna "Total Deudor"
+                        5: {
+                            halign: 'right'
+                        } // Columna "Total Acreedor"
+                    },
                     //Este es el código del footer
                     didDrawPage: function(data) {
                         // Número de página, centrado

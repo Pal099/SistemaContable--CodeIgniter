@@ -1231,3 +1231,21 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .header {
+  background-color: #1e1e1e;
+}
+
+.dark-mode .dropdown-menu {
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
