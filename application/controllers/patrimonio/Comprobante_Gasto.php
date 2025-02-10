@@ -171,11 +171,7 @@ class Comprobante_Gasto extends MY_Controller {
 		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
 		$proveedor = $this->Proveedores_model->getProveedor($comprobante->idproveedor);
 
-		if (!$comprobante) {
-			// Manejar el caso de no encontrar el comprobante
-			$this->session->set_flashdata("error", "Comprobante no encontrado");
-			return redirect(base_url() . "patrimonio/comprobantegasto");
-		}
+
 		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
 		// Preparar los datos para la vista
 		$data = array(
