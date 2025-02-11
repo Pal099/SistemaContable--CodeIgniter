@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
 <body>
@@ -110,7 +113,7 @@
                                                         ?>
 
                                                         <div class="form-group col-md-1 columna-hidden">
-                                                            <label for="op" >N° Op</label>
+                                                            <label for="op">N° Op</label>
                                                             <input type="text" class="form-control" id="op" name="op"
                                                                 value="<?= $op_actual ?>" readonly>
                                                         </div>
@@ -246,7 +249,7 @@
                                                                     <div class="input-group input-group-sm ">
                                                                         <input type="text"
                                                                             class="form-control small border-0 bg-transparent"
-                                                                            id="" name="" readonly>
+                                                                            id="MontoPago" name="MontoPago" readonly>
                                                                     </div>
                                                                 </td>
                                                                 <td class="columna-hidden">
@@ -1151,15 +1154,18 @@
                                                     <!-- Acá termina lo de retención -->
                                                     <div class="container-fluid mt-3 mb-3">
                                                         <div class="col-md-12 d-flex flex-row justify-content-center">
-                                                            <button style="margin-right: 8px;" type="submit"
-                                                                class="btn btn-success" id="guardarFilas"><span
-                                                                    class="fa fa-save"></span>Guardar</button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Pago_de_obligaciones'">
+                                                            <!-- Botón para guardar -->
+                                                            <button style="margin-right: 8px;" type="submit" class="btn btn-success" id="guardarFilas">
+                                                                <span class="fa fa-save"></span> Guardar
+                                                            </button>
+                                                            
+                                                            <!-- Botón para cancelar (limpia el formulario en lugar de redirigir) -->
+                                                            <button type="reset" class="btn btn-danger">
                                                                 <span class="fa fa-remove"></span> Cancelar
                                                             </button>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -1257,7 +1263,6 @@
 
     </main>
 
- 
     <!-- Modal Lista de Obligaciones-->
     <div class="modal fade" id="modalListaObligacion" tabindex="-1" aria-labelledby="ModalListaObligaciones"
         aria-hidden="true">
@@ -1276,10 +1281,9 @@
                                 <th>Razon Social</th>
                                 <th>Nro. asiento</th>
                                 <th>Fecha</th>
-                                <th>Concepto</th>
+                                <th hidden></th> <!-- Columna oculta -->
                                 <th>M. Pagado</th>
-                                <th>M. Total</th>
-                                <th>Suma del Pago</th>
+                                <th>M. Restante</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
@@ -1288,61 +1292,22 @@
                                 <th>Origen</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
+                                <th hidden></th> <!-- Columna oculta -->
+                                <th hidden></th> <!-- Columna oculta -->
                             </tr>
                         </thead>
-                    <?php
-                        $registros_por_proveedor = array();
-
-                        foreach ($asientos as $asi) {
-                            $clave_proveedor = $asi->provee;
-
-                            $resta_montos = $asi->total - $asi->suma_monto;
-
-                            // Evalúa diferentes casos usando un switch
-                            switch (true) {
-                                case $asi->suma_monto == $asi->total && $resta_montos == 0:
-                                    break;
-
-                                case $asi->suma_monto < $asi->total && $resta_montos != 0 && $asi->id_form == 1:
-                                        agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
-
-                                        break;
-
-                                        case $asi->suma_monto == 0 && $asi->total !=0 && $resta_montos != 0 && $asi->id_form == 1:
-                                            agregarRegistroProveedor($registros_por_proveedor, $clave_proveedor, $asi);
-                            
-                                            break;
-                            }
-                        }
-
-                        function agregarRegistroProveedor(&$registros, $clave, $asi) {
-                            // Lógica adicional para verificar si el registro está pagado
-                            $resta_montos = $asi->total - $asi->suma_monto;
-                        
-                            // Verificar si SumaMonto y MontoTotal son iguales, y la resta es igual a 0
-                            if ($asi->suma_monto == $asi->total && $resta_montos == 0 && $asi->id_form==1) {
-                                // No agregar el registro si está pagado
-                                return;
-                            }
-                            // Verifica si ya existe un registro para este proveedor
-                            if (!isset($registros[$clave])) {
-                                $registros[$clave] = $asi;
-                            } 
-                        }
-                        ?>
-
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
-                            <?php if (($asi->id_form == 1)): ?>
-                            <!-- hacemos que traiga solo obligaciones -->
+                            <?php if (($asi->id_form == 1) && ($asi->Debe == 0)): ?>
+                            <!-- hacemos que traiga solo obligaciones  -->
 
                             <tr class="list-item"
-                                onclick="selectAsi('<?= $asi->numero ?>','<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->MontoPago ?>',
-                                        '<?= $asi->Debe ?>',  '<?= $asi->concepto ?>','<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
-                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->IDCuentaContable ?>', '<?= $asi->suma_monto ?>','<?= $asi->id_numasi ?>', '<?= $asi->total ?>')"
+                                onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
+                                        '<?= $asi->Debe ?>','<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
+                                        '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
                                 data-bs-dismiss="modal">
                                 <td>
-                                    <?= $asi->id_numasi ?>
+                                    <?= $asientoN + 1 ?>
                                 </td>
                                 <td>
                                     <?= $asi->ruc_proveedor ?>
@@ -1351,27 +1316,29 @@
                                     <?= $asi->razso_proveedor ?>
                                 </td>
                                 <td>
-                                    <?= $asi->fecha ?>
-                                </td>
-                                <td>
-                                    <?= $asi->concepto ?>
-                                </td>
-                                <td>
                                     <?= $asi->numero ?>
                                 </td>
                                 <td>
-                                    <?= $asi->pagado ?>
+                                    <?= $asi->fecha ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->concepto ?>
                                 </td>
                                 <td>
-                                    <?= $asi->total ?>
-                                </td>
-                                <td><?= $asi->suma_monto ?></td>
+                                        <?= number_format($asi->pagado, 0, ',', '.') ?>
+                                    </td>
+                                    <td>
+                                        <?= number_format($asi->total - $asi->pagado, 0, ',', '.') ?>
+                                    </td>
 
+                                <td hidden>
+                                    <?= $asi->Debe ?>
+                                </td>
                                 <td hidden>
                                     <?= $asi->Haber ?>
                                 </td>
                                 <td hidden>
-                                    <?= $asi->IDCuentaContable ?> -
+                                    <?= $asi->idcuenta ?> -
                                     <?= $asi->codigo ?> -
                                     <?= $asi->descrip ?>
                                 </td>
@@ -1393,6 +1360,9 @@
                                 <td hidden>
                                     <?= $asi->cheques_che_id ?>
                                 </td>
+                                <td hidden>
+                                    <?= $asi->id_numasi ?>
+                                </td>
                             </tr>
                             <?php endif; ?>
 
@@ -1406,7 +1376,8 @@
     <!-- Script modal lista de obligaciones (seleccionar) ubiqué acá para que se entienda mejor (isaac)-->
 
     <script>
-    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, fuentes, programas, origens, cuentas, descrip,
+    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas,
+        descrip,
         deta, comp, cheq, idcuenta, numasio, pagado) {
 
         // var descripcionConPrefijo = 'A.P. ' + descrip;
@@ -1415,9 +1386,11 @@
         document.getElementById('ruc').value = ruc;
         document.getElementById('contabilidad').value = razonSocial;
         document.getElementById('fecha').value = fechas;
-        document.getElementById('concepto').value = debes;
-        document.getElementById('Debe').value = concepto;
-        document.getElementById('MontoPago').value = concepto;
+        document.getElementById('concepto').value = concepto;
+        document.getElementById('Debe').value = haber;
+        document.getElementById('Haber').value = debes;
+        document.getElementById('MontoPago').value = montos;
+        document.getElementById('MontoTotal').value = montos;
         document.getElementById('id_ff').value = fuentes;
         document.getElementById('id_pro').value = programas;
         document.getElementById('id_of').value = origens;
@@ -1443,9 +1416,7 @@
             retencionSwitch.checked = false;
         }
 
-
     }
-
     // Inicializar el estado del switch cuando se cargue la página
     document.addEventListener('DOMContentLoaded', function() {
         const rucInput = document.getElementById('ruc');
@@ -1810,137 +1781,107 @@ $(document).ready(function() {
 </script>
 <!-- Envio de formulario principal -->
 <script>
-$("#formularioPrincipal").on("submit", function(e) {
+$(document).ready(function() {
+    $("#formularioPrincipal").on("submit", function(e) {
+        e.preventDefault();
 
-    //datos que no son de la tabla dinamica
-    var datosFormulario = {
-
-
-        op: $("#op").val(),
-        ruc: $("#ruc").val(),
-        num_asi: $("#num_asi").val(),
-        detalles: $("#detalles").val(),
-        contabilidad: $("#contabilidad").val(),
-        direccion: $("#direccion").val(),
-        telefono: $("#telefono").val(),
-        tesoreria: $("#tesoreria").val(),
-        concepto: $("#concepto").val(),
-        fecha: $("#fecha").val(),
-        idnumasi: $("#num_asio").val(),
-
-        // Agrega más campos según sea necesario
-        id_pro: $("#id_pro").val(),
-        id_ff: $("#id_ff").val(),
-        id_of: $("#id_of").val(),
-        IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-        MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
-        comprobante: $("#comprobante").val(),
-        Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-        Haber: $("#Haber").val(),
-        cheques_che_id: $("#cheques_che_id").val(),
-
-
-    };
-
-
-    // variable para saber si el debe es igual a haber
-    let sumahaber = 0;
-
-    var filas = [];
-
-
-    $("#miTabla tbody tr:gt(0)").each(function() {
-
-        var fila = {
-            id_pro: $(this).find("select[name='id_pro_2']").val(),
-            id_ff: $(this).find("select[name='id_ff_2']").val(),
-            id_of: $(this).find("select[name='id_of_2']").val(),
-            IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-            detalles: $(this).find("input[name='detalles_2']").val(),
-            comprobante: $(this).find("input[name='comprobante_2']").val(),
-            Debe: $(this).find("input[name='Debe_2']").val(),
-            Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-            cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+        var datosFormulario = obtenerDatosFormulario();
+        var filas = obtenerFilasDinamicas();
+        var datosCompletos = {
+            datosFormulario: datosFormulario,
+            filas: filas,
         };
-        // Sumar los valores de "Haber" en cada fila clonada desde la segunda en adelante
-        var valorClonado = parseFloat($(this).find("[name='Haber_2']").val()) || 0;
-        sumahaber += valorClonado;
-        filas.push(fila);
+
+        if (validarDatos(datosCompletos)) {
+            enviarDatos(datosCompletos);
+        }
     });
 
+    function obtenerDatosFormulario() {
+        return {
+            op: $("#op").val(),
+            ruc: $("#ruc").val(),
+            num_asi: $("#num_asi").val(),
+            detalles: $("#detalles").val(),
+            contabilidad: $("#contabilidad").val(),
+            direccion: $("#direccion").val(),
+            telefono: $("#telefono").val(),
+            tesoreria: $("#tesoreria").val(),
+            concepto: $("#concepto").val(),
+            fecha: $("#fecha").val(),
+            idnumasi: $("#num_asio").val(),
+            id_pro: $("#id_pro").val(),
+            id_ff: $("#id_ff").val(),
+            id_of: $("#id_of").val(),
+            IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
+            MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
+            comprobante: $("#comprobante").val(),
+            Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+            Haber: $("#Haber").val(),
+            cheques_che_id: $("#cheques_che_id").val(),
+        };
+    }
 
-    // Combinar datos del formulario principal y de las filas dinámicas
-    var datosCompletos = {
-        datosFormulario: datosFormulario,
-        filas: filas,
-    };
+    function obtenerFilasDinamicas() {
+        var filas = [];
+        $("#miTabla tbody tr:gt(0)").each(function() {
+            var fila = {
+                id_pro: $(this).find("select[name='id_pro_2']").val(),
+                id_ff: $(this).find("select[name='id_ff_2']").val(),
+                id_of: $(this).find("select[name='id_of_2']").val(),
+                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                detalles: $(this).find("input[name='detalles_2']").val(),
+                comprobante: $(this).find("input[name='comprobante_2']").val(),
+                Debe: $(this).find("input[name='Debe_2']").val(),
+                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+            };
+            filas.push(fila);
+        });
+        return filas;
+    }
 
-    var diferenciaActualizada = parseFloat($("#diferencia").val());
-    var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
-    var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
-    var Suma = debe + Totalpagado;
-    var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+    function validarDatos(datosCompletos) {
+        var diferenciaActualizada = parseFloat($("#diferencia").val());
+        var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
+        var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
+        var Suma = debe + Totalpagado;
+        var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
 
-    console.log("diferenciaActualizada: ", diferenciaActualizada);
-    console.log("Totalpagado: ", Totalpagado);
-    console.log("debe: ", debe);
-    console.log("Suma: ", Suma);
-    console.log("total: ", total);
+        if (Suma > total) {
+            alert('El Monto Pagado es mayor al Total a Pagar');
+            return false;
+        }
 
-
-    if (Suma <= total) {
-
-        if (diferenciaActualizada == 0 && diferenciaActualizada >= 0) {
-            $.ajax({
-                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                type: 'POST',
-                data: {
-                    datos: datosCompletos
-                },
-                //dataType: 'json',  // Esperamos una respuesta JSON del servidor
-                success: function(response) {
-                    if (response.includes('Datos guardados exitosamente.')) {
-                        alert('Datos guardados exitosamente.');
-                        // ... (código adicional si es necesario)
-                    } else {
-                        alert('Error al guardar los datos: ' + response);
-                        // ... (código adicional si es necesario)
-                    }
-                },
-                error: function(xhr, status, error) {
-
-                    console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX555: " + status + " - " + error);
-
-
-                    console.log(xhr
-                        .responseText); // Agrega esta línea para ver la respuesta del servidor
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
-
-                }
-            });
-        } else {
+        if (diferenciaActualizada !== 0) {
             alert('El debe y el haber son diferentes');
             return false;
         }
-    } else {
-        alert('El Monto Pagado es mayor al Total a Pagar');
-        return false;
+
+        return true;
     }
 
-
-    e.stopPropagation();
-
-});
-</script>
-
-
-
-e.stopPropagation();
-
+    function enviarDatos(datosCompletos) {
+        $.ajax({
+            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+            type: 'POST',
+            data: {
+                datos: datosCompletos
+            },
+            success: function(response) {
+                if (response.includes('Datos guardados exitosamente.')) {
+                    mostrarAlertaExito();
+                } else {
+                    alert('Error al guardar los datos: ' + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(datosCompletos);
+                alert("Error en la solicitud AJAX: " + status + " - " + error);
+            }
+        });
+    }
 });
 </script>
 
@@ -2220,4 +2161,4 @@ document.getElementById('Debe').addEventListener('input', function() {
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
-</html>
+</html> 

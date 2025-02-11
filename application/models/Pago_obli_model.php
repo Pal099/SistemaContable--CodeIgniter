@@ -105,6 +105,31 @@ public function obtenerIdFormIdProveedor($id_proveedor)
 }
 
 
+public function obtener_siguiente_num_asi() {
+	$this->db->select_max('num_asi', 'ultimo_numero');
+	$resultado = $this->db->get('num_asi')->row();
+
+	return ($resultado && $resultado->ultimo_numero !== null) ? $resultado->ultimo_numero + 1 : 1;
+}
+
+public function obtener_siguiente_op() {
+	$this->db->select_max('op', 'ultimo_op');
+	$resultado = $this->db->get('num_asi')->row();
+
+	return ($resultado && $resultado->ultimo_op !== null) ? $resultado->ultimo_op + 1 : 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 public function getOpAnterior($proveedor_id) {
 	$this->db->select('op');
