@@ -1,3 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <link href="<?php echo base_url(); ?>assets/css/style_diario_obli.css" rel="stylesheet" type="text/css">
+    <!-- Estilos de DataTable de jquery -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
+</head>
+
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -47,15 +61,6 @@
                                     <?php echo form_error("padre_id", "<span class='help-block'>", "</span>"); ?>
                                 </div>
 
-                                <!-- Dropdown para seleccionar el tipo -->
-                                <div class="form-group">
-                                    <label for="tipo">Tipo:</label>
-                                    <select class="form-control" id="tipo" name="tipo">
-                                        <option value="">Seleccione un tipo</option>
-                                    </select>
-                                    <?php echo form_error("tipo", "<span class='help-block'>", "</span>"); ?>
-                                </div>
-
                                 <!-- Modal para seleccionar la cuenta padre -->
                                 <div class="modal fade" id="modalCuentasCont2" tabindex="-1"
                                     aria-labelledby="ModalCuentasContables" aria-hidden="true">
@@ -99,26 +104,70 @@
                                     </div>
                                 </div>
 
+                                <!-- Campo para seleccionar el tipo -->
+                                <div class="form-group">
+                                    <label for="tipo">Tipo:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="tipo" name="tipo" readonly>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#modalTipos">
+                                            Seleccionar
+                                        </button>
+                                    </div>
+                                    <?php echo form_error("tipo", "<span class='help-block'>", "</span>"); ?>
+                                </div>
+
+
+                                <!-- Modal para seleccionar el tipo -->
+                                <div class="modal fade mi-modal" id="modalTipos" tabindex="-1"
+                                    aria-labelledby="ModalTipos" aria-hidden="true">
+                                    <div
+                                        class="modal-dialog modal-dialog-centered modal-dialog-scrollable  modal-presupuesto-large">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Seleccionar Tipo</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-hover table-sm" id="TablaTipos">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Descripción</th>
+                                                            <th>Tipo</th>
+                                                            <th class="columna-hiden">Código</th>
+                                                            <th class="columna-hiden">Padre ID</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- Aquí se llenarán los tipos mediante AJAX -->
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <script>
+                                    // Inicializar DataTables una vez
+                                    $(document).ready(function () {
+                                        $('#TablaTipos').DataTable({
+                                            paging: true,
+                                            pageLength: 10,
+                                            lengthChange: true,
+                                            searching: true,
+                                            info: true,
+                                            language: {
+                                                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                                            },
+                                        });
+                                    });
+
                                     // Seleccionar cuenta padre y cargar los tipos relacionados
                                     function selectCuentaPadre(codigoPadre) {
                                         document.getElementById('padre_id').value = codigoPadre;
-
-                                        document.getElementById("tipo").addEventListener("change", function () {
-                                            const selectedOption = this.options[this.selectedIndex];
-
-                                            // Obtener el valor de data-tipo
-                                            const nombreTipo = selectedOption.getAttribute("data-tipo");
-
-                                            // Asignar el valor al campo oculto
-                                            document.getElementById("hiddenNombreTipo").value = nombreTipo || '';
-
-
-
-                                        });
-
-
-
 
                                         console.log("Código Padre Seleccionado:", codigoPadre); // Verificar el valor antes de enviarlo
 
@@ -130,37 +179,46 @@
                                             success: function (response) {
                                                 console.log("Respuesta del Servidor:", response); // Verificar la respuesta del servidor
 
-                                                const tipoDropdown = $('#tipo'); // Seleccionar el dropdown
-                                                tipoDropdown.empty(); // Limpiar las opciones actuales
+                                                const tablaTipos = $('#TablaTipos').DataTable();
+                                                tablaTipos.clear(); // Limpiar las filas actuales
 
                                                 if (response.length > 0) {
-                                                    tipoDropdown.append('<option value="">Seleccione un tipo</option>');
-                                                    response.forEach(function (tipo) {
-                                                        // Agregar data-tipo con el valor del tipo
-                                                        tipoDropdown.append(`
-                                                            <option value="${tipo.codigo}" data-id-padre="${tipo.id_padre}" data-tipo="${tipo.tipo}">
-                                                                ${tipo.descripcion} - (${tipo.tipo})
-                                                            </option>
-                                                        `);
+                                                    const rows = response.map((tipo, index) => {
+                                                        return [
+                                                            index + 1,
+                                                            tipo.descripcion,
+                                                            tipo.tipo,
+                                                            tipo.codigo, // Asegúrate de que este campo exista en la respuesta del servidor
+                                                            tipo.id_padre// Asegúrate de que este campo exista en la respuesta del servidor
+                                                        ];
                                                     });
+                                                    tablaTipos.rows.add(rows).draw(); // Agregar nuevas filas y redibujar la tabla
+
+                                                    // Evento de clic para seleccionar un tipo
+                                                    $('#TablaTipos tbody').off('click').on('click', 'tr', function () {
+
+                                                        const descripcionSeleccionada = $(this).find('td:nth-child(2)').text();
+                                                        const tipoSeleccionado = $(this).find('td:nth-child(3)').text();
+
+                                                        const codigoSeleccionado = $(this).find('td:nth-child(4)').text();
+                                                        const idPadreSeleccionado = $(this).find('td:nth-child(5)').text();
+
+                                                        $('#tipo').val(`${descripcionSeleccionada} - ${tipoSeleccionado}`); // Asigna la descripción al input
+                                                        $('#codigo_nuevo').val(codigoSeleccionado); // Actualizar campo "codigo_nuevo"
+                                                        $('#id_padre').val(idPadreSeleccionado); // Actualizar campo "id_padre" con el valor de padre_id
+                                                        $('#modalTipos').modal('hide'); // Cierra el modal
+                                                    });
+
                                                 } else {
-                                                    tipoDropdown.append('<option value="">No hay tipos disponibles</option>');
+                                                    tablaTipos.rows.add([['', 'No hay tipos disponibles', '', '']]).draw(); // Agregar fila de "No hay tipos disponibles"
                                                 }
                                             },
                                             error: function () {
                                                 alert('Error al cargar los tipos. Intente nuevamente.');
                                             }
                                         });
-
-                                        // Actualizar los campos "codigo_nuevo" y "id_padre" al seleccionar un tipo
-                                        $('#tipo').off('change').on('change', function () {
-                                            const codigoSeleccionado = $(this).val(); // Valor seleccionado
-                                            const idPadreSeleccionado = $('#tipo option:selected').data('id-padre'); // Obtener data-id-padre de la opción seleccionada
-
-                                            $('#codigo_nuevo').val(codigoSeleccionado); // Actualizar campo "codigo_nuevo"
-                                            $('#id_padre').val(idPadreSeleccionado); // Actualizar campo "id_padre"
-                                        });
                                     }
+
                                 </script>
 
 
@@ -174,7 +232,7 @@
                                     <input type="text" class="form-control" id="descri_nueva" name="descri_nueva" />
                                 </div>
 
-                                <div class="form-group" >
+                                <div class="form-group">
                                     <label for="id_padre">id_padre:</label>
                                     <input type="text" class="form-control" id="id_padre" name="id_padre" />
                                 </div>
@@ -199,6 +257,8 @@
                                         class="btn btn-danger"><span class="fa fa-remove"></span> Cancelar</a>
                                 </div>
                             </form>
+
+                            <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
                             <!--                          
                             
                         </div>
