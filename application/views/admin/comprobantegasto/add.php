@@ -43,32 +43,6 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <?php
-                                                    $conexion = new mysqli('localhost', 'root', '', 'contanuevo');
-
-                                                    if ($conexion->connect_error) {
-                                                        die("Error de conexión: " . $conexion->connect_error);
-                                                    }
-
-                                                    // Consulta para obtener el máximo idcomprobante
-                                                    $sql = "SELECT MAX(id_pedido) AS maxPedido FROM comprobante_gasto";
-                                                    $resultado = $conexion->query($sql);
-
-                                                    // Verificar si la consulta fue exitosa
-                                                    if ($resultado) {
-                                                        $fila = $resultado->fetch_assoc();
-                                                        $maxPedido = $fila['maxPedido'];
-                                                    } else {
-                                                        die("Error en la consulta: " . $conexion->error);
-                                                    }
-
-                                                    // Calcular el siguiente número de comprobante
-                                                    $nextPedido = $maxPedido + 1;
-
-                                                    // Cerrar la conexión a la base de datos
-                                                    $conexion->close();
-                                                    ?>
-
                                                     <div class="form-group col-md-4">
                                                         <label for="id_unidad">Actividad:</label>
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
