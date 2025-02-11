@@ -54,10 +54,10 @@ class Diario_obligaciones extends CI_Controller
 			$presupuesto->TotalPresupuestado = ($totalPresupuestado > 0) ? $totalPresupuestado : 0;
 		}
 
-        $this->load->view("layouts/header");
-        $this->load->view("layouts/sideBar");
-        $this->load->view("admin/obligacion/obli_combined", $data);
-        $this->load->view("layouts/footer");
+		$this->load->view("layouts/header");
+		$this->load->view("layouts/sideBar");
+		$this->load->view("admin/obligacion/obli_combined", $data);
+		$this->load->view("layouts/footer");
 		$this->load->view("fpdf");
 
 	}
@@ -107,7 +107,6 @@ class Diario_obligaciones extends CI_Controller
 
 	public function add()
 	{
-
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
@@ -254,18 +253,18 @@ class Diario_obligaciones extends CI_Controller
 				if ($this->input->is_ajax_request()) {
 
 					$datosFormulario = $datosCompletos['filas'];
-						$filas = $datosCompletos['filas'];
-						if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
-							foreach ($filas as $fila) {
-								// Ejemplo de cómo podrías procesar una fila
-								$dataDetaHaber = array(
+					$filas = $datosCompletos['filas'];
+					if ($this->Diario_obli_model->saveDebe($dataDetaDebe)) {
+						foreach ($filas as $fila) {
+							// Ejemplo de cómo podrías procesar una fila
+							$dataDetaHaber = array(
 								'Num_Asi_IDNum_Asi' => $lastInsertedId,
 								'MontoPago' => $fila['Haber'], // Ajusta el nombre según tus datos
 								'Haber' => $fila['Haber'],
 								'detalles' => $fila['detalles'],
 								'numero' => $numero,
 								'comprobante' => $fila['comprobante'],
-								'id_of' => $fila['id_of'],	
+								'id_of' => $fila['id_of'],
 								'id_pro' => $fila['id_pro'],
 								'id_ff' => $fila['id_ff'],
 								'IDCuentaContable' => $fila['IDCuentaContable'],
@@ -275,7 +274,7 @@ class Diario_obligaciones extends CI_Controller
 								'id_form' => "1",
 								'estado_registro' => "1",
 							);
-								
+
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 						}
 
@@ -579,7 +578,7 @@ class Diario_obligaciones extends CI_Controller
 	public function delete($id)
 	{
 		$data = array(
-			'estado_bd' => "0",
+			'estado_registro' => "0",
 		);
 		$this->Diario_obli_model->update($id, $data);
 		return redirect(base_url() . "obligaciones/diario_obligaciones/add");
