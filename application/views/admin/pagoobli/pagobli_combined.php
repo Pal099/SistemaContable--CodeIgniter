@@ -1326,10 +1326,10 @@
                                 </td>
                                 <td>
                                         <?= number_format($asi->pagado, 0, ',', '.') ?>
-                                    </td>
-                                    <td>
+                                </td>
+                                <td>
                                         <?= number_format($asi->total - $asi->pagado, 0, ',', '.') ?>
-                                    </td>
+                                </td>
 
                                 <td hidden>
                                     <?= $asi->Debe ?>
