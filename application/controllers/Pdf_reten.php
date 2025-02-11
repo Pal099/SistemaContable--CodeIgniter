@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pdf extends CI_Controller {
+class Pdf_reten extends CI_Controller {
 
     public function index()
     {
@@ -14,7 +14,7 @@ class Pdf extends CI_Controller {
         //$this->load->view('layouts/footer');
     }
 
-    public function generarPDFS()
+    public function generarPDF_reten()
     {
         require_once APPPATH . 'third_party/fpdf/fpdf.php';
     
