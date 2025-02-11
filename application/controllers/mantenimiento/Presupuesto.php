@@ -43,11 +43,13 @@ class Presupuesto extends CI_Controller
             'programa' => $this->ProgramGasto_model->getProgramGastos($id_uni_respon_usu),
             //'ejecucionpresupuestaria' => $this->EjecucionP_model->getEjecucionesP($id_uni_respon_usu),
             'cuentacontable' => $this->CuentaContable_model->getCuentasContables(),
+            'id_uni_respon_usu' => $id_uni_respon_usu // <--- Agrega esta línea
+
         );
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
-        $this->load->view("admin/presupuesto/list", $data);
+        $this->load->view("admin/presupuesto/list", $data);//esta es la linea 50 
         $this->load->view("layouts/footer");
     }
 
