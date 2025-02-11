@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
-    <!-- Script para el sweetalert -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <!-- Script para el sweetalert -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
@@ -1163,6 +1163,7 @@
                                                             </button>
                                                         </div>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -1291,7 +1292,7 @@
                                 <th>Fecha</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th>M. Pagado</th>
-                                <th>M. de Pago</th>
+                                <th>M. Restante</th>
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
                                 <th hidden></th> <!-- Columna oculta -->
@@ -1306,72 +1307,73 @@
                         </thead>
                         <tbody>
                             <?php foreach ($asientos as $asientoN => $asi): ?>
-                                <?php if (($asi->id_form == 1) && ($asi->Debe == 0)): ?>
-                                    <!-- hacemos que traiga solo obligaciones  -->
+                            <?php if (($asi->id_form == 1) && ($asi->Debe == 0)): ?>
+                            <!-- hacemos que traiga solo obligaciones  -->
 
-                                    <tr class="list-item"
-                                        onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
+                            <tr class="list-item"
+                                onclick="selectAsi('<?= $asi->ruc_proveedor ?>', '<?= $asi->razso_proveedor ?>', '<?= $asi->fecha ?>', '<?= $asi->concepto ?>', '<?= $asi->total ?>',
                                         '<?= $asi->Debe ?>','<?= $asi->Haber ?>', '<?= $asi->id_ff ?>', '<?= $asi->id_pro ?>', '<?= $asi->id_of ?>', 
                                         '<?= $asi->codigo ?>',  '<?= $asi->descrip ?>','<?= $asi->detalles ?>','<?= $asi->comprobante ?>','<?= $asi->cheques_che_id ?>','<?= $asi->idcuenta ?>','<?= $asi->id_numasi ?>','<?= $asi->pagado ?>',)"
-                                        data-bs-dismiss="modal">
-                                        <td>
-                                            <?= $asientoN + 1 ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->ruc_proveedor ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->razso_proveedor ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->numero ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->fecha ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->concepto ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->pagado ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->total ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->Debe ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->Haber ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->idcuenta ?> -
-                                            <?= $asi->codigo ?> -
-                                            <?= $asi->descrip ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->nombre_fuente ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->nombre_programa ?>
-                                        </td>
-                                        <td>
-                                            <?= $asi->nombre_origen ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->detalles ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->comprobante ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->cheques_che_id ?>
-                                        </td>
-                                        <td hidden>
-                                            <?= $asi->id_numasi ?>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
+                                data-bs-dismiss="modal">
+                                <td>
+                                    <?= $asientoN + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $asi->ruc_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->razso_proveedor ?>
+                                </td>
+                                <td>
+                                    <?= $asi->numero ?>
+                                </td>
+                                <td>
+                                    <?= $asi->fecha ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->concepto ?>
+                                </td>
+                                <td>
+                                        <?= number_format($asi->pagado, 0, ',', '.') ?>
+                                    </td>
+                                    <td>
+                                        <?= number_format($asi->total - $asi->pagado, 0, ',', '.') ?>
+                                    </td>
+
+                                <td hidden>
+                                    <?= $asi->Debe ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->Haber ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->idcuenta ?> -
+                                    <?= $asi->codigo ?> -
+                                    <?= $asi->descrip ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_fuente ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_programa ?>
+                                </td>
+                                <td>
+                                    <?= $asi->nombre_origen ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->detalles ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->comprobante ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->cheques_che_id ?>
+                                </td>
+                                <td hidden>
+                                    <?= $asi->id_numasi ?>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
 
                             <?php endforeach; ?>
                         </tbody>
@@ -1383,24 +1385,24 @@
     <!-- Script modal lista de obligaciones (seleccionar) ubiqué acá para que se entienda mejor (isaac)-->
 
     <script>
-        function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas,
-            descrip,
-            deta, comp, cheq, idcuenta, numasio, pagado) {
+    function selectAsi(ruc, razonSocial, fechas, concepto, montos, debes, haber, fuentes, programas, origens, cuentas,
+        descrip,
+        deta, comp, cheq, idcuenta, numasio, pagado) {
 
             // var descripcionConPrefijo = 'A.P. ' + descrip;
             // var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
 
-            document.getElementById('ruc').value = ruc;
-            document.getElementById('contabilidad').value = razonSocial;
-            document.getElementById('fecha').value = fechas;
-            document.getElementById('concepto').value = concepto;
-            document.getElementById('Debe').value = haber;
-            document.getElementById('Haber').value = debes;
-            document.getElementById('MontoPago').value = montos;
-            document.getElementById('MontoTotal').value = montos;
-            document.getElementById('id_ff').value = fuentes;
-            document.getElementById('id_pro').value = programas;
-            document.getElementById('id_of').value = origens;
+        document.getElementById('ruc').value = ruc;
+        document.getElementById('contabilidad').value = razonSocial;
+        document.getElementById('fecha').value = fechas;
+        document.getElementById('concepto').value = concepto;
+        document.getElementById('Debe').value = haber;
+        document.getElementById('Haber').value = debes;
+        document.getElementById('MontoPago').value = montos;
+        document.getElementById('MontoTotal').value = montos;
+        document.getElementById('id_ff').value = fuentes;
+        document.getElementById('id_pro').value = programas;
+        document.getElementById('id_of').value = origens;
 
             document.getElementById('idcuentacontable').value = idcuenta;
             document.getElementById('codigo_cc').value = cuentas;
@@ -1423,11 +1425,11 @@
                 retencionSwitch.checked = false;
             }
 
-        }
-        // Inicializar el estado del switch cuando se cargue la página
-        document.addEventListener('DOMContentLoaded', function () {
-            const rucInput = document.getElementById('ruc');
-            const retencionSwitch = document.getElementById('retencionSwitch');
+    }
+    // Inicializar el estado del switch cuando se cargue la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const rucInput = document.getElementById('ruc');
+        const retencionSwitch = document.getElementById('retencionSwitch');
 
             if (rucInput.value.trim() !== "") {
                 retencionSwitch.removeAttribute('disabled');
@@ -2168,4 +2170,4 @@
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
-</html>
+</html> 
