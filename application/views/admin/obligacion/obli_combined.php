@@ -97,6 +97,7 @@
                                                         <input type="text" class="form-control w-100" id="razon_social"
                                                             name="razon_social" required>
                                                     </div>
+                                                    
                                                     <div class="form-group col-md-4">
                                                         <label for="fecha">Fecha:</label>
                                                         <input type="date" class="form-control" id="fecha" name="fecha"

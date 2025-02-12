@@ -6,6 +6,9 @@
     <!-- Estilos de DataTable de jquery -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
 
@@ -43,7 +46,50 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
+
+                                                    <!-- Nro. de Comprobante -->
+                                                    <div class="form-group col-md-2">
+                                                        <label for="npedido">Nro. de Comprobante:</label>
+                                                        <input type="number" class="form-control" id="npedido"
+                                                            name="npedido" value="<?php echo $nextPedido; ?>" required
+                                                            readonly>
+                                                    </div>
+
+                                                    <!-- RUC -->
+                                                    <div
+                                                        class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
+                                                        <label for="ruc">RUC:</label>
+                                                        <input type="text" class="form-control" id="ruc" name="ruc"
+                                                            readonly>
+                                                        <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
+                                                    </div>
+
+                                                    <!-- Id Proveedor -->
+                                                    <input type="hidden" id="idproveedor" name="idproveedor">
+
+                                                    <!-- Razón Social -->
                                                     <div class="form-group col-md-4">
+                                                        <label for="razon_social">Razón Social:</label>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="razon_social"
+                                                                name="razon_social" required readonly>
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#modalContainer_proveedores">
+                                                                <i class="bi bi-search"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Fecha -->
+                                                    <div class="form-group col-md-4">
+                                                        <label for="fecha">Fecha:</label>
+                                                        <input type="date" class="form-control" id="fecha" name="fecha"
+                                                            placeholder="Ej. YYYY/MM/DD" required>
+                                                    </div>
+
+                                                    <!-- Actividad -->
+                                                    <div class="form-group col-md-6">
                                                         <label for="id_unidad">Actividad:</label>
                                                         <select name="id_unidad" id="id_unidad" class="form-control"
                                                             required>
@@ -54,78 +100,37 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-4">
+
+                                                    <!-- Tipo -->
+                                                    <div class="form-group col-md-6">
                                                         <label for="tipo">Tipo:</label>
-                                                        <select class="form-select" id="periodo" name="periodo">
+                                                        <select class="form-select" id="tipo" name="tipo">
                                                             <option value="">Factura Credito</option>
-                                                            <option value="x">Factura X</o ption>
+                                                            <option value="x">Factura X</option>
                                                             <option value="y">Factura Y</option>
                                                             <option value="z">Factura Z</option>
-
                                                         </select>
                                                     </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="npedido">Nro. de Comprobante:</label>
-                                                        <input type="number" class="form-control" id="npedido"
-                                                            name="npedido" value="<?php echo $nextPedido; ?>" required
-                                                            readonly>
-                                                    </div>
-                                                    <div class="row">
-                                                        <!-- Campo de RUC -->
-                                                        <div
-                                                            class="form-group col-md-4 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
-                                                            <label for="ruc">RUC:</label>
-                                                            <input type="text" class="form-control" id="ruc" name="ruc"
-                                                                readonly>
-                                                            <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
-                                                        </div>
 
-                                                        <!-- Campo de Razón Social con botón de búsqueda -->
-                                                        <div class="form-group col-md-8">
-                                                            <label for="razon_social" class="form-label">Razón
-                                                                Social:</label>
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control"
-                                                                    id="razon_social" name="razon_social" required
-                                                                    readonly>
-                                                                <div class="input-group-append">
-                                                                    <button type="button" class="btn btn-primary"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modalContainer_proveedores">
-                                                                        <i class="bi bi-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <input type="hidden" id="idproveedor" name="idproveedor">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="fecha">Fecha</label>
-                                                        <input type="date" class="form-control" id="fecha" name="fecha"
-                                                            placeholder="Ej. YYYY/MM/DD" required>
-                                                    </div>
-                                                    <div class="form-group col-md-8">
+                                                    <!-- Concepto -->
+                                                    <div class="form-group col-md-12">
                                                         <label for="concepto">Concepto:</label>
-                                                        <input type="text" class="form-control" id="concepto"
-                                                            name="concepto" required>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group input-group">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="concepto"
+                                                                name="concepto" required>
                                                             <button type="button" data-bs-toggle="modal"
                                                                 data-bs-target="#modalPresupuestos"
                                                                 class="btn btn-primary">
-                                                                <i class="bi bi-search"> Buscar Presupuesto</i>
+                                                                <i class="bi bi-search"></i> Buscar Presupuesto
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div id="rubroSeleccionado"
-                                                    style="margin-top: 10px; padding: 5px; background-color: #f0f0f0;">
-                                                    Rubro Seleccionado: <span id="rubroTexto">Ninguno</span>
+                                                <div id="rubroSeleccionado" class="badge bg-primary mt-3 p-2 fs-7">
+                                                    Rubro Seleccionado: <span id="rubroTexto"
+                                                        class="fw-bold">Ninguno</span>
                                                 </div>
-
 
                                             </div>
                                         </div>
@@ -344,6 +349,7 @@
                     <table class="table table-hover table-sm" id="TablaPresupuestoModal">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Periodo</th>
                                 <th>Programa</th>
                                 <th>Cuenta Contable</th>
@@ -360,6 +366,7 @@
                                 <tr class="list-item"
                                     onclick="selectPresupuesto('<?= $dato['ID_Presupuesto'] ?>', '<?= $dato['rubro'] ?>')"
                                     data-bs-dismiss="modal">
+                                    <td><?= $dato['ID_Presupuesto'] ?></td>
                                     <td><?= $dato['Año'] ?></td>
                                     <td><?= $dato['programa_id_pro'] ?></td>
                                     <td><?= $dato['codigo'] ?></td>
@@ -480,7 +487,8 @@
             </div>
         </div>
     </div>
-</body><script>
+</body>
+<script>
     $("#formularioPrincipal").on("submit", function (event) {
         event.preventDefault();
 
@@ -492,6 +500,7 @@
             id_pedido: $("#id_pedido").val(),
             concepto: $("#concepto").val(),
             idproveedor: $("#idproveedor").val(),
+            idpresupuesto: $("#idpresupuesto").val(),
         };
 
         let filas = [];
@@ -522,10 +531,12 @@
         $.ajax({
             url: '<?php echo base_url("patrimonio/comprobante_gasto/store"); ?>',
             type: 'POST',
-            data: { datos: datosCompletos },
+            data: {
+                datos: datosCompletos
+            },
             success: function (response) {
                 if (response === "success") {
-                    window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
+                    mostrarAlertaExito();
                 } else {
                     alert('Error al guardar los datos: ' + response);
                 }
@@ -557,12 +568,13 @@
 
             if (rubroSeleccionado) {
                 $('#TablaBienesModal tbody tr').each(function () {
-                    var rubroBien = $(this).find('td').eq(3).text().trim(); // Obtiene el rubro de la 4ta columna (índice 3)
+                    var rubroBien = $(this).find('td').eq(3).text()
+                        .trim(); // Obtiene el rubro de la 4ta columna (índice 3)
 
                     if (rubroBien !== rubroSeleccionado) {
-                        $(this).hide();  // Oculta la fila si el rubro no coincide
+                        $(this).hide(); // Oculta la fila si el rubro no coincide
                     } else {
-                        $(this).show();  // Muestra la fila si el rubro coincide
+                        $(this).show(); // Muestra la fila si el rubro coincide
                     }
                 });
             } else {
@@ -626,14 +638,15 @@
         currentRow = currentRowParam; // Almacenar la fila actual
 
     }
-    let rubroSeleccionado = '';  // Variable global para almacenar el rubro seleccionado
+    let rubroSeleccionado = ''; // Variable global para almacenar el rubro seleccionado
 
     function selectPresupuesto(idpresupuesto, rubro) {
 
 
         // Actualiza el texto en el contenedor #rubroTexto con la relación
-        $('#rubroTexto').text(rubro);  // Este es el campo donde se debe mostrar la relación
-        $('#idPresupuestoSeleccionado').val(idpresupuesto);
+        $('#idpresupuesto').text(idpresupuesto);
+        $('#rubroTexto').text(rubro); // Este es el campo donde se debe mostrar la relación
+    
         // Almacena el rubro seleccionado
         rubroSeleccionado = rubro;
     }
@@ -664,6 +677,7 @@
             openModal_4(row);
         }
     });
+
     function filtrarBienesPorRubro(relacion) {
         // Recorrer todas las filas del modal y filtrar por el rubro
         $('#TablaBienesModal tbody tr').each(function () {
@@ -685,7 +699,8 @@
     // Evento para desmarcar el checkbox
     $(document).on("click", ".desmarcarCheckbox", function () {
         var row = $(this).closest('tr');
-        row.find('.iva-checkbox').prop('checked', false).change(); // Usar change() para activar el manejador de eventos
+        row.find('.iva-checkbox').prop('checked', false)
+            .change(); // Usar change() para activar el manejador de eventos
     });
 
     $('#id_unidad').on('change', function () {
@@ -702,7 +717,6 @@
         var exenta = precio * cantidad;
         $row.find('.exenta').val(exenta.toFixed(0));
     });
-
 </script>
 
 <script>
@@ -753,16 +767,16 @@
             if (row.find('.iva-checkbox').is(':checked')) {
                 // Si el IVA está marcado
                 var gravada = precio * cantidad * (1 + piva / 100);
-                row.find('.gravada').val(gravada.toFixed(0));  // Asignar valor a gravada
-                row.find('.exenta').val(0);  // Exenta debe ser 0
-                row.find('.piva').prop('readonly', false);  // Habilitar el campo de IVA
+                row.find('.gravada').val(gravada.toFixed(0)); // Asignar valor a gravada
+                row.find('.exenta').val(0); // Exenta debe ser 0
+                row.find('.piva').prop('readonly', false); // Habilitar el campo de IVA
             } else {
                 // Si el IVA no está marcado
                 var exenta = precio * cantidad;
-                row.find('.exenta').val(exenta.toFixed(0));  // Asignar valor a exenta
-                row.find('.gravada').val(0);  // Gravada debe ser 0
-                row.find('.piva').val('');  // Limpiar el valor del IVA
-                row.find('.piva').prop('readonly', true);  // Deshabilitar el campo de IVA
+                row.find('.exenta').val(exenta.toFixed(0)); // Asignar valor a exenta
+                row.find('.gravada').val(0); // Gravada debe ser 0
+                row.find('.piva').val(''); // Limpiar el valor del IVA
+                row.find('.piva').prop('readonly', true); // Deshabilitar el campo de IVA
             }
         }
 
@@ -773,7 +787,6 @@
         });
 
     });
-
 </script>
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 

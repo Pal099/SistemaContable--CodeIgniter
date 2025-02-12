@@ -189,6 +189,52 @@
                                     onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo $comp->IDComprobanteGasto; ?>'">
                                     <i class="bi bi-trash"></i>
                                   </button>
+                                                                      <!-- Botón de karen -->
+
+                                  <button type="button" class="btn btn-primary btn-view-comprobante btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#modalComprobantes"
+                                    value="<?php echo $comp->IDComprobanteGasto; ?>">
+                                    <span class="fa fa-search"></span>
+                                  </button>
+
+                                  <button class="btn btn-warning btn-sm btn-pdf"
+                                    data-idpedido="<?php echo $comp->id_pedido; ?>">
+                                    <i class="bi bi-filetype-pdf"></i>
+                                  </button>
+
+                                  <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                    <!-- Botón para PDF de Pedido con el ícono de Font Awesome -->
+                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm"
+                                      onclick="window.location.href='<?php echo base_url() ?>Pdf_ped/generarPDF_ped/<?php echo $comp->id_pedido; ?>'">
+                                      <i class="fas fa-file-pdf"></i> Pedido
+                                    </button>
+                                  </div>
+                                  <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                    <!-- Botón para PDF de Pedido con el ícono de Font Awesome -->
+                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm"
+                                      onclick="window.location.href='<?php echo base_url() ?>Pdf_nota/generarPDF_nota/<?php echo $comp->id_pedido; ?>'">
+                                      <i class="fas fa-file-pdf"></i> Nota
+                                    </button>
+                                  </div>
+
+                                  <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                    <!-- Botón para PDF de Orden con el ícono de Font Awesome -->
+                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm"
+                                      onclick="window.location.href='<?php echo base_url() ?>Pdf_orden/generarPDF_orden/<?php echo $comp->id_pedido; ?>'">
+                                      <i class="fas fa-file-pdf"></i> Orden
+                                    </button>
+                                  </div>
+
+                                  <button class="btn btn-warning btn-sm"
+                                    onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+
+                                  <button class="btn btn-danger btn-remove btn-sm"
+                                    onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </tr>
                                 </div>
                               </td>
                               </tr>
