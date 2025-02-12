@@ -551,6 +551,7 @@
             }
         });
 
+        
         $('#modalBienes').on('show.bs.modal', function () {
             console.log('Rubro Seleccionado al abrir el modal:', rubroSeleccionado);
 
