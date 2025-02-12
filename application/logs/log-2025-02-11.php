@@ -3018,3 +3018,657 @@ DEBUG - 2025-02-11 23:25:42 --> Form_validation class already loaded. Second att
 ERROR - 2025-02-11 23:25:42 --> Severity: Warning --> Undefined array key "idpresupuesto" I:\XAmpp\htdocs\practica\application\controllers\patrimonio\Comprobante_Gasto.php 115
 ERROR - 2025-02-11 23:25:42 --> Query error: Column 'idpresupuesto' cannot be null - Invalid query: INSERT INTO `comprobante_gasto` (`id_pedido`, `id_unidad`, `fecha`, `idpresupuesto`, `idproveedor`, `descripcion`, `concepto`, `id_item`, `preciounit`, `cantidad`, `iva`, `porcentaje_iva`, `exenta`, `gravada`, `id_uni_respon_usu`, `estado`) VALUES ('1', '2', '2025-02-11', NULL, '2', 'SUELDOS ', 'dddd', '1', '1500000', '2', '1', '', '0', '3000000', '2', '1')
 INFO - 2025-02-11 23:25:42 --> Language file loaded: language/spanish/db_lang.php
+INFO - 2025-02-11 23:32:36 --> Config Class Initialized
+INFO - 2025-02-11 23:32:36 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:32:36 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:32:36 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:32:36 --> URI Class Initialized
+INFO - 2025-02-11 23:32:36 --> Router Class Initialized
+INFO - 2025-02-11 23:32:36 --> Output Class Initialized
+INFO - 2025-02-11 23:32:36 --> Security Class Initialized
+DEBUG - 2025-02-11 23:32:36 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:32:36 --> Input Class Initialized
+INFO - 2025-02-11 23:32:36 --> Language Class Initialized
+INFO - 2025-02-11 23:32:36 --> Loader Class Initialized
+INFO - 2025-02-11 23:32:36 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:32:36 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:32:36 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:32:36 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:32:36 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:32:36 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:32:36 --> Controller Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:36 --> Model Class Initialized
+INFO - 2025-02-11 23:32:37 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:32:37 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:32:37 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/list.php
+INFO - 2025-02-11 23:32:37 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:32:37 --> Final output sent to browser
+DEBUG - 2025-02-11 23:32:37 --> Total execution time: 0.1330
+INFO - 2025-02-11 23:32:42 --> Config Class Initialized
+INFO - 2025-02-11 23:32:42 --> Hooks Class Initialized
+INFO - 2025-02-11 23:32:42 --> Config Class Initialized
+INFO - 2025-02-11 23:32:42 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:32:42 --> UTF-8 Support Enabled
+DEBUG - 2025-02-11 23:32:42 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:32:42 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:32:42 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:32:42 --> URI Class Initialized
+INFO - 2025-02-11 23:32:42 --> URI Class Initialized
+INFO - 2025-02-11 23:32:42 --> Router Class Initialized
+INFO - 2025-02-11 23:32:42 --> Router Class Initialized
+INFO - 2025-02-11 23:32:42 --> Output Class Initialized
+INFO - 2025-02-11 23:32:42 --> Output Class Initialized
+INFO - 2025-02-11 23:32:42 --> Security Class Initialized
+INFO - 2025-02-11 23:32:42 --> Security Class Initialized
+DEBUG - 2025-02-11 23:32:42 --> Global POST, GET and COOKIE data sanitized
+DEBUG - 2025-02-11 23:32:42 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:32:42 --> Input Class Initialized
+INFO - 2025-02-11 23:32:42 --> Input Class Initialized
+INFO - 2025-02-11 23:32:42 --> Language Class Initialized
+INFO - 2025-02-11 23:32:42 --> Language Class Initialized
+INFO - 2025-02-11 23:32:42 --> Loader Class Initialized
+INFO - 2025-02-11 23:32:42 --> Loader Class Initialized
+INFO - 2025-02-11 23:32:42 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:32:42 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:32:42 --> Database Driver Class Initialized
+INFO - 2025-02-11 23:32:42 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:32:42 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+DEBUG - 2025-02-11 23:32:42 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:32:42 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:32:42 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:32:42 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:32:42 --> Controller Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+DEBUG - 2025-02-11 23:32:42 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Final output sent to browser
+DEBUG - 2025-02-11 23:32:42 --> Total execution time: 0.0231
+INFO - 2025-02-11 23:32:42 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:32:42 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:32:42 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:32:42 --> Controller Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+INFO - 2025-02-11 23:32:42 --> Model Class Initialized
+ERROR - 2025-02-11 23:32:42 --> Severity: error --> Exception: Too few arguments to function Presupuesto::getPresupuestoDetalle(), 0 passed in I:\XAmpp\htdocs\practica\system\core\CodeIgniter.php on line 532 and exactly 1 expected I:\XAmpp\htdocs\practica\application\controllers\mantenimiento\Presupuesto.php 325
+INFO - 2025-02-11 23:32:49 --> Config Class Initialized
+INFO - 2025-02-11 23:32:49 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:32:49 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:32:49 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:32:49 --> URI Class Initialized
+INFO - 2025-02-11 23:32:49 --> Router Class Initialized
+INFO - 2025-02-11 23:32:49 --> Output Class Initialized
+INFO - 2025-02-11 23:32:49 --> Security Class Initialized
+DEBUG - 2025-02-11 23:32:49 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:32:49 --> Input Class Initialized
+INFO - 2025-02-11 23:32:49 --> Language Class Initialized
+INFO - 2025-02-11 23:32:49 --> Loader Class Initialized
+INFO - 2025-02-11 23:32:49 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:32:49 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:32:49 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:32:49 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:32:49 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:32:49 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:32:49 --> Controller Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> Model Class Initialized
+INFO - 2025-02-11 23:32:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:32:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:32:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/list.php
+INFO - 2025-02-11 23:32:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:32:49 --> Final output sent to browser
+DEBUG - 2025-02-11 23:32:49 --> Total execution time: 0.0157
+INFO - 2025-02-11 23:33:38 --> Config Class Initialized
+INFO - 2025-02-11 23:33:38 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:33:38 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:33:38 --> URI Class Initialized
+INFO - 2025-02-11 23:33:38 --> Router Class Initialized
+INFO - 2025-02-11 23:33:38 --> Output Class Initialized
+INFO - 2025-02-11 23:33:38 --> Security Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:33:38 --> Input Class Initialized
+INFO - 2025-02-11 23:33:38 --> Language Class Initialized
+INFO - 2025-02-11 23:33:38 --> Loader Class Initialized
+INFO - 2025-02-11 23:33:38 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:33:38 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:33:38 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:33:38 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:33:38 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:33:38 --> Controller Class Initialized
+INFO - 2025-02-11 23:33:38 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+INFO - 2025-02-11 23:33:38 --> Model Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:33:38 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:33:38 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:33:38 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-11 23:33:38 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:33:38 --> Final output sent to browser
+DEBUG - 2025-02-11 23:33:38 --> Total execution time: 0.0133
+INFO - 2025-02-11 23:33:38 --> Config Class Initialized
+INFO - 2025-02-11 23:33:38 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:33:38 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:33:38 --> URI Class Initialized
+INFO - 2025-02-11 23:33:38 --> Router Class Initialized
+INFO - 2025-02-11 23:33:38 --> Output Class Initialized
+INFO - 2025-02-11 23:33:38 --> Security Class Initialized
+DEBUG - 2025-02-11 23:33:38 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:33:38 --> Input Class Initialized
+INFO - 2025-02-11 23:33:38 --> Language Class Initialized
+ERROR - 2025-02-11 23:33:38 --> 404 Page Not Found: Assets/json
+INFO - 2025-02-11 23:33:45 --> Config Class Initialized
+INFO - 2025-02-11 23:33:45 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:33:45 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:33:45 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:33:45 --> URI Class Initialized
+INFO - 2025-02-11 23:33:45 --> Router Class Initialized
+INFO - 2025-02-11 23:33:45 --> Output Class Initialized
+INFO - 2025-02-11 23:33:45 --> Security Class Initialized
+DEBUG - 2025-02-11 23:33:45 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:33:45 --> Input Class Initialized
+INFO - 2025-02-11 23:33:45 --> Language Class Initialized
+INFO - 2025-02-11 23:33:45 --> Loader Class Initialized
+INFO - 2025-02-11 23:33:45 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:33:45 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:33:45 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:33:45 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:33:45 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:33:45 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:33:45 --> Controller Class Initialized
+INFO - 2025-02-11 23:33:45 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+DEBUG - 2025-02-11 23:33:45 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+INFO - 2025-02-11 23:33:45 --> Model Class Initialized
+DEBUG - 2025-02-11 23:33:45 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:33:45 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:33:45 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:33:45 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/add.php
+INFO - 2025-02-11 23:33:45 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:33:45 --> Final output sent to browser
+DEBUG - 2025-02-11 23:33:45 --> Total execution time: 0.0314
+INFO - 2025-02-11 23:34:11 --> Config Class Initialized
+INFO - 2025-02-11 23:34:11 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:34:11 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:34:11 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:34:11 --> URI Class Initialized
+INFO - 2025-02-11 23:34:11 --> Router Class Initialized
+INFO - 2025-02-11 23:34:11 --> Output Class Initialized
+INFO - 2025-02-11 23:34:11 --> Security Class Initialized
+DEBUG - 2025-02-11 23:34:11 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:34:11 --> Input Class Initialized
+INFO - 2025-02-11 23:34:11 --> Language Class Initialized
+INFO - 2025-02-11 23:34:11 --> Loader Class Initialized
+INFO - 2025-02-11 23:34:11 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:34:11 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:34:11 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:34:11 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:34:11 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:34:11 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:34:11 --> Controller Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> Model Class Initialized
+INFO - 2025-02-11 23:34:11 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:34:11 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:34:11 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/list.php
+INFO - 2025-02-11 23:34:11 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:34:11 --> Final output sent to browser
+DEBUG - 2025-02-11 23:34:11 --> Total execution time: 0.0150
+INFO - 2025-02-11 23:35:10 --> Config Class Initialized
+INFO - 2025-02-11 23:35:10 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:35:10 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:35:10 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:35:10 --> URI Class Initialized
+INFO - 2025-02-11 23:35:10 --> Router Class Initialized
+INFO - 2025-02-11 23:35:10 --> Output Class Initialized
+INFO - 2025-02-11 23:35:10 --> Security Class Initialized
+DEBUG - 2025-02-11 23:35:10 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:35:10 --> Input Class Initialized
+INFO - 2025-02-11 23:35:10 --> Language Class Initialized
+INFO - 2025-02-11 23:35:10 --> Loader Class Initialized
+INFO - 2025-02-11 23:35:10 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:35:10 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:35:10 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:35:10 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:35:10 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:35:10 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:35:10 --> Controller Class Initialized
+INFO - 2025-02-11 23:35:10 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+DEBUG - 2025-02-11 23:35:10 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+INFO - 2025-02-11 23:35:10 --> Model Class Initialized
+DEBUG - 2025-02-11 23:35:10 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:35:10 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:35:10 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:35:10 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-11 23:35:10 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:35:10 --> Final output sent to browser
+DEBUG - 2025-02-11 23:35:10 --> Total execution time: 0.0138
+INFO - 2025-02-11 23:35:11 --> Config Class Initialized
+INFO - 2025-02-11 23:35:11 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:35:11 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:35:11 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:35:11 --> URI Class Initialized
+INFO - 2025-02-11 23:35:11 --> Router Class Initialized
+INFO - 2025-02-11 23:35:11 --> Output Class Initialized
+INFO - 2025-02-11 23:35:11 --> Security Class Initialized
+DEBUG - 2025-02-11 23:35:11 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:35:11 --> Input Class Initialized
+INFO - 2025-02-11 23:35:11 --> Language Class Initialized
+ERROR - 2025-02-11 23:35:11 --> 404 Page Not Found: Assets/json
+INFO - 2025-02-11 23:36:55 --> Config Class Initialized
+INFO - 2025-02-11 23:36:55 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:36:55 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:36:55 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:36:55 --> URI Class Initialized
+INFO - 2025-02-11 23:36:55 --> Router Class Initialized
+INFO - 2025-02-11 23:36:55 --> Output Class Initialized
+INFO - 2025-02-11 23:36:55 --> Security Class Initialized
+DEBUG - 2025-02-11 23:36:55 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:36:55 --> Input Class Initialized
+INFO - 2025-02-11 23:36:55 --> Language Class Initialized
+INFO - 2025-02-11 23:36:55 --> Loader Class Initialized
+INFO - 2025-02-11 23:36:55 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:36:55 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:36:55 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:36:55 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:36:55 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:36:55 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:36:55 --> Controller Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+INFO - 2025-02-11 23:36:55 --> Model Class Initialized
+DEBUG - 2025-02-11 23:36:55 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:36:55 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:36:55 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:36:55 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/cdp/list.php
+INFO - 2025-02-11 23:36:55 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:36:55 --> Final output sent to browser
+DEBUG - 2025-02-11 23:36:55 --> Total execution time: 0.1777
+INFO - 2025-02-11 23:41:44 --> Config Class Initialized
+INFO - 2025-02-11 23:41:44 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:41:44 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:41:44 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:41:44 --> URI Class Initialized
+INFO - 2025-02-11 23:41:44 --> Router Class Initialized
+INFO - 2025-02-11 23:41:44 --> Output Class Initialized
+INFO - 2025-02-11 23:41:44 --> Security Class Initialized
+DEBUG - 2025-02-11 23:41:44 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:41:44 --> Input Class Initialized
+INFO - 2025-02-11 23:41:44 --> Language Class Initialized
+INFO - 2025-02-11 23:41:44 --> Loader Class Initialized
+INFO - 2025-02-11 23:41:44 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:41:44 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:41:44 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:41:44 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:41:44 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:41:44 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:41:44 --> Controller Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> Model Class Initialized
+INFO - 2025-02-11 23:41:44 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:41:44 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:41:44 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/add.php
+INFO - 2025-02-11 23:41:44 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:41:44 --> Final output sent to browser
+DEBUG - 2025-02-11 23:41:44 --> Total execution time: 0.0757
+INFO - 2025-02-11 23:41:47 --> Config Class Initialized
+INFO - 2025-02-11 23:41:47 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:41:47 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:41:47 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:41:47 --> URI Class Initialized
+INFO - 2025-02-11 23:41:47 --> Router Class Initialized
+INFO - 2025-02-11 23:41:47 --> Output Class Initialized
+INFO - 2025-02-11 23:41:47 --> Security Class Initialized
+DEBUG - 2025-02-11 23:41:47 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:41:47 --> Input Class Initialized
+INFO - 2025-02-11 23:41:47 --> Language Class Initialized
+INFO - 2025-02-11 23:41:47 --> Loader Class Initialized
+INFO - 2025-02-11 23:41:47 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:41:47 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:41:47 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:41:47 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:41:47 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:41:47 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:41:47 --> Controller Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> Model Class Initialized
+INFO - 2025-02-11 23:41:47 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:41:47 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:41:47 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/list.php
+INFO - 2025-02-11 23:41:47 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:41:47 --> Final output sent to browser
+DEBUG - 2025-02-11 23:41:47 --> Total execution time: 0.0310
+INFO - 2025-02-11 23:41:49 --> Config Class Initialized
+INFO - 2025-02-11 23:41:49 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:41:49 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:41:49 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:41:49 --> URI Class Initialized
+INFO - 2025-02-11 23:41:49 --> Router Class Initialized
+INFO - 2025-02-11 23:41:49 --> Output Class Initialized
+INFO - 2025-02-11 23:41:49 --> Security Class Initialized
+DEBUG - 2025-02-11 23:41:49 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:41:49 --> Input Class Initialized
+INFO - 2025-02-11 23:41:49 --> Language Class Initialized
+INFO - 2025-02-11 23:41:49 --> Loader Class Initialized
+INFO - 2025-02-11 23:41:49 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:41:49 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:41:49 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:41:49 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:41:49 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:41:49 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:41:49 --> Controller Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> Model Class Initialized
+INFO - 2025-02-11 23:41:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:41:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:41:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/add.php
+INFO - 2025-02-11 23:41:49 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:41:49 --> Final output sent to browser
+DEBUG - 2025-02-11 23:41:49 --> Total execution time: 0.0156
+INFO - 2025-02-11 23:41:53 --> Config Class Initialized
+INFO - 2025-02-11 23:41:53 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:41:53 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:41:53 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:41:53 --> URI Class Initialized
+INFO - 2025-02-11 23:41:53 --> Router Class Initialized
+INFO - 2025-02-11 23:41:53 --> Output Class Initialized
+INFO - 2025-02-11 23:41:53 --> Security Class Initialized
+DEBUG - 2025-02-11 23:41:53 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:41:53 --> Input Class Initialized
+INFO - 2025-02-11 23:41:53 --> Language Class Initialized
+INFO - 2025-02-11 23:41:53 --> Loader Class Initialized
+INFO - 2025-02-11 23:41:53 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:41:53 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:41:53 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:41:53 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:41:53 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:41:53 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:41:53 --> Controller Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> Model Class Initialized
+INFO - 2025-02-11 23:41:53 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:41:53 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:41:53 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/presupuesto/list.php
+INFO - 2025-02-11 23:41:53 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:41:53 --> Final output sent to browser
+DEBUG - 2025-02-11 23:41:53 --> Total execution time: 0.0149
+INFO - 2025-02-11 23:42:59 --> Config Class Initialized
+INFO - 2025-02-11 23:42:59 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:42:59 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:42:59 --> URI Class Initialized
+INFO - 2025-02-11 23:42:59 --> Router Class Initialized
+INFO - 2025-02-11 23:42:59 --> Output Class Initialized
+INFO - 2025-02-11 23:42:59 --> Security Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:42:59 --> Input Class Initialized
+INFO - 2025-02-11 23:42:59 --> Language Class Initialized
+INFO - 2025-02-11 23:42:59 --> Loader Class Initialized
+INFO - 2025-02-11 23:42:59 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:42:59 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:42:59 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:42:59 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:42:59 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:42:59 --> Controller Class Initialized
+INFO - 2025-02-11 23:42:59 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+INFO - 2025-02-11 23:42:59 --> Model Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:42:59 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:42:59 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:42:59 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-11 23:42:59 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:42:59 --> Final output sent to browser
+DEBUG - 2025-02-11 23:42:59 --> Total execution time: 0.0135
+INFO - 2025-02-11 23:42:59 --> Config Class Initialized
+INFO - 2025-02-11 23:42:59 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:42:59 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:42:59 --> URI Class Initialized
+INFO - 2025-02-11 23:42:59 --> Router Class Initialized
+INFO - 2025-02-11 23:42:59 --> Output Class Initialized
+INFO - 2025-02-11 23:42:59 --> Security Class Initialized
+DEBUG - 2025-02-11 23:42:59 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:42:59 --> Input Class Initialized
+INFO - 2025-02-11 23:42:59 --> Language Class Initialized
+ERROR - 2025-02-11 23:42:59 --> 404 Page Not Found: Assets/json
+INFO - 2025-02-11 23:43:00 --> Config Class Initialized
+INFO - 2025-02-11 23:43:00 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:43:00 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:43:00 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:43:00 --> URI Class Initialized
+INFO - 2025-02-11 23:43:00 --> Router Class Initialized
+INFO - 2025-02-11 23:43:00 --> Output Class Initialized
+INFO - 2025-02-11 23:43:00 --> Security Class Initialized
+DEBUG - 2025-02-11 23:43:00 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:43:00 --> Input Class Initialized
+INFO - 2025-02-11 23:43:00 --> Language Class Initialized
+INFO - 2025-02-11 23:43:00 --> Loader Class Initialized
+INFO - 2025-02-11 23:43:00 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:43:00 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:43:00 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:43:00 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:43:00 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:43:00 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:43:00 --> Controller Class Initialized
+INFO - 2025-02-11 23:43:00 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:00 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+INFO - 2025-02-11 23:43:00 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:00 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:00 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:43:00 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:43:00 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/add.php
+INFO - 2025-02-11 23:43:00 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:43:00 --> Final output sent to browser
+DEBUG - 2025-02-11 23:43:00 --> Total execution time: 0.0325
+INFO - 2025-02-11 23:43:07 --> Config Class Initialized
+INFO - 2025-02-11 23:43:07 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:43:07 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:43:07 --> URI Class Initialized
+INFO - 2025-02-11 23:43:07 --> Router Class Initialized
+INFO - 2025-02-11 23:43:07 --> Output Class Initialized
+INFO - 2025-02-11 23:43:07 --> Security Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:43:07 --> Input Class Initialized
+INFO - 2025-02-11 23:43:07 --> Language Class Initialized
+INFO - 2025-02-11 23:43:07 --> Loader Class Initialized
+INFO - 2025-02-11 23:43:07 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:43:07 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:43:07 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:43:07 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:43:07 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:43:07 --> Controller Class Initialized
+INFO - 2025-02-11 23:43:07 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+INFO - 2025-02-11 23:43:07 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:43:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:43:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-11 23:43:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:43:07 --> Final output sent to browser
+DEBUG - 2025-02-11 23:43:07 --> Total execution time: 0.0136
+INFO - 2025-02-11 23:43:07 --> Config Class Initialized
+INFO - 2025-02-11 23:43:07 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:43:07 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:43:07 --> URI Class Initialized
+INFO - 2025-02-11 23:43:07 --> Router Class Initialized
+INFO - 2025-02-11 23:43:07 --> Output Class Initialized
+INFO - 2025-02-11 23:43:07 --> Security Class Initialized
+DEBUG - 2025-02-11 23:43:07 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:43:07 --> Input Class Initialized
+INFO - 2025-02-11 23:43:07 --> Language Class Initialized
+ERROR - 2025-02-11 23:43:07 --> 404 Page Not Found: Assets/json
+INFO - 2025-02-11 23:43:12 --> Config Class Initialized
+INFO - 2025-02-11 23:43:12 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:43:12 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:43:12 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:43:12 --> URI Class Initialized
+INFO - 2025-02-11 23:43:12 --> Router Class Initialized
+INFO - 2025-02-11 23:43:12 --> Output Class Initialized
+INFO - 2025-02-11 23:43:12 --> Security Class Initialized
+DEBUG - 2025-02-11 23:43:12 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:43:12 --> Input Class Initialized
+INFO - 2025-02-11 23:43:12 --> Language Class Initialized
+INFO - 2025-02-11 23:43:12 --> Loader Class Initialized
+INFO - 2025-02-11 23:43:12 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:43:12 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:43:12 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:43:12 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:43:12 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:43:12 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:43:12 --> Controller Class Initialized
+INFO - 2025-02-11 23:43:12 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:12 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+INFO - 2025-02-11 23:43:12 --> Model Class Initialized
+DEBUG - 2025-02-11 23:43:12 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:43:12 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:43:12 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:43:12 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/add.php
+INFO - 2025-02-11 23:43:12 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:43:12 --> Final output sent to browser
+DEBUG - 2025-02-11 23:43:12 --> Total execution time: 0.0411
+INFO - 2025-02-11 23:52:07 --> Config Class Initialized
+INFO - 2025-02-11 23:52:07 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:52:07 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:52:07 --> URI Class Initialized
+INFO - 2025-02-11 23:52:07 --> Router Class Initialized
+INFO - 2025-02-11 23:52:07 --> Output Class Initialized
+INFO - 2025-02-11 23:52:07 --> Security Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:52:07 --> Input Class Initialized
+INFO - 2025-02-11 23:52:07 --> Language Class Initialized
+INFO - 2025-02-11 23:52:07 --> Loader Class Initialized
+INFO - 2025-02-11 23:52:07 --> Helper loaded: url_helper
+INFO - 2025-02-11 23:52:07 --> Database Driver Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-11 23:52:07 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-11 23:52:07 --> Helper loaded: form_helper
+INFO - 2025-02-11 23:52:07 --> Form Validation Class Initialized
+INFO - 2025-02-11 23:52:07 --> Controller Class Initialized
+INFO - 2025-02-11 23:52:07 --> Helper loaded: inflector_helper
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+INFO - 2025-02-11 23:52:07 --> Model Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-11 23:52:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-11 23:52:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-11 23:52:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-11 23:52:07 --> File loaded: I:\XAmpp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-11 23:52:07 --> Final output sent to browser
+DEBUG - 2025-02-11 23:52:07 --> Total execution time: 0.0139
+INFO - 2025-02-11 23:52:07 --> Config Class Initialized
+INFO - 2025-02-11 23:52:07 --> Hooks Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> UTF-8 Support Enabled
+INFO - 2025-02-11 23:52:07 --> Utf8 Class Initialized
+INFO - 2025-02-11 23:52:07 --> URI Class Initialized
+INFO - 2025-02-11 23:52:07 --> Router Class Initialized
+INFO - 2025-02-11 23:52:07 --> Output Class Initialized
+INFO - 2025-02-11 23:52:07 --> Security Class Initialized
+DEBUG - 2025-02-11 23:52:07 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-11 23:52:07 --> Input Class Initialized
+INFO - 2025-02-11 23:52:07 --> Language Class Initialized
+ERROR - 2025-02-11 23:52:07 --> 404 Page Not Found: Assets/json

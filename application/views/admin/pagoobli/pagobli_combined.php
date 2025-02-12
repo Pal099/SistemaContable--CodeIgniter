@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/DataTables/datatables.min.css">
     <!-- estilos del css -->
     <link href="<?php echo base_url(); ?>/assets/css/style_pago_obli.css" rel="stylesheet">
-     <!-- Script para el sweetalert -->
-     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Script para el sweetalert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="<?php echo base_url('assets/sweetalert-helper/sweetAlertHelper.js'); ?>"></script>
 </head>
 
@@ -175,10 +175,10 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_pro" name="id_pro">
                                                                             <?php foreach ($programa as $prog): ?>
-                                                                                <option
-                                                                                    value="<?php echo $prog->id_pro; ?>">
-                                                                                    <?php echo $prog->codigo; ?>
-                                                                                </option>
+                                                                            <option
+                                                                                value="<?php echo $prog->id_pro; ?>">
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -189,9 +189,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_ff" name="id_ff">
                                                                             <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                                    <?php echo $ff->codigo; ?>
-                                                                                </option>
+                                                                            <option value="<?php echo $ff->id_ff; ?>">
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -202,9 +202,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_of" name="id_of">
                                                                             <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                                    <?php echo $of->codigo; ?>
-                                                                                </option>
+                                                                            <option value="<?php echo $of->id_of; ?>">
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -262,16 +262,16 @@
                                                                 <td>
                                                                     <div class="input-group input-group-sm">
                                                                         <?php if (isset($Debe)): ?>
-                                                                            <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
-                                                                            <input type="text"
-                                                                                class="form-control small border-0 bg-transparent"
-                                                                                id="Debe" name="Debe"
-                                                                                value="<?php echo $Debe_value; ?>">
+                                                                        <?php $debe_value = number_format($Debe, 2, ',', '.'); ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Debe" name="Debe"
+                                                                            value="<?php echo $Debe_value; ?>">
                                                                         <?php else: ?>
-                                                                            <input type="text"
-                                                                                class="form-control small border-0 bg-transparent"
-                                                                                id="Debe" name="Debe"
-                                                                                oninput="formatNumber('Debe')">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent"
+                                                                            id="Debe" name="Debe"
+                                                                            oninput="formatNumber('Debe')">
                                                                         <?php endif; ?>
                                                                     </div>
                                                                 </td>
@@ -307,10 +307,10 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_pro_2" name="id_pro_2" required>
                                                                             <?php foreach ($programa as $prog): ?>
-                                                                                <option
-                                                                                    value="<?php echo $prog->id_pro; ?>">
-                                                                                    <?php echo $prog->codigo; ?>
-                                                                                </option>
+                                                                            <option
+                                                                                value="<?php echo $prog->id_pro; ?>">
+                                                                                <?php echo $prog->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -321,9 +321,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_ff_2" name="id_ff_2" required>
                                                                             <?php foreach ($fuente_de_financiamiento as $ff): ?>
-                                                                                <option value="<?php echo $ff->id_ff; ?>">
-                                                                                    <?php echo $ff->codigo; ?>
-                                                                                </option>
+                                                                            <option value="<?php echo $ff->id_ff; ?>">
+                                                                                <?php echo $ff->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -334,9 +334,9 @@
                                                                             class="form-control border-0 bg-transparent"
                                                                             id="id_of_2" name="id_of_2" required>
                                                                             <?php foreach ($origen_de_financiamiento as $of): ?>
-                                                                                <option value="<?php echo $of->id_of; ?>">
-                                                                                    <?php echo $of->codigo; ?>
-                                                                                </option>
+                                                                            <option value="<?php echo $of->id_of; ?>">
+                                                                                <?php echo $of->codigo; ?>
+                                                                            </option>
                                                                             <?php endforeach; ?>
                                                                         </select>
                                                                     </div>
@@ -397,16 +397,16 @@
                                                                 <td>
                                                                     <div class="input-group input-group-sm">
                                                                         <?php if (isset($haber_2)): ?>
-                                                                            <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
-                                                                            <input type="text"
-                                                                                class="form-control small border-0 bg-transparent form formatoNumero haber_reten"
-                                                                                id="Haber_2" name="Haber_2"
-                                                                                value="<?php echo $haber_2_value; ?>">
+                                                                        <?php $haber_2_value = number_format($haber_2, 2, ',', '.'); ?>
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent form formatoNumero haber_reten"
+                                                                            id="Haber_2" name="Haber_2"
+                                                                            value="<?php echo $haber_2_value; ?>">
                                                                         <?php else: ?>
-                                                                            <input type="text"
-                                                                                class="form-control small border-0 bg-transparent formatoNumero haber_reten"
-                                                                                id="Haber_2" name="Haber_2"
-                                                                                oninput="formatNumber('Haber_2')">
+                                                                        <input type="text"
+                                                                            class="form-control small border-0 bg-transparent formatoNumero haber_reten"
+                                                                            id="Haber_2" name="Haber_2"
+                                                                            oninput="formatNumber('Haber_2')">
                                                                         <?php endif; ?>
                                                                     </div>
                                                                 </td>
@@ -1186,60 +1186,60 @@
                                                         </thead>
                                                         <tbody>
                                                             <?php if (!empty($asiento)): ?>
-                                                                <?php foreach ($asiento as $asien): ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php echo $asien->num_asi ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->op ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo $asien->FechaEmision ?>
-                                                                        </td>
-                                                                        <td class="texto-izquierda">
-                                                                            <?php echo $asien->razon_social ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <div
-                                                                                class="d-grid gap-1 d-md-flex justify-content-md-center">
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                                    data-bs-toggle="modal"
-                                                                                    data-bs-target="#modalPresupuesto"
-                                                                                    value="<?php echo $asien->IDNum_Asi; ?>">
-                                                                                    <span class="fa fa-search"></span>
-                                                                                </button>
-                                                                                <button type="button" class="btn btn-danger"
-                                                                                    title="Generar PDF"
-                                                                                    onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
-                                                                                    <i class="bi bi-filetype-pdf"
-                                                                                        style="font-size: 20px;"></i>OP
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary btn-view-presupuesto btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url() ?>Pdf_reten/generarPDF_reten/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="fas fa-file-pdf"></i> Retención
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-warning btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url() ?>obligaciones/pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-pencil-fill"></i>
-                                                                                </button>
-                                                                                <button type="button"
-                                                                                    class="btn btn-danger btn-remove btn-sm"
-                                                                                    onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                                    <i class="bi bi-trash"></i>
-                                                                                </button>
-                                                                            </div>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php endforeach; ?>
+                                                            <?php foreach ($asiento as $asien): ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <?php echo $asien->num_asi ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->op ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $asien->FechaEmision ?>
+                                                                </td>
+                                                                <td class="texto-izquierda">
+                                                                    <?php echo $asien->razon_social ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo number_format($asien->MontoTotal, 0, '.', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <div
+                                                                        class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#modalPresupuesto"
+                                                                            value="<?php echo $asien->IDNum_Asi; ?>">
+                                                                            <span class="fa fa-search"></span>
+                                                                        </button>
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            title="Generar PDF"
+                                                                            onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
+                                                                            <i class="bi bi-filetype-pdf"
+                                                                                style="font-size: 20px;"></i>OP
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>Pdf_reten/generarPDF_reten/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="fas fa-file-pdf"></i> Retención
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-warning btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url() ?>obligaciones/pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-pencil-fill"></i>
+                                                                        </button>
+                                                                        <button type="button"
+                                                                            class="btn btn-danger btn-remove btn-sm"
+                                                                            onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
+                                                                            <i class="bi bi-trash"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <?php endforeach; ?>
                                                             <?php else: ?>
-                                                                <p>No se encontraron datos.</p>
+                                                            <p>No se encontraron datos.</p>
                                                             <?php endif; ?>
                                                         </tbody>
                                                     </table>
@@ -1266,6 +1266,20 @@
                 <div class="toast-body">
                     El total de la retención no puede ser mayor que el valor del Debe. Por favor, ajusta los
                     porcentajes.
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast del total para la diferencia de Debe y Haber -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="toastDebeHaber" class="toast text-bg-warning" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="toast-header">
+                    <i class="bi bi-exclamation-triangle-fill me-2" style="color: red;"></i>
+                    <strong class="me-auto">Advertencia</strong>
+                </div>
+                <div class="toast-body">
+                    El debe y el haber no pueden ser diferentes.
                 </div>
             </div>
         </div>
@@ -1334,11 +1348,11 @@
                                     <?= $asi->concepto ?>
                                 </td>
                                 <td>
-                                        <?= number_format($asi->pagado, 0, ',', '.') ?>
-                                    </td>
-                                    <td>
-                                        <?= number_format($asi->total - $asi->pagado, 0, ',', '.') ?>
-                                    </td>
+                                    <?= number_format($asi->pagado, 0, ',', '.') ?>
+                                </td>
+                                <td>
+                                    <?= number_format($asi->total - $asi->pagado, 0, ',', '.') ?>
+                                </td>
 
                                 <td hidden>
                                     <?= $asi->Debe ?>
@@ -1389,8 +1403,8 @@
         descrip,
         deta, comp, cheq, idcuenta, numasio, pagado) {
 
-            // var descripcionConPrefijo = 'A.P. ' + descrip;
-            // var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
+        // var descripcionConPrefijo = 'A.P. ' + descrip;
+        // var descripcionCodificada = encodeURIComponent(descripcionConPrefijo);
 
         document.getElementById('ruc').value = ruc;
         document.getElementById('contabilidad').value = razonSocial;
@@ -1404,26 +1418,26 @@
         document.getElementById('id_pro').value = programas;
         document.getElementById('id_of').value = origens;
 
-            document.getElementById('idcuentacontable').value = idcuenta;
-            document.getElementById('codigo_cc').value = cuentas;
-            document.getElementById('descripcion_cc').value = descrip;
+        document.getElementById('idcuentacontable').value = idcuenta;
+        document.getElementById('codigo_cc').value = cuentas;
+        document.getElementById('descripcion_cc').value = descrip;
 
-            document.getElementById('detalles').value = deta;
-            document.getElementById('comprobante').value = comp;
-            document.getElementById('cheques_che_id').value = cheq;
-            document.getElementById('num_asio').value = numasio;
-            document.getElementById('MontoPago_2').value = pagado;
+        document.getElementById('detalles').value = deta;
+        document.getElementById('comprobante').value = comp;
+        document.getElementById('cheques_che_id').value = cheq;
+        document.getElementById('num_asio').value = numasio;
+        document.getElementById('MontoPago_2').value = pagado;
 
-            // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
-            const rucInput = document.getElementById('ruc');
-            const retencionSwitch = document.getElementById('retencionSwitch');
+        // Verifica si el campo 'ruc' tiene un valor y habilita/deshabilita el switch
+        const rucInput = document.getElementById('ruc');
+        const retencionSwitch = document.getElementById('retencionSwitch');
 
-            if (rucInput.value.trim() !== "") {
-                retencionSwitch.removeAttribute('disabled');
-            } else {
-                retencionSwitch.setAttribute('disabled', true);
-                retencionSwitch.checked = false;
-            }
+        if (rucInput.value.trim() !== "") {
+            retencionSwitch.removeAttribute('disabled');
+        } else {
+            retencionSwitch.setAttribute('disabled', true);
+            retencionSwitch.checked = false;
+        }
 
     }
     // Inicializar el estado del switch cuando se cargue la página
@@ -1431,467 +1445,500 @@
         const rucInput = document.getElementById('ruc');
         const retencionSwitch = document.getElementById('retencionSwitch');
 
-            if (rucInput.value.trim() !== "") {
-                retencionSwitch.removeAttribute('disabled');
-            } else {
-                retencionSwitch.setAttribute('disabled', true);
-                retencionSwitch.checked = false;
-            }
-        });
+        if (rucInput.value.trim() !== "") {
+            retencionSwitch.removeAttribute('disabled');
+        } else {
+            retencionSwitch.setAttribute('disabled', true);
+            retencionSwitch.checked = false;
+        }
+    });
     </script>
     <!-- Script encargado de las tabla de Lista de Obligacion -->
     <script>
-        $(document).ready(function () {
-            $('#TablaListaObligacion').DataTable({
-                paging: true,
-                pageLength: 10,
-                lengthChange: true,
-                searching: true,
-                info: true,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-                }
-            });
+    $(document).ready(function() {
+        $('#TablaListaObligacion').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+            }
         });
+    });
     </script>
 
     <!-- Script que controla los tooltips -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Inicializar todos los tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar todos los tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
+    });
     </script>
 
     <!-- Script para mostrar los campos de retencion -->
     <script>
-        document.getElementById('retencionSwitch').addEventListener('change', function () {
-            var calculoderetencion = new bootstrap.Collapse(document.getElementById(
-                'calculoderetencion'));
-            calculoderetencion.toggle();
+    document.getElementById('retencionSwitch').addEventListener('change', function() {
+        var calculoderetencion = new bootstrap.Collapse(document.getElementById(
+            'calculoderetencion'));
+        calculoderetencion.toggle();
+    });
+    </script>
+
+    <!-- funcion para mostrar el toast -->
+    <script>
+    function showToastDebe(message, bgColor = 'text-bg-warning', makeTextWhite = false) {
+        // Seleccionar el toast
+        var toastElement = document.getElementById('toastDebeHaber');
+
+        // Actualizar el mensaje y el color de fondo del toast
+        var toastBody = toastElement.querySelector('.toast-body');
+        toastBody.innerText = message;
+
+        // Cambiar el color de fondo del toast
+        toastElement.classList.remove('text-bg-warning', 'text-bg-danger',
+            'text-bg-success'); // Limpiar clases anteriores
+        toastElement.classList.add(bgColor);
+
+        // Hacer el texto del cuerpo blanco si es necesario
+        if (makeTextWhite) {
+            toastBody.classList.add('text-white');
+        } else {
+            toastBody.classList.remove('text-white');
+        }
+
+        // Mostrar el toast
+        var toast = new bootstrap.Toast(toastElement, {
+            animation: true,
+            autohide: true, // Ocultar automáticamente después de un tiempo
+            delay: 8000 // Duración en milisegundos (5 segundos)
         });
+        toast.show();
+    }
     </script>
 
     <!-- Script de Edicion del porcentaje de retencion -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const checkboxes = document.querySelectorAll('.edit-checkbox');
-            const inputs = document.querySelectorAll('.editable-input');
+    document.addEventListener("DOMContentLoaded", function() {
+        const checkboxes = document.querySelectorAll('.edit-checkbox');
+        const inputs = document.querySelectorAll('.editable-input');
 
-            checkboxes.forEach((checkbox, index) => {
-                checkbox.addEventListener('change', function () {
-                    if (this.checked) {
-                        inputs[index].removeAttribute('readonly');
-                    } else {
-                        inputs[index].setAttribute('readonly', true);
-                    }
-                });
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    inputs[index].removeAttribute('readonly');
+                } else {
+                    inputs[index].setAttribute('readonly', true);
+                }
             });
         });
+    });
     </script>
 
     <!-- Script donde se realiza los calculos de la retencion -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const selecIva = document.getElementsByClassName('select-retencion');
-            const debeInput = document.getElementById('Debe');
-            const porcentajeIva = document.getElementsByClassName('editable-input');
-            const ivaRetencion = document.getElementsByClassName('input-retencion');
-            const ivaBaseRetencion = document.getElementsByClassName('input-baserentencion');
-            const totalRetenciones = document.getElementById('total-retenciones');
-            const myToast = new bootstrap.Toast(document.getElementById('myToast'));
+    document.addEventListener('DOMContentLoaded', function() {
+        const selecIva = document.getElementsByClassName('select-retencion');
+        const debeInput = document.getElementById('Debe');
+        const porcentajeIva = document.getElementsByClassName('editable-input');
+        const ivaRetencion = document.getElementsByClassName('input-retencion');
+        const ivaBaseRetencion = document.getElementsByClassName('input-baserentencion');
+        const totalRetenciones = document.getElementById('total-retenciones');
+        const myToast = new bootstrap.Toast(document.getElementById('myToast'));
 
-            function showToast() {
-                const toastEl = document.getElementById('toastRetenciones');
-                const toast = new bootstrap.Toast(toastEl);
-                toast.show();
-            }
+        function showToast() {
+            const toastEl = document.getElementById('toastRetenciones');
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
 
 
-            for (let i = 0; i < selecIva.length; i++) {
-                selecIva[i].addEventListener('change', updateValues);
-                porcentajeIva[i].addEventListener('input', updateValues);
+        for (let i = 0; i < selecIva.length; i++) {
+            selecIva[i].addEventListener('change', updateValues);
+            porcentajeIva[i].addEventListener('input', updateValues);
 
-                function updateValues() {
-                    const debeValue = parseFloat(debeInput.value.replace(/[.,]/g, '')) || 0;
-                    console.log("Valor Actual del debe: ", debeValue);
-                    const porcentaje = parseFloat(porcentajeIva[i].value) || 0;
-                    let retencion = (debeValue * porcentaje) / 100;
-                    retencion = Math.round(retencion); // Redondear al número entero más cercano
-                    ivaRetencion[i].value = formatNumber(retencion);
+            function updateValues() {
+                const debeValue = parseFloat(debeInput.value.replace(/[.,]/g, '')) || 0;
+                console.log("Valor Actual del debe: ", debeValue);
+                const porcentaje = parseFloat(porcentajeIva[i].value) || 0;
+                let retencion = (debeValue * porcentaje) / 100;
+                retencion = Math.round(retencion); // Redondear al número entero más cercano
+                ivaRetencion[i].value = formatNumber(retencion);
 
-                    const baseRetencion = debeValue - retencion;
-                    ivaBaseRetencion[i].value = formatNumber(baseRetencion);
+                const baseRetencion = debeValue - retencion;
+                ivaBaseRetencion[i].value = formatNumber(baseRetencion);
 
-                    if (!selecIva[i].checked) {
-                        ivaRetencion[i].value = 0;
-                        ivaBaseRetencion[i].value = 0;
-                    }
+                if (!selecIva[i].checked) {
+                    ivaRetencion[i].value = 0;
+                    ivaBaseRetencion[i].value = 0;
+                }
 
-                    // Suma todos los valores de los inputs de "input-retencion"
-                    let total = 0;
-                    for (let j = 0; j < ivaRetencion.length; j++) {
-                        total += parseFloat(ivaRetencion[j].value.replace(/\./g, '').replace(',', '.')) || 0;
-                    }
-                    totalRetenciones.value = formatNumber(total);
+                // Suma todos los valores de los inputs de "input-retencion"
+                let total = 0;
+                for (let j = 0; j < ivaRetencion.length; j++) {
+                    total += parseFloat(ivaRetencion[j].value.replace(/\./g, '').replace(',', '.')) || 0;
+                }
+                totalRetenciones.value = formatNumber(total);
 
-                    // Verifica si el total de retenciones es mayor que el valor de "Debe"
-                    if (total > debeValue) {
-                        // Revierte los cambios
-                        ivaRetencion[i].value = 0;
-                        ivaBaseRetencion[i].value = 0;
-                        totalRetenciones.value = formatNumber(total - retencion);
-                        showToast();
-                    }
+                // Verifica si el total de retenciones es mayor que el valor de "Debe"
+                if (total > debeValue) {
+                    // Revierte los cambios
+                    ivaRetencion[i].value = 0;
+                    ivaBaseRetencion[i].value = 0;
+                    totalRetenciones.value = formatNumber(total - retencion);
+                    showToast();
                 }
             }
+        }
 
-            function formatNumber(num) {
-                return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            }
-        });
+        function formatNumber(num) {
+            return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+    });
     </script>
 
 </body>
 
 <!-- Script para agregar la retencion desde el boton a la tabla -->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Definir el objeto cuentasContables
-        var cuentasContables = <?php echo json_encode($cuentacontable); ?>;
-        // Agregar fila
-        function agregarFila(idCuentaContable, valorRetencion) {
-            // Clonar la fila base
-            var nuevaFila = $("#filaBase").clone();
+document.addEventListener('DOMContentLoaded', function() {
+    // Definir el objeto cuentasContables
+    var cuentasContables = <?php echo json_encode($cuentacontable); ?>;
+    // Agregar fila
+    function agregarFila(idCuentaContable, valorRetencion) {
+        // Clonar la fila base
+        var nuevaFila = $("#filaBase").clone();
 
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+        // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
+        // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+        nuevaFila.find("[id]").removeAttr('id');
 
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
+        // Agregar una clase a todos los elementos de la fila clonada
+        nuevaFila.find("select, input").addClass("filaClonada");
 
-            // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
-            nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
+        // Limpiar los valores de los campos en la nueva fila, exceptuando ciertos campos
+        nuevaFila.find("select, input").not(".idcuentacontable_2, .codigo_cc_2, .descripcion_cc_2").val("");
 
-            // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
-            nuevaFila.find(".formatoNumero").each(function () {
-                // Obtener el campo actual
-                var campo = $(this);
+        // Asociar la función formatNumber al evento oninput para campos con la clase formatoNumero
+        nuevaFila.find(".formatoNumero").each(function() {
+            // Obtener el campo actual
+            var campo = $(this);
 
-                // Asociar la función formatNumber al evento oninput
-                campo.on('input', function () {
-                    formatNumber(campo);
-                });
+            // Asociar la función formatNumber al evento oninput
+            campo.on('input', function() {
+                formatNumber(campo);
             });
+        });
 
-            // Buscar los datos de la cuenta contable correspondiente
-            var cuentaBuscada = cuentasContables.find(function (cuenta) {
-                return cuenta.IDCuentaContable == idCuentaContable;
-            });
+        // Buscar los datos de la cuenta contable correspondiente
+        var cuentaBuscada = cuentasContables.find(function(cuenta) {
+            return cuenta.IDCuentaContable == idCuentaContable;
+        });
 
-            // Verificar si se encontró la cuenta contable
-            if (cuentaBuscada) {
-                // Asignar los valores de la cuenta contable a los campos correspondientes
-                nuevaFila.find(".codigo_cc_2").val(cuentaBuscada
-                    .Codigo_CC);
-                nuevaFila.find(".descripcion_cc_2").val(cuentaBuscada
-                    .Descripcion_CC);
+        // Verificar si se encontró la cuenta contable
+        if (cuentaBuscada) {
+            // Asignar los valores de la cuenta contable a los campos correspondientes
+            nuevaFila.find(".codigo_cc_2").val(cuentaBuscada
+                .Codigo_CC);
+            nuevaFila.find(".descripcion_cc_2").val(cuentaBuscada
+                .Descripcion_CC);
 
-                // Asignar el valor al campo #Haber_2 en la fila clonada
-                nuevaFila.find(".haber_reten").val(valorRetencion);
-            } else {
-                console.error('Cuenta contable no encontrada para ID:', idCuentaContable);
-            }
-
-            // Asignar el ID de la cuenta contable al valor del campo de entrada oculto
-            nuevaFila.find(".idcuentacontable_2").val(idCuentaContable);
-
-            // Asignamos el valor de la retencion a la fila
+            // Asignar el valor al campo #Haber_2 en la fila clonada
             nuevaFila.find(".haber_reten").val(valorRetencion);
-
-            // Eliminar el atributo 'hidden' de la nueva fila clonada
-            nuevaFila.removeAttr('hidden');
-
-            // Añadir la nueva fila clonada al contenedor de la tabla
-            $("#miTabla").append(nuevaFila);
-        }
-        // Eliminar fila con botón
-        $("#miTabla").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
-
-            $(this).closest("tr").remove();
-        });
-
-        // Eliminar fila con el check de la retención
-        function eliminarFila(idCuentaContable) {
-            // Encuentra el input oculto con el valor específico y elimina la fila más cercana
-            $("input.idcuentacontable_2").each(function () {
-                if ($(this).val() == idCuentaContable) {
-                    $(this).closest("tr").remove();
-                }
-            });
+        } else {
+            console.error('Cuenta contable no encontrada para ID:', idCuentaContable);
         }
 
-        function formatNumber(campo) {
-            var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-            if (!isNaN(value)) {
-                campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
-            }
-        }
+        // Asignar el ID de la cuenta contable al valor del campo de entrada oculto
+        nuevaFila.find(".idcuentacontable_2").val(idCuentaContable);
 
-        // Controlador de eventos para todos los checkboxes de retención
-        $(".select-retencion").on("change", function () {
-            // Obtener el ID de la cuenta contable del atributo de datos personalizado
-            var idCuentaContable = $(this).data("id-cuenta");
+        // Asignamos el valor de la retencion a la fila
+        nuevaFila.find(".haber_reten").val(valorRetencion);
 
-            // Obtener el valor de retención del input asociado
-            var valorRetencion = $('.input-retencion[data-id-cuenta="' + idCuentaContable + '"]').val();
+        // Eliminar el atributo 'hidden' de la nueva fila clonada
+        nuevaFila.removeAttr('hidden');
 
-            // Remover los puntos y comas para obtener el número real
-            valorRetencion = valorRetencion.replace(/\./g, '').replace(',', '.');
-            valorRetencion = parseFloat(valorRetencion);
+        // Añadir la nueva fila clonada al contenedor de la tabla
+        $("#miTabla").append(nuevaFila);
+    }
+    // Eliminar fila con botón
+    $("#miTabla").on("click", ".eliminarFila", function(e) {
+        e.preventDefault();
 
-            // Llamar a las funciones agregarFila y eliminarFila con el ID de la cuenta contable y el valor de retención
-            if (this.checked) {
-                agregarFila(idCuentaContable, valorRetencion);
-            } else {
-                eliminarFila(idCuentaContable);
-            }
-        });
-
+        $(this).closest("tr").remove();
     });
+
+    // Eliminar fila con el check de la retención
+    function eliminarFila(idCuentaContable) {
+        // Encuentra el input oculto con el valor específico y elimina la fila más cercana
+        $("input.idcuentacontable_2").each(function() {
+            if ($(this).val() == idCuentaContable) {
+                $(this).closest("tr").remove();
+            }
+        });
+    }
+
+    function formatNumber(campo) {
+        var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
+        }
+    }
+
+    // Controlador de eventos para todos los checkboxes de retención
+    $(".select-retencion").on("change", function() {
+        // Obtener el ID de la cuenta contable del atributo de datos personalizado
+        var idCuentaContable = $(this).data("id-cuenta");
+
+        // Obtener el valor de retención del input asociado
+        var valorRetencion = $('.input-retencion[data-id-cuenta="' + idCuentaContable + '"]').val();
+
+        // Remover los puntos y comas para obtener el número real
+        valorRetencion = valorRetencion.replace(/\./g, '').replace(',', '.');
+        valorRetencion = parseFloat(valorRetencion);
+
+        // Llamar a las funciones agregarFila y eliminarFila con el ID de la cuenta contable y el valor de retención
+        if (this.checked) {
+            agregarFila(idCuentaContable, valorRetencion);
+        } else {
+            eliminarFila(idCuentaContable);
+        }
+    });
+
+});
 </script>
 <!-- Script de DataTable de vista  -->
 <script>
-    $(document).ready(function () {
-        $('#vistapago').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            order: [
-                [0, 'desc']
-            ], // Ordena la primera columna en orden descendiente
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
-        });
+$(document).ready(function() {
+    $('#vistapago').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        order: [
+            [0, 'desc']
+        ], // Ordena la primera columna en orden descendiente
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+        }
     });
+});
 </script>
 
 <!-- script para las fechas -->
 <script>
-    // Obtener la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
-    function obtenerFechaHoraActual() {
-        const fecha = new Date();
-        const dia = fecha.getDate().toString().padStart(2, '0');
-        const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-        const año = fecha.getFullYear();
-        return `${año}-${mes}-${dia}`;
-    }
+// Obtener la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
+function obtenerFechaHoraActual() {
+    const fecha = new Date();
+    const dia = fecha.getDate().toString().padStart(2, '0');
+    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const año = fecha.getFullYear();
+    return `${año}-${mes}-${dia}`;
+}
 
-    // Preestablecer el campo de fecha con la fecha y hora actual
-    const fechaInput = document.getElementById('fecha');
-    fechaInput.value = obtenerFechaHoraActual();
+// Preestablecer el campo de fecha con la fecha y hora actual
+const fechaInput = document.getElementById('fecha');
+fechaInput.value = obtenerFechaHoraActual();
 </script>
 
 <!-- funcion para mostrar el toast -->
 <script>
-    function showToast(message, bgColor, makeTextWhite) {
-        // Seleccionar el toast
-        var toastElement = document.getElementById('toastErrorFila');
+function showToast(message, bgColor, makeTextWhite) {
+    // Seleccionar el toast
+    var toastElement = document.getElementById('toastErrorFila');
 
-        // Animacion para el toast
-        toastElement.setAttribute('data-mdb-animation-init', '');
-        toastElement.setAttribute('data-mdb-animation-reset', 'true');
-        toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
+    // Animacion para el toast
+    toastElement.setAttribute('data-mdb-animation-init', '');
+    toastElement.setAttribute('data-mdb-animation-reset', 'true');
+    toastElement.setAttribute('data-mdb-animation', 'slide-out-right');
 
-        // Actualizar el mensaje y el color de fondo del toast
-        var toastBody = toastElement.querySelector('.toast-body');
-        toastBody.innerText = message;
-        toastElement.classList.add(bgColor);
+    // Actualizar el mensaje y el color de fondo del toast
+    var toastBody = toastElement.querySelector('.toast-body');
+    toastBody.innerText = message;
+    toastElement.classList.add(bgColor);
 
-        // Hacer el texto del cuerpo blanco si es necesario
-        if (makeTextWhite) {
-            toastBody.classList.add('text-white');
-        }
-
-        // Mostrar el toast
-        var toast = new bootstrap.Toast(toastElement, {
-            animation: true
-        });
-        toast.show();
+    // Hacer el texto del cuerpo blanco si es necesario
+    if (makeTextWhite) {
+        toastBody.classList.add('text-white');
     }
+
+    // Mostrar el toast
+    var toast = new bootstrap.Toast(toastElement, {
+        animation: true
+    });
+    toast.show();
+}
 </script>
 
 <!-- Script para agregar nuevas filas a la tabla -->
 <script>
-    $(document).ready(function () {
+$(document).ready(function() {
 
-        function formatNumber(campo) {
-            var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-            if (!isNaN(value)) {
-                campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
-            }
+    function formatNumber(campo) {
+        var value = parseFloat(campo.val().replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+        if (!isNaN(value)) {
+            campo.val(value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,'));
         }
+    }
 
-        // Agregar fila
-        $(document).on("click", ".agregarFila", function (e) {
-            e.preventDefault();
+    // Agregar fila
+    $(document).on("click", ".agregarFila", function(e) {
+        e.preventDefault();
 
-            // Clonar la fila base
-            var nuevaFila = $("#filaBase").clone();
+        // Clonar la fila base
+        var nuevaFila = $("#filaBase").clone();
 
-            // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
-            nuevaFila.find(".eliminarFila").removeAttr('hidden');
+        // Quitar el atributo 'hidden' del botón Eliminar en la fila clonada
+        nuevaFila.find(".eliminarFila").removeAttr('hidden');
 
-            // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
-            nuevaFila.find("[id]").removeAttr('id');
+        // Quitar el ID para evitar duplicados en todos los elementos de la fila clonada
+        nuevaFila.find("[id]").removeAttr('id');
 
-            // Agregar una clase a todos los elementos de la fila clonada
-            nuevaFila.find("select, input").addClass("filaClonada");
+        // Agregar una clase a todos los elementos de la fila clonada
+        nuevaFila.find("select, input").addClass("filaClonada");
 
-            // Limpiar los valores de los campos en la  nueva fila
-            nuevaFila.find("select, input").val("");
+        // Limpiar los valores de los campos en la  nueva fila
+        nuevaFila.find("select, input").val("");
 
-            nuevaFila.find(".formatoNumero").each(function () {
-                // Obtener el campo actual
-                var campo = $(this);
+        nuevaFila.find(".formatoNumero").each(function() {
+            // Obtener el campo actual
+            var campo = $(this);
 
-                // Asociar la función formatNumber al evento oninput
-                campo.on('input', function () {
-                    formatNumber(campo);
-                });
+            // Asociar la función formatNumber al evento oninput
+            campo.on('input', function() {
+                formatNumber(campo);
             });
-
-            // Mostrar la nueva fila
-            nuevaFila.show();
-
-            // Agregar la nueva fila al cuerpo de la tabla
-            $("#miTabla tbody").append(nuevaFila);
         });
 
-        // Eliminar fila
-        $("#miTabla").on("click", ".eliminarFila", function (e) {
-            e.preventDefault();
+        // Mostrar la nueva fila
+        nuevaFila.show();
 
-            $(this).closest("tr").remove();
+        // Agregar la nueva fila al cuerpo de la tabla
+        $("#miTabla tbody").append(nuevaFila);
+    });
 
-        });
+    // Eliminar fila
+    $("#miTabla").on("click", ".eliminarFila", function(e) {
+        e.preventDefault();
+
+        $(this).closest("tr").remove();
 
     });
+
+});
 </script>
 <!-- Envio de formulario principal -->
 <script>
-    $(document).ready(function () {
-        $("#formularioPrincipal").on("submit", function (e) {
-            e.preventDefault();
+$(document).ready(function() {
+    $("#formularioPrincipal").on("submit", function(e) {
+        e.preventDefault();
 
-            var datosFormulario = obtenerDatosFormulario();
-            var filas = obtenerFilasDinamicas();
-            var datosCompletos = {
-                datosFormulario: datosFormulario,
-                filas: filas,
-            };
+        var datosFormulario = obtenerDatosFormulario();
+        var filas = obtenerFilasDinamicas();
+        var datosCompletos = {
+            datosFormulario: datosFormulario,
+            filas: filas,
+        };
 
-            if (validarDatos(datosCompletos)) {
-                enviarDatos(datosCompletos);
-            }
-        });
-
-        function obtenerDatosFormulario() {
-            return {
-                op: $("#op").val(),
-                ruc: $("#ruc").val(),
-                num_asi: $("#num_asi").val(),
-                detalles: $("#detalles").val(),
-                contabilidad: $("#contabilidad").val(),
-                direccion: $("#direccion").val(),
-                telefono: $("#telefono").val(),
-                tesoreria: $("#tesoreria").val(),
-                concepto: $("#concepto").val(),
-                fecha: $("#fecha").val(),
-                idnumasi: $("#num_asio").val(),
-                id_pro: $("#id_pro").val(),
-                id_ff: $("#id_ff").val(),
-                id_of: $("#id_of").val(),
-                IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
-                MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
-                comprobante: $("#comprobante").val(),
-                Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
-                Haber: $("#Haber").val(),
-                cheques_che_id: $("#cheques_che_id").val(),
-            };
-        }
-
-        function obtenerFilasDinamicas() {
-            var filas = [];
-            $("#miTabla tbody tr:gt(0)").each(function () {
-                var fila = {
-                    id_pro: $(this).find("select[name='id_pro_2']").val(),
-                    id_ff: $(this).find("select[name='id_ff_2']").val(),
-                    id_of: $(this).find("select[name='id_of_2']").val(),
-                    IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
-                    detalles: $(this).find("input[name='detalles_2']").val(),
-                    comprobante: $(this).find("input[name='comprobante_2']").val(),
-                    Debe: $(this).find("input[name='Debe_2']").val(),
-                    Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
-                    cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
-                };
-                filas.push(fila);
-            });
-            return filas;
-        }
-
-        function validarDatos(datosCompletos) {
-            var diferenciaActualizada = parseFloat($("#diferencia").val());
-            var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
-            var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
-            var Suma = debe + Totalpagado;
-            var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
-
-            if (Suma > total) {
-                alert('El Monto Pagado es mayor al Total a Pagar');
-                return false;
-            }
-
-            if (diferenciaActualizada !== 0) {
-                alert('El debe y el haber son diferentes');
-                return false;
-            }
-
-            return true;
-        }
-
-        function enviarDatos(datosCompletos) {
-            $.ajax({
-                url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
-                type: 'POST',
-                data: {
-                    datos: datosCompletos
-                },
-                success: function (response) {
-                    if (response.includes('Datos guardados exitosamente.')) {
-                        mostrarAlertaExito();
-                    } else {
-                        alert('Error al guardar los datos: ' + response);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
-                    console.log(datosCompletos);
-                    alert("Error en la solicitud AJAX: " + status + " - " + error);
-                }
-            });
+        if (validarDatos(datosCompletos)) {
+            enviarDatos(datosCompletos);
         }
     });
+
+    function obtenerDatosFormulario() {
+        return {
+            op: $("#op").val(),
+            ruc: $("#ruc").val(),
+            num_asi: $("#num_asi").val(),
+            detalles: $("#detalles").val(),
+            contabilidad: $("#contabilidad").val(),
+            direccion: $("#direccion").val(),
+            telefono: $("#telefono").val(),
+            tesoreria: $("#tesoreria").val(),
+            concepto: $("#concepto").val(),
+            fecha: $("#fecha").val(),
+            idnumasi: $("#num_asio").val(),
+            id_pro: $("#id_pro").val(),
+            id_ff: $("#id_ff").val(),
+            id_of: $("#id_of").val(),
+            IDCuentaContable: parseInt($("#idcuentacontable").val(), 10),
+            MontoPago: $("#MontoPago").val().replace(/[^\d.-]/g, ''),
+            comprobante: $("#comprobante").val(),
+            Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
+            Haber: $("#Haber").val(),
+            cheques_che_id: $("#cheques_che_id").val(),
+        };
+    }
+
+    function obtenerFilasDinamicas() {
+        var filas = [];
+        $("#miTabla tbody tr:gt(0)").each(function() {
+            var fila = {
+                id_pro: $(this).find("select[name='id_pro_2']").val(),
+                id_ff: $(this).find("select[name='id_ff_2']").val(),
+                id_of: $(this).find("select[name='id_of_2']").val(),
+                IDCuentaContable: $(this).find("input[name='idcuentacontable_2']").val(),
+                detalles: $(this).find("input[name='detalles_2']").val(),
+                comprobante: $(this).find("input[name='comprobante_2']").val(),
+                Debe: $(this).find("input[name='Debe_2']").val(),
+                Haber: $(this).find("input[name='Haber_2']").val().replace(/[^\d.-]/g, ''),
+                cheques_che_id: $(this).find("input[name='cheques_che_id_2']").val(),
+            };
+            filas.push(fila);
+        });
+        return filas;
+    }
+
+    function validarDatos(datosCompletos) {
+        var diferenciaActualizada = parseFloat($("#diferencia").val());
+        var Totalpagado = parseFloat($("#MontoPago_2").val().replace(/[^\d.-]/g, ''));
+        var debe = parseFloat($("#Debe").val().replace(/[^\d.-]/g, ''));
+        var Suma = debe + Totalpagado;
+        var total = parseFloat($("#MontoTotal").val().replace(/[^\d.-]/g, ''));
+
+        if (Suma > total) {
+            showToastDebe('El Monto Pagado es mayor al Total a Pagar.', 'text-bg-warning');
+            return false;
+        }
+
+        if (diferenciaActualizada !== 0) {
+            showToastDebe('El debe y el haber no pueden ser diferentes, por favor revise lo ingresado.',
+                'text-bg-warning');
+            return false;
+        }
+
+        return true;
+    }
+
+    function enviarDatos(datosCompletos) {
+        $.ajax({
+            url: '<?php echo base_url("obligaciones/Pago_de_obligaciones/store"); ?>',
+            type: 'POST',
+            data: {
+                datos: datosCompletos
+            },
+            success: function(response) {
+                if (response.includes('Datos guardados exitosamente.')) {
+                    mostrarAlertaExito();
+                } else {
+                    alert('Error al guardar los datos: ' + response);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr.responseText);
+                console.log(datosCompletos);
+                alert("Error en la solicitud AJAX: " + status + " - " + error);
+            }
+        });
+    }
+});
 </script>
 
 <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
@@ -1914,19 +1961,19 @@
                     </thead>
                     <tbody>
                         <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                        <tr class="list-item"
+                            onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                            data-bs-dismiss="modal">
+                            <td>
+                                <?= $dato->IDCuentaContable ?>
+                            </td>
+                            <td>
+                                <?= $dato->Codigo_CC ?>
+                            </td>
+                            <td>
+                                <?= $dato->Descripcion_CC ?>
+                            </td>
+                        </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1956,19 +2003,19 @@
                     </thead>
                     <tbody>
                         <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                        <tr class="list-item"
+                            onclick="selectCC2(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                            data-bs-dismiss="modal">
+                            <td>
+                                <?= $dato->IDCuentaContable ?>
+                            </td>
+                            <td>
+                                <?= $dato->Codigo_CC ?>
+                            </td>
+                            <td>
+                                <?= $dato->Descripcion_CC ?>
+                            </td>
+                        </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
@@ -1990,176 +2037,176 @@
 
 <!-- Script destinado al primer modal con bootstrap (seleccionar) -->
 <script>
-    function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Actualizar los campos de texto en la vista principal con los valores seleccionados
-        document.getElementById('idcuentacontable').value = IDCuentaContable;
-        document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
-        document.getElementById('descripcion_cc').value =
-            Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
+function selectCC(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Actualizar los campos de texto en la vista principal con los valores seleccionados
+    document.getElementById('idcuentacontable').value = IDCuentaContable;
+    document.getElementById('codigo_cc').value = Codigo_CC; // Asume que tienes un campo con id 'codigo_cc'
+    document.getElementById('descripcion_cc').value =
+        Descripcion_CC; // Asume que tienes un campo con id 'descripcion_cc'
 
-    }
-    $(document).ready(function () {
-        // Agregar un controlador de eventos de clic al botón
-        $('#openModalBtn_3').on('click', function (event) {
-            // Detener la propagación del evento
-            event.stopPropagation();
-            event.preventDefault();
-            // Tu lógica para abrir el modal aquí si es necesario
-        });
+}
+$(document).ready(function() {
+    // Agregar un controlador de eventos de clic al botón
+    $('#openModalBtn_3').on('click', function(event) {
+        // Detener la propagación del evento
+        event.stopPropagation();
+        event.preventDefault();
+        // Tu lógica para abrir el modal aquí si es necesario
     });
+});
 </script>
 
 
 <!-- Script destinado al segundo modal con bootstrap (Buscar y seleccionar) -->
 <script>
-    var currentRow = null;
+var currentRow = null;
 
-    // Función para abrir el modal de las cuentas contables
-    function openModal_4(currentRowParam) {
+// Función para abrir el modal de las cuentas contables
+function openModal_4(currentRowParam) {
 
-        var modalContainer = document.getElementById('modalCuentasCont2');
+    var modalContainer = document.getElementById('modalCuentasCont2');
 
-        currentRow = currentRowParam; // Almacenar la fila actual
+    currentRow = currentRowParam; // Almacenar la fila actual
 
+}
+
+
+// Función para seleccionar la cuenta contable
+function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
+    // Verificar si currentRow está definido y no es null
+    if (currentRow) {
+        // Utilizar currentRow para actualizar los campos
+        currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
+        currentRow.find('.codigo_cc_2').val(Codigo_CC);
+        currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
+
+    } else {
+        console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
     }
+}
 
+// Abrir modal en fila dinamica
+const openModalBtn_4 = document.getElementById("openModalBtn_4");
+// Actualiza la función de clic para pasar la fila actual al abrir el modal
+document.getElementById("miTabla").addEventListener("click", function(event) {
 
-    // Función para seleccionar la cuenta contable
-    function selectCC2(IDCuentaContable, Codigo_CC, Descripcion_CC) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.idcuentacontable_2').val(IDCuentaContable);
-            currentRow.find('.codigo_cc_2').val(Codigo_CC);
-            currentRow.find('.descripcion_cc_2').val(Descripcion_CC);
-
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-        }
+    // Encuentra la fila desde la cual se abrió el modal
+    var row = $(event.target).closest('tr');
+    if (
+        (event.target && event.target.className.includes("openModalBtn_4")) ||
+        (event.target && event.target.parentNode && event.target.parentNode.className.includes(
+            "openModalBtn_4"))
+    ) {
+        event.stopPropagation();
+        event.preventDefault();
+        openModal_4(row);
     }
-
-    // Abrir modal en fila dinamica
-    const openModalBtn_4 = document.getElementById("openModalBtn_4");
-    // Actualiza la función de clic para pasar la fila actual al abrir el modal
-    document.getElementById("miTabla").addEventListener("click", function (event) {
-
-        // Encuentra la fila desde la cual se abrió el modal
-        var row = $(event.target).closest('tr');
-        if (
-            (event.target && event.target.className.includes("openModalBtn_4")) ||
-            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                "openModalBtn_4"))
-        ) {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal_4(row);
-        }
-    });
+});
 </script>
 
 <script>
-    // Función para formatear números con separadores de miles y dos decimales
-    function formatNumber(inputId) {
-        var input = document.getElementById(inputId);
-        var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
-        if (!isNaN(value)) {
-            input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
-        }
+// Función para formatear números con separadores de miles y dos decimales
+function formatNumber(inputId) {
+    var input = document.getElementById(inputId);
+    var value = parseFloat(input.value.replace(/[^\d.-]/g, '')); // Elimina caracteres no numéricos
+    if (!isNaN(value)) {
+        input.value = value.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&,');
     }
+}
 </script>
 
 <script>
-    function calcularTotalesYDiferencia() {
-        var sumaDebe = 0;
-        var sumaHaber = 0;
+function calcularTotalesYDiferencia() {
+    var sumaDebe = 0;
+    var sumaHaber = 0;
 
 
-        $("#miTabla tbody tr").each(function () {
-            // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
-            var valorDebe = $(this).find("input[name*='Debe']").val();
-            var valorHaber = $(this).find("input[name*='Haber']").val();
-            // Realizar reemplazo por separado
-            valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
-            valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
-            // Convertir a número y sumar
-            sumaDebe += parseFloat(valorDebe) || 0;
-            sumaHaber += parseFloat(valorHaber) || 0;
-        });
-
-        // Formatear como número con separadores de miles
-        $("#DebeC").val(formatearNumero(sumaDebe));
-        $("#HaberC").val(formatearNumero(sumaHaber));
-        var diferenciaTotal = sumaDebe - sumaHaber;
-        $("#diferencia").val(formatearNumero(diferenciaTotal));
-    }
-
-    function formatearNumero(numero) {
-        // Asegurarse de que el número es un tipo flotante
-        numero = parseFloat(numero);
-        // Convertir a texto y añadir separadores de miles
-        return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    $(document).ready(function () {
-        $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+    $("#miTabla tbody tr").each(function() {
+        // Limpiar y obtener el valor de los campos 'Debe' y 'Haber'
+        var valorDebe = $(this).find("input[name*='Debe']").val();
+        var valorHaber = $(this).find("input[name*='Haber']").val();
+        // Realizar reemplazo por separado
+        valorDebe = valorDebe.replace(/[^0-9.-]+/g, "");
+        valorHaber = valorHaber.replace(/[^0-9.-]+/g, "");
+        // Convertir a número y sumar
+        sumaDebe += parseFloat(valorDebe) || 0;
+        sumaHaber += parseFloat(valorHaber) || 0;
     });
+
+    // Formatear como número con separadores de miles
+    $("#DebeC").val(formatearNumero(sumaDebe));
+    $("#HaberC").val(formatearNumero(sumaHaber));
+    var diferenciaTotal = sumaDebe - sumaHaber;
+    $("#diferencia").val(formatearNumero(diferenciaTotal));
+}
+
+function formatearNumero(numero) {
+    // Asegurarse de que el número es un tipo flotante
+    numero = parseFloat(numero);
+    // Convertir a texto y añadir separadores de miles
+    return numero.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+$(document).ready(function() {
+    $("#miTabla").on("input", "input[name*='Debe'], input[name*='Haber']", calcularTotalesYDiferencia);
+});
 </script>
 
 
 <!-- script de las tablas de cuentas contables -->
 <script>
-    $(document).ready(function () {
-        var table1 = $('#TablaCuentaCont1').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
-            }
-        });
-
-        var table2 = $('#TablaCuentaCont2').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
-            }
-        });
+$(document).ready(function() {
+    var table1 = $('#TablaCuentaCont1').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+        }
     });
+
+    var table2 = $('#TablaCuentaCont2').DataTable({
+        paging: true,
+        pageLength: 10,
+        lengthChange: true,
+        searching: true,
+        info: true,
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json'
+        }
+    });
+});
 </script>
 
 <!-- script para las alertas -->
 <script>
-    const toastTrigger = document.getElementById('liveToastBtn')
-    const toastLiveExample = document.getElementById('liveToast')
+const toastTrigger = document.getElementById('liveToastBtn')
+const toastLiveExample = document.getElementById('liveToast')
 
-    if (toastTrigger) {
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-        toastTrigger.addEventListener('click', () => {
-            toastBootstrap.show()
-        })
-    }
+if (toastTrigger) {
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+    toastTrigger.addEventListener('click', () => {
+        toastBootstrap.show()
+    })
+}
 </script>
 
 <script>
-    // Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
-    document.getElementById('Debe').addEventListener('input', function () {
-        document.getElementById('MontoPago').value = this.value;
-    });
+// Agrega esta pequeña función de JavaScript para actualizar MontoPago al ingresar el Debe
+document.getElementById('Debe').addEventListener('input', function() {
+    document.getElementById('MontoPago').value = this.value;
+});
 </script>
 
 <script>
-    // Este script escucha los cambios en el campo 'debe'
-    // y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
-    document.getElementById('Debe').addEventListener('input', function () {
-        document.getElementById('Haber').value = 0;
-        document.getElementById('Debe_2').value = 0;
-    });
+// Este script escucha los cambios en el campo 'debe'
+// y actualiza automáticamente el campo 'haber' a 0 cada vez que 'debe' cambia.
+document.getElementById('Debe').addEventListener('input', function() {
+    document.getElementById('Haber').value = 0;
+    document.getElementById('Debe_2').value = 0;
+});
 </script>
 
 <!-- Script de DataTable de jquery -->
@@ -2170,4 +2217,4 @@
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
 
-</html> 
+</html>

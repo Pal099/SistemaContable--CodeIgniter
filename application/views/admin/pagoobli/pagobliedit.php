@@ -1360,6 +1360,19 @@
         </div>
     </div>
 
+    <!-- Toast del total para la diferencia de Debe y Haber -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toastDebeHaber" class="toast text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="bi bi-exclamation-triangle-fill me-2" style="color: red;"></i>
+                <strong class="me-auto">Advertencia</strong>
+            </div>
+            <div class="toast-body">
+                El debe y el haber no pueden ser diferentes.
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Proveedores con boostrap -->
     <div class="modal fade mi-modal" id="modal_proveedores" tabindex="-1" aria-labelledby="ModalProveedores"
         aria-hidden="true">
@@ -2020,6 +2033,38 @@
     });
     </script>
 
+    <!-- funcion para mostrar el toast -->
+    <script>
+    function showToastDebe(message, bgColor = 'text-bg-warning', makeTextWhite = false) {
+        // Seleccionar el toast
+        var toastElement = document.getElementById('toastDebeHaber');
+
+        // Actualizar el mensaje y el color de fondo del toast
+        var toastBody = toastElement.querySelector('.toast-body');
+        toastBody.innerText = message;
+
+        // Cambiar el color de fondo del toast
+        toastElement.classList.remove('text-bg-warning', 'text-bg-danger',
+            'text-bg-success'); // Limpiar clases anteriores
+        toastElement.classList.add(bgColor);
+
+        // Hacer el texto del cuerpo blanco si es necesario
+        if (makeTextWhite) {
+            toastBody.classList.add('text-white');
+        } else {
+            toastBody.classList.remove('text-white');
+        }
+
+        // Mostrar el toast
+        var toast = new bootstrap.Toast(toastElement, {
+            animation: true,
+            autohide: true, // Ocultar automáticamente después de un tiempo
+            delay: 8000 // Duración en milisegundos (5 segundos)
+        });
+        toast.show();
+    }
+    </script>
+
     <!-- Función para formatear números con separadores de miles y dos decimales -->
     <script>
     function formatNumber(inputId) {
@@ -2179,7 +2224,8 @@
                 }
             });
         } else {
-            alert('El debe y el haber son diferentes');
+            showToastDebe('El debe y el haber no pueden ser diferentes, por favor revise lo ingresado.',
+                'text-bg-warning');
             return false;
         }
 
