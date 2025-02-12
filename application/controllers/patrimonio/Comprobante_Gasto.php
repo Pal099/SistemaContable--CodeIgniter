@@ -329,4 +329,34 @@ class Comprobante_Gasto extends MY_Controller {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		echo json_encode($ComprobanteDetalle);
 	}
+//esta función llama a la función en el modelo de la ejecución presupuestaria para verificar el saldo
+	public function verificar_saldo() {
+		$this->load->model('EjecucionP_model');
+		$id_presupuesto = $this->input->post('id_presupuesto');
+		
+		try {
+			$resultado = $this->EjecucionP_model->calcular_saldo_presupuestario($id_presupuesto);
+			
+			if(isset($resultado['error'])) {
+				throw new Exception($resultado['error']);
+			}
+			
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'success',
+					'saldo' => number_format($resultado['saldo'], 2),
+					'presupuesto' => number_format($resultado['presupuesto'], 2),
+					'ejecutado' => number_format($resultado['ejecutado'], 2)
+				]));
+				
+		} catch (Exception $e) {
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'error',
+					'message' => $e->getMessage()
+				]));
+		}
+	}
 }

@@ -76,30 +76,14 @@ class Comprobante_Gasto_model extends CI_Model {
 			presupuestos.id_uni_respon_usu,
 			presupuestos.estado,
 			COALESCE((
-				SELECT pm_sub.monto_presupuestado - COALESCE(SUM(ej.pagado), 0)
-				FROM presupuesto_mensual pm_sub
+				SELECT pm.monto_presupuestado - COALESCE(SUM(ej.obligado), 0)
+				FROM presupuesto_mensual pm
 				LEFT JOIN ejecucion_mensual ej 
-					ON ej.id_presupuesto = pm_sub.id_presupuesto 
-					AND MONTH(ej.mes) = CASE pm_sub.mes
-						WHEN "Enero" THEN 1
-						WHEN "Febrero" THEN 2
-						WHEN "Marzo" THEN 3
-						WHEN "Abril" THEN 4
-						WHEN "Mayo" THEN 5
-						WHEN "Junio" THEN 6
-						WHEN "Julio" THEN 7
-						WHEN "Agosto" THEN 8
-						WHEN "Septiembre" THEN 9
-						WHEN "Octubre" THEN 10
-						WHEN "Noviembre" THEN 11
-						WHEN "Diciembre" THEN 12
-					END
-					AND YEAR(ej.mes) = YEAR(presupuestos.Año)
-				WHERE pm_sub.id_presupuesto = presupuestos.ID_Presupuesto
-				ORDER BY FIELD(pm_sub.mes, 
-					"Diciembre", "Noviembre", "Octubre", "Septiembre", "Agosto", 
-					"Julio", "Junio", "Mayo", "Abril", "Marzo", "Febrero", "Enero"
-				) DESC
+					ON ej.id_presupuesto = pm.id_presupuesto 
+					AND MONTH(ej.mes) = MONTH(CURRENT_DATE())
+					AND YEAR(ej.mes) = YEAR(CURRENT_DATE())
+				WHERE pm.id_presupuesto = presupuestos.ID_Presupuesto
+					AND pm.mes = DATE_FORMAT(CURRENT_DATE(), "%M")
 				LIMIT 1
 			), 0) AS saldo_actual
 		');
