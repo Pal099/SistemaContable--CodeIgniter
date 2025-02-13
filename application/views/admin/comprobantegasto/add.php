@@ -131,7 +131,9 @@
                                                     Rubro Seleccionado: <span id="rubroTexto"
                                                         class="fw-bold">Ninguno</span>
                                                 </div>
-
+                                                <div id="loading-saldo" style="display:none">
+                                                    <i class="bi bi-arrow-clockwise"></i> Verificando saldo...
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -337,45 +339,55 @@
         </div>
 
     </main>
+    <!-- Modal Presupuestos -->
     <div class="modal fade" id="modalPresupuestos" tabindex="-1" aria-labelledby="modalPresupuestosLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Rubros Asociados al Código</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Selección de Rubro Presupuestario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-hover table-sm" id="TablaPresupuestoModal">
-                        <thead>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Solo se muestran rubros con presupuesto vigente para <?= date('F Y') ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <table class="table table-hover table-sm table-striped" id="TablaPresupuestoModal">
+                        <thead class="table-dark">
                             <tr>
-                                <th>#</th>
-                                <th>Periodo</th>
-                                <th>Programa</th>
-                                <th>Cuenta Contable</th>
+                                <th>Año</th>
+                                <th>Cuenta</th>
                                 <th>Rubro</th>
-                                <th>FF</th>
-                                <th>OF</th>
-                                <th>Dpto</th>
-                                <th>Presupuestado</th>
-                                <th>Saldo Actual</th>
+                                <th>Presupuesto</th>
+                                <th>Saldo Disponible
+                                    <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip"
+                                        title="Calculado en tiempo real al seleccionar">
+                                    </i>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($datos_vista as $dato): ?>
-                                <tr class="list-item"
-                                    onclick="selectPresupuesto('<?= $dato['ID_Presupuesto'] ?>', '<?= $dato['rubro'] ?>')"
-                                    data-bs-dismiss="modal">
-                                    <td><?= $dato['ID_Presupuesto'] ?></td>
-                                    <td><?= $dato['Año'] ?></td>
-                                    <td><?= $dato['programa_id_pro'] ?></td>
+                            <?php foreach ($datos_vista as $dato):
+                                $saldo = $dato['saldo_actual'];
+                                $clase_fila = $saldo <= 0 ? 'table-danger' : '';
+                                $icono = $saldo <= 0 ? '<i class="bi bi-lock-fill text-danger"></i>' : '<i class="bi bi-unlock-fill text-success"></i>';
+                                ?>
+                                <tr class="list-item <?= $clase_fila ?>" onclick="selectPresupuesto(
+                                    '<?= $dato['ID_Presupuesto'] ?>', 
+                                    '<?= htmlspecialchars($dato['rubro'], ENT_QUOTES) ?>',
+                                    <?= $saldo ?>
+                                )">
+                                    <td><?= date('Y', strtotime($dato['Año'])) ?></td>
                                     <td><?= $dato['codigo'] ?></td>
                                     <td><?= $dato['rubro'] ?></td>
-                                    <td><?= $dato['fuente_de_financiamiento_id_ff'] ?></td>
-                                    <td><?= $dato['origen_de_financiamiento_id_of'] ?></td>
-                                    <td><?= $dato['programa_id_pro'] ?></td>
-                                    <td><?= $dato['TotalPresupuestado'] ?></td>
-                                    <td><?= $dato['saldo_actual'] /* Saldo actual sale del último mes que se cargó */ ?>
+                                    <td class="text-end">$<?= number_format($dato['TotalPresupuestado'], 2) ?></td>
+                                    <td class="text-end <?= $saldo > 0 ? 'text-success' : 'text-danger' ?>">
+                                        $<?= number_format($saldo, 2) ?>
+                                        <?= $icono ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -385,6 +397,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="modalBienes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-presupuesto-large" role="document">
@@ -637,7 +650,7 @@
         currentRow = currentRowParam; // Almacenar la fila actual
 
     }
-    let rubroSeleccionado = ''; // Variable global para almacenar el rubro seleccionado
+/*     let rubroSeleccionado = ''; // Variable global para almacenar el rubro seleccionado
 
     function selectPresupuesto(idpresupuesto, rubro) {
 
@@ -645,10 +658,10 @@
         // Actualiza el texto en el contenedor #rubroTexto con la relación
         $('#idpresupuesto').text(idpresupuesto);
         $('#rubroTexto').text(rubro); // Este es el campo donde se debe mostrar la relación
-    
+
         // Almacena el rubro seleccionado
         rubroSeleccionado = rubro;
-    }
+    } */
 
 
 
@@ -717,7 +730,83 @@
         $row.find('.exenta').val(exenta.toFixed(0));
     });
 </script>
+<!-- Script de Validación Dinámica -->
+<script>
+let rubroSeleccionado = '';
+const mesActual = <?= date('n') ?>;
 
+function selectPresupuesto(idpresupuesto, rubro, saldoTabla) {
+    // Validación inicial desde datos pre-cargados
+    if (saldoTabla <= 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Bloqueado',
+            html: `<b>${rubro}</b><br>Saldo insuficiente en registros`,
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    // Validación en tiempo real via AJAX
+    $.ajax({
+        url: '<?= base_url('comprobante_gasto/verificar_saldo') ?>',
+        method: 'POST',
+        data: { id_presupuesto: idpresupuesto },
+        dataType: 'json',
+        beforeSend: function() {
+            $('#loading-saldo').show();
+        },
+        complete: function() {
+            $('#loading-saldo').hide();
+        },
+        success: function(response) {
+            if (response.status === 'success') {
+                if (parseFloat(response.saldo) > 0) {
+                    asignarPresupuesto(idpresupuesto, rubro, response.saldo);
+                } else {
+                    bloquearSeleccion(rubro, 'Saldo actualizado a $' + response.saldo);
+                }
+            } else {
+                manejarErrorPresupuesto(response.message, rubro);
+            }
+        },
+        error: function(xhr) {
+            manejarErrorPresupuesto('Error de conexión', rubro);
+        }
+    });
+}
+
+function asignarPresupuesto(id, rubro, saldo) {
+    $('#rubroTexto').html(`
+        ${rubro}<br>
+        <small class="text-success">
+            Saldo confirmado: $${saldo}
+        </small>
+    `);
+    $('#idPresupuestoSeleccionado').val(id);
+    rubroSeleccionado = rubro;
+}
+
+function bloquearSeleccion(rubro, motivo) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'Cambio detectado',
+        html: `<b>${rubro}</b><br>${motivo}`,
+        confirmButtonText: 'Actualizar lista'
+    }).then(() => {
+        location.reload(); // Recarga para actualizar datos
+    });
+}
+
+function manejarErrorPresupuesto(mensaje, rubro) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error técnico',
+        html: `<b>${rubro}</b><br>${mensaje}`,
+        confirmButtonText: 'Reportar'
+    });
+}
+</script>
 <script>
     $(document).ready(function () {
         var indice = 1;
