@@ -1,0 +1,84 @@
+
+.columna-ancha {
+  width: 5%;
+}
+.columna-fuente {
+  width: 5%;
+}
+.columna-hidden {
+  display: none;
+}
+.columna-origen {
+  width: 5%;
+}
+.columna-ctncontable {
+  width: 35%;
+}
+.celda-debe{
+  background-color: #e9eaff !important;
+}
+.celda-haber{
+  background-color: #e9eaff!important;
+}
+.celda-diferencia {
+  background-color: #f7f6e2 !important;
+}
+
+#vistaobli th, #vistaobli td {
+  text-align: center;
+}
+
+#vistaobli .texto-izquierda {
+  text-align: left;
+}
+
+#vistaobli .texto-derecha {
+  text-align: right;
+}
+
+
+.btn-primario {
+  background-color: #0411d1 !important;
+  color: white;
+  transition: background-color 0.3s ease; /* Agrega transición para un cambio suave */
+}
+
+.btn-primario:hover {
+  background-color: #030b9e !important; /* Color más oscuro cuando se hace hover */
+}
+.btn-secundario{
+  background-color: #eeecc4 !important;
+}
+
+
+/* Css de las tablas y modales de cuentas contables */
+.cuentas-contables {
+  max-width: 65%;
+}
+.cuentas-contables tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.cuentas-contables thead,
+.cuentas-contables tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
+}
+
+/* Css de las tabla y modal de proveedor */
+.modal-presupuesto-large {
+  max-width: 90%;
+}
+.modal-presupuesto-large tbody {
+  display: block; /* Permite el scrollbar */
+  max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto; /* Habilita el scroll vertical */
+}
+.modal-presupuesto-large thead,
+.modal-presupuesto-large tbody tr {
+  display: table; /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed; /* Distribuye uniformemente las celdas */
+}

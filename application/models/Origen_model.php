@@ -3,9 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Origen_model extends CI_Model {
 
-public function getOrigenes(){
-		$this->db->where("estado", "1");
-		$resultados = $this->db->get("origen_de_financiamiento");
+	public function getOrigenes() {
+		$this->db->select('origen_de_financiamiento.*');
+		$this->db->from('origen_de_financiamiento');
+		$this->db->where('origen_de_financiamiento.estado', '1');
+		
+		$resultados = $this->db->get();
 		return $resultados->result();
 	}
 

@@ -1,10 +1,27 @@
+<head>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+  <style>
+    /* Estilo para el thead de DataTables */
+    #example1 thead {
+      background-color: #e6f7fe; /* Cambia esto al color que desees */
+      color: white; /* Cambia esto al color del texto que desees */
+    }
+  </style>
+</head>
 <main id="main" class="main">
 <!-- Content Wrapper. Contains page content -->
 <div class="pagetitle">
       <h1>Cuentas</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+          <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
           <li class="breadcrumb-item active">Listado de las cuentas</li>
         </ol>
       </nav>
@@ -20,41 +37,21 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
+                <div class="row">    
                     <div class="col-md-12">
                         <table id="example1" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Cuenta de banco</th>
-                                    <th>Descripcion</th>
-                                    <th>Moneda</th>
-                                    <th>Número</th>
-                                    <th>Fecha de inicio</th>
-                                    <th>Fecha de cierre</th>
-                                     <th>Opciones</th>
+                                    <th>Código cuenta contable</th>
+                                    <th>Descripción de la cuenta</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if(!empty($cuentas)):?>
                                     <?php foreach($cuentas as $cuenta):?>
                                         <tr>
-                                             <td><?php echo $cuenta->cta_id;?></td>
-                                            <td><?php echo $cuenta->cta_banco;?></td>
-                                            <td><?php echo $cuenta->cta_descri;?></td>
-                                            <td><?php echo $cuenta->cta_moneda;?></td>
-                                            <td><?php echo $cuenta->cta_numero;?></td>
-                                            <td><?php echo $cuenta->cta_fecini;?></td>
-                                            <td><?php echo $cuenta->cta_feccie;?></td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn-view-banco" data-toggle="modal" data-target="#modal-default" value="<?php echo $cuenta->cta_id;?>">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-                                                    <a href="<?php echo base_url()?>mantenimiento/cuentas/edit/<?php echo $cuenta->cta_id;?>" class="btn btn-warning"><span class="fa fa-pencil"></span></a>
-                      
-                                                    <a href="<?php echo base_url();?>mantenimiento/cuentas/delete/<?php echo $cuenta->cta_id;?>" class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                                                </div>
+                                            <td><?php echo $cuenta->Codigo_CC;?></td>
+                                            <td><?php echo $cuenta->Descripcion_CC;?></td>
                                             </td>
                                         </tr>
                                     <?php endforeach;?>
@@ -93,3 +90,8 @@
 </div>
 <!-- /.modal -->
 
+<script>
+    $(document).ready(function() {
+        $('#example1').DataTable();
+    });
+</script>

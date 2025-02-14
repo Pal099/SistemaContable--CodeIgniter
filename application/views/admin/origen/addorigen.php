@@ -6,7 +6,7 @@
       </h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url();?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url();?>principal">Inicio</a></li>
         <li class="breadcrumb-item"><a href="<?php echo base_url();?>registro/origen">Origen de financiamiento</a></li>
         <li class="breadcrumb-item active">Nuevo</li>
       </ol>

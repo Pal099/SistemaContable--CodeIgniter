@@ -15,6 +15,7 @@ class EjecucionP_model extends CI_Model
      * - El asiento con Debe > 0 (primer asiento) contiene el monto a sumar.
      * - El asiento con Haber > 0 (segundo asiento) contiene la cuenta presupuestada.
      */
+<<<<<<< HEAD
     //esta función lo que hace es calcular el saldo presupuestario para validar que un presupuesto tenga disponible saldo para ejecutar en un comprobante de gasto
     public function calcular_saldo_presupuestario($id_presupuesto) {
         // Definimos el primer día del mes actual en formato datetime
@@ -49,6 +50,8 @@ class EjecucionP_model extends CI_Model
             'ejecutado' => $ejecucion->total_obligado,
         ];
     }
+=======
+>>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
     public function actualizarEjecucion($numero)
     {
         // Buscar la cuenta presupuestada (segundo asiento)
@@ -230,7 +233,51 @@ class EjecucionP_model extends CI_Model
 
         return $this->db->get()->result();
     }
+<<<<<<< HEAD
 
+=======
+//esta función lo que hace es calcular el saldo presupuestario para validar que un presupuesto tenga disponible saldo para ejecutar en un comprobante de gasto
+public function calcular_saldo_presupuestario($id_presupuesto) {
+    // Mapeo de meses numéricos a nombres en español
+    $meses_espanol = [
+        1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
+        5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
+        9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
+    ];
+    
+    $mes_actual_nombre = $meses_espanol[date('n')];
+    $fecha_mes_actual = date('Y-m-01 00:00:00');
+
+    // Obtener presupuesto mensual
+    $this->db->select('monto_presupuestado, monto_modificado');
+    $this->db->from('presupuesto_mensual');
+    $this->db->where('id_presupuesto', $id_presupuesto);
+    $this->db->where('mes', $mes_actual_nombre);
+    $query_presupuesto = $this->db->get();
+    
+    if ($query_presupuesto->num_rows() == 0) {
+        return ['error' => 'No existe presupuesto para este mes'];
+    }
+    
+    $presupuesto = $query_presupuesto->row();
+    $total_presupuesto = $presupuesto->monto_presupuestado + $presupuesto->monto_modificado;
+
+    // Obtener solo el obligado acumulado
+    $this->db->select('COALESCE(SUM(obligado), 0) as total_obligado');
+    $this->db->from('ejecucion_mensual');
+    $this->db->where('id_presupuesto', $id_presupuesto);
+    $this->db->where('mes', $fecha_mes_actual);
+    $ejecucion = $this->db->get()->row();
+
+    $saldo = $total_presupuesto - $ejecucion->total_obligado;
+    
+    return [
+        'saldo' => max($saldo, 0),  // Previene valores negativos
+        'presupuesto' => $total_presupuesto,
+        'ejecutado' => $ejecucion->total_obligado  // Solo obligado, no incluye pagado
+    ];
+}
+>>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 
 
     public function save($data)

@@ -1,10 +1,27 @@
+<head>
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+  <style>
+    /* Estilo para el thead de DataTables */
+    #example1 thead {
+      background-color: #e6f7fe; /* Cambia esto al color que desees */
+      color: white; /* Cambia esto al color del texto que desees */
+    }
+  </style>
+</head>
 <main id="main" class="main">
   <!-- Content Wrapper. Contains page content -->
   <div class="pagetitle">
     <h1>Fuentes de financiamiento</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
         <li class="breadcrumb-item active">Listado de las fuentes de financiamiento</li>
       </ol>
     </nav>
@@ -22,14 +39,12 @@
         </div>
         <hr>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <table id="example1" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  <th>opciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -37,27 +52,25 @@
                   <?php foreach ($fuentes as $fuente): ?>
                     <tr>
                       <td>
-                        <?php echo $fuente->id; ?>
-                      </td>
-                      <td>
                         <?php echo $fuente->codigo; ?>
                       </td>
                       <td>
                         <?php echo $fuente->nombre; ?>
                       </td>
-                      <td>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-info btn-view-financiamiento" data-toggle="modal"
-                            data-target="#modal-default" value="<?php echo $fuente->id; ?>">
-                            <span class="fa fa-search"></span>
-                          </button>
-                          <a href="<?php echo base_url() ?>registro/financiamiento/edit/<?php echo $fuente->id; ?>"
-                            class="btn btn-warning"><span class="fa fa-pencil"></span></a>
+<td>
+                                <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                 
+                                  </button>
+                                  <button class="btn btn-warning btn-sm" onclick="window.location.href='<?php echo base_url() ?>registro/financiamiento/edit/<?php echo  $fuente->id_ff; ?>'">
+                                    <i class="bi bi-pencil-fill"></i>
+                                  </button>
+                                  <button class="btn btn-danger btn-remove btn-sm" onclick="window.location.href='<?php echo base_url(); ?>registro/financiamiento/<?php echo $fuente->id_ff; ?>'">
+                                    <i class="bi bi-trash"></i>
+                                  </button>
+                                </div>
+                              </td>
 
-                          <a href="<?php echo base_url(); ?>registro/financiamiento/delete/<?php echo $fuente->id; ?>"
-                            class="btn btn-danger btn-remove"><span class="fa fa-remove"></span></a>
-                        </div>
-                      </td>
+
                     </tr>
                   <?php endforeach; ?>
                 <?php endif; ?>
@@ -93,4 +106,4 @@
   </div>
   <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
+<!-- /.modal --> 

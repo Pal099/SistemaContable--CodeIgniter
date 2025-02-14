@@ -1,58 +1,165 @@
-<!-- ==== Sidebar ============================= -->
-<!-- Left side column. contains the sidebar -->
 <aside id="sidebar" class="sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <!--<section class="sidebar">      
-        sidebar menu: : style can be found in sidebar.less -->
+
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url();?>">
-                <i class="bi bi-grid"></i> <span>Inicio</span>
+            <a class="nav-link" href="<?php echo base_url(); ?>principal">
+                <i class="bi bi-house"></i> <span>Inicio</span>
             </a>
-        </li>                 
+        </li>
+                <!-- Obligacion -->
+            <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-book"></i><span>Movimientos</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones/add">
+                        <i class="bi bi-circle"></i><span>Diario de Obligación</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?php echo base_url(); ?>obligaciones/pago_de_obligaciones/add">
+                        <i class="bi bi-circle"></i><span>Pago de obligaciones</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/deposito_obligaciones/add">
+                        <i class="bi  bi-books"></i><span>Depositos</span>
+                     </a>
+                </li>
+                <li class="nav-item">
+                     <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/LibroMayor">
+                         <i class="bi  bi-books"></i><span>Libro Mayor</span>
+                     </a>
+                 </li>
+            </ul>
+           
+        </li><!-- Acá termina lo de Obligacion -->
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#mant-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Mantenimiento</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link collapsed" data-bs-target="#components-nav2" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-book"></i><span>Balances</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="mant-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li><a href="<?php echo base_url(); ?>mantenimiento/categorias"><i class="bi bi-circle"></i> Categoria</a></li>
-                <li><a href="<?php echo base_url(); ?>mantenimiento/proveedores"><i class="bi bi-circle"></i> Proveedores</a></li>
-                <li><a href="<?php echo base_url(); ?>mantenimiento/productos"><i class="bi bi-circle"></i> Productos</a></li>
-                <li><a href="<?php echo base_url(); ?>mantenimiento/bancos"><i class="bi bi-circle"></i> Bancos</a></li>
-                <li><a href="<?php echo base_url(); ?>mantenimiento/cuentas"><i class="bi bi-circle"></i> Cuentas</a></li>
+            <ul id="components-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Balance_Gral">
+                        <i class="bi bi-graph-up"></i><span>Balance General</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuadroderesultados">
+                        <i class="bi bi-graph-up"></i><span>Cuadro de Resultados</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/Sys">
+                        <i class="bi bi-graph-up"></i><span>Sumas y Saldos</span>
+                    </a>
+                </li>
+            </ul>
+           
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav3" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-book"></i><span>Presupuesto</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="components-nav3" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/presupuesto">
+                    <i class="bi bi-bar-chart"></i><span>Presupuesto</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/EjecucionPc">
+                    <i class="bi bi-person"></i><span>Ejecución Presupuestaria</span>
+                </a>
+            </li>
 
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#filtro-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Filtrar</span><i class="bi bi-chevron-down ms-auto"></i>
+            <li class="nav-item">
+                <a class="nav-link" href="<?php echo base_url(); ?>obligaciones/Certific_disp_presu">
+                    <i class="bi bi-bar-chart"></i><span>Certificado de Disponibilidad Presupuestaria</span>
+                </a>
+            </li>
+                </ul>
+            
+            </li>
+
+ <!-- Obligacion -->
+ <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#components-nav4" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-book"></i><span>Utilidades</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="filtro-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li><a href="<?php echo base_url(); ?>filtro/seleccion"><i class="bi bi-circle"></i> Filtrar por categorías o proveedores</a></li>                       
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#registros-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Registrar</span><i class="bi bi-chevron-down ms-auto"></i>
+            <ul id="components-nav4" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+            <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/proveedores">
+                <i class="bi bi-person"></i><span>Proveedor</span>
             </a>
-            <ul id="registros-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li><a href="<?php echo base_url(); ?>registro/financiamiento"><i class="bi bi-circle"></i> Fuente de financiamiento</a></li>                       
-                <li><a href="<?php echo base_url(); ?>registro/origen"><i class="bi bi-circle"></i> Origen de financiamiento</a></li>                       
-                <li><a href="<?php echo base_url(); ?>registro/programagasto"><i class="bi bi-circle"></i> Programa de gastos</a></li>                       
-                <li><a href="<?php echo base_url(); ?>registro/programaingreso"><i class="bi bi-circle"></i> Programa de ingresos</a></li>                       
-                      
-            </ul>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#diario-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-menu-button-wide"></i><span>Actualizar</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link" href="<?php echo base_url(); ?>registro/programa">
+                <i class="bi bi-journal-check"></i><span>Programas</span>
             </a>
-            <ul id="diario-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li><a href="<?php echo base_url(); ?>obligaciones/diario_obligaciones"><i class="bi bi-circle"></i> Diario de obligaciones</a></li>                       
-                      
-            </ul>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/CuentaContable">
+                <i class="bi bi-person"></i><span>Cuenta Contable</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>registro/financiamiento">
+                <i class="bi bi-cash-stack"></i><span>Fuente de financiamiento</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>registro/origen">
+                <i class="bi bi-graph-up"></i><span>Origen de financiamiento</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>mantenimiento/cuentas">
+                <i class="bi bi-newspaper"></i><span>Cuentas</span>
+            </a>
+        </li>
+            </ul>
+           
+        </li><!-- Acá termina lo de Obligacion -->
+        <li class="nav-item">
+            
+            <a class="nav-link collapsed" data-bs-target="#components-nav5" data-bs-toggle="collapse" href="#">
+               <i class="bi bi-basket2"></i><span>Patrimonio/Suministro</span><i class="bi bi-chevron-down ms-auto"></i>
+           </a>
+           <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+           <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/comprobante_gasto">
+                       <i class="bi bi-circle"></i><span>Comprobante de Gastos</span>
+                   </a>
+               </li> 
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/recepcion_bienes">
+                       <i class="bi bi-circle"></i><span>Recepcion de Bienes</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/bienes_servicios">
+                       <i class="bi bi-circle"></i><span>Bienes y/o Servicios</span>
+                   </a>
+               </li>
+               <li class="nav-item">
+                   <a href="<?php echo base_url(); ?>patrimonio/pedido_material">
+                       <i class="bi bi-circle"></i><span>Pedido Material</span>
+                   </a>
+               </li>
+           </ul>
+       </li>
+
+
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url(); ?>login/logout">
+                <i class="bi bi-box-arrow-right"></i><span>Cerrar Sesión</span>
+            </a>
+        </li>
+
     </ul>
 </aside>
-<!-- =============================================== -->

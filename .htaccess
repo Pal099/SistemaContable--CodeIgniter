@@ -6,3 +6,5 @@ RewriteCond $1 !^(index\.php|images|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ /practica/index.php/$1 [L,QSA]
+Header add Access-Control-Allow-Origin *
+

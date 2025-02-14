@@ -376,5 +376,8 @@ class Comprobante_Gasto extends MY_Controller
 				]));
 		}
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 }
