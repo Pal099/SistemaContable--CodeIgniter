@@ -749,11 +749,7 @@ function selectPresupuesto(idpresupuesto, rubro, saldoTabla) {
 
     // Validación en tiempo real via AJAX
     $.ajax({
-<<<<<<< HEAD
-        url: '<?= base_url('Comprobante_Gasto/verificar_saldo') ?>',
-=======
-        url: '<?= base_url('comprobante_gasto/verificar_saldo') ?>',
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
+        url: '<?= base_url('patrimonio/Comprobante_Gasto/verificar_saldo') ?>',
         method: 'POST',
         data: { id_presupuesto: idpresupuesto },
         dataType: 'json',

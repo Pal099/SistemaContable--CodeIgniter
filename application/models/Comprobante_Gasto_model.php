@@ -68,45 +68,23 @@ class Comprobante_Gasto_model extends CI_Model
 	}
 	public function obtener_datos_presupuesto()
 	{
-<<<<<<< HEAD
-=======
-		// Arreglo de meses abreviados (tal como se define en el enum de la tabla)
-		$meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-		$mes_actual = $meses[date('n') - 1]; // date('n') devuelve el mes sin ceros iniciales
-
-		// Seleccionamos los datos principales y usamos un subquery para listar todos los meses disponibles
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 		$this->db->select('
 			presupuestos.ID_Presupuesto,
 			origen_de_financiamiento.nombre AS origen_de_financiamiento_id_of,
 			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
 			programa.nombre AS programa_id_pro,
-<<<<<<< HEAD
 			cuentacontable.Codigo_CC AS codigo,
 			cuentacontable.Relacion AS rubro,
-=======
-			cuentacontable.Codigo_CC as codigo,
-			cuentacontable.Relacion as rubro,
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,
 			(
-<<<<<<< HEAD
 				SELECT GROUP_CONCAT(DISTINCT DATE_FORMAT(pm2.mes, "%Y-%m") 
 					ORDER BY pm2.mes
 					SEPARATOR ", "
 				)
 				FROM presupuesto_mensual pm2
 				WHERE pm2.id_presupuesto = presupuestos.ID_Presupuesto
-=======
-            SELECT GROUP_CONCAT(DISTINCT mes 
-                ORDER BY FIELD(mes, "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
-                SEPARATOR ", "
-            )
-				FROM presupuesto_mensual 
-				WHERE id_presupuesto = presupuestos.ID_Presupuesto
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 			) AS meses_presupuesto,
 			presupuestos.id_uni_respon_usu,
 			presupuestos.estado
@@ -117,7 +95,6 @@ class Comprobante_Gasto_model extends CI_Model
 		$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro');
 		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.Idcuentacontable');
 
-<<<<<<< HEAD
 		// JOIN para obtener el registro de presupuesto mensual del mes actual
 		$this->db->join(
 			'presupuesto_mensual pm',
@@ -127,15 +104,6 @@ class Comprobante_Gasto_model extends CI_Model
 			'left'
 		);
 		// JOIN para la ejecución del mes actual
-=======
-		// JOIN para el presupuesto mensual del mes actual
-		$this->db->join(
-			'presupuesto_mensual pm',
-			'pm.id_presupuesto = presupuestos.ID_Presupuesto AND pm.mes = ' . $this->db->escape($mes_actual),
-			'left'
-		);
-		// JOIN para la ejecución del mes actual (la tabla ejecucion_mensual tiene campo mes de tipo datetime)
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 		$this->db->join(
 			'ejecucion_mensual ej',
 			'ej.id_presupuesto = presupuestos.ID_Presupuesto 
@@ -144,27 +112,15 @@ class Comprobante_Gasto_model extends CI_Model
 			'left'
 		);
 
-<<<<<<< HEAD
 		// Agrupamos para sumar el total de "obligado"
 		$this->db->group_by('presupuestos.ID_Presupuesto, pm.monto_presupuestado, pm.monto_modificado');
 
 		// Calculamos el saldo disponible: (monto_presupuestado + monto_modificado) - SUM(ej.obligado)
 		$this->db->select('(COALESCE(pm.monto_presupuestado, 0) + COALESCE(pm.monto_modificado, 0) - COALESCE(SUM(ej.obligado), 0)) AS saldo_actual', false);
-=======
-		// Agrupamos para poder sumar los "obligado" de ejecución
-		$this->db->group_by('presupuestos.ID_Presupuesto, pm.monto_presupuestado, pm.monto_modificado');
-
-		// Calculamos el saldo: (monto_presupuestado + monto_modificado) - SUM(ej.obligado)
-		$this->db->select('(COALESCE(SUM(ej.obligado), 0) - (COALESCE(pm.monto_presupuestado, 0) + COALESCE(pm.monto_modificado, 0))) as saldo_actual', false);
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 6ee9dee472ac19d6011acc668569e1f7a084ecc0
 	//cambiamos para que se adapte a la nueva estructura de la tabla de presupuestos(probablemente será mejor cambiar MES presupuesto_mensual a DATE)
 
 
