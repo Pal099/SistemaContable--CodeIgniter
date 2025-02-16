@@ -311,6 +311,17 @@ class Comprobante_Gasto extends MY_Controller {
 			echo json_encode(['Relacion' => []]);  // Si no se encuentra el presupuesto
 		}
 	}
+	public function obtener_bienes() {
+        // Obtén el rubro seleccionado desde la solicitud AJAX (GET o POST)
+        $rubroSeleccionado = $this->input->get('rubro');
+
+        
+        // Llama a la función del modelo para obtener los bienes
+        $bienes = $this->Bienes_Servicios_model->obtener_bienes_por_rubro($rubroSeleccionado);
+
+        // Devuelve los bienes como una respuesta JSON
+        echo json_encode($bienes);
+    }
 	public function view($id){
 		$data  = array(
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobanteGasto($id), 
@@ -329,34 +340,25 @@ class Comprobante_Gasto extends MY_Controller {
 		$ComprobanteDetalle = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		echo json_encode($ComprobanteDetalle);
 	}
-//esta función llama a la función en el modelo de la ejecución presupuestaria para verificar el saldo
-	public function verificar_saldo() {
-		$this->load->model('EjecucionP_model');
-		$id_presupuesto = $this->input->post('id_presupuesto');
-		
-		try {
-			$resultado = $this->EjecucionP_model->calcular_saldo_presupuestario($id_presupuesto);
-			
-			if(isset($resultado['error'])) {
-				throw new Exception($resultado['error']);
-			}
-			
-			$this->output
-				->set_content_type('application/json')
-				->set_output(json_encode([
-					'status' => 'success',
-					'saldo' => number_format($resultado['saldo'], 2),
-					'presupuesto' => number_format($resultado['presupuesto'], 2),
-					'ejecutado' => number_format($resultado['ejecutado'], 2)
-				]));
-				
-		} catch (Exception $e) {
-			$this->output
-				->set_content_type('application/json')
-				->set_output(json_encode([
-					'status' => 'error',
-					'message' => $e->getMessage()
-				]));
-		}
-	}
+	public function obtener_bienes_por_rubro()
+{
+
+    if ($this->input->is_ajax_request()) {
+        $rubroSeleccionado = $this->input->post('rubro');
+
+
+        if (!empty($rubroSeleccionado)) {
+
+            $bienes = $this->Bienes_Servicios_model->obtener_bienes_por_rubro($rubroSeleccionado);
+
+            echo json_encode($bienes);
+        } else {
+            echo json_encode(['error' => 'Rubro no especificado']);
+        }
+    } else {
+        show_404();
+    }
+}
+
+	
 }

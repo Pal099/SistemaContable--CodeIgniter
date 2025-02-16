@@ -39,6 +39,12 @@ class Bienes_Servicios_model extends CI_Model {
         $query = $this->db->get('bienes_servicios');
         return $query->num_rows();
     }
-
+	public function obtener_bienes_por_rubro($rubroSeleccionado) { //esta funcion es para el modal de la vista de comprobante, un filtro de rubro por presupuesto
+		$this->db->select('*');
+		$this->db->from('bienes_servicios');
+		$this->db->where('rubro', $rubroSeleccionado);
+		$query = $this->db->get();
+		return $query->result(); 
+	}
 }
 
