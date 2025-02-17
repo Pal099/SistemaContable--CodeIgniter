@@ -142,7 +142,7 @@ class Diario_obligaciones extends CI_Controller
 			'cuentacontable' => $this->Diario_obli_model->getCuentaContable2(),
 			'cuentacontable2' => $this->Diario_obli_model->getCuentaContable(),
 			'niveles' => $this->Diario_obli_model->getNiveles(),
-			'comprobante'=> $this->Comprobante_Gasto_model->getComprobantesGastos($id_user),
+			'comprobante'=> $this->Comprobante_Gasto_model->getComprobantesGastos($id_uni_respon_usu),
 			'presupuesto'=> $this->Presupuesto_model->getPresu($id_uni_respon_usu),
 		));
 	

@@ -114,7 +114,7 @@ class CuentaContable extends CI_Controller {
         // Validación del formulario
         $this->form_validation->set_rules("codigo_nuevo", "CODIGO_NUEVO", "required|is_unique[cuentacontable.Codigo_CC]");
         $this->form_validation->set_rules("descri_nueva", "DESCRIPCION", "required");
-        // ... (otros campos si es necesario)
+
         if ($this->form_validation->run() == TRUE) {
             // Preparar datos para insertar.
             $data = array(
@@ -154,15 +154,21 @@ class CuentaContable extends CI_Controller {
     
 
     public function edit($id) {
-        // Obtener la información actual de la cuenta contable
+        $tipo = $this->input->get('tipo');  // Obtener el tipo seleccionado desde la URL
+        $codigoPadre = $this->input->get('padre_id') ?? ''; // Asegura que no sea null
+    
         $data = array(
-            'cuentascontables' => $this->CuentaContable_model->getCuentasContables($id),
+            'cuentasPadre' => $this->CuentaContable_model->getCuentasPorTipo($tipo),  // Obtener las cuentas padre basadas en el tipo
+            'cuentacontablePadre' => $this->CuentaContable_model->getCuentaContable2(),  // Otra consulta relacionada
+            'cuentasPadres' => $this->CuentaContable_model->getCuentaContable2(),  // Tipos por padre
         );
+        
         $this->load->view('layouts/header');
         $this->load->view('layouts/sideBar');
-        $this->load->view('admin/CuentaContable/edit', $data);
+        $this->load->view('admin/CuentaContable/add', $data);
         $this->load->view('layouts/footer');
     }
+    
 
     public function update() {
         $codigo_nuevo = $this->input->post("codigo_nuevo");
@@ -214,6 +220,8 @@ class CuentaContable extends CI_Controller {
         $this->load->view('admin/CuentaContable/view', $data);
         $this->load->view('layouts/footer');
     }
+
+
     public function delete($id) {
         $data = array(
             'estado' => '0',  // Marcar la cuenta como inactiva
