@@ -1,18 +1,74 @@
 /* Css de las tablas y modales de cuentas contables */
 .cuentas-contables {
-    max-width: 65%;
-  }
-  .cuentas-contables tbody {
-    display: block; /* Permite el scrollbar */
-    max-height: 50vh; /* Altura máxima del cuerpo de cuentas-contables */
-    overflow-y: auto; /* Habilita el scroll vertical */
-  }
-  .titulo-body {
-    margin-bottom: 0; /* Reduce el margen inferior del párrafo */
+  max-width: 65%;
 }
-  .cuentas-contables thead,
-  .cuentas-contables tbody tr {
-    display: table; /* Mantiene el comportamiento de cuentas-contables */
-    width: 100%; /* Acá aseguramos que thead y tbody tengan el mismo ancho */
-    table-layout: fixed; /* Distribuye uniformemente las celdas */
-  }
+
+.cuentas-contables tbody {
+  display: block;
+  /* Permite el scrollbar */
+  max-height: 50vh;
+  /* Altura máxima del cuerpo de cuentas-contables */
+  overflow-y: auto;
+  /* Habilita el scroll vertical */
+}
+
+.titulo-body {
+  margin-bottom: 0;
+  /* Reduce el margen inferior del párrafo */
+}
+
+.cuentas-contables thead,
+.cuentas-contables tbody tr {
+  display: table;
+  /* Mantiene el comportamiento de cuentas-contables */
+  width: 100%;
+  /* Acá aseguramos que thead y tbody tengan el mismo ancho */
+  table-layout: fixed;
+  /* Distribuye uniformemente las celdas */
+}
+
+/* Estilos generales para los campos de monto formateado */
+.monto-formateado {
+  text-align: right;
+  /* Alinea los números a la derecha */
+  font-family: 'Courier New', monospace;
+  /* Fuente monoespaciada para mejor alineación */
+  font-size: 15px;
+  /* Tamaño de fuente legible */
+  padding: 8px 12px;
+  /* Espaciado interno */
+  border: 1px solid #ced4da;
+  /* Borde similar a otros inputs de Bootstrap */
+  transition: border-color 0.15s ease-in-out;
+  /* Transición suave para el foco */
+}
+
+/* Estilo cuando el input está enfocado */
+.monto-formateado:focus {
+  border-color: #86b7fe;
+  /* Color de resaltado azul de Bootstrap */
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  /* Sombra de foco */
+}
+
+/* Estilo para placeholders */
+.monto-formateado::placeholder {
+  color: #6c757d;
+  /* Color gris para placeholder */
+  opacity: 0.7;
+  /* Ligera transparencia */
+  font-family: system-ui, -apple-system, sans-serif;
+  /* Fuente normal para placeholder */
+}
+
+/* Estilo para valores válidos */
+.monto-formateado:valid {
+  background-color: #f8f9fa;
+  /* Fondo ligeramente gris */
+}
+
+/* Estilo para inputs con error (opcional) */
+.monto-formateado:invalid {
+  border-color: #dc3545;
+  /* Color rojo de Bootstrap para errores */
+}

@@ -73,10 +73,10 @@
                                                         <select name="fuente_de_financiamiento_id_ff"
                                                             id="fuente_de_financiamiento_id_ff" class="form-control"
                                                             required>
-                                                            <?php foreach ($registros_financieros as $fuente) : ?>
-                                                            <option value="<?php echo $fuente->id_ff ?>">
-                                                                <?php echo $fuente->codigo . ' - ' . $fuente->nombre ; ?>
-                                                            </option>
+                                                            <?php foreach ($registros_financieros as $fuente): ?>
+                                                                <option value="<?php echo $fuente->id_ff ?>">
+                                                                    <?php echo $fuente->codigo . ' - ' . $fuente->nombre; ?>
+                                                                </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -86,22 +86,22 @@
                                                         <select name="origen_de_financiamiento_id_of"
                                                             id="origen_de_financiamiento_id_of" class="form-control"
                                                             required>
-                                                            <?php foreach ($origen as $o) : ?>
-                                                            <option value="<?php echo $o->id_of ?>">
-                                                                <?php echo $o->codigo . ' - ' . $o->nombre ; ?>
-                                                            </option>
+                                                            <?php foreach ($origen as $o): ?>
+                                                                <option value="<?php echo $o->id_of ?>">
+                                                                    <?php echo $o->codigo . ' - ' . $o->nombre; ?>
+                                                                </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    
+
                                                     <div class="form-group col-md-4">
                                                         <label for="programa_id_pro">Programa:</label>
                                                         <select name="programa_id_pro" id="programa_id_pro"
                                                             class="form-control" required>
-                                                            <?php foreach ($programa as $prog) : ?>
-                                                            <option value="<?php echo $prog->id_pro ?>">
-                                                                <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
-                                                            </option>
+                                                            <?php foreach ($programa as $prog): ?>
+                                                                <option value="<?php echo $prog->id_pro ?>">
+                                                                    <?php echo $prog->codigo . ' - ' . $prog->nombre; ?>
+                                                                </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -111,10 +111,10 @@
                                                                 class="form-control" required>
                                                                 <option selected disabled>Seleccione una Cuenta
                                                                     Contable...</option>
-                                                                <?php foreach ($cuentacontable as $cc) : ?>
-                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
-                                                                    <?php echo $cc->Descripcion_CC; ?>
-                                                                </option>
+                                                                <?php foreach ($cuentacontable as $cc): ?>
+                                                                    <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                        <?php echo $cc->Descripcion_CC; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                             <button type="button" data-bs-toggle="modal"
@@ -125,123 +125,145 @@
                                                         </div>
                                                     </div>
                                                     <!-- Campos de los meses del presupuesto -->
+                                                    <!-- Campos de los meses del presupuesto -->
                                                     <div class="collapse mt-4" id="camposMesesCollapse">
                                                         <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                            <div class="row row-cols-1 row-cols-md-2 g-3">
+                                                                <!-- Enero -->
+                                                                <div class="col">
                                                                     <label for="pre_ene">Presupuesto Enero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ene" name="pre_ene">
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_ene" name="pre_ene" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_jul">Presupuesto Julio:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_jul" name="pre_jul">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+
+                                                                <!-- Febrero -->
+                                                                <div class="col">
                                                                     <label for="pre_feb">Presupuesto Febrero:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_feb" name="pre_feb">
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_feb" name="pre_feb" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_ago" name="pre_ago">
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                                <!-- Marzo -->
+                                                                <div class="col">
                                                                     <label for="pre_mar">Presupuesto Marzo:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_mar" name="pre_mar">
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_mar" name="pre_mar" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
 
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_sep" name="pre_sep">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                                <!-- Abril -->
+                                                                <div class="col">
                                                                     <label for="pre_abr">Presupuesto Abril:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_abr" name="pre_abr">
-
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_abr" name="pre_abr" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_oct">Presupuesto Octubre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_oct" name="pre_oct">
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                                <!-- Mayo -->
+                                                                <div class="col">
                                                                     <label for="pre_may">Presupuesto Mayo:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_may" name="pre_may">
-
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_may" name="pre_may" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="pre_nov">Presupuesto Noviembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_nov" name="pre_nov">
 
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
+                                                                <!-- Junio -->
+                                                                <div class="col">
                                                                     <label for="pre_jun">Presupuesto Junio:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_jun" name="pre_jun">
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_jun" name="pre_jun" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
-                                                                <div class="col-md-6">
+
+                                                                <!-- Julio -->
+                                                                <div class="col">
+                                                                    <label for="pre_jul">Presupuesto Julio:</label>
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_jul" name="pre_jul" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
+
+                                                                <!-- Agosto -->
+                                                                <div class="col">
+                                                                    <label for="pre_ago">Presupuesto Agosto:</label>
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_ago" name="pre_ago" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
+
+                                                                <!-- Septiembre -->
+                                                                <div class="col">
+                                                                    <label for="pre_sep">Presupuesto Septiembre:</label>
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_sep" name="pre_sep" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
+
+                                                                <!-- Octubre -->
+                                                                <div class="col">
+                                                                    <label for="pre_oct">Presupuesto Octubre:</label>
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_oct" name="pre_oct" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
+
+                                                                <!-- Noviembre -->
+                                                                <div class="col">
+                                                                    <label for="pre_nov">Presupuesto Noviembre:</label>
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_nov" name="pre_nov" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
+                                                                </div>
+
+                                                                <!-- Diciembre -->
+                                                                <div class="col">
                                                                     <label for="pre_dic">Presupuesto Diciembre:</label>
-                                                                    <input type="number" class="form-control"
-                                                                        id="pre_dic" name="pre_dic">
+                                                                    <input type="text"
+                                                                        class="form-control monto-formateado"
+                                                                        id="pre_dic" name="pre_dic" data-valor-real=""
+                                                                        placeholder="Ej: 1.000.000">
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
-                                                        </div>
                                                     </div>
-                                                    
-                                                    </div>
+
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container-fluid mt-3 mb-3">
-                                <div class="col-md-12 d-flex flex-row justify-content-center">
-                                    <button style="margin-right: 8px;" type="submit"
-                                        class="btn btn-success btn-primary"><span
-                                            class="fa fa-save"></span>Guardar</button>
-                                    <button class="btn btn-danger ml-3"
-                                        onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
-                                        <i class="fa fa-remove"></i> Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </section>
+        </div>
+        <div class="container-fluid mt-3 mb-3">
+            <div class="col-md-12 d-flex flex-row justify-content-center">
+                <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span
+                        class="fa fa-save"></span>Guardar</button>
+                <button class="btn btn-danger ml-3"
+                    onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                    <i class="fa fa-remove"></i> Cancelar
+                </button>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+        </section>
         </div>
     </main>
     <!-- Modal de las cuentas Contables -->
@@ -264,19 +286,19 @@
                         </thead>
                         <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td>
+                                        <?= $dato->IDCuentaContable ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Codigo_CC ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -286,36 +308,79 @@
     </div>
     <!-- Script para seleccionar la cuenta contable -->
     <script>
-    function selectCC(IDCuentaContable) {
-        // Actualizar el valor del select con los valores seleccionados
-        var selectElement = document.getElementById('Idcuentacontable');
-        selectElement.value = IDCuentaContable;
-    }
+        function selectCC(IDCuentaContable) {
+            // Actualizar el valor del select con los valores seleccionados
+            var selectElement = document.getElementById('Idcuentacontable');
+            selectElement.value = IDCuentaContable;
+        }
     </script>
     <!-- Script para mostrar los campos de los meses -->
     <script>
-    document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
-        var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
-        camposMesesCollapse.toggle();
-    });
+        document.getElementById('camposOpcionalesSwitch').addEventListener('change', function () {
+            var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
+            camposMesesCollapse.toggle();
+        });
     </script>
 
     <!-- Script para la tabla de cuentas contables -->
     <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
+        $(document).ready(function () {
+            var table1 = $('#TablaCuentaCont').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                }
+            });
         });
-    });
     </script>
+    <!-- Script para formatear los montos -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Función de formateo
+            const formatearMonto = (valor) => {
+                return valor.replace(/[^0-9]/g, '')
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            };
 
+            // Aplicar a todos los campos de meses
+            document.querySelectorAll('.monto-formateado').forEach(input => {
+                input.addEventListener('input', function (e) {
+                    const posicionCursor = this.selectionStart;
+                    const valorOriginal = this.value;
+
+                    // Formatear
+                    this.value = formatearMonto(this.value);
+                    this.setAttribute('data-valor-real', this.value.replace(/\./g, ''));
+
+                    // Mantener posición del cursor
+                    const diferencia = this.value.length - valorOriginal.length;
+                    this.setSelectionRange(posicionCursor + diferencia, posicionCursor + diferencia);
+                });
+
+                // Formatear al perder el foco
+                input.addEventListener('blur', function () {
+                    if (this.value === '') this.value = '0';
+                    this.value = formatearMonto(this.value);
+                });
+
+                // Quitar ceros iniciales al enfocar
+                input.addEventListener('focus', function () {
+                    if (this.value === '0') this.value = '';
+                });
+            });
+
+            // Limpiar formato antes de enviar
+            document.querySelector('form').addEventListener('submit', function (e) {
+                document.querySelectorAll('.monto-formateado').forEach(input => {
+                    input.value = input.getAttribute('data-valor-real') || '0';
+                });
+            });
+        });
+    </script>
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 </body>
