@@ -391,9 +391,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalLabel">Rubros Asociados al Código</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-hover table-sm" id="TablaBienesModal" style="width:100%">
@@ -411,9 +409,9 @@
                         </thead>
                         <tbody>
                             <?php foreach ($bienes_servicios as $index => $bienes): ?>
-                                <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
-                            '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')" data-bs-dismiss="modal"
-                                    data-rubro="<?= $bienes->rubro ?>">
+                                <tr class="list-item"
+                                    onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>', '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')"
+                                    data-bs-dismiss="modal" data-rubro="<?= $bienes->rubro ?>">
                                     <td class="columna-hidden"><?= $bienes->IDbienservicio ?></td>
                                     <td><?= $index + 1 ?></td>
                                     <td><?= $bienes->codigo ?></td>
@@ -423,7 +421,6 @@
                                     <td><?= $bienes->descripcioncatalogo ?></td>
                                     <td><?= $bienes->precioref ?></td>
                                 </tr>
-
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -561,7 +558,7 @@
             }
         });
 
-        
+
 
     });
 </script>
@@ -580,150 +577,152 @@
     });
 </script>
 <script>
-    var currentRow = null;
+
+    let currentRow = null;
 
     function openModal_4(currentRowParam) {
 
+        // Verificamos si hay un rubro seleccionado
+        if (!rubroSeleccionado) {
+            alert("No se encontró un rubro asociado.");
+            return;
+        }
+
         var modalContainer = document.getElementById('modalBienes');
-
         currentRow = currentRowParam; // Almacenar la fila actual
-
     }
-
 
     // Función para seleccionar la cuenta contable
     function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+
+        // Establecer currentRow a la primera fila si no está definido
+        if (!currentRow) {
+            console.log(currentRow);
+            currentRow = $('#tablaP tbody tr').first();
+        }
+
         // Verificar si currentRow está definido y no es null
         if (currentRow) {
+            console.log(currentRow);
             // Utilizar currentRow para actualizar los campos
             currentRow.find('.IDbienservicio').val(IDbienservicio);
             currentRow.find('.rubro').val(rubro);
             currentRow.find('.descripcion').val(descripcion);
             currentRow.find('.precioref').val(precioref);
-
         } else {
             console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+
         }
     }
-    var currentRow = null;
 
     let rubroSeleccionado = null;
 
     function selectPresupuesto(idpresupuesto, rubro) {
-    // Almacena el rubro cuando se selecciona un presupuesto
-    rubroSeleccionado = rubro;
+        // Almacena el rubro cuando se selecciona un presupuesto
+        rubroSeleccionado = rubro;
 
-    // Actualiza el texto en el contenedor #rubroTexto con la relación
-    $('#idpresupuesto').text(idpresupuesto);
-    $('#rubroTexto').text(rubro); // Este es el campo donde se debe mostrar la relación
+        // Actualiza el texto en el contenedor #rubroTexto con la relación
+        $('#idpresupuesto').text(idpresupuesto);
+        $('#rubroTexto').text(rubro); // Este es el campo donde se debe mostrar la relación
 
-    // Llama a la función para cargar los bienes filtrados por rubro
-    cargarBienesPorRubro(rubro);
-}
-
-
+        // Llama a la función para cargar los bienes filtrados por rubro
+        cargarBienesPorRubro(rubro);
+    }
 
     function selectProveedor(id, ruc, razon_social) {
         document.getElementById('idproveedor').value = id;
         document.getElementById('ruc').value = ruc;
         document.getElementById('razon_social').value = razon_social;
-
     }
 
     // Abrir modal en fila dinámica
-const openModalBtn_4 = document.getElementById("openModalBtn_4");
+    const openModalBtn_4 = document.getElementById("openModalBtn_4");
 
-// Escuchar el clic en la tabla
-document.getElementById("tablaP").addEventListener("click", function (event) {
+    // Escuchar el clic en la tabla
+    document.getElementById("tablaP").addEventListener("click", function (event) {
+        // Encuentra la fila desde la cual se abrió el modal
+        var row = $(event.target).closest('tr');
 
-    // Encuentra la fila desde la cual se abrió el modal
-    var row = $(event.target).closest('tr');
-
-    // Verifica si el clic es en el botón para abrir el modal
-    if (
-        (event.target && event.target.className.includes("openModalBtn_4")) ||
-        (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
-    ) {
-        event.stopPropagation();
-        event.preventDefault();
-        openModal_4(row);
-    }
-});
-
-// Función para abrir el modal y cargar los bienes filtrados
-function openModal_4(row) {
-
-
-    // Verificamos si hay un rubro seleccionado
-    if (!rubroSeleccionado) {
-        alert("No se encontró un rubro asociado.");
-        return;
-    }
-
-    // Abrir el modal de bienes y pasar el rubro para filtrarlos
-    cargarBienesPorRubro(rubroSeleccionado);
-
-    // Mostrar el modal (si lo estás utilizando)
-    $('#TablaBienesModal').modal('show');
-}
-
-// Función para cargar los bienes filtrados por rubro
-function cargarBienesPorRubro(rubroSeleccionado) {
-    $.ajax({
-        url: '<?php echo base_url("patrimonio/comprobante_gasto/obtener_bienes"); ?>',
-        method: 'GET',  // Usamos GET para pasar el rubro como parámetro
-        data: {
-            rubro: rubroSeleccionado   // Enviamos el rubro seleccionado al servidor
-        },
-        success: function(response) {
-            // Parseamos la respuesta JSON
-            var bienes = JSON.parse(response);
-
-            // Limpiamos el cuerpo de la tabla antes de agregar los nuevos bienes
-            $('#TablaBienesModal tbody').empty();
-
-            // Recorrer los bienes y agregar las filas al cuerpo de la tabla
-            bienes.forEach(function(bien, index) {
-                var fila = '<tr class="list-item" onclick="selectBien(\'' + bien.IDbienservicio + '\', \'' + bien.rubro + '\', \'' + bien.descripcion + '\', \'' + bien.precioref + '\')" data-bs-dismiss="modal" data-rubro="' + bien.rubro + '">';
-                fila += '<td class="columna-hidden">' + bien.IDbienservicio + '</td>';
-                fila += '<td>' + (index + 1) + '</td>';
-                fila += '<td>' + bien.codigo + '</td>';
-                fila += '<td>' + bien.rubro + '</td>';
-                fila += '<td>' + bien.descripcion + '</td>';
-                fila += '<td>' + bien.codcatalogo + '</td>';
-                fila += '<td>' + bien.descripcioncatalogo + '</td>';
-                fila += '<td>' + bien.precioref + '</td>';
-                fila += '</tr>';
-
-                $('#TablaBienesModal tbody').append(fila);
-            });
-
-            // Abre el modal con los bienes filtrados
-            $('#modalBienes').modal('show');
-        },
-        error: function() {
-            alert('Hubo un error al cargar los bienes.');
+        // Verifica si el clic es en el botón para abrir el modal
+        if (
+            (event.target && event.target.className.includes("openModalBtn_4")) ||
+            (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))
+        ) {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal_4(row);
         }
     });
-}
+
+    // Función para abrir el modal y cargar los bienes filtrados
+
+   /* function openModal_4(row) {
+
+
+        // Abrir el modal de bienes y pasar el rubro para filtrarlos
+        cargarBienesPorRubro(rubroSeleccionado);
+
+        // Mostrar el modal (si lo estás utilizando)
+        $('#modalBienes').modal('show');
+    }*/
+
+    // Función para cargar los bienes filtrados por rubro
+    function cargarBienesPorRubro(rubroSeleccionado) {
+        $.ajax({
+            url: '<?php echo base_url("patrimonio/comprobante_gasto/obtener_bienes"); ?>',
+            method: 'GET',  // Usamos GET para pasar el rubro como parámetro
+            data: {
+                rubro: rubroSeleccionado   // Enviamos el rubro seleccionado al servidor
+            },
+            success: function (response) {
+                // Parseamos la respuesta JSON
+                var bienes = JSON.parse(response);
+
+                // Limpiamos el cuerpo de la tabla antes de agregar los nuevos bienes
+                $('#TablaBienesModal tbody').empty();
+
+                // Recorrer los bienes y agregar las filas al cuerpo de la tabla
+                bienes.forEach(function (bien, index) {
+                    var fila = '<tr class="list-item" onclick="selectBien(\'' + bien.IDbienservicio + '\', \'' + bien.rubro + '\', \'' + bien.descripcion + '\', \'' + bien.precioref + '\')" data-bs-dismiss="modal" data-rubro="' + bien.rubro + '">';
+                    fila += '<td class="columna-hidden">' + bien.IDbienservicio + '</td>';
+                    fila += '<td>' + (index + 1) + '</td>';
+                    fila += '<td>' + bien.codigo + '</td>';
+                    fila += '<td>' + bien.rubro + '</td>';
+                    fila += '<td>' + bien.descripcion + '</td>';
+                    fila += '<td>' + bien.codcatalogo + '</td>';
+                    fila += '<td>' + bien.descripcioncatalogo + '</td>';
+                    fila += '<td>' + bien.precioref + '</td>';
+                    fila += '</tr>';
+
+                    $('#TablaBienesModal tbody').append(fila);
+                });
+
+                // Abre el modal con los bienes filtrados
+                $('#modalBienes').modal('show');
+            },
+            error: function () {
+                alert('Hubo un error al cargar los bienes.');
+            }
+        });
+    }
 
     function filtrarBienesPorRubro(rubroSeleccionado) {
-    // Si el rubro seleccionado está vacío, no hacer nada
-    if (!rubroSeleccionado) return;
+        // Si el rubro seleccionado está vacío, no hacer nada
+        if (!rubroSeleccionado) return;
 
-    // Recorrer todas las filas del modal de bienes
-    $('#TablaBienesModal tbody tr').each(function () {
-        var row = $(this);
-        var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro de cada fila
+        // Recorrer todas las filas del modal de bienes
+        $('#TablaBienesModal tbody tr').each(function () {
+            var row = $(this);
+            var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro de cada fila
 
-        // Si el rubro está en la relación, mostramos la fila; de lo contrario, la ocultamos
-        if (rubro === rubroSeleccionado) {
-            row.show(); // Mostrar la fila
-        } else {
-            row.hide(); // Ocultar la fila
-        }
-    });
-}
+            // Si el rubro está en la relación, mostramos la fila; de lo contrario, la ocultamos
+            if (rubro === rubroSeleccionado) {
+                row.show(); // Mostrar la fila
+            } else {
+                row.hide(); // Ocultar la fila
+            }
+        });
+    }
     $(document).on("click", ".desmarcarCheckbox", function () {
         var row = $(this).closest('tr');
         row.find('.iva-checkbox').prop('checked', false)
@@ -811,7 +810,7 @@ function cargarBienesPorRubro(rubroSeleccionado) {
         });
 
     });
-    
+
 </script>
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 
