@@ -113,10 +113,9 @@
                                                                                 </option>
                                                                                 <?php endforeach; ?>
                                                                             </select>
-                                                                            <button type="button" data-bs-toggle="modal"
-                                                                                data-bs-target="#modalCuentasCont"
+                                                                            <button type="button" id="mostrarNiveles"
                                                                                 class="btn btn-primary">
-                                                                                <i class="bi bi-search"> Buscar</i>
+                                                                                <i class="bi bi-caret-down"></i>
                                                                             </button>
                                                                         </div>
                                                                     </div>
@@ -168,9 +167,7 @@
                                                         </div>
                                                     </div>
                                                     <!-- Aca comienza la tabla -->
-                                                    <table
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
-                                                        id="miTabla">
+                                                    <table class="table table-hover mt-4" id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>
                                                                 <th class="columna-hidden">IDNum_Asi_Deta</th>
@@ -1377,7 +1374,6 @@
         calcularTotalesYDiferencia();
     });
     </script>
-
 
     <!-- Script de DataTable de jquery -->
     <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>

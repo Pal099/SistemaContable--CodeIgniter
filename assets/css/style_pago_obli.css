@@ -81,3 +81,93 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+ /* -------------Tabla del Pago de Obligación------------- */
+ #miTabla {
+  border-collapse: separate; /* Necesario para que los bordes redondeados funcionen */
+  border-spacing: 0; /* Elimina el espacio entre celdas */
+  border-radius: 0.2rem; /* Ajusta el radio de los bordes redondeados */
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+}
+
+/* celdas de la tabla */
+#miTabla th,
+#miTabla td {
+    border: 1px solid #dee2e6; /* Usa outline en lugar de border */
+}
+
+/* (esquinas superiores) */
+#miTabla thead th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+#miTabla thead th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+/* (esquinas inferiores) */
+#miTabla tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+#miTabla tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+ /* -------------Tabla del Debe y Haber------------- */
+ #miTabla2 {
+  border-collapse: separate; /* Necesario para que los bordes redondeados funcionen */
+  border-spacing: 0; /* Elimina el espacio entre celdas */
+  border-radius: 0.2rem; /* Ajusta el radio de los bordes redondeados */
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+}
+
+/* celdas de la tabla */
+#miTabla2 th,
+#miTabla2 td {
+    border: 1px solid #dee2e6; /* Usa outline en lugar de border */
+}
+
+/* (esquinas superiores) */
+#miTabla2 thead th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+#miTabla2 thead th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+/* (esquinas inferiores) */
+#miTabla2 tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+#miTabla2 tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}
+
+/* -------------Tabla de Asientos Pagados------------- */
+#vistapago {
+  border-collapse: separate; /* Necesario para que los bordes redondeados funcionen */
+  border-spacing: 0; /* Elimina el espacio entre celdas */
+  border-radius: 0.2rem; /* Ajusta el radio de los bordes redondeados */
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+}
+
+/* celdas de la tabla */
+#vistapago th,
+#vistapago td {
+    border: 1px solid #dee2e6; /* Usa outline en lugar de border */
+}
+
+/* (esquinas superiores) */
+#vistapago thead th:first-child {
+  border-top-left-radius: 0.5rem;
+}
+#vistapago thead th:last-child {
+  border-top-right-radius: 0.5rem;
+}
+
+/* (esquinas inferiores) */
+#vistapago tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 0.5rem;
+}
+#vistapago tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 0.5rem;
+}

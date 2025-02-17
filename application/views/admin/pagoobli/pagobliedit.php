@@ -136,7 +136,7 @@
                                                     </div>
                                                     <!-- Aca comienza la tabla -->
                                                     <table
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                        class="table table-hover mt-4"
                                                         id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>

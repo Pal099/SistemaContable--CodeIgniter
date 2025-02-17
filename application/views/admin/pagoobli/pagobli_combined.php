@@ -150,7 +150,7 @@
                                                         </div>
                                                     </div>
                                                     <table
-                                                        class="table table-hover table-bordered table-sm rounded-3 mt-4"
+                                                        class="table table-hover mt-4"
                                                         id="miTabla">
                                                         <thead class="align-middle">
                                                             <tr>
@@ -1184,7 +1184,7 @@
                                                                 <th>Acciones</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody class="align-middle">
                                                             <?php if (!empty($asiento)): ?>
                                                             <?php foreach ($asiento as $asien): ?>
                                                             <tr>
@@ -1214,23 +1214,26 @@
                                                                             <span class="fa fa-search"></span>
                                                                         </button>
                                                                         <button type="button" class="btn btn-danger"
-                                                                            title="Generar PDF"
+                                                                            title="Generar OP"
                                                                             onclick="window.open('<?php echo base_url(); ?>obligaciones/diario_obligaciones/pdfs')">
                                                                             <i class="bi bi-filetype-pdf"
                                                                                 style="font-size: 20px;"></i>OP
                                                                         </button>
                                                                         <button type="button"
                                                                             class="btn btn-primary btn-view-presupuesto btn-sm"
+                                                                            title="Generar Retención"
                                                                             onclick="window.location.href='<?php echo base_url() ?>Pdf_reten/generarPDF_reten/<?php echo $asien->IDNum_Asi; ?>'">
-                                                                            <i class="fas fa-file-pdf"></i> Retención
+                                                                            <i class="bi bi-currency-exchange"></i> Retención
                                                                         </button>
                                                                         <button type="button"
                                                                             class="btn btn-warning btn-sm"
+                                                                            title="Editar asiento pagado"
                                                                             onclick="window.location.href='<?php echo base_url() ?>obligaciones/pago_de_obligaciones/edit/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class="bi bi-pencil-fill"></i>
                                                                         </button>
                                                                         <button type="button"
                                                                             class="btn btn-danger btn-remove btn-sm"
+                                                                            title="Eliminar asiento"
                                                                             onclick="window.location.href='<?php echo base_url(); ?>obligaciones/Diario_obligaciones/delete/<?php echo $asien->IDNum_Asi; ?>'">
                                                                             <i class="bi bi-trash"></i>
                                                                         </button>
