@@ -134,9 +134,13 @@ foreach ($datosComprobante as $index => $dato) {
     // Obtener la descripción en UTF-8
     $descripcion = utf8_decode($dato['descripcion']);
 
+    // Calcular el monto por ítem
+    $monto = $dato['cantidad'] * $dato['preciounit'];
+    $totalGral += $monto;
+
     // Calcular la altura máxima de la fila (depende de la descripción)
-    $cellHeightDescripcion = $pdf->GetStringWidth($descripcion) / 70; // Ancho máximo de la celda de descripción (70)
-    $cellHeightDescripcion = ceil($cellHeightDescripcion) * $lineHeight; // Ajustar a múltiplos de la altura de línea
+    $cellHeightDescripcion = $pdf->GetStringWidth($descripcion) / 70;
+    $cellHeightDescripcion = ceil($cellHeightDescripcion) * $lineHeight;
 
     // Obtener la altura máxima entre las celdas (8 es la nueva altura base)
     $maxHeight = max(8, $cellHeightDescripcion); // Reducir la altura base
@@ -164,14 +168,11 @@ foreach ($datosComprobante as $index => $dato) {
     $pdf->MultiCell(30, $maxHeight, number_format($dato['preciounit'], 0), 0, 'C', false);
     $pdf->SetXY(170, $currentY); // Ajustar la posición de la siguiente celda
 
-    // Celda para "Monto" (sin bordes)
-    $pdf->MultiCell(30, $maxHeight, number_format($dato['gravada'], 0), 0, 'C', false);
-
-    // Acumular el total general de la columna "Monto"
-    $totalGral += $dato['gravada'];
+    // Celda para "Monto" (sin bordes) - Ahora usando el monto calculado
+    $pdf->MultiCell(30, $maxHeight, number_format($monto, 0), 0, 'C', false);
 
     // Mover el puntero a la siguiente línea con menor espacio
-    $pdf->Ln(2); // Reducir el espacio entre filas
+    $pdf->Ln(2);
 }
 
 // Agregar la línea de total general

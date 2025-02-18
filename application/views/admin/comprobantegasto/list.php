@@ -224,6 +224,13 @@
                                       <i class="fas fa-file-pdf"></i> Orden
                                     </button>
                                   </div>
+                                  <div class="d-grid gap-1 d-md-flex justify-content-md-center">
+                                    <!-- Botón para PDF de Orden con el ícono de Font Awesome -->
+                                    <button type="button" class="btn btn-primary btn-view-presupuesto btn-sm"
+                                      onclick="window.location.href='<?php echo base_url() ?>Pdf_comprobante/generarPDF_comprobante/<?php echo $comp->id_pedido; ?>'">
+                                      <i class="fas fa-file-pdf"></i> Comprobante
+                                    </button>
+                                  </div>
 
                                   <button class="btn btn-warning btn-sm"
                                     onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">

@@ -111,18 +111,7 @@ class Pdf_model extends CI_Model {
     }
 
 
-    public function obtenerDatosPedido($id_pedido) {
-        // Selecciona los campos necesarios, incluyendo 'fecha'
-        $this->db->select('cg.*, p.ruc, p.razon_social as proveedor, cg.fecha'); 
-        $this->db->from('comprobante_gasto cg');
-        $this->db->join('proveedores p', 'p.id = cg.idproveedor', 'left');
-        $this->db->where('cg.id_pedido', $id_pedido); // Filtra por id_pedido
-        $query = $this->db->get();
-        
-        // Devuelve los resultados como un arreglo
-        return $query->result_array();
-    }
-    
+
 
     public function obtenerDatos_cdp($numero_asiento) {
         $this->db->select('
@@ -178,34 +167,52 @@ class Pdf_model extends CI_Model {
             return array();
         }
     }
+    public function obtenerDatosPedido($id_pedido) {
+        // Selecciona los campos necesarios, incluyendo 'fecha'
+        $this->db->select('cg.*, p.ruc, p.razon_social as proveedor, cg.fecha'); 
+        $this->db->from('comprobante_gasto cg');
+        $this->db->join('proveedores p', 'p.id = cg.idproveedor', 'left');
+        $this->db->where('cg.id_pedido', $id_pedido); // Filtra por id_pedido
+        $query = $this->db->get();
+        
+        // Devuelve los resultados como un arreglo
+        return $query->result_array();
+    }
     
 
-    public function getPresu($id_uni_respon_usu) {
-        $this->db->select('
-            pre_men.*, 
-            pre.*, 
-            c.Descripcion_CC as descripcion, 
-            c.relacion, 
-            pre.TotalPresupuestado, 
-            COALESCE(pre.TotalModificado, 0) as TotalModificado, 
-            ff.nombre as fuente_de_financiamiento, 
-            of.nombre as origen_de_financiamiento, 
-            pr.nombre as programa
-        ');
+    public function getPresu() {
+        $this->db->select('pre.*, c.Descripcion_CC as descripcion, ff.codigo as ff, of.codigo as of, pr.nombre as prog, c.tipo as tipo, c.Codigo_CC as codi_cc, pre.TotalPresupuestado as presu_monto');
         $this->db->from('presupuestos pre');
-        $this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff", "left");
-        $this->db->join("origen_de_financiamiento of", "pre.origen_de_financiamiento_id_of = of.id_of", "left");
-        $this->db->join("programa pr", "pre.programa_id_pro = pr.id_pro", "left");
-        $this->db->join("cuentacontable c", "pre.Idcuentacontable = c.IDCuentaContable", "left");
-        $this->db->join("presupuesto_mensual pre_men", "pre.ID_Presupuesto = pre_men.id_presupuesto", "left");
-        $this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu', "left");
+        $this->db->join("fuente_de_financiamiento ff", "pre.fuente_de_financiamiento_id_ff = ff.id_ff");
+        $this->db->join("origen_de_financiamiento of", "pre.origen_de_financiamiento_id_of = of.id_of");
+        $this->db->join("programa pr", "pre.programa_id_pro = pr.id_pro");
+        $this->db->join("cuentacontable c", "pre.Idcuentacontable = c.IDCuentaContable");
+        $this->db->join('uni_respon_usu', 'pre.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
         $this->db->where('pre.estado', '1');
-        $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
-    
-        $resultados = $this->db->get();
-        return $resultados->result();
+        
+        $resultado = $this->db->get();
+        return $resultado->result();  // Cambiando de 'result()' a 'row()'
     }
     
     
-    
+    public function obtenerDatosComprobante($id_pedido) {
+        $this->db->select('
+            cg.*,
+            p.ruc,
+            p.razon_social as proveedor,
+            cg.fecha,
+            cg.cantidad,
+            cg.preciounit,
+            cg.descripcion,
+            cg.exenta,
+            cg.gravada,
+            cg.porcentaje_iva
+        ');
+        $this->db->from('comprobante_gasto cg');
+        $this->db->join('proveedores p', 'p.id = cg.idproveedor', 'left');
+        $this->db->where('cg.id_pedido', $id_pedido);
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
 }
