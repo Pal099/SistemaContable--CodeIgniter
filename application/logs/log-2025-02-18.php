@@ -231,3 +231,216 @@ INFO - 2025-02-18 01:29:40 --> Form Validation Class Initialized
 INFO - 2025-02-18 01:29:40 --> Controller Class Initialized
 INFO - 2025-02-18 01:29:40 --> Model Class Initialized
 ERROR - 2025-02-18 01:29:40 --> Severity: error --> Exception: Call to undefined method FPDF::NbLines() C:\xampp\htdocs\practica\application\controllers\Pdf_comprobante.php 86
+INFO - 2025-02-18 16:05:02 --> Config Class Initialized
+INFO - 2025-02-18 16:05:02 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:02 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:02 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:03 --> URI Class Initialized
+DEBUG - 2025-02-18 16:05:03 --> No URI present. Default controller set.
+INFO - 2025-02-18 16:05:03 --> Router Class Initialized
+INFO - 2025-02-18 16:05:03 --> Output Class Initialized
+INFO - 2025-02-18 16:05:03 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:03 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:03 --> Input Class Initialized
+INFO - 2025-02-18 16:05:03 --> Language Class Initialized
+INFO - 2025-02-18 16:05:04 --> Loader Class Initialized
+INFO - 2025-02-18 16:05:04 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:05:04 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:05:05 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:05:05 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:05:05 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:05:05 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:05:05 --> Controller Class Initialized
+INFO - 2025-02-18 16:05:05 --> Model Class Initialized
+INFO - 2025-02-18 16:05:05 --> Model Class Initialized
+DEBUG - 2025-02-18 16:05:05 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-18 16:05:05 --> File loaded: C:\xampp\htdocs\practica\application\views\admin/usuarios/login_view.php
+INFO - 2025-02-18 16:05:05 --> Final output sent to browser
+DEBUG - 2025-02-18 16:05:05 --> Total execution time: 3.7864
+INFO - 2025-02-18 16:05:35 --> Config Class Initialized
+INFO - 2025-02-18 16:05:35 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:35 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:35 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:35 --> URI Class Initialized
+DEBUG - 2025-02-18 16:05:35 --> No URI present. Default controller set.
+INFO - 2025-02-18 16:05:35 --> Router Class Initialized
+INFO - 2025-02-18 16:05:35 --> Output Class Initialized
+INFO - 2025-02-18 16:05:35 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:35 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:35 --> Input Class Initialized
+INFO - 2025-02-18 16:05:35 --> Language Class Initialized
+INFO - 2025-02-18 16:05:35 --> Loader Class Initialized
+INFO - 2025-02-18 16:05:35 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:05:36 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:05:36 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:05:36 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:05:36 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:05:36 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:05:36 --> Controller Class Initialized
+INFO - 2025-02-18 16:05:36 --> Model Class Initialized
+INFO - 2025-02-18 16:05:36 --> Model Class Initialized
+DEBUG - 2025-02-18 16:05:36 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-18 16:05:36 --> Language file loaded: language/spanish/form_validation_lang.php
+ERROR - 2025-02-18 16:05:36 --> Severity: Warning --> Undefined property: stdClass::$unidad C:\xampp\htdocs\practica\application\controllers\Login.php 40
+INFO - 2025-02-18 16:05:36 --> Config Class Initialized
+INFO - 2025-02-18 16:05:36 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:36 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:36 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:36 --> URI Class Initialized
+INFO - 2025-02-18 16:05:36 --> Router Class Initialized
+INFO - 2025-02-18 16:05:36 --> Output Class Initialized
+INFO - 2025-02-18 16:05:36 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:36 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:36 --> Input Class Initialized
+INFO - 2025-02-18 16:05:36 --> Language Class Initialized
+INFO - 2025-02-18 16:05:36 --> Loader Class Initialized
+INFO - 2025-02-18 16:05:36 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:05:36 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:05:36 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:05:36 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:05:36 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:05:36 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:05:36 --> Controller Class Initialized
+INFO - 2025-02-18 16:05:37 --> Model Class Initialized
+INFO - 2025-02-18 16:05:37 --> Model Class Initialized
+INFO - 2025-02-18 16:05:37 --> Model Class Initialized
+INFO - 2025-02-18 16:05:37 --> Model Class Initialized
+INFO - 2025-02-18 16:05:37 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-18 16:05:37 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-18 16:05:38 --> File loaded: C:\xampp\htdocs\practica\application\views\admin/principal.php
+INFO - 2025-02-18 16:05:38 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-18 16:05:38 --> Final output sent to browser
+DEBUG - 2025-02-18 16:05:38 --> Total execution time: 2.3999
+INFO - 2025-02-18 16:05:46 --> Config Class Initialized
+INFO - 2025-02-18 16:05:46 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:46 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:46 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:46 --> URI Class Initialized
+INFO - 2025-02-18 16:05:46 --> Router Class Initialized
+INFO - 2025-02-18 16:05:46 --> Output Class Initialized
+INFO - 2025-02-18 16:05:46 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:46 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:46 --> Input Class Initialized
+INFO - 2025-02-18 16:05:46 --> Language Class Initialized
+INFO - 2025-02-18 16:05:46 --> Loader Class Initialized
+INFO - 2025-02-18 16:05:46 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:05:46 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:05:46 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:05:46 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:05:46 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:05:46 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:05:46 --> Controller Class Initialized
+INFO - 2025-02-18 16:05:46 --> Helper loaded: inflector_helper
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+DEBUG - 2025-02-18 16:05:46 --> Session class already loaded. Second attempt ignored.
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+INFO - 2025-02-18 16:05:46 --> Model Class Initialized
+DEBUG - 2025-02-18 16:05:46 --> Form_validation class already loaded. Second attempt ignored.
+INFO - 2025-02-18 16:05:46 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/header.php
+INFO - 2025-02-18 16:05:46 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/sideBar.php
+INFO - 2025-02-18 16:05:47 --> File loaded: C:\xampp\htdocs\practica\application\views\admin/comprobantegasto/list.php
+INFO - 2025-02-18 16:05:47 --> File loaded: C:\xampp\htdocs\practica\application\views\layouts/footer.php
+INFO - 2025-02-18 16:05:47 --> Final output sent to browser
+DEBUG - 2025-02-18 16:05:47 --> Total execution time: 0.9983
+INFO - 2025-02-18 16:05:48 --> Config Class Initialized
+INFO - 2025-02-18 16:05:48 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:48 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:48 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:48 --> URI Class Initialized
+INFO - 2025-02-18 16:05:48 --> Router Class Initialized
+INFO - 2025-02-18 16:05:48 --> Output Class Initialized
+INFO - 2025-02-18 16:05:48 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:48 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:48 --> Input Class Initialized
+INFO - 2025-02-18 16:05:48 --> Language Class Initialized
+ERROR - 2025-02-18 16:05:48 --> 404 Page Not Found: Assets/json
+INFO - 2025-02-18 16:05:52 --> Config Class Initialized
+INFO - 2025-02-18 16:05:52 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:05:52 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:05:52 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:05:52 --> URI Class Initialized
+INFO - 2025-02-18 16:05:52 --> Router Class Initialized
+INFO - 2025-02-18 16:05:52 --> Output Class Initialized
+INFO - 2025-02-18 16:05:52 --> Security Class Initialized
+DEBUG - 2025-02-18 16:05:53 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:05:53 --> Input Class Initialized
+INFO - 2025-02-18 16:05:53 --> Language Class Initialized
+INFO - 2025-02-18 16:05:53 --> Loader Class Initialized
+INFO - 2025-02-18 16:05:53 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:05:53 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:05:53 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:05:53 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:05:53 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:05:53 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:05:53 --> Controller Class Initialized
+INFO - 2025-02-18 16:05:53 --> Model Class Initialized
+ERROR - 2025-02-18 16:05:53 --> Severity: error --> Exception: Call to undefined method FPDF::NbLines() C:\xampp\htdocs\practica\application\controllers\Pdf_comprobante.php 86
+INFO - 2025-02-18 16:13:51 --> Config Class Initialized
+INFO - 2025-02-18 16:13:51 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:13:51 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:13:51 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:13:51 --> URI Class Initialized
+INFO - 2025-02-18 16:13:51 --> Router Class Initialized
+INFO - 2025-02-18 16:13:51 --> Output Class Initialized
+INFO - 2025-02-18 16:13:51 --> Security Class Initialized
+DEBUG - 2025-02-18 16:13:51 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:13:51 --> Input Class Initialized
+INFO - 2025-02-18 16:13:51 --> Language Class Initialized
+INFO - 2025-02-18 16:13:51 --> Loader Class Initialized
+INFO - 2025-02-18 16:13:51 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:13:51 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:13:51 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:13:51 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:13:51 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:13:51 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:13:51 --> Controller Class Initialized
+INFO - 2025-02-18 16:13:51 --> Model Class Initialized
+ERROR - 2025-02-18 16:13:51 --> Severity: error --> Exception: Call to undefined method FPDF::NbLines() C:\xampp\htdocs\practica\application\controllers\Pdf_comprobante.php 86
+INFO - 2025-02-18 16:16:41 --> Config Class Initialized
+INFO - 2025-02-18 16:16:41 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:16:41 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:16:41 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:16:42 --> URI Class Initialized
+INFO - 2025-02-18 16:16:42 --> Router Class Initialized
+INFO - 2025-02-18 16:16:42 --> Output Class Initialized
+INFO - 2025-02-18 16:16:42 --> Security Class Initialized
+DEBUG - 2025-02-18 16:16:42 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:16:42 --> Input Class Initialized
+INFO - 2025-02-18 16:16:42 --> Language Class Initialized
+INFO - 2025-02-18 16:16:42 --> Loader Class Initialized
+INFO - 2025-02-18 16:16:42 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:16:42 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:16:42 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:16:42 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:16:42 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:16:42 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:16:42 --> Controller Class Initialized
+INFO - 2025-02-18 16:16:42 --> Model Class Initialized
+INFO - 2025-02-18 16:16:42 --> Final output sent to browser
+DEBUG - 2025-02-18 16:16:42 --> Total execution time: 0.3573
+INFO - 2025-02-18 16:23:37 --> Config Class Initialized
+INFO - 2025-02-18 16:23:37 --> Hooks Class Initialized
+DEBUG - 2025-02-18 16:23:37 --> UTF-8 Support Enabled
+INFO - 2025-02-18 16:23:37 --> Utf8 Class Initialized
+INFO - 2025-02-18 16:23:37 --> URI Class Initialized
+INFO - 2025-02-18 16:23:37 --> Router Class Initialized
+INFO - 2025-02-18 16:23:37 --> Output Class Initialized
+INFO - 2025-02-18 16:23:37 --> Security Class Initialized
+DEBUG - 2025-02-18 16:23:37 --> Global POST, GET and COOKIE data sanitized
+INFO - 2025-02-18 16:23:37 --> Input Class Initialized
+INFO - 2025-02-18 16:23:37 --> Language Class Initialized
+INFO - 2025-02-18 16:23:37 --> Loader Class Initialized
+INFO - 2025-02-18 16:23:37 --> Helper loaded: url_helper
+INFO - 2025-02-18 16:23:37 --> Database Driver Class Initialized
+DEBUG - 2025-02-18 16:23:37 --> Session: "sess_save_path" is empty; using "session.save_path" value from php.ini.
+INFO - 2025-02-18 16:23:37 --> Session: Class initialized using 'files' driver.
+INFO - 2025-02-18 16:23:37 --> Helper loaded: form_helper
+INFO - 2025-02-18 16:23:37 --> Form Validation Class Initialized
+INFO - 2025-02-18 16:23:37 --> Controller Class Initialized
+INFO - 2025-02-18 16:23:37 --> Model Class Initialized
+INFO - 2025-02-18 16:23:37 --> Final output sent to browser
+DEBUG - 2025-02-18 16:23:37 --> Total execution time: 0.3355
