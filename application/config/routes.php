@@ -48,12 +48,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
+| Tuve que modificar y cerrar el php para que empiece a funcionar de vuelta en linux 
 */
 $route['default_controller'] = 'Login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['principal'] = 'Principal';
-
-
-
-
+?>
