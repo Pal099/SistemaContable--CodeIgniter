@@ -1,4 +1,26 @@
 <?php
+// Habilita la vista de errores (déjalo para depurar)
+//ini_set('display_errors', 1);
+//error_reporting(E_ALL); por ahora no necesitamos ver los errores
+
+// Obtiene la ruta de la URL, ej: "/principal" o "/usuarios/ver/5"
+$request_uri = $_SERVER['REQUEST_URI'];
+
+// Puedes limpiar la ruta si tiene parámetros GET
+$path = parse_url($request_uri, PHP_URL_PATH);
+
+// Ahora usas la variable $path para decidir qué hacer
+if ($path === '/principal') {
+    // Carga la vista o el controlador de la página principal
+    require 'vistas/principal.php'; 
+} elseif ($path === '/login') {
+    // Carga la vista de login
+    require 'vistas/login.php';
+} else {
+    // Si la ruta no se encuentra, muestra un error 404
+    http_response_code(404);
+    echo "Página no encontrada";
+}
 /**
  * CodeIgniter
  *
