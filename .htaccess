@@ -1,10 +1,10 @@
-Options +FollowSymLinks
 Options -Indexes
-DirectoryIndex index.html index.php
-RewriteEngine on
-RewriteCond $1 !^(index\.php|images|robots\.txt)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /practica/index.php/$1 [L,QSA]
-Header add Access-Control-Allow-Origin *
+RewriteEngine On
 
+# Si la solicitud no es para un archivo existente
+RewriteCond %{REQUEST_FILENAME} !-f
+# Si la solicitud no es para un directorio existente
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirige TODAS las demás solicitudes a index.php
+RewriteRule . index.php [L]
