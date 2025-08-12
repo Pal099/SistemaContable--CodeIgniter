@@ -80,6 +80,7 @@ class Presupuesto extends CI_Controller
 
     public function store()
     {
+        
         // Obtener el nombre de usuario y sus datos relacionados
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
@@ -91,8 +92,9 @@ class Presupuesto extends CI_Controller
         $origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
         $programa_id_pro = $this->input->post("programa_id_pro");
         $fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
-        $TotalModificado = $this->input->post("TotalModificado");
-        $Idcuentacontable = $this->input->post("Idcuentacontable");
+        $totalpresupuestado = str_replace('.', '', $this->input->post("TotalPresupuestado"));
+        $TotalModificado = str_replace('.', '', $this->input->post("TotalModificado"));
+        $Idcuentacontable = $this->input->post("Idcuentacontable"); // no entiendo por qué se dejó de declarar esta variable, o como se hacía antes de que agregue esta linea
 
         // Datos generales del presupuesto
         $presupuesto_data = [
@@ -144,13 +146,13 @@ class Presupuesto extends CI_Controller
 
             // Guardar los presupuestos mensuales
             foreach ($meses as $mes) {
-                $monto = $this->input->post($mes['input_name']);
-                if (!empty($monto)) {
+                $monto = str_replace('.', '', $this->input->post($mes['input_name']));
+                if (!empty($monto) && is_numeric($monto)) {
                     $presupuesto_mensual_data = [
                         'id_presupuesto' => $id_presupuesto,
-                        'mes' => date('Y-m-d', strtotime("$año-{$mes['numero_mes']}-01")), // Fecha como 'YYYY-MM-01'
-                        'monto_presupuestado' => $monto,
-                        'monto_modificado' => $TotalModificado,
+                        'mes' => date('Y-m-d', strtotime("$año-{$mes['numero_mes']}-01")),
+                        'monto_presupuestado' => floatval($monto),
+                        'monto_modificado' => floatval($TotalModificado),
                     ];
                     $this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data);
                 }

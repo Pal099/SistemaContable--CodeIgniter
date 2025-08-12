@@ -58,14 +58,16 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalPresupuestado">Presupuesto Inicial:</label>
-                                                        <input type="number" class="form-control"
-                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                        <input type="text" class="form-control monto-formateado"
+                                                            id="TotalPresupuestado" name="TotalPresupuestado" data-valor-real="" 
+                                                            placeholder="Ej: 1.000.000" required>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
                                                         <label for="TotalModificado">Presupuesto Modificado:</label>
-                                                        <input type="number" class="form-control" id="TotalModificado"
-                                                            name="TotalModificado" required>
+                                                        <input type="text" class="form-control monto-formateado" 
+                                                            id="TotalModificado"  name="TotalModificado" data-valor-real="" 
+                                                            placeholder="Ej: 1.000.000" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="fuente_de_financiamiento_id_ff">Fuente de
@@ -342,8 +344,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Función de formateo
             const formatearMonto = (valor) => {
-                return valor.replace(/[^0-9]/g, '')
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                return valor.replace(/[^0-9]/g, '')         // Elimina todo excepto números
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Agrega puntos como separadores de miles
             };
 
             // Aplicar a todos los campos de meses
