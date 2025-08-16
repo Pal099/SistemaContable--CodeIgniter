@@ -68,9 +68,9 @@ class Comprobante_Gasto_model extends CI_Model
 	}
 	public function obtener_datos_presupuesto()
 	{
-		// Arreglo de meses abreviados (tal como se define en el enum de la tabla)
-		$meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-		$mes_actual = $meses[date('n') - 1]; // date('n') devuelve el mes sin ceros iniciales
+		// Obtenemos el mes y año actual
+		$mes_actual = date('n'); // Mes actual sin ceros iniciales (1-12)
+		$año_actual = date('Y'); // Año actual
 
 		// Seleccionamos los datos principales y usamos un subquery para listar todos los meses disponibles
 		$this->db->select('
@@ -84,16 +84,19 @@ class Comprobante_Gasto_model extends CI_Model
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,
 			(
-            SELECT GROUP_CONCAT(DISTINCT mes 
-                ORDER BY FIELD(mes, "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
-                SEPARATOR ", "
-            )
+				SELECT GROUP_CONCAT(DISTINCT DATE_FORMAT(mes, "%M %Y") 
+					ORDER BY mes
+					SEPARATOR ", "
+				)
 				FROM presupuesto_mensual 
 				WHERE id_presupuesto = presupuestos.ID_Presupuesto
 			) AS meses_presupuesto,
 			presupuestos.id_uni_respon_usu,
-			presupuestos.estado
+			presupuestos.estado,
+			pm.monto_presupuestado,
+			pm.monto_modificado
 		');
+		
 		$this->db->from('presupuestos');
 		$this->db->join('origen_de_financiamiento', 'presupuestos.origen_de_financiamiento_id_of = origen_de_financiamiento.id_of');
 		$this->db->join('fuente_de_financiamiento', 'presupuestos.fuente_de_financiamiento_id_ff = fuente_de_financiamiento.id_ff');
@@ -103,15 +106,18 @@ class Comprobante_Gasto_model extends CI_Model
 		// JOIN para el presupuesto mensual del mes actual
 		$this->db->join(
 			'presupuesto_mensual pm',
-			'pm.id_presupuesto = presupuestos.ID_Presupuesto AND pm.mes = ' . $this->db->escape($mes_actual),
+			'pm.id_presupuesto = presupuestos.ID_Presupuesto 
+			 AND MONTH(pm.mes) = ' . $mes_actual . ' 
+			 AND YEAR(pm.mes) = ' . $año_actual,
 			'left'
 		);
-		// JOIN para la ejecución del mes actual (la tabla ejecucion_mensual tiene campo mes de tipo datetime)
+
+		// JOIN para la ejecución del mes actual (asumiendo que existe la tabla ejecucion_mensual)
 		$this->db->join(
 			'ejecucion_mensual ej',
 			'ej.id_presupuesto = presupuestos.ID_Presupuesto 
-			 AND MONTH(ej.mes) = MONTH(CURRENT_DATE()) 
-			 AND YEAR(ej.mes) = YEAR(CURRENT_DATE())',
+			 AND MONTH(ej.mes) = ' . $mes_actual . ' 
+			 AND YEAR(ej.mes) = ' . $año_actual,
 			'left'
 		);
 
@@ -119,7 +125,7 @@ class Comprobante_Gasto_model extends CI_Model
 		$this->db->group_by('presupuestos.ID_Presupuesto, pm.monto_presupuestado, pm.monto_modificado');
 
 		// Calculamos el saldo: (monto_presupuestado + monto_modificado) - SUM(ej.obligado)
-		$this->db->select('(COALESCE(SUM(ej.obligado), 0) - (COALESCE(pm.monto_presupuestado, 0) + COALESCE(pm.monto_modificado, 0))) as saldo_actual', false);
+		$this->db->select('((COALESCE(pm.monto_presupuestado, 0) + COALESCE(pm.monto_modificado, 0)) - COALESCE(SUM(ej.obligado), 0)) as saldo_actual', false);
 
 		$result = $this->db->get()->result_array();
 		return $result;
