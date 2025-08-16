@@ -49,14 +49,13 @@ class Presupuesto extends CI_Controller
 
         $this->load->view("layouts/header");
         $this->load->view("layouts/sideBar");
-        $this->load->view("admin/presupuesto/list", $data);//esta es la linea 50 
+        $this->load->view("admin/presupuesto/list", $data);
         $this->load->view("layouts/footer");
     }
 
     public function pdfs_presu()
     {
         $this->load->view("fpdf_presu");
-
     }
 
     public function add()
@@ -80,112 +79,84 @@ class Presupuesto extends CI_Controller
 
     public function store()
     {
-        // Obtener el nombre de usuario y sus datos relacionados
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+        try {
+            // Validar fecha
+            $fecha = $this->input->post("Año");
+            if (!$fecha) {
+                throw new Exception("La fecha es requerida");
+            }
 
-        // Recibir los datos del formulario
-        $año = $this->input->post("Año");
-        $totalpresupuestado = $this->input->post("TotalPresupuestado");
-        $origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
-        $programa_id_pro = $this->input->post("programa_id_pro");
-        $fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
-        $TotalModificado = $this->input->post("TotalModificado");
-        $Idcuentacontable = $this->input->post("Idcuentacontable");
+            // Formatear fecha para MySQL
+            $fecha_mysql = date('Y-m-d', strtotime($fecha));
+            $año = date('Y', strtotime($fecha));
 
-        // Datos generales del presupuesto
-        $presupuesto_data = [
-            'Año' => $año,
-            'TotalPresupuestado' => $totalpresupuestado,
-            'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
-            'programa_id_pro' => $programa_id_pro,
-            'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
-            'TotalModificado' => $TotalModificado,
-            'Idcuentacontable' => $Idcuentacontable,
-            'id_uni_respon_usu' => $id_uni_respon_usu,
-            'estado' => 1, // Estado activo por defecto
-        ];
 
-        // Iniciar transacción
-        $this->db->trans_start();
-
-        // Guardar en la tabla `presupuestos` y obtener el ID generado
-        $id_presupuesto = $this->Presupuesto_model->insertar_presupuesto($presupuesto_data);
-
-        if ($id_presupuesto) {
-            // Relación de los meses con los valores ingresados
-            $meses_inputs = [
-                'Enero' => "pre_ene",
-                'Febrero' => "pre_feb",
-                'Marzo' => "pre_mar",
-                'Abril' => "pre_abr",
-                'Mayo' => "pre_may",
-                'Junio' => "pre_jun",
-                'Julio' => "pre_jul",
-                'Agosto' => "pre_ago",
-                'Septiembre' => "pre_sep",
-                'Octubre' => "pre_oct",
-                'Noviembre' => "pre_nov",
-                'Diciembre' => "pre_dic",
+            $presupuesto_data = [
+                'Año' => $fecha_mysql,
+                'TotalPresupuestado' => floatval($this->input->post("TotalPresupuestado")),
+                'origen_de_financiamiento_id_of' => $this->input->post("origen_de_financiamiento_id_of"),
+                'programa_id_pro' => $this->input->post("programa_id_pro"),
+                'fuente_de_financiamiento_id_ff' => $this->input->post("fuente_de_financiamiento_id_ff"),
+                'TotalModificado' => floatval($this->input->post("TotalModificado")),
+                'Idcuentacontable' => $this->input->post("Idcuentacontable"),
+                'id_uni_respon_usu' => $id_uni_respon_usu,
+                'estado' => 1
             ];
-            // Recorre cada mes y su correspondiente input
-            foreach ($meses_inputs as $mes => $input_name) {
-                $valor = $this->input->post($input_name);
-                if ($valor > 0) {
-                    $meses[$mes] = $mes; // Guarda el nombre del mes en el array
-                }
-            }
+
+            $this->db->trans_start();
+
+            $id_presupuesto = $this->Presupuesto_model->save($presupuesto_data);
 
 
-            // Guardar los presupuestos mensuales
-            foreach ($meses as $mes => $nombre_mes) {
-                $monto = $this->input->post($meses_inputs[$nombre_mes]);
-                if (!empty($monto)) {
-                    $presupuesto_mensual_data = [
-                        'id_presupuesto' => $id_presupuesto, // Clave foránea
-                        'mes' => $nombre_mes, // Nombre del mes
-                        'monto_presupuestado' => $monto, // Monto presupuestado
-                        'monto_modificado' => $TotalModificado, // Total modificado
+            $presupuestos_mensuales = [];
+            $meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+            foreach ($meses as $index => $mes_codigo) {
+                $monto = floatval($this->input->post("pre_" . $mes_codigo));
+                if ($monto > 0) {
+                    $mes_num = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                    $fecha_mes = "{$año}-{$mes_num}-01";
+
+                    $presupuestos_mensuales[] = [
+                        'id_presupuesto' => $id_presupuesto,
+                        'mes' => $fecha_mes, // Sin 00:00:00, se agregará en format_datetime
+                        'monto_presupuestado' => $monto,
+                        'monto_modificado' => floatval($this->input->post("TotalModificado"))
                     ];
-                    $this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data);
                 }
             }
-        } else {
-            $this->db->trans_rollback();
-            $this->session->set_flashdata('error', 'Error al guardar el presupuesto.');
-            redirect(base_url() . "mantenimiento/presupuesto/add");
-            return;
-        }
 
-        // Completar transacción
-        $this->db->trans_complete();
+            // Si hay presupuestos mensuales, guardarlos
+            if (!empty($presupuestos_mensuales)) {
+                $this->Presupuesto_model->save_batch_presupuesto_mensual($presupuestos_mensuales);
+            }
 
-        if ($this->db->trans_status()) {
-            // Éxito
-            $this->session->set_flashdata('success', 'Presupuesto guardado exitosamente.');
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE) {
+                throw new Exception("Error en la transacción");
+            }
+
+            $this->session->set_flashdata('success', 'Presupuesto guardado exitosamente');
             redirect(base_url() . "mantenimiento/presupuesto");
-        } else {
-            // Error
-            $this->session->set_flashdata('error', 'Error al guardar el presupuesto.');
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('error', $e->getMessage());
             redirect(base_url() . "mantenimiento/presupuesto/add");
         }
     }
-
-
-
     public function edit($id)
     {
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
 
-        // Obtener todos los presupuestos mensuales del presupuesto
-        $presupuestos_mensuales = $this->Presupuesto_model->getPresupuestosMensuales($id);
-
         $data = array(
             'presupuesto' => $this->Presupuesto_model->getPresupuesto($id),
-            'presupuestos_mensuales' => $presupuestos_mensuales, // Array con todos los meses
+            'presupuestos_mensuales' => $this->Presupuesto_model->getPresupuestosMensuales($id),
             'registros_financieros' => $this->Registros_financieros_model->getFuentes(),
             'origen' => $this->Origen_model->getOrigenes(),
             'programa' => $this->ProgramGasto_model->getProgramGastos(),
@@ -197,105 +168,101 @@ class Presupuesto extends CI_Controller
         $this->load->view("admin/presupuesto/edit", $data);
         $this->load->view("layouts/footer");
     }
-
+    //update refactorizado para el edit 
     public function update()
     {
-        $id = $this->input->post("ID_Presupuesto");
-        $id_mes = $this->input->post("id_presupuesto_mes");
-
-        // Obtener el nombre de usuario y sus datos relacionados
         $nombre = $this->session->userdata('Nombre_usuario');
         $id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+        $id = $this->input->post("ID_Presupuesto");
 
-        // Datos generales del presupuesto
-        $año = $this->input->post("Año");
-        $totalpresupuestado = $this->input->post("TotalPresupuestado");
-        $origen_de_financiamiento_id_of = $this->input->post("origen_de_financiamiento_id_of");
-        $programa_id_pro = $this->input->post("programa_id_pro");
-        $fuente_de_financiamiento_id_ff = $this->input->post("fuente_de_financiamiento_id_ff");
-        $TotalModificado = $this->input->post("TotalModificado");
-        $Idcuentacontable = $this->input->post("Idcuentacontable");
-
-        // Datos a actualizar en la tabla `presupuestos`
-        $presupuesto_data = [
-            'Año' => $año,
-            'TotalPresupuestado' => $totalpresupuestado,
-            'origen_de_financiamiento_id_of' => $origen_de_financiamiento_id_of,
-            'programa_id_pro' => $programa_id_pro,
-            'fuente_de_financiamiento_id_ff' => $fuente_de_financiamiento_id_ff,
-            'TotalModificado' => $TotalModificado,
-            'Idcuentacontable' => $Idcuentacontable,
-            'id_uni_respon_usu' => $id_uni_respon_usu,
-            'estado' => 1,
-        ];
-
-        // Iniciar transacción
-        $this->db->trans_start();
-        
-        // Actualizar la tabla `presupuestos`
-        $this->Presupuesto_model->update($id, $presupuesto_data);
-        
-        // Relación de los meses con los valores ingresados
-        $meses_inputs = [
-            'Enero' => "pre_ene",
-            'Febrero' => "pre_feb",
-            'Marzo' => "pre_mar",
-            'Abril' => "pre_abr",
-            'Mayo' => "pre_may",
-            'Junio' => "pre_jun",
-            'Julio' => "pre_jul",
-            'Agosto' => "pre_ago",
-            'Septiembre' => "pre_sep",
-            'Octubre' => "pre_oct",
-            'Noviembre' => "pre_nov",
-            'Diciembre' => "pre_dic",
-        ];
-        
-        // Recorre cada mes y su correspondiente input
-        foreach ($meses_inputs as $mes => $input_name) {
-            $valor = $this->input->post($input_name);
-            if ($valor > 0) {
-                $meses[$mes] = $mes; // Guarda el nombre del mes en el array
+        try {
+            // Validar fecha
+            $fecha = $this->input->post("Año");
+            if (!$fecha) {
+                throw new Exception("La fecha es requerida");
             }
-        }
-        
-        // Actualizar los presupuestos mensuales
-        foreach ($meses as $mes => $nombre_mes) {
-            $monto = $this->input->post($meses_inputs[$nombre_mes]);
-            if (!empty($monto)) {
-                $presupuesto_mensual_data = [
-                    'id_presupuesto' => $id, // Clave foránea
-                    'mes' => $nombre_mes, // Nombre del mes
-                    'monto_presupuestado' => $monto, // Monto presupuestado
-                    'monto_modificado' => $TotalModificado, // Total modificado
-                ];
-        
-                // Verificar si existe un registro para ese mes
-                $existe = $this->Presupuesto_model->getPresupuestoMensual($id, $mes);
-        
-                if ($existe) {
-                    // Si existe, actualizar
-                    $this->Presupuesto_model->update_mes($existe->id_presupuesto_mes, $presupuesto_mensual_data);
-                } else {
-                    // Si no existe, insertar nuevo registro
-                    $this->Presupuesto_model->save_presupuesto_mensual($presupuesto_mensual_data);
+
+            // Formatear fecha para MySQL
+            $fecha_mysql = date('Y-m-d', strtotime($fecha));
+            $año = date('Y', strtotime($fecha));
+
+            $presupuesto_data = [
+                'Año' => $fecha_mysql,
+                'TotalPresupuestado' => floatval($this->input->post("TotalPresupuestado")),
+                'origen_de_financiamiento_id_of' => $this->input->post("origen_de_financiamiento_id_of"),
+                'programa_id_pro' => $this->input->post("programa_id_pro"),
+                'fuente_de_financiamiento_id_ff' => $this->input->post("fuente_de_financiamiento_id_ff"),
+                'TotalModificado' => floatval($this->input->post("TotalModificado")),
+                'Idcuentacontable' => $this->input->post("Idcuentacontable"),
+                'id_uni_respon_usu' => $id_uni_respon_usu,
+                'estado' => 1
+            ];
+
+            $this->db->trans_start();
+
+            // Actualizar presupuesto principal
+            $this->Presupuesto_model->update($id, $presupuesto_data);
+
+            // Obtener presupuestos mensuales existentes
+            $presupuestos_existentes = $this->Presupuesto_model->getPresupuestosMensuales($id);
+
+            // Procesar presupuestos mensuales
+            $meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+            foreach ($meses as $index => $mes_codigo) {
+                $monto = $this->input->post("pre_" . $mes_codigo);
+                if ($monto !== null) {
+                    $monto = floatval($monto);
+                    $mes_num = str_pad($index + 1, 2, '0', STR_PAD_LEFT);
+                    $fecha_mes = "{$año}-{$mes_num}-01";
+
+                    // Si ya existe el registro mensual, actualizarlo
+                    if (isset($presupuestos_existentes['pre_' . $mes_codigo])) {
+                        if ($monto > 0) {
+                            $presupuesto_mensual = [
+                                'monto_presupuestado' => $monto,
+                                'monto_modificado' => floatval($this->input->post("TotalModificado"))
+                            ];
+                            $this->Presupuesto_model->update_mes($id, $fecha_mes, $presupuesto_mensual);
+                        } else {
+                            // Si el monto es 0, eliminar el registro existente
+                            $this->Presupuesto_model->delete_mes($id, $fecha_mes);
+                        }
+                    } else {
+                        // Si no existe y el monto es mayor a 0, agregarlo a nuevos registros
+                        if ($monto > 0) {
+                            $nuevos_registros[] = [
+                                'id_presupuesto' => $id,
+                                'mes' => $fecha_mes,
+                                'monto_presupuestado' => $monto,
+                                'monto_modificado' => floatval($this->input->post("TotalModificado"))
+                            ];
+                        }
+                    }
                 }
             }
-        }
-        // Completar transacción
-        $this->db->trans_complete();
 
-        if ($this->db->trans_status()) {
-            // Éxito
-            $this->session->set_flashdata('success', 'Presupuesto actualizado exitosamente.');
+            // Insertar solo los nuevos registros mensuales
+            if (!empty($nuevos_registros)) {
+                $this->Presupuesto_model->save_batch_presupuesto_mensual($nuevos_registros);
+            }
+
+            $this->db->trans_complete();
+
+            if ($this->db->trans_status() === FALSE) {
+                throw new Exception("Error en la transacción");
+            }
+
+            $this->session->set_flashdata('success', 'Presupuesto actualizado exitosamente');
             redirect(base_url() . "mantenimiento/presupuesto");
-        } else {
-            // Error
-            $this->session->set_flashdata('error', 'Error al actualizar el presupuesto.');
+        } catch (Exception $e) {
+            $this->db->trans_rollback();
+            $this->session->set_flashdata('error', $e->getMessage());
             redirect(base_url() . "mantenimiento/presupuesto/edit/" . $id);
         }
     }
+
 
     public function view($id)
     {
@@ -319,7 +286,6 @@ class Presupuesto extends CI_Controller
         );
         $this->Presupuesto_model->update($id, $data);
         redirect(base_url() . "mantenimiento/presupuesto");
-
     }
 
     public function getPresupuestoDetalle($id)

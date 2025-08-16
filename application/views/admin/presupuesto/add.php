@@ -30,9 +30,8 @@
                         <div class="d-flex justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch"
-                                    id="camposOpcionalesSwitch">
-                                <label class="form-check-label" for="camposOpcionalesSwitch">Agregar presupuesto por
-                                    mes</label>
+                                id="camposOpcionalesSwitch" name="camposOpcionalesSwitch">
+                                <label class="form-check-label" for="camposOpcionalesSwitch">Cargar Plan de Caja</label>
                             </div>
                         </div>
                     </div>
