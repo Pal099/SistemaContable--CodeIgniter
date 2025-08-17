@@ -407,6 +407,15 @@
       $('#str').text(comprobanteDetalle.str);
       $('#op').text(comprobanteDetalle.op);
     }
+
+    // Evento para el botón PDF del comprobante de gasto
+    $('.btn-pdf').on('click', function () {
+      var idPedido = $(this).data('idpedido');
+      console.log("Generando PDF para pedido:", idPedido);
+      
+      // Abrir el PDF del comprobante de gasto en una nueva ventana
+      window.open('<?php echo base_url(); ?>Pdf_comprobante/generarPDF_comprobante/' + idPedido, '_blank');
+    });
   </script>
 
   <!-- Script de DataTable de jquery -->
