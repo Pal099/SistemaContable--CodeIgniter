@@ -66,7 +66,8 @@
 
                                                     <!-- Id Proveedor -->
                                                     <input type="hidden" id="idproveedor" name="idproveedor">
-
+                                                    <!--  Agregar campo oculto para el presupuesto seleccionado -->
+                                                    <input type="hidden" id="idPresupuestoSeleccionado" name="idpresupuesto">
                                                     <!-- Razón Social -->
                                                     <div class="form-group col-md-4">
                                                         <label for="razon_social">Razón Social:</label>
@@ -375,10 +376,11 @@
                                 $saldo = $dato['saldo_actual'];
                                 $clase_fila = $saldo <= 0 ? 'table-danger' : '';
                                 $icono = $saldo <= 0 ? '<i class="bi bi-lock-fill text-danger"></i>' : '<i class="bi bi-unlock-fill text-success"></i>';
-                                ?>
+                            ?>
                                 <tr class="list-item <?= $clase_fila ?>" onclick="selectPresupuesto(
                                     '<?= $dato['ID_Presupuesto'] ?>', 
                                     '<?= htmlspecialchars($dato['rubro'], ENT_QUOTES) ?>',
+                                    '<?= htmlspecialchars($dato['rubro_descripcion'], ENT_QUOTES) ?>',
                                     <?= $saldo ?>
                                 )">
                                     <td><?= date('Y', strtotime($dato['Año'])) ?></td>
@@ -502,7 +504,7 @@
     </div>
 </body>
 <script>
-    $("#formularioPrincipal").on("submit", function (event) {
+    $("#formularioPrincipal").on("submit", function(event) {
         event.preventDefault();
 
         const ivac = $("input[name='iva']").is(':checked') ? 1 : 0;
@@ -513,12 +515,12 @@
             id_pedido: $("#id_pedido").val(),
             concepto: $("#concepto").val(),
             idproveedor: $("#idproveedor").val(),
-            idpresupuesto: $("#idpresupuesto").val(),
+            idpresupuesto: $("#idPresupuestoSeleccionado").val(),
         };
 
         let filas = [];
 
-        $("#tablaP tbody tr").each(function () {
+        $("#tablaP tbody tr").each(function() {
             const fila = {
                 id_pedido: $(this).find("input[name='npedido']").val(),
                 id_unidad: $(this).find("input[name='id_unidad']").val(),
@@ -547,14 +549,14 @@
             data: {
                 datos: datosCompletos
             },
-            success: function (response) {
+            success: function(response) {
                 if (response === "success") {
                     mostrarAlertaExito();
                 } else {
                     alert('Error al guardar los datos: ' + response);
                 }
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.log(xhr.responseText);
                 console.log(datosCompletos);
                 alert("Error en la solicitud AJAX: " + status + " - " + error);
@@ -563,7 +565,7 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#TablaProveedores').DataTable({
             paging: true,
             pageLength: 10,
@@ -575,11 +577,11 @@
             }
         });
 
-        $('#modalBienes').on('show.bs.modal', function () {
+        $('#modalBienes').on('show.bs.modal', function() {
             console.log('Rubro Seleccionado al abrir el modal:', rubroSeleccionado);
 
             if (rubroSeleccionado) {
-                $('#TablaBienesModal tbody tr').each(function () {
+                $('#TablaBienesModal tbody tr').each(function() {
                     var rubroBien = $(this).find('td').eq(3).text()
                         .trim(); // Obtiene el rubro de la 4ta columna (índice 3)
 
@@ -599,7 +601,7 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#TablaBienesModal').DataTable({
             paging: true,
             pageLength: 10,
@@ -650,18 +652,6 @@
         currentRow = currentRowParam; // Almacenar la fila actual
 
     }
-/*     let rubroSeleccionado = ''; // Variable global para almacenar el rubro seleccionado
-
-    function selectPresupuesto(idpresupuesto, rubro) {
-
-
-        // Actualiza el texto en el contenedor #rubroTexto con la relación
-        $('#idpresupuesto').text(idpresupuesto);
-        $('#rubroTexto').text(rubro); // Este es el campo donde se debe mostrar la relación
-
-        // Almacena el rubro seleccionado
-        rubroSeleccionado = rubro;
-    } */
 
 
 
@@ -675,7 +665,7 @@
     // Abrir modal en fila dinamica
     const openModalBtn_4 = document.getElementById("openModalBtn_4");
     // Actualiza la función de clic para pasar la fila actual al abrir el modal
-    document.getElementById("tablaP").addEventListener("click", function (event) {
+    document.getElementById("tablaP").addEventListener("click", function(event) {
 
         // Encuentra la fila desde la cual se abrió el modal
         var row = $(event.target).closest('tr');
@@ -692,7 +682,7 @@
 
     function filtrarBienesPorRubro(relacion) {
         // Recorrer todas las filas del modal y filtrar por el rubro
-        $('#TablaBienesModal tbody tr').each(function () {
+        $('#TablaBienesModal tbody tr').each(function() {
             var row = $(this);
             var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro
 
@@ -709,19 +699,19 @@
 
 
     // Evento para desmarcar el checkbox
-    $(document).on("click", ".desmarcarCheckbox", function () {
+    $(document).on("click", ".desmarcarCheckbox", function() {
         var row = $(this).closest('tr');
         row.find('.iva-checkbox').prop('checked', false)
             .change(); // Usar change() para activar el manejador de eventos
     });
 
-    $('#id_unidad').on('change', function () {
+    $('#id_unidad').on('change', function() {
         var selectedValue = $(this).val();
         $('.actividad').val(selectedValue);
         //$('#rubro').val(selectedValue);
     });
 
-    $('#tablaP').on('input', '.precioref, .cantidad', function () {
+    $('#tablaP').on('input', '.precioref, .cantidad', function() {
         var $row = $(this).closest('tr');
         var precio = $row.find('.precioref').val();
         var cantidad = $row.find('.cantidad').val();
@@ -732,87 +722,96 @@
 </script>
 <!-- Script de Validación Dinámica -->
 <script>
-let rubroSeleccionado = '';
-const mesActual = <?= date('n') ?>;
+    let rubroSeleccionado = '';
+    const mesActual = <?= date('n') ?>;
 
-function selectPresupuesto(idpresupuesto, rubro, saldoTabla) {
-    // Validación inicial desde datos pre-cargados
-    if (saldoTabla <= 0) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Bloqueado',
-            html: `<b>${rubro}</b><br>Saldo insuficiente en registros`,
-            confirmButtonText: 'Entendido'
+    function selectPresupuesto(idpresupuesto, rubroNumero, rubroDescripcion, saldoTabla) {
+        // Validación inicial desde datos pre-cargados
+        if (saldoTabla <= 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Bloqueado',
+                html: `<b>Rubro ${rubroNumero}</b><br>Saldo insuficiente en registros`,
+                confirmButtonText: 'Entendido'
+            });
+            return;
+        }
+
+        // Validación en tiempo real via AJAX
+        $.ajax({
+            url: '<?= base_url('patrimonio/Comprobante_Gasto/verificar_saldo') ?>',
+            method: 'POST',
+            data: {
+                id_presupuesto: idpresupuesto
+            },
+            dataType: 'json',
+            beforeSend: function() {
+                $('#loading-saldo').show();
+            },
+            complete: function() {
+                $('#loading-saldo').hide();
+            },
+            success: function(response) {
+                console.log('Respuesta del servidor:', response);
+
+                if (response.status === 'success') {
+                    if (parseFloat(response.saldo.replace(/,/g, '')) > 0) {
+                        asignarPresupuesto(idpresupuesto, rubroNumero, rubroDescripcion, response.saldo);
+                    } else {
+                        bloquearSeleccion(`Rubro ${rubroNumero}`, 'Saldo actualizado a $' + response.saldo);
+                    }
+                } else {
+                    manejarErrorPresupuesto(response.message, `Rubro ${rubroNumero}`);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error AJAX:', xhr.responseText);
+                manejarErrorPresupuesto('Error de conexión: ' + error, `Rubro ${rubroNumero}`);
+            }
         });
-        return;
     }
 
-    // Validación en tiempo real via AJAX
-    $.ajax({
-        url: '<?= base_url('comprobante_gasto/verificar_saldo') ?>',
-        method: 'POST',
-        data: { id_presupuesto: idpresupuesto },
-        dataType: 'json',
-        beforeSend: function() {
-            $('#loading-saldo').show();
-        },
-        complete: function() {
-            $('#loading-saldo').hide();
-        },
-        success: function(response) {
-            if (response.status === 'success') {
-                if (parseFloat(response.saldo) > 0) {
-                    asignarPresupuesto(idpresupuesto, rubro, response.saldo);
-                } else {
-                    bloquearSeleccion(rubro, 'Saldo actualizado a $' + response.saldo);
-                }
-            } else {
-                manejarErrorPresupuesto(response.message, rubro);
-            }
-        },
-        error: function(xhr) {
-            manejarErrorPresupuesto('Error de conexión', rubro);
-        }
-    });
-}
+    function asignarPresupuesto(id, rubroNumero, rubroDescripcion, saldo) {
+        $('#concepto').val(rubroDescripcion);
 
-function asignarPresupuesto(id, rubro, saldo) {
-    $('#rubroTexto').html(`
-        ${rubro}<br>
+        $('#rubroTexto').html(`
+        Rubro ${rubroNumero}<br>
         <small class="text-success">
             Saldo confirmado: $${saldo}
         </small>
     `);
-    $('#idPresupuestoSeleccionado').val(id);
-    rubroSeleccionado = rubro;
-}
+        $('input[name="idpresupuesto"]').val(id);
+        rubroSeleccionado = rubroNumero;
+        $('#modalPresupuestos').modal('hide');
 
-function bloquearSeleccion(rubro, motivo) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Cambio detectado',
-        html: `<b>${rubro}</b><br>${motivo}`,
-        confirmButtonText: 'Actualizar lista'
-    }).then(() => {
-        location.reload(); // Recarga para actualizar datos
-    });
-}
+    }
 
-function manejarErrorPresupuesto(mensaje, rubro) {
-    Swal.fire({
-        icon: 'error',
-        title: 'Error técnico',
-        html: `<b>${rubro}</b><br>${mensaje}`,
-        confirmButtonText: 'Reportar'
-    });
-}
+    function bloquearSeleccion(rubroTexto, motivo) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Cambio detectado',
+            html: `<b>${rubroTexto}</b><br>${motivo}`,
+            confirmButtonText: 'Actualizar lista'
+        }).then(() => {
+            location.reload(); // Recarga para actualizar datos
+        });
+    }
+
+    function manejarErrorPresupuesto(mensaje, rubroTexto) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error técnico',
+            html: `<b>${rubroTexto}</b><br>${mensaje}`,
+            confirmButtonText: 'Reportar'
+        });
+    }
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         var indice = 1;
 
         // Agregar fila
-        $(document).on("click", ".agregarFila", function (e) {
+        $(document).on("click", ".agregarFila", function(e) {
             e.preventDefault();
             indice++;
 
@@ -835,13 +834,13 @@ function manejarErrorPresupuesto(mensaje, rubro) {
 
 
         // Eliminar fila
-        $("#tablaP").on("click", ".eliminarFila", function (e) {
+        $("#tablaP").on("click", ".eliminarFila", function(e) {
             e.preventDefault();
             $(this).closest("tr").remove();
         });
 
         // Manejar el cambio en la casilla de verificación y los campos
-        $(document).on("change", ".iva-checkbox, .precioref, .cantidad, .piva", function () {
+        $(document).on("change", ".iva-checkbox, .precioref, .cantidad, .piva", function() {
             var row = $(this).closest('tr');
             actualizarValores(row);
         });
@@ -869,12 +868,27 @@ function manejarErrorPresupuesto(mensaje, rubro) {
         }
 
         // Inicializar el estado de las filas al cargar la página
-        $("#tablaP tbody tr").each(function () {
+        $("#tablaP tbody tr").each(function() {
             var row = $(this);
             actualizarValores(row);
         });
 
     });
+</script>
+<script>
+    function mostrarAlertaExito() {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Comprobante guardado!',
+            text: 'El comprobante de gasto se ha registrado exitosamente',
+            showConfirmButton: true,
+            confirmButtonText: 'Aceptar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
+            }
+        });
+    }
 </script>
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
 

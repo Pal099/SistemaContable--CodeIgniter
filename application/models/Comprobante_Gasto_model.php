@@ -78,6 +78,7 @@ class Comprobante_Gasto_model extends CI_Model
 			programa.nombre AS programa_id_pro,
 			cuentacontable.Codigo_CC as codigo,
 			cuentacontable.Relacion as rubro,
+			cuentacontable.Descripcion_CC as rubro_descripcion,
 			presupuestos.Año,
 			presupuestos.TotalPresupuestado,
 			presupuestos.TotalModificado,

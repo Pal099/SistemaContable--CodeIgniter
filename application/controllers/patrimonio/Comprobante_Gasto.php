@@ -18,7 +18,6 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->model("Registros_financieros_model");
 		$this->load->model("Unidad_academica_model");
 		$this->load->library('form_validation');
-
 	}
 
 	public function index()
@@ -66,7 +65,6 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/list", $data);
 		$this->load->view("layouts/footer");
-
 	}
 
 	public function add()
@@ -150,8 +148,6 @@ class Comprobante_Gasto extends MY_Controller
 				);
 
 				$this->Comprobante_Gasto_model->save($dataPedido);
-
-
 			}
 
 			echo "success";
@@ -362,11 +358,10 @@ class Comprobante_Gasto extends MY_Controller
 				->set_content_type('application/json')
 				->set_output(json_encode([
 					'status' => 'success',
-					'saldo' => number_format($resultado['saldo'], 2),
-					'presupuesto' => number_format($resultado['presupuesto'], 2),
-					'ejecutado' => number_format($resultado['ejecutado'], 2)
+					'saldo' => number_format($resultado['saldo_disponible'], 2), 
+					'presupuesto' => number_format($resultado['presupuesto_total'], 2), 
+					'ejecutado' => number_format($resultado['ejecutado_obligado'], 2) 
 				]));
-
 		} catch (Exception $e) {
 			$this->output
 				->set_content_type('application/json')

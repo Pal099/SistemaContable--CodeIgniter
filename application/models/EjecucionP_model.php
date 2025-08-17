@@ -15,10 +15,48 @@ class EjecucionP_model extends CI_Model
      * - El asiento con Debe > 0 (primer asiento) contiene el monto a sumar.
      * - El asiento con Haber > 0 (segundo asiento) contiene la cuenta presupuestada.
      */
+    //esta función lo que hace es calcular el saldo presupuestario para validar que un presupuesto tenga disponible saldo para ejecutar en un comprobante de gasto
+    public function calcular_saldo_presupuestario($id_presupuesto)
+    {
+        // Definir el mes actual en formato datetime (primer día del mes)
+        $fecha_mes_actual = date('Y-m-01 00:00:00');
+
+        // Obtener presupuesto mensual
+        $this->db->select('monto_presupuestado, monto_modificado');
+        $this->db->from('presupuesto_mensual');
+        $this->db->where('id_presupuesto', $id_presupuesto);
+        $this->db->where('mes', $fecha_mes_actual);
+        $query_presupuesto = $this->db->get();
+
+        if ($query_presupuesto->num_rows() == 0) {
+            return ['error' => 'No existe presupuesto para este mes'];
+        }
+
+        $presupuesto = $query_presupuesto->row();
+        $total_presupuesto = $presupuesto->monto_presupuestado + $presupuesto->monto_modificado;
+
+        // Obtener ejecución acumulada (obligado y pagado)
+        $this->db->select('COALESCE(SUM(obligado), 0) AS total_obligado, COALESCE(SUM(pagado), 0) AS total_pagado');
+        $this->db->from('ejecucion_mensual');
+        $this->db->where('id_presupuesto', $id_presupuesto);
+        $this->db->where('mes', $fecha_mes_actual);
+        $ejecucion = $this->db->get()->row();
+
+        $saldo_disponible = $total_presupuesto - $ejecucion->total_obligado;
+        $saldo_por_pagar = $ejecucion->total_obligado - $ejecucion->total_pagado;
+
+        return [
+            'saldo_disponible' => max($saldo_disponible, 0), // Evita negativos
+            'saldo_por_pagar' => max($saldo_por_pagar, 0),
+            'presupuesto_total' => $total_presupuesto,
+            'ejecutado_obligado' => $ejecucion->total_obligado,
+            'ejecutado_pagado' => $ejecucion->total_pagado
+        ];
+    }
     public function actualizarEjecucion($numero)
     {
         // Buscar la cuenta presupuestada (segundo asiento)
-        $this->db->select('IDCuentaContable');
+        $this->db->select('IDCuentaContable, creado_en');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
         $this->db->where('Haber >', 0);
@@ -38,12 +76,12 @@ class EjecucionP_model extends CI_Model
         $query = $this->db->get();
         $monto = $query->row();
 
-        if (!$monto) {
-            log_message('error', 'No se encontró monto en Debe para el asiento número: ' . $numero);
+        if (!$monto || !is_numeric($monto->Debe)) {
+            log_message('error', 'Monto en Debe no válido para el asiento número: ' . $numero);
             return false;
         }
 
-        // Buscar el presupuesto asociado a la cuenta presupuestada
+        // Buscar el presupuesto asociado
         $this->db->select('ID_Presupuesto');
         $this->db->from('presupuestos');
         $this->db->where('Idcuentacontable', $cuenta->IDCuentaContable);
@@ -55,11 +93,11 @@ class EjecucionP_model extends CI_Model
             return false;
         }
 
-        // Definir la fecha en la que se hará la actualización (se usa el primer día del mes de la fecha actual)
-        $fecha = date('Y-m-01 00:00:00');
-        $mes = date('Y-m-d H:i:s', strtotime($fecha));
+        // Determinar mes según la fecha del asiento
+        $fecha_asiento = $cuenta->creado_en ?? date('Y-m-d H:i:s');
+        $mes = date('Y-m-01 00:00:00', strtotime($fecha_asiento));
 
-        // Obtener el tipo de asiento para saber qué campo actualizar
+        // Obtener tipo de asiento
         $this->db->select('id_form');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
@@ -71,59 +109,75 @@ class EjecucionP_model extends CI_Model
             return false;
         }
 
-        // Actualizar la tabla ejecucion_mensual
-        $this->db->select('*');
-        $this->db->from('ejecucion_mensual');
+        // Operación en ejecucion_mensual
         $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
         $this->db->where('mes', $mes);
-        $query = $this->db->get();
-
-
+        $query = $this->db->get('ejecucion_mensual');
 
         if ($query->num_rows() > 0) {
-            // Si ya existe, actualizar el valor correspondiente
-            if ($asiento->id_form == 1) {
-                $this->db->set('obligado', 'obligado + ' . $monto->Debe, false);
-            } elseif ($asiento->id_form == 2) {
-                $this->db->set('pagado', 'pagado + ' . $monto->Debe, false);
-            }
-
+            $field = ($asiento->id_form == 1) ? 'obligado' : 'pagado';
+            $this->db->set($field, "{$field} + {$monto->Debe}", false);
             $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
             $this->db->where('mes', $mes);
             $this->db->update('ejecucion_mensual');
 
-            log_message('info', "Ejecución mensual actualizada para el presupuesto {$presupuesto->ID_Presupuesto} con monto {$monto->Debe} (asiento número: $numero)");
+            if ($this->db->affected_rows() === 0) {
+                log_message('error', 'Falló la actualización en ejecucion_mensual');
+                return false;
+            }
         } else {
-            // Insertar si no existe
             $data = [
                 'id_presupuesto' => $presupuesto->ID_Presupuesto,
                 'mes' => $mes,
-                'obligado' => $asiento->id_form == 1 ? $monto->Debe : 0,
-                'pagado' => $asiento->id_form == 2 ? $monto->Debe : 0
+                'obligado' => ($asiento->id_form == 1) ? $monto->Debe : 0,
+                'pagado' => ($asiento->id_form == 2) ? $monto->Debe : 0
             ];
             $this->db->insert('ejecucion_mensual', $data);
-            log_message('info', "Nuevo registro creado en ejecucion_mensual para id_presupuesto {$presupuesto->ID_Presupuesto} y mes {$fecha} (asiento número: $numero)");
-        }
-    }
 
+            if ($this->db->affected_rows() === 0) {
+                log_message('error', 'Falló la inserción en ejecucion_mensual');
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public function obtener_ejecucion_completa($cuenta_id, $fecha_inicio, $fecha_fin)
     {
-        // Obtener año para el presupuesto
-        $anio_presupuesto = date('Y', strtotime($fecha_inicio));
-
-        // Obtener datos del presupuesto con coalesce
-        $this->db->select('COALESCE(SUM(TotalPresupuestado), 0) as TotalPresupuestado, 
-                          COALESCE(SUM(TotalModificado), 0) as TotalModificado',
-            false
-        );
+        // Obtener los id_presupuesto asociados a la cuenta contable
+        $this->db->select('ID_Presupuesto');
         $this->db->from('presupuestos');
         $this->db->where('Idcuentacontable', $cuenta_id);
-        $this->db->where('YEAR(Año)', $anio_presupuesto);
+        $query_presupuestos = $this->db->get();
+        $ids_presupuesto = array_column($query_presupuestos->result_array(), 'ID_Presupuesto');
+
+        // Obtener datos del presupuesto mensual
+        $this->db->select('
+            COALESCE(SUM(monto_presupuestado), 0) as TotalPresupuestado,
+            COALESCE(SUM(monto_modificado), 0) as TotalModificado',
+            false
+        );
+        $this->db->from('presupuesto_mensual');
+        if (!empty($ids_presupuesto)) {
+            $this->db->where_in('id_presupuesto', $ids_presupuesto);
+        } else {
+            // Si no hay presupuestos, retornar ceros
+            return [
+                'presupuesto_inicial' => 0,
+                'presupuesto_modificado' => 0,
+                'presupuesto_vigente' => 0,
+                'obligado' => 0,
+                'pagado' => 0,
+                'pendiente_pago' => 0
+            ];
+        }
+        $this->db->where('mes >=', $fecha_inicio);
+        $this->db->where('mes <=', $fecha_fin);
         $query_presupuesto = $this->db->get();
         $presupuesto = $query_presupuesto->row_array();
 
-        // Obtener ejecución presupuestaria con coalesce en la consulta
+        // Obtener ejecución presupuestaria (sin cambios, pero verificar fechas si es necesario)
         $this->db->select("
             COALESCE(SUM(CASE WHEN id_form = 1 THEN Debe ELSE 0 END), 0) as obligado,
             COALESCE(SUM(CASE WHEN id_form = 2 THEN Debe ELSE 0 END), 0) as pagado",
@@ -146,7 +200,6 @@ class EjecucionP_model extends CI_Model
             'pendiente_pago' => $ejecucion['obligado'] - $ejecucion['pagado']
         ];
     }
-
     public function obtener_ejecuciones_para_vista($fecha_inicio, $fecha_fin, $origen = null, $fuente = null, $programa = null, $cuenta = null)
     {
         $this->db->select('
@@ -196,47 +249,6 @@ class EjecucionP_model extends CI_Model
 
         return $this->db->get()->result();
     }
-//esta función lo que hace es calcular el saldo presupuestario para validar que un presupuesto tenga disponible saldo para ejecutar en un comprobante de gasto
-public function calcular_saldo_presupuestario($id_presupuesto) {
-    // Mapeo de meses numéricos a nombres en español
-    $meses_espanol = [
-        1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril',
-        5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto',
-        9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre'
-    ];
-    
-    $mes_actual_nombre = $meses_espanol[date('n')];
-    $fecha_mes_actual = date('Y-m-01 00:00:00');
-
-    // Obtener presupuesto mensual
-    $this->db->select('monto_presupuestado, monto_modificado');
-    $this->db->from('presupuesto_mensual');
-    $this->db->where('id_presupuesto', $id_presupuesto);
-    $this->db->where('mes', $mes_actual_nombre);
-    $query_presupuesto = $this->db->get();
-    
-    if ($query_presupuesto->num_rows() == 0) {
-        return ['error' => 'No existe presupuesto para este mes'];
-    }
-    
-    $presupuesto = $query_presupuesto->row();
-    $total_presupuesto = $presupuesto->monto_presupuestado + $presupuesto->monto_modificado;
-
-    // Obtener solo el obligado acumulado
-    $this->db->select('COALESCE(SUM(obligado), 0) as total_obligado');
-    $this->db->from('ejecucion_mensual');
-    $this->db->where('id_presupuesto', $id_presupuesto);
-    $this->db->where('mes', $fecha_mes_actual);
-    $ejecucion = $this->db->get()->row();
-
-    $saldo = $total_presupuesto - $ejecucion->total_obligado;
-    
-    return [
-        'saldo' => max($saldo, 0),  // Previene valores negativos
-        'presupuesto' => $total_presupuesto,
-        'ejecutado' => $ejecucion->total_obligado  // Solo obligado, no incluye pagado
-    ];
-}
 
 
     public function save($data)
