@@ -48,6 +48,17 @@ class Comprobante_Gasto_model extends CI_Model
 		return $query->result();
 	}
 
+	public function obtener_comprobantes_por_pedido($id_pedido)
+	{
+		$this->db->select('*');
+		$this->db->from('comprobante_gasto');
+		$this->db->where('id_pedido', $id_pedido);
+		$this->db->where('estado', '1');
+		$query = $this->db->get();
+
+		return $query->result();
+	}
+
 	public function updateComprobanteGasto($id_pedido, $data)
 	{
 		$this->db->where('id_pedido', $id_pedido);
