@@ -4,7 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Comprobante_Gasto_model extends CI_Model
 {
 
-	public function getComprobantesGastos($id_uni_respon_usu) {
+	public function getComprobantesGastos($id_uni_respon_usu)
+	{
 		$this->db->select('comprobante_gasto.*, proveedores.*');
 		$this->db->from('comprobante_gasto');
 		$this->db->join('uni_respon_usu', 'comprobante_gasto.id_uni_respon_usu = uni_respon_usu.id_uni_respon_usu');
@@ -35,7 +36,6 @@ class Comprobante_Gasto_model extends CI_Model
 		$this->db->where("IDComprobanteGasto", $id);
 		$resultado = $this->db->get("comprobante_gasto");
 		return $resultado->row();
-
 	}
 	public function getComprobantesPorPedido($id_uni_respon_usu)
 	{
@@ -46,6 +46,14 @@ class Comprobante_Gasto_model extends CI_Model
 		$query = $this->db->get();
 
 		return $query->result();
+	}
+
+	public function obtener_comprobantes_por_pedido($id_pedido)
+	{
+		$this->db->where('id_pedido', $id_pedido);
+		$this->db->where('estado', '1');
+		$this->db->order_by('IDComprobanteGasto', 'ASC'); 
+		return $this->db->get('comprobante_gasto')->result();
 	}
 
 	public function updateComprobanteGasto($id_pedido, $data)
@@ -95,7 +103,7 @@ class Comprobante_Gasto_model extends CI_Model
 			pm.monto_presupuestado,
 			pm.monto_modificado
 		');
-		
+
 		$this->db->from('presupuestos');
 		$this->db->join('origen_de_financiamiento', 'presupuestos.origen_de_financiamiento_id_of = origen_de_financiamiento.id_of');
 		$this->db->join('fuente_de_financiamiento', 'presupuestos.fuente_de_financiamiento_id_ff = fuente_de_financiamiento.id_ff');

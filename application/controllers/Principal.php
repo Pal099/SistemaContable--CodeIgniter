@@ -9,6 +9,7 @@ class Principal extends CI_Controller
         $this->load->model("Presupuesto_model");
         $this->load->model('Usuarios_model');   
         $this->load->model('Principal_model');   
+        $this->load->model('Dashboard_model');   
         $this->load->model('CuentaContable_model');
     }
 
@@ -26,10 +27,58 @@ class Principal extends CI_Controller
         // esa id es importante para hacer las relaciones y registros por usuario
         $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
         
-        // Obtener el conteo de obligados en el mes desde el modelo
-        $data['total_obligados_mes'] = $this->Principal_model->getCountObligadosMes($id_uni_respon_usu);
-        // Obtener el conteo de Pagados en el mes desde el modelo
-        $data['total_pagados_mes'] = $this->Principal_model->getCountPagadosMes($id_uni_respon_usu);
+        // Debug: Verificar que los IDs no sean 0
+        if($id_uni_respon_usu == 0 || empty($id_uni_respon_usu)) {
+            log_message('error', 'Dashboard Error: id_uni_respon_usu es 0 o vacío para el usuario: ' . $nombre);
+            // Datos por defecto si no hay configuración correcta
+            $data['total_obligados_mes'] = 0;
+            $data['total_pagados_mes'] = 0;
+            $data['ingresos_mes'] = 0;
+            $data['promedio_pago'] = 0;
+            $data['total_obligados_anterior'] = 0;
+            $data['total_pendientes'] = 0;
+            $data['total_obligados_sin_pagar'] = 0;
+            $data['gastos_mes'] = 0;
+            $data['total_comprobantes'] = 0;
+            $data['presupuesto_total'] = 0;
+            $data['presupuesto_ejecutado'] = 0;
+            $data['datos_grafico'] = ['obligados' => [0,0,0,0,0,0], 'pagados' => [0,0,0,0,0,0], 'meses' => ['Ene','Feb','Mar','Abr','May','Jun']];
+            $data['top_proveedores'] = [];
+            $data['ultimas_obligaciones'] = [];
+            
+            // Mostrar mensaje de error
+            $data['error_message'] = 'Usuario no configurado correctamente. Contacte al administrador.';
+        } else {
+            // Obtener datos básicos
+            $data['total_obligados_mes'] = $this->Principal_model->getCountObligadosMes($id_uni_respon_usu);
+            $data['total_pagados_mes'] = $this->Principal_model->getCountPagadosMes($id_uni_respon_usu);
+            
+            // Obtener datos de ingresos
+            $data['ingresos_mes'] = $this->Principal_model->getIngresosMes($id_uni_respon_usu);
+            $data['promedio_pago'] = $this->Principal_model->getPromedioPago($id_uni_respon_usu);
+            
+            // Obtener datos adicionales del Dashboard
+            $data['total_obligados_anterior'] = $this->Dashboard_model->getCountObligadosMesAnterior($id_uni_respon_usu);
+            $data['total_pendientes'] = $this->Dashboard_model->getCountPendientes($id_uni_respon_usu);
+            $data['total_obligados_sin_pagar'] = $this->Dashboard_model->getCountObligadosSinPagar($id_uni_respon_usu);
+            
+            // Obtener datos de gastos
+            $gastos_data = $this->Dashboard_model->getGastosMes($id_uni_respon_usu);
+            $data['gastos_mes'] = $gastos_data['gastos_mes'];
+            $data['total_comprobantes'] = $gastos_data['total_comprobantes'];
+            
+            // Obtener datos de presupuesto
+            $presupuesto_data = $this->Dashboard_model->getDatosPresupuesto($id_uni_respon_usu);
+            $data['presupuesto_total'] = $presupuesto_data['presupuesto_total'];
+            $data['presupuesto_ejecutado'] = $presupuesto_data['presupuesto_ejecutado'];
+            
+            // Obtener datos para gráficos
+            $data['datos_grafico'] = $this->Dashboard_model->getTendenciasSeisMeses($id_uni_respon_usu);
+            
+            // Obtener datos adicionales
+            $data['top_proveedores'] = $this->Dashboard_model->getTopProveedores($id_uni_respon_usu, 5);
+            $data['ultimas_obligaciones'] = $this->Dashboard_model->getUltimasObligaciones($id_uni_respon_usu, 10);
+        }
 
         // Obtener el nombre del mes en español
         $currentMonth = date('n'); // Obtener el mes actual en formato numérico (sin ceros a la izquierda)

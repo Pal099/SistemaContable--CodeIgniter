@@ -13,6 +13,7 @@ class Principal_model extends CI_Model {
         $this->db->where('num_asi.op', '0');
         $this->db->where('uni_respon_usu.id_uni_respon_usu', $id_uni_respon_usu);
         $this->db->where('MONTH(num_asi.FechaEmision)', date('m')); // Filtrar por el mes actual
+        $this->db->where('YEAR(num_asi.FechaEmision)', date('Y')); // Agregar filtro de año
         $this->db->where('num_asi.SumaMonto != num_asi.MontoTotal'); // Agregar filtro para SumaMonto distinto de MontoTotal
     
         $resultados = $this->db->get();
@@ -29,6 +30,7 @@ class Principal_model extends CI_Model {
         $this->db->where('num_asi.id_form', '2');
         $this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
         $this->db->where('MONTH(num_asi.FechaEmision)', date('m')); // Filtrar por el mes actual
+        $this->db->where('YEAR(num_asi.FechaEmision)', date('Y')); // Agregar filtro de año
         $this->db->where('num_asi.SumaMonto != num_asi.MontoTotal'); // Agregar filtro para SumaMonto distinto de MontoTotal
 
         $resultados = $this->db->get();
@@ -52,5 +54,43 @@ class Principal_model extends CI_Model {
             12 => 'Diciembre'
         ];
         return $months[$monthNumber];
+    }
+
+    /**
+     * Obtener ingresos del mes (suma de pagos)
+     */
+    public function getIngresosMes($id_uni_respon_usu) {
+        $this->db->select('SUM(MontoTotal) as total_ingresos');
+        $this->db->from('num_asi');
+        $this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+        $this->db->join('unidad_academica', 'unidad_academica.id_unidad = usuarios.id_unidad');
+        $this->db->where('num_asi.estado_registro', '1');
+        $this->db->where('num_asi.id_form', '2');
+        $this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
+        $this->db->where('MONTH(num_asi.FechaEmision)', date('m'));
+        $this->db->where('YEAR(num_asi.FechaEmision)', date('Y'));
+        $this->db->where('num_asi.SumaMonto != num_asi.MontoTotal');
+
+        $resultado = $this->db->get()->row();
+        return $resultado->total_ingresos ?? 0;
+    }
+
+    /**
+     * Obtener promedio de pago
+     */
+    public function getPromedioPago($id_uni_respon_usu) {
+        $this->db->select('AVG(MontoTotal) as promedio_pago');
+        $this->db->from('num_asi');
+        $this->db->join('usuarios', 'num_asi.id_usuario_numasi = usuarios.id_user');
+        $this->db->join('unidad_academica', 'unidad_academica.id_unidad = usuarios.id_unidad');
+        $this->db->where('num_asi.estado_registro', '1');
+        $this->db->where('num_asi.id_form', '2');
+        $this->db->where('unidad_academica.id_unidad', $id_uni_respon_usu);
+        $this->db->where('MONTH(num_asi.FechaEmision)', date('m'));
+        $this->db->where('YEAR(num_asi.FechaEmision)', date('Y'));
+        $this->db->where('num_asi.SumaMonto != num_asi.MontoTotal');
+
+        $resultado = $this->db->get()->row();
+        return $resultado->promedio_pago ?? 0;
     }
 }

@@ -39,6 +39,7 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->view("layouts/footer");
 	}
 
+	//getComprobantesGastosFiltrados debemos cambiar de 4 a 5 parametros 
 	public function filtrar()
 	{
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -55,7 +56,7 @@ class Comprobante_Gasto extends MY_Controller
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
 		$data = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $periodo, $mes, $nropedido),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
@@ -156,6 +157,9 @@ class Comprobante_Gasto extends MY_Controller
 			return redirect(base_url() . "patrimonio/comprobantegasto/add");
 		}
 	}
+
+
+	//hay que arreglar el método perdido que se menciona acá en $comprobantespedido
 	public function edit($id): void
 	{
 		// Verificar la sesión del usuario
