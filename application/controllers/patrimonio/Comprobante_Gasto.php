@@ -18,7 +18,6 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->model("Registros_financieros_model");
 		$this->load->model("Unidad_academica_model");
 		$this->load->library('form_validation');
-
 	}
 
 	public function index()
@@ -40,6 +39,7 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->view("layouts/footer");
 	}
 
+	//getComprobantesGastosFiltrados debemos cambiar de 4 a 5 parametros 
 	public function filtrar()
 	{
 		$nombre = $this->session->userdata('Nombre_usuario');
@@ -56,7 +56,7 @@ class Comprobante_Gasto extends MY_Controller
 			redirect(base_url() . "patrimonio/comprobantegasto");
 		}
 		$data = array(
-			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $periodo, $mes, $nropedido),
+			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido),
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu),
 			'fuentes' => $this->Registros_financieros_model->getFuentes($id_uni_respon_usu),
 			'unidad' => $this->Unidad_academica_model->obtener_unidades_academicas($id_uni_respon_usu),
@@ -66,7 +66,6 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/comprobantegasto/list", $data);
 		$this->load->view("layouts/footer");
-
 	}
 
 	public function add()
@@ -150,8 +149,6 @@ class Comprobante_Gasto extends MY_Controller
 				);
 
 				$this->Comprobante_Gasto_model->save($dataPedido);
-
-
 			}
 
 			echo "success";
@@ -160,6 +157,9 @@ class Comprobante_Gasto extends MY_Controller
 			return redirect(base_url() . "patrimonio/comprobantegasto/add");
 		}
 	}
+
+
+	//hay que arreglar el método perdido que se menciona acá en $comprobantespedido
 	public function edit($id): void
 	{
 		// Verificar la sesión del usuario
@@ -362,11 +362,10 @@ class Comprobante_Gasto extends MY_Controller
 				->set_content_type('application/json')
 				->set_output(json_encode([
 					'status' => 'success',
-					'saldo' => number_format($resultado['saldo'], 2),
-					'presupuesto' => number_format($resultado['presupuesto'], 2),
-					'ejecutado' => number_format($resultado['ejecutado'], 2)
+					'saldo' => number_format($resultado['saldo_disponible'], 2), 
+					'presupuesto' => number_format($resultado['presupuesto_total'], 2), 
+					'ejecutado' => number_format($resultado['ejecutado_obligado'], 2) 
 				]));
-
 		} catch (Exception $e) {
 			$this->output
 				->set_content_type('application/json')
