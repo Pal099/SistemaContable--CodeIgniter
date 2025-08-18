@@ -42,6 +42,7 @@ class Comprobante_Gasto_model extends CI_Model
 		$this->db->select('*');
 		$this->db->from('comprobante_gasto');
 		$this->db->where('id_uni_respon_usu', $id_uni_respon_usu);
+		$this->db->where('estado', '1');
 		$this->db->group_by('id_pedido'); // Agrupa los resultados por id_pedido
 		$query = $this->db->get();
 

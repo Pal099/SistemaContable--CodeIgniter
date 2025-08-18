@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/presupuesto_lista.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+  <!-- SweetAlert2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <!-- jsPDF y Autotable para las datatable -->
   <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.umd.min.js"></script>
   <script src="<?php echo base_url(); ?>/assets/jsPDF/jspdf.plugin.autotable.js"></script>
@@ -190,7 +193,7 @@
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
                                   <button class="btn btn-danger btn-remove btn-sm"
-                                    onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                    onclick="confirmarEliminarComprobante('<?php echo $comp->IDComprobanteGasto; ?>')">
                                     <i class="bi bi-trash"></i>
                                   </button>
                                 </div>
@@ -374,6 +377,26 @@
       // Abrir el PDF del comprobante de gasto en una nueva ventana
       window.open('<?php echo base_url(); ?>Pdf_comprobante/generarPDF_comprobante/' + idPedido, '_blank');
     });
+  </script>
+
+  <!-- Script para SweetAlert2 -->
+  <script>
+    function confirmarEliminarComprobante(comprobanteId) {
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = '<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/' + comprobanteId;
+        }
+      });
+    }
   </script>
 
   <!-- Script de DataTable de jquery -->
