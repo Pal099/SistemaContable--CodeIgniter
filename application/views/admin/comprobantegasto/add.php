@@ -208,12 +208,15 @@
                                                                         </div>
                                                                     </td>
                                                                     <td hidden>
+                                                                        <!-- por recomendación de la máquina hicimos->Cambiar el ID duplicado en la tabla -->
                                                                         <div
                                                                             class="input-group input-group-sm align-items-center">
                                                                             <input type="number"
                                                                                 class="form-control border-0 bg-transparent IDpresupuesto"
-                                                                                id="idpresupuesto" name="idpresupuesto"
-                                                                                value="" readonly>
+                                                                                id="idpresupuesto_tabla"
+                                                                                name="idpresupuesto_tabla"
+                                                                                value=""
+                                                                                readonly>
                                                                         </div>
                                                                     </td>
                                                                     <td>
@@ -338,114 +341,16 @@
         </div>
         </section>
         </div>
-
     </main>
-    <!-- Modal Presupuestos -->
-    <div class="modal fade" id="modalPresupuestos" tabindex="-1" aria-labelledby="modalPresupuestosLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Selección de Rubro Presupuestario</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <i class="bi bi-exclamation-triangle me-2"></i>
-                        Solo se muestran rubros con presupuesto vigente para <?= date('F Y') ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
 
-                    <table class="table table-hover table-sm table-striped" id="TablaPresupuestoModal">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Año</th>
-                                <th>Cuenta</th>
-                                <th>Rubro</th>
-                                <th>Presupuesto</th>
-                                <th>Saldo Disponible
-                                    <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip"
-                                        title="Calculado en tiempo real al seleccionar">
-                                    </i>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($datos_vista as $dato):
-                                $saldo = $dato['saldo_actual'];
-                                $clase_fila = $saldo <= 0 ? 'table-danger' : '';
-                                $icono = $saldo <= 0 ? '<i class="bi bi-lock-fill text-danger"></i>' : '<i class="bi bi-unlock-fill text-success"></i>';
-                            ?>
-                                <tr class="list-item <?= $clase_fila ?>" onclick="selectPresupuesto(
-                                    '<?= $dato['ID_Presupuesto'] ?>', 
-                                    '<?= htmlspecialchars($dato['rubro'], ENT_QUOTES) ?>',
-                                    '<?= htmlspecialchars($dato['rubro_descripcion'], ENT_QUOTES) ?>',
-                                    <?= $saldo ?>
-                                )">
-                                    <td><?= date('Y', strtotime($dato['Año'])) ?></td>
-                                    <td><?= $dato['codigo'] ?></td>
-                                    <td><?= $dato['rubro'] ?></td>
-                                    <td class="text-end">$<?= number_format($dato['TotalPresupuestado'], 2) ?></td>
-                                    <td class="text-end <?= $saldo > 0 ? 'text-success' : 'text-danger' ?>">
-                                        $<?= number_format($saldo, 2) ?>
-                                        <?= $icono ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--
+        // ===============================================================================
 
+        // Inicio de la gestión de modales
+        // ===============================================================================
+    -->
+    <!-- Modal donde se elije el proveedor asociado a este C.G.  -->
 
-    <div class="modal fade" id="modalBienes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-presupuesto-large" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalLabel">Rubros Asociados al Código</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-hover table-sm" id="TablaBienesModal" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="columna-hidden"></th>
-                                <th>#</th>
-                                <th>Código</th>
-                                <th>Rubro</th>
-                                <th>Descripción</th>
-                                <th>Catálogo</th>
-                                <th>Descripción de Catálogo</th>
-                                <th>Precio Ref</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($bienes_servicios as $index => $bienes): ?>
-                                <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
-                            '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')" data-bs-dismiss="modal"
-                                    data-rubro="<?= $bienes->rubro ?>">
-                                    <td class="columna-hidden"><?= $bienes->IDbienservicio ?></td>
-                                    <td><?= $index + 1 ?></td>
-                                    <td><?= $bienes->codigo ?></td>
-                                    <td><?= $bienes->rubro ?></td>
-                                    <td><?= $bienes->descripcion ?></td>
-                                    <td><?= $bienes->codcatalogo ?></td>
-                                    <td><?= $bienes->descripcioncatalogo ?></td>
-                                    <td><?= $bienes->precioref ?></td>
-                                </tr>
-
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="modal fade mi-modal" id="modalContainer_proveedores" tabindex="-1"
         aria-labelledby="ModalCuentasContables" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-presupuesto-large">
@@ -502,7 +407,148 @@
             </div>
         </div>
     </div>
+    <!-- Modal donde se elije el presupuesto que se usará  -->
+    <div class="modal fade" id="modalPresupuestos" tabindex="-1" aria-labelledby="modalPresupuestosLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Selección de Rubro Presupuestario</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <?php
+                $meses = [
+                    'January' => 'Enero',
+                    'February' => 'Febrero',
+                    'March' => 'Marzo',
+                    'April' => 'Abril',
+                    'May' => 'Mayo',
+                    'June' => 'Junio',
+                    'July' => 'Julio',
+                    'August' => 'Agosto',
+                    'September' => 'Septiembre',
+                    'October' => 'Octubre',
+                    'November' => 'Noviembre',
+                    'December' => 'Diciembre'
+                ];
+
+                $mesIngles = date('F');
+                $mesEspañol = $meses[$mesIngles];
+                $año = date('Y');
+                ?>
+                <div class="modal-body">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <p>Solo se muestran rubros con presupuesto vigente para <?= $mesEspañol . ' ' . $año ?></p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <table class="table table-hover table-sm table-striped" id="TablaPresupuestoModal">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Año</th>
+                                <th>Cuenta</th>
+                                <th>Rubro</th>
+                                <th>Presupuesto</th>
+                                <th>Monto</th>
+                                <th>Saldo Disponible
+                                    <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip"
+                                        title="Calculado en tiempo real al seleccionar">
+                                    </i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($datos_vista as $dato):
+                                $saldo = $dato['saldo_actual'];
+                                $clase_fila = $saldo <= 0 ? 'table-danger' : '';
+                                $icono = $saldo <= 0 ? '<i class="bi bi-lock-fill text-danger"></i>' : '<i class="bi bi-unlock-fill text-success"></i>';
+                            ?>
+                                <tr class="list-item <?= $clase_fila ?>" onclick="selectPresupuesto(
+                                    '<?= $dato['ID_Presupuesto'] ?>', 
+                                    '<?= htmlspecialchars($dato['rubro'], ENT_QUOTES) ?>',
+                                    '<?= htmlspecialchars($dato['rubro_descripcion'], ENT_QUOTES) ?>',
+                                    <?= $saldo ?>
+                                )">
+                                    <td><?= date('Y', strtotime($dato['Año'])) ?></td>
+                                    <td><?= $dato['codigo'] ?></td>
+                                    <td><?= $dato['rubro'] ?></td>
+                                    <td><?= $dato['rubro_descripcion'] ?></td>
+                                    <td class="text-left">$<?= number_format($dato['TotalPresupuestado'], 0) ?></td>
+                                    <td class="text-left" <?= $saldo > 0 ? 'text-success' : 'text-danger' ?>">
+                                        $<?= number_format($saldo, 0) ?>
+                                        <?= $icono ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal donde se elije el item que se , debe estar asociado al presupuesto   -->
+
+
+    <div class="modal fade" id="modalBienes" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-presupuesto-large" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Rubros Asociados al Código</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-hover table-sm" id="TablaBienesModal" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="columna-hidden"></th>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Rubro</th>
+                                <th>Descripción</th>
+                                <th>Catálogo</th>
+                                <th>Descripción de Catálogo</th>
+                                <th>Precio Ref</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($bienes_servicios as $index => $bienes): ?>
+                                <tr class="list-item" onclick="selectBien('<?= $bienes->IDbienservicio ?>', '<?= $bienes->rubro ?>',
+                            '<?= $bienes->descripcion ?>', '<?= $bienes->precioref ?>')" data-bs-dismiss="modal"
+                                    data-rubro="<?= $bienes->rubro ?>">
+                                    <td class="columna-hidden"><?= $bienes->IDbienservicio ?></td>
+                                    <td><?= $index + 1 ?></td>
+                                    <td><?= $bienes->codigo ?></td>
+                                    <td><?= $bienes->rubro ?></td>
+                                    <td><?= $bienes->descripcion ?></td>
+                                    <td><?= $bienes->codcatalogo ?></td>
+                                    <td><?= $bienes->descripcioncatalogo ?></td>
+                                    <td><?= $bienes->precioref ?></td>
+                                </tr>
+
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
+
+
+<!-- 
+        // ===============================================================================
+        // Inicio de la gestión de Scripts JS
+        // ===============================================================================
+    -->
+
+<!-- Gestión de envío del formulario y la tabla, así como las filas dinámicas de la tabla -->
+
 <script>
     $("#formularioPrincipal").on("submit", function(event) {
         event.preventDefault();
@@ -564,6 +610,9 @@
         });
     });
 </script>
+
+<!-- Modal de Proveedores y script de selección, hay que apuntar a agrupar todo acá  -->
+
 <script>
     $(document).ready(function() {
         $('#TablaProveedores').DataTable({
@@ -576,149 +625,14 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
             }
         });
-
-        $('#modalBienes').on('show.bs.modal', function() {
-            console.log('Rubro Seleccionado al abrir el modal:', rubroSeleccionado);
-
-            if (rubroSeleccionado) {
-                $('#TablaBienesModal tbody tr').each(function() {
-                    var rubroBien = $(this).find('td').eq(3).text()
-                        .trim(); // Obtiene el rubro de la 4ta columna (índice 3)
-
-                    if (rubroBien !== rubroSeleccionado) {
-                        $(this).hide(); // Oculta la fila si el rubro no coincide
-                    } else {
-                        $(this).show(); // Muestra la fila si el rubro coincide
-                    }
-                });
-            } else {
-                alert('Seleccione un presupuesto primero');
-            }
-        });
-
-
-
     });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#TablaBienesModal').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
-        });
-    });
-</script>
-<script>
-    var currentRow = null;
-
-
-    // Función para abrir el modal de las cuentas contables
-    function openModal_4(currentRowParam) {
-
-        var modalContainer = document.getElementById('modalBienes');
-
-        currentRow = currentRowParam; // Almacenar la fila actual
-
-    }
-
-
-    // Función para seleccionar la cuenta contable
-    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
-        // Verificar si currentRow está definido y no es null
-        if (currentRow) {
-            // Utilizar currentRow para actualizar los campos
-            currentRow.find('.IDbienservicio').val(IDbienservicio);
-            currentRow.find('.rubro').val(rubro);
-            currentRow.find('.descripcion').val(descripcion);
-            currentRow.find('.precioref').val(precioref);
-
-        } else {
-            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
-        }
-    }
-    var currentRow = null;
-
-    // Función para abrir el modal de las cuentas contables
-    function openModal_4(currentRowParam) {
-
-        var modalContainer = document.getElementById('modalBienes');
-
-        currentRow = currentRowParam; // Almacenar la fila actual
-
-    }
-
-
-
+    // Función para seleccionar proveedor (FUERA del ready)
     function selectProveedor(id, ruc, razon_social) {
         document.getElementById('idproveedor').value = id;
         document.getElementById('ruc').value = ruc;
         document.getElementById('razon_social').value = razon_social;
 
     }
-
-    // Abrir modal en fila dinamica
-    const openModalBtn_4 = document.getElementById("openModalBtn_4");
-    // Actualiza la función de clic para pasar la fila actual al abrir el modal
-    document.getElementById("tablaP").addEventListener("click", function(event) {
-
-        // Encuentra la fila desde la cual se abrió el modal
-        var row = $(event.target).closest('tr');
-        if (
-            (event.target && event.target.className.includes("openModalBtn_4")) ||
-            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                "openModalBtn_4"))
-        ) {
-            event.stopPropagation();
-            event.preventDefault();
-            openModal_4(row);
-        }
-    });
-
-    function filtrarBienesPorRubro(relacion) {
-        // Recorrer todas las filas del modal y filtrar por el rubro
-        $('#TablaBienesModal tbody tr').each(function() {
-            var row = $(this);
-            var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro
-
-            // Si el rubro está en la relación, mostramos la fila; de lo contrario, la ocultamos
-            if (relacion.includes(rubro)) {
-                row.show(); // Mostrar la fila
-            } else {
-                row.hide(); // Ocultar la fila
-            }
-        });
-    }
-
-
-
-
-    // Evento para desmarcar el checkbox
-    $(document).on("click", ".desmarcarCheckbox", function() {
-        var row = $(this).closest('tr');
-        row.find('.iva-checkbox').prop('checked', false)
-            .change(); // Usar change() para activar el manejador de eventos
-    });
-
-    $('#id_unidad').on('change', function() {
-        var selectedValue = $(this).val();
-        $('.actividad').val(selectedValue);
-        //$('#rubro').val(selectedValue);
-    });
-
-    $('#tablaP').on('input', '.precioref, .cantidad', function() {
-        var $row = $(this).closest('tr');
-        var precio = $row.find('.precioref').val();
-        var cantidad = $row.find('.cantidad').val();
-        var piva = $row.find('.piva').val();
-        var exenta = precio * cantidad;
-        $row.find('.exenta').val(exenta.toFixed(0));
-    });
 </script>
 <!-- Script de Validación Dinámica -->
 <script>
@@ -772,18 +686,32 @@
     }
 
     function asignarPresupuesto(id, rubroNumero, rubroDescripcion, saldo) {
+        // Actualizar campos del formulario
         $('#concepto').val(rubroDescripcion);
+        $('#idPresupuestoSeleccionado').val(id);
 
+        // Actualizar display visual
         $('#rubroTexto').html(`
-        Rubro ${rubroNumero}<br>
-        <small class="text-success">
+        ${rubroNumero} - ${rubroDescripcion}<br>
+        <small class="text">
             Saldo confirmado: $${saldo}
         </small>
     `);
-        $('input[name="idpresupuesto"]').val(id);
+
+        // CRÍTICO: Actualizar variable global para el filtro de bienes
         rubroSeleccionado = rubroNumero;
+
+        // Cerrar modal
         $('#modalPresupuestos').modal('hide');
 
+        // Debug
+        console.log(' Presupuesto asignado:', {
+            id: id,
+            rubro: rubroNumero,
+            descripcion: rubroDescripcion,
+            saldo: saldo,
+            rubroSeleccionado: rubroSeleccionado
+        });
     }
 
     function bloquearSeleccion(rubroTexto, motivo) {
@@ -806,6 +734,149 @@
         });
     }
 </script>
+<!-- Modal de Bienes, script de selección y filtro ,  hay que apuntar a agrupar todo acá  
+
+//===============================================================================
+// SECCIÓN: MODAL DE BIENES Y SERVICIOS - VERSIÓN CORREGIDA
+//=============================================================================== -->
+<script>
+    let tablaBienesDataTable = null;
+    let currentRow = null;
+
+    $(document).ready(function() {
+        // Inicializar DataTable una sola vez
+        tablaBienesDataTable = $('#TablaBienesModal').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '<?php echo base_url(); ?>assets/DataTables/i18n/es-ES.json',
+            }
+        });
+    });
+
+    // Evento al mostrar el modal - FILTRADO CORREGIDO
+    $('#modalBienes').on('show.bs.modal', function() {
+        console.log('🔍 Abriendo modal bienes - Rubro seleccionado:', rubroSeleccionado);
+
+        if (!rubroSeleccionado || rubroSeleccionado === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'Seleccione un presupuesto primero',
+                confirmButtonText: 'Entendido'
+            });
+            return false;
+        }
+
+        // Limpiar filtros anteriores para evitar acumulación
+        while ($.fn.dataTable.ext.search.length > 0) {
+            $.fn.dataTable.ext.search.pop();
+        }
+
+        // Aplicar filtro personalizado al DataTable
+        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            if (settings.nTable.id !== 'TablaBienesModal') {
+                return true; // Solo aplicar a nuestra tabla
+            }
+
+            const rubroBien = $(tablaBienesDataTable.row(dataIndex).node()).data('rubro');
+            console.log('Comparando rubro bien:', rubroBien, 'con seleccionado:', rubroSeleccionado);
+
+            return rubroBien == rubroSeleccionado;
+        });
+
+        // Redibujar tabla con filtro aplicado
+        tablaBienesDataTable.draw();
+
+        // Verificar si hay resultados
+        if (tablaBienesDataTable.rows({
+                search: 'applied'
+            }).count() === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin resultados',
+                text: `No hay bienes/servicios disponibles para el rubro ${rubroSeleccionado}`,
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
+
+    // Evento al cerrar el modal - limpiar filtros
+    $('#modalBienes').on('hide.bs.modal', function() {
+        // Limpiar todos los filtros personalizados
+        while ($.fn.dataTable.ext.search.length > 0) {
+            $.fn.dataTable.ext.search.pop();
+        }
+        tablaBienesDataTable.draw();
+        console.log('🔄 Modal cerrado - filtros removidos');
+    });
+
+    // Función para abrir modal desde tabla dinámica
+    function openModal_4(currentRowParam) {
+        currentRow = currentRowParam;
+        console.log('📝 Fila seleccionada para modal bienes:', currentRowParam);
+    }
+
+    // Función para seleccionar bien/servicio
+    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+        if (currentRow) {
+            currentRow.find('.IDbienservicio').val(IDbienservicio);
+            currentRow.find('.rubro').val(rubro);
+            currentRow.find('.descripcion').val(descripcion);
+            currentRow.find('.precioref').val(precioref);
+
+            // Cerrar modal después de seleccionar
+            $('#modalBienes').modal('hide');
+
+            console.log('✅ Bien seleccionado:', {
+                IDbienservicio,
+                rubro,
+                descripcion,
+                precioref
+            });
+        } else {
+            console.error("❌ currentRow no está definido");
+        }
+    }
+
+    // Event listener ÚNICO para botones de modal en tabla dinámica
+    $(document).on('click', '#tablaP .openModalBtn_4', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const row = $(this).closest('tr');
+        openModal_4(row);
+
+        console.log('🎯 Botón modal clickeado desde fila:', row);
+    });
+
+    // Sincronizar actividad con select
+    $('#id_unidad').on('change', function() {
+        var selectedValue = $(this).val();
+        $('.actividad').val(selectedValue);
+    });
+
+    // Cálculo automático en tiempo real
+    $('#tablaP').on('input', '.precioref, .cantidad', function() {
+        var $row = $(this).closest('tr');
+        var precio = parseFloat($row.find('.precioref').val()) || 0;
+        var cantidad = parseFloat($row.find('.cantidad').val()) || 0;
+        var exenta = precio * cantidad;
+        $row.find('.exenta').val(exenta.toFixed(0));
+    });
+
+    // Evento para desmarcar el checkbox del IVA
+    $(document).on("click", ".desmarcarCheckbox", function() {
+        var row = $(this).closest('tr');
+        row.find('.iva-checkbox').prop('checked', false).change();
+    });
+</script>
+
+<!-- Duplicador de filas en las tablas  -->
+
 <script>
     $(document).ready(function() {
         var indice = 1;
@@ -829,9 +900,6 @@
             // Agregar la nueva fila al cuerpo de la tabla
             $("#tablaP tbody").append(nuevaFila);
         });
-
-
-
 
         // Eliminar fila
         $("#tablaP").on("click", ".eliminarFila", function(e) {
@@ -875,6 +943,9 @@
 
     });
 </script>
+
+<!-- Manejo del sweet alert, está así como solución paliativa a el hecho que de no recargaba la página -->
+
 <script>
     function mostrarAlertaExito() {
         Swal.fire({
@@ -891,5 +962,208 @@
     }
 </script>
 <script src="<?php echo base_url(); ?>/assets/DataTables/datatables.min.js"></script>
+<!-- empezamos de cero y todo este código fué descartado, quizá haya algo que estudiar de él pero mucho se cambió respecto a la
+    versión anterior y dios se apiade del alma del pobre diablo que tenga que volver a revisar (serás tú isaac)
+    <script>
+    let tablaBienesDataTable = null;
+    let currentRow = null;
+
+    $(document).ready(function() {
+        // Inicializar DataTable una sola vez
+        tablaBienesDataTable = $('#TablaBienesModal').DataTable({
+            paging: true,
+            pageLength: 10,
+            lengthChange: true,
+            searching: true,
+            info: true,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+            }
+        });
+    });
+
+    // Evento al mostrar el modal - FILTRADO CORREGIDO
+    $('#modalBienes').on('show.bs.modal', function() {
+        console.log('🔍 Abriendo modal bienes - Rubro seleccionado:', rubroSeleccionado);
+
+        if (!rubroSeleccionado || rubroSeleccionado === '') {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'Seleccione un presupuesto primero',
+                confirmButtonText: 'Entendido'
+            });
+            return false;
+        }
+
+        // Aplicar filtro personalizado al DataTable
+        $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+            if (settings.nTable.id !== 'TablaBienesModal') {
+                return true; // Solo aplicar a nuestra tabla
+            }
+
+            const rubroBien = $(tablaBienesDataTable.row(dataIndex).node()).data('rubro');
+            console.log('Comparando rubro bien:', rubroBien, 'con seleccionado:', rubroSeleccionado);
+
+            return rubroBien == rubroSeleccionado;
+        });
+
+        // Redibujar tabla con filtro aplicado
+        tablaBienesDataTable.draw();
+
+        // Verificar si hay resultados
+        if (tablaBienesDataTable.rows({
+                search: 'applied'
+            }).count() === 0) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Sin resultados',
+                text: `No hay bienes/servicios disponibles para el rubro ${rubroSeleccionado}`,
+                confirmButtonText: 'Entendido'
+            });
+        }
+    });
+
+    // Evento al cerrar el modal - limpiar filtros
+    $('#modalBienes').on('hide.bs.modal', function() {
+        // Limpiar filtros personalizados
+        $.fn.dataTable.ext.search.pop();
+        tablaBienesDataTable.draw();
+        console.log('🔄 Modal cerrado - filtros removidos');
+    });
+
+    // Función para abrir modal desde tabla dinámica
+    function openModal_4(currentRowParam) {
+        currentRow = currentRowParam;
+        console.log('📝 Fila seleccionada para modal bienes');
+    }
+
+    // Función para seleccionar bien/servicio
+    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+        if (currentRow) {
+            currentRow.find('.IDbienservicio').val(IDbienservicio);
+            currentRow.find('.rubro').val(rubro);
+            currentRow.find('.descripcion').val(descripcion);
+            currentRow.find('.precioref').val(precioref);
+
+            console.log('✅ Bien seleccionado:', {
+                IDbienservicio,
+                rubro,
+                descripcion,
+                precioref
+            });
+        } else {
+            console.error("❌ currentRow no está definido");
+        }
+    }
+
+    // Event listener para botones de modal en tabla dinámica
+    document.getElementById("tablaP").addEventListener("click", function(event) {
+        var row = $(event.target).closest('tr');
+        if ((event.target && event.target.className.includes("openModalBtn_4")) ||
+            (event.target && event.target.parentNode && event.target.parentNode.className.includes("openModalBtn_4"))) {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal_4(row);
+        }
+    });
+</script>
+<script>
+    var currentRow = null;
+
+
+    // Función para abrir el modal de las cuentas contables
+    function openModal_4(currentRowParam) {
+
+        var modalContainer = document.getElementById('modalBienes');
+
+        currentRow = currentRowParam; // Almacenar la fila actual
+
+    }
+
+
+    // Función para seleccionar la el rubro que se elije en el modal
+    function selectBien(IDbienservicio, rubro, descripcion, precioref) {
+        // Verificar si currentRow está definido y no es null
+        if (currentRow) {
+            // Utilizar currentRow para actualizar los campos
+            currentRow.find('.IDbienservicio').val(IDbienservicio);
+            currentRow.find('.rubro').val(rubro);
+            currentRow.find('.descripcion').val(descripcion);
+            currentRow.find('.precioref').val(precioref);
+
+        } else {
+            console.error("currentRow no está definido o es null. No se pueden actualizar los campos.");
+        }
+    }
+    /*  Claramente duplicado desde la línea 693, pero por qué ?  
+
+        var currentRow = null;
+
+        // Función para abrir el modal de las cuentas contables
+        function openModal_4(currentRowParam) {
+
+            var modalContainer = document.getElementById('modalBienes');
+
+            currentRow = currentRowParam; // Almacenar la fila actual
+
+        }*/
+
+    // Abrir modal en fila dinamica
+    const openModalBtn_4 = document.getElementById("openModalBtn_4");
+    // Actualiza la función de clic para pasar la fila actual al abrir el modal
+    document.getElementById("tablaP").addEventListener("click", function(event) {
+
+        // Encuentra la fila desde la cual se abrió el modal
+        var row = $(event.target).closest('tr');
+        if (
+            (event.target && event.target.className.includes("openModalBtn_4")) ||
+            (event.target && event.target.parentNode && event.target.parentNode.className.includes(
+                "openModalBtn_4"))
+        ) {
+            event.stopPropagation();
+            event.preventDefault();
+            openModal_4(row);
+        }
+    });
+
+    function filtrarBienesPorRubro(relacion) {
+        // Recorrer todas las filas del modal y filtrar por el rubro
+        $('#TablaBienesModal tbody tr').each(function() {
+            var row = $(this);
+            var rubro = row.data('rubro'); // Obtener el rubro desde el atributo data-rubro
+
+            // Si el rubro está en la relación, mostramos la fila; de lo contrario, la ocultamos
+            if (relacion.includes(rubro)) {
+                row.show(); // Mostrar la fila
+            } else {
+                row.hide(); // Ocultar la fila
+            }
+        });
+    }
+
+
+    // Evento para desmarcar el checkbox del IVA
+    $(document).on("click", ".desmarcarCheckbox", function() {
+        var row = $(this).closest('tr');
+        row.find('.iva-checkbox').prop('checked', false)
+            .change(); // Usar change() para activar el manejador de eventos
+    });
+    //averiguar qué hace este script 
+    $('#id_unidad').on('change', function() {
+        var selectedValue = $(this).val();
+        $('.actividad').val(selectedValue);
+        //$('#rubro').val(selectedValue);
+    });
+
+    $('#tablaP').on('input', '.precioref, .cantidad', function() {
+        var $row = $(this).closest('tr');
+        var precio = $row.find('.precioref').val();
+        var cantidad = $row.find('.cantidad').val();
+        var piva = $row.find('.piva').val();
+        var exenta = precio * cantidad;
+        $row.find('.exenta').val(exenta.toFixed(0));
+    });
+</script> -->
 
 </html>
