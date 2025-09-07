@@ -166,20 +166,21 @@ class Comprobante_Gasto extends MY_Controller
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		// se obtiene el siguiente numero de pedido 
+/* 		// se obtiene el siguiente numero de pedido 
+		// por què se decididiò hacer eso acà ? -isaac 
 		try {
 			$maxPedido = $this->Comprobante_Gasto_model->getMaxPedido();
 			$nextPedido = $maxPedido + 1;
 		} catch (Exception $e) {
 			show_error($e->getMessage(), 500);
 			return;
-		}
+		} */
 
 		// Obtener los datos del comprobante específico a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		$id_pedido = $comprobante->id_pedido;
 		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
-		$proveedor = $this->Proveedores_model->getProveedor($comprobante->idproveedor);
+		$proveedor = $this->Proveedores_model->getProveedores($comprobante->idproveedor);
 
 
 		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
@@ -205,7 +206,72 @@ class Comprobante_Gasto extends MY_Controller
 		$this->load->view("admin/comprobantegasto/edit", $data);
 		$this->load->view("layouts/footer");
 	}
+	public function update()
+	{
+		header('Access-Control-Allow-Origin: *');
+		$datosCompletos = $this->input->post('datos');
+		$datosFormulario = $datosCompletos['datosFormulario'];
 
+		$nombre = $this->session->userdata('Nombre_usuario');
+		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
+		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
+
+		// Recopilar datos generales del formulario
+		$id_pedido = $datosFormulario['id_pedido'];
+		$id_unidad = $datosFormulario['id_unidad'];
+		$fecha = $datosFormulario['fecha'];
+		$concepto = $datosFormulario['concepto'];
+		$id_proveedor = $datosFormulario['idproveedor'];
+		$id_presupuesto = $datosFormulario['idpresupuesto'] ?? null;
+
+		if ($this->input->is_ajax_request()) {
+			$filas = $datosCompletos['filas'];
+
+			// Log para debug
+			error_log("Datos de filas recibidos: " . print_r($filas, true));
+
+			// ELIMINAR ESTA LÍNEA - NO ES NECESARIA:
+			// $this->Comprobante_Gasto_model->update($id_pedido, $dataComprobante);
+
+			// Actualizar/Insertar las filas
+			foreach ($filas as $fila) {
+				$idComprobanteGasto = $fila['IDComprobanteGasto'] ?? null;
+
+				$dataFila = array(
+					'id_pedido' => $fila['id_pedido'],
+					'id_unidad' => $id_unidad,
+					'fecha' => $fecha,
+					'idproveedor' => $id_proveedor,
+					'idpresupuesto' => $id_presupuesto,
+					'descripcion' => $fila['descripcion'],
+					'concepto' => $concepto,
+					'id_item' => $fila['id_item'],
+					'preciounit' => $fila['preciounit'],
+					'cantidad' => $fila['cantidad'],
+					'iva' => $fila['iva'],
+					'porcentaje_iva' => $fila['porcentaje_iva'],
+					'exenta' => $fila['exenta'],
+					'gravada' => $fila['gravada'],
+					'id_uni_respon_usu' => $id_uni_respon_usu,
+					'estado' => "1",
+				);
+
+				if ($idComprobanteGasto !== null && $idComprobanteGasto !== '') {
+					// Actualizar fila existente
+					$this->Comprobante_Gasto_model->updateFilaComprobanteGasto($idComprobanteGasto, $dataFila);
+				} else {
+					// Insertar nueva fila
+					$this->Comprobante_Gasto_model->save($dataFila);
+				}
+			}
+
+			echo "success";
+		} else {
+			$this->session->set_flashdata("error", "No se pudo actualizar la información");
+			return redirect(base_url() . "patrimonio/comprobantegasto/");
+		}
+	}
+	/* ignorar - método viejo 
 	public function update()
 	{
 		header('Access-Control-Allow-Origin: *');
@@ -265,7 +331,7 @@ class Comprobante_Gasto extends MY_Controller
 				// Lógica corregida: Usar IDComprobanteGasto para determinar si es update o insert
 				if ($idComprobanteGasto !== null) {
 					// Actualizar si existe el ID
-					$this->Comprobante_Gasto_model->updateFilaComprobanteGasto($idComprobanteGasto, $dataFila);
+					$this->Comprobante_Gasto_model->updateFilaComprobanteGasto($idComprobanteGasto, $filaData);
 				} else {
 					// Insertar nueva fila si no hay ID
 					$this->Comprobante_Gasto_model->save($dataFila);
@@ -277,7 +343,7 @@ class Comprobante_Gasto extends MY_Controller
 			$this->session->set_flashdata("error", "No se pudo actualizar la información");
 			return redirect(base_url() . "patrimonio/comprobantegasto/");
 		}
-	}
+	} */
 
 	public function obtenerItemsPorPedido()
 	{
@@ -362,9 +428,9 @@ class Comprobante_Gasto extends MY_Controller
 				->set_content_type('application/json')
 				->set_output(json_encode([
 					'status' => 'success',
-					'saldo' => number_format($resultado['saldo_disponible'], 2), 
-					'presupuesto' => number_format($resultado['presupuesto_total'], 2), 
-					'ejecutado' => number_format($resultado['ejecutado_obligado'], 2) 
+					'saldo' => number_format($resultado['saldo_disponible'], 2),
+					'presupuesto' => number_format($resultado['presupuesto_total'], 2),
+					'ejecutado' => number_format($resultado['ejecutado_obligado'], 2)
 				]));
 		} catch (Exception $e) {
 			$this->output
