@@ -25,6 +25,7 @@ class Presupuesto_model extends CI_Model
                         pre.Año,
                         pre.fuente_de_financiamiento_id_ff,
                         pre.origen_de_financiamiento_id_of,
+                        c.Codigo_CC AS cod_cuenta,
                         c.Descripcion_CC AS descripcion,
                         ff.nombre AS fuente_de_financiamiento,
                         ori.nombre AS origen_de_financiamiento,
