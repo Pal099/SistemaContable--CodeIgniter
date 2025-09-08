@@ -30,7 +30,7 @@
                         <div class="d-flex justify-content-md-end">
                             <div class="form-check form-switch mt-2 " style="font-size: 17px;">
                                 <input class="form-check-input" type="checkbox" role="switch"
-                                id="camposOpcionalesSwitch" name="camposOpcionalesSwitch">
+                                    id="camposOpcionalesSwitch" name="camposOpcionalesSwitch">
                                 <label class="form-check-label" for="camposOpcionalesSwitch">Cargar Plan de Caja</label>
                             </div>
                         </div>
@@ -50,70 +50,17 @@
                                         <div class="card border">
                                             <div class="card-body">
                                                 <div class="row g-3 align-items-center mt-2">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="Año">Fecha:</label>
-                                                        <input type="date" class="form-control" id="Año" name="Año"
-                                                            placeholder="Ej. YYYY/MM/DD" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="TotalPresupuestado">Presupuesto Inicial:</label>
-                                                        <input type="number" class="form-control"
-                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
-                                                    </div>
-
-                                                    <div class="form-group col-md-4">
-                                                        <label for="TotalModificado">Presupuesto Modificado:</label>
-                                                        <input type="number" class="form-control" id="TotalModificado"
-                                                            name="TotalModificado" required>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="fuente_de_financiamiento_id_ff">Fuente de
-                                                            Financiamiento:</label>
-                                                        <select name="fuente_de_financiamiento_id_ff"
-                                                            id="fuente_de_financiamiento_id_ff" class="form-control"
-                                                            required>
-                                                            <?php foreach ($registros_financieros as $fuente) : ?>
-                                                            <option value="<?php echo $fuente->id_ff ?>">
-                                                                <?php echo $fuente->codigo . ' - ' . $fuente->nombre ; ?>
-                                                            </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="origen_de_financiamiento_id_of">Origen de
-                                                            Financiamiento:</label>
-                                                        <select name="origen_de_financiamiento_id_of"
-                                                            id="origen_de_financiamiento_id_of" class="form-control"
-                                                            required>
-                                                            <?php foreach ($origen as $o) : ?>
-                                                            <option value="<?php echo $o->id_of ?>">
-                                                                <?php echo $o->codigo . ' - ' . $o->nombre ; ?>
-                                                            </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    
-                                                    <div class="form-group col-md-4">
-                                                        <label for="programa_id_pro">Programa:</label>
-                                                        <select name="programa_id_pro" id="programa_id_pro"
-                                                            class="form-control" required>
-                                                            <?php foreach ($programa as $prog) : ?>
-                                                            <option value="<?php echo $prog->id_pro ?>">
-                                                                <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
-                                                            </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-12">
+                                                    <div class="col-md-5">
+                                                        <label for="Cuenta">Cuenta:</label>
                                                         <div class="input-group">
                                                             <select name="Idcuentacontable" id="Idcuentacontable"
                                                                 class="form-control" required>
                                                                 <option selected disabled>Seleccione una Cuenta
                                                                     Contable...</option>
                                                                 <?php foreach ($cuentacontable as $cc) : ?>
-                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
-                                                                    <?php echo $cc->Descripcion_CC; ?>
-                                                                </option>
+                                                                    <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                        <?php echo $cc->Descripcion_CC; ?>
+                                                                    </option>
                                                                 <?php endforeach; ?>
                                                             </select>
                                                             <button type="button" data-bs-toggle="modal"
@@ -123,6 +70,61 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Año">Fecha:</label>
+                                                        <input type="date" class="form-control" id="Año" name="Año"
+                                                            placeholder="Ej. YYYY/MM/DD" required>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="TotalPresupuestado">Presupuesto Inicial:</label>
+                                                        <input type="number" class="form-control"
+                                                            id="TotalPresupuestado" name="TotalPresupuestado" required>
+                                                    </div>
+
+                                                    <div class="form-group col-md-3">
+                                                        <label for="TotalModificado">Presupuesto Modificado:</label>
+                                                        <input type="number" class="form-control" id="TotalModificado"
+                                                            name="TotalModificado" required>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="fuente_de_financiamiento_id_ff">Fuente de
+                                                            Financiamiento:</label>
+                                                        <select name="fuente_de_financiamiento_id_ff"
+                                                            id="fuente_de_financiamiento_id_ff" class="form-control"
+                                                            required>
+                                                            <?php foreach ($registros_financieros as $fuente) : ?>
+                                                                <option value="<?php echo $fuente->id_ff ?>">
+                                                                    <?php echo $fuente->codigo . ' - ' . $fuente->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="origen_de_financiamiento_id_of">Origen de
+                                                            Financiamiento:</label>
+                                                        <select name="origen_de_financiamiento_id_of"
+                                                            id="origen_de_financiamiento_id_of" class="form-control"
+                                                            required>
+                                                            <?php foreach ($origen as $o) : ?>
+                                                                <option value="<?php echo $o->id_of ?>">
+                                                                    <?php echo $o->codigo . ' - ' . $o->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-group col-md-3">
+                                                        <label for="programa_id_pro">Programa:</label>
+                                                        <select name="programa_id_pro" id="programa_id_pro"
+                                                            class="form-control" required>
+                                                            <?php foreach ($programa as $prog) : ?>
+                                                                <option value="<?php echo $prog->id_pro ?>">
+                                                                    <?php echo $prog->codigo . ' - ' . $prog->nombre; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+
                                                     <!-- Campos de los meses del presupuesto -->
                                                     <div class="collapse mt-4" id="camposMesesCollapse">
                                                         <div class="form-group">
@@ -215,32 +217,32 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        
-                                                        </div>
-                                                    </div>
-                                                    
+
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="container-fluid mt-3 mb-3">
-                                <div class="col-md-12 d-flex flex-row justify-content-center">
-                                    <button style="margin-right: 8px;" type="submit"
-                                        class="btn btn-success btn-primary"><span
-                                            class="fa fa-save"></span>Guardar</button>
-                                    <button class="btn btn-danger ml-3"
-                                        onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
-                                        <i class="fa fa-remove"></i> Cancelar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
-            </section>
+                <div class="container-fluid mt-3 mb-3">
+                    <div class="col-md-12 d-flex flex-row justify-content-center">
+                        <button style="margin-right: 8px;" type="submit"
+                            class="btn btn-success btn-primary"><span
+                                class="fa fa-save"></span>Guardar</button>
+                        <button class="btn btn-danger ml-3"
+                            onclick="window.location.href='<?php echo base_url(); ?>mantenimiento/presupuesto'">
+                            <i class="fa fa-remove"></i> Cancelar
+                        </button>
+                    </div>
+                </div>
+                </form>
+        </div>
+        </div>
+        </section>
         </div>
     </main>
     <!-- Modal de las cuentas Contables -->
@@ -263,19 +265,19 @@
                         </thead>
                         <tbody>
                             <?php foreach ($cuentacontable as $dato): ?>
-                            <tr class="list-item"
-                                onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                data-bs-dismiss="modal">
-                                <td>
-                                    <?= $dato->IDCuentaContable ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Codigo_CC ?>
-                                </td>
-                                <td>
-                                    <?= $dato->Descripcion_CC ?>
-                                </td>
-                            </tr>
+                                <tr class="list-item"
+                                    onclick="selectCC(<?= $dato->IDCuentaContable ?>,'<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
+                                    data-bs-dismiss="modal">
+                                    <td>
+                                        <?= $dato->IDCuentaContable ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Codigo_CC ?>
+                                    </td>
+                                    <td>
+                                        <?= $dato->Descripcion_CC ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -285,34 +287,34 @@
     </div>
     <!-- Script para seleccionar la cuenta contable -->
     <script>
-    function selectCC(IDCuentaContable) {
-        // Actualizar el valor del select con los valores seleccionados
-        var selectElement = document.getElementById('Idcuentacontable');
-        selectElement.value = IDCuentaContable;
-    }
+        function selectCC(IDCuentaContable) {
+            // Actualizar el valor del select con los valores seleccionados
+            var selectElement = document.getElementById('Idcuentacontable');
+            selectElement.value = IDCuentaContable;
+        }
     </script>
     <!-- Script para mostrar los campos de los meses -->
     <script>
-    document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
-        var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
-        camposMesesCollapse.toggle();
-    });
+        document.getElementById('camposOpcionalesSwitch').addEventListener('change', function() {
+            var camposMesesCollapse = new bootstrap.Collapse(document.getElementById('camposMesesCollapse'));
+            camposMesesCollapse.toggle();
+        });
     </script>
 
     <!-- Script para la tabla de cuentas contables -->
     <script>
-    $(document).ready(function() {
-        var table1 = $('#TablaCuentaCont').DataTable({
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            searching: true,
-            info: true,
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
-            }
+        $(document).ready(function() {
+            var table1 = $('#TablaCuentaCont').DataTable({
+                paging: true,
+                pageLength: 10,
+                lengthChange: true,
+                searching: true,
+                info: true,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
+                }
+            });
         });
-    });
     </script>
 
     <!-- Script de DataTable de jquery -->
