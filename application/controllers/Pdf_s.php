@@ -355,7 +355,7 @@ $pdf->Cell(5, $textypos, "Se dispone el pago de la presente obligacion:");
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->setY(320);
 $pdf->setX(12);
-$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+$pdf->Cell(5, $textypos, "Nombre del Responsable");
 
 
 //----------------------------//----------------------------------------
@@ -370,7 +370,7 @@ $pdf->Cell(5, $textypos, "Dir. Gral. de Admin. y Finanzas ");
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->setY(320);
 $pdf->setX(150);
-$pdf->Cell(5, $textypos, "Prof. Dr. Julio Cesar Meaurio Leiva");
+$pdf->Cell(5, $textypos, "Nombre del Responsable");
 
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 8);
