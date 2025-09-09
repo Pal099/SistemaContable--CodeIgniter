@@ -288,11 +288,9 @@
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendor/simple-datatables/simple-datatables.js"></script>
 
-    <!-- Template Main JS File -->
-    <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
+    <script src="<?php echo base_url(); ?>assets/vendor/tinymce/tinymce.min.js"></script>
 
     <!-- Scripts personalizados del dashboard -->
     <script>
