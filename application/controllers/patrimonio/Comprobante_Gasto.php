@@ -166,22 +166,22 @@ class Comprobante_Gasto extends MY_Controller
 		$nombre = $this->session->userdata('Nombre_usuario');
 		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
 		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-/* 		// se obtiene el siguiente numero de pedido 
+		/* 		// se obtiene el siguiente numero de pedido 
 		// por què se decididiò hacer eso acà ? -isaac 
+			parece que para seguir contando el next pedido en el edit -isaac*/
 		try {
 			$maxPedido = $this->Comprobante_Gasto_model->getMaxPedido();
 			$nextPedido = $maxPedido + 1;
 		} catch (Exception $e) {
 			show_error($e->getMessage(), 500);
 			return;
-		} */
+		}
 
 		// Obtener los datos del comprobante específico a editar
 		$comprobante = $this->Comprobante_Gasto_model->getComprobanteGasto($id);
 		$id_pedido = $comprobante->id_pedido;
 		$comprobantesPedido = $this->Comprobante_Gasto_model->obtener_comprobantes_por_pedido($id_pedido);
-		$proveedor = $this->Proveedores_model->getProveedores($comprobante->idproveedor);
-
+		$proveedor = $this->Proveedores_model->getProveedorById($comprobante->idproveedor, $id_uni_respon_usu);
 
 		$rubroYDescripcion = $this->Comprobante_Gasto_model->getRubroYDescripcionByIdItem($comprobante->id_item);
 		// Preparar los datos para la vista
