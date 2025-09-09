@@ -15,7 +15,7 @@ class Proveedores_model extends CI_Model
 		$resultados = $this->db->get();
 		return $resultados->result();
 	}
-			// se usa en Comprobante_Gasto.php
+	// se usa en Comprobante_Gasto.php
 
 	public function getProveedorById($id_proveedor, $id_uni_academica = null)
 	{
@@ -34,6 +34,13 @@ class Proveedores_model extends CI_Model
 		return $resultado->row();
 	}
 
+	public function getUltimoId()
+	{
+		$this->db->select_max('id');
+		$query = $this->db->get('proveedores');
+		return $query->row()->id;
+	}
+	
 	public function getRegistrosPorUnidadAcademica($id_uni_academica, $id_user)
 	{
 		// Obtener la unidad académica del usuario
