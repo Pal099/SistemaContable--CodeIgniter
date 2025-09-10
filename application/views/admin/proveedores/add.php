@@ -14,7 +14,6 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>principal">Inicio</a></li>
-                <li class="breadcrumb-item">Presupuesto</li>
                 <li class="breadcrumb-item"><a href="<?php echo base_url(); ?>/mantenimiento/proveedores">Proveedores</a></li>
                 <li class="breadcrumb-item">Agregar proveedor</li>
             </ol>
@@ -49,7 +48,12 @@
                                                 <div class="row g-3 align-items-center mt-2">
                                                     <div class="form-group col-md-6">
                                                         <label for="ruc">RUC:</label>
-                                                        <input type="text" class="form-control" id="ruc" name="ruc" value="<?php echo set_value('ruc'); ?>" required>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="ruc" name="ruc" value="<?php echo set_value('ruc'); ?>" required>
+                                                            <button id="generar_numero" type="button" class="btn btn-primary">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </button>
+                                                        </div>
                                                         <?php echo form_error('ruc', '<span class="text-danger">', '</span>'); ?>
                                                     </div>
                                                     <div class="form-group col-md-6">
@@ -69,8 +73,7 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="email">Email:</label>
-                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo set_value('email'); ?>" required>
-                                                        <?php echo form_error('email', '<span class="text-danger">', '</span>'); ?>
+                                                        <input type="email" class="form-control" id="email" name="email" value="<?php echo set_value('email'); ?>">
                                                     </div>
                                                     <div class="form-group col-md-12">
                                                         <label for="observacion">Observación:</label>
@@ -97,6 +100,15 @@
             </section>
         </div>
     </main>
+    <script>
+        // Supón que en tu controlador envías $ultimo_id a la vista
+        const ultimoId = <?php echo isset($ultimo_id) ? $ultimo_id : 0; ?>;
+
+        document.getElementById('generar_numero').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('ruc').value = ultimoId + 1;
+        });
+    </script>
 </body>
 
 </html>

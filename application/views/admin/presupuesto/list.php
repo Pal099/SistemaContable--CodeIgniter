@@ -58,7 +58,7 @@
                                                             <th>O.F.</th>
                                                             <th>F.F.</th>
                                                             <th>Programa</th>
-                                                             <th>Cod.Cuenta</th>
+                                                            <th>Cod.Cuenta</th>
                                                             <th>Descripcion</th>
                                                             <th>Presupuesto Inicial</th>
                                                             <th>Total modificado</th>

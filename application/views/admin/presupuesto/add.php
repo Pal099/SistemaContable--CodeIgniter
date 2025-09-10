@@ -70,6 +70,26 @@
                                                             </button>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-5">
+                                                        <label for="Cuenta">Cuenta:</label>
+                                                        <div class="input-group">
+                                                            <select name="Idcuentacontable" id="Idcuentacontable"
+                                                                class="form-control" required>
+                                                                <option selected disabled>Seleccione una Cuenta
+                                                                    Contable...</option>
+                                                                <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalCuentasCont"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="Año">Fecha:</label>
                                                         <input type="date" class="form-control" id="Año" name="Año"
@@ -93,9 +113,15 @@
                                                             id="fuente_de_financiamiento_id_ff" class="form-control"
                                                             required>
                                                             <?php foreach ($registros_financieros as $fuente) : ?>
+<<<<<<< HEAD
                                                                 <option value="<?php echo $fuente->id_ff ?>">
                                                                     <?php echo $fuente->codigo . ' - ' . $fuente->nombre; ?>
                                                                 </option>
+=======
+                                                            <option value="<?php echo $fuente->id_ff ?>">
+                                                                <?php echo $fuente->codigo . ' - ' . $fuente->nombre ; ?>
+                                                            </option>
+>>>>>>> 8556ebef4b3aeff6581382741a0f352d05b23a55
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -106,6 +132,7 @@
                                                             id="origen_de_financiamiento_id_of" class="form-control"
                                                             required>
                                                             <?php foreach ($origen as $o) : ?>
+<<<<<<< HEAD
                                                                 <option value="<?php echo $o->id_of ?>">
                                                                     <?php echo $o->codigo . ' - ' . $o->nombre; ?>
                                                                 </option>
@@ -113,11 +140,20 @@
                                                         </select>
                                                     </div>
 
-                                                    <div class="form-group col-md-3">
+=======
+                                                            <option value="<?php echo $o->id_of ?>">
+                                                                <?php echo $o->codigo . ' - ' . $o->nombre ; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div class="form-group col-md-4">
                                                         <label for="programa_id_pro">Programa:</label>
                                                         <select name="programa_id_pro" id="programa_id_pro"
                                                             class="form-control" required>
                                                             <?php foreach ($programa as $prog) : ?>
+<<<<<<< HEAD
                                                                 <option value="<?php echo $prog->id_pro ?>">
                                                                     <?php echo $prog->codigo . ' - ' . $prog->nombre; ?>
                                                                 </option>
@@ -125,8 +161,34 @@
                                                         </select>
                                                     </div>
 
+=======
+                                                            <option value="<?php echo $prog->id_pro ?>">
+                                                                <?php echo $prog->codigo . ' - ' . $prog->nombre ; ?>
+                                                            </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="input-group">
+                                                            <select name="Idcuentacontable" id="Idcuentacontable"
+                                                                class="form-control" required>
+                                                                <option selected disabled>Seleccione una Cuenta
+                                                                    Contable...</option>
+                                                                <?php foreach ($cuentacontable as $cc) : ?>
+                                                                <option value="<?php echo $cc->IDCuentaContable ?>">
+                                                                    <?php echo $cc->Descripcion_CC; ?>
+                                                                </option>
+                                                                <?php endforeach; ?>
+                                                            </select>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalCuentasCont"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"> Buscar</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                     <!-- Campos de los meses del presupuesto -->
-                                                    <div class="collapse mt-4" id="camposMesesCollapse">
+                                                    <div class="collapse mt-3" id="camposMesesCollapse">
                                                         <div class="form-group">
                                                             <div class="row">
                                                                 <div class="col-md-6">

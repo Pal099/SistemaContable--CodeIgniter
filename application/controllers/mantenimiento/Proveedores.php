@@ -36,10 +36,12 @@ class Proveedores extends MY_Controller {
 	}
 
 	public function add(){
-
+		$data = array(
+			'ultimo_id' => $this->Proveedores_model->getUltimoId(),
+		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
-		$this->load->view("admin/proveedores/add");
+		$this->load->view("admin/proveedores/add", $data);
 		$this->load->view("layouts/footer");
 	}
 
@@ -67,13 +69,12 @@ class Proveedores extends MY_Controller {
 		$this->form_validation->set_rules("telefono", "Teléfono", "required", array(
 			'required' => 'El campo Telefono es obligatorio.'
 		));
-		$this->form_validation->set_rules("email", "Email", "required", array(
-			'required' => 'El campo Email es obligatorio.'
-		));
 		$this->form_validation->set_rules("observacion", "Observación", "required", array(
 			'required' => 'El campo Observación es obligatorio.'
 		));
-
+		if($email = " "){
+			$email = "No hay email";
+		}
 		if ($this->form_validation->run() == TRUE) {
 			$data = array(
 				'ruc' => $ruc,
@@ -101,7 +102,7 @@ class Proveedores extends MY_Controller {
 
 	public function edit($id){
 		$data  = array(
-			'proveedor' => $this->Proveedores_model->getProveedor($id), 
+			'proveedor' => $this->Proveedores_model->getProveedorById($id), 
 		);
 		$this->load->view("layouts/header");
 		$this->load->view("layouts/sideBar");
@@ -122,10 +123,8 @@ class Proveedores extends MY_Controller {
 
 		if ($ruc == $proveedoractual->ruc) {
 			$is_unique = "";
-		}else{
-			$is_unique = "|is_unique[proveedores.ruc]";
 		}
-		
+
 		$this->form_validation->set_rules("ruc","Ruc","required".$is_unique);
 		if ($this->form_validation->run()==TRUE) {
 			$data = array(

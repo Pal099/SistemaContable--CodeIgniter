@@ -43,10 +43,6 @@
                                 <label class="form-check-label" for="strSwitch">STR</label>
                             </div>
                             <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-primary" title="Nuevo" data-bs-toggle="modal"
-                                    data-bs-target="#modalContainer_proveedores">
-                                    <i class="bi bi-plus" style="font-size: 20px;"></i>
-                                </button>
                                 <button class="btn btn-warning" title="comprobante" data-bs-toggle="modal"
                                     data-bs-target="#modalContainer_comprobante">
                                     <i class="bi bi-wallet2" style="font-size: 20px;"></i>
@@ -86,8 +82,15 @@
                                                     <div
                                                         class="form-group col-md-2 <?php echo form_error('ruc') == true ? 'has-error' : '' ?>">
                                                         <label for="ruc">Ruc:</label>
-                                                        <input type="text" class="form-control" id="ruc" name="ruc"
-                                                            readonly>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="ruc" name="ruc"
+                                                                readonly>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#modalContainer_proveedores"
+                                                                class="btn btn-primary">
+                                                                <i class="bi bi-search"></i>
+                                                            </button>
+                                                        </div>
                                                         <?php echo form_error("ruc", "<span class='help-block'>", "</span>"); ?>
                                                     </div>
 
@@ -95,7 +98,7 @@
                                                     <div class="form-group col-md-4">
                                                         <label for="razon_social">Nombre y Apellido:</label>
                                                         <input type="text" class="form-control w-100" id="razon_social"
-                                                            name="razon_social" required>
+                                                            name="razon_social" readonly required>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
