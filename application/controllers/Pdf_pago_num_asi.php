@@ -922,7 +922,7 @@ if($nombreUnidad=='Derecho'){
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->setY(320);
     $pdf->setX(12);
-    //$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+    //$pdf->Cell(5, $textypos, "Nombre del Responsable");
     $pdf->Cell(5, $textypos, "Derecho 1");
     
     //----------------------------//----------------------------------------
@@ -950,7 +950,7 @@ if($nombreUnidad=='Derecho'){
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->setY(320);
     $pdf->setX(12);
-    //$pdf->Cell(5, $textypos, "Dr. Sebastian A. Benitez Gonzalez");
+    //$pdf->Cell(5, $textypos, "Nombre del Responsable");
     $pdf->Cell(5, $textypos, "Poli 1");
     
     //----------------------------//----------------------------------------

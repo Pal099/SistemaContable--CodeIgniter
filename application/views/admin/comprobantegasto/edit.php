@@ -68,8 +68,7 @@
                                                     <input type="hidden" id="idproveedor" name="idproveedor"
                                                         value="<?php echo isset($comprobante->idproveedor) ? $comprobante->idproveedor : ''; ?>">
                                                     <!--  Agregar campo oculto para el presupuesto seleccionado -->
-                                                    <input type="hidden" id="idPresupuestoSeleccionado" name="idpresupuesto">
-                                                    <input type="hidden" id="id_pedido" name="id_pedido"
+                                                    <input type="hidden" id="idPresupuestoSeleccionado" name="idpresupuesto" value="<?php echo $comprobante->idpresupuesto; ?>"> <input type="hidden" id="id_pedido" name="id_pedido"
                                                         value="<?php echo isset($comprobante->id_pedido) ? $comprobante->id_pedido : ''; ?>">
                                                     <!-- Razón Social -->
                                                     <div class="form-group col-md-4">
@@ -207,7 +206,7 @@
                                                                                 class="input-group input-group-sm align-items-center">
                                                                                 <input type="number"
                                                                                     class="form-control border-0 bg-transparent IDbienservicio"
-                                                                                    id="id_item" name="id_item" value=""
+                                                                                    id="id_item" name="id_item" value="<?php echo $comprobanteP->id_item; ?>"
                                                                                     readonly>
                                                                             </div>
                                                                         </td>
@@ -235,10 +234,8 @@
                                                                             </div>
                                                                         </td>
                                                                         <td>
-                                                                            <div
-                                                                                class="input-group input-group-sm align-items-center  ">
-                                                                                <input type="text"
-                                                                                    class="form-control border-0 bg-transparent rubro"
+                                                                            <div class="input-group input-group-sm align-items-center">
+                                                                                <input type="text" class="form-control border-0 bg-transparent rubro"
                                                                                     id="rubro" name="rubro"
                                                                                     value="<?php echo isset($rubro) ? $rubro : ''; ?>"
                                                                                     readonly>
@@ -649,8 +646,27 @@
 
 <!-- Script de Validación Dinámica -->
 <script>
-    let rubroSeleccionado = '';
+    // Inicializar la variable global con el valor del rubro guardado
+    let rubroSeleccionado = '<?php echo isset($rubro) ? $rubro : ''; ?>';
     const mesActual = <?= date('n') ?>;
+
+    // Al cargar la página, actualizar la visualización del rubro
+    $(document).ready(function() {
+        // Si hay un rubro guardado, actualizar la visualización
+        if (rubroSeleccionado) {
+            $('#rubroTexto').html(`
+                ${rubroSeleccionado} - <?php echo htmlspecialchars($comprobante->concepto, ENT_QUOTES); ?><br>
+                <small class="text">
+                    Rubro previamente seleccionado
+                </small>
+            `);
+
+            // También establecer el valor del idPresupuesto
+            $('#idPresupuestoSeleccionado').val('<?php echo $comprobante->idpresupuesto; ?>');
+
+            console.log('Rubro inicializado:', rubroSeleccionado);
+        }
+    });
 
     function selectPresupuesto(idpresupuesto, rubroNumero, rubroDescripcion, saldoTabla) {
         // Validación inicial desde datos pre-cargados
@@ -837,7 +853,10 @@
     function selectBien(IDbienservicio, rubro, descripcion, precioref) {
         if (currentRow) {
             currentRow.find('.IDbienservicio').val(IDbienservicio);
-            currentRow.find('.rubro').val(rubro);
+
+            // Asegurar que el rubro se mantenga consistente con el seleccionado
+            currentRow.find('.rubro').val(rubroSeleccionado);
+
             currentRow.find('.descripcion').val(descripcion);
             currentRow.find('.precioref').val(precioref);
 
@@ -846,7 +865,7 @@
 
             console.log('✅ Bien seleccionado:', {
                 IDbienservicio,
-                rubro,
+                rubro: rubroSeleccionado, // Usar el rubro global
                 descripcion,
                 precioref
             });
@@ -888,7 +907,7 @@
         row.find('.iva-checkbox').prop('checked', false).change();
     });
 </script>
-    
+
 
 <!-- Manejo del sweet alert, está así como solución paliativa a el hecho que de no recargaba la página -->
 
