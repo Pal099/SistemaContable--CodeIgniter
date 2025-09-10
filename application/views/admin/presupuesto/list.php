@@ -58,6 +58,7 @@
                                                             <th>O.F.</th>
                                                             <th>F.F.</th>
                                                             <th>Programa</th>
+                                                             <th>Cod.Cuenta</th>
                                                             <th>Descripcion</th>
                                                             <th>Presupuesto Inicial</th>
                                                             <th>Total modificado</th>
@@ -92,6 +93,7 @@
                                                                         ?>
                                                                     </td>
                                                                     <td><?php echo $presupuesto->programa; ?></td>
+                                                                    <td><?php echo $presupuesto->cod_cuenta; ?></td>
                                                                     <td><?php echo $presupuesto->descripcion; ?></td>
                                                                     <td><?php echo number_format($presupuesto->TotalPresupuestado, 0, ',', '.'); ?>
                                                                     </td>
@@ -259,7 +261,7 @@
                 searching: true,
                 info: true,
                 order: [
-                    [0, 'desc']
+                    [4, 'asc']
                 ], // Ordena la primera columna en orden descendiente
                 language: {
                     url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json',
