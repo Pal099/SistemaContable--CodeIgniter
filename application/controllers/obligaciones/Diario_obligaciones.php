@@ -21,7 +21,6 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->model('EjecucionP_model'); // puesto para que cargue en la tabla de ejecucion_mensual, se usa en el add 
 		$this->load->model("movimientos_editar/Editar_Movimientos_model");
 		$this->load->library('form_validation');
-
 	}
 
 	public function index()
@@ -59,7 +58,6 @@ class Diario_obligaciones extends CI_Controller
 		$this->load->view("admin/obligacion/obli_combined", $data);
 		$this->load->view("layouts/footer");
 		$this->load->view("fpdf");
-
 	}
 
 
@@ -79,7 +77,6 @@ class Diario_obligaciones extends CI_Controller
 	public function pdfs()
 	{
 		$this->load->view("fpdf");
-
 	}
 
 	public function get_proveedores()
@@ -115,19 +112,14 @@ class Diario_obligaciones extends CI_Controller
 		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
 
 		// Verificar si hay registros y calcular el próximo número
-		if (
-			$data['numeros'] && $data['numeros']->ultimo_numero !== null
-			&& $data['numeros']->op_ultimo !== null
-		) {
+		// Solo calculamos el siguiente número de asiento, no el de OP
+		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null) {
 			$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
-			$data['op_siguiente'] = $data['numeros']->op_ultimo + 1; // Sumar 1 al último valor de num_asi
-
 		} else {
 			// Si no hay registros, iniciar en 1
 			$data['numero_siguiente'] = 1;
-			$data['op_siguiente'] = 1;
-
 		}
+
 
 		// Agregar el resto de los datos necesarios
 		$data = array_merge($data, array(
@@ -550,7 +542,6 @@ class Diario_obligaciones extends CI_Controller
 						);
 						$this->Editar_Movimientos_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
 					}
-
 				}
 				exit();
 			} else {
