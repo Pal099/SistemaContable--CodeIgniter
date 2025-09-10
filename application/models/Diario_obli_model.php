@@ -243,7 +243,6 @@ class Diario_obli_model extends CI_Model
 		} else {
 			return false;
 		}
-
 	}
 
 
@@ -270,7 +269,6 @@ class Diario_obli_model extends CI_Model
 		$this->db->where("id", $id);
 		$resultado = $this->db->get("proveedores");
 		return $resultado->row();
-
 	}
 
 	public function update($id, $data)
@@ -341,7 +339,12 @@ class Diario_obli_model extends CI_Model
 
 
 
-
+	public function getCuentaContableID($id)
+	{
+		$this->db->where("IDCuentaContable", $id);
+		$resultado = $this->db->get("cuentacontable");
+		return $resultado->row();
+	}
 
 
 	//guardar asientos
@@ -495,7 +498,12 @@ class Diario_obli_model extends CI_Model
 		return $this->db->affected_rows() > 0;
 	}
 
-
+	public function getDatosPorIdPedido($id_pedido)
+	{
+		$this->db->where('idpedido', $id_pedido);
+		$query = $this->db->get('pedido_material'); // Cambia 'num_asi' por el nombre de tu tabla si es diferente
+		return $query->result();
+	}
 
 	// En Diario_obli_model.php
 
