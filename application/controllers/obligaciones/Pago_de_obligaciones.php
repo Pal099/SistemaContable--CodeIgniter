@@ -77,9 +77,9 @@ class Pago_de_obligaciones extends CI_Controller
 		// Agregar el resto de los datos necesarios
 		$data = array_merge($data, array(
 			'proveedores' => $this->Proveedores_model->getProveedores($id_uni_respon_usu), // Agregar esta línea para obtener la lista de proveedores
-			'programa' => $this->Pago_obli_model->getProgramGastos($id_uni_respon_usu),
-			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes($id_uni_respon_usu),
-			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes($id_uni_respon_usu),
+			'programa' => $this->Pago_obli_model->getProgramGastos(),
+			'fuente_de_financiamiento' => $this->Pago_obli_model->getFuentes(),
+			'origen_de_financiamiento' => $this->Pago_obli_model->getOrigenes(),
 			'cuentacontable' => $this->Pago_obli_model->getCuentaContable($id_uni_respon_usu),
 			'asientos' => $this->Pago_obli_model->obtener_asientos($id_uni_respon_usu),
 			'asiento' => $this->Pago_obli_model->GETasientos($id_uni_respon_usu),
