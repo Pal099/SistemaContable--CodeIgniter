@@ -17,7 +17,6 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->model("Diario_obli_model");
 		$this->load->model("Usuarios_model");
 		$this->load->model("movimientos_editar/Editar_Movimientos_model");
-
 	}
 
 
@@ -47,13 +46,11 @@ class Pago_de_obligaciones extends CI_Controller
 		$this->load->view("layouts/sideBar");
 		$this->load->view("admin/pagoobli/pagobli_combined", $data);
 		$this->load->view("layouts/footer");
-
 	}
 
 	public function pdfs()
 	{
 		$this->load->view("fpdf");
-
 	}
 
 	public function add()
@@ -67,12 +64,15 @@ class Pago_de_obligaciones extends CI_Controller
 		$data['numeros'] = $this->Diario_obli_model->getMaxNumAsiAndOp($id_uni_respon_usu);
 
 		// Verificar si hay registros y calcular el próximo número
-		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null) {
+		if ($data['numeros'] && $data['numeros']->ultimo_numero !== null && $data['numeros']->op_ultimo !== null) {
 			$data['numero_siguiente'] = $data['numeros']->ultimo_numero + 1; // Sumar 1 al último valor de num_asi
+			$data['op_siguiente'] = $data['numeros']->op_ultimo + 1; // Sumar 1 al último valor de op
 		} else {
 			// Si no hay registros, iniciar en 1
 			$data['numero_siguiente'] = 1;
+			$data['op_siguiente'] = 1;
 		}
+
 
 		// Agregar el resto de los datos necesarios
 		$data = array_merge($data, array(
@@ -222,9 +222,7 @@ class Pago_de_obligaciones extends CI_Controller
 
 							$this->Diario_obli_model->saveHaber($dataDetaHaber);
 							$this->Diario_obli_model->updateMontoPagado($proveedor_id, $id_num_asi, $nuevo_monto_pago);
-
 						}
-
 					}
 
 					return redirect(base_url() . "obligaciones/pago_de_obligaciones/add");
@@ -417,7 +415,6 @@ class Pago_de_obligaciones extends CI_Controller
 						);
 						$this->Editar_Movimientos_model->update_num_asi_deta($IDNum_Asi_Deta, $dataActualizar);
 					}
-
 				}
 				exit();
 			} else {
