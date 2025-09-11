@@ -97,8 +97,14 @@
 
                                                     <div class="form-group col-md-4">
                                                         <label for="razon_social">Nombre y Apellido:</label>
-                                                        <input type="text" class="form-control w-100" id="razon_social"
-                                                            name="razon_social" readonly required>
+                                                        <div class="row g-0">
+                                                            <div class="col-2">
+                                                                <input type="text" class="form-control" id="idproveedor" name="idproveedor" readonly required>
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <input type="text" class="form-control" id="razon_social" name="razon_social" readonly required>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div class="form-group col-md-4">
@@ -628,7 +634,7 @@
                         <table id="TablaProveedores" class="table table-hover table-sm">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>Ruc</th>
                                     <th>Razón Social</th>
                                     <th>Dirección</th>
@@ -640,10 +646,10 @@
                             <tbody>
                                 <?php foreach ($proveedores as $index => $proveedor): ?>
                                     <tr class="list-item"
-                                        onclick="selectProveedor('<?= $proveedor->ruc ?>', '<?= $proveedor->razon_social ?>')"
+                                        onclick="selectProveedor( '<?= $proveedor->ruc ?>', '<?= $proveedor->id ?>', '<?= $proveedor->razon_social ?>')"
                                         data-bs-dismiss="modal">
                                         <td>
-                                            <?= $index + 1 ?>
+                                            <?= $proveedor->id ?>
                                         </td>
                                         <td>
                                             <?= $proveedor->ruc ?>
@@ -696,6 +702,7 @@
                                     <th>Actividad</th>
                                     <th>Fecha</th>
                                     <th>Ruc</th>
+                                    <th>Proveedor</th>
                                     <th>Razon Social</th>
                                     <th>Concepto</th>
                                     <th>Id Presupuesto</th>
@@ -704,7 +711,7 @@
                             </thead>
                             <tbody>
                                 <?php foreach ($comprobante as $index => $comprob): ?>
-                                    <tr class="list-item" onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>', '<?= $comprob->ruc ?>', 
+                                    <tr class="list-item" onclick="selectComprobante('<?= $comprob->id_unidad ?>','<?= $comprob->fecha ?>',  '<?= $comprob->ruc ?>', '<?= $comprob->idproveedor ?>',
                                     '<?= $comprob->razon_social ?>', '<?= $comprob->concepto ?>', '<?= $comprob->idpresupuesto ?>', '<?= $comprob->descripcion ?>', '<?= $comprob->id_pedido ?>')"
                                         data-bs-dismiss="modal">
                                         <td>
@@ -716,6 +723,9 @@
                                         </td>
                                         <td>
                                             <?= $comprob->fecha ?>
+                                        </td>
+                                         <td>
+                                            <?= $comprob->idproveedor ?>
                                         </td>
                                         <td>
                                             <?= $comprob->ruc ?>
@@ -1184,20 +1194,23 @@
 
         <!-- Seleccionar un Proveedor -->
         <script>
-            function selectProveedor(ruc, razonSocial) {
+            function selectProveedor(ruc, id, razonSocial) {
                 document.getElementById('ruc').value = ruc;
+                document.getElementById('idproveedor').value = id;
+
                 document.getElementById('razon_social').value = razonSocial;
-                //document.getElementById('direccion').value = direccion;
+                console.log(id);
             }
         </script>
 
 
         <!-- Seleccionar un comprobante -->
         <script>
-            function selectComprobante(id_unidad, fecha, ruc, razon_social, concepto, idpresupuesto, descripcion, id_pedido) {
+            function selectComprobante(id_unidad, fecha, ruc, idproveedor, razon_social, concepto, idpresupuesto, descripcion, id_pedido) {
 
                 document.getElementById('fecha').value = fecha;
                 document.getElementById('ruc').value = ruc;
+                document.getElementById('idproveedor').value = idproveedor;
                 document.getElementById('razon_social').value = razon_social;
                 document.getElementById('concepto').value = concepto;
                 $.get('<?= base_url("obligaciones/diario_obligaciones/getDatosCompletosPresupuesto") ?>', {
