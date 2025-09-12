@@ -61,6 +61,59 @@ class Diario_obligaciones extends CI_Controller
 	}
 
 
+	public function getDatosCompletosPresupuesto()
+	{
+		$id_presupuesto = $this->input->get('id');
+		if (!$id_presupuesto) {
+			echo json_encode(['error' => 'ID de presupuesto no proporcionado']);
+			return;
+		}
+
+		// 1. Obtener datos del presupuesto
+		$presupuesto = $this->Presupuesto_model->getPresupuesto($id_presupuesto);
+		if (!$presupuesto) {
+			echo json_encode(['error' => 'Presupuesto no encontrado']);
+			return;
+		}
+
+		// 2. Obtener datos de la cuenta contable relacionada
+		$idcuentacontable = $presupuesto->Idcuentacontable ?? null;
+		$cuenta = $idcuentacontable ? $this->Diario_obli_model->getCuentaContableID($idcuentacontable) : null;
+
+		// 3. Responder con todos los datos
+		echo json_encode([
+			'presupuesto' => $presupuesto,
+			'cuenta_contable' => $cuenta ? [
+				'codigo_cc' => $cuenta->Codigo_CC,
+				'descripcion_cc' => $cuenta->Descripcion_CC
+			] : null,
+		]);
+	}
+
+	public function getmontototal()
+	{
+		$id_pedido = $this->input->get('id');
+		if (!$id_pedido) {
+			echo json_encode(['error' => 'ID de pedido no proporcionado']);
+			return;
+		}
+
+		$pedido = $this->Diario_obli_model->getDatosPorIdPedido($id_pedido);
+		// traer todos los datos del pedido y sumar el exenta si es que no hay gravada y viceversa
+		if ($pedido) {
+			$total = 0;
+			foreach ($pedido as $item) {
+				if ($item->gravada == 0) {
+					$total += $item->exenta;
+				} else {
+					$total += $item->gravada;
+				}
+			}
+			echo json_encode(['total' => $total]);
+		} else {
+			echo json_encode(['error' => 'Pedido no encontrado']);
+		}
+	}
 
 	//Esta funcion se usa en el obli_combined
 

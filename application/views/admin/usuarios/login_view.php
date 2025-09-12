@@ -8,7 +8,7 @@
     <title>CodexVeritas</title>
     <link href="<?php echo base_url(); ?>assets/img/codex.png" rel="icon">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
-    <link href="<?php echo base_url(); ?>/assets/css/login_codex.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>/assets/css/login.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
 
 </head>
