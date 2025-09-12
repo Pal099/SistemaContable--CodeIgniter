@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
     <link href="<?php echo base_url(); ?>/assets/css/login_codex.css" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    
+
 </head>
 <body>
 
@@ -27,8 +28,8 @@
             <i class="fas fa-lock icon"></i>
         </div>
 
-        <section id="header-container">
-            <select id="unidadDropdown" name="unidad_academica" class="unidadDropdown" required>
+        <div class="input-container">
+            <select id="unidadDropdown" name="unidad_academica" class="unidadDropdown input bg-glass" required style="width: 100%; margin-bottom: 0;">
                 <option disabled selected>Seleccione una unidad académica</option>
                 <?php if (!empty($unidades)) : ?>
                     <?php foreach ($unidades as $unidad) : ?>
@@ -38,7 +39,8 @@
                     <option disabled>No hay unidades académicas disponibles</option>
                 <?php endif; ?>
             </select>
-        </section>
+            
+        </div>
 
         <div class="row">
             <div class="col-8">
@@ -52,6 +54,7 @@
         <button type="submit" class="button bg-glass">Iniciar Sesión</button>
     </form>
 
- 
+
 </body>
+
 </html>
