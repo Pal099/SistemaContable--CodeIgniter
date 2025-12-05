@@ -10,7 +10,12 @@ class EjecucionP_model extends CI_Model
         $this->load->database();
     }
     /**
+     * Esta función se utilizará para validar en el momento de crear un comprobante de gasto,
+     * está en el Controlador de comprobantes de gasto, la función verificar_saldo
      * Actualiza la ejecución mensual usando el número de asiento.
+     *  ToDo:
+     *      volver a analizar la forma que se toma la fecha
+     *      agregar un sql para el calculo de la ejecución del  presupuesto global 
      * Se asume que:
      * - El asiento con Debe > 0 (primer asiento) contiene el monto a sumar.
      * - El asiento con Haber > 0 (segundo asiento) contiene la cuenta presupuestada.
@@ -19,14 +24,19 @@ class EjecucionP_model extends CI_Model
     public function calcular_saldo_presupuestario($id_presupuesto)
     {
         // Definir el mes actual en formato datetime (primer día del mes)
+        // Preguntar a papá sobre como es mejor determinar qué fecha se usa para el mes que afecta
+        // hay que tener en cuenta que se puede querer afectar a un presupuesto en un mes diferente
         $fecha_mes_actual = date('Y-m-01 00:00:00');
 
         // Obtener presupuesto mensual
+        // este select simplemente suma el monto presupuestado y modificado para el mes que toma la variable mes_actual
+        // pero como se cargan estos montos acá ? 
         $this->db->select('monto_presupuestado, monto_modificado');
         $this->db->from('presupuesto_mensual');
         $this->db->where('id_presupuesto', $id_presupuesto);
         $this->db->where('mes', $fecha_mes_actual);
         $query_presupuesto = $this->db->get();
+
 
         if ($query_presupuesto->num_rows() == 0) {
             return ['error' => 'No existe presupuesto para este mes'];
@@ -37,7 +47,7 @@ class EjecucionP_model extends CI_Model
 
         // Obtener ejecución acumulada (obligado y pagado)
         $this->db->select('COALESCE(SUM(obligado), 0) AS total_obligado, COALESCE(SUM(pagado), 0) AS total_pagado');
-        $this->db->from('ejecucion_mensual');
+        $this->db->from('ejecucion_mensual');// en este otro método se hacen los calculos de la ejecución sobre los asientos que se van cargando     public function actualizarEjecucion($numero) 
         $this->db->where('id_presupuesto', $id_presupuesto);
         $this->db->where('mes', $fecha_mes_actual);
         $ejecucion = $this->db->get()->row();
@@ -55,11 +65,12 @@ class EjecucionP_model extends CI_Model
     }
     public function actualizarEjecucion($numero)
     {
-        // Buscar la cuenta presupuestada (segundo asiento)
-        $this->db->select('IDCuentaContable, creado_en');
+         // 1. Buscar los detalles del asiento (Cuenta presupuestada + Dimensiones financieras)
+        // Necesitamos id_of, id_ff, id_pro además de la cuenta para hacer el match exacto
+        $this->db->select('IDCuentaContable, creado_en, id_of, id_ff, id_pro');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
-        $this->db->where('Haber >', 0);
+        $this->db->where('Haber >', 0); // Asumimos que el Haber tiene la imputación presupuestaria
         $query = $this->db->get();
         $cuenta = $query->row();
 
@@ -68,7 +79,7 @@ class EjecucionP_model extends CI_Model
             return false;
         }
 
-        // Buscar el monto del Debe (primer asiento)
+        // 2. Buscar el monto del Debe (primer asiento - el gasto real, ya que puede haber por lo menos 1 asiento, más)
         $this->db->select('Debe');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
@@ -81,23 +92,30 @@ class EjecucionP_model extends CI_Model
             return false;
         }
 
-        // Buscar el presupuesto asociado
+        // Buscar el presupuesto asociado usando LAS 4 DIMENSIONES FINANCIERAS
+        // CRÍTICO: Una cuenta puede aparecer en múltiples presupuestos (diferentes OF/FF/Programa)
+        // Por eso DEBEMOS usar las 4 dimensiones para identificar EL presupuesto correcto
         $this->db->select('ID_Presupuesto');
         $this->db->from('presupuestos');
         $this->db->where('Idcuentacontable', $cuenta->IDCuentaContable);
+        $this->db->where('origen_de_financiamiento_id_of', $cuenta->id_of);
+        $this->db->where('fuente_de_financiamiento_id_ff', $cuenta->id_ff);
+        $this->db->where('programa_id_pro', $cuenta->id_pro);
         $query = $this->db->get();
         $presupuesto = $query->row();
 
         if (!$presupuesto) {
-            log_message('error', 'No se encontró presupuesto para la cuenta: ' . $cuenta->IDCuentaContable);
+            log_message('error', 'No se encontró presupuesto para la cuenta: ' . $cuenta->IDCuentaContable . 
+                ' con dimensiones OF=' . $cuenta->id_of . ', FF=' . $cuenta->id_ff . ', PRO=' . $cuenta->id_pro);
             return false;
         }
 
-        // Determinar mes según la fecha del asiento
+        // Determinar mes según la fecha del asiento, creado_en es un timestamp sobre la fecha que se cargó un 
+        // asiento en num_asi_deta, no la fecha seleccionada para el asiento en el num_asi
         $fecha_asiento = $cuenta->creado_en ?? date('Y-m-d H:i:s');
         $mes = date('Y-m-01 00:00:00', strtotime($fecha_asiento));
 
-        // Obtener tipo de asiento
+        // Obtener tipo de asiento y guardar la fila de del asiento seleccionado en $asiento
         $this->db->select('id_form');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
@@ -110,11 +128,13 @@ class EjecucionP_model extends CI_Model
         }
 
         // Operación en ejecucion_mensual
+        //toma el presupuesto asociado obtenido en la linea 97 , quizá es un error esto 
         $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
         $this->db->where('mes', $mes);
         $query = $this->db->get('ejecucion_mensual');
-
+        //verifica si el asiento tiene más de 0 filas para actualizar 
         if ($query->num_rows() > 0) {
+            //obtiene el obligado de el id_form1 
             $field = ($asiento->id_form == 1) ? 'obligado' : 'pagado';
             $this->db->set($field, "{$field} + {$monto->Debe}", false);
             $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);

@@ -44,8 +44,8 @@ class Diario_obligaciones extends CI_Controller
 		$data['origen_de_financiamiento'] = $this->Origen_model->getOrigenes();
 		$data['ultimo_str'] = $this->Diario_obli_model->ultimoSTR($id_user);
 		$data['comprobante'] = $this->Comprobante_Gastos_model->getComprobantesGastos($id_uni_respon_usu);
-		$cuentas = $this->CuentasContablesModel->getC_C($id_uni_respon_usu);
-		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu);
+		$data['cuentacontable2'] = $this->Diario_obli_model->getCuentaContable(); // Para segundo modal
+		$data['presupuesto'] = $this->Presupuesto_model->getPresu($id_uni_respon_usu); // Para modal de presupuestos
 
 
 		foreach ($data['presupuesto'] as $presupuesto) { //Aqui hacemos las busquedas de los rubros que están o no presupuestadas
@@ -606,11 +606,6 @@ class Diario_obligaciones extends CI_Controller
 	}
 
 
-
-
-
-
-
 	public function view($id)
 	{
 		$data = array(
@@ -626,5 +621,89 @@ class Diario_obligaciones extends CI_Controller
 		);
 		$this->Diario_obli_model->update($id, $data);
 		return redirect(base_url() . "obligaciones/diario_obligaciones/add");
+	}
+
+	//función que calcula el saldo directamente desde id_presupuesto (usado en modal de presupuestos)
+	public function verificar_saldo()
+	{
+		$this->load->model('EjecucionP_model');
+		$id_presupuesto = $this->input->post('id_presupuesto');
+
+		try {
+			if (!$id_presupuesto) {
+				throw new Exception('ID de presupuesto no proporcionado');
+			}
+
+			$resultado = $this->EjecucionP_model->calcular_saldo_presupuestario($id_presupuesto);
+
+			if (isset($resultado['error'])) {
+				throw new Exception($resultado['error']);
+			}
+
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'success',
+					'saldo' => number_format($resultado['saldo_disponible'], 0, ',', '.'),
+					'presupuesto' => number_format($resultado['presupuesto_total'], 0, ',', '.'),
+					'ejecutado' => number_format($resultado['ejecutado_obligado'], 0, ',', '.')
+				]));
+		} catch (Exception $e) {
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'error',
+					'message' => $e->getMessage()
+				]));
+		}
+	}
+
+	//función que calcula el saldo usando dimensiones financieras (método antiguo, mantener por compatibilidad)
+	public function verificar_saldo_cuenta()
+	{
+		$this->load->model('EjecucionP_model');
+
+		$idcuentacontable = $this->input->post('IDCuentaContable');
+		$id_of = $this->input->post('id_of');
+		$id_ff = $this->input->post('id_ff');
+		$id_pro = $this->input->post('id_pro');
+
+		try {
+			// Buscar el presupuesto usando las 4 dimensiones
+			$this->db->select('ID_Presupuesto');
+			$this->db->from('presupuestos');
+			$this->db->where('Idcuentacontable', $idcuentacontable);
+			$this->db->where('origen_de_financiamiento_id_of', $id_of);
+			$this->db->where('fuente_de_financiamiento_id_ff', $id_ff);
+			$this->db->where('programa_id_pro', $id_pro);
+			$query = $this->db->get();
+
+			if ($query->num_rows() == 0) {
+				throw new Exception('No existe presupuesto para estas dimensiones financieras');
+			}
+
+			$id_presupuesto = $query->row()->ID_Presupuesto;
+			$resultado = $this->EjecucionP_model->calcular_saldo_presupuestario($id_presupuesto);
+
+			if (isset($resultado['error'])) {
+				throw new Exception($resultado['error']);
+			}
+
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'success',
+					'saldo' => number_format($resultado['saldo_disponible'], 0, ',', '.'),
+					'presupuesto' => number_format($resultado['presupuesto_total'], 0, ',', '.'),
+					'ejecutado' => number_format($resultado['ejecutado_obligado'], 0, ',', '.')
+				]));
+		} catch (Exception $e) {
+			$this->output
+				->set_content_type('application/json')
+				->set_output(json_encode([
+					'status' => 'error',
+					'message' => $e->getMessage()
+				]));
+		}
 	}
 }

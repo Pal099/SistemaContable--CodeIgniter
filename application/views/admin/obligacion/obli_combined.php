@@ -724,7 +724,7 @@
                                         <td>
                                             <?= $comprob->fecha ?>
                                         </td>
-                                         <td>
+                                        <td>
                                             <?= $comprob->idproveedor ?>
                                         </td>
                                         <td>
@@ -819,50 +819,53 @@
             });
         </script>
 
-        <!-- Modal con Bootstrap Cuentas Contables número 1 -->
-        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalCuentasContables"
+        <!-- Modal con Bootstrap Presupuestos (antes Cuentas Contables número 1) -->
+        <div class="modal fade mi-modal" id="modalCuentasCont1" tabindex="-1" aria-labelledby="ModalPresupuestos"
             aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered cuentas-contables">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Buscador de Cuentas Contables</h5>
+                        <h5 class="modal-title">Seleccionar Presupuesto con Saldo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <table class="table table-hover table-sm" id="TablaCuentaCont2">
+                        <table class="table table-hover table-sm" id="TablaPresupuestos">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Código de Cuenta</th>
-                                    <th>Descripción de Cuenta</th>
-                                    <th>Estado</th> <!-- acá debería mostrar si aún tiene presupuesto -->
-                                    <th>Plan Financiero</th>
-                                    <!-- acá mostrará el mes del plan financiero que se va usar  -->
-                                    <th>Presupuesto</th>
+                                    <th>Código Cuenta</th>
+                                    <th>Descripción</th>
+                                    <th>O.F.</th>
+                                    <th>F.F.</th>
+                                    <th>Programa</th>
+                                    <th>Presupuesto Total</th>
+                                    <th>Saldo Disponible</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($cuentacontable as $dato): ?>
+                                <?php foreach ($presupuesto as $presu): ?>
                                     <tr class="list-item"
-                                        onclick="selectCCcomplex(<?= $dato->IDCuentaContable ?>, '<?= $dato->Codigo_CC ?>', '<?= $dato->Descripcion_CC ?>')"
-                                        data-bs-dismiss="modal">
-                                        <td><?= htmlspecialchars($dato->IDCuentaContable); ?></td>
-                                        <td><?= htmlspecialchars($dato->Codigo_CC); ?></td>
-                                        <td><?= htmlspecialchars($dato->Descripcion_CC); ?></td>
-                                        <td>
-                                            <?php if (isset($dato->TotalPresupuestado) && $dato->TotalPresupuestado): ?>
-                                                <span class="badge bg-success">Presupuestado</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-warning">No está Presupuestado</span>
-                                            <?php endif; ?>
+                                        data-id-presupuesto="<?= $presu->ID_Presupuesto ?>"
+                                        data-id-cuenta="<?= $presu->Idcuentacontable ?>"
+                                        data-codigo-cc="<?= $presu->cod_cuenta ?>"
+                                        data-descripcion-cc="<?= $presu->descripcion ?>"
+                                        data-id-of="<?= $presu->origen_de_financiamiento_id_of ?>"
+                                        data-id-ff="<?= $presu->fuente_de_financiamiento_id_ff ?>"
+                                        data-id-pro="<?= $presu->programa_id_pro ?>"
+                                        onclick="selectPresupuestoCompleto(this)"
+                                        data-bs-dismiss="modal"
+                                        style="cursor: pointer;">
+                                        <td><?= htmlspecialchars($presu->cod_cuenta); ?></td>
+                                        <td><?= htmlspecialchars($presu->descripcion); ?></td>
+                                        <td><span class="badge bg-info"><?= htmlspecialchars($presu->origen_de_financiamiento); ?></span></td>
+                                        <td><span class="badge bg-primary"><?= htmlspecialchars($presu->fuente_de_financiamiento); ?></span></td>
+                                        <td><span class="badge bg-secondary"><?= htmlspecialchars($presu->programa); ?></span></td>
+                                        <td class="text-end">
+                                            <?= number_format($presu->TotalPresupuestado + $presu->TotalModificado, 0, ',', '.') ?>
                                         </td>
-                                        <td>
-                                            <?= isset($dato->meses_presupuesto) && $dato->meses_presupuesto
-                                                ? rtrim($dato->meses_presupuesto, '') // Quita la última coma y espacio
-                                                : '<span class="badge bg-warning">Sin Plan Financiero</span>'; ?>
-                                        </td>
-                                        <td>
-                                            <?= isset($dato->TotalPresupuestado) ? number_format($dato->TotalPresupuestado, 0, ',', '.') : '' ?>
+                                        <td class="text-center">
+                                            <span id="saldo-<?= $presu->ID_Presupuesto ?>" class="text-muted">
+                                                <i class="bi bi-hourglass-split"></i> Calculando...
+                                            </span>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -915,6 +918,158 @@
                 </div>
             </div>
         </div>
+
+
+        <script>
+            // Función para seleccionar un presupuesto completo con todas sus dimensiones
+            function selectPresupuestoCompleto(row) {
+                const $row = $(row);
+                
+                // Extraer todos los datos del presupuesto desde los atributos data-*
+                const idCuenta = $row.data('id-cuenta');
+                const codigoCC = $row.data('codigo-cc');
+                const descripcionCC = $row.data('descripcion-cc');
+                const idOF = $row.data('id-of');
+                const idFF = $row.data('id-ff');
+                const idPro = $row.data('id-pro');
+                
+                console.log('📋 Presupuesto seleccionado:', {
+                    idCuenta, codigoCC, descripcionCC, idOF, idFF, idPro
+                });
+                
+                // Actualizar las dimensiones financieras (selectores)
+                $('#id_of').val(idOF);
+                $('#id_ff').val(idFF);
+                $('#id_pro').val(idPro);
+                
+                // PASO 1: Actualizar la cuenta contable HIJA (fila 2) con el presupuesto seleccionado
+                $('#idcuentacontable_2').val(idCuenta);
+                $('#codigo_cc_2').val(codigoCC);
+                $('#descripcion_cc_2').val(descripcionCC);
+                
+                console.log('✅ Cuenta hija actualizada (fila 2):', {
+                    id: idCuenta, 
+                    codigo: codigoCC, 
+                    descripcion: descripcionCC
+                });
+                
+                // PASO 2: Desglosar el código para obtener la cuenta PADRE (fila 1)
+                // Convertir a string por si viene como número
+                const desglose = desglosarCodigoCuenta(String(codigoCC));
+                if (desglose) {
+                    const segundaParte = desglose.segundaParte;
+                    console.log('🔍 Buscando cuenta padre con código que contenga:', segundaParte);
+                    
+                    obtenerCuentasPadres(function(cuentasPadres) {
+                        if (cuentasPadres) {
+                            const cuentaPadre = cuentasPadres.find(cuenta => 
+                                cuenta.Codigo_CC.includes(segundaParte)
+                            );
+                            if (cuentaPadre) {
+                                // Actualizar la cuenta PADRE (fila 1)
+                                $('#idcuentacontable').val(cuentaPadre.IdCuentaContable);
+                                $('#codigo_cc').val(cuentaPadre.Codigo_CC);
+                                $('#descripcion_cc').val(cuentaPadre.Descripcion_CC);
+                                
+                                console.log('✅ Cuenta padre actualizada (fila 1):', {
+                                    id: cuentaPadre.IdCuentaContable,
+                                    codigo: cuentaPadre.Codigo_CC,
+                                    descripcion: cuentaPadre.Descripcion_CC
+                                });
+                            } else {
+                                console.warn('⚠️ No se encontró cuenta padre para:', segundaParte);
+                            }
+                        } else {
+                            console.error('❌ No se pudieron obtener cuentas padres');
+                        }
+                    });
+                } else {
+                    console.error('❌ No se pudo desglosar el código:', codigoCC);
+                }
+            }
+
+            // Evento que se ejecuta al mostrar el modal de presupuestos
+            $('#modalCuentasCont1').on('shown.bs.modal', function() {
+                console.log('🔍 Modal abierto - Calculando saldos para cada presupuesto...');
+
+                // Recorrer cada fila (cada presupuesto individual)
+                $('#TablaPresupuestos tbody tr').each(function() {
+                    const $row = $(this);
+                    const idPresupuesto = $row.data('id-presupuesto');
+                    const $saldoCell = $row.find(`#saldo-${idPresupuesto}`);
+
+                    if (!idPresupuesto) {
+                        console.error('❌ No se encontró ID de presupuesto en la fila:', $row);
+                        return;
+                    }
+
+                    console.log('🔄 Calculando saldo para presupuesto ID:', idPresupuesto);
+
+                    // Usar verificar_saldo (más directo, usa id_presupuesto)
+                    $.ajax({
+                        url: '<?= base_url("obligaciones/diario_obligaciones/verificar_saldo") ?>',
+                        method: 'POST',
+                        data: {
+                            id_presupuesto: idPresupuesto
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log('✅ Respuesta para presupuesto', idPresupuesto, ':', response);
+
+                            if (response.status === 'success') {
+                                // Convertir el saldo a número
+                                const saldoStr = response.saldo.toString().replace(/\./g, '').replace(',', '.');
+                                const saldo = parseFloat(saldoStr);
+
+                                if (saldo > 0) {
+                                    $saldoCell.html(`
+                                        <span class="text-success fw-bold">
+                                            <i class="bi bi-check-circle-fill"></i> Gs. ${response.saldo}
+                                        </span>
+                                    `);
+                                    // NO marcar la fila, está disponible
+                                } else {
+                                    $saldoCell.html(`
+                                        <span class="text-danger fw-bold">
+                                            <i class="bi bi-x-circle-fill"></i> Sin saldo
+                                        </span>
+                                    `);
+                                    $row.addClass('table-danger');
+                                    $row.css('pointer-events', 'none'); // Deshabilitar selección
+                                    $row.css('opacity', '0.5');
+                                }
+                            } else {
+                                $saldoCell.html(`
+                                    <span class="text-warning">
+                                        <i class="bi bi-exclamation-triangle"></i> ${response.message || 'Sin presupuesto mensual'}
+                                    </span>
+                                `);
+                                $row.addClass('table-warning');
+                                $row.css('pointer-events', 'none');
+                                $row.css('opacity', '0.5');
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('❌ Error AJAX para presupuesto', idPresupuesto, ':', error);
+                            $saldoCell.html(`
+                                <span class="text-danger">
+                                    <i class="bi bi-x-circle"></i> Error
+                                </span>
+                            `);
+                        }
+                    });
+                });
+            });
+
+            // Limpiar saldos al cerrar el modal
+            $('#modalCuentasCont1').on('hidden.bs.modal', function() {
+                console.log('🔒 Modal cerrado - Limpiando saldos...');
+                $('[id^="saldo-"]').html('<i class="bi bi-hourglass-split"></i> Calculando...');
+                $('#TablaPresupuestos tbody tr').removeClass('table-danger table-warning');
+                $('#TablaPresupuestos tbody tr').css('pointer-events', '');
+                $('#TablaPresupuestos tbody tr').css('opacity', '');
+            });
+        </script>
 
         <!-- JavaScript para la búsqueda -->
         <script>
@@ -1142,37 +1297,7 @@
             }
         </script>
 
-        <!-- Script destinado al segundo modal con bootstrap (seleccionar) -->
-        <script>
-            var currentRow = null;
-
-            // Función para abrir el modal de las cuentas contables
-            function openModal_4(currentRowParam) {
-
-                var modalContainer = document.getElementById('modalCuentasCont2');
-
-                currentRow = currentRowParam; // Almacenar la fila actual
-
-            }
-
-            // Abrir modal en fila dinamica
-            const openModalBtn_4 = document.getElementById("openModalBtn_4");
-            // Actualiza la función de clic para pasar la fila actual al abrir el modal
-            document.getElementById("miTabla").addEventListener("click", function(event) {
-
-                // Encuentra la fila desde la cual se abrió el modal
-                var row = $(event.target).closest('tr');
-                if (
-                    (event.target && event.target.className.includes("openModalBtn_4")) ||
-                    (event.target && event.target.parentNode && event.target.parentNode.className.includes(
-                        "openModalBtn_4"))
-                ) {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    openModal_4(row);
-                }
-            });
-        </script>
+        <!-- Script destinado al segundo modal ya está arriba, este bloque se elimina para evitar duplicados -->
 
         <!-- Script para mostrar los campos opcionales -->
         <script>
@@ -1208,7 +1333,7 @@
         <script>
             function selectComprobante(id_unidad, fecha, ruc, idproveedor, razon_social, concepto, idpresupuesto, descripcion, id_pedido) {
 
-                document.getElementById('fecha').value = fecha;
+                document.getElementById('fec    ha').value = fecha;
                 document.getElementById('ruc').value = ruc;
                 document.getElementById('idproveedor').value = idproveedor;
                 document.getElementById('razon_social').value = razon_social;
@@ -1232,7 +1357,7 @@
                     }
                 }, 'json');
                 document.getElementById('detalles').value = descripcion;
-                $.get('<?= base_url("obligaciones/diario_obligaciones/getmontototal") ?>', {
+                $.get('<?= base_url("obligaciones/Diario_obligaciones/getmontototal") ?>', {
                     id: id_pedido
                 }, function(dataTotal) {
                     console.log(dataTotal);

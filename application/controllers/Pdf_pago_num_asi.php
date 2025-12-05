@@ -652,7 +652,7 @@ $pdf->Cell(5, $textypos, "Retenciones aplicadas");
 $pdf->SetFont('Arial', '', 10);  // Sin negrita para los datos de la base de datos
 $pdf->setY(215);
 $pdf->setX(33);
-$pdf->Cell(5, $textypos, $datosProveedor['detalle']);
+$pdf->Cell(5, $textypos, "0");// Se coloca 0 ya que no hay datos en la base de datos aun
 //----------------------------//----------------------------------------
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->setY(215);

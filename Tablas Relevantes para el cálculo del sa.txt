@@ -1,0 +1,164 @@
+Tablas Relevantes para el cálculo del saldo presupuestario
+CREATE TABLE `presupuestos` (
+	`ID_Presupuesto` INT NOT NULL AUTO_INCREMENT,
+	`origen_de_financiamiento_id_of` INT NOT NULL COMMENT 'origen de financiamiento del presupuesto',
+	`fuente_de_financiamiento_id_ff` INT NOT NULL COMMENT 'Fuente de fianciamiento del presupuesto',
+	`programa_id_pro` INT NOT NULL,
+	`Idcuentacontable` INT NOT NULL,
+	`Año` DATE NULL DEFAULT NULL,
+	`TotalPresupuestado` DECIMAL(15,0) NOT NULL,
+	`TotalModificado` DECIMAL(15,0) NULL DEFAULT NULL,
+	`id_uni_respon_usu` INT NOT NULL,
+	`estado` INT NOT NULL,
+	PRIMARY KEY (`ID_Presupuesto`) USING BTREE,
+	INDEX `origen_de_financiamiento_id_of` (`origen_de_financiamiento_id_of`) USING BTREE,
+	INDEX `fuente_de_financiamiento_id_ff` (`fuente_de_financiamiento_id_ff`) USING BTREE,
+	INDEX `programa_id_pro` (`programa_id_pro`) USING BTREE,
+	INDEX `Idcuentacontable` (`Idcuentacontable`) USING BTREE,
+	INDEX `id_uni_respon_usu` (`id_uni_respon_usu`) USING BTREE,
+	CONSTRAINT `cc_fk` FOREIGN KEY (`Idcuentacontable`) REFERENCES `cuentacontable` (`IDCuentaContable`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `ff_fk` FOREIGN KEY (`fuente_de_financiamiento_id_ff`) REFERENCES `fuente_de_financiamiento` (`id_ff`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `id_cc` FOREIGN KEY (`Idcuentacontable`) REFERENCES `cuentacontable` (`IDCuentaContable`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `id_uni_respon_usu` FOREIGN KEY (`id_uni_respon_usu`) REFERENCES `uni_respon_usu` (`id_uni_respon_usu`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `of_fk` FOREIGN KEY (`origen_de_financiamiento_id_of`) REFERENCES `origen_de_financiamiento` (`id_of`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `pr_fk` FOREIGN KEY (`programa_id_pro`) REFERENCES `programa` (`id_pro`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+;
+CREATE TABLE `presupuesto_mensual` (
+	`id_presupuesto_mes` INT NOT NULL AUTO_INCREMENT COMMENT 'identificador del plan financiero o  tambien llamado presupuesto mensual',
+	`id_presupuesto` INT NOT NULL COMMENT 'el presupuesto que percibe el plan financiero',
+	`mes` DATETIME NOT NULL COMMENT 'separar siempre el mes de este campo',
+	`monto_presupuestado` DECIMAL(15,0) NOT NULL COMMENT 'Monto del presupuesto del mes',
+	`monto_modificado` DECIMAL(15,0) NULL DEFAULT '0' COMMENT 'este es el mismo monto que el presupuesto gral, ignorar aquí ',
+	PRIMARY KEY (`id_presupuesto_mes`) USING BTREE,
+	INDEX `idx_presupuesto_mes` (`id_presupuesto`, `mes`) USING BTREE,
+	INDEX `idx_mes_presupuesto` (`mes`) USING BTREE,
+	INDEX `idx_montos_presupuesto` (`monto_presupuestado`, `monto_modificado`) USING BTREE,
+	CONSTRAINT `presupuesto_mensual_ibfk_1` FOREIGN KEY (`id_presupuesto`) REFERENCES `presupuestos` (`ID_Presupuesto`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+;
+CREATE TABLE `num_asi` (
+	`IDNum_Asi` INT NOT NULL AUTO_INCREMENT,
+	`FechaEmision` DATE NOT NULL,
+	`num_asi` INT NOT NULL,
+	`op` INT NOT NULL,
+	`str` INT NOT NULL,
+	`id_nivel_str` INT NULL DEFAULT NULL,
+	`concepto` VARCHAR(250) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`ped_mat` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`modalidad` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`tipo_presu` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`unidad_resp` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`proyecto` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`nro_pac` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`nro_exp` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`MontoPagado` DECIMAL(15,0) NULL DEFAULT NULL,
+	`estado` INT NULL DEFAULT NULL COMMENT 'cuando está en 3 no muestra más en el form de pago(se pagó todo)',
+	`SumaMonto` DECIMAL(15,0) NOT NULL,
+	`MontoTotal` DECIMAL(15,0) NULL DEFAULT NULL COMMENT 'Monto total de la obligación, usemos para calcular el saldo presupuestario',
+	`id_form` INT NOT NULL,
+	`id_provee` INT NOT NULL,
+	`id_uni_respon_usu` INT NOT NULL,
+	`id_usuario_numasi` INT NOT NULL,
+	`estado_registro` INT NOT NULL,
+	PRIMARY KEY (`IDNum_Asi`) USING BTREE,
+	INDEX `id_provee` (`id_provee`) USING BTREE,
+	INDEX `id_uni_respon_usu` (`id_uni_respon_usu`) USING BTREE,
+	INDEX `id_usuario_numasi` (`id_usuario_numasi`) USING BTREE,
+	INDEX `id_nivel_str` (`id_nivel_str`) USING BTREE,
+	CONSTRAINT `fk_id_nivel_str` FOREIGN KEY (`id_nivel_str`) REFERENCES `nivel` (`id_nivel`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `fk_id_unidad_responsable` FOREIGN KEY (`id_uni_respon_usu`) REFERENCES `unidad_academica` (`id_unidad`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `fk_id_usuario_numasi` FOREIGN KEY (`id_usuario_numasi`) REFERENCES `usuarios` (`id_user`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+;
+CREATE TABLE `num_asi_deta` (
+	`IDNum_Asi_Deta` INT NOT NULL AUTO_INCREMENT,
+	`numero` INT NOT NULL,
+	`IDCuentaContable` INT NULL DEFAULT NULL,
+	`MontoPago` DECIMAL(15,0) NULL DEFAULT NULL,
+	`Debe` DECIMAL(15,0) NULL DEFAULT '0',
+	`Haber` DECIMAL(15,0) NULL DEFAULT '0',
+	`comprobante` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`detalles` VARCHAR(250) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`id_of` INT NOT NULL,
+	`id_pro` INT NOT NULL,
+	`Num_Asi_IDNum_Asi` INT NOT NULL,
+	`id_ff` INT NOT NULL,
+	`id_form` INT NOT NULL,
+	`cheques_che_id` INT NOT NULL,
+	`proveedores_id` INT NOT NULL,
+	`id_uni_respon_usu` INT NOT NULL,
+	`estado_registro` INT NOT NULL,
+	`creado_en` TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+	PRIMARY KEY (`IDNum_Asi_Deta`, `id_of`, `id_pro`, `Num_Asi_IDNum_Asi`, `id_ff`) USING BTREE,
+	INDEX `IDCuentaContable` (`IDCuentaContable`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_origen_de_financiamiento1_idx` (`id_of`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_programa1_idx` (`id_pro`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_Num_Asi1_idx` (`Num_Asi_IDNum_Asi`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_fuente_de_financiamiento1_idx` (`id_ff`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_cheques1_idx` (`cheques_che_id`) USING BTREE,
+	INDEX `fk_Num_Asi_Deta_proveedores1_idx` (`proveedores_id`) USING BTREE,
+	INDEX `id_uni_respon_usu` (`id_uni_respon_usu`) USING BTREE
+)
+;
+CREATE TABLE `ejecucion_mensual` (
+	`id_ejecucion_mes` INT NOT NULL AUTO_INCREMENT,
+	`id_presupuesto` INT NOT NULL COMMENT 'el presupuesto que recibe este presupuesto mensual',
+	`mes` DATETIME NOT NULL COMMENT 'mes al que aplicará el presupuesto ',
+	`obligado` DECIMAL(15,0) NULL DEFAULT '0' COMMENT 'monto obligado en el mes (acá se sumael monto de las obligaciones )',
+	`pagado` DECIMAL(15,0) NULL DEFAULT '0' COMMENT 'monto pagado en el mes (acá se suma el monto de los debe)',
+	`actualizado_en` TIMESTAMP NULL DEFAULT (CURRENT_TIMESTAMP) ON UPDATE CURRENT_TIMESTAMP,
+	`creado_en` TIMESTAMP NULL DEFAULT (CURRENT_TIMESTAMP),
+	PRIMARY KEY (`id_ejecucion_mes`) USING BTREE,
+	UNIQUE INDEX `unique_mes_ejecucion` (`id_presupuesto`, `mes`) USING BTREE,
+	CONSTRAINT `ejecucion_mensual_ibfk_1` FOREIGN KEY (`id_presupuesto`) REFERENCES `presupuestos` (`ID_Presupuesto`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB
+AUTO_INCREMENT=10
+;
+CREATE TABLE `comprobante_gasto` (
+	`IDComprobanteGasto` INT NOT NULL AUTO_INCREMENT,
+	`id_pedido` INT NOT NULL COMMENT 'Un pedido agrupa todos los items que se compraron en un comprobante de gasto',
+	`id_unidad` INT NOT NULL COMMENT 'unidad académica que pertenece el usuario que hizo un comprobante de gasto',
+	`fecha` DATE NOT NULL,
+	`idproveedor` INT NULL DEFAULT NULL COMMENT 'proveedor asociado al pago del comprobante de gasto ',
+	`idpresupuesto` INT NOT NULL COMMENT 'presupuesto que se usará en el comprobante de gasto, se debe verificar primero que el presupuesto_mensual asociado a este presupuesto tenga saldo disponible en su presupuesto mesual ',
+	`descripcion` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`concepto` VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`id_item` INT NOT NULL,
+	`preciounit` INT NOT NULL,
+	`cantidad` INT NOT NULL,
+	`iva` INT NOT NULL,
+	`porcentaje_iva` INT NOT NULL,
+	`exenta` INT NOT NULL,
+	`gravada` INT NOT NULL,
+	`id_uni_respon_usu` INT NOT NULL,
+	`estado` INT NOT NULL,
+	`procesado_asiento` TINYINT(1) NULL DEFAULT '0' COMMENT 'Indica si el comprobante ya fue procesado en un asiento contable',
+	`numero_asiento` INT NULL DEFAULT NULL COMMENT 'Referencia al asiento contable generado',
+	`fecha_procesado` DATETIME NULL DEFAULT NULL COMMENT 'Fecha cuando se procesó el asiento',
+	PRIMARY KEY (`IDComprobanteGasto`) USING BTREE,
+	INDEX `id_unidad` (`id_unidad`) USING BTREE,
+	INDEX `id_uni_respon_usu` (`id_uni_respon_usu`) USING BTREE,
+	INDEX `idproveedor` (`idproveedor`) USING BTREE,
+	INDEX `idx_procesado` (`procesado_asiento`) USING BTREE,
+	INDEX `idx_presupuesto_fecha` (`idpresupuesto`, `fecha`) USING BTREE,
+	CONSTRAINT `fk_comprobante_proveedor` FOREIGN KEY (`idproveedor`) REFERENCES `proveedores` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION,
+	CONSTRAINT `fk_comprobante_unidad` FOREIGN KEY (`id_unidad`) REFERENCES `unidad_academica` (`id_unidad`) ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+CREATE TABLE `bienes_servicios` (
+	`IDbienservicio` INT NOT NULL AUTO_INCREMENT,
+	`codigo` VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`rubro` INT NULL DEFAULT NULL,
+	`descripcion` VARCHAR(100) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`codcatalogo` VARCHAR(10) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`descripcioncatalogo` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci',
+	`precioref` INT NULL DEFAULT NULL,
+	`id_uni_respon_usu` INT NULL DEFAULT NULL,
+	`estado` INT NOT NULL,
+	PRIMARY KEY (`IDbienservicio`) USING BTREE
+)
+
+;
+
