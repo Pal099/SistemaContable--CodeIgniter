@@ -17,7 +17,7 @@
       </ol>
     </nav>
     <div class="container mt-4">
-      <form action="<?php echo base_url('patrimonio/comprobante_gasto/filtrar'); ?>" method="post" class="form-inline">
+      <form action="<?php echo base_url('patrimonio/Comprobante_Gasto/filtrar'); ?>" method="post" class="form-inline">
         <div class="row g-3 align-items-center">
           <div class="col-md-3">
             <label for="actividad" class="form-label">Actividad:</label>

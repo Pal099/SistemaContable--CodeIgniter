@@ -1,5 +1,19 @@
 # Instrucciones para Agentes de IA - Sistema Contable Presupuestario
 
+## Entorno de Desarrollo
+
+**Stack Tecnológico:**
+- **Servidor Local**: Laragon (Windows)
+- **Framework**: CodeIgniter 3 (MVC clásico)
+- **Base de Datos**: MySQL (contanuevo)
+- **PHP**: 7.4+
+- **URL Base**: `http://localhost/practica`
+
+**Comandos de Base de Datos:**
+- Ejecutar SQL: `mysql -u root contanuevo < archivo.sql`
+- Conectar: `mysql -u root contanuevo`
+- Laragon debe estar corriendo para acceder a MySQL
+
 ## Arquitectura General
 
 Este es un **sistema de gestión contable y presupuestaria** construido con **CodeIgniter 3** (MVC clásico). El sistema gestiona presupuestos institucionales, ejecución presupuestaria, obligaciones, pagos y asientos contables.
@@ -21,7 +35,7 @@ Presupuesto Anual (presupuestos)
   ↓
 Plan Financiero Mensual (presupuesto_mensual)
   ↓
-Comprobante de Gasto (Patrimonio) → Obligación → Pago
+Comprobante de Gasto (Patrimonio) → (Asiento automático id_form=4) → Pago
   ↓
 Ejecución Mensual (ejecucion_mensual)
   ↓
@@ -65,10 +79,10 @@ Este método calcula:
 - Saldo por pagar = Obligado - Pagado
 - Filtra automáticamente por mes actual (`date('Y-m-01 00:00:00')`)
 
-**Flujo de validación:**
-- `Comprobante_Gasto`: Solo VALIDAR saldo (no ejecutar)
-- `Diario_obligaciones->store()`: EJECUTAR `actualizarEjecucion($numero)` para actualizar `ejecucion_mensual`
-- NO duplicar ejecución en ambos lugares
+**Flujo actual (sin “reserva”):**
+- `Comprobante_Gasto`: VALIDAR saldo y luego GENERAR asiento automáticamente (num_asi/num_asi_deta)
+- `Comprobante_Gasto_model->guardar_pedido_y_generar_asiento(...)`: crea `num_asi` y `num_asi_deta` con `id_form=4` y llama `actualizarEjecucion($numero_asiento)`
+- `Pago` (id_form=2): actualiza `pagado` vía `actualizarEjecucion($numero_asiento)`
 
 ### 3. AJAX con CodeIgniter
 ```php
@@ -121,20 +135,37 @@ $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user)
 - URL base: `http://localhost/practica`
 - Base de datos: Configurar en `application/config/database.php`
 - PHP 7.4+ requerido
+- **Importante:** Laragon debe estar corriendo para acceder a MySQL y Apache
+
+### Ejecutar Migraciones SQL
+```powershell
+# Desde terminal PowerShell en c:\laragon\www\practica
+mysql -u root contanuevo < migrations/archivo.sql
+
+# O ejecutar comando directo
+mysql -u root contanuevo -e "ALTER TABLE ..."
+```
 
 ### Logs
 - Ubicación: `application/logs/log-{fecha}.php`
 - Usar: `log_message('error', 'Mensaje aquí');`
+- Nivel de logs: Configurar en `application/config/config.php` (`log_threshold`)
 
 ## Casos de Uso Críticos
 
-### Crear Nueva Obligación
-1. Validar saldo en `Comprobante_Gasto` (solo lectura)
-2. Guardar en `comprobantegasto` (no afecta ejecución)
-3. En `Diario_obligaciones->store()`:
-   - Insertar en `num_asi` y `num_asi_deta`
-   - Ejecutar `EjecucionP_model->actualizarEjecucion($numero)`
-   - Actualizar `ejecucion_mensual.obligado`
+### Crear Comprobante de Gasto (Patrimonio) con Asiento Automático
+1. UI obtiene `id_pedido` como `getMaxPedido() + 1` (agrupa todas las filas del comprobante)
+2. Guardar filas en `comprobante_gasto` (una fila por ítem)
+3. Generar asiento contable automáticamente:
+  - `num_asi.id_form = 4`
+  - `num_asi.concepto` = `comprobante_gasto.concepto`
+  - Detalle DEBE: cuenta presupuestada (la cuenta del presupuesto) con dimensiones `id_of/id_ff/id_pro`
+  - Detalle HABER: cuenta A.P. derivada (imputable=2) por “segunda parte” del `Codigo_CC` (patrón 2-3-7)
+4. Marcar el pedido como procesado:
+  - `comprobante_gasto.procesado_asiento = 1`
+  - `comprobante_gasto.numero_asiento = num_asi.num_asi`
+  - `comprobante_gasto.fecha_procesado = NOW()`
+5. Ejecutar `EjecucionP_model->actualizarEjecucion($numero_asiento)` para impactar `ejecucion_mensual.obligado` (id_form 4)
 
 ### Mostrar Saldo en Modales
 1. Obtener `id_presupuesto` con las 4 dimensiones financieras
@@ -145,7 +176,7 @@ $id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user)
 
 ❌ Buscar presupuesto solo por cuenta contable (ambiguo)  
 ❌ Duplicar cálculo de saldo (usar `calcular_saldo_presupuestario`)  
-❌ Ejecutar presupuesto en múltiples lugares (solo en `actualizarEjecucion`)  
+❌ Ejecutar presupuesto en múltiples lugares (solo vía asiento + `actualizarEjecucion`)  
 ❌ Usar `$query->row()` cuando puede haber múltiples resultados  
 ❌ Olvidar validar saldo antes de guardar comprobantes  
 

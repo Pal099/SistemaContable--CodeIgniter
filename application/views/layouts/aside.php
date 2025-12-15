@@ -130,7 +130,7 @@
            </a>
            <ul id="components-nav5" class="nav-content collapse " data-bs-parent="#sidebar-nav">
            <li class="nav-item">
-                   <a href="<?php echo base_url(); ?>patrimonio/comprobante_gasto">
+                   <a href="<?php echo base_url(); ?>patrimonio/Comprobante_Gasto">
                        <i class="bi bi-circle"></i><span>Comprobante de Gastos</span>
                    </a>
                </li> 

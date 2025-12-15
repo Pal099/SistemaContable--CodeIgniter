@@ -599,7 +599,7 @@
         };
 
         $.ajax({
-            url: '<?php echo base_url("patrimonio/comprobante_gasto/update"); ?>',
+            url: '<?php echo base_url("patrimonio/Comprobante_Gasto/update"); ?>',
             type: 'POST',
             data: {
                 datos: datosCompletos
@@ -921,7 +921,7 @@
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
+                window.location.href = '<?php echo base_url("patrimonio/Comprobante_Gasto"); ?>';
             }
         });
     }
@@ -1068,7 +1068,7 @@
                 cancelButtonText: 'No, continuar editando'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
+                    window.location.href = '<?php echo base_url("patrimonio/Comprobante_Gasto"); ?>';
                 }
             });
         });

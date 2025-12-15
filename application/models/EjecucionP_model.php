@@ -17,8 +17,9 @@ class EjecucionP_model extends CI_Model
      *      volver a analizar la forma que se toma la fecha
      *      agregar un sql para el calculo de la ejecución del  presupuesto global 
      * Se asume que:
-     * - El asiento con Debe > 0 (primer asiento) contiene el monto a sumar.
-     * - El asiento con Haber > 0 (segundo asiento) contiene la cuenta presupuestada.
+    * - La línea presupuestaria (cuenta + dimensiones) puede venir en DEBE o en HABER,
+    *   según el origen del asiento; esta función busca la línea que mapea a un presupuesto
+    *   (por las 4 dimensiones) y usa ese monto para actualizar la ejecución mensual.
      */
     //esta función lo que hace es calcular el saldo presupuestario para validar que un presupuesto tenga disponible saldo para ejecutar en un comprobante de gasto
     public function calcular_saldo_presupuestario($id_presupuesto)
@@ -46,12 +47,16 @@ class EjecucionP_model extends CI_Model
         $total_presupuesto = $presupuesto->monto_presupuestado + $presupuesto->monto_modificado;
 
         // Obtener ejecución acumulada (obligado y pagado)
-        $this->db->select('COALESCE(SUM(obligado), 0) AS total_obligado, COALESCE(SUM(pagado), 0) AS total_pagado');
+        $this->db->select('
+            COALESCE(SUM(obligado), 0) AS total_obligado, 
+            COALESCE(SUM(pagado), 0) AS total_pagado
+        ');
         $this->db->from('ejecucion_mensual');// en este otro método se hacen los calculos de la ejecución sobre los asientos que se van cargando     public function actualizarEjecucion($numero) 
         $this->db->where('id_presupuesto', $id_presupuesto);
         $this->db->where('mes', $fecha_mes_actual);
         $ejecucion = $this->db->get()->row();
 
+        // SALDO DISPONIBLE = Presupuesto - Obligado
         $saldo_disponible = $total_presupuesto - $ejecucion->total_obligado;
         $saldo_por_pagar = $ejecucion->total_obligado - $ejecucion->total_pagado;
 
@@ -63,80 +68,121 @@ class EjecucionP_model extends CI_Model
             'ejecutado_pagado' => $ejecucion->total_pagado
         ];
     }
+
     public function actualizarEjecucion($numero)
     {
-         // 1. Buscar los detalles del asiento (Cuenta presupuestada + Dimensiones financieras)
-        // Necesitamos id_of, id_ff, id_pro además de la cuenta para hacer el match exacto
-        $this->db->select('IDCuentaContable, creado_en, id_of, id_ff, id_pro');
+        log_message('debug', '=== INICIO actualizarEjecucion para número: ' . $numero . ' ===');
+        
+        // 1. Buscar líneas del asiento que contengan:
+        //    - Monto (Debe o Haber)
+        //    - Cuenta (IDCuentaContable)
+        //    - Dimensiones financieras (id_of, id_ff, id_pro)
+        //    - Tipo de formulario (id_form)
+        // La cuenta presupuestada puede venir en DEBE o HABER, dependiendo del origen.
+        $this->db->select('IDCuentaContable, Debe, Haber, creado_en, id_of, id_ff, id_pro, id_form');
         $this->db->from('num_asi_deta');
         $this->db->where('numero', $numero);
-        $this->db->where('Haber >', 0); // Asumimos que el Haber tiene la imputación presupuestaria
-        $query = $this->db->get();
-        $cuenta = $query->row();
-
-        if (!$cuenta) {
-            log_message('error', 'No se encontró cuenta presupuestada para el asiento número: ' . $numero);
-            return false;
-        }
-
-        // 2. Buscar el monto del Debe (primer asiento - el gasto real, ya que puede haber por lo menos 1 asiento, más)
-        $this->db->select('Debe');
-        $this->db->from('num_asi_deta');
-        $this->db->where('numero', $numero);
+        $this->db->group_start();
         $this->db->where('Debe >', 0);
-        $query = $this->db->get();
-        $monto = $query->row();
+        $this->db->or_where('Haber >', 0);
+        $this->db->group_end();
+        $this->db->order_by('IDNum_Asi_Deta', 'ASC');
+        $lineas = $this->db->get()->result();
 
-        if (!$monto || !is_numeric($monto->Debe)) {
-            log_message('error', 'Monto en Debe no válido para el asiento número: ' . $numero);
+        if (empty($lineas)) {
+            log_message('error', 'No se encontraron líneas (Debe/Haber) para el número: ' . $numero);
             return false;
         }
 
-        // Buscar el presupuesto asociado usando LAS 4 DIMENSIONES FINANCIERAS
-        // CRÍTICO: Una cuenta puede aparecer en múltiples presupuestos (diferentes OF/FF/Programa)
-        // Por eso DEBEMOS usar las 4 dimensiones para identificar EL presupuesto correcto
-        $this->db->select('ID_Presupuesto');
-        $this->db->from('presupuestos');
-        $this->db->where('Idcuentacontable', $cuenta->IDCuentaContable);
-        $this->db->where('origen_de_financiamiento_id_of', $cuenta->id_of);
-        $this->db->where('fuente_de_financiamiento_id_ff', $cuenta->id_ff);
-        $this->db->where('programa_id_pro', $cuenta->id_pro);
-        $query = $this->db->get();
-        $presupuesto = $query->row();
+        // Priorización:
+        // - Para id_form=4 (Comprobante de Gasto), la cuenta presupuestada puede venir en HABER.
+        // - Para otros orígenes, normalmente viene en DEBE.
+        $id_form_global = (int)($lineas[0]->id_form ?? 0);
+        $candidatasDebe = [];
+        $candidatasHaber = [];
+        foreach ($lineas as $ln) {
+            if ((float)$ln->Debe > 0) {
+                $candidatasDebe[] = $ln;
+            }
+            if ((float)$ln->Haber > 0) {
+                $candidatasHaber[] = $ln;
+            }
+        }
+        $candidatas = ($id_form_global === 4)
+            ? array_merge($candidatasHaber, $candidatasDebe)
+            : array_merge($candidatasDebe, $candidatasHaber);
 
-        if (!$presupuesto) {
-            log_message('error', 'No se encontró presupuesto para la cuenta: ' . $cuenta->IDCuentaContable . 
-                ' con dimensiones OF=' . $cuenta->id_of . ', FF=' . $cuenta->id_ff . ', PRO=' . $cuenta->id_pro);
+        $linea_presupuestaria = null;
+        $presupuesto = null;
+        $monto = null;
+
+        foreach ($candidatas as $ln) {
+            $m = ((float)$ln->Debe > 0) ? (float)$ln->Debe : (float)$ln->Haber;
+
+            if (!is_numeric($m) || $m <= 0) {
+                continue;
+            }
+
+            if (empty($ln->IDCuentaContable) || empty($ln->id_of) || empty($ln->id_ff) || empty($ln->id_pro)) {
+                continue;
+            }
+
+            // 2. Buscar el presupuesto asociado usando LAS 4 DIMENSIONES FINANCIERAS
+            $this->db->select('ID_Presupuesto');
+            $this->db->from('presupuestos');
+            $this->db->where('Idcuentacontable', $ln->IDCuentaContable);
+            $this->db->where('origen_de_financiamiento_id_of', $ln->id_of);
+            $this->db->where('fuente_de_financiamiento_id_ff', $ln->id_ff);
+            $this->db->where('programa_id_pro', $ln->id_pro);
+            $pres = $this->db->get()->row();
+
+            if ($pres) {
+                $linea_presupuestaria = $ln;
+                $presupuesto = $pres;
+                $monto = $m;
+                break;
+            }
+        }
+
+        if (!$linea_presupuestaria || !$presupuesto) {
+            log_message(
+                'error',
+                'No se encontró línea presupuestaria (mapeable a presupuesto) para el número: ' . $numero
+            );
             return false;
         }
 
-        // Determinar mes según la fecha del asiento, creado_en es un timestamp sobre la fecha que se cargó un 
-        // asiento en num_asi_deta, no la fecha seleccionada para el asiento en el num_asi
-        $fecha_asiento = $cuenta->creado_en ?? date('Y-m-d H:i:s');
+        log_message('debug', 'Línea presupuestaria encontrada - Cuenta: ' . $linea_presupuestaria->IDCuentaContable .
+            ', Monto: ' . $monto . ', OF: ' . $linea_presupuestaria->id_of .
+            ', FF: ' . $linea_presupuestaria->id_ff . ', PRO: ' . $linea_presupuestaria->id_pro .
+            ', id_form: ' . $linea_presupuestaria->id_form);
+
+        log_message('debug', 'Presupuesto encontrado - ID: ' . $presupuesto->ID_Presupuesto);
+
+        // 3. Determinar el mes según la fecha de la línea
+        $fecha_asiento = $linea_presupuestaria->creado_en ?? date('Y-m-d H:i:s');
         $mes = date('Y-m-01 00:00:00', strtotime($fecha_asiento));
 
-        // Obtener tipo de asiento y guardar la fila de del asiento seleccionado en $asiento
-        $this->db->select('id_form');
-        $this->db->from('num_asi_deta');
-        $this->db->where('numero', $numero);
-        $query = $this->db->get();
-        $asiento = $query->row();
+        log_message('debug', 'Mes calculado: ' . $mes . ' desde fecha: ' . $fecha_asiento);
 
-        if (!$asiento) {
-            log_message('error', 'No se encontró el tipo de asiento para el número: ' . $numero);
-            return false;
-        }
-
-        // Operación en ejecucion_mensual
-        //toma el presupuesto asociado obtenido en la linea 97 , quizá es un error esto 
+        // 4. Operación en ejecucion_mensual
         $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
         $this->db->where('mes', $mes);
         $query = $this->db->get('ejecucion_mensual');
-        //verifica si el asiento tiene más de 0 filas para actualizar 
+        
         if ($query->num_rows() > 0) {
-            //obtiene el obligado de el id_form1 
-            $field = ($asiento->id_form == 1) ? 'obligado' : 'pagado';
-            $this->db->set($field, "{$field} + {$monto->Debe}", false);
+            // Actualizar registro existente
+            if (in_array((int)$linea_presupuestaria->id_form, [1, 4], true)) {
+                $field = 'obligado';
+            } elseif ((int)$linea_presupuestaria->id_form === 2) {
+                $field = 'pagado';
+            } else {
+                log_message('error', 'id_form no soportado para actualizarEjecucion: ' . $linea_presupuestaria->id_form);
+                return false;
+            }
+            log_message('debug', 'UPDATE ejecucion_mensual - Campo: ' . $field . ', Incremento: ' . $monto);
+            
+            $this->db->set($field, "{$field} + {$monto}", false);
             $this->db->where('id_presupuesto', $presupuesto->ID_Presupuesto);
             $this->db->where('mes', $mes);
             $this->db->update('ejecucion_mensual');
@@ -145,21 +191,30 @@ class EjecucionP_model extends CI_Model
                 log_message('error', 'Falló la actualización en ejecucion_mensual');
                 return false;
             }
+            
+            log_message('debug', 'UPDATE exitoso - Filas afectadas: ' . $this->db->affected_rows());
         } else {
+            // Crear nuevo registro
             $data = [
                 'id_presupuesto' => $presupuesto->ID_Presupuesto,
                 'mes' => $mes,
-                'obligado' => ($asiento->id_form == 1) ? $monto->Debe : 0,
-                'pagado' => ($asiento->id_form == 2) ? $monto->Debe : 0
+                'obligado' => (in_array((int)$linea_presupuestaria->id_form, [1, 4], true)) ? $monto : 0,
+                'pagado' => ((int)$linea_presupuestaria->id_form === 2) ? $monto : 0
             ];
+            
+            log_message('debug', 'INSERT ejecucion_mensual - Datos: ' . json_encode($data));
+            
             $this->db->insert('ejecucion_mensual', $data);
 
             if ($this->db->affected_rows() === 0) {
                 log_message('error', 'Falló la inserción en ejecucion_mensual');
                 return false;
             }
+            
+            log_message('debug', 'INSERT exitoso - ID insertado: ' . $this->db->insert_id());
         }
 
+        log_message('debug', '=== FIN actualizarEjecucion - ÉXITO ===');
         return true;
     }
 

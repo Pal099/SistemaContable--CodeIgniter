@@ -1180,12 +1180,6 @@
             }
         </script>
 
-
-
-
-
-
-
         <!-- Script destinado a desglosar el código de cuenta -->
         <script>
             function desglosarCodigoCuenta(codigoCompleto) {
@@ -1577,7 +1571,7 @@
                         id_pro: $("#id_pro").val(),
                         id_ff: $("#id_ff").val(),
                         id_of: $("#id_of").val(),
-                        IDCuentaContable: $("#idcuentacontable").val(),
+                        IDCuentaContable: $("#idcuentacontable_2").val(), // CORREGIDO: Usar cuenta con presupuesto (fila 2)
                         comprobante: $("#comprobante").val(),
                         Debe: $("#Debe").val().replace(/[^\d.-]/g, ''),
                         Haber: $("#Haber").val(),

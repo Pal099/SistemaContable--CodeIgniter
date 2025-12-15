@@ -40,7 +40,7 @@
           <div class="col-md-6 mt-4 ">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button type="button" class="btn btn-primary"
-                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto/add'">
+                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/Comprobante_Gasto/add'">
                 <i class="bi bi-plus"> Agregar Comprobante</i>
               </button>
             </div>
@@ -50,7 +50,7 @@
         <hr> <!-- barra separadora -->
 
         <!-- Campos de Filtro -->
-        <form action="<?php echo base_url('patrimonio/comprobante_gasto/filtrar'); ?>" method="post"
+        <form action="<?php echo base_url('patrimonio/Comprobante_Gasto/filtrar'); ?>" method="post"
           class="form-inline mb-2">
           <div class="container-fluid">
             <div class="d-flex flex-row align-items-start">
@@ -189,7 +189,7 @@
                                     <i class="bi bi-filetype-pdf"></i> Comprobante
                                   </button>
                                   <button class="btn btn-warning btn-sm"
-                                    onclick="window.location.href='<?php echo base_url() ?>patrimonio/comprobante_gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">
+                                    onclick="window.location.href='<?php echo base_url() ?>patrimonio/Comprobante_Gasto/edit/<?php echo $comp->IDComprobanteGasto; ?>'">
                                     <i class="bi bi-pencil-fill"></i>
                                   </button>
                                   <button class="btn btn-danger btn-remove btn-sm"
@@ -393,7 +393,7 @@
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = '<?php echo base_url(); ?>patrimonio/comprobante_gasto/delete/' + comprobanteId;
+          window.location.href = '<?php echo base_url(); ?>patrimonio/Comprobante_Gasto/delete/' + comprobanteId;
         }
       });
     }

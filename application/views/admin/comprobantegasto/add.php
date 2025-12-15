@@ -331,7 +331,7 @@
                             <button style="margin-right: 8px;" type="submit" class="btn btn-success btn-primary"><span
                                     class="fa fa-save"></span>Guardar</button>
                             <button class="btn btn-danger ml-3"
-                                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/comprobante_gasto'">
+                                onclick="window.location.href='<?php echo base_url(); ?>patrimonio/Comprobante_Gasto'">
                                 <i class="fa fa-remove"></i> Cancelar
                             </button>
                         </div>
@@ -454,7 +454,7 @@
                                 <th>Monto</th>
                                 <th>Saldo Disponible
                                     <i class="bi bi-info-circle ms-1" data-bs-toggle="tooltip"
-                                        title="Calculado en tiempo real al seleccionar">
+                                        title="Presupuesto - Obligado">
                                     </i>
                                 </th>
                             </tr>
@@ -590,7 +590,7 @@
         };
 
         $.ajax({
-            url: '<?php echo base_url("patrimonio/comprobante_gasto/store"); ?>',
+            url: '<?php echo base_url("patrimonio/Comprobante_Gasto/store"); ?>',
             type: 'POST',
             data: {
                 datos: datosCompletos
@@ -956,7 +956,7 @@
             confirmButtonText: 'Aceptar'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '<?php echo base_url("patrimonio/comprobante_gasto"); ?>';
+                window.location.href = '<?php echo base_url("patrimonio/Comprobante_Gasto"); ?>';
             }
         });
     }

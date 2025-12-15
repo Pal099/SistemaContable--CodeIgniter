@@ -10,6 +10,7 @@ class Comprobante_Gasto extends MY_Controller
 		parent::__construct();
 		//	$this->permisos= $this->backend_lib->control();
 		$this->load->model("Comprobante_Gasto_model");
+		$this->load->model("EjecucionP_model");
 		$this->load->model("Bienes_Servicios_model");
 		$this->load->model("Presupuesto_model");
 		$this->load->library('session');
@@ -53,7 +54,7 @@ class Comprobante_Gasto extends MY_Controller
 		$nropedido = $this->input->post("id_pedido");
 		if (empty($actividad) && empty($periodo) && empty($mes) && empty($nropedido)) {
 			// Ningún campo seleccionado, redireccionar o mostrar un mensaje de error
-			redirect(base_url() . "patrimonio/comprobantegasto");
+			redirect(base_url() . "patrimonio/Comprobante_Gasto");
 		}
 		$data = array(
 			'comprobantes' => $this->Comprobante_Gasto_model->getComprobantesGastosFiltrados($actividad, $fuente, $periodo, $mes, $nropedido),
@@ -123,38 +124,23 @@ class Comprobante_Gasto extends MY_Controller
 		$id_presupuesto = $datosFormulario['idpresupuesto'];
 
 		if ($this->input->is_ajax_request()) {
+			$filas = $datosCompletos['filas'] ?? [];
+			$resultado = $this->Comprobante_Gasto_model->guardar_pedido_y_generar_asiento(
+				$datosFormulario,
+				$filas,
+				$id_uni_respon_usu,
+				$id_user
+			);
 
-			$datosFormulario = $datosCompletos['filas'];
-			$filas = $datosCompletos['filas'];
-
-			foreach ($filas as $fila) {
-				// Ejemplo de cómo podrías procesar una fila
-				$dataPedido = array(
-					'id_pedido' => $fila['id_pedido'], // Ajusta el nombre según tus datos
-					'id_unidad' => $id_unidad,
-					'fecha' => $fecha,
-					'idpresupuesto' => $id_presupuesto,
-					'idproveedor' => $id_proveedor,
-					'descripcion' => $fila['descripcion'],
-					'concepto' => $concepto,
-					'id_item' => $fila['id_item'],
-					'preciounit' => $fila['precioUnit'],
-					'cantidad' => $fila['cantidad'],
-					'iva' => $fila['iva'],
-					'porcentaje_iva' => $fila['piva'],
-					'exenta' => $fila['exenta'],
-					'gravada' => $fila['gravada'],
-					'id_uni_respon_usu' => $id_uni_respon_usu,
-					'estado' => "1",
-				);
-
-				$this->Comprobante_Gasto_model->save($dataPedido);
+			if (($resultado['status'] ?? 'error') !== 'success') {
+				echo json_encode(['status' => 'error', 'message' => $resultado['message'] ?? 'Error desconocido']);
+				return;
 			}
 
 			echo "success";
 		} else {
 			$this->session->set_flashdata("error", "No se pudo guardar la información");
-			return redirect(base_url() . "patrimonio/comprobantegasto/add");
+			return redirect(base_url() . "patrimonio/Comprobante_Gasto/add");
 		}
 	}
 
@@ -268,7 +254,7 @@ class Comprobante_Gasto extends MY_Controller
 			echo "success";
 		} else {
 			$this->session->set_flashdata("error", "No se pudo actualizar la información");
-			return redirect(base_url() . "patrimonio/comprobantegasto/");
+			return redirect(base_url() . "patrimonio/Comprobante_Gasto/");
 		}
 	}
 	/* ignorar - método viejo 
@@ -341,7 +327,7 @@ class Comprobante_Gasto extends MY_Controller
 			echo "success";
 		} else {
 			$this->session->set_flashdata("error", "No se pudo actualizar la información");
-			return redirect(base_url() . "patrimonio/comprobantegasto/");
+			return redirect(base_url() . "patrimonio/Comprobante_Gasto/");
 		}
 	} */
 
@@ -400,11 +386,12 @@ class Comprobante_Gasto extends MY_Controller
 
 	public function delete($id)
 	{
+		// Eliminación lógica del comprobante
 		$data = array(
 			'estado' => "0",
 		);
 		$this->Comprobante_Gasto_model->update($id, $data);
-		redirect(base_url() . "patrimonio/comprobante_gasto");
+		redirect(base_url() . "patrimonio/Comprobante_Gasto");
 	}
 	public function getComprobanteDetalle($id)
 	{
@@ -414,7 +401,6 @@ class Comprobante_Gasto extends MY_Controller
 	//esta función llama a la función en el modelo de la ejecución presupuestaria para verificar el saldo
 	public function verificar_saldo()
 	{
-		$this->load->model('EjecucionP_model');
 		$id_presupuesto = $this->input->post('id_presupuesto');
 
 		try {
