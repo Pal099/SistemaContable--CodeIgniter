@@ -347,35 +347,48 @@ class Comprobante_Gasto extends MY_Controller
 		}
 	}
 
-	public function getCuentacontableRelacion()
-	{
-		$nombre = $this->session->userdata('Nombre_usuario');
-		$id_user = $this->Usuarios_model->getUserIdByUserName($nombre);
-		$id_uni_respon_usu = $this->Usuarios_model->getUserIdUniResponByUserId($id_user);
-		$idpresupuesto = $this->input->post('idpresupuesto');
-		$this->db->select('Idcuentacontable');
-		$this->db->from('presupuestos');
-		$this->db->where('ID_Presupuesto', $idpresupuesto);
-		$query = $this->db->get();
-		if ($query->num_rows() > 0) {
-			$idcuentacontable = $query->row()->Idcuentacontable;
+public function getCuentacontableRelacion()
+    {
+        $idpresupuesto = (int)$this->input->post('idpresupuesto');
 
-			// Ahora, con el Idcuentacontable, obtenemos la relación desde la tabla cuentacontable
-			$this->db->select('Relacion');
-			$this->db->from('cuentacontable');
-			$this->db->where('IDCuentaContable', $idcuentacontable);
-			$queryRelacion = $this->db->get();
+        // 1) Devolver lo que ya existía: "Relacion" de la cuenta presupuestada (si aplica)
+        $relacionArr = [];
 
-			if ($queryRelacion->num_rows() > 0) {
-				$relacion = $queryRelacion->row()->relacion;
-				echo json_encode(['Relacion' => explode(',', $relacion)]); // Devolver la relación como un array
-			} else {
-				echo json_encode(['Relacion' => []]);  // Si no se encuentra relación
-			}
-		} else {
-			echo json_encode(['Relacion' => []]);  // Si no se encuentra el presupuesto
-		}
-	}
+        $this->db->select('Idcuentacontable');
+        $this->db->from('presupuestos');
+        $this->db->where('ID_Presupuesto', $idpresupuesto);
+        $qPres = $this->db->get();
+
+        if ($qPres->num_rows() > 0) {
+            $idcuentacontable = (int)$qPres->row()->Idcuentacontable;
+
+            $this->db->select('Relacion');
+            $this->db->from('cuentacontable');
+            $this->db->where('IDCuentaContable', $idcuentacontable);
+            $qRel = $this->db->get();
+
+            if ($qRel->num_rows() > 0) {
+                $relacion = (string)$qRel->row()->Relacion; // <-- FIX (case)
+                $relacionArr = array_filter(array_map('trim', explode(',', $relacion)));
+            }
+        }
+
+        // 2) Nuevo: contrapartida A.P. real (la que se usará en el asiento)
+        $contrapartida = $this->Comprobante_Gasto_model->getCuentaContrapartidaPorPresupuesto($idpresupuesto);
+
+        $payload = [
+            'Relacion' => $relacionArr,
+            'contrapartida' => $contrapartida ? [
+                'id' => (int)$contrapartida['IDCuentaContable'],
+                'codigo' => $contrapartida['Codigo_CC'],
+                'descripcion' => $contrapartida['Descripcion_CC'],
+            ] : null
+        ];
+
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($payload));
+    }
 	public function view($id)
 	{
 		$data = array(

@@ -87,9 +87,12 @@ class Comprobante_Gasto_model extends CI_Model
 		// Seleccionamos los datos principales y usamos un subquery para listar todos los meses disponibles
 		$this->db->select('
 			presupuestos.ID_Presupuesto,
-			origen_de_financiamiento.nombre AS origen_de_financiamiento_id_of,
-			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_id_ff,
-			programa.nombre AS programa_id_pro,
+			origen_de_financiamiento.codigo AS origen_de_financiamiento_id_of,
+			origen_de_financiamiento.nombre AS origen_de_financiamiento_nombre,
+			fuente_de_financiamiento.codigo AS fuente_de_financiamiento_id_ff,
+			fuente_de_financiamiento.nombre AS fuente_de_financiamiento_nombre,
+			programa.codigo AS programa_id_pro,
+			programa.nombre AS programa_nombre,
 			cuentacontable.Codigo_CC as codigo,
 			cuentacontable.Relacion as rubro,
 			cuentacontable.Descripcion_CC as rubro_descripcion,
@@ -114,7 +117,7 @@ class Comprobante_Gasto_model extends CI_Model
 		$this->db->join('origen_de_financiamiento', 'presupuestos.origen_de_financiamiento_id_of = origen_de_financiamiento.id_of');
 		$this->db->join('fuente_de_financiamiento', 'presupuestos.fuente_de_financiamiento_id_ff = fuente_de_financiamiento.id_ff');
 		$this->db->join('programa', 'presupuestos.programa_id_pro = programa.id_pro');
-		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.Idcuentacontable');
+		$this->db->join('cuentacontable', 'presupuestos.Idcuentacontable = cuentacontable.IDCuentaContable');
 
 		// JOIN para el presupuesto mensual del mes actual
 		$this->db->join(
@@ -246,6 +249,17 @@ class Comprobante_Gasto_model extends CI_Model
 
 		// Guardar filas del comprobante
 		foreach ($filas as $fila) {
+			$ivaFlag = !empty($fila['iva']) ? 1 : 0;
+			$porcentajeIva = $fila['piva'] ?? ($fila['porcentaje_iva'] ?? 0);
+			$porcentajeIva = (int)$porcentajeIva;
+			if ($ivaFlag === 1) {
+				if ($porcentajeIva !== 5 && $porcentajeIva !== 10) {
+					$porcentajeIva = 10;
+				}
+			} else {
+				$porcentajeIva = 0;
+			}
+
 			$dataPedido = array(
 				'id_pedido' => $id_pedido,
 				'id_unidad' => $id_unidad,
@@ -257,8 +271,8 @@ class Comprobante_Gasto_model extends CI_Model
 				'id_item' => $fila['id_item'],
 				'preciounit' => $fila['precioUnit'],
 				'cantidad' => $fila['cantidad'],
-				'iva' => $fila['iva'],
-				'porcentaje_iva' => $fila['piva'],
+				'iva' => $ivaFlag,
+				'porcentaje_iva' => $porcentajeIva,
 				'exenta' => $fila['exenta'],
 				'gravada' => $fila['gravada'],
 				'id_uni_respon_usu' => $id_uni_respon_usu,
@@ -349,7 +363,45 @@ class Comprobante_Gasto_model extends CI_Model
 		return ['status' => 'success', 'numero_asiento' => $numero_asiento, 'id_pedido' => $id_pedido];
 	}
 	//cambiamos para que se adapte a la nueva estructura de la tabla de presupuestos(probablemente será mejor cambiar MES presupuesto_mensual a DATE)
+/**
+     * Devuelve la cuenta de contrapartida (A.P. / imputable=2) asociada a la cuenta del presupuesto.
+     * Regla: tomar Codigo_CC de la cuenta presupuestada, extraer la "segunda parte" (patrón 2-3-7),
+     * y buscar en cuentacontable una cuenta imputable=2 que contenga esa segunda parte.
+     *
+     * @param int $id_presupuesto
+     * @return array|null { IDCuentaContable, Codigo_CC, Descripcion_CC } o null si no se encuentra
+     */
+public function getCuentaContrapartidaPorPresupuesto($id_presupuesto)
+    {
+        $id_presupuesto = (int)$id_presupuesto;
+        if ($id_presupuesto <= 0) return null;
 
+        // Presupuesto -> cuenta presupuestada -> Codigo_CC
+        $this->db->select('p.Idcuentacontable, cc.Codigo_CC');
+        $this->db->from('presupuestos p');
+        $this->db->join('cuentacontable cc', 'cc.IDCuentaContable = p.Idcuentacontable', 'inner');
+        $this->db->where('p.ID_Presupuesto', $id_presupuesto);
+        $row = $this->db->get()->row();
+
+        if (!$row || empty($row->Codigo_CC)) return null;
+
+        if (!preg_match('/^(\\d{2})(\\d{3})(\\d{7})$/', trim($row->Codigo_CC), $m)) {
+            return null;
+        }
+
+        $segundaParte = $m[2];
+
+        // Buscar cuenta padre A.P. (imputable=2) por coincidencia de la segunda parte
+        $this->db->select('IDCuentaContable, Codigo_CC, Descripcion_CC');
+        $this->db->from('cuentacontable');
+        $this->db->where('imputable', 2);
+        $this->db->like('Codigo_CC', $segundaParte);
+        $this->db->order_by('IDCuentaContable', 'ASC');
+        $this->db->limit(1);
+
+        $ap = $this->db->get()->row_array();
+        return $ap ?: null;
+    }
 
 	public function getRubroYDescripcionByIdItem($id_item)
 	{
